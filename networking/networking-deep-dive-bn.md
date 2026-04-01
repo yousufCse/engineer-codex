@@ -7,23 +7,24 @@
 
 ## সূচিপত্র
 
-1. [সবকিছুর শুরু — Binary কি এবং কেন?](#১-সবকিছুর-শুরু--binary-কি-এবং-কেন)
-2. [Bit থেকে Byte — Data-র একক](#২-bit-থেকে-byte--data-র-একক)
-3. [Binary → Electric Signal — যাদুটা এখানেই](#৩-binary--electric-signal--যাদুটা-এখানেই)
-4. [Signal Encoding — বিভিন্ন পদ্ধতি](#৪-signal-encoding--বিভিন্ন-পদ্ধতি)
-5. [তার থেকে বেতার — Physical Medium](#৫-তার-থেকে-বেতার--physical-medium)
-6. [Data কে ভাঙো — Framing ও Packets](#৬-data-কে-ভাঙো--framing-ও-packets)
-7. [MAC Address ও Data Link Layer](#৭-mac-address-ও-data-link-layer)
-8. [IP Address — নেটওয়ার্কের ঠিকানা ব্যবস্থা](#৮-ip-address--নেটওয়ার্কের-ঠিকানা-ব্যবস্থা)
-9. [Port — দরজার নম্বর](#৯-port--দরজার-নম্বর)
-10. [Socket — যোগাযোগের জানালা](#১০-socket--যোগাযোগের-জানালা)
-11. [TCP — নির্ভরযোগ্যতার বিজ্ঞান](#১১-tcp--নির্ভরযোগ্যতার-বিজ্ঞান)
-12. [UDP — গতির দর্শন](#১২-udp--গতির-দর্শন)
-13. [HTTP — ওয়েবের ভাষা](#১৩-http--ওয়েবের-ভাষা)
-14. [সম্পূর্ণ যাত্রা — google.com লিখলে কী হয়](#১৪-সম্পূর্ণ-যাত্রা--googlecom-লিখলে-কী-হয়)
+1. [সবকিছুর শুরু — Binary কি এবং কেন?](#section-1)
+2. [Bit থেকে Byte — Data-র একক](#section-2)
+3. [Binary → Electric Signal — যাদুটা এখানেই](#section-3)
+4. [Signal Encoding — বিভিন্ন পদ্ধতি](#section-4)
+5. [তার থেকে বেতার — Physical Medium](#section-5)
+6. [Data কে ভাঙো — Framing ও Packets](#section-6)
+7. [MAC Address ও Data Link Layer](#section-7)
+8. [IP Address — নেটওয়ার্কের ঠিকানা ব্যবস্থা](#section-8)
+9. [Port — দরজার নম্বর](#section-9)
+10. [Socket — যোগাযোগের জানালা](#section-10)
+11. [TCP — নির্ভরযোগ্যতার বিজ্ঞান](#section-11)
+12. [UDP — গতির দর্শন](#section-12)
+13. [HTTP — ওয়েবের ভাষা](#section-13)
+14. [সম্পূর্ণ যাত্রা — google.com লিখলে কী হয়](#section-14)
 
 ---
 
+<a id="section-1"></a>
 ## ১. সবকিছুর শুরু — Binary কি এবং কেন?
 
 কম্পিউটার একটা বৈদ্যুতিক যন্ত্র। এর ভেতরে লক্ষ লক্ষ ছোট ছোট switch আছে — যেগুলোকে বলে **Transistor**। একটা transistor-এর শুধু দুটো অবস্থা থাকতে পারে: হয় current চলছে, নয়তো চলছে না।
@@ -123,6 +124,7 @@ for i in range(16):
 
 ---
 
+<a id="section-2"></a>
 ## ২. Bit থেকে Byte — Data-র একক
 
 একটা `0` বা `1` হলো একটা **bit** — এটাই তথ্যের সবচেয়ে ছোট একক।
@@ -224,6 +226,7 @@ UTF-8 bytes (hex): e0a6b8e0a6bee0a6b2e0a6bee0a6ae
 
 ---
 
+<a id="section-3"></a>
 ## ৩. Binary → Electric Signal — যাদুটা এখানেই
 
 এটাই সবচেয়ে মৌলিক প্রশ্ন: এই `0` আর `1` গুলো তারের ভেতর দিয়ে কীভাবে যায়?
@@ -324,6 +327,7 @@ Transfer time: 4.00 seconds
 
 ---
 
+<a id="section-4"></a>
 ## ৪. Signal Encoding — বিভিন্ন পদ্ধতি
 
 শুধু voltage উঁচু-নিচু করাটা সবচেয়ে সহজ, কিন্তু সবচেয়ে ভালো পদ্ধতি না। বিভিন্ন সমস্যার সমাধানে বিভিন্ন encoding পদ্ধতি তৈরি হয়েছে।
@@ -508,6 +512,7 @@ Error detected: True
 
 ---
 
+<a id="section-5"></a>
 ## ৫. তার থেকে বেতার — Physical Medium
 
 Signal কীসের ভেতর দিয়ে যায় সেটাও গুরুত্বপূর্ণ।
@@ -569,6 +574,7 @@ Receiver phase পরীক্ষা করে 0 নাকি 1 বোঝে।
 
 ---
 
+<a id="section-6"></a>
 ## ৬. Data কে ভাঙো — Framing ও Packets
 
 এখন বুঝলাম bit কীভাবে যায়। কিন্তু যদি 1GB ফাইল পাঠাতে হয়? সেটাকে একসাথে পাঠানো যাবে না।
@@ -742,6 +748,7 @@ print(' '.join(f'{b:02x}' for b in header))
 
 ---
 
+<a id="section-7"></a>
 ## ৭. MAC Address ও Data Link Layer
 
 IP address হলো logical ঠিকানা। কিন্তু তার ভেতর দিয়ে signal পাঠাতে physical ঠিকানা দরকার — এটাই **MAC Address**।
@@ -846,6 +853,7 @@ arp.lookup("192.168.1.99")   # Cache miss — ARP broadcast লাগবে
 
 ---
 
+<a id="section-8"></a>
 ## ৮. IP Address — নেটওয়ার্কের ঠিকানা ব্যবস্থা
 
 ### IPv4 গভীরে
@@ -968,6 +976,7 @@ Reply আসলে Router দেখে Port দেখে কার কাছে 
 
 ---
 
+<a id="section-9"></a>
 ## ৯. Port — দরজার নম্বর
 
 Port হলো 16-bit সংখ্যা (0 থেকে 65535)।
@@ -1055,6 +1064,7 @@ demonstrate_port_binding()
 
 ---
 
+<a id="section-10"></a>
 ## ১০. Socket — যোগাযোগের জানালা
 
 Socket হলো OS-এর দেওয়া একটা interface — যেটা দিয়ে একটা program network-এ কথা বলতে পারে।
@@ -1206,6 +1216,7 @@ sock.close()
 
 ---
 
+<a id="section-11"></a>
 ## ১১. TCP — নির্ভরযোগ্যতার বিজ্ঞান
 
 TCP শুধু "reliable" — এই একটা কথায় শেষ না। এর পেছনে অনেক জটিল mechanism আছে।
@@ -1396,6 +1407,7 @@ cwnd
 
 ---
 
+<a id="section-12"></a>
 ## ১২. UDP — গতির দর্শন
 
 UDP-র header মাত্র **8 bytes** — TCP-এর 20-এর তুলনায় অনেক কম।
@@ -1508,6 +1520,7 @@ simulate_video_streaming()
 
 ---
 
+<a id="section-13"></a>
 ## ১৩. HTTP — ওয়েবের ভাষা
 
 HTTP শুধু একটা Protocol না, এটা একটা **text-based request-response protocol**। মানে HTTP message গুলো plain text — তুমি সেটা পড়তে পারবে।
@@ -1724,6 +1737,7 @@ parse_http_response(sample_response)
 
 ---
 
+<a id="section-14"></a>
 ## ১৪. সম্পূর্ণ যাত্রা — google.com লিখলে কী হয়
 
 এখন সব একসাথে দেখি। তুমি browser-এ `https://www.google.com` enter চাপলে কী হয় — একেবারে bit level থেকে।
