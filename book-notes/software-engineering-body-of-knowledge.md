@@ -6,47 +6,108 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 
 ## Table of Contents
 
-1. [Code Smells](#1-code-smells)
-2. [Refactoring Techniques](#2-refactoring-techniques)
-3. [Design Patterns (Gang of Four)](#3-design-patterns-gang-of-four)
-4. [SOLID Principles](#4-solid-principles)
-5. [GRASP Principles](#5-grasp-principles)
-6. [Clean Code](#6-clean-code)
-7. [Clean Architecture](#7-clean-architecture)
-8. [Domain-Driven Design (DDD)](#8-domain-driven-design-ddd)
-9. [Enterprise Application Patterns (PoEAA)](#9-enterprise-application-patterns-poeaa)
-10. [Enterprise Integration Patterns (EIP)](#10-enterprise-integration-patterns-eip)
-11. [Concurrency Patterns](#11-concurrency-patterns)
-12. [Distributed Systems Patterns](#12-distributed-systems-patterns)
-13. [Stability & Resilience Patterns](#13-stability--resilience-patterns)
-14. [Microservices Patterns](#14-microservices-patterns)
-15. [Test-Driven Development (TDD)](#15-test-driven-development-tdd)
-16. [Test Doubles & Mocking](#16-test-doubles--mocking)
-17. [Legacy Code Techniques](#17-legacy-code-techniques)
-18. [Object-Oriented Analysis and Design (OOAD)](#18-object-oriented-analysis-and-design-ooad)
-19. [UML (Unified Modeling Language)](#19-uml-unified-modeling-language)
-20. [Pragmatic Practices](#20-pragmatic-practices)
-21. [Simple Design (Kent Beck's Four Rules)](#21-simple-design-kent-becks-four-rules)
-22. [Continuous Delivery / DevOps](#22-continuous-delivery--devops)
-23. [Anti-Patterns](#23-anti-patterns)
-24. [Design by Contract (DbC)](#24-design-by-contract-dbc)
-25. [Functional Programming Patterns](#25-functional-programming-patterns)
-26. [Data Structures & Algorithms](#26-data-structures--algorithms)
-27. [System Design](#27-system-design)
-28. [API Design](#28-api-design)
-29. [Database Design & Normalization](#29-database-design--normalization)
-30. [The Twelve-Factor App](#30-the-twelve-factor-app)
-31. [Cloud Design Patterns](#31-cloud-design-patterns)
-32. [Reactive Programming](#32-reactive-programming)
-33. [Site Reliability Engineering (SRE)](#33-site-reliability-engineering-sre)
-34. [Behavior-Driven Development (BDD)](#34-behavior-driven-development-bdd)
-35. [Event Storming](#35-event-storming)
-36. [Specification by Example](#36-specification-by-example)
-37. [Software Craftsmanship](#37-software-craftsmanship)
-38. [Security Patterns & Practices (OWASP)](#38-security-patterns--practices-owasp)
-39. [Performance Engineering](#39-performance-engineering)
-40. [Agile Methodologies](#40-agile-methodologies)
-41. [Modeling & Diagramming Beyond UML](#41-modeling--diagramming-beyond-uml)
+- [Software Engineering Body of Knowledge](#software-engineering-body-of-knowledge)
+  - [Table of Contents](#table-of-contents)
+  - [How They All Connect](#how-they-all-connect)
+    - [By Software Lifecycle Phase](#by-software-lifecycle-phase)
+  - [1. Code Smells](#1-code-smells)
+  - [2. Refactoring Techniques](#2-refactoring-techniques)
+    - [Composing Methods](#composing-methods)
+    - [Moving Features](#moving-features)
+    - [Organizing Data](#organizing-data)
+    - [Simplifying Conditionals](#simplifying-conditionals)
+    - [Dealing with Generalization](#dealing-with-generalization)
+    - [Refactoring to Patterns (Kerievsky)](#refactoring-to-patterns-kerievsky)
+  - [3. Design Patterns (Gang of Four)](#3-design-patterns-gang-of-four)
+    - [Creational](#creational)
+    - [Structural](#structural)
+    - [Behavioral](#behavioral)
+  - [4. SOLID Principles](#4-solid-principles)
+  - [5. GRASP Principles](#5-grasp-principles)
+  - [6. Clean Code](#6-clean-code)
+  - [7. Clean Architecture](#7-clean-architecture)
+  - [8. Domain-Driven Design (DDD)](#8-domain-driven-design-ddd)
+    - [Tactical Patterns](#tactical-patterns)
+    - [Strategic Patterns](#strategic-patterns)
+  - [9. Enterprise Application Patterns (PoEAA)](#9-enterprise-application-patterns-poeaa)
+    - [Domain Logic](#domain-logic)
+    - [Data Source](#data-source)
+    - [Object-Relational](#object-relational)
+    - [Presentation](#presentation)
+  - [10. Enterprise Integration Patterns (EIP)](#10-enterprise-integration-patterns-eip)
+    - [Messaging](#messaging)
+    - [Routing](#routing)
+    - [Transformation](#transformation)
+    - [Management](#management)
+  - [11. Concurrency Patterns](#11-concurrency-patterns)
+  - [12. Distributed Systems Patterns](#12-distributed-systems-patterns)
+  - [13. Stability \& Resilience Patterns](#13-stability--resilience-patterns)
+    - [Stability Patterns](#stability-patterns)
+    - [Stability Anti-Patterns](#stability-anti-patterns)
+  - [14. Microservices Patterns](#14-microservices-patterns)
+    - [Decomposition](#decomposition)
+    - [Communication](#communication)
+    - [Data Management](#data-management)
+    - [Infrastructure](#infrastructure)
+  - [15. Test-Driven Development (TDD)](#15-test-driven-development-tdd)
+  - [16. Test Doubles \& Mocking](#16-test-doubles--mocking)
+  - [17. Legacy Code Techniques](#17-legacy-code-techniques)
+  - [18. Object-Oriented Analysis and Design (OOAD)](#18-object-oriented-analysis-and-design-ooad)
+  - [19. UML (Unified Modeling Language)](#19-uml-unified-modeling-language)
+    - [Structure Diagrams](#structure-diagrams)
+    - [Behavior Diagrams](#behavior-diagrams)
+  - [20. Pragmatic Practices](#20-pragmatic-practices)
+  - [21. Simple Design (Kent Beck's Four Rules)](#21-simple-design-kent-becks-four-rules)
+  - [22. Continuous Delivery / DevOps](#22-continuous-delivery--devops)
+    - [CI/CD](#cicd)
+    - [Release Strategies](#release-strategies)
+    - [Infrastructure](#infrastructure-1)
+  - [23. Anti-Patterns](#23-anti-patterns)
+    - [Code-Level](#code-level)
+    - [Architecture-Level](#architecture-level)
+    - [Management-Level](#management-level)
+  - [24. Design by Contract (DbC)](#24-design-by-contract-dbc)
+  - [25. Functional Programming Patterns](#25-functional-programming-patterns)
+  - [26. Data Structures \& Algorithms](#26-data-structures--algorithms)
+    - [Data Structures](#data-structures)
+    - [Algorithmic Strategies](#algorithmic-strategies)
+    - [Complexity Analysis](#complexity-analysis)
+  - [27. System Design](#27-system-design)
+    - [Scalability](#scalability)
+    - [Caching](#caching)
+    - [Communication](#communication-1)
+    - [Reliability](#reliability)
+  - [28. API Design](#28-api-design)
+  - [29. Database Design \& Normalization](#29-database-design--normalization)
+    - [Normalization](#normalization)
+    - [Concepts](#concepts)
+    - [Non-Relational Models](#non-relational-models)
+  - [30. The Twelve-Factor App](#30-the-twelve-factor-app)
+  - [31. Cloud Design Patterns](#31-cloud-design-patterns)
+    - [Data Management](#data-management-1)
+    - [Reliability](#reliability-1)
+    - [Messaging](#messaging-1)
+    - [Security \& Access](#security--access)
+    - [Design \& Structure](#design--structure)
+  - [32. Reactive Programming](#32-reactive-programming)
+  - [33. Site Reliability Engineering (SRE)](#33-site-reliability-engineering-sre)
+  - [34. Behavior-Driven Development (BDD)](#34-behavior-driven-development-bdd)
+  - [35. Event Storming](#35-event-storming)
+  - [36. Specification by Example](#36-specification-by-example)
+  - [37. Software Craftsmanship](#37-software-craftsmanship)
+  - [38. Security Patterns \& Practices (OWASP)](#38-security-patterns--practices-owasp)
+    - [OWASP Top 10 Threats](#owasp-top-10-threats)
+    - [Defense Techniques](#defense-techniques)
+    - [Authentication \& Authorization](#authentication--authorization)
+  - [39. Performance Engineering](#39-performance-engineering)
+    - [Measurement](#measurement)
+    - [Optimization Techniques](#optimization-techniques)
+  - [40. Agile Methodologies](#40-agile-methodologies)
+    - [Scrum](#scrum)
+    - [Kanban](#kanban)
+    - [XP (Extreme Programming)](#xp-extreme-programming)
+  - [41. Modeling \& Diagramming Beyond UML](#41-modeling--diagramming-beyond-uml)
+  - [Recommended Reading Order](#recommended-reading-order)
 
 ---
 
@@ -120,6 +181,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Work as a team** | Agile (Scrum/Kanban/XP), Software Craftsmanship, Mob Programming |
 | **Analyze complexity** | Data Structures & Algorithms |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 1. Code Smells
@@ -150,6 +213,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Switch Statements** | Repeated `switch`/`if-else` on the same type field — usually should be polymorphism instead. |
 | **Data Class** | A class with only fields and getters/setters but no behavior — move behavior into it. |
 | **Duplicated Code** | The same or nearly identical code structure appears in multiple places. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -223,6 +288,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Replace Implicit Tree with Composite** | Nested structures are manually managed — formalize them with the Composite pattern. |
 | **Unify Interfaces with Adapter** | Two classes do similar things with different interfaces — wrap one with an Adapter. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 3. Design Patterns (Gang of Four)
@@ -270,6 +337,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Visitor** | Lets you add new operations to existing class hierarchies without modifying those classes. |
 | **Interpreter** | Defines a grammar for a language and an interpreter that processes sentences in that grammar. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 4. SOLID Principles
@@ -285,6 +354,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Liskov Substitution (LSP)** | A subclass must be usable anywhere its parent is used without breaking correctness. |
 | **Interface Segregation (ISP)** | Don't force clients to depend on methods they don't use — split large interfaces into smaller ones. |
 | **Dependency Inversion (DIP)** | High-level modules should depend on abstractions, not concrete implementations. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -305,6 +376,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Pure Fabrication** | Invent a helper class that doesn't represent a domain concept to achieve low coupling or high cohesion. |
 | **Indirection** | Introduce an intermediate object to decouple two components that shouldn't know about each other. |
 | **Protected Variations** | Wrap the parts of your system most likely to change behind a stable interface. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -327,6 +400,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **No Side Effects** | A function named `checkPassword` shouldn't also initialize a session — do what the name says, nothing more. |
 | **Avoid Output Arguments** | Don't pass an object into a function just to have the function modify it — return a result instead. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 7. Clean Architecture
@@ -344,6 +419,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Frameworks & Drivers** | The outermost layer — database, web framework, UI — all details that the core doesn't know about. |
 | **Screaming Architecture** | Your project folder structure should scream the business domain, not the framework name. |
 | **Humble Object** | Push testable logic out of hard-to-test boundaries (UI, DB) into simple objects that are easy to test. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -382,6 +459,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Conformist** | A downstream team conforms entirely to the upstream model because they have no power to negotiate changes. |
 | **Open Host Service** | A system exposes a well-defined protocol/API that any other system can consume. |
 | **Published Language** | A well-documented shared language (e.g., JSON schema, XML standard) for inter-context communication. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -430,6 +509,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Page Controller** | Each page/screen has its own controller that handles the request for that specific page. |
 | **Template View** | Generates HTML by embedding markers in a static HTML template that get replaced with dynamic data. |
 | **Remote Facade** | Provides a coarse-grained interface over a network boundary to minimize round trips. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -480,6 +561,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Competing Consumers** | Multiple consumers listen on the same channel — each message is processed by exactly one consumer for parallelism. |
 | **Idempotent Receiver** | A receiver that can safely process the same message multiple times without duplicate side effects. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 11. Concurrency Patterns
@@ -501,6 +584,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Immutable Object** | An object whose state cannot change after creation — inherently thread-safe without any synchronization. |
 | **Semaphore** | A counter that controls access to a resource — allows up to N threads in concurrently, blocking the rest. |
 | **Fork-Join** | Recursively splits a task into subtasks, processes them in parallel, then joins (combines) the results. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -525,6 +610,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Phi Accrual Failure Detector** | Instead of binary alive/dead, calculates a continuous suspicion level based on heartbeat arrival intervals. |
 | **State Machine Replication** | Every node runs the same deterministic state machine with the same inputs, guaranteeing identical state. |
 | **Consistent Hashing** | Maps data to nodes using a hash ring — when a node is added/removed, only a small fraction of data moves. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -556,6 +643,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Cascading Failures** | A failure in one layer triggers failures in the calling layer, which triggers failures in the next, and so on. |
 | **Blocked Threads** | Threads waiting indefinitely on a resource that will never respond — the system looks "alive" but does nothing. |
 | **Unbalanced Capacities** | A fast upstream system overwhelms a slower downstream system because their throughput isn't matched. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -600,6 +689,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Ambassador** | A proxy sidecar specifically for outbound connections — handles retries, circuit-breaking, and routing on behalf of the service. |
 | **Externalized Configuration** | Configuration lives outside the deployable artifact (env vars, config service) — change config without redeploying. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 15. Test-Driven Development (TDD)
@@ -619,6 +710,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Arrange-Act-Assert (AAA)** | Structure each test in three blocks: set up the inputs, execute the action, verify the result. |
 | **Given-When-Then** | BDD-style equivalent of AAA — given some precondition, when an action occurs, then expect an outcome. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 16. Test Doubles & Mocking
@@ -637,6 +730,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Characterization Test** | A test written against existing code to capture its current behavior, not to verify correctness. |
 | **Object Mother** | A helper that creates fully-formed test objects with sensible defaults — reduces setup duplication across tests. |
 | **Test Data Builder** | A builder pattern specifically for constructing test data — fluent API like `aUser().withName("Ali").build()`. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -661,6 +756,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Sensing Variable** | Add a temporary variable to expose hidden behavior during testing — remove it after you have proper tests. |
 | **Legacy Code Change Algorithm** | The 5-step process: identify change points, find test points, break dependencies, write tests, make changes. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 18. Object-Oriented Analysis and Design (OOAD)
@@ -679,6 +776,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Collaboration Diagram** | Shows the same interactions as a sequence diagram but organized spatially around the objects. |
 | **Noun-Verb Analysis** | Extract nouns from requirements as candidate classes and verbs as candidate methods — a simple starting heuristic. |
 | **Iterative Refinement** | OOAD is not done in one pass — you analyze, design, code, learn, then go back and refine the model. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -709,6 +808,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **State Machine Diagram** | Shows the states an object can be in and the events/transitions between them. |
 | **Communication Diagram** | Shows which objects interact with which, with numbered messages showing the order. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 20. Pragmatic Practices
@@ -733,6 +834,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Domain Languages** | Write code (or config) in the vocabulary of the problem domain, not the solution domain. |
 | **Estimating** | Learn to give useful estimates by breaking tasks down, using ranges, and tracking your accuracy over time. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 21. Simple Design (Kent Beck's Four Rules)
@@ -747,6 +850,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Reveals Intention** | Code should clearly express what it does — a reader should understand intent without comments. |
 | **No Duplication (DRY)** | Remove every piece of duplicated knowledge — duplication is the root of maintenance pain. |
 | **Fewest Elements** | Remove anything that doesn't serve the first three rules — no extra classes, methods, or variables. (Lowest priority.) |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -784,6 +889,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Trunk-Based Development** | All developers commit to a single main branch with short-lived feature branches (< 1 day). |
 | **Configuration as Code** | Store all app configuration in version control alongside the code, not in manual settings. |
 | **GitOps** | Use Git as the single source of truth for infrastructure and deployment — changes via pull requests. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -825,6 +932,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Death March** | A project everyone knows will fail but continues anyway due to organizational pressure. |
 | **Mushroom Management** | Developers are kept in the dark about business goals and decisions — fed nothing, expected to produce. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 24. Design by Contract (DbC)
@@ -841,6 +950,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Assertion** | A runtime check embedded in code that verifies a condition is true — crashes if violated, signaling a programming error. |
 | **Defensive Programming** | Check everything at every boundary — the opposite philosophy to DbC, which trusts contracts between internal components. |
 | **Fail Fast** | When a contract is violated, crash immediately with a clear message rather than continuing with corrupt state. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -864,6 +975,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Composition** | Building complex functions by chaining simple functions: `f(g(x))` or `pipe(g, f)`. |
 | **Closure** | A function that "remembers" the variables from the scope where it was created, even after that scope has ended. |
 | **Referential Transparency** | An expression can be replaced with its value without changing the program's behavior — a hallmark of pure functions. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -911,6 +1024,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Big-O Notation** | Describes the upper bound of an algorithm's growth rate — O(1), O(log n), O(n), O(n log n), O(n²). |
 | **Space Complexity** | How much extra memory an algorithm uses relative to input size. |
 | **Amortized Analysis** | The average cost per operation over a sequence of operations — some are expensive, but rare. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -963,6 +1078,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Database Indexing** | Creates a data structure (B-tree, hash) that speeds up reads at the cost of slightly slower writes. |
 | **Checksum / Hashing** | Detects data corruption by computing a fixed-size fingerprint that changes if even one bit of data changes. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 28. API Design
@@ -983,6 +1100,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Rate Limiting** | Limit requests per client per time window — return `429 Too Many Requests` when exceeded. |
 | **Postel's Law (Robustness Principle)** | Be conservative in what you send, liberal in what you accept — don't break on unexpected fields. |
 | **OpenAPI / Swagger** | A machine-readable specification for REST APIs — enables auto-generated docs, SDKs, and mocks. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1024,6 +1143,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Graph Database** | Stores nodes and edges — optimized for traversing relationships (Neo4j, social networks, recommendation engines). |
 | **Polyglot Persistence** | Using different database types for different parts of the system — the best tool for each job. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 30. The Twelve-Factor App
@@ -1046,6 +1167,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **X. Dev/Prod Parity** | Keep development, staging, and production as similar as possible — same backing services, same OS, same tools. |
 | **XI. Logs** | Treat logs as event streams — the app writes to stdout, and the environment captures, routes, and stores them. |
 | **XII. Admin Processes** | Run one-off admin tasks (migrations, scripts) as processes in the same environment as the app. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1103,6 +1226,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Backends for Frontends** | Build a separate backend API tailored for each frontend (mobile, web) instead of one API for all. |
 | **Throttling** | Limit resource consumption per tenant or client to protect shared resources from overuse. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 32. Reactive Programming
@@ -1123,6 +1248,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Hot vs Cold Observable** | A hot observable emits whether anyone is listening; a cold one starts emitting only when subscribed to. |
 | **Operators (map, flatMap, debounce, merge, zip)** | Composable transformations applied to streams — map transforms each item, flatMap flattens nested streams, debounce ignores rapid duplicates. |
 | **Scheduler** | Controls which thread or event loop an observable's work runs on — separates what from where. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1146,6 +1273,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Change Management** | Progressive rollouts, canaries, and feature flags to minimize the blast radius of changes — most outages are caused by changes. |
 | **Monitoring & Alerting** | Instrumenting systems to collect metrics, set thresholds, and page humans only for actionable conditions. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 34. Behavior-Driven Development (BDD)
@@ -1164,6 +1293,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Living Documentation** | Feature files that are both readable specifications and executable tests — always up to date because they run in CI. |
 | **Example Mapping** | A workshop where the team writes concrete examples on cards to explore business rules before coding. |
 | **Three Amigos** | A meeting between a developer, tester, and business person to discuss and align on scenarios before development. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1185,6 +1316,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Timeline** | Events are placed on a horizontal timeline from left to right — the wall becomes a visual narrative of the business process. |
 | **Bounded Context boundary** | Vertical dividers drawn on the timeline where the language or model changes — identifies natural service boundaries. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 36. Specification by Example
@@ -1202,6 +1335,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Refining the Specification** | Iteratively adding edge cases and negative examples until the team fully understands the rule. |
 | **Deriving Scope from Goals** | Starting with a business goal, then identifying only the features and examples that directly support it. |
 | **Automating without Changing Specs** | Connecting the human-readable spec to test code without rewriting the spec in a programming language. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1221,6 +1356,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Mastery-Apprenticeship Model** | Junior developers learn by working alongside experienced craftspeople — mentorship over documentation. |
 | **Manifesto for Software Craftsmanship** | "Not only working software, but also well-crafted software" — values quality, continuous learning, and community. |
 | **Sustainable Pace** | Work at a pace you can maintain indefinitely — overtime kills quality and motivation. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1266,6 +1403,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **ABAC (Attribute-Based Access Control)** | Access decisions based on attributes (user department, resource owner, time of day) — more flexible than RBAC. |
 | **SAML** | An XML-based standard for exchanging authentication and authorization data between an identity provider and a service provider. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 39. Performance Engineering
@@ -1297,6 +1436,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **N+1 Query Problem** | Loading a list of N items triggers N additional queries (one per item) — fix with eager loading or batch fetching. |
 | **Pagination** | Return large datasets in small chunks instead of all at once — reduces memory and response time. |
 | **Premature Optimization** | Optimizing before profiling — the root of much unnecessary complexity (Knuth: "premature optimization is the root of all evil"). |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
@@ -1346,6 +1487,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Refactoring** | Continuously improve code structure without changing behavior — a first-class engineering activity, not technical debt cleanup. |
 | **Small Releases** | Release to production frequently in small increments — get real feedback fast. |
 
+[Go Up ↑](#table-of-contents)
+
 ---
 
 ## 41. Modeling & Diagramming Beyond UML
@@ -1365,6 +1508,8 @@ A comprehensive reference of named disciplines, patterns, principles, and techni
 | **Flowchart** | The classic diagram: boxes for steps, diamonds for decisions, arrows for flow — simple and universally understood. |
 | **Mind Map** | A radial diagram for brainstorming — central topic with branching sub-topics for free-form exploration. |
 | **Sequence Diagram (non-UML)** | Simplified message-flow diagrams (e.g., Mermaid, PlantUML syntax) used in documentation without full UML ceremony. |
+
+[Go Up ↑](#table-of-contents)
 
 ---
 
