@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>নেটওয়ার্কিং: জিরো থেকে হিরো — সূচিপত্র</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --accent5: #ffa657;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #6e7681;
+    --gold: #e3b341;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans Bengali', sans-serif;
+    min-height: 100vh;
+    line-height: 1.8;
+  }
+
+  /* === BOOK COVER === */
+  .book-cover {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 40%, #0d2137 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,0.12) 0%, transparent 70%);
+  }
+  .book-badge {
+    display: inline-block;
+    background: rgba(88,166,255,0.1);
+    border: 1px solid rgba(88,166,255,0.3);
+    color: var(--accent);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .book-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #58a6ff, #a8d8ff, #d2a8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .book-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  .book-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .meta-pill .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  /* === NETWORK ANIMATION === */
+  .network-visual {
+    margin: 40px auto 0;
+    max-width: 600px;
+    position: relative;
+  }
+  .network-svg { width: 100%; height: 120px; }
+
+  /* === MAIN CONTENT === */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* === SECTION HEADER === */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 20px;
+  }
+  .section-number {
+    background: linear-gradient(135deg, var(--accent), var(--accent4));
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  /* === CHAPTER CARDS === */
+  .chapters-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chapter-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--card-accent, var(--accent));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .chapter-card:hover {
+    background: var(--surface2);
+    border-color: var(--card-accent, var(--accent));
+    transform: translateX(4px);
+  }
+  .chapter-card:hover::before { opacity: 1; }
+
+  .ch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--card-accent, var(--accent));
+    min-width: 42px;
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+  .ch-content { flex: 1; }
+  .ch-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .ch-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .ch-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .ch-tag {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .ch-icon {
+    font-size: 1.4rem;
+    min-width: 28px;
+    text-align: center;
+    margin-top: 1px;
+  }
+
+  /* === PART COLORS === */
+  .part-1 { --card-accent: #58a6ff; }
+  .part-2 { --card-accent: #3fb950; }
+  .part-3 { --card-accent: #ffa657; }
+  .part-4 { --card-accent: #d2a8ff; }
+  .part-5 { --card-accent: #f78166; }
+  .part-6 { --card-accent: #79c0ff; }
+  .part-7 { --card-accent: #ff7b72; }
+  .part-8 { --card-accent: #56d364; }
+  .part-9 { --card-accent: #e3b341; }
+  .part-10 { --card-accent: #bc8cff; }
+
+  /* === PART HEADER COLORS === */
+  .ph-1 .section-number { background: linear-gradient(135deg, #1f6feb, #58a6ff); }
+  .ph-2 .section-number { background: linear-gradient(135deg, #1a7f37, #3fb950); }
+  .ph-3 .section-number { background: linear-gradient(135deg, #9a3006, #ffa657); }
+  .ph-4 .section-number { background: linear-gradient(135deg, #6e40c9, #d2a8ff); }
+  .ph-5 .section-number { background: linear-gradient(135deg, #c62828, #f78166); }
+  .ph-6 .section-number { background: linear-gradient(135deg, #1565c0, #79c0ff); }
+  .ph-7 .section-number { background: linear-gradient(135deg, #b71c1c, #ff7b72); }
+  .ph-8 .section-number { background: linear-gradient(135deg, #1b5e20, #56d364); }
+  .ph-9 .section-number { background: linear-gradient(135deg, #7c5e00, #e3b341); }
+  .ph-10 .section-number { background: linear-gradient(135deg, #4a1d96, #bc8cff); }
+
+  /* === STATS BAR === */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 32px 0;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* === LEGEND === */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+
+  /* === NOTE BOX === */
+  .note-box {
+    background: rgba(88,166,255,0.08);
+    border: 1px solid rgba(88,166,255,0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 32px 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .note-box strong { color: var(--accent); }
+
+  /* === FOOTER === */
+  .book-footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 600px) {
+    .book-cover { padding: 40px 20px; }
+    .container { padding: 24px 16px 60px; }
+    .chapter-card { padding: 14px 16px; }
+    .book-meta { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BOOK COVER -->
+<div class="book-cover">
+  <div class="book-badge">📚 Complete Reference Book</div>
+  <h1 class="book-title">নেটওয়ার্কিং: জিরো থেকে হিরো</h1>
+  <p class="book-subtitle">একজন সিনিয়র সফটওয়্যার ইঞ্জিনিয়ারের জন্য সম্পূর্ণ নেটওয়ার্কিং গাইড<br>
+  <em style="font-size:0.95rem; color: #6e7681;">Flutter Developer → Tech Lead / Architect</em></p>
+  <div class="book-meta">
+    <div class="meta-pill"><span class="dot" style="background:#58a6ff"></span> বাংলা ভাষায়</div>
+    <div class="meta-pill"><span class="dot" style="background:#3fb950"></span> Binary থেকে Cloud</div>
+    <div class="meta-pill"><span class="dot" style="background:#ffa657"></span> Real-world Examples</div>
+    <div class="meta-pill"><span class="dot" style="background:#d2a8ff"></span> Visual Diagrams</div>
+  </div>
+
+  <!-- Simple network animation -->
+  <div class="network-visual">
+    <svg class="network-svg" viewBox="0 0 600 120">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="rgba(88,166,255,0.5)"/>
+        </marker>
+      </defs>
+      <!-- Nodes -->
+      <circle cx="60" cy="60" r="18" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="60" y="64" text-anchor="middle" fill="#58a6ff" font-size="14">💻</text>
+      
+      <circle cx="180" cy="30" r="18" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="180" y="34" text-anchor="middle" fill="#3fb950" font-size="14">🔀</text>
+      
+      <circle cx="300" cy="60" r="22" fill="#161b22" stroke="#ffa657" stroke-width="2"/>
+      <text x="300" y="66" text-anchor="middle" fill="#ffa657" font-size="16">🌐</text>
+      
+      <circle cx="420" cy="30" r="18" fill="#161b22" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="420" y="34" text-anchor="middle" fill="#d2a8ff" font-size="14">☁️</text>
+      
+      <circle cx="540" cy="60" r="18" fill="#161b22" stroke="#f78166" stroke-width="1.5"/>
+      <text x="540" y="64" text-anchor="middle" fill="#f78166" font-size="14">📱</text>
+
+      <circle cx="180" cy="90" r="18" fill="#161b22" stroke="#79c0ff" stroke-width="1.5"/>
+      <text x="180" y="94" text-anchor="middle" fill="#79c0ff" font-size="14">🖥️</text>
+
+      <circle cx="420" cy="90" r="18" fill="#161b22" stroke="#56d364" stroke-width="1.5"/>
+      <text x="420" y="94" text-anchor="middle" fill="#56d364" font-size="14">🗄️</text>
+
+      <!-- Lines -->
+      <line x1="78" y1="55" x2="162" y2="35" stroke="rgba(88,166,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="78" y1="65" x2="162" y2="85" stroke="rgba(121,192,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="198" y1="40" x2="278" y2="54" stroke="rgba(63,185,80,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="198" y1="82" x2="278" y2="66" stroke="rgba(121,192,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="322" y1="48" x2="402" y2="36" stroke="rgba(255,166,87,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="322" y1="66" x2="402" y2="80" stroke="rgba(86,211,100,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="438" y1="40" x2="522" y2="54" stroke="rgba(210,168,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="438" y1="80" x2="522" y2="66" stroke="rgba(247,129,102,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+    </svg>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">10</div>
+      <div class="stat-label">পার্ট / অংশ</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">36</div>
+      <div class="stat-label">অধ্যায়</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Real-world Examples</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100+</div>
+      <div class="stat-label">ভিজ্যুয়াল ডায়াগ্রাম</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">বাংলা</div>
+      <div class="stat-label">মাতৃভাষায়</div>
+    </div>
+  </div>
+
+  <!-- NOTE -->
+  <div class="note-box">
+    <strong>📌 কিভাবে পড়বেন:</strong> এই বইটি ধাপে ধাপে সাজানো হয়েছে — একেবারে বিটস ও বাইনারি থেকে শুরু করে ক্লাউড আর্কিটেকচার পর্যন্ত। প্রতিটি অধ্যায়ে Flutter-এর সাথে সম্পর্কিত উদাহরণ এবং টেক লিড/আর্কিটেক্ট দৃষ্টিভঙ্গি অন্তর্ভুক্ত রয়েছে।
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span style="font-weight:600; color: var(--text-muted); font-size:0.8rem; margin-right:4px;">রঙের অর্থ:</span>
+    <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div>ভিত্তি</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>মডেল</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ffa657"></div>লেয়ার</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d2a8ff"></div>প্রোটোকল</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f78166"></div>নিরাপত্তা</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e3b341"></div>Flutter/Mobile</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#bc8cff"></div>আর্কিটেকচার</div>
+  </div>
+
+  <!-- ============================
+       PART 1: FOUNDATION
+       ============================ -->
+  <div class="section-header ph-1">
+    <span class="section-number">PART 01</span>
+    <span class="section-title">🧱 ভিত্তি — কম্পিউটার ও যোগাযোগের মূলতত্ত্ব</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-1">
+      <span class="ch-icon">🔢</span>
+      <span class="ch-num">CH 01</span>
+      <div class="ch-content">
+        <div class="ch-title">বিট, বাইট ও বাইনারি — সবকিছুর শুরু এখানে</div>
+        <div class="ch-desc">কম্পিউটার কিভাবে 0 ও 1 দিয়ে সবকিছু বোঝে? Bit, Byte, Kilobyte, Megabyte, Gigabyte — পার্থক্য ও বাস্তব উদাহরণ। বাইনারি থেকে দশমিক, হেক্সাডেসিমাল রূপান্তর।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Bit & Byte</span>
+          <span class="ch-tag">Binary</span>
+          <span class="ch-tag">Hex</span>
+          <span class="ch-tag">Data Units</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-1">
+      <span class="ch-icon">📡</span>
+      <span class="ch-num">CH 02</span>
+      <div class="ch-content">
+        <div class="ch-title">ডেটা কমিউনিকেশন — তথ্য কিভাবে চলাচল করে</div>
+        <div class="ch-desc">সিগন্যাল কী? Analog vs Digital। Bandwidth, Latency, Throughput, Jitter — পার্থক্য বুঝুন। Transmission modes: Simplex, Half-duplex, Full-duplex। বাস্তব উদাহরণ: ফোন কল থেকে ভিডিও স্ট্রিমিং।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Signal</span>
+          <span class="ch-tag">Bandwidth</span>
+          <span class="ch-tag">Latency</span>
+          <span class="ch-tag">Throughput</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-1">
+      <span class="ch-icon">🗺️</span>
+      <span class="ch-num">CH 03</span>
+      <div class="ch-content">
+        <div class="ch-title">নেটওয়ার্কের প্রকারভেদ — LAN থেকে ইন্টারনেট</div>
+        <div class="ch-desc">PAN, LAN, MAN, WAN, WLAN, CAN — প্রতিটির পরিধি ও ব্যবহার। ইন্টারনেট কী এবং কিভাবে কাজ করে। Topology: Bus, Star, Ring, Mesh, Tree। আপনার অফিসের নেটওয়ার্ক কোন ধরনের?</div>
+        <div class="ch-tags">
+          <span class="ch-tag">LAN</span>
+          <span class="ch-tag">WAN</span>
+          <span class="ch-tag">Internet</span>
+          <span class="ch-tag">Topology</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 2: NETWORK MODELS
+       ============================ -->
+  <div class="section-header ph-2">
+    <span class="section-number">PART 02</span>
+    <span class="section-title">🏗️ নেটওয়ার্ক মডেল — OSI ও TCP/IP</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-2">
+      <span class="ch-icon">🧩</span>
+      <span class="ch-num">CH 04</span>
+      <div class="ch-content">
+        <div class="ch-title">OSI মডেল — নেটওয়ার্কিংয়ের মানচিত্র (৭টি লেয়ার)</div>
+        <div class="ch-desc">Physical, Data Link, Network, Transport, Session, Presentation, Application — প্রতিটি লেয়ারের কাজ, পারস্পরিক সম্পর্ক। Data encapsulation ও decapsulation। একটি HTTP রিকোয়েস্ট কিভাবে ৭ লেয়ার পার হয় — বিস্তারিত ডায়াগ্রাম সহ।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">OSI 7 Layers</span>
+          <span class="ch-tag">Encapsulation</span>
+          <span class="ch-tag">Protocol Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-2">
+      <span class="ch-icon">🔗</span>
+      <span class="ch-num">CH 05</span>
+      <div class="ch-content">
+        <div class="ch-title">TCP/IP মডেল — ইন্টারনেটের আসল ভিত্তি</div>
+        <div class="ch-desc">TCP/IP এর ৪টি লেয়ার বিস্তারিত। OSI vs TCP/IP তুলনা। প্রতিটি লেয়ারে কোন প্রোটোকলগুলো কাজ করে। Flutter অ্যাপ থেকে সার্ভার পর্যন্ত একটি রিকোয়েস্টের সম্পূর্ণ যাত্রা।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">TCP/IP</span>
+          <span class="ch-tag">4 Layers</span>
+          <span class="ch-tag">Internet Protocol Suite</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 3: PHYSICAL & DATA LINK
+       ============================ -->
+  <div class="section-header ph-3">
+    <span class="section-number">PART 03</span>
+    <span class="section-title">⚡ ফিজিক্যাল ও ডেটা লিংক লেয়ার</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-3">
+      <span class="ch-icon">🔌</span>
+      <span class="ch-num">CH 06</span>
+      <div class="ch-content">
+        <div class="ch-title">ফিজিক্যাল মিডিয়া ও সিগন্যাল ট্রান্সমিশন</div>
+        <div class="ch-desc">Ethernet cable (Cat5e/Cat6/Cat7), Fiber Optic, Wi-Fi। সিগন্যাল কোডিং: Manchester, NRZ। Error detection: Parity, Checksum, CRC। কেন ফাইবার ওয়্যার বেশি দ্রুত? Wi-Fi কিভাবে কাজ করে?</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Ethernet</span>
+          <span class="ch-tag">Fiber</span>
+          <span class="ch-tag">Wi-Fi</span>
+          <span class="ch-tag">Signal Coding</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-3">
+      <span class="ch-icon">🏷️</span>
+      <span class="ch-num">CH 07</span>
+      <div class="ch-content">
+        <div class="ch-title">MAC Address ও Ethernet ফ্রেম</div>
+        <div class="ch-desc">MAC Address কী, কোথায় থাকে, কিভাবে কাজ করে। Ethernet Frame গঠন: Preamble, Destination, Source, EtherType, Payload, FCS। ARP (Address Resolution Protocol) — IP থেকে MAC কিভাবে বের হয়। Flutter ডিভাইসের MAC Address।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">MAC Address</span>
+          <span class="ch-tag">Ethernet Frame</span>
+          <span class="ch-tag">ARP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-3">
+      <span class="ch-icon">🔀</span>
+      <span class="ch-num">CH 08</span>
+      <div class="ch-content">
+        <div class="ch-title">Switch, Hub ও Bridging</div>
+        <div class="ch-desc">Hub vs Switch vs Router — বিস্তারিত পার্থক্য। Switch কিভাবে MAC Table তৈরি করে। Spanning Tree Protocol (STP)। VLAN (Virtual LAN) — একটি অফিসে বিভাগ আলাদা করা। Collision Domain vs Broadcast Domain।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Switch</span>
+          <span class="ch-tag">VLAN</span>
+          <span class="ch-tag">STP</span>
+          <span class="ch-tag">MAC Table</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 4: NETWORK LAYER
+       ============================ -->
+  <div class="section-header ph-4">
+    <span class="section-number">PART 04</span>
+    <span class="section-title">🌐 নেটওয়ার্ক লেয়ার — IP, Routing & NAT</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-4">
+      <span class="ch-icon">🔢</span>
+      <span class="ch-num">CH 09</span>
+      <div class="ch-content">
+        <div class="ch-title">IP Address — IPv4 ও IPv6 বিস্তারিত</div>
+        <div class="ch-desc">IPv4 গঠন ও Classes (A/B/C/D/E)। Private vs Public IP। Special IPs: Loopback (127.0.0.1), Broadcast। IPv6 কেন দরকার হলো, এর গঠন। Unicast, Multicast, Anycast, Broadcast। আপনার Flutter অ্যাপ কোন IP থেকে কথা বলে?</div>
+        <div class="ch-tags">
+          <span class="ch-tag">IPv4</span>
+          <span class="ch-tag">IPv6</span>
+          <span class="ch-tag">Public/Private IP</span>
+          <span class="ch-tag">Loopback</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-4">
+      <span class="ch-icon">✂️</span>
+      <span class="ch-num">CH 10</span>
+      <div class="ch-content">
+        <div class="ch-title">Subnetting ও CIDR — নেটওয়ার্ক ভাগ করার কৌশল</div>
+        <div class="ch-desc">Subnet Mask কী এবং কেন দরকার। CIDR Notation (/24, /16, /8)। Subnetting calculation বিস্তারিত উদাহরণ সহ। VLSM (Variable Length Subnet Masking)। AWS/GCP VPC-তে কিভাবে subnet ডিজাইন করবেন।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Subnet Mask</span>
+          <span class="ch-tag">CIDR</span>
+          <span class="ch-tag">VLSM</span>
+          <span class="ch-tag">VPC Design</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-4">
+      <span class="ch-icon">🗺️</span>
+      <span class="ch-num">CH 11</span>
+      <div class="ch-content">
+        <div class="ch-title">Routing — ডেটা প্যাকেটের পথ নির্ধারণ</div>
+        <div class="ch-desc">Static vs Dynamic Routing। Routing Table কিভাবে কাজ করে। Routing Protocols: RIP, OSPF, BGP — কোনটি কখন। BGP — ইন্টারনেটের মেরুদণ্ড। Traceroute দিয়ে packet path দেখা। Longest Prefix Match।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Routing Table</span>
+          <span class="ch-tag">OSPF</span>
+          <span class="ch-tag">BGP</span>
+          <span class="ch-tag">Traceroute</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-4">
+      <span class="ch-icon">🔄</span>
+      <span class="ch-num">CH 12</span>
+      <div class="ch-content">
+        <div class="ch-title">NAT ও PAT — একটি IP দিয়ে অনেক ডিভাইস</div>
+        <div class="ch-desc">NAT (Network Address Translation) কেন দরকার। Static NAT, Dynamic NAT, PAT (Port Address Translation)। আপনার বাসার রাউটার কিভাবে NAT করে। Mobile নেটওয়ার্কে Carrier-Grade NAT। Flutter অ্যাপ ও NAT traversal সমস্যা।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">NAT</span>
+          <span class="ch-tag">PAT</span>
+          <span class="ch-tag">Port Forwarding</span>
+          <span class="ch-tag">CGNAT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 5: TRANSPORT LAYER
+       ============================ -->
+  <div class="section-header ph-5">
+    <span class="section-number">PART 05</span>
+    <span class="section-title">🚚 ট্রান্সপোর্ট লেয়ার — TCP, UDP & Ports</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-5">
+      <span class="ch-icon">🤝</span>
+      <span class="ch-num">CH 13</span>
+      <div class="ch-content">
+        <div class="ch-title">TCP — নির্ভরযোগ্য যোগাযোগের বিজ্ঞান</div>
+        <div class="ch-desc">TCP 3-way Handshake (SYN, SYN-ACK, ACK) বিস্তারিত। 4-way Teardown। Flow Control ও Congestion Control। Sliding Window Protocol। TCP States: ESTABLISHED, TIME_WAIT, CLOSE_WAIT। Retransmission ও Timeout। Flutter HTTP call কিভাবে TCP ব্যবহার করে।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">3-way Handshake</span>
+          <span class="ch-tag">Flow Control</span>
+          <span class="ch-tag">Congestion Control</span>
+          <span class="ch-tag">Sliding Window</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-5">
+      <span class="ch-icon">⚡</span>
+      <span class="ch-num">CH 14</span>
+      <div class="ch-content">
+        <div class="ch-title">UDP — দ্রুত কিন্তু অনিশ্চিত</div>
+        <div class="ch-desc">UDP কেন connectionless? কখন UDP ব্যবহার করবেন। DNS, Video Streaming, Online Gaming, VoIP — কেন UDP? QUIC প্রোটোকল (UDP এর উপর নির্মিত HTTP/3)। Flutter-এ UDP socket ব্যবহার।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">UDP</span>
+          <span class="ch-tag">QUIC</span>
+          <span class="ch-tag">HTTP/3</span>
+          <span class="ch-tag">Streaming</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-5">
+      <span class="ch-icon">🚪</span>
+      <span class="ch-num">CH 15</span>
+      <div class="ch-content">
+        <div class="ch-title">Port ও Socket — যোগাযোগের দরজা</div>
+        <div class="ch-desc">Port Number কী (0-65535)। Well-known Ports: 80, 443, 22, 3306, 5432। Ephemeral Ports। Socket কী — IP + Port = Socket। Socket Programming মূলধারণা। Flutter-এ TCP Socket সংযোগ। Port scanning ও নিরাপত্তা।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Port Numbers</span>
+          <span class="ch-tag">Socket</span>
+          <span class="ch-tag">Ephemeral Port</span>
+          <span class="ch-tag">Socket Programming</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 6: APPLICATION LAYER
+       ============================ -->
+  <div class="section-header ph-6">
+    <span class="section-number">PART 06</span>
+    <span class="section-title">📲 অ্যাপ্লিকেশন লেয়ার প্রোটোকল</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-6">
+      <span class="ch-icon">🔍</span>
+      <span class="ch-num">CH 16</span>
+      <div class="ch-content">
+        <div class="ch-title">DNS — ইন্টারনেটের ফোনবুক</div>
+        <div class="ch-desc">DNS কিভাবে কাজ করে (Recursive vs Iterative Query)। DNS Record Types: A, AAAA, CNAME, MX, TXT, NS, PTR। DNS Hierarchy: Root → TLD → Authoritative। DNS Caching ও TTL। DoH (DNS over HTTPS), DoT। Flutter অ্যাপে DNS lookup। DNS Attack: Cache Poisoning, DDoS।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">DNS</span>
+          <span class="ch-tag">DNS Records</span>
+          <span class="ch-tag">DNS over HTTPS</span>
+          <span class="ch-tag">TTL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-6">
+      <span class="ch-icon">🌍</span>
+      <span class="ch-num">CH 17</span>
+      <div class="ch-content">
+        <div class="ch-title">HTTP/HTTPS — ওয়েবের প্রাণ</div>
+        <div class="ch-desc">HTTP/1.0 → HTTP/1.1 → HTTP/2 → HTTP/3 বিবর্তন। Request/Response গঠন বিস্তারিত। Methods: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS। Status Codes সম্পূর্ণ তালিকা ও অর্থ। Headers: Content-Type, Authorization, Cache-Control, CORS। Keep-Alive, Pipelining, Multiplexing। Flutter Dio/http প্যাকেজ ও HTTP internals।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">HTTP Methods</span>
+          <span class="ch-tag">Status Codes</span>
+          <span class="ch-tag">HTTP/2</span>
+          <span class="ch-tag">HTTP/3</span>
+          <span class="ch-tag">CORS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-6">
+      <span class="ch-icon">🔁</span>
+      <span class="ch-num">CH 18</span>
+      <div class="ch-content">
+        <div class="ch-title">WebSocket — রিয়েল-টাইম দ্বিমুখী যোগাযোগ</div>
+        <div class="ch-desc">HTTP vs WebSocket পার্থক্য। WebSocket Handshake বিস্তারিত। Full-duplex communication। Use cases: Chat, Live Notification, Stock Price, Multiplayer Game। Server-Sent Events (SSE) কখন ব্যবহার করবেন। Flutter-এ WebSocket implementation। Scaling WebSocket: Sticky Sessions, Redis Pub/Sub।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">WebSocket</span>
+          <span class="ch-tag">Real-time</span>
+          <span class="ch-tag">SSE</span>
+          <span class="ch-tag">Full-duplex</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-6">
+      <span class="ch-icon">⚡</span>
+      <span class="ch-num">CH 19</span>
+      <div class="ch-content">
+        <div class="ch-title">gRPC — মডার্ন মাইক্রোসার্ভিস কমিউনিকেশন</div>
+        <div class="ch-desc">REST vs gRPC — কোনটি কখন? Protocol Buffers (Protobuf) বিস্তারিত। 4 ধরনের gRPC: Unary, Server Streaming, Client Streaming, Bidirectional। HTTP/2 এর উপর gRPC। Flutter-এ grpc package ব্যবহার। gRPC vs GraphQL vs REST তুলনা।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">gRPC</span>
+          <span class="ch-tag">Protobuf</span>
+          <span class="ch-tag">Streaming</span>
+          <span class="ch-tag">Flutter gRPC</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-6">
+      <span class="ch-icon">📬</span>
+      <span class="ch-num">CH 20</span>
+      <div class="ch-content">
+        <div class="ch-title">SMTP, FTP, SSH ও অন্যান্য প্রোটোকল</div>
+        <div class="ch-desc">SMTP/IMAP/POP3 — ইমেইল কিভাবে কাজ করে। FTP vs SFTP vs SCP। SSH — নিরাপদ রিমোট অ্যাক্সেস, Public Key Authentication। DHCP — IP Auto-assign। SNMP — নেটওয়ার্ক মনিটরিং। NTP — সময় সিঙ্ক্রোনাইজেশন।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">SMTP</span>
+          <span class="ch-tag">SSH</span>
+          <span class="ch-tag">FTP/SFTP</span>
+          <span class="ch-tag">DHCP</span>
+          <span class="ch-tag">NTP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 7: SECURITY
+       ============================ -->
+  <div class="section-header ph-7">
+    <span class="section-number">PART 07</span>
+    <span class="section-title">🔐 নেটওয়ার্ক নিরাপত্তা</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-7">
+      <span class="ch-icon">🔒</span>
+      <span class="ch-num">CH 21</span>
+      <div class="ch-content">
+        <div class="ch-title">TLS/SSL — ডেটা এনক্রিপশনের বিজ্ঞান</div>
+        <div class="ch-desc">Symmetric vs Asymmetric Encryption। TLS Handshake বিস্তারিত (Client Hello → Server Hello → Certificate → Key Exchange → Finished)। Certificate Chain of Trust। CA (Certificate Authority)। TLS 1.2 vs TLS 1.3 পার্থক্য। HTTPS কেন শুধু "s" যোগ করা নয়। Flutter-এ Certificate Pinning। mTLS (Mutual TLS)।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">TLS Handshake</span>
+          <span class="ch-tag">PKI</span>
+          <span class="ch-tag">Certificate Pinning</span>
+          <span class="ch-tag">mTLS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-7">
+      <span class="ch-icon">🧱</span>
+      <span class="ch-num">CH 22</span>
+      <div class="ch-content">
+        <div class="ch-title">Firewall, IDS/IPS ও Network Security</div>
+        <div class="ch-desc">Stateless vs Stateful Firewall। Packet Filtering Rules। WAF (Web Application Firewall)। IDS vs IPS পার্থক্য। Common Attacks: DDoS, Man-in-the-Middle, ARP Spoofing, DNS Poisoning। Rate Limiting। Flutter অ্যাপ নিরাপত্তা checklist।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Firewall</span>
+          <span class="ch-tag">WAF</span>
+          <span class="ch-tag">DDoS</span>
+          <span class="ch-tag">IDS/IPS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-7">
+      <span class="ch-icon">🕵️</span>
+      <span class="ch-num">CH 23</span>
+      <div class="ch-content">
+        <div class="ch-title">VPN — ভার্চুয়াল প্রাইভেট নেটওয়ার্ক</div>
+        <div class="ch-desc">VPN কিভাবে কাজ করে — টানেলিং ধারণা। IPsec VPN vs SSL VPN। WireGuard — আধুনিক VPN প্রোটোকল। Site-to-Site vs Remote Access VPN। Corporate VPN আর্কিটেকচার। Split Tunneling। Flutter অ্যাপের জন্য VPN API।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">VPN Tunneling</span>
+          <span class="ch-tag">IPsec</span>
+          <span class="ch-tag">WireGuard</span>
+          <span class="ch-tag">OpenVPN</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-7">
+      <span class="ch-icon">🎫</span>
+      <span class="ch-num">CH 24</span>
+      <div class="ch-content">
+        <div class="ch-title">নেটওয়ার্কে Authentication ও Authorization</div>
+        <div class="ch-desc">JWT কিভাবে নেটওয়ার্কে কাজ করে। OAuth 2.0 Flow বিস্তারিত (Authorization Code, PKCE)। API Key vs JWT vs Session। Zero Trust Network Architecture। Service-to-Service Authentication। Flutter-এ Secure Token Storage।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">JWT</span>
+          <span class="ch-tag">OAuth 2.0</span>
+          <span class="ch-tag">Zero Trust</span>
+          <span class="ch-tag">PKCE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 8: CLOUD & MODERN ARCH
+       ============================ -->
+  <div class="section-header ph-8">
+    <span class="section-number">PART 08</span>
+    <span class="section-title">☁️ ক্লাউড ও মডার্ন নেটওয়ার্ক আর্কিটেকচার</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-8">
+      <span class="ch-icon">⚖️</span>
+      <span class="ch-num">CH 25</span>
+      <div class="ch-content">
+        <div class="ch-title">Load Balancer — ট্র্যাফিক বণ্টনের কৌশল</div>
+        <div class="ch-desc">L4 vs L7 Load Balancer পার্থক্য। Algorithms: Round Robin, Least Connection, IP Hash, Weighted। Health Check। Sticky Session। AWS ALB/NLB, Nginx, HAProxy। Active-Active vs Active-Passive। Flutter অ্যাপের জন্য optimal load balancing strategy।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">L4/L7 LB</span>
+          <span class="ch-tag">Round Robin</span>
+          <span class="ch-tag">Health Check</span>
+          <span class="ch-tag">AWS ALB</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-8">
+      <span class="ch-icon">🚀</span>
+      <span class="ch-num">CH 26</span>
+      <div class="ch-content">
+        <div class="ch-title">CDN — কন্টেন্ট দ্রুত পৌঁছে দেওয়ার রহস্য</div>
+        <div class="ch-desc">CDN কিভাবে কাজ করে — Edge Server ধারণা। Push vs Pull CDN। Cache Invalidation strategy। Cloudflare, AWS CloudFront, Fastly। CDN ও TLS termination। Flutter অ্যাপের জন্য image/asset CDN optimization। CDN মাধ্যমে DDoS protection।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Edge Server</span>
+          <span class="ch-tag">Cache Invalidation</span>
+          <span class="ch-tag">Cloudflare</span>
+          <span class="ch-tag">CloudFront</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-8">
+      <span class="ch-icon">🧩</span>
+      <span class="ch-num">CH 27</span>
+      <div class="ch-content">
+        <div class="ch-title">Microservices Networking — সার্ভিসদের কথোপকথন</div>
+        <div class="ch-desc">Monolith থেকে Microservices — নেটওয়ার্ক চ্যালেঞ্জ। Service Discovery: Client-side vs Server-side (Consul, Eureka)। Inter-service communication: Sync (REST/gRPC) vs Async (Message Queue)। Circuit Breaker Pattern। Retry ও Timeout strategy।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Service Discovery</span>
+          <span class="ch-tag">Circuit Breaker</span>
+          <span class="ch-tag">Message Queue</span>
+          <span class="ch-tag">Resilience</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-8">
+      <span class="ch-icon">🚦</span>
+      <span class="ch-num">CH 28</span>
+      <div class="ch-content">
+        <div class="ch-title">API Gateway — সব API-এর প্রবেশদ্বার</div>
+        <div class="ch-desc">API Gateway কেন দরকার। Features: Rate Limiting, Auth, Routing, Transformation। Kong, AWS API Gateway, Nginx। BFF (Backend for Frontend) Pattern — Flutter অ্যাপের জন্য। GraphQL Gateway। API Versioning strategy।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">API Gateway</span>
+          <span class="ch-tag">Rate Limiting</span>
+          <span class="ch-tag">BFF Pattern</span>
+          <span class="ch-tag">Kong</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-8">
+      <span class="ch-icon">🕸️</span>
+      <span class="ch-num">CH 29</span>
+      <div class="ch-content">
+        <div class="ch-title">Service Mesh — মাইক্রোসার্ভিস নেটওয়ার্কের অটোমেশন</div>
+        <div class="ch-desc">Service Mesh কী এবং কেন? Sidecar Pattern (Envoy Proxy)। Istio ও Linkerd। mTLS Automatic। Observability: Distributed Tracing (Jaeger), Metrics, Logging। Traffic Management: Canary Deployment, A/B Testing। কখন Service Mesh দরকার নয়।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Istio</span>
+          <span class="ch-tag">Envoy</span>
+          <span class="ch-tag">Sidecar</span>
+          <span class="ch-tag">Distributed Tracing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 9: FLUTTER & MOBILE
+       ============================ -->
+  <div class="section-header ph-9">
+    <span class="section-number">PART 09</span>
+    <span class="section-title">📱 Flutter ও Mobile Networking</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-9">
+      <span class="ch-icon">🐦</span>
+      <span class="ch-num">CH 30</span>
+      <div class="ch-content">
+        <div class="ch-title">Flutter-এ HTTP/REST — সঠিকভাবে করার উপায়</div>
+        <div class="ch-desc">http vs Dio — কোনটি কখন। Interceptors দিয়ে Auth Token Refresh। Request Cancellation। Timeout handling। Retry Logic। Response Caching। Multipart File Upload। Certificate Pinning Flutter-এ। Network-aware UI pattern।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Dio</span>
+          <span class="ch-tag">Interceptor</span>
+          <span class="ch-tag">Token Refresh</span>
+          <span class="ch-tag">Retry</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-9">
+      <span class="ch-icon">🔁</span>
+      <span class="ch-num">CH 31</span>
+      <div class="ch-content">
+        <div class="ch-title">Flutter-এ WebSocket ও Real-time</div>
+        <div class="ch-desc">dart:io WebSocket vs web_socket_channel। Reconnection strategy। Heartbeat/Ping-Pong। Background WebSocket handling। Flutter + Socket.IO। Push Notification vs WebSocket — কখন কোনটি। Firebase Realtime Database ও Firestore — নেটওয়ার্ক internals।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">WebSocket</span>
+          <span class="ch-tag">Reconnection</span>
+          <span class="ch-tag">Socket.IO</span>
+          <span class="ch-tag">Firebase</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-9">
+      <span class="ch-icon">⚡</span>
+      <span class="ch-num">CH 32</span>
+      <div class="ch-content">
+        <div class="ch-title">Flutter-এ gRPC ও GraphQL</div>
+        <div class="ch-desc">Flutter gRPC client setup। Code generation থেকে API call। Streaming in Flutter gRPC। GraphQL Flutter (graphql_flutter package)। Fragments, Subscriptions। Apollo Client pattern Flutter-এ। gRPC vs REST vs GraphQL — Flutter প্রজেক্টে সিদ্ধান্ত নেওয়া।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Flutter gRPC</span>
+          <span class="ch-tag">GraphQL</span>
+          <span class="ch-tag">Code Generation</span>
+          <span class="ch-tag">Subscription</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-9">
+      <span class="ch-icon">🔋</span>
+      <span class="ch-num">CH 33</span>
+      <div class="ch-content">
+        <div class="ch-title">Mobile Network Optimization — ব্যাটারি ও ডেটা সাশ্রয়</div>
+        <div class="ch-desc">Offline-first architecture। Background Sync। Request Batching ও Debouncing। Image compression ও lazy loading। HTTP/2 Push। Connection pooling। 3G/4G/5G পরিবেশে অ্যাপ optimize। Network quality detection ও adaptive UI। Flutter DevTools দিয়ে network profiling।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Offline-first</span>
+          <span class="ch-tag">Request Batching</span>
+          <span class="ch-tag">Connection Pooling</span>
+          <span class="ch-tag">Network Profiling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       PART 10: SYSTEM DESIGN
+       ============================ -->
+  <div class="section-header ph-10">
+    <span class="section-number">PART 10</span>
+    <span class="section-title">🏛️ সিস্টেম ডিজাইন ও আর্কিটেকচার</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="chapters-grid">
+    <div class="chapter-card part-10">
+      <span class="ch-icon">📐</span>
+      <span class="ch-num">CH 34</span>
+      <div class="ch-content">
+        <div class="ch-title">Scalable System Design — লক্ষ ব্যবহারকারীর জন্য ডিজাইন</div>
+        <div class="ch-desc">Horizontal vs Vertical Scaling। Database Replication ও Sharding। Caching Strategy: Client, CDN, Application, Database। Message Queue (Kafka, RabbitMQ)। CAP Theorem। Consistent Hashing। Rate Limiting Algorithms: Token Bucket, Leaky Bucket। Real case: WhatsApp, Twitter, Uber আর্কিটেকচার বিশ্লেষণ।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Horizontal Scaling</span>
+          <span class="ch-tag">CAP Theorem</span>
+          <span class="ch-tag">Consistent Hashing</span>
+          <span class="ch-tag">Kafka</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-10">
+      <span class="ch-icon">🛡️</span>
+      <span class="ch-num">CH 35</span>
+      <div class="ch-content">
+        <div class="ch-title">High Availability ও Fault Tolerance</div>
+        <div class="ch-desc">99.9% vs 99.99% uptime — পার্থক্য কোথায়। SPOF (Single Point of Failure) দূর করা। Active-Active Failover। Chaos Engineering (Netflix Chaos Monkey)। Disaster Recovery: RTO ও RPO। Multi-region deployment। Kubernetes Network Policy। SLA, SLO, SLI সংজ্ঞা ও ব্যবহার।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">High Availability</span>
+          <span class="ch-tag">Failover</span>
+          <span class="ch-tag">Chaos Engineering</span>
+          <span class="ch-tag">SLA/SLO/SLI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card part-10">
+      <span class="ch-icon">🔬</span>
+      <span class="ch-num">CH 36</span>
+      <div class="ch-content">
+        <div class="ch-title">Real-world Case Studies — বাস্তব সমস্যা ও সমাধান</div>
+        <div class="ch-desc">Case 1: একটি Flutter Chat App-এর সম্পূর্ণ নেটওয়ার্ক আর্কিটেকচার। Case 2: E-commerce অ্যাপের payment network security। Case 3: Live Streaming অ্যাপের নেটওয়ার্ক ডিজাইন। Case 4: IoT Dashboard — Flutter + MQTT। Tech Lead হিসেবে নেটওয়ার্ক ডিজাইন সিদ্ধান্ত নেওয়ার framework।</div>
+        <div class="ch-tags">
+          <span class="ch-tag">Case Study</span>
+          <span class="ch-tag">Chat App</span>
+          <span class="ch-tag">MQTT</span>
+          <span class="ch-tag">Tech Lead</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL NOTE -->
+  <div class="note-box" style="margin-top: 48px; border-color: rgba(227,179,65,0.3); background: rgba(227,179,65,0.06);">
+    <strong style="color: var(--gold);">🎯 পরবর্তী পদক্ষেপ:</strong> সূচিপত্রটি পর্যালোচনা করুন। কোনো অধ্যায় যোগ করতে চাইলে, পরিবর্তন করতে চাইলে, অথবা কোনো বিষয়ে বিশেষ গুরুত্ব দিতে চাইলে জানান। তারপর আমরা <strong style="color: var(--gold);">Chapter 1</strong> থেকে লেখা শুরু করব — বিটস ও বাইনারি থেকে।
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="book-footer">
+  <p>📚 নেটওয়ার্কিং: জিরো থেকে হিরো &nbsp;|&nbsp; Flutter Developer → Tech Lead/Architect</p>
+  <p style="margin-top: 6px;">১০টি পার্ট &nbsp;•&nbsp; ৩৬টি অধ্যায় &nbsp;•&nbsp; বাংলা ভাষায় সম্পূর্ণ রেফারেন্স বই</p>
+</div>
+
+</body>
+</html>
