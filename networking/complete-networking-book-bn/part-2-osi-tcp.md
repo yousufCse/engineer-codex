@@ -1,7 +1,3 @@
-cat > /home/claude/book_part2.md << 'ENDOFPART2'
----
----
-
 # Part 2 — নেটওয়ার্ক মডেল
 
 > নেটওয়ার্কিং এত জটিল বিষয় যে এটিকে স্তরে স্তরে ভাগ করা হয়েছে। OSI ও TCP/IP মডেল সেই কাঠামো।
@@ -561,7 +557,3 @@ Frame 1: 74 bytes
 ```
 
 [🔝 উপরে যান](#-মূল-সূচিপত্র)
-
----
-ENDOFPART2
-echo "Part 2 done: $(wc -l < /home/claude/book_part2.md) lines"

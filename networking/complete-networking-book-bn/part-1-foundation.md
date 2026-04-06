@@ -1,4 +1,3 @@
-cat > /home/claude/book_part1.md << 'ENDOFPART1'
 # 📚 নেটওয়ার্কিং: জিরো থেকে হিরো
 ### একজন সিনিয়র সফটওয়্যার ইঞ্জিনিয়ারের জন্য সম্পূর্ণ রেফারেন্স বই
 > **লক্ষ্য:** Flutter Developer → Tech Lead / Architect | **ভাষা:** বাংলা
@@ -917,5 +916,3 @@ Wi-Fi Standards:
 [🔝 উপরে যান](#-মূল-সূচিপত্র)
 
 ---
-ENDOFPART1
-echo "Part 1 written: $(wc -l < /home/claude/book_part1.md) lines"

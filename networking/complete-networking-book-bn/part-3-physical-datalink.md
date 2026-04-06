@@ -1,6 +1,3 @@
-cat > /home/claude/book_part3.md << 'ENDOFPART3'
----
-
 # Part 3 — ফিজিক্যাল ও ডেটা লিংক লেয়ার
 
 > এখানে নেটওয়ার্কিং আক্ষরিক অর্থে মাটিতে নেমে আসে — তার, আলো, রেডিও তরঙ্গ।
@@ -486,7 +483,3 @@ STP সমাধান:
 ```
 
 [🔝 উপরে যান](#-মূল-সূচিপত্র)
-
----
-ENDOFPART3
-echo "Part 3 done: $(wc -l < /home/claude/book_part3.md) lines"

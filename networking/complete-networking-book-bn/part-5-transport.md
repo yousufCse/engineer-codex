@@ -1,6 +1,3 @@
-cat > /home/claude/book_part5.md << 'ENDOFPART5'
----
-
 # Part 5 — ট্রান্সপোর্ট লেয়ার
 
 > TCP এবং UDP — ইন্টারনেটের দুই স্তম্ভ। একটি নির্ভরযোগ্য, অন্যটি দ্রুত।
@@ -587,7 +584,3 @@ Future<void> connectToServer() async {
 ```
 
 [🔝 উপরে যান](#-মূল-সূচিপত্র)
-
----
-ENDOFPART5
-echo "Part 5 done: $(wc -l < /home/claude/book_part5.md) lines"

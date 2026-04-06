@@ -1,6 +1,3 @@
-cat > /home/claude/book_part4.md << 'ENDOFPART4'
----
-
 # Part 4 — নেটওয়ার্ক লেয়ার
 
 > IP Address, Subnetting, Routing, NAT — এই চারটি ছাড়া ইন্টারনেট অচল।
@@ -664,7 +661,3 @@ Flutter অ্যাপে NAT Traversal:
 ```
 
 [🔝 উপরে যান](#-মূল-সূচিপত্র)
-
----
-ENDOFPART4
-echo "Part 4 done: $(wc -l < /home/claude/book_part4.md) lines"
