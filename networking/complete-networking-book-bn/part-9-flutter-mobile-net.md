@@ -12,24 +12,21 @@
 ```
 Flutter HTTP Request যাত্রা:
 
-Dart Code (Dio/http)
-        │
-        ▼
-Dart dart:io (HttpClient)
-        │
-        ▼
-Platform Channel (Android/iOS)
-        │
-        ▼
+Dio / http
+    │  (pure Dart, just adds features)
+    ▼
+dart:io HttpClient
+    │  (also pure Dart API, but implemented in C++ inside the Dart VM)
+    ▼
+Dart VM Native Layer (C++)
+    │  (talks to OS via BSD sockets directly — NOT via Flutter Platform Channel)
+    ▼
 OS Network Stack
-(Android: OkHttp under the hood)
-(iOS: URLSession under the hood)
-        │
-        ▼
-Network Interface (Wi-Fi/4G)
-        │
-        ▼
-Internet → Server
+    Android → kernel sockets (not OkHttp)
+    iOS     → kernel sockets (not URLSession)
+    │
+    ▼
+Network Interface → Internet → Server
 ```
 
 ## ৩০.২ http Package vs Dio — কোনটি কখন?
