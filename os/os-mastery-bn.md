@@ -2968,48 +2968,210 @@ HTTP, WebSocket — সবই এভাবে চলে।
 
 ---
 
-একটি App চালু হওয়ার সময় OS একসাথে অনেকগুলো কাজ করে। সহজ করে পুরো flow নিচে দেখো:
+এই Chapter-এ আমরা App launch-এর সম্পূর্ণ lifecycle দেখব, CPU register থেকে UI frame draw পর্যন্ত। আগের Chapter-গুলোর সব concept এখানে এক জায়গায় যুক্ত হবে।
 
-## ১৬.১ App Launch End-to-End Flow
+## ১৬.১ High-Level Launch Flow
 
-1. User icon-এ tap/click করে
-2. OS executable file storage থেকে পড়ে
-3. নতুন process তৈরি হয়, PID assign হয়
-4. Process-এর address space তৈরি হয় (code, data, heap, stack)
-5. প্রয়োজনীয় shared library map করা হয়
-6. Main thread তৈরি হয়
-7. CPU scheduler সেই thread-কে run queue-তে রাখে
-8. App code execute শুরু করে (`main()`/entry point)
-9. App I/O, network, file access চাইলে system call-এর মাধ্যমে kernel service পায়
-10. UI render হয় এবং user interaction loop চালু থাকে
+1. User app icon-এ tap/click করে
+2. OS launcher process request গ্রহণ করে
+3. Executable storage থেকে loader binary map করে
+4. নতুন process তৈরি হয় এবং PID assign হয়
+5. Address space তৈরি হয়: Code, Data, Heap, Stack
+6. Main thread তৈরি হয়
+7. CPU scheduler thread-কে run queue-তে পাঠায়
+8. Program entry point (`main`) execute হয়
+9. Event loop শুরু হয়, UI framework initialize হয়
+10. প্রথম frame render হয়ে screen-এ দেখা যায়
 
 ---
 
-## ১৬.২ Concept Map
+## ১৬.২ App চালু হলে Memory Layout
+
+একটি process চালু হওয়ার পরে RAM-এ সাধারণত এই layout দেখা যায়:
 
 ```text
-User Action
-   ↓
-Process Creation
-   ↓
-Memory Mapping
-   ↓
-Thread Scheduling
-   ↓
-CPU Execution
-   ↓
-System Calls (I/O, Network, File)
-   ↓
-UI Response
+High Address
+┌───────────────────────────────┐
+│ Stack (function call frames)  │  ← SP/BP active
+├───────────────────────────────┤
+│                               │
+│     Free / mmap region        │
+│                               │
+├───────────────────────────────┤
+│ Heap (dynamic objects)        │  ← new/malloc grow up
+├───────────────────────────────┤
+│ Data/BSS (global/static vars) │
+├───────────────────────────────┤
+│ Code/Text segment             │  ← executable instructions
+└───────────────────────────────┘
+Low Address
 ```
+
+- `Code Segment`: প্রোগ্রামের instruction থাকে
+- `Stack`: function call context, return address, local variable
+- `Heap`: runtime-এ তৈরি dynamic object
 
 ---
 
-## ১৬.৩ কেন এই Chapter গুরুত্বপূর্ণ?
+## ১৬.৩ CPU Register, Cache, এবং Execution
 
-- Process, Thread, Scheduler, Memory, I/O - সব concept এখানে একসাথে যুক্ত হয়
-- Performance issue debug করতে launch path বুঝা খুব দরকার
-- Crash analysis, deadlock tracing, slow startup profiling - সবকিছুর base এই flow
+App launch-এর সময় CPU register ও cache বারবার ব্যবহৃত হয়:
+
+- `PC (Program Counter)`: পরের instruction কোথায় আছে তা ধরে
+- `IR (Instruction Register)`: বর্তমানে execute হওয়া instruction ধরে
+- `SP (Stack Pointer)`: stack-এর top ট্র্যাক করে
+- `BP (Base Pointer)`: current function frame-এর স্থির base ধরে
+
+Execution cycle:
+1. `PC` অনুযায়ী instruction fetch
+2. Instruction `IR`-এ load
+3. `CU` decode করে
+4. `ALU` arithmetic/logic execute করে
+5. Result register/stack/heap-এ store হয়
+
+`Cache (L1/L2/L3)` frequently used data কাছে রাখে, তাই RAM access কমে এবং latency অনেক কমে।
+
+---
+
+## ১৬.৪ Function Call Stack কেন অপরিহার্য
+
+ধরো `main()` থেকে `loadConfig()` এবং তারপর `parseJson()` call হল:
+
+```text
+Top of Stack
+┌──────────────────────────────┐
+│ parseJson frame              │
+│ local vars, temp values      │
+│ return address → loadConfig  │
+├──────────────────────────────┤
+│ loadConfig frame             │
+│ local vars                   │
+│ return address → main        │
+├──────────────────────────────┤
+│ main frame                   │
+└──────────────────────────────┘
+Bottom
+```
+
+Stack ছাড়া:
+- function শেষে কোথায় ফিরবে তা জানা যেত না
+- প্রতিটি function-এর local variable আলাদা থাকত না
+- recursion বাস্তবায়ন করা কঠিন হয়ে যেত
+
+---
+
+## ১৬.৫ Process vs Thread App Launch Context-এ
+
+- `Process`: নিজস্ব virtual memory space সহ পূর্ণ running program
+- `Thread`: process-এর execution unit; একই process-এর memory share করে
+
+App launch-এর পরে:
+- প্রথমে process তৈরি হয়
+- তারপর main thread শুরু হয়
+- পরে worker/background thread বা isolate তৈরি হতে পারে
+
+---
+
+## ১৬.৬ Scheduler, Core, Parallelism
+
+### Single-core
+- একসাথে বাস্তবে একটিই instruction stream চলে
+- concurrency হয় context switching দিয়ে
+
+### Multi-core
+- একাধিক physical core-এ real parallel execution সম্ভব
+- উদাহরণ: 10 core CPU with SMT থাকলে 20 logical thread একসাথে schedule হতে পারে
+
+### Context Switching
+- OS CPU state save করে (register, PC, SP ইত্যাদি)
+- অন্য thread/process state restore করে
+- PCB/TCB data structure এই state ধরে রাখে
+
+---
+
+## ১৬.৭ UI Scroll, Cursor Blink, এবং Timer Event
+
+### Scroll Operation
+- input event আসে (touch/mouse wheel)
+- rendering pipeline নতুন viewport coordinate হিসাব করে
+- ALU coordinate add/subtract করে
+- memory থেকে নতুন visible region fetch হয়
+- compositor frame assemble করে display-তে দেয়
+
+### Cursor Blinking
+- hardware/software timer periodic interrupt/event দেয়
+- cursor state toggle হয়: `ON (1)` ↔ `OFF (0)`
+- পরের render pass-এ updated cursor draw হয়
+
+---
+
+## ১৬.৮ Dart/Flutter Runtime-এর সাথে OS সম্পর্ক
+
+### Main Isolate
+- Dart main isolate single-threaded event loop দিয়ে কাজ করে
+- async I/O non-blocking call হিসেবে OS-কে দেয়
+- result ready হলে event queue-তে callback/promise completion আসে
+
+### Network Call
+- network request main isolate-এ initiate হয়
+- actual socket I/O kernel/network stack handle করে
+- main isolate block না হয়ে event অপেক্ষা করে
+
+### Background Isolate
+- heavy কাজ (parsing, file processing, crypto) background isolate-এ পাঠানো যায়
+- isolate-গুলোর memory আলাদা
+- message passing দিয়ে data exchange হয়
+
+---
+
+## ১৬.৯ End-to-End Walkthrough (বাস্তব উদাহরণ)
+
+Scenario: User একটি Flutter app খুলে API call করে list দেখছে।
+
+1. launcher app process spawn করে
+2. Dart VM/runtime initialize হয়
+3. main isolate শুরু হয়
+4. প্রথম UI frame render হয়
+5. user screen open করলে HTTP request trigger হয়
+6. OS socket open করে packet পাঠায়
+7. response এলে event loop callback চালায়
+8. JSON parse (ভারি হলে background isolate-এ)
+9. state update → নতুন frame render
+10. user smooth scrolling দেখে
+
+এই পুরো journey-তে process management, scheduling, memory, I/O, interrupt, rendering সব একসাথে কাজ করে।
+
+---
+
+## ১৬.১০ Short Notes (Quick Revision)
+
+- **CPU রেজিস্টার:** প্রসেসরের ভেতরের খুব দ্রুত অস্থায়ী মেমোরি; data processing-এর সময় intermediate value ধরে।
+- **রেজিস্টার বনাম ট্রানজিস্টর:** ট্রানজিস্টর হলো মৌলিক switch; বহু ট্রানজিস্টর মিলে register ও অন্য complex digital block তৈরি করে।
+- **ক্যাশ মেমোরি:** CPU এবং RAM-এর মাঝখানের দ্রুত buffer; frequently used data রেখে performance বাড়ায়।
+- **SP এবং BP রেজিস্টার:** `SP` stack-এর top track করে; `BP` function frame-এর স্থির reference হিসেবে local data access সহজ করে।
+- **ফাংশন কলে স্ট্যাকের প্রয়োজন:** return address, function context, local variable isolation বজায় রাখতে stack অপরিহার্য।
+- **স্ক্রলিং কীভাবে কাজ করে:** coordinate shift calculate হয়, নতুন visible pixel data fetch হয়, তারপর frame redraw হয়।
+- **কার্সার ব্লিন্কিং:** timer event cursor visibility state পর্যায়ক্রমে toggle করে।
+- **প্রসেস বনাম থ্রেড:** process স্বাধীন memory space সহ program; thread process-এর execution unit, memory share করে।
+- **১০ কোর এবং প্যারালেলিজম:** ১০ physical core বাস্তব parallel execution দেয়; SMT থাকলে আরও logical thread একসাথে schedule হতে পারে।
+- **ডার্ট মেইন থ্রেড/ইভেন্ট লুপ:** main isolate event-driven; async কাজের সময় UI thread block হয় না।
+- **ডার্ট আইসোলেট:** isolate আলাদা memory-র execution unit; message passing দিয়ে যোগাযোগ করে।
+- **ডার্ট নেটওয়ার্ক কল:** non-blocking I/O path OS handle করে; response event হিসেবে ফিরে আসে।
+- **ব্যাকগ্রাউন্ড আইসোলেট:** heavy compute task offload করে UI smooth রাখে।
+- **Program Counter (PC):** next instruction-এর memory address ধরে।
+- **Instruction Register (IR):** current instruction সাময়িকভাবে ধরে।
+- **ALU (Arithmetic Logic Unit):** arithmetic ও logical operation execute করে।
+- **Control Unit (CU):** instruction decode করে data/control flow coordinate করে।
+- **Process:** own memory এবং resource সহ running program instance।
+- **Thread:** process-এর ভেতরের execution flow; shared memory ব্যবহার করে।
+- **Single Core:** এক সময়ে একটি execution stream; multitasking হয় context switch দিয়ে।
+- **Multi-core:** একাধিক core-এ সত্যিকারের parallel run সম্ভব।
+- **Context Switching:** OS এক task-এর state save করে দ্রুত অন্য task run করায়।
+- **PCB (Process Control Block):** process state, ID, register snapshot, scheduling info ধারণকারী OS data structure।
+- **RAM Code Segment:** executable instruction-এর অংশ।
+- **RAM Stack:** function call frame, local variable, return address storage।
+- **RAM Heap:** dynamic object allocation-এর এলাকা।
+- **Parallelism:** একাধিক core-এ বাস্তব simultaneous execution।
 
 ---
 
