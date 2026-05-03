@@ -1,558 +1,187 @@
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📘 CHAPTER 17 — Deployment
-# "PM2 + Railway + GitHub Actions — Production Live"
-# ⏱ ~90 মিনিট · Progress: [████████████████░] 88%
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### "12-Factor App থেকে Zero-Downtime — Production-এ যাওয়ার পথ"
+#### Progress: [██████████████████░] 90%
 
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc)
-
----
-
-## 📌 এই Chapter এ তুমি শিখবে
-
-- ✅ Winston logger setup
-- ✅ PM2 process manager
-- ✅ Health check endpoint
-- ✅ Railway deployment
-- ✅ Render deployment
-- ✅ GitHub Actions CI/CD pipeline
-- ✅ Environment variables management
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 16](./chapter-16-performance.md) | [➡ Ch 18](./chapter-18-full-project.md)
 
 ---
 
-## 🏗️ Real-life Analogy
+## Process Manager — কেন দরকার?
 
-> Deployment = রেস্টুরেন্ট open করা। Development = রান্না practice। PM2 = manager যে দোকান বন্ধ হতে দেয় না। Railway/Render = building rent।
+Node.js application `node app.js` দিয়ে চালালে:
+- Process crash করলে — application বন্ধ।
+- Server restart হলে — application বন্ধ।
+- Multiple CPU core ব্যবহার হয় না।
+- Logs manage হয় না।
 
----
+**PM2** (Process Manager 2) এই সমস্যাগুলো সমাধান করে।
 
-## 📋 Winston Logger
+**PM2-এর কাজ:**
 
-```bash
-npm install winston winston-daily-rotate-file
-```
+**Auto-restart:** Application crash করলে automatically restart।
 
-📄 File: `src/utils/logger.js` · 🎯 উদ্দেশ্য: Structured logging
+**Cluster Mode:** Node.js cluster module ব্যবহার করে সব CPU core-এ process চালানো। `pm2 start app.js -i max` — max হলো CPU count।
 
-```javascript
-const winston = require('winston');
-const DailyRotateFile = require('winston-daily-rotate-file');
-const path = require('path');
+**Log Management:** stdout এবং stderr file-এ। `pm2 logs` দিয়ে দেখা।
 
-const logFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.errors({ stack: true }),
-  winston.format.json()
-);
+**Startup Script:** `pm2 startup` — server restart-এ automatically PM2 শুরু।
 
-const consoleFormat = winston.format.combine(
-  winston.format.colorize(),
-  winston.format.timestamp({ format: 'HH:mm:ss' }),
-  winston.format.printf(({ timestamp, level, message, ...meta }) => {
-    const metaStr = Object.keys(meta).length ? JSON.stringify(meta, null, 2) : '';
-    return `${timestamp} [${level}] ${message} ${metaStr}`;
-  })
-);
-
-const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: logFormat,
-  transports: [
-    // Console (development)
-    ...(process.env.NODE_ENV !== 'production'
-      ? [new winston.transports.Console({ format: consoleFormat })]
-      : []
-    ),
-    // Error file
-    new DailyRotateFile({
-      filename: path.join('logs', 'error-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      level: 'error',
-      maxSize: '20m',
-      maxFiles: '14d',
-      zippedArchive: true,
-    }),
-    // Combined file
-    new DailyRotateFile({
-      filename: path.join('logs', 'combined-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
-      maxFiles: '30d',
-      zippedArchive: true,
-    }),
-  ],
-  exceptionHandlers: [
-    new DailyRotateFile({
-      filename: path.join('logs', 'exceptions-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-    }),
-  ],
-  rejectionHandlers: [
-    new DailyRotateFile({
-      filename: path.join('logs', 'rejections-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-    }),
-  ],
-});
-
-// HTTP request logger (Morgan replacement)
-const httpLogger = (req, res, next) => {
-  const start = Date.now();
-
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    const logData = {
-      method: req.method,
-      url: req.originalUrl,
-      status: res.statusCode,
-      duration: `${duration}ms`,
-      ip: req.ip,
-      userAgent: req.get('User-Agent'),
-    };
-
-    if (req.user) logData.userId = req.user.id;
-
-    if (res.statusCode >= 500) {
-      logger.error('HTTP Request', logData);
-    } else if (res.statusCode >= 400) {
-      logger.warn('HTTP Request', logData);
-    } else {
-      logger.info('HTTP Request', logData);
-    }
-  });
-
-  next();
-};
-
-module.exports = { logger, httpLogger };
-```
+**Monitoring:** `pm2 monit` — CPU, memory, request count real-time।
 
 ---
 
-## 🏥 Health Check Endpoint
+## 12-Factor App Methodology
 
-📄 File: `src/routes/health.routes.js` · 🎯 উদ্দেশ্য: Health check
+Heroku-এর engineers 12-Factor App methodology তৈরি করেছেন — modern, scalable, maintainable application-এর 12টা principle।
 
-```javascript
-const router = require('express').Router();
-const prisma = require('../config/prisma');
-const mongoose = require('mongoose');
-const redis = require('../config/redis.config');
-const { logger } = require('../utils/logger');
+**1. Codebase:** একটা codebase, অনেক deploy। Git-এ সব।
 
-router.get('/', async (req, res) => {
-  const checks = {
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    uptime: `${Math.floor(process.uptime())}s`,
-    environment: process.env.NODE_ENV,
-    version: process.env.npm_package_version,
-    services: {},
-  };
+**2. Dependencies:** সব dependency explicit — `package.json`-এ। System-level package ধরে নেওয়া যাবে না।
 
-  // PostgreSQL check
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    checks.services.postgresql = { status: 'ok' };
-  } catch (e) {
-    checks.services.postgresql = { status: 'error', message: e.message };
-    checks.status = 'degraded';
-  }
+**3. Config:** Configuration environment variable-এ। Code-এ hardcode নয়। Development, staging, production-এ আলাদা `.env`।
 
-  // MongoDB check
-  try {
-    checks.services.mongodb = {
-      status: mongoose.connection.readyState === 1 ? 'ok' : 'error',
-      state: mongoose.STATES[mongoose.connection.readyState],
-    };
-    if (mongoose.connection.readyState !== 1) checks.status = 'degraded';
-  } catch (e) {
-    checks.services.mongodb = { status: 'error', message: e.message };
-    checks.status = 'degraded';
-  }
+**4. Backing Services:** Database, Redis, email — treat as attached resource। URL পরিবর্তন করে swap করা যাবে।
 
-  // Redis check
-  try {
-    await redis.ping();
-    checks.services.redis = { status: 'ok' };
-  } catch (e) {
-    checks.services.redis = { status: 'error', message: e.message };
-    // Redis down হলেও degraded (not down)
-    if (checks.status === 'ok') checks.status = 'degraded';
-  }
+**5. Build, Release, Run:** Build (code compile) → Release (config inject) → Run। আলাদা stage।
 
-  // Memory usage
-  const mem = process.memoryUsage();
-  checks.memory = {
-    heapUsed: `${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
-    heapTotal: `${Math.round(mem.heapTotal / 1024 / 1024)}MB`,
-    rss: `${Math.round(mem.rss / 1024 / 1024)}MB`,
-  };
+**6. Processes:** Stateless processes। Application state shared memory-তে নয় — Redis, database-এ।
 
-  const httpStatus = checks.status === 'ok' ? 200 : checks.status === 'degraded' ? 207 : 503;
-  res.status(httpStatus).json(checks);
-});
+**7. Port Binding:** App নিজে port-এ listen — web server (Apache/Nginx) dependency নেই।
 
-// Simple liveness probe (Kubernetes/Railway)
-router.get('/live', (req, res) => {
-  res.status(200).json({ status: 'alive' });
-});
+**8. Concurrency:** Process model দিয়ে scale।
 
-// Readiness probe
-router.get('/ready', async (req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.status(200).json({ status: 'ready' });
-  } catch {
-    res.status(503).json({ status: 'not ready' });
-  }
-});
+**9. Disposability:** Fast startup, graceful shutdown। Horizontal scaling সহজ।
 
-module.exports = router;
-```
+**10. Dev/Prod Parity:** Development এবং production যতটা সম্ভব similar। "Works on my machine" problem কমে।
+
+**11. Logs:** Event stream হিসেবে treat করো। App log file-এ না লিখে stdout-এ। Aggregation আলাদা সিস্টেমের কাজ।
+
+**12. Admin Processes:** One-off admin task (database migration) — same codebase, same environment।
 
 ---
 
-## ⚙️ PM2 Process Manager
+## CI/CD Philosophy
 
-```bash
-npm install pm2 -g
-```
+**CI (Continuous Integration):**
 
-📄 File: `ecosystem.config.js` · 🎯 উদ্দেশ্য: PM2 configuration
+Developer code push করলে automatically:
+- Tests run।
+- Linting check।
+- Build করা।
 
-```javascript
-module.exports = {
-  apps: [
-    {
-      name: 'myshop-api',
-      script: './src/index.js',
-      instances: 'max',        // CPU count অনুযায়ী instances
-      exec_mode: 'cluster',    // Cluster mode
-      watch: false,
-      max_memory_restart: '512M',
-      env: {
-        NODE_ENV: 'development',
-        PORT: 3000,
-      },
-      env_production: {
-        NODE_ENV: 'production',
-        PORT: 3000,
-      },
-      error_file: './logs/pm2-error.log',
-      out_file: './logs/pm2-out.log',
-      merge_logs: true,
-      log_date_format: 'YYYY-MM-DD HH:mm:ss',
-      // Graceful restart
-      kill_timeout: 5000,
-      wait_ready: true,
-      listen_timeout: 10000,
-      // Auto restart on crash
-      autorestart: true,
-      max_restarts: 10,
-      restart_delay: 4000,
-    },
-  ],
-};
-```
+Code দ্রুত integrate হয় — long-lived branch এড়ানো যায়। Bug early detect।
 
-```bash
-# PM2 commands
-pm2 start ecosystem.config.js --env production
-pm2 status
-pm2 logs myshop-api
-pm2 restart myshop-api
-pm2 stop myshop-api
-pm2 delete myshop-api
-pm2 save                     # Startup-এ auto start
-pm2 startup                  # System startup config generate
-```
+**CD (Continuous Delivery):**
+
+CI pass করলে automatically staging-এ deploy। Production deployment manual trigger।
+
+**CD (Continuous Deployment):**
+
+Tests pass করলে automatically production-এও deploy। High confidence test suite দরকার।
+
+**Pipeline:**
+
+Push → Build → Test → Staging Deploy → Manual Approve → Production Deploy।
 
 ---
 
-## 🚂 Railway Deployment
+## Blue-Green Deployment
 
-```bash
-# Railway CLI install
-npm install -g @railway/cli
+Zero-downtime deployment-এর একটা strategy।
 
-# Login
-railway login
+**Blue environment:** Current production।
 
-# New project
-railway init
+**Green environment:** New version deploy।
 
-# Link existing project
-railway link
+Green ready হলে load balancer traffic blue থেকে green-এ switch। Instant। Bug হলে load balancer আবার blue-এ — instant rollback।
+
+কিন্তু: দুটো environment চালানো expensive। Database migration সমস্যা — blue এবং green একই database ব্যবহার করলে migration backward compatible হতে হবে।
+
+---
+
+## Environment Promotion
+
+**Dev → Staging → Production।**
+
+**Development:** Local। Developer নিজের machine।
+
+**Staging:** Production-এর mirror। Real data-এর মতো (sanitized) test। Final QA এখানে। External stakeholder demo।
+
+**Production:** Real users।
+
+প্রতিটা environment আলাদা database, আলাদা config। Code staging-এ tested হয়ে তারপর production-এ।
+
+---
+
+## Structured Logging
+
+Application log হলো application-এর "কথা" — কী ঘটছে।
+
+**Plain Text Log:**
+
+```
+2024-01-15 10:30:45 - User logged in: alice@example.com
 ```
 
-📄 File: `railway.toml` · 🎯 উদ্দেশ্য: Railway config
+Parse করা কঠিন। Filter করা কঠিন।
 
-```toml
-[build]
-builder = "NIXPACKS"
-buildCommand = "npm install && npx prisma generate"
-
-[deploy]
-startCommand = "npm start"
-healthcheckPath = "/health"
-healthcheckTimeout = 300
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 3
-
-[[services]]
-name = "api"
-
-[services.variables]
-PORT = "3000"
-```
-
-📄 File: `package.json` (production start)
+**Structured Log (JSON):**
 
 ```json
 {
-  "scripts": {
-    "start": "node src/index.js",
-    "start:prod": "NODE_ENV=production node src/index.js",
-    "dev": "nodemon src/index.js",
-    "postinstall": "npx prisma generate"
-  }
+  "timestamp": "2024-01-15T10:30:45Z",
+  "level": "info",
+  "message": "User logged in",
+  "userId": 123,
+  "requestId": "abc-123"
 }
 ```
 
-Railway-তে Environment Variables set করো:
-```
-DATABASE_URL=postgresql://...
-MONGODB_URI=mongodb+srv://...
-JWT_ACCESS_SECRET=...
-JWT_REFRESH_SECRET=...
-CLOUDINARY_CLOUD_NAME=...
-```
+Machine-readable। Filter, search, aggregate সহজ। Datadog, Elasticsearch-এ পাঠানো সহজ।
+
+**Log Levels:**
+
+`error` — Fix দরকার। Alert।
+`warn` — Attention দরকার। Monitor।
+`info` — Normal operations। Audit।
+`debug` — Verbose। Development-এ।
+
+Production-এ debug log disable — too noisy এবং sensitive data।
 
 ---
 
-## 🎨 Render Deployment
+## Health Checks
 
-📄 File: `render.yaml` · 🎯 উদ্দেশ্য: Render.com config
+Load balancer এবং orchestration system (Kubernetes) জানতে চায় application healthy কিনা।
 
-```yaml
-services:
-  - type: web
-    name: myshop-api
-    env: node
-    region: oregon
-    plan: starter
-    buildCommand: npm install && npx prisma generate
-    startCommand: npm start
-    healthCheckPath: /health
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        fromDatabase:
-          name: myshop-db
-          property: connectionString
-      - key: JWT_ACCESS_SECRET
-        generateValue: true
-      - key: JWT_REFRESH_SECRET
-        generateValue: true
+**Liveness Check:** Application জীবিত কিনা। `GET /health` — 200 OK মানে alive। Fail করলে restart।
 
-databases:
-  - name: myshop-db
-    databaseName: myshop
-    user: myshop_user
-    plan: starter
-```
+**Readiness Check:** Application request serve করতে ready কিনা। Database connection আছে কিনা, migrations run হয়েছে কিনা। Fail করলে traffic পাঠানো বন্ধ — কিন্তু restart নয়।
+
+**Deep Health Check:** Database, Redis, external API সব dependency check করা।
 
 ---
 
-## 🔄 GitHub Actions CI/CD
+## Zero-Downtime Deployment
 
-📄 File: `.github/workflows/deploy.yml` · 🎯 উদ্দেশ্য: Auto deploy on push
+Rolling Update: নতুন version একটা একটা করে instance deploy। সব instances একসাথে নামে না। কিছুটা সময় পুরনো এবং নতুন version একসাথে চলে — API backward compatible হতে হবে।
 
-```yaml
-name: CI/CD Pipeline
+**Graceful Shutdown:**
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
+SIGTERM signal পেলে (Kubernetes বা PM2 থেকে):
+1. নতুন request accept বন্ধ।
+2. Current request process শেষ (timeout-এর মধ্যে)।
+3. Database connection close।
+4. Process exit।
 
-jobs:
-  # ============================================
-  # CI — Test
-  # ============================================
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: ecommerce_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      mongodb:
-        image: mongo:7
-        ports:
-          - 27017:27017
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate Prisma client
-        run: npx prisma generate
-
-      - name: Run migrations
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ecommerce_test
-
-      - name: Run tests
-        run: npm test
-        env:
-          NODE_ENV: test
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ecommerce_test
-          MONGODB_URI: mongodb://localhost:27017/ecommerce_test
-          JWT_ACCESS_SECRET: test_access_secret_minimum_32_chars_long
-          JWT_REFRESH_SECRET: test_refresh_secret_minimum_32_chars_long
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v4
-        if: github.ref == 'refs/heads/main'
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-  # ============================================
-  # CD — Deploy (main branch only)
-  # ============================================
-  deploy:
-    name: Deploy to Railway
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Deploy to Railway
-        run: railway up --service myshop-api
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-      - name: Notify deployment
-        if: success()
-        run: echo "Deployed successfully to Railway!"
-```
+এটা না করলে in-flight request fail করবে।
 
 ---
 
-## 🔒 Environment Variables (.env template)
+## মূল উপলব্ধি
 
-📄 File: `.env.example` · 🎯 উদ্দেশ্য: Template for setup
-
-```dotenv
-# App
-NODE_ENV=development
-PORT=3000
-API_VERSION=v1
-FRONTEND_URL=http://localhost:3001
-
-# PostgreSQL
-DATABASE_URL=postgresql://postgres:password@localhost:5432/ecommerce_dev
-
-# MongoDB
-MONGODB_URI=mongodb://localhost:27017/ecommerce_dev
-
-# Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=
-
-# JWT
-JWT_ACCESS_SECRET=your_very_long_random_access_secret_here_min_32_chars
-JWT_REFRESH_SECRET=your_very_long_random_refresh_secret_here_min_32_chars
-JWT_ACCESS_EXPIRES_IN=15m
-JWT_REFRESH_EXPIRES_IN=7d
-
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
-# Email (Gmail)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your@gmail.com
-EMAIL_PASS=your_app_password
-
-# Logging
-LOG_LEVEL=info
-```
+Deployment শুধু `git push` নয় — এটা একটা disciplined process। 12-Factor App principles শিখলে cloud-native application তৈরি হয়। CI/CD automation করলে deployment ভয়হীন হয়। Structured log এবং health check ছাড়া production debugging অন্ধকারে হাতড়ানো।
 
 ---
 
-## 📊 Deployment Checklist
-
-```
-✅ Production checklist:
-  □ NODE_ENV=production set
-  □ All secrets in environment variables (not code)
-  □ .env ফাইল .gitignore-এ আছে
-  □ HTTPS enabled (hosting provider করে)
-  □ Database connection pooling set
-  □ Redis connection error handling
-  □ PM2 cluster mode OR hosting auto-scale
-  □ Health check endpoint working
-  □ Logs rotation configured
-  □ Error monitoring (Sentry optional)
-  □ Database backups configured
-  □ Rate limiting enabled
-  □ CORS configured for production domain
-```
-
----
-
-## ✅ Chapter Summary
-
-```
-╔══════════════════════════════════════════════════════╗
-║  ✅ Chapter 17 — তুমি শিখলে                         ║
-╠══════════════════════════════════════════════════════╣
-║  • Winston structured logging                       ║
-║  • Health check: /health, /health/live, /ready      ║
-║  • PM2: cluster mode, ecosystem.config.js           ║
-║  • Railway deployment: railway.toml                 ║
-║  • Render deployment: render.yaml                   ║
-║  • GitHub Actions: test + deploy pipeline           ║
-║  • Environment variables management                 ║
-║  • Production deployment checklist                  ║
-╚══════════════════════════════════════════════════════╝
-```
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc) | [⬅ Chapter 16](./chapter-16-performance.md) | [➡ Chapter 18](./chapter-18-full-project.md)
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 16](./chapter-16-performance.md) | [➡ Ch 18](./chapter-18-full-project.md)

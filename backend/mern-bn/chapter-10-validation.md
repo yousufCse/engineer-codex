@@ -1,498 +1,115 @@
+# 📘 CHAPTER 10 — Validation ও Input Handling
+### "Boundary-তে রক্ষা — Defense in Depth"
+#### Progress: [███████████░░░░░░░░] 55%
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 📘 CHAPTER 10 — Validation & Error Handling
-# "Bad Input থেকে App রক্ষা করো"
-# ⏱ ~90 মিনিট · Progress: [██████████] 55%
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc)
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 9](./chapter-09-auth.md) | [➡ Ch 11](./chapter-11-security.md)
 
 ---
 
-## 📌 এই Chapter এ তুমি শিখবে
+## কেন Validate করতে হবে?
 
-- ✅ express-validator দিয়ে input validation
-- ✅ Custom validators ও sanitizers
-- ✅ AppError class hierarchy
-- ✅ Global error handler — সব errors catch করে
-- ✅ Async error wrapper
-- ✅ Unhandled rejection ও uncaught exception handle
+"Never trust user input" — backend security-র মূল নীতি। Client-side (browser) validation শুধু UX-এর জন্য — security-র জন্য নয়। যে কেউ Postman বা curl দিয়ে সরাসরি API call করতে পারে, browser-এর validation bypass করতে পারে।
 
----
-
-## 🏗️ Real-life Analogy
-
-> Input validation = restaurant-এ order নেওয়ার সময় waiter confirm করে: "আপনি কি সত্যিই এটা চাইছেন?" — ভুল order kitchen-এ যাওয়ার আগেই ধরা পড়ে।
->
-> Error handling = kitchen-এ কিছু ভুল হলে manager professionally handle করে, customer-কে আতঙ্কিত না করে।
+Server-side validation ছাড়া:
+- Invalid data database-এ যাবে — data integrity নষ্ট।
+- SQL Injection, XSS, Buffer Overflow সম্ভব।
+- Application crash করতে পারে অপ্রত্যাশিত input-এ।
 
 ---
 
-## 🗺️ Validation Pipeline
+## Defense in Depth
 
-```mermaid
-graph LR
-    A["Request"] --> B["Validation Middleware\n(express-validator)"]
-    B -->|Invalid| C["400 Bad Request\n(error details)"]
-    B -->|Valid| D["Controller"]
-    D -->|Business Logic Error| E["AppError\n(custom)"]
-    D -->|DB Error| F["Prisma/Mongoose\nError Handler"]
-    D -->|Unexpected| G["500 Internal\nServer Error"]
-    E & F & G --> H["Global Error\nHandler"]
-    H --> I["Formatted Error\nResponse"]
-```
+Security-র একটা প্রধান principle হলো Defense in Depth — একাধিক স্তরে রক্ষা। শুধু একটা স্তর ভেঙে গেলে সব শেষ — এই পরিস্থিতি এড়ানো।
 
----
+Validation-এর স্তর:
+1. **Client-side:** দ্রুত feedback, bandwidth save। Security নয়।
+2. **API Gateway/Load Balancer:** Rate limiting, basic request filtering।
+3. **Application/Controller:** Business logic validation।
+4. **Service/Domain:** Business rule enforcement।
+5. **Database:** Constraints, data type enforcement।
 
-## 📦 Installation
-
-```bash
-npm install express-validator
-```
+প্রতিটা স্তর independent — একটা ব্যর্থ হলে পরেরটা রক্ষা করবে।
 
 ---
 
-## ✅ Validation Middleware
+## Input Validation vs Data Sanitization
 
-📄 File: `src/middleware/validation.middleware.js` · 🎯 উদ্দেশ্য: Express-validator error handler
+**Input Validation:** Input কি expected format, type, range-এ আছে? যদি না থাকে, reject করো। Binary decision — valid অথবা invalid।
 
-```javascript
-const { validationResult, body, param, query } = require('express-validator');
-const { AppError } = require('./error.middleware');
+**Data Sanitization:** Input-এ dangerous content থাকলে সেটা remove বা escape করা। User-এর HTML input-এ `<script>` tag থাকলে escape করা।
 
-// ============================================
-// Validation Error Handler
-// ============================================
-const validateRequest = (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    const formattedErrors = errors.array().map((err) => ({
-      field: err.path,
-      message: err.msg,
-      value: err.value,
-    }));
-
-    return res.status(400).json({
-      success: false,
-      message: 'Validation failed',
-      errors: formattedErrors,
-    });
-  }
-
-  next();
-};
-
-// ============================================
-// Common Validators (reusable)
-// ============================================
-const validators = {
-  // Email
-  email: () =>
-    body('email')
-      .trim()
-      .notEmpty().withMessage('Email is required')
-      .isEmail().withMessage('Valid email address required')
-      .normalizeEmail(),
-
-  // Password
-  password: (field = 'password') =>
-    body(field)
-      .notEmpty().withMessage('Password is required')
-      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/)
-      .withMessage('Password must have uppercase, lowercase, number, and special character'),
-
-  // ID param
-  mongoId: (paramName = 'id') =>
-    param(paramName)
-      .isMongoId()
-      .withMessage(`Invalid ${paramName} format`),
-
-  postgresId: (paramName = 'id') =>
-    param(paramName)
-      .isInt({ min: 1 })
-      .withMessage(`${paramName} must be a positive integer`)
-      .toInt(),
-
-  // Pagination
-  pagination: () => [
-    query('page')
-      .optional()
-      .isInt({ min: 1 })
-      .withMessage('Page must be a positive integer')
-      .toInt(),
-    query('limit')
-      .optional()
-      .isInt({ min: 1, max: 100 })
-      .withMessage('Limit must be between 1 and 100')
-      .toInt(),
-  ],
-
-  // Price
-  price: (field = 'price') =>
-    body(field)
-      .isFloat({ min: 0.01 })
-      .withMessage(`${field} must be a positive number`)
-      .toFloat(),
-
-  // URL
-  imageUrl: (field = 'imageUrl') =>
-    body(field)
-      .optional()
-      .isURL({ protocols: ['http', 'https'] })
-      .withMessage(`${field} must be a valid URL`),
-};
-
-// ============================================
-// Product Validation Rules
-// ============================================
-const productValidators = {
-  create: [
-    body('name')
-      .trim()
-      .notEmpty().withMessage('Product name is required')
-      .isLength({ min: 2, max: 255 }).withMessage('Name must be 2-255 characters'),
-
-    body('sku')
-      .trim()
-      .notEmpty().withMessage('SKU is required')
-      .isAlphanumeric('en-US', { ignore: '-_' }).withMessage('SKU must be alphanumeric (hyphens/underscores allowed)')
-      .isLength({ max: 100 }).withMessage('SKU cannot exceed 100 characters')
-      .toUpperCase(),
-
-    body('slug')
-      .trim()
-      .notEmpty().withMessage('Slug is required')
-      .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).withMessage('Slug must be lowercase with hyphens only')
-      .isLength({ max: 255 }),
-
-    validators.price('price'),
-
-    body('comparePrice')
-      .optional()
-      .isFloat({ min: 0 })
-      .withMessage('Compare price must be positive')
-      .toFloat(),
-
-    body('stock')
-      .optional()
-      .isInt({ min: 0 }).withMessage('Stock must be non-negative integer')
-      .toInt(),
-
-    body('categoryId')
-      .optional()
-      .isInt({ min: 1 }).withMessage('Valid category ID required')
-      .toInt(),
-  ],
-
-  update: [
-    param('id').isInt({ min: 1 }).withMessage('Valid product ID required').toInt(),
-    body('price').optional().isFloat({ min: 0.01 }).toFloat(),
-    body('stock').optional().isInt({ min: 0 }).toInt(),
-  ],
-};
-
-// ============================================
-// Review Validation Rules
-// ============================================
-const reviewValidators = {
-  create: [
-    body('rating')
-      .isInt({ min: 1, max: 5 })
-      .withMessage('Rating must be between 1 and 5')
-      .toInt(),
-    body('title')
-      .optional()
-      .trim()
-      .isLength({ max: 255 }).withMessage('Title cannot exceed 255 characters'),
-    body('comment')
-      .optional()
-      .trim()
-      .isLength({ max: 2000 }).withMessage('Comment cannot exceed 2000 characters'),
-  ],
-};
-
-// ============================================
-// Address Validation Rules
-// ============================================
-const addressValidators = {
-  create: [
-    body('street').trim().notEmpty().withMessage('Street is required'),
-    body('city').trim().notEmpty().withMessage('City is required'),
-    body('postalCode')
-      .trim()
-      .notEmpty().withMessage('Postal code is required')
-      .isLength({ max: 20 }),
-    body('country').optional().trim().isLength({ max: 100 }),
-    body('label').optional().trim().isLength({ max: 50 }),
-  ],
-};
-
-module.exports = {
-  validateRequest,
-  validators,
-  productValidators,
-  reviewValidators,
-  addressValidators,
-};
-```
+দুটো আলাদা কাজ — validation fail করলে reject, sanitization input নিয়ে safe করে।
 
 ---
 
-## ⚠️ AppError Class
+## Whitelist vs Blacklist Approach
 
-📄 File: `src/middleware/error.middleware.js` · 🎯 উদ্দেশ্য: Custom error class + global handler
+**Blacklist:** জানা dangerous input reject করা। "এই তালিকার বাইরে সব allow।"
 
-```javascript
-// ============================================
-// AppError — Custom Error Class
-// ============================================
-class AppError extends Error {
-  constructor(message, statusCode, code = null) {
-    super(message);
-    this.statusCode = statusCode;
-    this.status = statusCode >= 400 && statusCode < 500 ? 'fail' : 'error';
-    this.isOperational = true;  // Known/expected errors
-    this.code = code;
+সমস্যা: Attacker নতুন technique বের করলে blacklist-এ নেই — bypass সম্ভব। `<SCRIPT>`, `<ScRiPt>`, `&#x3C;script&#x3E;` সব এড়ানো কঠিন।
 
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
+**Whitelist:** শুধু expected, known-good input allow। "এই তালিকায় থাকলেই allow।"
 
-// ============================================
-// Async Error Wrapper
-// ============================================
-const catchAsync = (fn) => {
-  return (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
-};
+অনেক বেশি secure। Email validation-এ email regex check করা whitelist approach।
 
-// ============================================
-// Error Handlers
-// ============================================
-const handlePrismaError = (error) => {
-  switch (error.code) {
-    case 'P2002': {
-      // Unique constraint violation
-      const field = error.meta?.target?.[0] || 'field';
-      return new AppError(`${field} already exists`, 409, 'DUPLICATE_FIELD');
-    }
-    case 'P2025': {
-      // Record not found
-      return new AppError('Record not found', 404, 'NOT_FOUND');
-    }
-    case 'P2003': {
-      // Foreign key constraint
-      return new AppError('Related record not found', 400, 'FOREIGN_KEY_ERROR');
-    }
-    case 'P2014': {
-      // Relation violation
-      return new AppError('Relation constraint violation', 400, 'RELATION_ERROR');
-    }
-    default:
-      return new AppError(`Database error: ${error.message}`, 500);
-  }
-};
-
-const handleMongooseError = (error) => {
-  if (error.name === 'ValidationError') {
-    const messages = Object.values(error.errors).map((e) => e.message);
-    return new AppError(messages.join(', '), 400, 'VALIDATION_ERROR');
-  }
-  if (error.code === 11000) {
-    const field = Object.keys(error.keyValue)[0];
-    return new AppError(`${field} already exists`, 409, 'DUPLICATE_FIELD');
-  }
-  if (error.name === 'CastError') {
-    return new AppError(`Invalid ${error.path}: ${error.value}`, 400, 'CAST_ERROR');
-  }
-  return error;
-};
-
-const handleJWTError = (error) => {
-  if (error.name === 'JsonWebTokenError') {
-    return new AppError('Invalid token', 401, 'TOKEN_INVALID');
-  }
-  if (error.name === 'TokenExpiredError') {
-    return new AppError('Token expired', 401, 'TOKEN_EXPIRED');
-  }
-  return error;
-};
-
-// ============================================
-// Global Error Handler Middleware
-// ============================================
-const globalErrorHandler = (err, req, res, next) => {
-  let error = { ...err, message: err.message };
-
-  // Prisma errors
-  if (error.code && error.code.startsWith('P')) {
-    error = handlePrismaError(error);
-  }
-
-  // Mongoose errors
-  if (
-    error.name === 'ValidationError' ||
-    error.code === 11000 ||
-    error.name === 'CastError'
-  ) {
-    error = handleMongooseError(error);
-  }
-
-  // JWT errors
-  if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
-    error = handleJWTError(error);
-  }
-
-  // SyntaxError — malformed JSON body
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    error = new AppError('Invalid JSON in request body', 400, 'INVALID_JSON');
-  }
-
-  const statusCode = error.statusCode || 500;
-  const status = error.status || 'error';
-
-  // Development — detailed error
-  if (process.env.NODE_ENV === 'development') {
-    return res.status(statusCode).json({
-      success: false,
-      status,
-      message: error.message,
-      code: error.code || null,
-      stack: error.stack,
-      error,
-    });
-  }
-
-  // Production — operational errors only
-  if (error.isOperational) {
-    return res.status(statusCode).json({
-      success: false,
-      status,
-      message: error.message,
-      code: error.code || null,
-    });
-  }
-
-  // Unknown errors — don't leak details in production
-  console.error('💥 UNEXPECTED ERROR:', err);
-  return res.status(500).json({
-    success: false,
-    status: 'error',
-    message: 'Something went wrong. Please try again.',
-  });
-};
-
-// ============================================
-// Unhandled Rejection & Exception Handlers
-// ============================================
-const handleUnhandledRejection = (server) => {
-  process.on('unhandledRejection', (reason, promise) => {
-    console.error('🔴 UNHANDLED REJECTION:', reason);
-    server.close(() => {
-      process.exit(1);
-    });
-  });
-};
-
-const handleUncaughtException = () => {
-  process.on('uncaughtException', (err) => {
-    console.error('🔴 UNCAUGHT EXCEPTION:', err);
-    process.exit(1);
-  });
-};
-
-module.exports = {
-  AppError,
-  catchAsync,
-  globalErrorHandler,
-  handleUnhandledRejection,
-  handleUncaughtException,
-};
-```
+Validation-এ সবসময় whitelist approach prefer করতে হয়।
 
 ---
 
-## 🎯 ApiResponse Utility
+## কোথায় Validate করবেন?
 
-📄 File: `src/utils/ApiResponse.js` · 🎯 উদ্দেশ্য: Consistent API response format
+**Client-side:** UX-এর জন্য। Immediate feedback — form submit-এর আগেই error দেখানো। Network request কমানো।
 
-```javascript
-class ApiResponse {
-  static success(res, data = null, message = 'Success') {
-    return res.status(200).json({
-      success: true,
-      message,
-      data,
-    });
-  }
+**Server-side:** Security-র জন্য। সবসময় করতে হবে। Client-side bypass করলেও server block করবে।
 
-  static created(res, data = null, message = 'Created successfully') {
-    return res.status(201).json({
-      success: true,
-      message,
-      data,
-    });
-  }
+**Database-level:** Last line of defense। Constraint violation হলে error throw হয়।
 
-  static noContent(res) {
-    return res.status(204).send();
-  }
-
-  static paginated(res, data, pagination) {
-    return res.status(200).json({
-      success: true,
-      data,
-      pagination,
-    });
-  }
-
-  static error(res, message = 'Something went wrong', statusCode = 500) {
-    return res.status(statusCode).json({
-      success: false,
-      message,
-    });
-  }
-}
-
-module.exports = ApiResponse;
-```
+উত্তর: তিন জায়গায়ই — প্রতিটার আলাদা উদ্দেশ্য।
 
 ---
 
-## 🏋️ Exercise
+## Schema Validation Philosophy
 
-**কাজ: এই route-এ সম্পূর্ণ validation যোগ করো:**
+Schema validation মানে data structure-কে একটা schema-র বিপরীতে validate করা। Schema বলে দেয় কোন field আছে, কী type, কোনটা required, কী constraint।
 
-```javascript
-// POST /api/orders — Create order
-// Validate:
-//   - items: array, min 1 item
-//   - items[].productId: valid integer
-//   - items[].quantity: integer >= 1
-//   - addressId: valid integer
-//   - notes: optional string max 500 chars
-```
+**Joi:** Hapi.js দলের তৈরি। Expressive, powerful. Fluent API। String, number, date, array, object সব ধরনের complex validation।
+
+**Zod:** TypeScript-first। Schema থেকে TypeScript type infer হয়। Type-safe validation।
+
+**Yup:** React community-তে popular। Formik-এর সাথে ভালো কাজ করে।
+
+Schema validation centralize করা ভালো — validation logic এক জায়গায়, controller-এ না ছড়িয়ে।
 
 ---
 
-## ✅ Chapter Summary
+## Pagination, Filtering — Input Handling
 
-```
-╔══════════════════════════════════════════════════════╗
-║  ✅ Chapter 10 — তুমি শিখলে                         ║
-╠══════════════════════════════════════════════════════╣
-║  • express-validator: body/param/query validators   ║
-║  • Custom validators ও sanitizers                  ║
-║  • validateRequest middleware                       ║
-║  • AppError custom class                            ║
-║  • catchAsync wrapper                               ║
-║  • Global error handler — Prisma/Mongoose/JWT       ║
-║  • Unhandled rejection handler                      ║
-║  • Consistent ApiResponse format                    ║
-╚══════════════════════════════════════════════════════╝
-```
+Query parameter থেকে আসা `page`, `limit`, `sort`, `filter` validate করতে হবে।
 
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc) | [⬅ Chapter 9](./chapter-09-auth.md) | [➡ Chapter 11](./chapter-11-security.md)
+**page এবং limit:** Integer হওয়া উচিত, positive। Maximum limit enforce করতে হবে — `limit=999999` দিলে database-এ কত load!
+
+**sort field:** Whitelist approach — শুধু allowed field-এ sort করতে দেওয়া। Arbitrary field-এ sort performance issue করতে পারে।
+
+**filter values:** Type check করতে হবে। String injection এড়াতে parameterized query বা ORM।
+
+---
+
+## Error Message Design — Security vs Usability
+
+Validation error message দুটো পরস্পরবিরোধী চাহিদার মাঝে:
+
+**Usability:** User-কে বলো ঠিক কোথায় কী ভুল — "Email format সঠিক নয়।" Developer-কে বলো কী ঠিক করতে হবে।
+
+**Security:** Attacker-কে system information দেওয়া উচিত নয়। "User found but password incorrect" বললে attacker জানে username valid। বরং: "Invalid credentials।"
+
+নিয়ম: Validation error (format, required) — specific message। Authentication error — generic message। Internal server error — generic message, log করো।
+
+---
+
+## মূল উপলব্ধি
+
+Validation হলো application-এর boundary রক্ষা। Server-side validation কখনো optional নয় — এটা mandatory security measure। Whitelist approach, schema validation, এবং Defense in Depth মিলে robust validation layer তৈরি হয়। Error message security-র সাথে usability balance করতে হয়।
+
+---
+
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 9](./chapter-09-auth.md) | [➡ Ch 11](./chapter-11-security.md)

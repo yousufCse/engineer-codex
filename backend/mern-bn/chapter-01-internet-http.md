@@ -1,690 +1,228 @@
+# 📘 CHAPTER 1 — Internet ও HTTP
+### "ইন্টারনেট কীভাবে কাজ করে — মূলনীতি থেকে HTTP পর্যন্ত"
+#### Progress: [██░░░░░░░░░░░░░░░░░] 10%
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 📘 CHAPTER 1 — Internet & HTTP
-# "ডেটা কীভাবে যাতায়াত করে — পর্দার আড়ালের গল্প"
-# ⏱ ~60 মিনিট · Progress: [██░░░░░░░░] 10%
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc)
+[⬆ TOC](./table-of-contents.md) | [⬅ Chapter 0](./chapter-00-environment-setup.md) | [➡ Chapter 2](./chapter-02-javascript-backend.md)
 
 ---
 
-## 📌 এই Chapter এ তুমি শিখবে
+## ইন্টারনেট কী — মৌলিক ধারণা
 
-- ✅ Client-Server architecture কী ও কীভাবে কাজ করে
-- ✅ HTTP কী — Request ও Response এর structure
-- ✅ HTTP Methods: GET, POST, PUT, PATCH, DELETE
-- ✅ HTTP Status Codes: 2xx, 3xx, 4xx, 5xx
-- ✅ HTTP Headers কী ও কেন দরকার
-- ✅ REST API এর ৬টি নীতি
-- ✅ JSON format ও parsing
-- ✅ HTTPS কীভাবে SSL/TLS দিয়ে data সুরক্ষিত রাখে
+ইন্টারনেট হলো পৃথিবীজুড়ে পরস্পর সংযুক্ত কম্পিউটারের একটা বিশাল নেটওয়ার্ক। এটা কোনো একটা কোম্পানির মালিকানা নয়, কোনো একটা কেন্দ্রীয় সার্ভার নেই। এটা হলো একটা বিকেন্দ্রীভূত (decentralized) সিস্টেম যেখানে হাজারো ভিন্ন নেটওয়ার্ক একসাথে কাজ করে।
+
+ইন্টারনেটের মূল ভিত্তি হলো **packet switching**। ডেটা পাঠানোর সময় সেটাকে ছোট ছোট packet-এ ভেঙে পাঠানো হয়। প্রতিটা packet আলাদাভাবে গন্তব্যে পৌঁছায় এবং সেখানে গিয়ে পুনরায় জোড়া লাগে। কোনো একটা রাস্তা বন্ধ থাকলে packet অন্য পথে যেতে পারে — এটাই ইন্টারনেটকে ব্যর্থতা-প্রতিরোধী (fault-tolerant) করে।
 
 ---
 
-## 🏗️ Real-life Analogy
+## OSI Model — নেটওয়ার্কের স্তরীয় কাঠামো
 
-> তুমি রেস্তোরাঁয় গিয়ে waiter-কে order দাও। Waiter রান্নাঘরে যায়, রান্না হয়, Waiter ফিরে আসে খাবার নিয়ে।
->
-> - **তুমি** = Client (Browser / Flutter App)
-> - **Waiter** = HTTP Protocol
-> - **রান্নাঘর** = Server (Node.js / NestJS)
-> - **Menu** = API Endpoints
-> - **Order slip** = HTTP Request
-> - **খাবার** = HTTP Response
+নেটওয়ার্ক যোগাযোগ বোঝার জন্য OSI (Open Systems Interconnection) model ব্যবহার করা হয়। এটা ৭টা স্তরে ভাগ করা — প্রতিটা স্তর নির্দিষ্ট কাজ করে এবং উপরের স্তরকে service প্রদান করে।
 
-```
-🟢 Flutter তুলনা:
-   Flutter-এ তুমি http.get('https://api.example.com/users') লিখলে
-   Flutter হলো Client, api.example.com হলো Server।
-   HTTP হলো মাঝের পরিবহন ব্যবস্থা।
-```
+**Layer 7 — Application Layer:** এটা সবচেয়ে উপরের স্তর। ব্যবহারকারী যে applications ব্যবহার করে সেগুলো এই স্তরে কাজ করে। HTTP, HTTPS, FTP, SMTP, DNS — এই protocols এই স্তরে থাকে। Backend developer হিসেবে তুমি মূলত এই স্তরেই কাজ করবে।
 
----
+**Layer 6 — Presentation Layer:** ডেটার format, encoding, এবং encryption এই স্তরে হয়। SSL/TLS encryption এই স্তরে কাজ করে। JSON, XML serialization এখানে।
 
-## 📡 Client-Server Architecture
+**Layer 5 — Session Layer:** দুটো application-এর মধ্যে session (conversation) শুরু, রক্ষণাবেক্ষণ, এবং শেষ করার দায়িত্ব এই স্তরের।
 
-```mermaid
-sequenceDiagram
-    participant C as 📱 Flutter App (Client)
-    participant N as 🌐 Internet
-    participant S as 🖥️ Node.js Server
-    participant D as 🗄️ Database
+**Layer 4 — Transport Layer:** End-to-end data delivery নিশ্চিত করে। TCP এবং UDP এই স্তরে থাকে। Port number এই স্তরে ব্যবহার হয়।
 
-    C->>N: HTTP Request: GET /api/products
-    N->>S: Request forward
-    S->>D: SELECT * FROM products
-    D-->>S: [product data]
-    S-->>N: HTTP Response: 200 OK + JSON
-    N-->>C: Response arrives
-    C->>C: Display products in UI
-```
+**Layer 3 — Network Layer:** ডেটা packet-কে source থেকে destination-এ route করে। IP protocol এই স্তরে। IP address এই স্তরের।
 
-### Layer Architecture
+**Layer 2 — Data Link Layer:** একই নেটওয়ার্কের দুটো device-এর মধ্যে সরাসরি communication। MAC address এই স্তরে।
 
-```
-┌────────────────────────────────────────────────┐
-│              APPLICATION LAYER                  │
-│  Flutter App  ←→  Browser  ←→  Postman         │
-├────────────────────────────────────────────────┤
-│              TRANSPORT LAYER                    │
-│         HTTP / HTTPS (Port 80 / 443)           │
-├────────────────────────────────────────────────┤
-│              NETWORK LAYER                      │
-│              IP Address + DNS                   │
-├────────────────────────────────────────────────┤
-│              PHYSICAL LAYER                     │
-│         WiFi / Ethernet / Mobile Data           │
-└────────────────────────────────────────────────┘
-```
+**Layer 1 — Physical Layer:** Physical medium — তার, fiber optic cable, বা radio wave। Bit (0 এবং 1) পাঠানো এই স্তরের কাজ।
+
+Web development-এর জন্য সবচেয়ে গুরুত্বপূর্ণ হলো Layer 4 (TCP/UDP), Layer 3 (IP), এবং Layer 7 (HTTP)।
 
 ---
 
-## 🌍 URL এর গঠন
+## TCP/IP — ইন্টারনেটের মূল ভাষা
 
-```
-https://api.myshop.com:443/api/v1/products?category=phone&page=2#results
-│       │               │   │              │                    │
-│       │               │   │              │                    └─ Fragment (anchor)
-│       │               │   │              └─ Query Parameters
-│       │               │   └─ Path (Endpoint)
-│       │               └─ Port
-│       └─ Domain (Host)
-└─ Protocol (Scheme)
-```
+TCP/IP আসলে দুটো আলাদা protocol-এর সমষ্টি।
 
-```
-╭─────────────────────────────────────────────────╮
-│ 🔑 Concept: URL (Uniform Resource Locator)      │
-│ সহজ ভাষায়: ইন্টারনেটে কোনো resource-এর        │
-│            ঠিকানা, যেমন বাসার ঠিকানা            │
-│ Flutter তুলনা: Route-এ যেমন '/home', '/profile' │
-│            URI pattern থাকে, API-তে তেমনি       │
-│            '/api/products', '/api/users'         │
-╰─────────────────────────────────────────────────╯
-```
+**IP (Internet Protocol):**
 
----
+প্রতিটা device যখন ইন্টারনেটে সংযুক্ত হয়, তাকে একটা unique address দেওয়া হয় — এটাই IP address। IPv4 address হলো চারটা সংখ্যার সমষ্টি (যেমন 192.168.1.1)। কিন্তু বিশ্বে device-এর সংখ্যা বাড়ায় IPv4 address শেষ হয়ে যাচ্ছে, তাই IPv6 তৈরি হয়েছে।
 
-## 📨 HTTP Request এর Structure
+IP protocol ডেটা packet route করার কাজ করে — প্রতিটা packet-এ source IP এবং destination IP থাকে। Router এই IP দেখে packet কোথায় পাঠাতে হবে সেটা ঠিক করে।
 
-```
-POST /api/products HTTP/1.1
-Host: api.myshop.com
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
-Accept: application/json
-Content-Length: 89
+IP protocol **connectionless** — প্রতিটা packet স্বাধীনভাবে যায়, পৌঁছাবে কিনা বা সঠিক ক্রমে যাবে কিনা নিশ্চয়তা নেই।
 
-{
-  "name": "iPhone 15 Pro",
-  "price": 999.99,
-  "category": "phone"
-}
-```
+**TCP (Transmission Control Protocol):**
 
-**Request-এর ৪টি অংশ:**
+TCP IP-এর উপরে কাজ করে এবং **reliable, ordered, error-checked delivery** নিশ্চিত করে।
 
-```
-┌────────────────────────────────────────────────┐
-│  1. Request Line: POST /api/products HTTP/1.1  │
-│     (Method + Path + HTTP Version)             │
-├────────────────────────────────────────────────┤
-│  2. Headers:                                   │
-│     Host: api.myshop.com                       │
-│     Content-Type: application/json             │
-│     Authorization: Bearer <token>              │
-├────────────────────────────────────────────────┤
-│  3. Blank Line (হেডার ও বডির মাঝে)            │
-├────────────────────────────────────────────────┤
-│  4. Body (শুধু POST/PUT/PATCH-এ থাকে):        │
-│     { "name": "iPhone 15 Pro", ... }           │
-└────────────────────────────────────────────────┘
-```
+TCP connection তৈরিতে **Three-way handshake** হয়:
+১. Client পাঠায় SYN (synchronize)
+২. Server পাঠায় SYN-ACK (synchronize-acknowledge)
+৩. Client পাঠায় ACK (acknowledge)
 
-## 📬 HTTP Response এর Structure
+এই handshake-এর পর connection প্রতিষ্ঠিত হয়। Data পাঠানোর পর receiver ACK পাঠায়। ACK না পেলে sender আবার পাঠায়।
 
-```
-HTTP/1.1 201 Created
-Content-Type: application/json
-X-Request-Id: abc123def456
-Date: Mon, 03 May 2026 10:00:00 GMT
+**UDP (User Datagram Protocol):**
 
-{
-  "success": true,
-  "message": "Product created successfully",
-  "data": {
-    "id": 1,
-    "name": "iPhone 15 Pro",
-    "price": 999.99
-  }
-}
-```
+UDP TCP-এর মতো reliable নয় — কোনো handshake নেই, কোনো ACK নেই। কিন্তু এটা অনেক দ্রুত। Video streaming, online gaming, DNS query-তে UDP ব্যবহার হয় কারণ সেখানে কিছু packet হারিয়ে গেলেও চলে, কিন্তু দেরি করলে চলে না।
 
 ---
 
-## 🔵 HTTP Methods (Verbs)
+## DNS — নামের আড়ালে সংখ্যা
 
-```mermaid
-graph TD
-    A[HTTP Methods] --> B[GET]
-    A --> C[POST]
-    A --> D[PUT]
-    A --> E[PATCH]
-    A --> F[DELETE]
-    A --> G[HEAD]
-    A --> H[OPTIONS]
+তুমি browser-এ `google.com` টাইপ করো। কিন্তু computer IP address বোঝে, domain name নয়। DNS (Domain Name System) হলো ইন্টারনেটের phone book — domain name-কে IP address-এ translate করে।
 
-    B --> B1["Data পড়া\n(Read)"]
-    C --> C1["নতুন Data তৈরি\n(Create)"]
-    D --> D1["পুরো Data replace\n(Update All)"]
-    E --> E1["আংশিক Update\n(Update Part)"]
-    F --> F1["Data মুছে ফেলা\n(Delete)"]
-```
+**DNS resolution কীভাবে হয়:**
 
-### E-Commerce উদাহরণ
+১. তুমি browser-এ `google.com` টাইপ করো।
+২. Browser প্রথমে নিজের cache চেক করে — আগে কখনো গিয়েছিলে কিনা।
+৩. না পেলে OS-এর DNS cache চেক করে।
+৪. না পেলে configured DNS resolver-কে (সাধারণত ISP-এর) জিজ্ঞেস করে।
+৫. DNS resolver root nameserver-এর কাছে যায়।
+৬. Root nameserver .com TLD nameserver-এর address বলে।
+৭. TLD nameserver google-এর authoritative nameserver-এর address বলে।
+৮. Authoritative nameserver google.com-এর IP বলে।
+৯. Browser সেই IP-তে HTTP request পাঠায়।
 
-| Method | Endpoint | কাজ | Body দরকার? |
-|--------|----------|-----|------------|
-| `GET` | `/api/products` | সব product দেখো | ❌ না |
-| `GET` | `/api/products/1` | Product #1 দেখো | ❌ না |
-| `POST` | `/api/products` | নতুন product তৈরি করো | ✅ হ্যাঁ |
-| `PUT` | `/api/products/1` | Product #1 সম্পূর্ণ আপডেট | ✅ হ্যাঁ |
-| `PATCH` | `/api/products/1` | Product #1 দাম শুধু পরিবর্তন | ✅ হ্যাঁ |
-| `DELETE` | `/api/products/1` | Product #1 মুছে ফেলো | ❌ না |
-
-### PUT vs PATCH পার্থক্য
-
-```
-❌ ভুল ধারণা: PUT ও PATCH একই
-✅ সঠিক ধারণা:
-
-PUT (সম্পূর্ণ replace):
-Request body:
-{
-  "name": "iPhone 15 Pro Max",  ← পরিবর্তন
-  "price": 1199.99,             ← পরিবর্তন
-  "category": "phone",          ← MUST include করতে হবে
-  "stock": 50                   ← MUST include করতে হবে
-}
-→ পুরানো object টি নতুন দিয়ে replace হয়
-
-PATCH (আংশিক update):
-Request body:
-{
-  "price": 1199.99              ← শুধু দাম পরিবর্তন
-}
-→ শুধু দাম আপডেট হয়, বাকি সব অপরিবর্তিত থাকে
-```
+এই পুরো প্রক্রিয়া milliseconds-এ হয়। DNS record cache-এ রাখা হয় TTL (Time To Live) অনুযায়ী।
 
 ---
 
-## 🔢 HTTP Status Codes
+## HTTP — Web-এর ভাষা
 
-```mermaid
-graph LR
-    A[Status Codes] --> B["2xx — সফল"]
-    A --> C["3xx — Redirect"]
-    A --> D["4xx — Client Error"]
-    A --> E["5xx — Server Error"]
-```
+HTTP (HyperText Transfer Protocol) হলো client এবং server-এর মধ্যে যোগাযোগের নিয়ম। এটা Application Layer-এর protocol।
 
-### 2xx — সফলতার কোড
+HTTP **stateless** — প্রতিটা request সম্পূর্ণ স্বাধীন। Server আগের request মনে রাখে না। আজ login করলে কাল আবার login করতে হবে — যদি না কোনো mechanism (cookie, session, token) ব্যবহার করা হয়।
 
-| Code | Name | কখন ব্যবহার |
-|------|------|------------|
-| `200` | OK | সফলভাবে data পাওয়া গেছে (GET) |
-| `201` | Created | নতুন resource তৈরি হয়েছে (POST) |
-| `204` | No Content | সফল কিন্তু কোনো response body নেই (DELETE) |
+HTTP **text-based** — request এবং response human-readable text হিসেবে পাঠানো হয়।
 
-### 4xx — Client-এর ভুল
+**HTTP Request-এর গঠন:**
 
-| Code | Name | কখন ব্যবহার |
-|------|------|------------|
-| `400` | Bad Request | Request এর data ভুল/incomplete |
-| `401` | Unauthorized | Login করা নেই |
-| `403` | Forbidden | Login আছে কিন্তু permission নেই |
-| `404` | Not Found | Resource পাওয়া যায়নি |
-| `409` | Conflict | Duplicate data (যেমন: email already exists) |
-| `422` | Unprocessable Entity | Validation ব্যর্থ হয়েছে |
-| `429` | Too Many Requests | Rate limit অতিক্রম |
+একটা HTTP request চারটা অংশে ভাগ:
 
-### 5xx — Server-এর ভুল
+**Request Line:** কোন method (GET, POST etc.), কোন URL, HTTP version।
 
-| Code | Name | কখন ব্যবহার |
-|------|------|------------|
-| `500` | Internal Server Error | Server-এ অপ্রত্যাশিত error |
-| `502` | Bad Gateway | Upstream server সাড়া দেয়নি |
-| `503` | Service Unavailable | Server সাময়িক বন্ধ |
+**Headers:** Request সম্পর্কে metadata। `Host` (কোন server), `Content-Type` (data কোন format-এ), `Authorization` (authentication token), `Accept` (client কোন format চায়) ইত্যাদি।
 
-> 🔴 **এই ভুল করবে না:** সব কিছুতে `200 OK` return করো না। `POST` সফল হলে `201 Created`, delete হলে `204 No Content` return করো।
+**Blank Line:** Headers এবং body-এর মধ্যে বাধ্যতামূলক blank line।
+
+**Body (optional):** Actual data। GET request-এ সাধারণত body থাকে না। POST/PUT-এ body-তে data থাকে।
+
+**HTTP Response-এর গঠন:**
+
+**Status Line:** HTTP version, status code, status message।
+
+**Headers:** Response metadata। `Content-Type`, `Content-Length`, `Set-Cookie` ইত্যাদি।
+
+**Body:** Server যে data পাঠাচ্ছে — HTML, JSON, image ইত্যাদি।
 
 ---
 
-## 📋 HTTP Headers
+## HTTP Methods — CRUD-এর ভাষা
 
-```
-╭─────────────────────────────────────────────────╮
-│ 🔑 Concept: HTTP Headers                        │
-│ সহজ ভাষায়: Request/Response-এর extra           │
-│            information — চিঠির envelope-এর      │
-│            উপর লেখা তথ্যের মতো                  │
-│ Flutter তুলনা: http package-এ headers: {}       │
-│            parameter যেভাবে pass করো            │
-╰─────────────────────────────────────────────────╯
-```
+HTTP Methods (বা verbs) বলে request-এর উদ্দেশ্য কী।
 
-### গুরুত্বপূর্ণ Request Headers
+**GET:** Data retrieve করার জন্য। Server-এর কোনো state পরিবর্তন হয় না। GET request idempotent — একই request বার বার পাঠালে result একই থাকে। URL-এ data visible থাকে। Browser bookmark করা যায়।
 
-| Header | উদ্দেশ্য | উদাহরণ |
-|--------|---------|---------|
-| `Content-Type` | Body-র data format | `application/json` |
-| `Authorization` | Authentication token | `Bearer eyJhb...` |
-| `Accept` | কোন format-এ response চাই | `application/json` |
-| `Accept-Language` | কোন ভাষায় response চাই | `bn-BD, en-US` |
-| `User-Agent` | কোন app/browser request করছে | `FlutterApp/1.0` |
+**POST:** নতুন resource তৈরি করার জন্য। Body-তে data পাঠানো হয়। POST idempotent নয় — একই request বার বার পাঠালে বার বার নতুন resource তৈরি হতে পারে।
 
-### গুরুত্বপূর্ণ Response Headers
+**PUT:** Existing resource সম্পূর্ণভাবে replace করার জন্য। পুরো resource পাঠাতে হয়।
 
-| Header | উদ্দেশ্য | উদাহরণ |
-|--------|---------|---------|
-| `Content-Type` | Response data format | `application/json; charset=utf-8` |
-| `Content-Length` | Response এর byte size | `348` |
-| `Cache-Control` | Browser cache নির্দেশনা | `no-cache, no-store` |
-| `Set-Cookie` | Browser-এ cookie সেট করো | `session=abc; HttpOnly` |
-| `X-Request-Id` | Request tracking ID | `req_abc123` |
+**PATCH:** Resource-এর কিছু অংশ update করার জন্য। শুধু পরিবর্তিত অংশ পাঠাতে হয়।
+
+**DELETE:** Resource মুছে ফেলার জন্য।
+
+**HEAD:** GET-এর মতো, কিন্তু শুধু headers ফেরত পাঠায়, body নয়। File size বা existence check করতে ব্যবহার হয়।
+
+**OPTIONS:** Server কোন methods support করে সেটা জানতে। CORS preflight request-এ ব্যবহার হয়।
 
 ---
 
-## 🌐 REST API এর ৬টি নীতি
+## HTTP Status Codes — Server কী বলছে?
 
-```mermaid
-mindmap
-  root((REST))
-    Uniform Interface
-      Resource-based URLs
-      HTTP Methods
-      Standard Responses
-    Stateless
-      প্রতি request স্বাধীন
-      Server session রাখে না
-    Client-Server
-      UI ও Logic আলাদা
-    Cacheable
-      Response cache করা যায়
-    Layered System
-      Proxy, CDN layer থাকতে পারে
-    Code on Demand
-      Optional JS code
-```
+Status code তিনটা সংখ্যার। প্রথম সংখ্যা category নির্দেশ করে:
 
-### RESTful URL Design Rules
+**1xx — Informational:** Request receive হয়েছে, processing চলছে। `100 Continue` — server বলছে request এগিয়ে পাঠাও।
 
-```
-❌ ভুল পদ্ধতি (Non-RESTful):
-GET  /getProducts
-POST /createNewProduct
-GET  /deleteProduct?id=1
-POST /updateProductPrice
+**2xx — Success:** Request সফলভাবে process হয়েছে।
+- `200 OK`: সাধারণ সাফল্য।
+- `201 Created`: নতুন resource তৈরি হয়েছে (POST response-এ)।
+- `204 No Content`: সফল, কিন্তু ফেরত দেওয়ার কিছু নেই (DELETE response-এ)।
 
-✅ সঠিক পদ্ধতি (RESTful):
-GET    /api/products          ← সব products
-POST   /api/products          ← নতুন product তৈরি
-GET    /api/products/:id      ← একটি product
-PUT    /api/products/:id      ← পুরো product আপডেট
-PATCH  /api/products/:id      ← আংশিক আপডেট
-DELETE /api/products/:id      ← product মুছো
+**3xx — Redirection:** Request অন্য URL-এ redirect করতে হবে।
+- `301 Moved Permanently`: Resource চিরতরে নতুন URL-এ চলে গেছে।
+- `304 Not Modified`: Cache valid আছে — browser নতুন করে download না করে cache ব্যবহার করতে পারে।
 
-GET    /api/products/:id/reviews     ← product-এর reviews
-POST   /api/products/:id/reviews     ← নতুন review যোগ করো
-```
+**4xx — Client Error:** Client-এর পাঠানো request-এ সমস্যা।
+- `400 Bad Request`: Request malformed — সঠিক format-এ নয়।
+- `401 Unauthorized`: Authentication দরকার কিন্তু নেই বা invalid।
+- `403 Forbidden`: Authenticated কিন্তু permission নেই।
+- `404 Not Found`: Resource পাওয়া যায়নি।
+- `409 Conflict`: Resource ইতিমধ্যে আছে (duplicate)।
+- `422 Unprocessable Entity`: Format ঠিক আছে কিন্তু validation fail।
+- `429 Too Many Requests`: Rate limit অতিক্রম করেছে।
 
-**নামকরণের নিয়ম:**
-- URL-এ সবসময় **noun** ব্যবহার করো, **verb** নয়
-- **Plural** ব্যবহার করো: `/products`, `/users`, `/orders`
-- lowercase ও hyphen ব্যবহার করো: `/product-categories`
-- Version prefix দাও: `/api/v1/products`
+**5xx — Server Error:** Server-এর কোনো সমস্যা।
+- `500 Internal Server Error`: Unhandled exception।
+- `502 Bad Gateway`: Upstream server error।
+- `503 Service Unavailable`: Server temporarily unavailable।
 
 ---
 
-## 📄 JSON (JavaScript Object Notation)
+## HTTPS — HTTP এর নিরাপদ সংস্করণ
 
-```
-╭─────────────────────────────────────────────────╮
-│ 🔑 Concept: JSON                                │
-│ সহজ ভাষায়: Data exchange-এর universal          │
-│            ভাষা — সব platform বোঝে              │
-│ Flutter তুলনা: Flutter-এ jsonDecode() দিয়ে     │
-│            API response parse করো, সেই          │
-│            JSON-ই Backend return করে            │
-╰─────────────────────────────────────────────────╯
-```
+HTTP-এ ডেটা plaintext-এ যায় — যে কেউ network traffic sniff করে পড়তে পারে। HTTPS হলো HTTP over TLS (Transport Layer Security)।
 
-### JSON এর সব Data Types
+**TLS Handshake কীভাবে হয়:**
 
-📄 File: `examples/json-types.json` · 🎯 উদ্দেশ্য: JSON-এর সব ধরনের data দেখানো
+১. Client, server-এ connection শুরু করে এবং নিজের supported TLS version এবং cipher suite জানায়।
+২. Server তার SSL certificate পাঠায়। Certificate-এ server-এর public key আছে।
+৩. Client Certificate Authority (CA) দিয়ে certificate verify করে — এটা কি legitimate server?
+৪. Client একটা session key তৈরি করে এবং server-এর public key দিয়ে encrypt করে পাঠায়।
+৫. Server তার private key দিয়ে decrypt করে session key পায়।
+৬. এখন উভয়েই একই session key জানে — এই symmetric key দিয়ে পরবর্তী সব communication encrypt হয়।
 
-```json
-{
-  "string": "iPhone 15 Pro",
-  "number_integer": 999,
-  "number_float": 999.99,
-  "boolean_true": true,
-  "boolean_false": false,
-  "null_value": null,
-  "array": ["phone", "tablet", "laptop"],
-  "nested_object": {
-    "brand": "Apple",
-    "model": "15 Pro",
-    "specs": {
-      "ram": "8GB",
-      "storage": "256GB"
-    }
-  },
-  "array_of_objects": [
-    { "id": 1, "color": "Black Titanium" },
-    { "id": 2, "color": "White Titanium" }
-  ]
-}
-```
-
-### Node.js-এ JSON Parse ও Stringify
-
-📄 File: `examples/json-demo.js` · 🎯 উদ্দেশ্য: JSON নিয়ে কাজ করার পদ্ধতি
-
-```javascript
-// JSON String → JavaScript Object
-const jsonString = '{"name":"iPhone 15","price":999.99}';
-const product = JSON.parse(jsonString);
-console.log(product.name);   // iPhone 15
-console.log(product.price);  // 999.99
-
-// JavaScript Object → JSON String
-const order = {
-  id: 1,
-  product: 'iPhone 15 Pro',
-  quantity: 2,
-  total: 1999.98,
-  createdAt: new Date(),
-};
-const jsonOutput = JSON.stringify(order, null, 2);
-console.log(jsonOutput);
-```
-
-💻 Output:
-```json
-{
-  "id": 1,
-  "product": "iPhone 15 Pro",
-  "quantity": 2,
-  "total": 1999.98,
-  "createdAt": "2026-05-03T10:00:00.000Z"
-}
-```
+এই process-এ **asymmetric encryption** (public/private key) ব্যবহার হয় session key বিনিময়ের জন্য। তারপর দ্রুততর **symmetric encryption** ব্যবহার হয় actual data transfer-এর জন্য।
 
 ---
 
-## 🔒 HTTPS ও SSL/TLS
+## REST — Architecture Style, Protocol নয়
 
-```mermaid
-sequenceDiagram
-    participant C as 📱 Client
-    participant S as 🖥️ Server
+REST (Representational State Transfer) হলো web service design করার একটা architectural style — Roy Fielding তার 2000 সালের PhD dissertation-এ এটা প্রস্তাব করেছিলেন।
 
-    Note over C,S: TLS Handshake শুরু
+REST কোনো protocol বা standard নয়। এটা constraints বা নীতির সমষ্টি।
 
-    C->>S: ClientHello (supported TLS versions, ciphers)
-    S->>C: ServerHello + SSL Certificate (Public Key)
-    C->>C: Certificate verify করো (CA দিয়ে)
-    C->>S: Pre-master Secret (Server-এর Public Key দিয়ে encrypt করা)
-    S->>S: Private Key দিয়ে decrypt করো
-    Note over C,S: উভয়ের কাছে এখন Session Key আছে
+**REST-এর মূল নীতিগুলো:**
 
-    C->>S: 🔐 Encrypted HTTP Request
-    S->>C: 🔐 Encrypted HTTP Response
-```
+**Stateless:** Server প্রতিটা request-কে সম্পূর্ণ স্বাধীন মনে করে। Client-এর কোনো context server মনে রাখে না। প্রতিটা request-এ সব প্রয়োজনীয় তথ্য থাকতে হবে (authentication token সহ)। এটা server scaling সহজ করে — যেকোনো server instance যেকোনো request handle করতে পারে।
 
-```
-╭─────────────────────────────────────────────────╮
-│ 🔑 Concept: HTTPS                               │
-│ সহজ ভাষায়: HTTP + TLS Encryption =             │
-│            ডেটা পাঠানোর নিরাপদ tunnel           │
-│ Flutter তুলনা: App-এ https:// URL ব্যবহার       │
-│            করলেই Flutter automatically          │
-│            TLS verify করে।                      │
-╰─────────────────────────────────────────────────╯
-```
+**Client-Server Separation:** Client (যে data চায়) এবং server (যে data দেয়) আলাদা। Client জানে না server কোন database ব্যবহার করে। Server জানে না client কীভাবে data display করে। উভয় পক্ষ স্বাধীনভাবে পরিবর্তন করতে পারে।
 
-**HTTP vs HTTPS পার্থক্য:**
+**Uniform Interface:** সব resource-এ একই ধরনের interface। Resource URL দিয়ে identify হয়। Resource নিজেকে represent করে (JSON/XML)। Representation দিয়ে resource modify করা যায়।
 
-| বিষয় | HTTP | HTTPS |
-|-------|------|-------|
-| Port | 80 | 443 |
-| Encryption | ❌ নেই | ✅ TLS |
-| Data চুরি হতে পারে? | হ্যাঁ | না |
-| Certificate লাগে? | না | হ্যাঁ (SSL cert) |
-| Production-এ ব্যবহার | ❌ কখনো না | ✅ সবসময় |
+**Cacheable:** Server response cache করা যাবে কিনা সেটা indicate করে। Cacheable response client বা intermediate proxy-তে store থাকে — পরের request-এ server-এ না গিয়ে cache থেকে পাওয়া যায়।
+
+**Layered System:** Client জানে না সে সরাসরি server-এর সাথে কথা বলছে নাকি intermediary (load balancer, cache server)-এর সাথে।
+
+**REST API vs RESTful API পার্থক্য:**
+
+অনেক API নিজেকে REST বলে কিন্তু সব REST constraint মানে না। পুরোপুরি REST constraint মেনে চলে এমন API-কে RESTful বলে। বাস্তবে বেশিরভাগ "REST API" partially RESTful।
 
 ---
 
-## 🔍 HTTP Request in Practice (Node.js)
+## HTTP Versions — বিবর্তন
 
-📄 File: `examples/http-client-demo.js` · 🎯 উদ্দেশ্য: Node.js থেকে HTTP request করা
+**HTTP/1.0 (1996):** প্রতিটা request-এর জন্য নতুন TCP connection। Request complete হলে connection বন্ধ। একটা page-এ ১০০টা resource থাকলে ১০০টা TCP handshake।
 
-```javascript
-// Node.js 18+ built-in fetch API (node: prefix প্রয়োজন নেই)
-async function fetchProducts() {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+**HTTP/1.1 (1997):** Keep-alive connection — একই TCP connection-এ একাধিক request। Pipelining — response-এর জন্য না থেকে পরের request পাঠানো যায়। তবে Head-of-line blocking সমস্যা থাকে।
 
-    // Status code check করো
-    if (!response.ok) {
-      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
-    }
+**HTTP/2 (2015):** Binary protocol — text-এর বদলে binary frame। Multiplexing — একই connection-এ একাধিক request/response parallel-এ। Header compression — একই header বার বার পাঠানো হয় না। Server push — client request করার আগেই server resource পাঠাতে পারে।
 
-    // Headers দেখো
-    console.log('Content-Type:', response.headers.get('content-type'));
-    console.log('Status:', response.status);
-
-    // Body parse করো
-    const data = await response.json();
-    console.log('Data:', data);
-
-    return data;
-  } catch (error) {
-    console.error('Request failed:', error.message);
-    throw error;
-  }
-}
-
-fetchProducts();
-```
-
-💻 Output:
-```
-Content-Type: application/json; charset=utf-8
-Status: 200
-Data: {
-  userId: 1,
-  id: 1,
-  title: 'sunt aut facere repellat provident occaecati ...',
-  body: 'quia et suscipit\nsuscipit recusandae consequuntur...'
-}
-```
+**HTTP/3 (2022):** TCP-এর বদলে QUIC protocol (UDP-এর উপরে)। Head-of-line blocking সম্পূর্ণ দূর হয়। Connection migration — IP পরিবর্তন হলেও connection maintain থাকে।
 
 ---
 
-## 🏋️ Exercise: HTTP-কে বাস্তবে দেখো
+## মূল উপলব্ধি
 
-**কাজ ১: Browser DevTools দিয়ে HTTP দেখো**
-1. Chrome/Firefox খোলো
-2. `F12` চেপে DevTools খোলো
-3. `Network` tab-এ যাও
-4. `https://jsonplaceholder.typicode.com/posts` এ যাও
-5. Request headers, response headers, status code পর্যবেক্ষণ করো
-
-**কাজ ২: নিজে API বানাও**
-
-📄 File: `exercises/chapter-01/server.js` · 🎯 উদ্দেশ্য: HTTP methods অনুশীলন
-
-```javascript
-const express = require('express');
-const app = express();
-app.use(express.json());
-
-// in-memory "database" (এখনো real DB নেই)
-let products = [
-  { id: 1, name: 'iPhone 15 Pro', price: 999.99, category: 'phone' },
-  { id: 2, name: 'iPad Air', price: 599.99, category: 'tablet' },
-];
-
-// GET সব products
-app.get('/api/products', (req, res) => {
-  res.status(200).json({
-    success: true,
-    count: products.length,
-    data: products,
-  });
-});
-
-// GET একটি product
-app.get('/api/products/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const product = products.find((p) => p.id === id);
-
-  if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: `Product with id ${id} not found`,
-    });
-  }
-
-  res.status(200).json({ success: true, data: product });
-});
-
-// POST নতুন product
-app.post('/api/products', (req, res) => {
-  const { name, price, category } = req.body;
-
-  if (!name || !price || !category) {
-    return res.status(400).json({
-      success: false,
-      message: 'name, price, category are required',
-    });
-  }
-
-  const newProduct = {
-    id: products.length + 1,
-    name,
-    price,
-    category,
-  };
-
-  products.push(newProduct);
-
-  res.status(201).json({
-    success: true,
-    message: 'Product created successfully',
-    data: newProduct,
-  });
-});
-
-// PATCH product আপডেট
-app.patch('/api/products/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const index = products.findIndex((p) => p.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-      success: false,
-      message: `Product with id ${id} not found`,
-    });
-  }
-
-  // শুধু পাঠানো fields আপডেট করো
-  products[index] = { ...products[index], ...req.body };
-
-  res.status(200).json({
-    success: true,
-    message: 'Product updated successfully',
-    data: products[index],
-  });
-});
-
-// DELETE product
-app.delete('/api/products/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const index = products.findIndex((p) => p.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-      success: false,
-      message: `Product with id ${id} not found`,
-    });
-  }
-
-  products.splice(index, 1);
-
-  res.status(204).send(); // No Content
-});
-
-app.listen(3000, () => console.log('✅ Server on http://localhost:3000'));
-```
-
-**Postman দিয়ে test করো:**
-```
-GET    http://localhost:3000/api/products
-GET    http://localhost:3000/api/products/1
-POST   http://localhost:3000/api/products   body: {"name":"MacBook","price":1299,"category":"laptop"}
-PATCH  http://localhost:3000/api/products/1 body: {"price":899.99}
-DELETE http://localhost:3000/api/products/2
-```
+HTTP বোঝাটা backend developer-এর জন্য যেমন chemistry বোঝা pharmacist-এর জন্য। তুমি Express বা NestJS দিয়ে API লিখলেও আসলে HTTP request handle করছো। Status code কেন 200 বা 201 — এটা জানলে আরো thoughtful API design করা যায়। HTTPS কীভাবে কাজ করে জানলে security সম্পর্কে সচেতন থাকা সহজ হয়।
 
 ---
 
-## 📊 Common Mistakes Table
-
-| ভুল | কারণ | সমাধান |
-|-----|------|---------|
-| GET request-এ body পাঠানো | GET semantically stateless | Query parameters ব্যবহার করো |
-| সব response-এ `200` return | Status code শেখেনি | Table অনুযায়ী সঠিক code ব্যবহার করো |
-| `/getUser` endpoint নাম | REST নীতি না জানা | Noun ব্যবহার করো: `/users/:id` |
-| HTTP URL production-এ | Security জ্ঞান নেই | HTTPS certificate ব্যবহার করো |
-| Error response-এ `200` | Bad practice | Error হলে `4xx` বা `5xx` পাঠাও |
-
----
-
-## ✅ Key Concepts Summary
-
-| Concept | সংক্ষিপ্ত বিবরণ |
-|---------|----------------|
-| Client-Server | Client request করে, Server response দেয় |
-| HTTP | Application layer protocol |
-| URL | Internet resource-এর ঠিকানা |
-| HTTP Method | Resource-এ কী করতে চাই তা বলে |
-| Status Code | Server কী ঘটেছে তা জানায় |
-| Headers | Request/Response এর metadata |
-| REST | API design-এর আর্কিটেকচারাল নীতি |
-| JSON | Data exchange format |
-| HTTPS | HTTP + TLS encryption |
-
----
-
-## ✅ Chapter Summary
-
-```
-╔══════════════════════════════════════════════════╗
-║  ✅ Chapter 1 — তুমি শিখলে                      ║
-╠══════════════════════════════════════════════════╣
-║  • Client-Server architecture বুঝলে             ║
-║  • HTTP Request ও Response-এর structure         ║
-║  • ৫টি HTTP method ও তাদের সঠিক ব্যবহার         ║
-║  • Status codes 200/201/204/400/401/404/500      ║
-║  • RESTful URL design নীতি                      ║
-║  • JSON parse ও stringify                       ║
-║  • HTTPS ও TLS encryption-এর ধারণা              ║
-║  • Complete CRUD API নিজে বানালে               ║
-╚══════════════════════════════════════════════════╝
-```
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc) | [⬅ Chapter 0](./chapter-00-environment-setup.md) | [➡ Chapter 2](./chapter-02-javascript-backend.md)
+[⬆ TOC](./table-of-contents.md) | [⬅ Chapter 0](./chapter-00-environment-setup.md) | [➡ Chapter 2](./chapter-02-javascript-backend.md)

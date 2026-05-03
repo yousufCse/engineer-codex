@@ -1,465 +1,162 @@
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📘 CHAPTER 14 — API Design
-# "Clean, Consistent, Production-ready APIs"
-# ⏱ ~60 মিনিট · Progress: [█████████████░] 73%
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### "Richardson Maturity Model থেকে OpenAPI পর্যন্ত — ভালো API-র শিল্পকলা"
+#### Progress: [███████████████░░░░] 75%
 
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc)
-
----
-
-## 📌 এই Chapter এ তুমি শিখবে
-
-- ✅ REST principles রিভিউ ও best practices
-- ✅ API versioning strategy
-- ✅ Consistent response format
-- ✅ Pagination (cursor + offset)
-- ✅ Filtering, sorting, searching
-- ✅ Swagger/OpenAPI documentation
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 13](./chapter-13-file-upload-email.md) | [➡ Ch 15](./chapter-15-testing.md)
 
 ---
 
-## 🏗️ REST URL Design Rules
+## API Design কেন গুরুত্বপূর্ণ?
 
-```
-✅ URL Design Best Practices:
+API হলো contract — আপনার service এবং তার consumer-এর মধ্যে চুক্তি। একবার published হলে পরিবর্তন করা কঠিন — consumer আপনার API-এর উপর নির্ভর করে কাজ করে।
 
-সঠিক:
-  GET     /api/v1/products            → সব products
-  GET     /api/v1/products/:id        → একটি product
-  POST    /api/v1/products            → product তৈরি
-  PATCH   /api/v1/products/:id        → partial update
-  PUT     /api/v1/products/:id        → full replace
-  DELETE  /api/v1/products/:id        → delete
-
-  GET     /api/v1/products/:id/images → product images
-  POST    /api/v1/products/:id/images → image upload
-  DELETE  /api/v1/images/:imageId     → image delete
-
-  GET     /api/v1/orders/:id/items    → order items
-  POST    /api/v1/auth/login          → login (action)
-
-ভুল:
-  ❌ GET /getProducts          (verb ব্যবহার)
-  ❌ GET /product              (plural হওয়া উচিত)
-  ❌ POST /products/create     (redundant)
-  ❌ GET /Products             (uppercase)
-  ❌ GET /products_list        (underscore)
-```
+ভালো API design মানে:
+- Developer-friendly — সহজে বোঝা এবং ব্যবহার করা।
+- Consistent — সব endpoint একই pattern follow করে।
+- Evolvable — ভবিষ্যতে পরিবর্তন করা সম্ভব।
+- Secure — নিরাপদ।
 
 ---
 
-## 📦 Consistent Response Format
+## Richardson Maturity Model
 
-📄 File: `src/utils/ApiResponse.js` · 🎯 উদ্দেশ্য: All response types
+Leonard Richardson REST API-কে চারটা maturity level-এ বিভক্ত করেছেন।
 
-```javascript
-class ApiResponse {
-  // ============================================
-  // Success Responses
-  // ============================================
-  static success(res, data = null, message = 'Success') {
-    return res.status(200).json({
-      success: true,
-      message,
-      data,
-    });
-  }
+**Level 0 — The Swamp of POX:**
 
-  static created(res, data = null, message = 'Created successfully') {
-    return res.status(201).json({
-      success: true,
-      message,
-      data,
-    });
-  }
+HTTP শুধু transport। সব request একটা endpoint-এ, সব operation একটাই HTTP method (POST)। XML-RPC, SOAP এই level-এ। `POST /api` এবং body-তে `{ "action": "getUser", "id": 1 }`।
 
-  static noContent(res) {
-    return res.status(204).send();
-  }
+**Level 1 — Resources:**
 
-  // ============================================
-  // Paginated Response
-  // ============================================
-  static paginated(res, data, pagination) {
-    return res.status(200).json({
-      success: true,
-      data,
-      pagination: {
-        total: pagination.total,
-        page: pagination.page,
-        limit: pagination.limit,
-        totalPages: pagination.totalPages,
-        hasNextPage: pagination.hasNextPage,
-        hasPreviousPage: pagination.hasPreviousPage,
-        // Optional: cursor for next page
-        nextCursor: pagination.nextCursor || null,
-      },
-    });
-  }
+আলাদা resource-এর জন্য আলাদা URL। কিন্তু HTTP method এখনো সব POST। `POST /users`, `POST /products`।
 
-  // ============================================
-  // Error Responses
-  // ============================================
-  static error(res, message = 'Something went wrong', statusCode = 500, errors = null) {
-    const response = {
-      success: false,
-      message,
-    };
+**Level 2 — HTTP Verbs:**
 
-    if (errors) {
-      response.errors = errors;
-    }
+HTTP method সঠিকভাবে ব্যবহার। GET for read, POST for create, PUT/PATCH for update, DELETE for delete। Status code সঠিক — 200, 201, 404, 400। বেশিরভাগ "REST API" এই level।
 
-    return res.status(statusCode).json(response);
-  }
+**Level 3 — Hypermedia Controls (HATEOAS):**
 
-  static validationError(res, errors) {
-    return res.status(400).json({
-      success: false,
-      message: 'Validation failed',
-      errors,
-    });
-  }
+Response-এ next possible action-এর link থাকে। Client API documentation না দেখেও navigate করতে পারে।
 
-  static notFound(res, resource = 'Resource') {
-    return res.status(404).json({
-      success: false,
-      message: `${resource} not found`,
-    });
-  }
+---
 
-  static unauthorized(res, message = 'Authentication required') {
-    return res.status(401).json({
-      success: false,
-      message,
-    });
-  }
+## URL Design Philosophy
 
-  static forbidden(res, message = 'Access denied') {
-    return res.status(403).json({
-      success: false,
-      message,
-    });
+URL হলো resource-এর address। ভালো URL:
+
+**Noun, verb নয়:** `/users` — resource। `/getUsers` নয়।
+
+**Plural nouns:** `/users` একটা collection। `/users/123` নির্দিষ্ট user।
+
+**Hierarchy:** `/users/123/orders` — user 123-এর orders। কিন্তু খুব deep করা উচিত নয় — `/users/123/orders/456/items/789` too deeply nested।
+
+**Lowercase, hyphen-separated:** `/blog-posts` — camelCase নয়।
+
+**Version prefix:** `/api/v1/users`।
+
+---
+
+## Versioning Strategies
+
+API পরিবর্তন করতে হবে কিন্তু existing consumer break করা যাবে না — versioning এই সমস্যার সমাধান।
+
+**URL Versioning:** `/api/v1/users`, `/api/v2/users`।
+- সুবিধা: Explicit, durable link, cache-friendly, সহজ।
+- অসুবিধা: URL "unclean" — REST purist বলবেন resource-এ version থাকা উচিত নয়।
+
+**Header Versioning:** `Accept: application/vnd.myapi.v2+json` বা `API-Version: 2`।
+- সুবিধা: URL clean।
+- অসুবিধা: Browser-এ test কঠিন, caching জটিল।
+
+**Query Parameter:** `/api/users?version=2`।
+- সুবিধা: Simple।
+- অসুবিধা: Accidental omission।
+
+Real world-এ URL versioning সবচেয়ে popular — pragmatic choice।
+
+---
+
+## Pagination Strategies
+
+লাখ লাখ record একবারে return করা যাবে না। Pagination দরকার।
+
+**Offset-based Pagination:**
+
+`GET /users?page=2&limit=20` অথবা `?offset=20&limit=20`।
+
+Database-এ: `LIMIT 20 OFFSET 20`।
+
+সুবিধা: Simple, যেকোনো page-এ jump সম্ভব।
+
+অসুবিধা: Inconsistency — page 2 দেখার পর নতুন item insert হলে page 3-এ গেলে duplicate আসতে পারে বা item miss হতে পারে। Database-এ large offset expensive — `OFFSET 100000` মানে 100,000 row skip করতে হবে।
+
+**Cursor-based Pagination:**
+
+Cursor হলো last item-এর identifier (typically ID বা timestamp)। `GET /users?cursor=last_seen_id&limit=20`।
+
+Database-এ: `WHERE id > last_seen_id LIMIT 20`।
+
+সুবিধা: Consistent — new insert/delete cursor-এর accuracy নষ্ট করে না। Database efficient — index দিয়ে সরাসরি।
+
+অসুবিধা: Random page access করা যায় না — only "next page"।
+
+**কখন কোনটা:**
+
+Admin dashboard — offset (random page access দরকার)।
+Infinite scroll, social feed — cursor।
+
+---
+
+## HATEOAS
+
+Hypermedia as the Engine of Application State — REST Level 3।
+
+Response-এ শুধু data নয়, related action-এর link-ও থাকে।
+
+```json
+{
+  "id": 123,
+  "name": "Alice",
+  "_links": {
+    "self": { "href": "/users/123" },
+    "orders": { "href": "/users/123/orders" },
+    "delete": { "href": "/users/123", "method": "DELETE" }
   }
 }
-
-module.exports = ApiResponse;
 ```
+
+Client API structure না জেনেও navigate করতে পারে — self-documenting। Real world-এ পুরোপুরি HATEOAS implement করা হয় না — complex এবং consumer-এ extra parsing।
 
 ---
 
-## 📖 API Versioning
+## OpenAPI/Swagger
 
-```javascript
-// src/app.js — Versioning setup
+OpenAPI (সাবেক Swagger) হলো REST API description-এর standard format। YAML বা JSON-এ API contract define করা।
 
-const v1Router = require('./routes/v1');
-const v2Router = require('./routes/v2');  // future
+**সুবিধা:**
+- Auto-generated documentation (Swagger UI)।
+- Client SDK generation (TypeScript, Python, Java)।
+- API testing tool।
+- Team communication — frontend developer backend-এর API আগেই জানে।
 
-// URL-based versioning (recommended)
-app.use('/api/v1', v1Router);
+**NestJS:** `@nestjs/swagger` package দিয়ে decorator থেকে Swagger doc auto-generate।
 
-// src/routes/v1/index.js
-const router = express.Router();
-
-router.use('/auth', require('./auth.routes'));
-router.use('/products', require('./products.routes'));
-router.use('/categories', require('./categories.routes'));
-router.use('/orders', require('./orders.routes'));
-router.use('/users', require('./users.routes'));
-router.use('/uploads', require('./upload.routes'));
-
-module.exports = router;
-```
+**API-first Development:** Code-এর আগে API contract define করা। Frontend এবং backend parallel কাজ করতে পারে।
 
 ---
 
-## 🔍 Advanced Filtering Pattern
+## Consumer-Driven Contracts
 
-```javascript
-// Query: GET /api/v1/products?
-//   category=phones&
-//   brand=Apple&
-//   minPrice=500&
-//   maxPrice=2000&
-//   inStock=true&
-//   featured=true&
-//   search=iphone&
-//   sort=price&
-//   order=asc&
-//   page=2&
-//   limit=20&
-//   fields=id,name,price,brand   (field selection)
+Microservice-এ multiple service একে অপরের API ব্যবহার করে। কোনো service API পরিবর্তন করলে dependent service break করতে পারে।
 
-const buildProductFilter = (query) => {
-  const {
-    category, brand, minPrice, maxPrice,
-    inStock, featured, search,
-    sort = 'createdAt', order = 'desc',
-    page = 1, limit = 10,
-    fields,
-  } = query;
-
-  const filter = { isActive: true };
-  const options = {
-    sort: { [sort]: order === 'asc' ? 1 : -1 },
-    skip: (parseInt(page) - 1) * parseInt(limit),
-    limit: Math.min(parseInt(limit), 100),  // max 100
-  };
-
-  // Fields selection (projection)
-  if (fields) {
-    options.projection = fields.split(',').reduce((acc, field) => {
-      acc[field.trim()] = 1;
-      return acc;
-    }, {});
-  }
-
-  if (category) filter['category.slug'] = category;
-  if (brand) filter.brand = { $regex: brand, $options: 'i' };
-  if (minPrice || maxPrice) {
-    filter.price = {};
-    if (minPrice) filter.price.$gte = parseFloat(minPrice);
-    if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
-  }
-  if (inStock === 'true') filter.stock = { $gt: 0 };
-  if (featured === 'true') filter.isFeatured = true;
-
-  if (search) {
-    filter.$text = { $search: search };
-    options.sort = { score: { $meta: 'textScore' } };
-  }
-
-  return { filter, options };
-};
-```
+Consumer-driven contract testing: প্রতিটা consumer বলে তার কাছ থেকে কী expect করে। Provider সেই contract অনুযায়ী test করে। Pact এই pattern implement করে।
 
 ---
 
-## 📚 Swagger / OpenAPI Documentation
+## মূল উপলব্ধি
 
-```bash
-npm install swagger-jsdoc swagger-ui-express
-```
-
-📄 File: `src/config/swagger.config.js` · 🎯 উদ্দেশ্য: Swagger setup
-
-```javascript
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'MyShop E-commerce API',
-      version: '1.0.0',
-      description: 'Complete e-commerce backend API built with Node.js + Express',
-      contact: {
-        name: 'API Support',
-        email: 'support@myshop.com',
-      },
-    },
-    servers: [
-      {
-        url: 'http://localhost:3000/api/v1',
-        description: 'Development server',
-      },
-      {
-        url: 'https://api.myshop.com/v1',
-        description: 'Production server',
-      },
-    ],
-    components: {
-      securitySchemes: {
-        BearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-          description: 'JWT access token',
-        },
-      },
-      schemas: {
-        Product: {
-          type: 'object',
-          properties: {
-            _id: { type: 'string', example: '507f1f77bcf86cd799439011' },
-            name: { type: 'string', example: 'iPhone 15 Pro' },
-            sku: { type: 'string', example: 'APPL-IP15P-256-BLK' },
-            price: { type: 'number', example: 999.99 },
-            stock: { type: 'integer', example: 50 },
-            brand: { type: 'string', example: 'Apple' },
-          },
-        },
-        PaginatedResponse: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: { type: 'array', items: {} },
-            pagination: {
-              type: 'object',
-              properties: {
-                total: { type: 'integer', example: 100 },
-                page: { type: 'integer', example: 1 },
-                limit: { type: 'integer', example: 10 },
-                totalPages: { type: 'integer', example: 10 },
-                hasNextPage: { type: 'boolean', example: true },
-                hasPreviousPage: { type: 'boolean', example: false },
-              },
-            },
-          },
-        },
-        ErrorResponse: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: false },
-            message: { type: 'string', example: 'Resource not found' },
-          },
-        },
-      },
-    },
-    security: [{ BearerAuth: [] }],
-  },
-  apis: ['./src/routes/**/*.js'],  // JSDoc comments scan করবে
-};
-
-const specs = swaggerJsdoc(options);
-
-const setupSwagger = (app) => {
-  app.use(
-    '/api/docs',
-    swaggerUi.serve,
-    swaggerUi.setup(specs, {
-      customSiteTitle: 'MyShop API Docs',
-      customCss: '.swagger-ui .topbar { background-color: #1a1a2e; }',
-      swaggerOptions: {
-        persistAuthorization: true,
-      },
-    })
-  );
-
-  // JSON format
-  app.get('/api/docs.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(specs);
-  });
-
-  console.log('📚 API Docs: http://localhost:3000/api/docs');
-};
-
-module.exports = { setupSwagger };
-```
-
-### JSDoc Annotations
-
-📄 File: `src/routes/v1/products.routes.js` · 🎯 উদ্দেশ্য: Swagger JSDoc
-
-```javascript
-/**
- * @swagger
- * /products:
- *   get:
- *     summary: Get all products
- *     tags: [Products]
- *     security: []
- *     parameters:
- *       - in: query
- *         name: page
- *         schema: { type: integer, default: 1 }
- *       - in: query
- *         name: limit
- *         schema: { type: integer, default: 10 }
- *       - in: query
- *         name: category
- *         schema: { type: string }
- *         description: Category slug
- *       - in: query
- *         name: brand
- *         schema: { type: string }
- *       - in: query
- *         name: minPrice
- *         schema: { type: number }
- *       - in: query
- *         name: maxPrice
- *         schema: { type: number }
- *       - in: query
- *         name: search
- *         schema: { type: string }
- *     responses:
- *       200:
- *         description: Products list
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/PaginatedResponse'
- */
-router.get('/', getAllProducts);
-
-/**
- * @swagger
- * /products:
- *   post:
- *     summary: Create a new product
- *     tags: [Products]
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [name, sku, slug, price]
- *             properties:
- *               name: { type: string, example: "iPhone 15 Pro" }
- *               sku: { type: string, example: "APPL-IP15P" }
- *               slug: { type: string, example: "iphone-15-pro" }
- *               price: { type: number, example: 999.99 }
- *     responses:
- *       201:
- *         description: Product created
- *       400:
- *         description: Validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
- *       401:
- *         description: Unauthorized
- */
-router.post('/', authenticate, authorize('admin', 'seller'), createProduct);
-```
+ভালো API design সময় নেয় কিন্তু long-term maintenance সহজ করে। URL design, versioning, pagination — প্রতিটার trade-off বুঝে সঠিক choice করতে হবে। OpenAPI দিয়ে documentation API-এর সাথে sync থাকে। API একবার published হলে backward compatibility রক্ষা করা professional দায়িত্ব।
 
 ---
 
-## 📊 Common Mistakes Table
-
-| ভুল | কারণ | সমাধান |
-|-----|------|---------|
-| Inconsistent response format | Client parse করতে পারে না | একই format সর্বত্র |
-| No pagination | Large data crash | সবসময় limit + skip |
-| Sensitive fields expose | Data leak | select/projection দিয়ে filter |
-| API versioning নেই | Breaking changes client ভাঙে | /api/v1/ prefix রাখো |
-| Error message তে stack trace | Security issue | Production-এ hide করো |
-| Swagger docs outdated | Developer confusion | JSDoc automatic |
-
----
-
-## ✅ Chapter Summary
-
-```
-╔══════════════════════════════════════════════════════╗
-║  ✅ Chapter 14 — তুমি শিখলে                         ║
-╠══════════════════════════════════════════════════════╣
-║  • REST URL design rules (plural, lowercase)        ║
-║  • API versioning: /api/v1/                         ║
-║  • Consistent response: success/data/pagination     ║
-║  • Advanced filtering: query builder pattern        ║
-║  • Pagination: skip+limit, cursor                   ║
-║  • Swagger/OpenAPI: setup + JSDoc annotations       ║
-╚══════════════════════════════════════════════════════╝
-```
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc) | [⬅ Chapter 13](./chapter-13-file-upload-email.md) | [➡ Chapter 15](./chapter-15-testing.md)
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 13](./chapter-13-file-upload-email.md) | [➡ Ch 15](./chapter-15-testing.md)

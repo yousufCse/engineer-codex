@@ -1,451 +1,161 @@
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📘 CHAPTER 11 — Security
-# "OWASP Top 10 থেকে তোমার App সুরক্ষিত করো"
-# ⏱ ~90 মিনিট · Progress: [██████████░] 58%
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### "OWASP Top 10 ও Backend Defense — Attack ও Counter-Attack"
+#### Progress: [████████████░░░░░░░] 60%
 
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc)
-
----
-
-## 📌 এই Chapter এ তুমি শিখবে
-
-- ✅ Security headers with Helmet
-- ✅ Rate limiting — Brute force protection
-- ✅ SQL Injection protection (Prisma parameterized)
-- ✅ NoSQL Injection protection
-- ✅ XSS (Cross-Site Scripting) prevention
-- ✅ CORS configuration
-- ✅ Environment secrets best practices
-- ✅ npm audit ও dependency security
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 10](./chapter-10-validation.md) | [➡ Ch 12](./chapter-12-nestjs.md)
 
 ---
 
-## 🏗️ Real-life Analogy
+## OWASP Top 10
 
-> একটি দোকানের মতো — দরজায় গার্ড (authentication), ক্যামেরা (logging), নামের ট্যাগ (authorization), দরজায় তালা (HTTPS), সন্দেহজনক প্যাকেট scan (input validation), এবং rate limit (একজন customer অনেক বেশি বার knock করলে block)।
+OWASP (Open Web Application Security Project) একটা non-profit organization যেটা web application security নিয়ে গবেষণা করে। OWASP Top 10 হলো সবচেয়ে critical web application security risk-এর তালিকা — প্রতি কয়েক বছরে update হয়।
 
----
-
-## 🗺️ Security Layers
-
-```mermaid
-graph TD
-    A["Internet"] --> B["HTTPS/TLS\n(Encryption)"]
-    B --> C["CORS\n(Origin Check)"]
-    C --> D["Helmet\n(Security Headers)"]
-    D --> E["Rate Limiter\n(DDoS Protection)"]
-    E --> F["Input Validation\n(XSS/Injection)"]
-    F --> G["Authentication\n(JWT)"]
-    G --> H["Authorization\n(RBAC)"]
-    H --> I["Your Application"]
-```
+Backend developer হিসেবে এই risks জানা এবং এড়ানো professional দায়িত্ব।
 
 ---
 
-## 🛡️ Helmet — Security Headers
+## SQL Injection — কীভাবে কাজ করে, কীভাবে ঠেকাবেন
 
-📄 File: `src/app.js` · 🎯 উদ্দেশ্য: Security headers configuration
+SQL Injection হলো সবচেয়ে পুরনো এবং এখনো সবচেয়ে বিপজ্জনক vulnerability।
 
-```javascript
-const helmet = require('helmet');
+**আক্রমণ কীভাবে হয়:**
 
-// Basic helmet (defaults সব)
-app.use(helmet());
+ধরুন login query: `SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`
 
-// অথবা granular control:
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-        imgSrc: ["'self'", 'data:', 'https://cdn.myshop.com'],
-        scriptSrc: ["'self'"],
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      },
-    },
-    crossOriginEmbedderPolicy: false,  // Cloudinary এর জন্য
-    hsts: {
-      maxAge: 31536000,       // 1 year
-      includeSubDomains: true,
-      preload: true,
-    },
-  })
-);
-```
+Attacker যদি email হিসেবে দেয়: `' OR '1'='1' --`
 
-```
-💡 Helmet যে Headers যোগ করে:
-   X-Content-Type-Options: nosniff
-   X-Frame-Options: SAMEORIGIN
-   X-XSS-Protection: 0
-   Strict-Transport-Security: max-age=...
-   Content-Security-Policy: default-src 'self'
-   Referrer-Policy: no-referrer
-```
+Query হবে: `SELECT * FROM users WHERE email = '' OR '1'='1' --' AND password = '...'`
+
+`--` SQL comment। `'1'='1'` সবসময় true। ফলে সব user return হবে, password check হবে না।
+
+**প্রতিরোধ — Parameterized Query:**
+
+SQL এবং data আলাদা রাখতে হবে। Parameterized query বা prepared statement ব্যবহার করলে database driver data-কে code হিসেবে নয়, শুধু data হিসেবে treat করে।
+
+ORM (Prisma, Mongoose) বা `pg` library-এর parameterized query — `WHERE email = $1` এবং আলাদা parameter। Injection impossible।
 
 ---
 
-## 🚦 Rate Limiting
+## XSS — Cross-Site Scripting
 
-```bash
-npm install express-rate-limit
-```
+XSS attack-এ attacker website-এ malicious JavaScript inject করে। অন্য user-এর browser-এ সেই JavaScript চলে।
 
-📄 File: `src/middleware/rateLimiter.js` · 🎯 উদ্দেশ্য: Multiple rate limiters
+**Reflected XSS:** Malicious script URL-এর মধ্যে থাকে। User সেই link-এ click করলে script execute হয়।
 
-```javascript
-const rateLimit = require('express-rate-limit');
+**Stored XSS:** Malicious script database-এ সংরক্ষণ হয়। যে user page দেখে, সবার browser-এ script চলে। Comment, forum post-এ HTML না escape করলে।
 
-// ============================================
-// General API Rate Limit
-// ============================================
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,  // 15 minutes
-  max: 100,                    // 15 মিনিটে সর্বোচ্চ 100 requests
-  standardHeaders: true,       // Rate-Limit headers যোগ করো
-  legacyHeaders: false,
-  message: {
-    success: false,
-    message: 'Too many requests from this IP. Please try again after 15 minutes.',
-  },
-  handler: (req, res) => {
-    res.status(429).json({
-      success: false,
-      message: 'Too many requests. Please slow down.',
-      retryAfter: Math.ceil(req.rateLimit.resetTime / 1000),
-    });
-  },
-});
+**DOM-based XSS:** Server-এর সাথে সম্পর্ক নেই। JavaScript code DOM থেকে input পড়ে সেটা directly execute করে।
 
-// ============================================
-// Auth Rate Limit (stricter)
-// ============================================
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,  // 15 minutes
-  max: 10,                    // সর্বোচ্চ 10 login attempts
-  skipSuccessfulRequests: true,  // Successful requests count করে না
-  message: {
-    success: false,
-    message: 'Too many login attempts. Please try again after 15 minutes.',
-  },
-});
-
-// ============================================
-// Password Reset Rate Limit
-// ============================================
-const passwordResetLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,   // 1 hour
-  max: 3,                      // 1 ঘণ্টায় সর্বোচ্চ 3 attempts
-  message: {
-    success: false,
-    message: 'Too many password reset attempts. Please try again after 1 hour.',
-  },
-});
-
-// ============================================
-// File Upload Rate Limit
-// ============================================
-const uploadLimiter = rateLimit({
-  windowMs: 60 * 1000,  // 1 minute
-  max: 10,
-  message: {
-    success: false,
-    message: 'Upload limit reached. Please wait a minute.',
-  },
-});
-
-module.exports = { apiLimiter, authLimiter, passwordResetLimiter, uploadLimiter };
-```
-
-📄 File: `src/app.js` (apply করো) · 🎯 উদ্দেশ্য: Rate limit apply
-
-```javascript
-const { apiLimiter, authLimiter } = require('./middleware/rateLimiter');
-
-// General API limiter
-app.use('/api/', apiLimiter);
-
-// Auth-specific limiter
-app.use('/api/auth/login', authLimiter);
-app.use('/api/auth/forgot-password', authLimiter);
-```
+**প্রতিরোধ:**
+- User input database-এ যাওয়ার আগে sanitize করো — HTML escape।
+- Content-Security-Policy header — browser-কে বলো কোন source থেকে script run করতে পারবে।
+- `httpOnly` cookie — JavaScript দিয়ে cookie access করা যাবে না।
 
 ---
 
-## 🔐 SQL Injection Prevention
+## CSRF — Cross-Site Request Forgery
 
-```javascript
-// ============================================
-// ❌ VULNERABLE — Never do this!
-// ============================================
-const getProductRaw = async (name) => {
-  // Direct string interpolation → SQL Injection!
-  const result = await prisma.$queryRawUnsafe(
-    `SELECT * FROM products WHERE name = '${name}'`
-  );
-  // Attacker: name = "' OR '1'='1" → সব products দেখবে!
-  return result;
-};
+CSRF attack-এ attacker user-কে দিয়ে তার অজান্তে action করায়।
 
-// ============================================
-// ✅ SAFE — Parameterized query
-// ============================================
-const getProductSafe = async (name) => {
-  // Prisma automatically parameterizes
-  return prisma.product.findMany({ where: { name } });
-};
+**কীভাবে হয়:**
 
-// ✅ SAFE — $queryRaw with tagged template (auto-escapes)
-const searchProductsSafe = async (searchTerm) => {
-  return prisma.$queryRaw`
-    SELECT id, name, price
-    FROM products
-    WHERE name ILIKE ${'%' + searchTerm + '%'}
-    AND is_active = TRUE
-  `;
-  // Template literal syntax auto-escapes parameters!
-};
-```
+User bank.com-এ logged in। Attacker evil.com-এ একটা form রাখে যেটা bank.com-এ POST request পাঠায় (money transfer)। User evil.com visit করলে form automatically submit হয়। User-এর browser bank.com-এর cookie সাথে পাঠায়। Bank মনে করে legitimate request।
+
+**প্রতিরোধ:**
+
+**SameSite Cookie:** `SameSite=Strict` — cookie শুধু same site থেকে request-এ পাঠানো হবে। Cross-site request-এ cookie যাবে না।
+
+**CSRF Token:** Server একটা random token generate করে, form-এ hidden field হিসেবে দেয়। Submit করলে server verify করে। Attacker এই token জানে না।
+
+**Custom Header:** API-তে custom header (যেমন `X-Requested-With`) — browser-এর cross-site form submit এটা পাঠাতে পারে না।
 
 ---
 
-## 🍃 NoSQL Injection Prevention
+## Rate Limiting — Abuse প্রতিরোধ
 
-```javascript
-const mongoSanitize = require('express-mongo-sanitize');
+Rate limiting মানে নির্দিষ্ট সময়ে নির্দিষ্ট IP/user থেকে কতটা request allow করবে তার সীমা।
 
-// Middleware apply করো
-app.use(mongoSanitize({
-  replaceWith: '_',  // $ এবং . এই characters replace করো
-}));
+কেন দরকার:
+- Brute force attack রোধ — প্রতি সেকেন্ডে অনেক login try।
+- DoS (Denial of Service) protection।
+- API abuse রোধ — unlimited scraping।
 
-// ============================================
-// ❌ VULNERABLE
-// ============================================
-// Attacker sends: { "email": { "$ne": null }, "password": { "$ne": null } }
-const loginVulnerable = async (email, password) => {
-  // $ne: null → সব users match করবে!
-  const user = await User.findOne({ email, password });
-};
+**Token Bucket Algorithm:**
 
-// ============================================
-// ✅ SAFE — mongoSanitize automatically strips $operators
-// ============================================
-// express-mongo-sanitize middleware apply করলে
-// request body/params/query থেকে $ এবং . operator remove হয়
+প্রতিটা user-এর একটা "bucket" আছে। Bucket-এ token থাকে। Request করলে একটা token consume হয়। নির্দিষ্ট rate-এ token refill হয়। Bucket খালি হলে request reject।
 
-// Additional: Type check করো
-const loginSafe = async (body) => {
-  // Ensure string types
-  if (typeof body.email !== 'string' || typeof body.password !== 'string') {
-    throw new AppError('Invalid input type', 400);
-  }
+**Sliding Window:**
 
-  const user = await User.findOne({ email: body.email });
-  if (!user) {
-    throw new AppError('Invalid credentials', 401);
-  }
+শেষ N সেকেন্ডে কতটা request হয়েছে track করা। Fixed window-এর চেয়ে smooth।
 
-  const isMatch = await bcrypt.compare(body.password, user.passwordHash);
-  if (!isMatch) {
-    throw new AppError('Invalid credentials', 401);
-  }
-
-  return user;
-};
-```
-
-```bash
-npm install express-mongo-sanitize
-```
+`express-rate-limit` package Express-এ সহজে implement করা যায়।
 
 ---
 
-## 🧹 XSS Prevention
+## CORS — Same-Origin Policy
 
-```bash
-npm install xss-clean
-```
+Same-Origin Policy browser-এর একটা security feature। একটা domain-এর JavaScript অন্য domain-এর resource access করতে পারে না — by default।
 
-```javascript
-const xss = require('xss-clean');
+CORS (Cross-Origin Resource Sharing) হলো server-এর একটা mechanism যেটা বলে "এই domain থেকে request করা allowed।"
 
-// XSS sanitize করো — HTML tags strip করে
-app.use(xss());
+Backend API যদি `api.example.com`-এ থাকে এবং frontend `app.example.com`-এ, CORS configure না করলে browser request block করবে।
 
-// ============================================
-// ❌ VULNERABLE — Never store raw HTML
-// ============================================
-const createReviewVulnerable = async (req, res) => {
-  // Attacker: comment = "<script>document.cookie</script>"
-  await Review.create({ comment: req.body.comment });
-};
+**CORS Headers:**
 
-// ============================================
-// ✅ SAFE — xss-clean middleware auto-sanitizes
-// ============================================
-// app.use(xss()) দিলে সব body/query/params sanitize হয়
+`Access-Control-Allow-Origin: https://app.example.com` — এই origin allow।
 
-// Manual sanitize প্রয়োজন হলে:
-const createProductSafe = async (req, res) => {
-  // express-validator এর escape() ব্যবহার করো
-  const name = req.body.name;  // xss() already cleaned this
-  await Product.create({ name });
-};
-```
+`Access-Control-Allow-Methods: GET, POST, PUT, DELETE` — এই methods allow।
+
+`Access-Control-Allow-Headers: Authorization, Content-Type` — এই headers allow।
+
+Wildcard `*` avoid করা উচিত — production-এ explicit origin list করো।
+
+**Preflight Request:**
+
+Complex request (non-simple headers বা methods) এর আগে browser OPTIONS request পাঠায় — "এই request করা কি allowed?" Server allow করলে actual request যায়।
 
 ---
 
-## 🌍 CORS Configuration
+## Helmet — HTTP Security Headers
 
-📄 File: `src/config/cors.config.js` · 🎯 উদ্দেশ্য: Production-safe CORS
+Helmet.js Express-এর জন্য একটা middleware যেটা বিভিন্ন security-related HTTP header set করে।
 
-```javascript
-const corsOptions = {
-  // Allowed origins
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      'https://myshop.com',
-      'https://www.myshop.com',
-      'https://admin.myshop.com',
-      // Development-এ localhost
-      ...(process.env.NODE_ENV === 'development'
-        ? ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080']
-        : []),
-    ];
+**X-Content-Type-Options: nosniff** — Browser content type sniffing বন্ধ। Browser HTML file-কে script হিসেবে execute করবে না।
 
-    // No origin (mobile apps, Postman, curl) allow করো
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS policy does not allow origin: ${origin}`));
-    }
-  },
+**X-Frame-Options: DENY** — Page কে iframe-এ load করা যাবে না। Clickjacking attack রোধ।
 
-  // Allowed HTTP methods
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+**Strict-Transport-Security (HSTS)** — Browser-কে বলে সবসময় HTTPS ব্যবহার করো।
 
-  // Allowed headers
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'X-Requested-With',
-    'Accept',
-    'Origin',
-  ],
+**X-XSS-Protection** — Browser-এর built-in XSS filter enable।
 
-  // Credentials (cookies, authorization headers)
-  credentials: true,
+**Content-Security-Policy** — কোন source থেকে script, style, image load হতে পারবে।
 
-  // Preflight cache
-  maxAge: 86400,  // 24 hours
-};
-
-module.exports = corsOptions;
-```
+**Referrer-Policy** — Referrer header-এ কতটুকু information পাঠানো হবে।
 
 ---
 
-## 🔒 Environment Secrets
+## Environment Secrets Management
 
-📄 File: `src/config/env.config.js` · 🎯 উদ্দেশ্য: Environment validation
+API key, database password, JWT secret — এগুলো code-এ hardcode করা যাবে না।
 
-```javascript
-const requiredEnvVars = [
-  'DATABASE_URL',
-  'MONGODB_URI',
-  'JWT_ACCESS_SECRET',
-  'JWT_REFRESH_SECRET',
-  'NODE_ENV',
-];
+**কেন নয়:**
+- Code repository (GitHub) public হলে secrets ফাঁস।
+- Developer যোগ দিলে বা চলে গেলে access control কঠিন।
+- Production এবং development-এ আলাদা secrets দরকার।
 
-const validateEnv = () => {
-  const missing = requiredEnvVars.filter((key) => !process.env[key]);
-
-  if (missing.length > 0) {
-    throw new Error(
-      `❌ Missing required environment variables:\n${missing.map((k) => `  - ${k}`).join('\n')}`
-    );
-  }
-
-  // JWT secret strength check
-  if (process.env.JWT_ACCESS_SECRET.length < 32) {
-    throw new Error('❌ JWT_ACCESS_SECRET must be at least 32 characters');
-  }
-
-  console.log('✅ All environment variables validated');
-};
-
-module.exports = { validateEnv };
-```
-
-```
-⚠️ Security Rules for Secrets:
-   ✅ .env file → .gitignore-এ রাখো
-   ✅ Production-এ environment variables platform-এ set করো
-   ✅ JWT secret minimum 32 chars, random
-   ✅ npm audit চালাও নিয়মিত
-   ❌ কখনো secret code-এ hardcode করবে না
-   ❌ .env file GitHub-এ push করবে না
-```
+**Best practices:**
+- `.env` file-এ local secrets — `.gitignore`-এ।
+- Production-এ environment variable (cloud provider-এর secret manager)।
+- AWS Secrets Manager, HashiCorp Vault, Doppler।
+- Rotate secrets regularly।
+- Least privilege — service শুধু যা দরকার তাই access পাবে।
 
 ---
 
-## 🔍 Security Audit
+## মূল উপলব্ধি
 
-```bash
-# NPM vulnerability check
-npm audit
-
-# Fix vulnerable packages
-npm audit fix
-
-# Force fix (breaking changes হতে পারে)
-npm audit fix --force
-
-# Specific package check
-npm audit --json | jq '.vulnerabilities'
-
-# OWASP ZAP (free tool) দিয়ে scan
-# https://www.zaproxy.org/
-```
+Security কোনো feature নয় — এটা fundamental requirement। SQL Injection, XSS, CSRF — এগুলো decades-পুরনো attack কিন্তু এখনো widespread। OWASP Top 10 জানা, parameterized query ব্যবহার, Helmet header, rate limiting, CORS সঠিকভাবে configure — এগুলো minimum hygiene। Security একটা ongoing process — নতুন vulnerability বের হয়, আপডেট রাখতে হয়।
 
 ---
 
-## 📊 Common Mistakes Table
-
-| ভুল | Attack | সমাধান |
-|-----|--------|---------|
-| Raw SQL string interpolation | SQL Injection | Parameterized queries (Prisma) |
-| MongoDB operator in input | NoSQL Injection | express-mongo-sanitize |
-| HTML stored raw | XSS | xss-clean middleware |
-| No rate limiting | Brute force | express-rate-limit |
-| CORS `*` in production | CSRF-like attacks | Specific origins allowlist |
-| Weak JWT secret | Token forgery | 64+ char random secret |
-| Stack trace in response | Information disclosure | NODE_ENV=production |
-| npm audit ignored | Known vulnerabilities | Regular audit + update |
-
----
-
-## ✅ Chapter Summary
-
-```
-╔══════════════════════════════════════════════════════╗
-║  ✅ Chapter 11 — তুমি শিখলে                         ║
-╠══════════════════════════════════════════════════════╣
-║  • Helmet: security headers                         ║
-║  • Rate limiting: general/auth/upload               ║
-║  • SQL Injection: Prisma parameterized queries      ║
-║  • NoSQL Injection: express-mongo-sanitize          ║
-║  • XSS: xss-clean middleware                        ║
-║  • CORS: production-safe configuration              ║
-║  • Env secrets: validation + best practices         ║
-║  • npm audit: vulnerability scanning                ║
-╚══════════════════════════════════════════════════════╝
-```
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc) | [⬅ Chapter 10](./chapter-10-validation.md) | [➡ Chapter 12](./chapter-12-nestjs.md)
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 10](./chapter-10-validation.md) | [➡ Ch 12](./chapter-12-nestjs.md)

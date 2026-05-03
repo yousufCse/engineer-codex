@@ -1,799 +1,143 @@
+# 📘 CHAPTER 9 — Authentication ও Authorization
+### "পরিচয় নিশ্চিতকরণ এবং অনুমতি — JWT থেকে OAuth পর্যন্ত"
+#### Progress: [██████████░░░░░░░░░] 50%
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 📘 CHAPTER 9 — Authentication & Authorization
-# "JWT, bcrypt — তোমার App সুরক্ষিত করো"
-# ⏱ ~150 মিনিট · Progress: [█████████░] 50%
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc)
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 8](./chapter-08-mongoose.md) | [➡ Ch 10](./chapter-10-validation.md)
 
 ---
 
-## 📌 এই Chapter এ তুমি শিখবে
+## Authentication vs Authorization
 
-- ✅ Authentication vs Authorization পার্থক্য
-- ✅ Password hashing with bcrypt
-- ✅ JWT: Access Token + Refresh Token
-- ✅ Complete auth flow: register → login → refresh → logout
-- ✅ Email verification
-- ✅ Password reset
-- ✅ RBAC (Role-Based Access Control)
-- ✅ Auth middleware for Express
-- ✅ PostgreSQL (Prisma) + MongoDB (Mongoose) দুটোর জন্য
+এই দুটো concept প্রায়ই গুলিয়ে ফেলা হয় — কিন্তু এগুলো আলাদা।
+
+**Authentication (প্রমাণীকরণ):** "তুমি কে?" — ব্যবহারকারীর পরিচয় নিশ্চিত করা। Username/password দিয়ে login করা authentication।
+
+**Authorization (অনুমোদন):** "তুমি কী করতে পারো?" — authenticated ব্যবহারকারীর কী access আছে সেটা নির্ধারণ। Admin সব কিছু করতে পারে, regular user শুধু নিজের data দেখতে পারে।
+
+Authentication সবসময় Authorization-এর আগে আসে — পরিচয় না জানলে অনুমতি দেওয়া অসম্ভব।
 
 ---
 
-## 🏗️ Real-life Analogy
+## Session-based vs Token-based Authentication
 
-> Authentication = তুমি কে? (passport দেখানো)
-> Authorization = তুমি কী করতে পারো? (visa দেখানো)
->
-> JWT = সরকারি ID card — যেখানে তোমার নাম, role সব লেখা আছে। প্রতিটি request-এ এটি দেখালেই server তোমাকে চেনে।
+**Session-based Authentication (Traditional):**
 
-```
-🟢 Flutter তুলনা:
-   Flutter-এ SharedPreferences/SecureStorage-এ
-   token রাখা, Dio interceptor দিয়ে header-এ
-   দেওয়া — এই token-ই backend এ verify হয়।
-   
-   Backend বানাচ্ছো মানে Flutter-এর সেই
-   /auth/login endpoint নিজেই বানাচ্ছো।
-```
+User login করলে server একটা session তৈরি করে এবং session ID browser-এর cookie-তে পাঠায়। পরের প্রতিটা request-এ browser সেই cookie পাঠায়, server session store-এ (memory বা database) session খোঁজে এবং user identify করে।
+
+সমস্যা: Server stateful — প্রতিটা session server-এ সংরক্ষণ। Multiple server থাকলে session sharing দরকার (Redis)। Horizontal scaling জটিল।
+
+**Token-based Authentication (Modern):**
+
+User login করলে server একটা token তৈরি করে এবং client-এ পাঠায়। Client পরের প্রতিটা request-এ token পাঠায় (`Authorization: Bearer <token>` header)। Server token verify করে user identify করে — database lookup ছাড়া।
+
+সুবিধা: Server stateless। Multiple server-এ token verify করা যায় কারণ server-এ কিছু সংরক্ষণ নেই। Mobile app, third-party API-তে ভালো।
 
 ---
 
-## 🗺️ Auth Flow Diagram
+## JWT — JSON Web Token
 
-```mermaid
-sequenceDiagram
-    participant U as User/Flutter App
-    participant A as Auth API
-    participant DB as Database
+JWT হলো token-based authentication-এর সবচেয়ে জনপ্রিয় standard।
 
-    Note over U,DB: REGISTER
-    U->>A: POST /auth/register {name, email, password}
-    A->>A: Hash password (bcrypt)
-    A->>DB: Save user
-    A->>U: 201 + {message: "Verify email"}
+একটা JWT তিনটা অংশ দিয়ে গঠিত — dot দিয়ে আলাদা:
 
-    Note over U,DB: LOGIN
-    U->>A: POST /auth/login {email, password}
-    A->>DB: Find user by email
-    A->>A: Compare password (bcrypt)
-    A->>A: Generate Access Token (15m)
-    A->>A: Generate Refresh Token (7d)
-    A->>DB: Save refresh token
-    A->>U: 200 + {accessToken, refreshToken, user}
-
-    Note over U,DB: PROTECTED ROUTE
-    U->>A: GET /products (Bearer accessToken)
-    A->>A: Verify JWT signature
-    A->>A: Check expiry
-    A->>DB: Get products
-    A->>U: 200 + products
-
-    Note over U,DB: TOKEN REFRESH
-    U->>A: POST /auth/refresh {refreshToken}
-    A->>DB: Verify refresh token in DB
-    A->>A: Generate new Access Token
-    A->>U: 200 + {accessToken}
+**Header:** Algorithm এবং token type। Base64URL encoded।
 ```
+{ "alg": "HS256", "typ": "JWT" }
+```
+
+**Payload:** Claims — user information এবং token metadata। Base64URL encoded।
+```
+{ "sub": "user123", "name": "Alice", "iat": 1700000000, "exp": 1700003600 }
+```
+
+**Signature:** Header এবং Payload-এর উপর secret key দিয়ে cryptographic signature।
+
+**JWT কীভাবে কাজ করে:**
+
+Server token তৈরির সময় header + payload + secret দিয়ে signature তৈরি করে। Client token পাঠালে server শুধু signature verify করে — secret জানলে যেকোনো server verify করতে পারে, database lookup লাগে না।
+
+**জরুরি সতর্কতা:** Payload Base64URL encoded — encrypted নয়। যে কেউ payload decode করে content দেখতে পারে। Sensitive information (password, credit card) payload-এ রাখা উচিত নয়।
 
 ---
 
-## ⚙️ Installation
+## JWT Signing Algorithms
 
-```bash
-npm install bcryptjs jsonwebtoken
-npm install @types/bcryptjs @types/jsonwebtoken --save-dev  # TypeScript only
-```
+**HS256 (HMAC-SHA256):** Symmetric। একটাই secret key — sign করতে এবং verify করতে। Simple কিন্তু secret সব service-এ share করতে হয়।
 
----
-
-## 🔑 JWT Utility
-
-📄 File: `src/utils/jwt.util.js` · 🎯 উদ্দেশ্য: JWT generation and verification
-
-```javascript
-const jwt = require('jsonwebtoken');
-
-// ============================================
-// Generate Tokens
-// ============================================
-const generateAccessToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
-    issuer: 'myshop-api',
-    audience: 'myshop-client',
-  });
-};
-
-const generateRefreshToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
-    issuer: 'myshop-api',
-    audience: 'myshop-client',
-  });
-};
-
-// ============================================
-// Verify Tokens
-// ============================================
-const verifyAccessToken = (token) => {
-  try {
-    return jwt.verify(token, process.env.JWT_ACCESS_SECRET, {
-      issuer: 'myshop-api',
-      audience: 'myshop-client',
-    });
-  } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      throw { code: 'TOKEN_EXPIRED', message: 'Access token expired' };
-    }
-    if (error.name === 'JsonWebTokenError') {
-      throw { code: 'TOKEN_INVALID', message: 'Invalid access token' };
-    }
-    throw error;
-  }
-};
-
-const verifyRefreshToken = (token) => {
-  try {
-    return jwt.verify(token, process.env.JWT_REFRESH_SECRET, {
-      issuer: 'myshop-api',
-      audience: 'myshop-client',
-    });
-  } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      throw { code: 'REFRESH_EXPIRED', message: 'Refresh token expired. Please login again.' };
-    }
-    throw { code: 'TOKEN_INVALID', message: 'Invalid refresh token' };
-  }
-};
-
-// ============================================
-// Generate token pair
-// ============================================
-const generateTokenPair = (user) => {
-  const payload = {
-    sub: user.id.toString(),
-    email: user.email,
-    role: user.role,
-  };
-
-  const accessToken = generateAccessToken(payload);
-  const refreshToken = generateRefreshToken({ sub: user.id.toString() });
-
-  return { accessToken, refreshToken };
-};
-
-module.exports = {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyAccessToken,
-  verifyRefreshToken,
-  generateTokenPair,
-};
-```
-
-📄 File: `.env` · 🎯 উদ্দেশ্য: Auth environment variables
-
-```bash
-# JWT Secrets — production-এ এগুলো random 64+ char string হবে
-JWT_ACCESS_SECRET=your_super_secret_access_key_change_in_production_min64chars
-JWT_REFRESH_SECRET=your_super_secret_refresh_key_change_in_production_min64chars
-JWT_ACCESS_EXPIRES_IN=15m
-JWT_REFRESH_EXPIRES_IN=7d
-
-# Email (Chapter 13-এ)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your@gmail.com
-EMAIL_PASS=your_app_password
-```
+**RS256 (RSA-SHA256):** Asymmetric। Private key দিয়ে sign, public key দিয়ে verify। Auth service private key রাখে। অন্য service public key দিয়ে verify করতে পারে — private key share করতে হয় না। Microservice architecture-এ preferred।
 
 ---
 
-## 🔐 Auth Controller (Prisma — PostgreSQL)
+## Access Token + Refresh Token Pattern
 
-📄 File: `src/controllers/auth.prisma.controller.js` · 🎯 উদ্দেশ্য: Complete auth for PostgreSQL
+JWT-এর একটা সমস্যা — token revoke করা কঠিন। Token valid থাকাকালীন user কোনো কারণে block করলেও token দিয়ে access পাবে।
 
-```javascript
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
-const prisma = require('../config/prisma');
-const { generateTokenPair, verifyRefreshToken } = require('../utils/jwt.util');
-const { AppError } = require('../middleware/error.middleware');
-const ApiResponse = require('../utils/ApiResponse');
+এই সমস্যার সমাধান: Short-lived access token + Long-lived refresh token।
 
-// ============================================
-// REGISTER
-// ============================================
-const register = async (req, res, next) => {
-  try {
-    const { firstName, lastName, email, password, phone } = req.body;
+**Access Token:** Short expiry (15 minutes - 1 hour)। API call-এ এটাই পাঠানো হয়। Expire হলে নতুন token দরকার।
 
-    // Email already exists?
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      throw new AppError('Email already registered', 409);
-    }
+**Refresh Token:** Long expiry (7-30 days)। Database-এ সংরক্ষণ। নতুন access token নিতে ব্যবহার।
 
-    // Password hash
-    const SALT_ROUNDS = 12;
-    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+**Flow:**
+1. Login করলে access token + refresh token পাওয়া যায়।
+2. API call-এ access token পাঠানো হয়।
+3. Access token expire হলে refresh token দিয়ে নতুন access token নেওয়া হয়।
+4. Logout করলে refresh token database থেকে delete করা হয় — এরপর আর নতুন access token নেওয়া যাবে না।
 
-    // Email verification token
-    const emailVerifyToken = crypto.randomBytes(32).toString('hex');
-
-    // User তৈরি করো
-    const user = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        passwordHash,
-        phone,
-        emailVerifyToken,
-      },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        isEmailVerified: true,
-        createdAt: true,
-      },
-    });
-
-    // TODO: Send verification email (Chapter 13)
-    console.log(`Email verification token for ${email}: ${emailVerifyToken}`);
-
-    ApiResponse.created(res, user, 'Registration successful. Please verify your email.');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// EMAIL VERIFY
-// ============================================
-const verifyEmail = async (req, res, next) => {
-  try {
-    const { token } = req.params;
-
-    const user = await prisma.user.findFirst({
-      where: { emailVerifyToken: token },
-    });
-
-    if (!user) {
-      throw new AppError('Invalid or expired verification token', 400);
-    }
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        isEmailVerified: true,
-        emailVerifyToken: null,
-      },
-    });
-
-    ApiResponse.success(res, null, 'Email verified successfully');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// LOGIN
-// ============================================
-const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-
-    // User find
-    const user = await prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-      // Timing attack prevent করতে dummy bcrypt compare করো
-      await bcrypt.compare(password, '$2b$12$dummy.hash.to.prevent.timing.attack.xxxxx');
-      throw new AppError('Invalid email or password', 401);
-    }
-
-    if (!user.isActive) {
-      throw new AppError('Your account has been deactivated', 403);
-    }
-
-    // Password compare
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isPasswordValid) {
-      throw new AppError('Invalid email or password', 401);
-    }
-
-    // Tokens generate
-    const { accessToken, refreshToken } = generateTokenPair(user);
-
-    // Refresh token DB-তে save করো
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        refreshToken,
-        lastLoginAt: new Date(),
-      },
-    });
-
-    // Password hash response-এ পাঠানো যাবে না
-    const { passwordHash, refreshToken: _, emailVerifyToken, passwordResetToken, ...safeUser } = user;
-
-    ApiResponse.success(res, {
-      accessToken,
-      refreshToken,
-      user: safeUser,
-    }, 'Login successful');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// REFRESH TOKEN
-// ============================================
-const refreshToken = async (req, res, next) => {
-  try {
-    const { refreshToken: token } = req.body;
-
-    if (!token) {
-      throw new AppError('Refresh token required', 400);
-    }
-
-    // JWT verify করো
-    const decoded = verifyRefreshToken(token);
-
-    // DB-তে match করো
-    const user = await prisma.user.findFirst({
-      where: {
-        id: parseInt(decoded.sub, 10),
-        refreshToken: token,
-        isActive: true,
-      },
-    });
-
-    if (!user) {
-      throw new AppError('Invalid refresh token', 401);
-    }
-
-    // New tokens generate করো (rotation)
-    const { accessToken, refreshToken: newRefreshToken } = generateTokenPair(user);
-
-    // New refresh token save করো
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { refreshToken: newRefreshToken },
-    });
-
-    ApiResponse.success(res, {
-      accessToken,
-      refreshToken: newRefreshToken,
-    });
-  } catch (error) {
-    if (error.code === 'TOKEN_EXPIRED' || error.code === 'REFRESH_EXPIRED') {
-      return next(new AppError(error.message, 401));
-    }
-    if (error.code === 'TOKEN_INVALID') {
-      return next(new AppError(error.message, 401));
-    }
-    next(error);
-  }
-};
-
-// ============================================
-// LOGOUT
-// ============================================
-const logout = async (req, res, next) => {
-  try {
-    // DB থেকে refresh token সরাও
-    await prisma.user.update({
-      where: { id: req.user.id },
-      data: { refreshToken: null },
-    });
-
-    ApiResponse.success(res, null, 'Logged out successfully');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// FORGOT PASSWORD
-// ============================================
-const forgotPassword = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-
-    const user = await prisma.user.findUnique({ where: { email } });
-
-    // User না থাকলেও success return করো (security)
-    if (!user) {
-      return ApiResponse.success(res, null, 'If email exists, reset link will be sent');
-    }
-
-    // Reset token তৈরি করো
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    const resetExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        passwordResetToken: resetToken,
-        passwordResetExpires: resetExpires,
-      },
-    });
-
-    // TODO: Send reset email (Chapter 13)
-    console.log(`Password reset token for ${email}: ${resetToken}`);
-
-    ApiResponse.success(res, null, 'Password reset link sent to your email');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// RESET PASSWORD
-// ============================================
-const resetPassword = async (req, res, next) => {
-  try {
-    const { token } = req.params;
-    const { password } = req.body;
-
-    const user = await prisma.user.findFirst({
-      where: {
-        passwordResetToken: token,
-        passwordResetExpires: { gt: new Date() },
-      },
-    });
-
-    if (!user) {
-      throw new AppError('Invalid or expired reset token', 400);
-    }
-
-    const passwordHash = await bcrypt.hash(password, 12);
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        passwordHash,
-        passwordResetToken: null,
-        passwordResetExpires: null,
-        refreshToken: null, // সব sessions logout করো
-      },
-    });
-
-    ApiResponse.success(res, null, 'Password reset successful. Please login again.');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// CHANGE PASSWORD (logged in)
-// ============================================
-const changePassword = async (req, res, next) => {
-  try {
-    const { currentPassword, newPassword } = req.body;
-    const userId = req.user.id;
-
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-
-    const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
-    if (!isValid) {
-      throw new AppError('Current password is incorrect', 401);
-    }
-
-    const passwordHash = await bcrypt.hash(newPassword, 12);
-
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        passwordHash,
-        refreshToken: null, // force re-login
-      },
-    });
-
-    ApiResponse.success(res, null, 'Password changed successfully. Please login again.');
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// GET PROFILE
-// ============================================
-const getProfile = async (req, res, next) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        phone: true,
-        role: true,
-        isEmailVerified: true,
-        lastLoginAt: true,
-        createdAt: true,
-        _count: {
-          select: { orders: true, addresses: true },
-        },
-      },
-    });
-
-    ApiResponse.success(res, user);
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = {
-  register,
-  verifyEmail,
-  login,
-  refreshToken,
-  logout,
-  forgotPassword,
-  resetPassword,
-  changePassword,
-  getProfile,
-};
-```
+**Token Rotation:** প্রতিবার refresh করলে নতুন refresh token দেওয়া এবং পুরনোটা invalidate করা — refresh token চুরি হলেও সীমিত ক্ষতি।
 
 ---
 
-## 🛡️ Auth Middleware
+## bcrypt — Password Hashing
 
-📄 File: `src/middleware/auth.middleware.js` · 🎯 উদ্দেশ্য: JWT verification middleware
+Password কখনো plain text-এ সংরক্ষণ করা উচিত নয়। Database leak হলে সব ব্যবহারকারীর password ফাঁস।
 
-```javascript
-const prisma = require('../config/prisma');
-const { verifyAccessToken } = require('../utils/jwt.util');
-const { AppError } = require('./error.middleware');
+Hash করলেও SHA-256 বা MD5 যথেষ্ট নয় — এগুলো দ্রুত। Attacker GPU দিয়ে প্রতি সেকেন্ডে বিলিয়ন hash calculate করতে পারে।
 
-// ============================================
-// Authenticate — JWT verify করো
-// ============================================
-const authenticate = async (req, res, next) => {
-  try {
-    // Header থেকে token নাও
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new AppError('Authentication required. Please login.', 401);
-    }
+**bcrypt কেন ভালো:**
 
-    const token = authHeader.split(' ')[1];
+**Slow by design:** bcrypt ইচ্ছাকৃতভাবে ধীর — brute force attack কঠিন। Cost factor দিয়ে speed control করা যায়।
 
-    if (!token) {
-      throw new AppError('No token provided', 401);
-    }
+**Salt:** Random string যেটা password-এর সাথে যোগ করে hash করা হয়। এর ফলে একই password-এর আলাদা hash হয়। Rainbow table attack (pre-computed hash lookup) defeat করে।
 
-    // Token verify করো
-    let decoded;
-    try {
-      decoded = verifyAccessToken(token);
-    } catch (err) {
-      if (err.code === 'TOKEN_EXPIRED') {
-        throw new AppError('Access token expired. Please refresh.', 401);
-      }
-      throw new AppError('Invalid access token', 401);
-    }
+**Cost Factor:** Work factor বা rounds। bcrypt লগারিদমিক — cost 10 মানে 2^10 = 1024 rounds। Cost 11 মানে 2^11 = 2048। প্রতি unit বাড়ালে computation দ্বিগুণ। Hardware দ্রুত হলে cost বাড়ানো যায়।
 
-    // User DB-তে আছে ও active কিনা check করো
-    const user = await prisma.user.findUnique({
-      where: { id: parseInt(decoded.sub, 10) },
-      select: {
-        id: true,
-        email: true,
-        role: true,
-        isActive: true,
-        firstName: true,
-        lastName: true,
-      },
-    });
-
-    if (!user || !user.isActive) {
-      throw new AppError('User not found or account deactivated', 401);
-    }
-
-    // req.user-এ attach করো
-    req.user = user;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-// ============================================
-// Authorize — Role check করো
-// ============================================
-const authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return next(new AppError('Authentication required', 401));
-    }
-
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new AppError(
-          `Access denied. Required role: ${roles.join(' or ')}. Your role: ${req.user.role}`,
-          403
-        )
-      );
-    }
-
-    next();
-  };
-};
-
-// ============================================
-// Optional Auth — Token থাকলে verify, না থাকলেও চলবে
-// ============================================
-const optionalAuth = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return next(); // Token নেই — ok
-    }
-
-    const token = authHeader.split(' ')[1];
-    if (!token) return next();
-
-    try {
-      const decoded = verifyAccessToken(token);
-      const user = await prisma.user.findUnique({
-        where: { id: parseInt(decoded.sub, 10) },
-        select: { id: true, email: true, role: true, isActive: true },
-      });
-
-      if (user && user.isActive) {
-        req.user = user;
-      }
-    } catch {
-      // Token invalid হলেও continue করো
-    }
-
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = { authenticate, authorize, optionalAuth };
-```
+Production-এ cost 10-12 সাধারণত ভালো balance।
 
 ---
 
-## 🛣️ Auth Routes
+## OAuth 2.0 Overview
 
-📄 File: `src/routes/auth.routes.js` · 🎯 উদ্দেশ্য: Auth endpoints
+OAuth 2.0 হলো third-party authorization protocol। "Google দিয়ে login" বা "Facebook দিয়ে login" OAuth দিয়ে হয়।
 
-```javascript
-const express = require('express');
-const router = express.Router();
-const {
-  register,
-  verifyEmail,
-  login,
-  refreshToken,
-  logout,
-  forgotPassword,
-  resetPassword,
-  changePassword,
-  getProfile,
-} = require('../controllers/auth.prisma.controller');
-const { authenticate } = require('../middleware/auth.middleware');
-const { validateRequest } = require('../middleware/validation.middleware');
-const { body } = require('express-validator');
+Core idea: User তাদের password third-party app-কে না দিয়ে Google/Facebook-এ login করে এবং সীমিত permission grant করে।
 
-// ============================================
-// Validation rules
-// ============================================
-const registerValidation = [
-  body('firstName').trim().notEmpty().withMessage('First name is required'),
-  body('lastName').trim().notEmpty().withMessage('Last name is required'),
-  body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
-  body('password')
-    .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
-    .withMessage('Password must have uppercase, lowercase, and number'),
-];
+**চারটা Roles:**
+- Resource Owner: User।
+- Client: আমাদের application।
+- Authorization Server: Google, GitHub — token issue করে।
+- Resource Server: Google API, GitHub API — protected resource।
 
-const loginValidation = [
-  body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
-  body('password').notEmpty().withMessage('Password is required'),
-];
-
-// ============================================
-// Routes
-// ============================================
-router.post('/register', registerValidation, validateRequest, register);
-router.get('/verify-email/:token', verifyEmail);
-router.post('/login', loginValidation, validateRequest, login);
-router.post('/refresh', refreshToken);
-router.post('/logout', authenticate, logout);
-router.post('/forgot-password', body('email').isEmail(), validateRequest, forgotPassword);
-router.post('/reset-password/:token', 
-  body('password').isLength({ min: 8 }),
-  validateRequest,
-  resetPassword
-);
-router.patch('/change-password', authenticate, changePassword);
-router.get('/me', authenticate, getProfile);
-
-module.exports = router;
-```
+**Authorization Code Flow:** Most secure। User Authorization Server-এ redirect, login করে permission দেয়। Authorization Code পাওয়া যায়। Code দিয়ে Access Token নেওয়া হয় (server-to-server, client-এ code না)।
 
 ---
 
-## 👮 RBAC — Role-Based Access Control
+## Common Auth Vulnerabilities
 
-📄 File: `src/routes/product.routes.js` · 🎯 উদ্দেশ্য: RBAC examples
+**Brute Force Attack:** অনেক password try করা। Rate limiting এবং account lockout দিয়ে defend।
 
-```javascript
-const express = require('express');
-const router = express.Router();
-const { authenticate, authorize, optionalAuth } = require('../middleware/auth.middleware');
-const {
-  createProduct,
-  getAllProducts,
-  getProductBySlug,
-  updateProduct,
-  deleteProduct,
-} = require('../controllers/mongoose-product.controller');
+**Credential Stuffing:** অন্য site-এর leaked username/password দিয়ে try। Strong hashing এবং MFA।
 
-// Public routes — সবাই দেখতে পারবে
-router.get('/', optionalAuth, getAllProducts);            // optional auth (featured products)
-router.get('/:slug', getProductBySlug);
+**JWT Algorithm Confusion:** `alg: none` attack — verify না করে token accept। Library-তে expected algorithm explicit করতে হবে।
 
-// Protected routes — admin/seller only
-router.post('/', authenticate, authorize('admin', 'seller'), createProduct);
-router.patch('/:id', authenticate, authorize('admin', 'seller'), updateProduct);
-router.delete('/:id', authenticate, authorize('admin'), deleteProduct);  // admin only
-
-module.exports = router;
-```
+**Token Leakage:** HTTPS ব্যবহার না করলে token intercepted। সবসময় HTTPS।
 
 ---
 
-## 📊 Common Mistakes Table
+## মূল উপলব্ধি
 
-| ভুল | কারণ | সমাধান |
-|-----|------|---------|
-| Password plain text store | Catastrophic breach | সবসময় `bcrypt.hash()` করো |
-| JWT secret weak/hardcoded | Token forgery | Strong random secret, env var-এ রাখো |
-| Access token long expiry | Stolen token long-lived | 15m access, 7d refresh token |
-| Refresh token rotate না করা | Reuse attack | নতুন refresh token issue করো |
-| Timing attack on login | Attacker জানতে পারে user exists কিনা | User না থাকলেও bcrypt.compare করো |
-| Error message reveal করা | User enumeration | Generic error message |
+Authentication এবং Authorization backend security-র ভিত্তি। JWT-এর payload public — sensitive data রাখা যাবে না। Short-lived access token + refresh token pattern হলো production-standard। bcrypt-এর cost factor hardware-এর সাথে তাল মিলিয়ে adjust করতে হবে। OAuth দিয়ে "social login" implement করা আধুনিক UX-এর অংশ।
 
 ---
 
-## ✅ Chapter Summary
-
-```
-╔══════════════════════════════════════════════════════╗
-║  ✅ Chapter 9 — তুমি শিখলে                          ║
-╠══════════════════════════════════════════════════════╣
-║  • bcrypt: hash + compare                           ║
-║  • JWT: generate + verify access/refresh tokens     ║
-║  • Complete auth flow: register/login/logout        ║
-║  • Token rotation on refresh                        ║
-║  • Email verification + password reset              ║
-║  • authenticate middleware                           ║
-║  • authorize RBAC middleware                        ║
-║  • Timing attack prevention                         ║
-║  • Prisma-based auth with PostgreSQL                ║
-╚══════════════════════════════════════════════════════╝
-```
-
-[⬆ TOC এ ফিরে যাও](./table-of-contents.md#toc) | [⬅ Chapter 8](./chapter-08-mongoose.md) | [➡ Chapter 10](./chapter-10-validation.md)
+[⬆ TOC](./table-of-contents.md) | [⬅ Ch 8](./chapter-08-mongoose.md) | [➡ Ch 10](./chapter-10-validation.md)
