@@ -1034,7 +1034,7 @@ RESOURCES:
 ```mermaid
 flowchart TD
     A[Junior Developer\n০-২ বছর] --> B[Mid-level Developer\n২-৫ বছর]
-    B --> C[Senior Developer\n৫-৮ বছর]
+    B --> C[Senior Developer\nসিনিয়র লেভেল]
     C --> D1[Tech Lead / Staff Engineer\nIC Track]
     C --> D2[Engineering Manager\nManagement Track]
     D1 --> E1[Principal Engineer]

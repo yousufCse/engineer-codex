@@ -2,7 +2,7 @@
 
 ### "একজন Flutter Developer থেকে Mobile Tech Lead হওয়ার বাস্তব পথ"
 
-> **লেখার উদ্দেশ্য:** এই document টা শুধু তোমার জন্য — একজন ৮ বছরের অভিজ্ঞ Flutter developer যে Mobile Tech Lead হতে চায়। System Design এর গভীরে না গিয়ে, mobile-specific leadership এ focus করে সম্পূর্ণ practical roadmap।
+> **লেখার উদ্দেশ্য:** এই document টা শুধু তোমার জন্য — একজন Senior Flutter Developer যে Mobile Tech Lead হতে চায়। System Design এর গভীরে না গিয়ে, mobile-specific leadership এ focus করে সম্পূর্ণ practical roadmap।
 
 ---
 
@@ -98,7 +98,7 @@ Mobile এ সাধারণত একজনই দুটো role পালন 
 
 ### তুমি কি Ready?
 
-৮ বছরের Flutter experience থাকলে তুমি technically ready। এখন দরকার:
+Senior Flutter Developer হিসেবে তুমি technically ready। এখন দরকার:
 
 - **Mindset shift** — "আমি" থেকে "আমরা"
 - **Skill expansion** — coding এর বাইরে যাওয়া
@@ -2533,7 +2533,7 @@ Attitude red flags:
 
 ### তোমার বর্তমান অবস্থান
 
-৮ বছরের Flutter experience আছে। তুমি:
+Senior Flutter Developer হিসেবে তোমার solid experience আছে। তুমি:
 - ✅ Flutter deeply জানো
 - ✅ Production apps বানিয়েছো
 - ✅ Complex features implement করেছো
@@ -2830,7 +2830,7 @@ Monitoring:
 ## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 📘 শেষ কথা — তোমার জন্য
 
-৮ বছরের experience তোমাকে **technically ready** করেছে।
+Senior Software Engineer হিসেবে তোমার experience তোমাকে **technically ready** করেছে।
 
 কিন্তু Tech Lead হওয়া মানে শুধু technical দক্ষতা না।
 

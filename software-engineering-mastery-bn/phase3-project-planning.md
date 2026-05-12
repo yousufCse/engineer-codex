@@ -1544,7 +1544,7 @@ TechCraft Solutions Ltd. ৬ মাসের মধ্যে একটি সম
 
 আমাদের প্রস্তাবিত সমাধান Node.js, React.js এবং PostgreSQL-এর উপর ভিত্তি করে তৈরি হবে এবং AWS Cloud-এ Host করা হবে। মোট প্রজেক্ট খরচ **৫০,০০,০০০ টাকা** (পঞ্চাশ লক্ষ টাকা) এবং Delivery Timeline **জুন ২০২৪**।
 
-TechCraft Solutions-এর ৮ বছরের Software Development অভিজ্ঞতা, E-Commerce ডোমেনে ১৫+ সফল প্রজেক্ট এবং ISO 9001:2015 Certification আমাদের এই প্রজেক্টের জন্য আদর্শ অংশীদার করে তোলে।
+TechCraft Solutions-এর প্রমাণিত Senior Software Development দক্ষতা, E-Commerce ডোমেনে ১৫+ সফল প্রজেক্ট এবং ISO 9001:2015 Certification আমাদের এই প্রজেক্টের জন্য আদর্শ অংশীদার করে তোলে।
 
 ---
 

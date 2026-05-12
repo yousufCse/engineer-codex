@@ -388,6 +388,97 @@
   "Gang of Four" Design Patterns এর
   সহজ version। Dry বইয়ের বদলে এটা পড়ো।
   Flutter এ অনেক patterns ব্যবহার হয়।
+
+  ⚠️ #53 GoF এর সাথে পার্থক্য:
+  এটা GoF এর সহজ, visual re-presentation।
+  GoF হলো original dense reference।
+  এটা আগে পড়ো — GoF পরে।
+```
+
+---
+
+### 53. Design Patterns: Elements of Reusable Object-Oriented Software
+**— Erich Gamma, Richard Helm, Ralph Johnson & John Vlissides (Gang of Four)**
+`⭐⭐⭐⭐⭐` `Career: Mid → Senior` `Priority: 🟡 High`
+
+```
+কী পাবে:
+  → ২৩টা classic design patterns — original source
+  → Creational: Factory, Abstract Factory, Builder, Prototype, Singleton
+  → Structural: Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy
+  → Behavioral: Chain of Responsibility, Command, Iterator, Mediator,
+    Memento, Observer, State, Strategy, Template Method, Visitor
+  → Intent, Applicability, Structure — প্রতিটা pattern বিস্তারিত
+
+কেন পড়বে:
+  #17 Head First Design Patterns এই বইয়েরই সহজ version।
+  Patterns deeply বুঝতে original পড়তে হবে।
+  Industry conversation এ "GoF patterns" বলতে এই বইই বোঝায়।
+  Dense — reference হিসেবে রাখো, cover to cover দরকার নেই।
+```
+
+---
+
+### 54. Head First Object-Oriented Analysis and Design
+**— Brett McLaughlin, Gary Pollice & David West**
+`⭐⭐⭐⭐` `Career: Junior → Mid` `Priority: 🟢 Medium`
+
+```
+কী পাবে:
+  → OO Analysis — real-world problem থেকে classes বের করা
+  → OO Design principles — SOLID এর foundation
+  → Use cases, class diagrams, sequence diagrams
+  → Flexibility through good design
+  → Head First এর visual, story-based approach
+
+কেন পড়বে:
+  #17 Head First Design Patterns থেকে সম্পূর্ণ আলাদা —
+  সেটা patterns নিয়ে, এটা OO analysis ও design
+  methodology নিয়ে। Patterns শেখার আগে এটা পড়ো।
+  Object-Oriented চিন্তা করতে শেখায়।
+```
+
+---
+
+### 55. Practical Object-Oriented Design in Ruby (POODR)
+**— Sandi Metz**
+`⭐⭐⭐⭐⭐` `Career: Mid → Senior` `Priority: 🟡 High`
+
+```
+কী পাবে:
+  → Single Responsibility Principle practically
+  → Dependencies manage করা — injection, isolation
+  → Interfaces ও duck typing
+  → Inheritance vs composition — কখন কোনটা
+  → Testing OO code properly
+
+কেন পড়বে:
+  Ruby ব্যবহার করলেও সব concepts language-agnostic।
+  Flutter, Node.js সব জায়গায় apply হয়।
+  Clean Architecture পড়ার পরে এটা পড়ো।
+  সবচেয়ে practical OOP বই — real code দিয়ে বোঝানো।
+```
+
+---
+
+### 56. Object-Oriented Design & Patterns
+**— Cay Horstmann (2nd Edition)**
+`⭐⭐⭐⭐` `Career: Junior → Mid` `Priority: 🟢 Medium`
+
+```
+কী পাবে:
+  → OOP fundamentals — class, object, interface বিস্তারিত
+  → UML diagrams — class ও sequence diagram পড়া ও লেখা
+  → Design patterns with Java examples
+  → Framework design principles
+  → Refactoring to patterns
+
+কেন পড়বে:
+  GoF এর academic, textbook-style structured alternative।
+  Java examples — সহজে বোঝা যায়।
+  University-level comprehensive OOP coverage।
+  #53 GoF এর চেয়ে readable কিন্তু GoF এর depth নেই।
+  OOP নতুন হলে এটা দিয়ে শুরু করো, তারপর GoF।
 ```
 
 ---
@@ -987,6 +1078,28 @@
 ```
 
 ---
+
+### 57. Think Like a Programmer
+**— V. Anton Spraul**
+`⭐⭐⭐⭐⭐` `Career: Junior → Mid` `Priority: 🟡 High`
+
+```
+কী পাবে:
+  → Problem-solving strategies step by step
+  → Divide and conquer approach — problem ভাঙা
+  → Recursion চিন্তা করার পদ্ধতি
+  → Data structures কখন কোনটা ব্যবহার করবে
+  → Real problem solving examples with C++
+
+কেন পড়বে:
+  Coding শেখার পরেও problem solve করতে আটকে যাও?
+  এই বই সেই gap ভরাট করে।
+  Algorithm মুখস্থ না করে কীভাবে চিন্তা করতে হয়।
+  Grokking Algorithms এর সাথে পড়লে ভালো।
+  Junior থেকে Mid level এ যাওয়ার bridge।
+```
+
+---
 [⬆ TOC এ ফিরে যাও](#-table-of-contents)
 
 ---
@@ -1288,24 +1401,30 @@ PHASE 6: Staff/Principal Level (২+ বছর)
 │  31  Designing Data-Intensive Apps          Kleppmann       🟡 T2   │
 │  32  Database Internals                     Petrov          🟢 T3   │
 │  33  System Design Interview Vol 1 & 2      Alex Xu         🟡 T2   │
-│  34  Node.js Design Patterns                Casciaro        🟡 T2   │
-│  35  The Art of Unit Testing                Osherove        🟡 T2   │
-│  36  Test-Driven Development                Beck            🟡 T2   │
-│  37  Growing OO Software, Guided by Tests   Freeman         🟢 T2   │
-│  38  Web Application Hacker's Handbook      Stuttard        🟢 T3   │
-│  39  OWASP Mobile Security Testing Guide    OWASP           🟡 T2   │
-│  40  Cracking the Coding Interview          McDowell        🟡 T2   │
-│  41  Introduction to Algorithms (CLRS)      Cormen et al.   🟢 T3   │
-│  42  Grokking Algorithms                    Bhargava        🟡 T2   │
-│  43  Radical Candor                         Scott           🟡 T2   │
-│  44  The Five Dysfunctions of a Team        Lencioni        🟡 T2   │
-│  45  Crucial Conversations                  Patterson       🟡 T2   │
-│  46  Peopleware                             DeMarco         🟢 T2   │
-│  47  Never Split the Difference             Voss            🟡 T2   │
-│  48  Deep Work                              Newport         🟡 T2   │
-│  49  The Mythical Man-Month                 Brooks          🟢 T2   │
-│  50  Soft Skills                            Sonmez          🟢 T3   │
-│  51  A Mind for Numbers                     Oakley          🟢 T3   │
+│  34  Clean API Design                       Cochran         🟢 T2   │
+│  35  Node.js Design Patterns                Casciaro        🟡 T2   │
+│  36  The Art of Unit Testing                Osherove        🟡 T2   │
+│  37  Test-Driven Development                Beck            🟡 T2   │
+│  38  Growing OO Software, Guided by Tests   Freeman         🟢 T2   │
+│  39  Web Application Hacker's Handbook      Stuttard        🟢 T3   │
+│  40  OWASP Mobile Security Testing Guide    OWASP           🟡 T2   │
+│  41  Cracking the Coding Interview          McDowell        🟡 T2   │
+│  42  Introduction to Algorithms (CLRS)      Cormen et al.   🟢 T3   │
+│  43  Grokking Algorithms                    Bhargava        🟡 T2   │
+│  44  Radical Candor                         Scott           🟡 T2   │
+│  45  The Five Dysfunctions of a Team        Lencioni        🟡 T2   │
+│  46  Crucial Conversations                  Patterson       🟡 T2   │
+│  47  Peopleware                             DeMarco         🟢 T2   │
+│  48  Never Split the Difference             Voss            🟡 T2   │
+│  49  Deep Work                              Newport         🟡 T2   │
+│  50  The Mythical Man-Month                 Brooks          🟢 T2   │
+│  51  Soft Skills                            Sonmez          🟢 T3   │
+│  52  A Mind for Numbers                     Oakley          🟢 T3   │
+│  53  Design Patterns (GoF)                  Gamma et al.    🟡 T2   │
+│  54  Head First OOAD                        McLaughlin      🟢 T2   │
+│  55  Practical OO Design in Ruby (POODR)    Metz            🟡 T2   │
+│  56  Object-Oriented Design & Patterns      Horstmann       🟢 T2   │
+│  57  Think Like a Programmer                Spraul          🟡 T2   │
 └─────────────────────────────────────────────────────────────────────┘
 
 Legend:
@@ -1318,7 +1437,7 @@ Legend:
 
 ## একটা সৎ কথা
 
-৫১টা বই দেখে overwhelmed হওয়ার কিছু নেই।
+৫৭টা বই দেখে overwhelmed হওয়ার কিছু নেই।
 
 ```
 বাস্তবতা:
