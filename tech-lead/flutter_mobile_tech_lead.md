@@ -10,26 +10,277 @@
 
 ## 📚 Table of Contents
 
-| # | Section |
-|---|---------|
-| 1 | [Tech Lead কী — সত্যিকারের সংজ্ঞা](#what-is-tech-lead) |
-| 2 | [Mobile Tech Lead কি System Design শিখতে হবে?](#system-design) |
-| 3 | [Mobile Tech Lead এর দায়িত্ব — সম্পূর্ণ তালিকা](#responsibilities) |
-| 4 | [Technical Excellence — Flutter এ Master হওয়া](#technical-excellence) |
-| 5 | [Architecture — Mobile App এর জন্য](#architecture) |
-| 6 | [Code Quality ও Code Review](#code-quality) |
-| 7 | [Team Leadership ও Mentoring](#team-leadership) |
-| 8 | [Project Planning ও Task Management](#project-planning) |
-| 9 | [Communication Skills](#communication) |
-| 10 | [Performance ও Optimization](#performance) |
-| 11 | [Testing Strategy](#testing) |
-| 12 | [CI/CD ও DevOps — Mobile এর জন্য](#cicd) |
-| 13 | [Security — Mobile App এ](#security) |
-| 14 | [Release Management](#release-management) |
-| 15 | [Documentation](#documentation) |
-| 16 | [Hiring ও Interview নেওয়া](#hiring) |
-| 17 | [১২ মাসের Roadmap](#roadmap) |
-| 18 | [Resources ও Tools](#resources) |
+| # | Section | Key Topics |
+|---|---------|------------|
+| ⚡ | [Quick Reference — Cheat Sheet](#cheatsheet) | সব chapter এর one-page summary |
+| 1 | [Tech Lead কী — সত্যিকারের সংজ্ঞা](#what-is-tech-lead) | Definition, vs Team Lead, vs Senior Dev, Mindset shift |
+| 2 | [Mobile Tech Lead কি System Design শিখতে হবে?](#system-design) | Mobile vs Backend architecture, API input, integration patterns |
+| 3 | [Mobile Tech Lead এর দায়িত্ব — সম্পূর্ণ তালিকা](#responsibilities) | Time split (40-50% coding), Technical / Team / Process duties |
+| 4 | [Technical Excellence — Flutter এ Master হওয়া](#technical-excellence) | Dart advanced, Widget lifecycle, State Mgmt, Navigation, Networking, Storage |
+| 5 | [Architecture — Mobile App এর জন্য](#architecture) | Clean Architecture, Feature-first folder, DI, Repository pattern, Offline-first |
+| 6 | [Code Quality ও Code Review](#code-quality) | Linting setup, PR template, Review process, Coding standards doc |
+| 7 | [Team Leadership ও Mentoring](#team-leadership) | 1-on-1, Socratic mentoring, Tech talks, Psychological safety, Conflict resolution |
+| 8 | [Project Planning ও Task Management](#project-planning) | Feature breakdown, Estimation (Planning Poker / T-shirt), Technical debt |
+| 9 | [Communication Skills](#communication) | Upward / Downward / Lateral, SBI feedback, Status update format |
+| 10 | [Performance ও Optimization](#performance) | Metrics & targets, Jank, Rebuilds, Image caching, App size, DevTools |
+| 11 | [Testing Strategy](#testing) | Pyramid (Unit 70% / Widget 20% / E2E 10%), Coverage targets, Golden tests |
+| 12 | [CI/CD ও DevOps — Mobile এর জন্য](#cicd) | GitHub Actions, Fastlane, Firebase App Distribution, Secrets management |
+| 13 | [Security — Mobile App এ](#security) | Secure storage, API key management, Certificate pinning, Obfuscation, Root detection |
+| 14 | [Release Management](#release-management) | Release checklist, Semantic versioning, Hotfix process, Force update |
+| 15 | [Documentation](#documentation) | README template, ADR (Architecture Decision Records), Onboarding guide |
+| 16 | [Hiring ও Interview নেওয়া](#hiring) | Interview structure, Key questions, Live coding task, Red flags |
+| 17 | [১২ মাসের Roadmap](#roadmap) | Month 1-3, 4-6, 7-9, 10-12 milestones |
+| 18 | [Resources ও Tools](#resources) | Books, YouTube channels, Essential packages 2024-2025, Tools |
+
+---
+
+<a id="cheatsheet"></a>
+
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## ⚡ Quick Reference — সম্পূর্ণ Cheat Sheet
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+> এই section টা পুরো document এর এক-পাতার summary। প্রতিটা topic এর core idea এখানে আছে। বিস্তারিত জানতে সংশ্লিষ্ট Chapter এ যাও।
+
+---
+
+### [Ch 1](#what-is-tech-lead) — Tech Lead কী
+
+- **সংজ্ঞা:** ভালো code লেখে + team কে ভালো করে + decisions নেয় + management bridge
+- **Tech Lead ≠** সবচেয়ে ভালো coder; **Tech Lead ≠** manager
+- **Coding time:** 40-50% (manager হলে 20-30% হয়ে যায়)
+- **Core mindset shift:** "আমি কীভাবে করবো?" → "আমরা কীভাবে করবো যাতে সবাই শিখতে পারে?"
+
+---
+
+### [Ch 2](#system-design) — System Design শিখতে হবে?
+
+| শিখতে হবে না | শিখতে হবে |
+|---|---|
+| Backend scaling, Database sharding, Load balancer | Mobile Clean Architecture, State management |
+| Microservices vs Monolith | Navigation patterns, Widget tree structure |
+| Distributed systems, Message queue | Offline-first, Data flow, API integration |
+
+- API design এ mobile দৃষ্টিকোণ দাও: pagination, payload size, WebSocket vs polling
+- Backend decision যদি mobile কে affect করে — বলো
+
+---
+
+### [Ch 3](#responsibilities) — দায়িত্বের ভাগ
+
+| কাজ | সময় |
+|---|---|
+| Coding & Technical Work | 40-50% |
+| Code Review | 20-25% |
+| Team Mentoring & Support | 15-20% |
+| Planning & Architecture | 10-15% |
+| Meetings & Communication | 10-15% |
+
+**Technical:** Architecture decisions, Code quality, Performance ownership, Security, Technical risk  
+**Team:** Mentoring, Hiring support, Psychological safety  
+**Process:** Sprint planning, Release management, Documentation
+
+---
+
+### [Ch 4](#technical-excellence) — Flutter Technical Depth
+
+| Area | Key Items |
+|---|---|
+| **Dart** | Null safety, Generics, Extension methods, Mixins, Isolates (`compute()`), async/await/Stream, Dart 3 (Records, Patterns, Sealed classes) |
+| **Flutter** | Widget lifecycle (initState → dispose), 3 trees (Widget/Element/RenderObject), Keys (ValueKey/GlobalKey), InheritedWidget, Constraints ↓ Sizes ↑ |
+| **State Mgmt** | setState → Provider → Riverpod → BLoC (complexity অনুযায়ী); Production: **Riverpod** বা **BLoC** |
+| **Navigation** | **GoRouter** (Google recommended), Deep links, Auth redirect guards, Nested/Tab navigation |
+| **Networking** | Dio + Interceptors, Auto token refresh on 401, Debug-only logging |
+| **Storage** | Key-value: `SharedPreferences`; Sensitive: `flutter_secure_storage`; DB: **Isar** (reactive) বা **Drift** (SQL) |
+
+---
+
+### [Ch 5](#architecture) — Architecture
+
+```
+Presentation → Domain → Data
+(Inner layers বাইরের layer সম্পর্কে জানে না)
+Domain layer কখনো Flutter import করে না।
+```
+
+| Pattern | কাজ |
+|---|---|
+| **Clean Architecture** | 3-layer separation: Presentation, Domain, Data |
+| **Feature-first folder** | `lib/features/auth/{data,domain,presentation}` |
+| **DI** | `get_it` + `injectable` (code generation) |
+| **Repository Pattern** | Abstract interface (Domain) + Implementation (Data) |
+| **Either** | `Left` = Error, `Right` = Success (dartz) |
+| **Offline-first** | Local cache দেখাও → Background API → UI update |
+
+---
+
+### [Ch 6](#code-quality) — Code Quality
+
+- `analysis_options.yaml` — `flutter_lints` extend, custom rules add করো
+- **PR Template:** What / Why / How tested / Screenshots / Checklist
+- **Code review দেখবে:** Correctness → Performance → Security → Readability → Tests
+- **Comment prefix:** `Blocking:` | `Suggestion:` | `Nit:` | `Question:` | `Praise:`
+- **Coding Standards doc:** Naming conventions, Widget guidelines (100 লাইনের বেশি হলে extract), Error handling policy
+
+---
+
+### [Ch 7](#team-leadership) — Team Leadership
+
+| Practice | Detail |
+|---|---|
+| **1-on-1** | সাপ্তাহিক 30 min — কী ভালো / কোথায় আটকে / technical growth / action items |
+| **Mentoring** | Socratic method — করে দিও না, প্রশ্ন করে নিজে বের করাও |
+| **Tech Talk** | প্রতি 2 সপ্তাহে 30 min, rotation — সবাই পালাক্রমে দেবে |
+| **Pair Programming** | Driver + Navigator, 30 min পর পর swap |
+| **Psychological Safety** | Google Project Aristotle #1 factor — নিজের ভুল publicly স্বীকার করো |
+| **Conflict** | Pros/cons → Objective criteria → Data-driven decision → Disagree & Commit |
+
+---
+
+### [Ch 8](#project-planning) — Project Planning
+
+- **Estimation:** Planning Poker (Fibonacci: 1,2,3,5,8,13,21) বা T-shirt (XS/S/M/L/XL)
+- **XL task** = unclear requirement → ভেঙে ছোট করো
+- **Buffer rule:** Junior team ×2.5 | Mixed ×2.0 | Senior ×1.5
+- **Technical Debt:** প্রতি sprint এ 20% budget রাখো; Boy Scout Rule: "যে code ছুঁলে, একটু ভালো করে যাও"
+- **Sprint Planning format:** Review (15 min) → Backlog (15 min) → Breakdown (30 min) → Assign (15 min) → Commit (5 min)
+
+---
+
+### [Ch 9](#communication) — Communication
+
+| ধরন | মূল কৌশল |
+|---|---|
+| **Upward** | Technical বিষয় business impact এ বলো (time saved, risk %) |
+| **Status update** | ✅ Done / 🔄 In Progress / ⚠️ Blockers / 📅 Next Week / 🚨 Risks |
+| **Feedback (SBI)** | **S**ituation → **B**ehavior → **I**mpact |
+| **Recognition** | Publicly দাও; Criticism: সবসময় privately |
+| **API discussion** | Mobile input: flat structure, pagination type, consistent error codes |
+| **Design handoff** | Empty/error/loading states design চাও Figma তে |
+
+---
+
+### [Ch 10](#performance) — Performance Targets
+
+| Metric | Target | Tool |
+|---|---|---|
+| App startup | < 2 seconds | Flutter DevTools |
+| Frame rate | 60fps / 120fps | DevTools Timeline |
+| Memory | < 200MB avg | DevTools Memory |
+| App size | < 20MB ideal | `flutter build --analyze-size` |
+| Network | < 3s per call | Charles / Proxyman |
+
+**Common fixes:** `build()` এ heavy computation → memoize; Unnecessary rebuilds → `buildWhen`; Images → `CachedNetworkImage` + thumbnail URL; App size → `--split-per-abi`, ProGuard/R8, WebP format
+
+---
+
+### [Ch 11](#testing) — Testing Strategy
+
+```
+E2E Tests         ← 10% (critical flows: login, purchase)
+Widget Tests      ← 20% (individual screens, widgets)
+Unit Tests        ← 70% (BLoC, Use Cases, Repositories)
+```
+
+| Type | Tools | Coverage Target |
+|---|---|---|
+| Unit | `bloc_test`, `mocktail` | Business logic 90%+ |
+| Widget | `pumpWidget`, `find.byKey()` | Widgets 70%+ |
+| Overall | `flutter test --coverage` | Overall 75%+ |
+| Golden | `matchesGoldenFile()` | UI regression |
+
+---
+
+### [Ch 12](#cicd) — CI/CD Pipeline
+
+```
+Push → flutter analyze (--fatal-infos)
+     → flutter test (--coverage)
+     → flutter build (release)
+     → Code signing
+     → dev branch  → Firebase App Distribution (internal)
+     → main branch → TestFlight / Play Internal Track (beta)
+     → release tag → App Store / Play Store (production)
+```
+
+- **Tools:** GitHub Actions (free, recommended) | Bitrise | Codemagic (Flutter-specific)
+- **Secrets:** GitHub Secrets → `--dart-define=API_KEY=${{ secrets.API_KEY }}`
+- **Fastlane:** `match` (certificates), `upload_to_play_store`, `upload_to_testflight`
+
+---
+
+### [Ch 13](#security) — Security Checklist
+
+| Threat | Solution |
+|---|---|
+| Plain-text data storage | `flutter_secure_storage` (AES encrypted) |
+| API key in source code | `--dart-define=API_KEY=...` + GitHub Secrets |
+| MITM attacks | Certificate pinning (`http_certificate_pinning`) |
+| Reverse engineering | `--obfuscate --split-debug-info=./symbols` |
+| Rooted/Jailbroken device | `flutter_jailbreak_detection` |
+| Screenshot leakage (banking) | `FLAG_SECURE` in Android `MainActivity` |
+
+---
+
+### [Ch 14](#release-management) — Release Management
+
+**Versioning:** `MAJOR.MINOR.PATCH+BUILD` (e.g., `2.1.3+45`)
+- MAJOR: Breaking/incompatible change (force update)
+- MINOR: New feature, backward compatible
+- PATCH: Bug/security fix
+- BUILD: Always increment for every store submission
+
+**Release flow:** Feature freeze → `flutter analyze` clean → All tests pass → Version bump → QA sign-off → Real device test (min 2 Android + 2 iOS) → Staged rollout: 5% → 20% → 100%
+
+**Hotfix severity:** P0 (crash/data loss) → immediate | P1 (major broken) → same day | P2 (minor) → next release
+
+---
+
+### [Ch 15](#documentation) — Documentation
+
+| Document | Purpose |
+|---|---|
+| **README** | Overview, setup steps, architecture link, contributing guide |
+| **ADR** | কেন এই architecture decision নিলাম — Status / Context / Options / Decision / Trade-offs |
+| **Onboarding Guide** | Day 1 checklist, Week 1 goals, who-to-ask-what |
+
+---
+
+### [Ch 16](#hiring) — Hiring & Interview
+
+**Interview structure (1 hour):** Intro 10min → Technical Q&A 25min → Live coding 15min → Candidate questions 10min
+
+**Key questions:** Null safety, Isolates, const constructors, Clean Architecture layers, BLoC vs Riverpod trade-offs, Jank detection, Memory leaks, Keys
+
+**Live coding:** Code review task — find: null crash, no error handling, direct `http` usage, architecture violation, missing `dispose()`
+
+**Red flags:** "Testing এর সময় নেই" | "Architecture = folder structure" | "আমার approach সবচেয়ে ভালো" | Code review কে criticism হিসেবে নেয়
+
+---
+
+### [Ch 17](#roadmap) — 12-Month Roadmap
+
+| Phase | Technical | Team / Career |
+|---|---|---|
+| **Month 1-3** | Clean Architecture implement, Advanced Dart (Dart 3), Riverpod/BLoC, Testing শুরু | Voluntary code review, Junior কে সাপ্তাহিক help, একটা tech talk দাও |
+| **Month 4-6** | CI/CD pipeline, Performance audit (DevTools), Security audit, ADR লেখা শুরু | PR template তৈরি, Code review guidelines, 1-on-1 শুরু |
+| **Month 7-9** | Feature end-to-end own করো, Coverage 70%+, README + Architecture doc লেখো | Formal mentoring, Sprint planning এ technical input বাড়াও |
+| **Month 10-12** | Architecture decisions নাও ও defend করো, 6-month technical roadmap তৈরি | Manager কে clearly বলো goal; gap analyze করো বা বাইরে apply করো |
+
+---
+
+### [Ch 18](#resources) — Key Resources
+
+| Category | Best Options |
+|---|---|
+| **YouTube** | Reso Coder (Architecture/BLoC), Code with Andrea / Andrea Bizzotto (Riverpod), Very Good Ventures (Testing) |
+| **Books** | *The Manager's Path* (Camille Fournier), *Staff Engineer* (Will Larson), *Clean Code* (Robert C. Martin), *The Pragmatic Programmer* |
+| **Newsletter** | The Pragmatic Engineer — Gergely Orosz (ex-Uber) |
+| **Monitoring** | Firebase Crashlytics, Firebase Performance, Sentry |
+| **CI/CD** | GitHub Actions (recommended), Bitrise, Codemagic |
+| **Key packages** | `flutter_bloc` / `flutter_riverpod`, `get_it` + `injectable`, `go_router`, `dio`, `isar` / `drift`, `flutter_secure_storage`, `bloc_test` + `mocktail` |
+
+[⬆ Table of Contents এ ফিরে যাও](#toc)
 
 ---
 
@@ -363,7 +614,7 @@ Future<List<ProcessedData>> processLargeData(List<dynamic> data) async {
   return await compute(heavyComputationIsolate, data);
 }
 
-// Note: compute() / Isolate.run() এ closure ও কাজ করে (Dart 2.15+ / Flutter 3.7+)
+// Note: compute() / Isolate.run() এ closure ও কাজ করে (Dart 2.19+ / Flutter 3.7+)
 // তবে top-level function ব্যবহার করা best practice এবং Isolate.spawn() এ এখনো দরকার
 List<ProcessedData> heavyComputationIsolate(List<dynamic> data) {
   return data.map((item) => heavyComputation(item)).toList();
