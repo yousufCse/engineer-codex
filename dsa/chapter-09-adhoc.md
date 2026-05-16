@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
 
 | # | বিষয় | মূল ট্রিক |
@@ -45,9 +46,10 @@ mindmap
       Pigeonhole
 ```
 
+
 ---
 
-<a name="adhoc-intro"></a>
+<a id="adhoc-intro"></a>
 ## ১. Ad-hoc কী? — চিন্তার কৌশল
 
 ---
@@ -151,9 +153,12 @@ n ≤ 10¹⁸:      O(log n) বা O(√n) — Math tricks
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="simulation"></a>
+<a id="simulation"></a>
 ## ২. Simulation সমস্যা
 
 ---
@@ -336,9 +341,12 @@ Before:  After:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="number-theory"></a>
+<a id="number-theory"></a>
 ## ৩. Number Theory Basics
 
 ---
@@ -524,9 +532,12 @@ Euler totient φ(12) = 4
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="bit-manipulation"></a>
+<a id="bit-manipulation"></a>
 ## ৪. Bit Manipulation
 
 ---
@@ -757,9 +768,12 @@ Min tour cost = 80
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="prefix-sum"></a>
+<a id="prefix-sum"></a>
 ## ৫. Prefix Sum ও Difference Array
 
 ---
@@ -956,9 +970,12 @@ Sum (1,1)..(2,3) = 54
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="two-pointer"></a>
+<a id="two-pointer"></a>
 ## ৬. Two Pointer ও Sliding Window
 
 ---
@@ -1168,9 +1185,12 @@ maxWater([1,8,6,2,5,4,8,3,7]) = 49
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="math-tricks"></a>
+<a id="math-tricks"></a>
 ## ৭. Mathematical Tricks
 
 ---
@@ -1345,9 +1365,12 @@ Sum of cubes 1..n = (n(n+1)/2)²: n=5 → 225
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="implementation"></a>
+<a id="implementation"></a>
 ## ৮. Implementation Tips — Edge Cases ও Overflow
 
 ---
@@ -1480,6 +1503,9 @@ isPalin("hello") = false
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 অধ্যায় ৯ সমাপ্তি — সম্পূর্ণ তুলনা
 

@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
 
 | # | বিষয় | সময় জটিলতা |
@@ -41,9 +42,10 @@ mindmap
       Knapsack
 ```
 
+
 ---
 
-<a name="selection-sort"></a>
+<a id="selection-sort"></a>
 ## ১. Selection Sort
 
 ---
@@ -246,9 +248,12 @@ n=10,000:  ~49,995,000 তুলনা 😓
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="insertion-sort"></a>
+<a id="insertion-sort"></a>
 ## ২. Insertion Sort
 
 ---
@@ -480,9 +485,12 @@ Practical insight:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="merge-sort"></a>
+<a id="merge-sort"></a>
 ## ৩. Merge Sort
 
 ---
@@ -797,9 +805,12 @@ Merge Sort vs Quick Sort:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="counting-sort"></a>
+<a id="counting-sort"></a>
 ## ৪. Counting Sort
 
 ---
@@ -1241,9 +1252,12 @@ n=100, k=10^9:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="binary-search"></a>
+<a id="binary-search"></a>
 ## ৫. Binary Search
 
 ---
@@ -1719,9 +1733,12 @@ n=1,000,000:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="ternary-search"></a>
+<a id="ternary-search"></a>
 ## ৬. Ternary Search
 
 ---
@@ -2033,9 +2050,12 @@ n=1000:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="backtracking"></a>
+<a id="backtracking"></a>
 ## ৭. Backtracking — ভূমিকা
 
 ---
@@ -2153,9 +2173,12 @@ State Space Tree ASCII:
       ✅    ✅    ✅    ✅    ✅    ✅
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="permutation"></a>
+<a id="permutation"></a>
 ## ৭.১ Permutation Generate
 
 ---
@@ -2338,9 +2361,12 @@ n=12: 12! = 479,001,600 (প্রায় 5 কোটি)
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="combination"></a>
+<a id="combination"></a>
 ## ৭.২ Combination Generate
 
 ---
@@ -2496,9 +2522,12 @@ C(20,10) = 184,756
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="eight-queens"></a>
+<a id="eight-queens"></a>
 ## ৭.৩ Eight Queen Problem
 
 ---
@@ -2799,9 +2828,12 @@ n=8:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="knapsack-bt"></a>
+<a id="knapsack-bt"></a>
 ## ৭.৪ Knapsack Problem (Backtracking)
 
 ---
@@ -3076,6 +3108,9 @@ Choose → Explore → Unchoose
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 অধ্যায় ৪ সমাপ্তি তুলনা — সম্পূর্ণ
 

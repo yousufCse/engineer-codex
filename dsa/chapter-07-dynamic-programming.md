@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
 
 | # | বিষয় | মূল ট্রিক |
@@ -39,517 +40,10 @@ mindmap
       Matrix Chain Multiplication
 ```
 
----
-
-<a name="dp-intro"></a>
-## ১. DP কী? — Memoization vs Tabulation
 
 ---
 
-### ০. বাস্তব জীবনের গল্প 📒
-
-**গল্প: পরীক্ষার আগে খাতা দেখা**
-
-তুমি পরীক্ষার প্রস্তুতি নিচ্ছ। বাংলা ও ইংরেজি দুই বিষয়েই ইতিহাসের একটি অধ্যায় দরকার। তুমি কি দুইবার পড়বে?
-
-না! একবার পড়ে **খাতায় নোট** রাখো — দ্বিতীয়বার দরকার হলে খাতা দেখো।
-
-```
-Naive (বোকা পথ):       DP (চালাক পথ):
-fib(5) গণনা করো        fib(5) গণনা করো
-  fib(4) গণনা           memo[5] = fib(4) + fib(3)
-    fib(3) গণনা           memo[4] = fib(3) + fib(2)
-      fib(2) গণনা  ← ×৮    memo[3] = ✅ (আগে করা আছে!)
-      fib(1) গণনা  ← ×৫    ...
-    fib(2) গণনা  ← আবার!
-  fib(3) গণনা  ← আবার!    প্রতিটি subproblem ঠিক একবার!
-
-Naive: O(2ⁿ) 🐢     DP: O(n) 🚀
-```
-
----
-
-### ১. DP কী?
-
-**Dynamic Programming (DP)** একটি অ্যালগরিদমিক কৌশল যেখানে একটি বড় সমস্যাকে ছোট ছোট **overlapping subproblem**-এ ভাঙা হয় এবং প্রতিটি subproblem-এর সমাধান **একবার** গণনা করে সংরক্ষণ করা হয়।
-
-**DP-এর দুটি প্রধান শর্ত:**
-
-```
-১. Overlapping Subproblems:
-   একই subproblem বারবার আসে।
-   (Divide & Conquer-এ আসে না — সব unique)
-
-২. Optimal Substructure:
-   বড় সমস্যার optimal solution-এ
-   subproblem-এর optimal solution ব্যবহার হয়।
-```
-
----
-
-### ২. DP vs Greedy vs Backtracking
-
-```
-┌─────────────────┬──────────────────────┬──────────────────────┐
-│ কৌশল            │ সংরক্ষণ              │ কখন ব্যবহার          │
-├─────────────────┼──────────────────────┼──────────────────────┤
-│ Greedy          │ কিছু সংরক্ষণ করে না │ Local best = Global  │
-│                 │ Local best নেয়       │ (proof আছে)          │
-├─────────────────┼──────────────────────┼──────────────────────┤
-│ Backtracking    │ কিছু সংরক্ষণ করে না │ সব possibility চাই  │
-│                 │ সব path explore করে │ (exponential ok)     │
-├─────────────────┼──────────────────────┼──────────────────────┤
-│ DP              │ subproblem সংরক্ষণ  │ Overlapping + Opt.   │
-│                 │ Overlapping কাজে লাগে│ Substructure আছে     │
-└─────────────────┴──────────────────────┴──────────────────────┘
-```
-
----
-
-### ৩. Memoization (Top-Down) vs Tabulation (Bottom-Up)
-
-```
-Top-Down Memoization:
-  • Recursive + cache
-  • "প্রয়োজন হলে" subproblem solve করো
-  • fib(5) → fib(4) → fib(3) → ... (উপর থেকে নামা)
-  
-  memo = {}
-  fib(n):
-    if n in memo: return memo[n]
-    memo[n] = fib(n-1) + fib(n-2)
-    return memo[n]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Bottom-Up Tabulation:
-  • Iterative + table
-  • "সবকিছু আগে" ছোট থেকে বড় solve
-  • fib(1)→fib(2)→fib(3)→...→fib(n) (নিচ থেকে উঠা)
-
-  dp = [0, 1, 0, 0, 0, 0]
-  for i in 2..n:
-    dp[i] = dp[i-1] + dp[i-2]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-তুলনা:
-  Memoization:  স্বাভাবিক recursive চিন্তা, stack overhead
-  Tabulation:   Loop, no stack, cache-friendly, সাধারণত দ্রুত
-  
-  উভয়ই: O(n) time, O(n) space
-```
-
----
-
-### ৪. DP Recurrence লেখার নিয়ম
-
-```
-DP সমাধানের ৪ ধাপ:
-
-১. State define করো:
-   dp[i] কী বোঝায়? সুস্পষ্টভাবে লিখো।
-
-২. Recurrence বের করো:
-   dp[i] = f(dp[i-1], dp[i-2], ...) কীভাবে?
-
-৩. Base case দাও:
-   dp[0] = ?, dp[1] = ?
-
-৪. Answer কোথায়?
-   dp[n]? max(dp)? min(dp)?
-```
-
-```
-┌────────────────────────────────────────┐
-│         সারসংক্ষেপ (Summary)           │
-│  কী:     Subproblem cache করো         │
-│  কেন:    Exponential → Polynomial      │
-│  কখন:    Overlapping Subproblems      │
-│           + Optimal Substructure       │
-│  কোথায়: Knapsack, Shortest Path,     │
-│           Sequence alignment           │
-│  Time:   সমস্যাভেদে (O(n) থেকে O(n³))│
-│  Space:  O(n) বা O(n²)                │
-└────────────────────────────────────────┘
-```
-
----
-
-<a name="fibonacci"></a>
-## ২. Fibonacci — DP-এর প্রথম পাঠ
-
----
-
-### ০. বাস্তব জীবনের গল্প 🐇
-
-**গল্প: খরগোশের বংশবৃদ্ধি**
-
-একজোড়া খরগোশ প্রতি মাসে একজোড়া বাচ্চা দেয়, এবং বাচ্চারা দুই মাস পর বাচ্চা দিতে পারে।
-
-```
-মাস ১: 🐇🐇 (১ জোড়া)
-মাস ২: 🐇🐇 (১ জোড়া — বড় হচ্ছে)
-মাস ৩: 🐇🐇 🐇🐇 (২ জোড়া — প্রথম জোড়া বাচ্চা দিল)
-মাস ৪: 🐇🐇 🐇🐇 🐇🐇 (৩ জোড়া)
-মাস ৫: 🐇🐇×৫ (৫ জোড়া)
-
-ক্রম: 1, 1, 2, 3, 5, 8, 13, 21, ...
-f(n) = f(n-1) + f(n-2)
-```
-
-এটাই Fibonacci Sequence!
-
----
-
-### ১. সমস্যাটা কোথায়?
-
-```
-Naive Recursive:
-fib(6)
-├── fib(5)
-│   ├── fib(4)
-│   │   ├── fib(3)
-│   │   │   ├── fib(2) ← ৩য় বার গণনা!
-│   │   │   └── fib(1)
-│   │   └── fib(2) ← ২য় বার!
-│   └── fib(3)
-│       ├── fib(2) ← ৪র্থ বার!
-│       └── fib(1)
-└── fib(4)
-    ├── fib(3) ← আবার!
-    ...
-
-fib(2) মোট 5 বার গণনা হয়!
-Time: O(2ⁿ) — n=50 হলে ≈ 1 quadrillion operations!
-```
-
----
-
-### ৩. ধাপে ধাপে Visual
-
-```
-Memoization দিয়ে fib(6):
-
-Call:    fib(6)
-         ├─ fib(5)
-         │   ├─ fib(4)
-         │   │   ├─ fib(3)
-         │   │   │   ├─ fib(2) = 1 → memo[2]=1
-         │   │   │   └─ fib(1) = 1
-         │   │   │   → memo[3] = 2
-         │   │   └─ fib(2) = memo[2] = 1 ✅ cache hit!
-         │   │   → memo[4] = 3
-         │   └─ fib(3) = memo[3] = 2 ✅ cache hit!
-         │   → memo[5] = 5
-         └─ fib(4) = memo[4] = 3 ✅ cache hit!
-         → memo[6] = 8
-
-প্রতিটি value ঠিক একবার computed!
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tabulation দিয়ে fib(8):
-
-dp:  [0, 1, 1, 2, 3, 5, 8, 13, 21]
-idx:  0  1  2  3  4  5  6   7   8
-
-dp[i] = dp[i-1] + dp[i-2]
-বাম থেকে ডানে পূরণ করো।
-
-Space Optimization (শুধু শেষ দুটো রাখো):
-  a=0, b=1
-  Loop: a,b = b, a+b
-  → O(1) space!
-```
-
----
-
-### ৫. সম্পূর্ণ Dart Code
-
-```dart
-// ════════════════════════════════════════════════
-// Fibonacci: Naive, Memoization, Tabulation, O(1) Space
-// ════════════════════════════════════════════════
-
-// ১. Naive Recursive — O(2ⁿ) ❌
-int fibNaive(int n) {
-  if (n <= 1) return n;
-  return fibNaive(n - 1) + fibNaive(n - 2);
-}
-
-// ২. Memoization (Top-Down) — O(n)
-Map<int, int> _memo = {};
-int fibMemo(int n) {
-  if (n <= 1) return n;
-  if (_memo.containsKey(n)) return _memo[n]!; // cache hit!
-  _memo[n] = fibMemo(n - 1) + fibMemo(n - 2);
-  return _memo[n]!;
-}
-
-// ৩. Tabulation (Bottom-Up) — O(n) time, O(n) space
-int fibTab(int n) {
-  if (n <= 1) return n;
-  List<int> dp = List.filled(n + 1, 0);
-  dp[1] = 1;
-  for (int i = 2; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2]; // recurrence
-  }
-  return dp[n];
-}
-
-// ৪. Space-Optimized — O(n) time, O(1) space ⭐
-int fibOptimal(int n) {
-  if (n <= 1) return n;
-  int prev2 = 0, prev1 = 1;
-  for (int i = 2; i <= n; i++) {
-    int curr = prev1 + prev2;
-    prev2 = prev1;
-    prev1 = curr;
-  }
-  return prev1;
-}
-
-void main() {
-  // Stopwatch দিয়ে Naive vs Memo তুলনা
-  var sw = Stopwatch()..start();
-  print('Naive fib(35)  = ${fibNaive(35)}, time: ${sw.elapsedMilliseconds}ms');
-  sw.reset();
-
-  print('Memo  fib(35)  = ${fibMemo(35)},  time: ${sw.elapsedMicroseconds}μs');
-  sw.reset();
-
-  print('Table fib(100) = ${fibTab(100)}');
-  print('Opt   fib(100) = ${fibOptimal(100)}');
-
-  // DP table দেখাও
-  print('\nFibonacci Table (0..10):');
-  List<int> dp = List.filled(11, 0);
-  dp[1] = 1;
-  for (int i = 2; i <= 10; i++) dp[i] = dp[i-1] + dp[i-2];
-  print('idx: ${List.generate(11, (i) => i.toString().padLeft(4)).join()}');
-  print('val: ${dp.map((x) => x.toString().padLeft(4)).join()}');
-}
-
-/* Output:
-Naive fib(35)  = 9227465, time: ~85ms
-Memo  fib(35)  = 9227465,  time: ~1μs
-Table fib(100) = 3736710778780434371
-Opt   fib(100) = 3736710778780434371
-
-Fibonacci Table (0..10):
-idx:    0   1   2   3   4   5   6   7   8   9  10
-val:    0   1   1   2   3   5   8  13  21  34  55
-*/
-```
-
----
-
-### ৬. Complexity
-
-```
-┌──────────────────────┬──────────┬──────────┬────────────────────┐
-│ Approach             │ Time     │ Space    │ Note               │
-├──────────────────────┼──────────┼──────────┼────────────────────┤
-│ Naive Recursive      │ O(2ⁿ)   │ O(n)     │ Call stack         │
-│ Memoization          │ O(n)     │ O(n)     │ Hash map           │
-│ Tabulation           │ O(n)     │ O(n)     │ Array              │
-│ Space-Optimized      │ O(n)     │ O(1)  ★  │ শুধু ২টি variable │
-│ Matrix Exponentiation│ O(log n) │ O(1)     │ Advanced           │
-└──────────────────────┴──────────┴──────────┴────────────────────┘
-```
-
-```
-┌────────────────────────────────────────┐
-│         সারসংক্ষেপ (Summary)           │
-│  কী:     f(n) = f(n-1) + f(n-2)       │
-│  কেন:    DP-এর fundamental example    │
-│  কখন:    Overlapping subproblems শেখতে│
-│  Time:   O(n) with memo/tab           │
-│  Space:  O(1) optimized               │
-│  Naive:  O(2ⁿ) — কখনো ব্যবহার করো না │
-└────────────────────────────────────────┘
-```
-
----
-
-<a name="coin-change"></a>
-## ৩. Coin Change
-
----
-
-### ০. বাস্তব জীবনের গল্প 💰
-
-**গল্প: মিষ্টির দোকানে ভাংতি**
-
-তোমার কাছে ১, ৫, ১০ টাকার কয়েন আছে। তুমি ১১ টাকার জিনিস কিনলে। সর্বনিম্ন কতটি কয়েনে ১১ টাকা দেওয়া যায়?
-
-```
-Greedy (ভুল পথ — arbitrary coins-এ):
-coins = [1, 5, 10], amount = 11
-Greedy: 10+1 = 2 coins ✅ (এখানে কাজ করে)
-
-কিন্তু coins = [1, 3, 4], amount = 6:
-Greedy: 4+1+1 = 3 coins
-Optimal: 3+3 = 2 coins ← Greedy fail!
-
-DP ব্যবহার করলে সব ক্ষেত্রে optimal পাওয়া যায়।
-```
-
----
-
-### ১. Coin Change কী?
-
-**দেওয়া আছে:** কয়েনের denominations (যেমন [1,5,10]) ও একটি লক্ষ্যমাত্রা amount।
-
-**লক্ষ্য:** সর্বনিম্ন কয়েন দিয়ে amount তৈরি করো।
-
-**State definition:**
-```
-dp[i] = i টাকা তৈরি করতে সর্বনিম্ন কয়েন সংখ্যা
-dp[0] = 0  (০ টাকার জন্য ০ কয়েন)
-dp[i] = ∞  (শুরুতে — impossible মানে)
-
-Recurrence:
-dp[i] = min(dp[i - coin] + 1) for each coin where i ≥ coin
-```
-
----
-
-### ৩. ধাপে ধাপে Visual
-
-```
-coins = [1, 5, 10], amount = 13
-
-dp: [0, ∞, ∞, ∞, ∞, ∞, ∞, ∞, ∞, ∞, ∞, ∞, ∞, ∞]
-idx:  0   1   2   3   4   5   6   7   8   9  10  11  12  13
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-i=1: coin=1: dp[1-1]+1 = dp[0]+1 = 1
-     coin=5: 1<5 skip; coin=10: 1<10 skip
-     dp[1] = 1
-
-i=2: coin=1: dp[1]+1 = 2  → dp[2]=2
-i=3: dp[3]=3
-i=4: dp[4]=4
-
-i=5: coin=1: dp[4]+1=5
-     coin=5: dp[0]+1=1  ← minimum!
-     dp[5] = 1
-
-i=6: coin=1: dp[5]+1=2
-     coin=5: dp[1]+1=2
-     dp[6] = 2
-
-i=10: coin=1:  dp[9]+1=4
-      coin=5:  dp[5]+1=2
-      coin=10: dp[0]+1=1  ← minimum!
-      dp[10] = 1
-
-i=11: coin=1:  dp[10]+1=2
-      coin=5:  dp[6]+1=3
-      coin=10: dp[1]+1=2
-      dp[11] = 2
-
-i=13: coin=1:  dp[12]+1=4
-      coin=5:  dp[8]+1=3
-      coin=10: dp[3]+1=4
-      dp[13] = 3
-
-Final dp:
-[0, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 3]
- 0  1  2  3  4  5  6  7  8  9 10 11 12 13
-
-Answer: dp[13] = 3 (10+2×1 বা 10+1+1 বা 5+5+3 নয়, 10+1+1+1=13...)
-        Coins: 10+2+1 = wait, 10+3? হ্যাঁ → 10+1+1+1 = 4 নয়
-        আসলে: dp[13]=3 → 10 + dp[3]=3? না, 10 + 3coins?
-        Trace: dp[13] via coin=10: dp[3]+1=4 ❌
-               dp[13] via coin=5:  dp[8]+1=3+1=4? 
-               dp[8] = 4 (1×8 বা 5+1+1+1=4) 
-               আসলে dp[13]=3: coins 10+2+1? dp[3]=3 means 1+1+1
-               তাহলে total 10+1+1+1=4 ← but dp[13]=3?
-               
-Let me re-check: 13 = 5+5+1+1+1? No.
-               13 = 10+1+1+1 = 4 coins
-               Wait coins=[1,5,10], amount=13:
-               Best: 10+1+1+1 = 4 coins OR
-                     5+5+1+1+1 = 5 coins
-               Actually minimum = 4! dp[13]=4
-
-Let me redo: dp[11]=2 (10+1), dp[12]=3 (10+1+1), dp[13]=4 (10+1+1+1)
-Actually dp[10]=1, dp[11]=2, dp[12]=3, dp[13]=4
-
-OK I need to fix the visual. Let me redo carefully.
-coins=[1,5,10], amount=11:
-dp[0]=0, dp[1]=1, dp[2]=2, dp[3]=3, dp[4]=4, dp[5]=1, dp[6]=2, dp[7]=3, dp[8]=4, dp[9]=5 or...
-dp[9]: coin=1:dp[8]+1, coin=5:dp[4]+1=5, coin=10:dp[-1] skip → min(dp[8]+1, dp[4]+1) = min(5,5)=... 
-dp[8]: coin=1:dp[7]+1, coin=5:dp[3]+1=4, → dp[8]=4
-dp[9]: coin=1:dp[8]+1=5, coin=5:dp[4]+1=5 → dp[9]=5? But wait, 5+4 doesn't work for 9... Actually 5+4 is impossible with [1,5,10]. Best is 5+1+1+1+1=5 coins. Yes dp[9]=5? No wait: dp[4]=4 means 4 coins of 1. dp[9] via coin 5: dp[9-5]+1 = dp[4]+1 = 4+1=5. Via coin 1: dp[8]+1=5. So dp[9]=5. Hmm but we could do 5+4×1=5 coins. Actually minimum is 5 coins yes for amount 9 with coins [1,5,10]. Or wait, can we get fewer? 9 = 5+1+1+1+1 = 5 coins. Yes.
-dp[10]=1 (one 10-coin)
-dp[11]=2 (10+1)
-dp[12]=3 (10+1+1)
-dp[13]=4 (10+1+1+1) — this is minimum. dp[13] via coin=5: dp[8]+1=4+1=5. Via coin=1: dp[12]+1=4. Via coin=10: dp[3]+1=3+1=4. So dp[13]=4. OK.
-
-Let me now use coins=[1,3,4], amount=6 as the example to show greedy fails but DP works, more interesting.
-dp[0]=0
-dp[1]: coin=1:dp[0]+1=1 → dp[1]=1
-dp[2]: coin=1:dp[1]+1=2 → dp[2]=2
-dp[3]: coin=1:dp[2]+1=3, coin=3:dp[0]+1=1 → dp[3]=1
-dp[4]: coin=1:dp[3]+1=2, coin=3:dp[1]+1=2, coin=4:dp[0]+1=1 → dp[4]=1
-dp[5]: coin=1:dp[4]+1=2, coin=3:dp[2]+1=3, coin=4:dp[1]+1=2 → dp[5]=2
-dp[6]: coin=1:dp[5]+1=3, coin=3:dp[3]+1=2, coin=4:dp[2]+1=3 → dp[6]=2 (3+3)
-
-Great! dp[6]=2 (coins 3+3) vs greedy would give 4+1+1=3. This is a perfect example.
-
-Let me rewrite the visual section with this better example.
-</thinking>
-
-<function_calls>
-<invoke name="create_file">
-<parameter name="content"># অধ্যায় ৭: ডায়নামিক প্রোগ্রামিং (Dynamic Programming)
-
-> 🎯 **লক্ষ্য:** "একই হিসাব দুইবার করো না" — DP-এর এই মূলমন্ত্র দিয়ে কীভাবে জটিল সমস্যা সমাধান করা যায় তা গল্পে, ছবিতে, Dart কোডে শেখো।
-
----
-
-## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
-
-| # | বিষয় | মূল ট্রিক |
-|---|-------|----------|
-| [১](#dp-intro) | DP কী? Memoization vs Tabulation | Overlapping Subproblems |
-| [২](#fibonacci) | Fibonacci — DP-এর প্রথম পাঠ | O(2ⁿ) → O(n) |
-| [৩](#coin-change) | Coin Change | Bottom-up DP |
-| [৪](#knapsack) | 0/1 Knapsack | 2D DP table |
-| [৫](#lis) | Longest Increasing Subsequence (LIS) | O(n²) ও O(n log n) |
-| [৬](#lcs) | Longest Common Subsequence (LCS) | 2D DP + Backtrack |
-| [৭](#matrix-chain) | Matrix Chain Multiplication | Interval DP |
-| [৮](#edit-distance) | Edit Distance (Levenshtein) | 2D DP |
-
----
-
-```mermaid
-mindmap
-  root((অধ্যায় ৭\nDynamic Programming))
-    DP ধারণা
-      Overlapping Subproblems
-      Optimal Substructure
-      Memoization Top-Down
-      Tabulation Bottom-Up
-    Sequence DP
-      Fibonacci
-      LIS
-      LCS
-      Edit Distance
-    Optimization DP
-      Coin Change
-      0-1 Knapsack
-    Interval DP
-      Matrix Chain Multiplication
-```
-
----
-
-<a name="dp-intro"></a>
+<a id="dp-intro"></a>
 ## ১. DP কী? — Memoization vs Tabulation
 
 ---
@@ -747,9 +241,12 @@ fib(10) optimal:   55
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="fibonacci"></a>
+<a id="fibonacci"></a>
 ## ২. Fibonacci — DP-এর প্রথম পাঠ
 
 ---
@@ -933,9 +430,12 @@ f:     0   1   1   2   3   5   8  13  21  34  55
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="coin-change"></a>
+<a id="coin-change"></a>
 ## ৩. Coin Change
 
 ---
@@ -1163,9 +663,12 @@ coins=[1,3,4], amount=6:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="knapsack"></a>
+<a id="knapsack"></a>
 ## ৪. 0/1 Knapsack
 
 ---
@@ -1410,9 +913,12 @@ Pseudo-polynomial:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="lis"></a>
+<a id="lis"></a>
 ## ৫. Longest Increasing Subsequence (LIS)
 
 ---
@@ -1631,9 +1137,12 @@ LIS: [2, 5, 7, 101]
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="lcs"></a>
+<a id="lcs"></a>
 ## ৬. Longest Common Subsequence (LCS)
 
 ---
@@ -1852,9 +1361,12 @@ s1="SUNDAY", s2="SATURDAY"
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="matrix-chain"></a>
+<a id="matrix-chain"></a>
 ## ৭. Matrix Chain Multiplication
 
 ---
@@ -2048,9 +1560,12 @@ Matrices: A..F
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="edit-distance"></a>
+<a id="edit-distance"></a>
 ## ৮. Edit Distance (Levenshtein Distance)
 
 ---
@@ -2275,6 +1790,9 @@ Levenshtein Distance applications:
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 অধ্যায় ৭ সমাপ্তি — DP সম্পূর্ণ তুলনা
 

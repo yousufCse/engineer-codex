@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
 
 | # | বিষয় | মূল ট্রিক |
@@ -38,9 +39,10 @@ mindmap
       SCC Kosaraju
 ```
 
+
 ---
 
-<a name="graph-intro"></a>
+<a id="graph-intro"></a>
 ## ১. গ্রাফ কী? — Representation
 
 ---
@@ -295,9 +297,12 @@ Edge List: [(0, 1, 4), (0, 2, 2), (1, 3, 5)]
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="bfs"></a>
+<a id="bfs"></a>
 ## ২. BFS — Breadth-First Search
 
 ---
@@ -537,9 +542,12 @@ Components in disconnected graph: 3
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="dfs"></a>
+<a id="dfs"></a>
 ## ৩. DFS — Depth-First Search
 
 ---
@@ -791,9 +799,12 @@ Undirected has cycle: true
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="dijkstra"></a>
+<a id="dijkstra"></a>
 ## ৪. Dijkstra's Shortest Path
 
 ---
@@ -1047,9 +1058,12 @@ Path 0→4: [0, 2, 5, 4]
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="bellman-ford"></a>
+<a id="bellman-ford"></a>
 ## ৫. Bellman-Ford Algorithm
 
 ---
@@ -1263,9 +1277,12 @@ Bellman-Ford: O(V×E),       negative weight ✅, cycle detect ✅
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="floyd-warshall"></a>
+<a id="floyd-warshall"></a>
 ## ৬. Floyd-Warshall — All-Pairs Shortest Path
 
 ---
@@ -1482,9 +1499,12 @@ Has negative cycle: false
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="topo-sort"></a>
+<a id="topo-sort"></a>
 ## ৭. Topological Sort
 
 ---
@@ -1715,9 +1735,12 @@ DAG Shortest Paths from 0: [0, 3, 2, 4, 4, 5]
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="scc"></a>
+<a id="scc"></a>
 ## ৮. Strongly Connected Components (Kosaraju's)
 
 ---
@@ -1950,6 +1973,9 @@ Condensation (DAG of SCCs):
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 অধ্যায় ৮ সমাপ্তি — Graph Algorithms সম্পূর্ণ তুলনা
 

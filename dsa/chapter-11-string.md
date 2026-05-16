@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
 
 | # | বিষয় | মূল ট্রিক |
@@ -40,9 +41,10 @@ mindmap
       String DP
 ```
 
+
 ---
 
-<a name="string-basics"></a>
+<a id="string-basics"></a>
 ## ১. String Basics ও Hashing
 
 ---
@@ -278,9 +280,12 @@ Longest duplicate substring:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="kmp"></a>
+<a id="kmp"></a>
 ## ২. KMP — Knuth-Morris-Pratt Algorithm
 
 ---
@@ -489,9 +494,12 @@ Rotation check:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="z-algo"></a>
+<a id="z-algo"></a>
 ## ৩. Z-Algorithm
 
 ---
@@ -691,9 +699,12 @@ Periods:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="trie"></a>
+<a id="trie"></a>
 ## ৪. Trie (Prefix Tree)
 
 ---
@@ -976,9 +987,12 @@ Max XOR = 28
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="suffix-array"></a>
+<a id="suffix-array"></a>
 ## ৫. Suffix Array + LCP Array
 
 ---
@@ -1211,9 +1225,12 @@ Pattern search in "mississippi":
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="manacher"></a>
+<a id="manacher"></a>
 ## ৬. Manacher's Algorithm — Longest Palindromic Substring
 
 ---
@@ -1376,9 +1393,12 @@ Minimum palindrome cuts (DP):
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="aho-corasick"></a>
+<a id="aho-corasick"></a>
 ## ৭. Aho-Corasick — Multi-Pattern Matching
 
 ---
@@ -1564,9 +1584,12 @@ Flagged words: [spam, scam]
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="string-dp"></a>
+<a id="string-dp"></a>
 ## ৮. String DP সমস্যা
 
 ---
@@ -1753,6 +1776,9 @@ minCuts("abcd")    = 3
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 অধ্যায় ১১ সমাপ্তি — String Algorithms সম্পূর্ণ তুলনা
 

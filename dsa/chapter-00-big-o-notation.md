@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি
 
 | # | বিষয় |
@@ -39,9 +40,10 @@ mindmap
       Average case Θ Theta
 ```
 
+
 ---
 
-<a name="what-is-big-o"></a>
+<a id="what-is-big-o"></a>
 ## ১. Big O কী এবং কেন?
 
 ---
@@ -100,9 +102,12 @@ Big O Notation বলে: **"n বড় হলে কতটা slow হবে?"
   1000                     →  O(1)
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="complexity-classes"></a>
+<a id="complexity-classes"></a>
 ## ২. Common Complexity Classes
 
 ---
@@ -265,9 +270,12 @@ n=20 → 2,432,902,008,176,640,000 step 🔥
   n=10: 3,628,800
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="rules"></a>
+<a id="rules"></a>
 ## ৩. Big O-র হিসাবের নিয়ম
 
 ---
@@ -343,9 +351,12 @@ Dynamic Array (ArrayList):
   Amortized: O(1) per push (overall n push = O(n))
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="space"></a>
+<a id="space"></a>
 ## ৪. Space Complexity
 
 ---
@@ -389,9 +400,12 @@ Time vs Space Tradeoff:
   └─────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="best-worst-avg"></a>
+<a id="best-worst-avg"></a>
 ## ৫. Best / Worst / Average Case
 
 ---
@@ -418,9 +432,12 @@ Time vs Space Tradeoff:
   Average: O(log n)
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="comparison"></a>
+<a id="comparison"></a>
 ## ৬. সব Complexity-র তুলনা ও গ্রাফ
 
 ---
@@ -522,9 +539,12 @@ Modern computer: ~10⁸ simple operations/second।
 └────────────────────────────┴────────────────┴────────────────┴────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="dart-examples"></a>
+<a id="dart-examples"></a>
 ## ৭. Dart-এ উদাহরণ — প্রতিটি Complexity
 
 ```dart
@@ -684,6 +704,9 @@ Space Complexity:
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 সারসংক্ষেপ — Big O Quick Reference
 

@@ -4,6 +4,7 @@
 
 ---
 
+<a id="toc"></a>
 ## 📑 অধ্যায়ের বিষয়সূচি (Chapter TOC)
 
 | # | বিষয় | মূল কৌশল |
@@ -42,9 +43,10 @@ mindmap
       Min-Heap + Tree build
 ```
 
+
 ---
 
-<a name="greedy-intro"></a>
+<a id="greedy-intro"></a>
 ## ১. Greedy কী?
 
 ---
@@ -157,9 +159,12 @@ Coin Change (arbitrary coins) — Greedy কাজ করে না:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="fractional-knapsack"></a>
+<a id="fractional-knapsack"></a>
 ## ২. Fractional Knapsack
 
 ---
@@ -404,9 +409,12 @@ Greedy selection:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="mst"></a>
+<a id="mst"></a>
 ## ৩. Minimum Spanning Tree (MST)
 
 ---
@@ -474,9 +482,12 @@ MST (optimal):
   চলো Prim's দিয়ে বের করি!
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="prim"></a>
+<a id="prim"></a>
 ## ৪. Prim's Algorithm
 
 ---
@@ -751,9 +762,12 @@ Space: O(V + E)
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="kruskal"></a>
+<a id="kruskal"></a>
 ## ৫. Kruskal's Algorithm
 
 ---
@@ -986,9 +1000,12 @@ Prim's vs Kruskal's:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="activity-selection"></a>
+<a id="activity-selection"></a>
 ## ৬. Activity Selection (Washing Machine & Dryer)
 
 ---
@@ -1226,9 +1243,12 @@ Variants:
 └────────────────────────────────────────┘
 ```
 
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
+
 ---
 
-<a name="huffman"></a>
+<a id="huffman"></a>
 ## ৭. Huffman Coding
 
 ---
@@ -1599,6 +1619,9 @@ Huffman সবসময় Entropy-এর কাছাকাছি থাকে,
 ```
 
 ---
+
+
+[⬆ বিষয়সূচিতে ফিরুন](#toc)
 
 ## 📊 অধ্যায় ৬ সমাপ্তি — Greedy সম্পূর্ণ তুলনা
 
