@@ -1,7 +1,41 @@
 # Desing Patterns
 
+## Table of Contents
+
+| # | Pattern | Category |
+|---|---------|----------|
+| 1 | [Strategy Pattern](#1-strategy-pattern) | Behavioral |
+| 2 | [Factory Method](#2-factory-method) | Creational |
+| 3 | [Singleton](#3-singleton) | Creational |
+| 4 | [State](#4-state) | Behavioral |
+| 5 | [Observer](#5-observer) | Behavioral |
+| 6 | [Decorator](#6-decorator) | Structural |
+| 7 | [Builder](#7-builder) | Creational |
+| 8 | [Memento](#8-memento) | Behavioral |
+| 9 | [Visitor — Tax Calculator](#9-visitor) | Behavioral |
+| 10 | [Composite](#10-composite) | Structural |
+| 11 | [Iterator](#11-iterator) | Behavioral |
+| 12 | [Proxy](#12-proxy) | Structural |
+| 13 | [Facade](#13-facade) | Structural |
+| 14 | [Command](#14-command) | Behavioral |
+| 15 | [Template Method](#15-template-method) | Behavioral |
+| 16 | [Compound (MVC)](#16-compound) | Mixed |
+| 17 | [Visitor — Shapes](#17-visitor) | Behavioral |
+| 18 | [Null Object](#18-null-object) | Behavioral |
+| 19 | [Chain of Responsibility](#19-chain-of-responsibility) | Behavioral |
+| 20 | [Prototype](#20-prototype) | Creational |
+| 21 | [Bridge](#21-bridge) | Structural |
+| 22 | [Flyweight](#22-flyweight) | Structural |
+| 23 | [Interpreter](#23-interpreter) | Behavioral |
+| 24 | [Mediator](#24-mediator) | Behavioral |
+| 25 | [Adapter](#25-adapter) | Structural |
+
+---
+
 
 ## (1) Strategy Pattern
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Strategy Pattern*
     defines a family of algorithms, encapsulates each one,
@@ -73,10 +107,40 @@ classDiagram
     PaymentStrategy <|.. PayPalPayment
     PaymentStrategy <|.. BitcoinPayment
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class PaymentStrategy {
+  void pay(double amount);
+}
+class CreditCardPayment implements PaymentStrategy {
+  @override
+  void pay(double amount) => print('Charged \$$amount to card');
+}
+class PayPalPayment implements PaymentStrategy {
+  @override
+  void pay(double amount) => print('Sent \$$amount via PayPal');
+}
+class ShoppingCart {
+  PaymentStrategy strategy;
+  ShoppingCart(this.strategy);
+  void checkout(double amount) => strategy.pay(amount);
+}
+
+void main() {
+  final cart = ShoppingCart(CreditCardPayment());
+  cart.checkout(99.99);            // Charged $99.99 to card
+  cart.strategy = PayPalPayment();
+  cart.checkout(49.99);            // Sent $49.99 via PayPal
+}
+```
+
 ------------------------------------------------------------------------------
 
 
 ## (2) Factory Method
+
+[↑ Back to TOC](#table-of-contents)
 
 **Types**
 - Factory Method: Subclasses decide what to create.
@@ -151,10 +215,36 @@ classDiagram
     SMSService ..> SMSNotification : creates
     PushService ..> PushNotification : creates
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Notification {
+  void deliver(String message);
+}
+class EmailNotification implements Notification {
+  @override
+  void deliver(String msg) => print('Email: $msg');
+}
+abstract class NotificationService {
+  Notification createNotification();
+  void send(String msg) => createNotification().deliver(msg);
+}
+class EmailService extends NotificationService {
+  @override
+  Notification createNotification() => EmailNotification();
+}
+
+void main() {
+  EmailService().send('Welcome!'); // Email: Welcome!
+}
+```
+
 ----------------------------------------------------------------------------------
 
 
 ## (3) Singleton
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Singleton Pattern*
     ensures a class has only one instance, and provides a global point of accesst to it.
@@ -195,10 +285,31 @@ classDiagram
         +debug(message: String)
     }
 ```
+
+**Code Example (Dart)**
+```dart
+class AppLogger {
+  static AppLogger? _instance;
+  AppLogger._();
+
+  static AppLogger get instance => _instance ??= AppLogger._();
+
+  void log(String msg) => print('[LOG] $msg');
+}
+
+void main() {
+  AppLogger.instance.log('App started');
+  AppLogger.instance.log('User logged in');
+  print(identical(AppLogger.instance, AppLogger.instance)); // true
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (4) State
+
+[↑ Back to TOC](#table-of-contents)
 
 *The State Pattern*
     allow an object to alter its behaviour when its internal
@@ -267,10 +378,49 @@ classDiagram
     OrderState <|.. ShippedState
     OrderState <|.. DeliveredState
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class OrderState {
+  void next(Order order);
+  String get status;
+}
+class PendingState implements OrderState {
+  @override void next(Order o) => o.state = ProcessingState();
+  @override String get status => 'Pending';
+}
+class ProcessingState implements OrderState {
+  @override void next(Order o) => o.state = ShippedState();
+  @override String get status => 'Processing';
+}
+class ShippedState implements OrderState {
+  @override void next(Order o) => o.state = DeliveredState();
+  @override String get status => 'Shipped';
+}
+class DeliveredState implements OrderState {
+  @override void next(Order o) {}
+  @override String get status => 'Delivered';
+}
+class Order {
+  OrderState state = PendingState();
+  void next()   => state.next(this);
+  String get status => state.status;
+}
+
+void main() {
+  final order = Order();
+  print(order.status);          // Pending
+  order.next(); print(order.status); // Processing
+  order.next(); print(order.status); // Shipped
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (5) Observer
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Observer Pattern*
     defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
@@ -330,10 +480,43 @@ classDiagram
     StockObserver <|.. PriceAlert
     StockObserver <|.. TradingBot
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class StockObserver {
+  void update(String symbol, double price);
+}
+class StockMarket {
+  final List<StockObserver> _observers = [];
+  void attach(StockObserver o) => _observers.add(o);
+  void detach(StockObserver o) => _observers.remove(o);
+  void updatePrice(String symbol, double price) {
+    for (final o in _observers) o.update(symbol, price);
+  }
+}
+class Broker implements StockObserver {
+  final String name;
+  Broker(this.name);
+  @override
+  void update(String s, double p) => print('$name: $s = \$$p');
+}
+
+void main() {
+  final market = StockMarket();
+  market.attach(Broker('Alice'));
+  market.attach(Broker('Bob'));
+  market.updatePrice('AAPL', 182.50);
+  // Alice: AAPL = $182.5
+  // Bob:   AAPL = $182.5
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (6) Decorator
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Decorator Pattern*
     attaches additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.
@@ -402,10 +585,47 @@ classDiagram
     CondimentDecorator <|-- Mocha
     CondimentDecorator <|-- WhippedCream
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Beverage {
+  String get description;
+  double get cost;
+}
+class Espresso extends Beverage {
+  @override String get description => 'Espresso';
+  @override double get cost => 1.99;
+}
+abstract class CondimentDecorator extends Beverage {
+  final Beverage beverage;
+  CondimentDecorator(this.beverage);
+}
+class Milk extends CondimentDecorator {
+  Milk(super.beverage);
+  @override String get description => '${beverage.description}, Milk';
+  @override double get cost => beverage.cost + 0.25;
+}
+class Mocha extends CondimentDecorator {
+  Mocha(super.beverage);
+  @override String get description => '${beverage.description}, Mocha';
+  @override double get cost => beverage.cost + 0.50;
+}
+
+void main() {
+  Beverage coffee = Espresso();
+  coffee = Mocha(coffee);
+  coffee = Milk(coffee);
+  print(coffee.description); // Espresso, Mocha, Milk
+  print(coffee.cost);        // 2.74
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (7) Builder
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Builder Pattern*
     separates the construction of a complex object from its representation, allowing the same construction process to create different representations.
@@ -477,10 +697,42 @@ classDiagram
     WoodenHouseBuilder ..> House : creates
     BrickHouseBuilder ..> House : creates
 ```
+
+**Code Example (Dart)**
+```dart
+class House {
+  String foundation = '', walls = '';
+  bool hasGarage = false;
+}
+abstract class HouseBuilder {
+  void buildFoundation(); void buildWalls(); void buildGarage();
+  House getHouse();
+}
+class BrickHouseBuilder implements HouseBuilder {
+  final House _h = House();
+  @override void buildFoundation() => _h.foundation = 'Concrete';
+  @override void buildWalls()      => _h.walls = 'Brick';
+  @override void buildGarage()     => _h.hasGarage = true;
+  @override House getHouse()       => _h;
+}
+class Director {
+  House build(HouseBuilder b) {
+    b.buildFoundation(); b.buildWalls(); b.buildGarage();
+    return b.getHouse();
+  }
+}
+
+void main() {
+  final house = Director().build(BrickHouseBuilder());
+  print('${house.walls}, garage: ${house.hasGarage}'); // Brick, garage: true
+}
+```
 -----------------------------------------------------------------------------------
 
 
 ## (8) Memento
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Memento Pattern*
     captures and externalizes an object’s internal state without violating encapsulation, so the object can be restored to this state later.
@@ -531,10 +783,41 @@ classDiagram
     EditorHistory o--> EditorMemento : stores
     EditorHistory --> TextEditor
 ```
+
+**Code Example (Dart)**
+```dart
+class EditorMemento { final String content; EditorMemento(this.content); }
+
+class TextEditor {
+  String _content = '';
+  void type(String text)        => _content += text;
+  EditorMemento save()          => EditorMemento(_content);
+  void restore(EditorMemento m) => _content = m.content;
+  String get content            => _content;
+}
+class EditorHistory {
+  final List<EditorMemento> _stack = [];
+  void backup(TextEditor e) => _stack.add(e.save());
+  void undo(TextEditor e)   { if (_stack.isNotEmpty) e.restore(_stack.removeLast()); }
+}
+
+void main() {
+  final editor = TextEditor(), history = EditorHistory();
+  editor.type('Hello ');
+  history.backup(editor);
+  editor.type('World');
+  print(editor.content); // Hello World
+  history.undo(editor);
+  print(editor.content); // Hello
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (9) Visitor
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Visitor Pattern*
     lets you define a new operation without changing the classes of the elements on which it operates.
@@ -605,9 +888,38 @@ classDiagram
     ElectronicsItem ..> TaxVisitor : accepts
     ClothingItem ..> TaxVisitor : accepts
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class TaxVisitor {
+  double visitFood(FoodItem item);
+  double visitElectronics(ElectronicsItem item);
+}
+class StandardTax implements TaxVisitor {
+  @override double visitFood(FoodItem i)         => i.price * 0.05;
+  @override double visitElectronics(ElectronicsItem i) => i.price * 0.15;
+}
+class FoodItem {
+  final double price; FoodItem(this.price);
+  double accept(TaxVisitor v) => v.visitFood(this);
+}
+class ElectronicsItem {
+  final double price; ElectronicsItem(this.price);
+  double accept(TaxVisitor v) => v.visitElectronics(this);
+}
+
+void main() {
+  final tax = StandardTax();
+  print(FoodItem(100).accept(tax));         // 5.0
+  print(ElectronicsItem(100).accept(tax));  // 15.0
+}
+```
+
 -----------------------------------------------------------------------------------
 
 ## (10) Composite
+
+[↑ Back to TOC](#table-of-contents)
 
 
 *The Composite Pattern*
@@ -660,9 +972,44 @@ classDiagram
     FileSystemItem <|.. Folder
     Folder o--> FileSystemItem : contains
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class FSItem {
+  String get name; int get size;
+  void display([String indent = '']);
+}
+class File implements FSItem {
+  @override final String name; @override final int size;
+  File(this.name, this.size);
+  @override void display([String i = '']) => print('${i}📄 $name (${size}kb)');
+}
+class Folder implements FSItem {
+  @override final String name;
+  final List<FSItem> _children = [];
+  Folder(this.name);
+  void add(FSItem item) => _children.add(item);
+  @override int get size => _children.fold(0, (s, c) => s + c.size);
+  @override void display([String i = '']) {
+    print('${i}📁 $name');
+    for (final c in _children) c.display('$i  ');
+  }
+}
+
+void main() {
+  final src = Folder('src');
+  src.add(File('main.dart', 10));
+  src.add(File('utils.dart', 5));
+  src.display();         // 📁 src  📄 main.dart  📄 utils.dart
+  print(src.size);       // 15
+}
+```
+
 -----------------------------------------------------------------------------------
 
 ## (11) Iterator
+
+[↑ Back to TOC](#table-of-contents)
 
 
 *The Iterator Pattern*
@@ -720,10 +1067,42 @@ classDiagram
     Playlist ..> PlaylistIterator : creates
     PlaylistIterator --> Playlist
 ```
+
+**Code Example (Dart)**
+```dart
+class Song { final String title, artist; Song(this.title, this.artist); }
+
+class PlaylistIterator {
+  final List<Song> _songs; int _index = 0;
+  PlaylistIterator(this._songs);
+  bool get hasNext => _index < _songs.length;
+  Song next() => _songs[_index++];
+  void reset() => _index = 0;
+}
+class Playlist {
+  final List<Song> _songs = [];
+  void add(Song s) => _songs.add(s);
+  PlaylistIterator createIterator() => PlaylistIterator(_songs);
+}
+
+void main() {
+  final pl = Playlist();
+  pl.add(Song('Bohemian Rhapsody', 'Queen'));
+  pl.add(Song('Hotel California', 'Eagles'));
+  final it = pl.createIterator();
+  while (it.hasNext) {
+    final s = it.next();
+    print('${s.title} - ${s.artist}');
+  }
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (12) Proxy
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Proxy Pattern*
     provides a surrogate or placeholder for another object to control access to it.
@@ -779,10 +1158,39 @@ classDiagram
     ImageProxy --> RealImage : loads lazily
     ImageGallery o--> Image
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Image { void display(); }
+
+class RealImage implements Image {
+  final String filename;
+  RealImage(this.filename) { print('Loading $filename...'); }
+  @override void display() => print('Showing $filename');
+}
+class ImageProxy implements Image {
+  final String filename;
+  RealImage? _real;
+  ImageProxy(this.filename);
+  @override void display() {
+    _real ??= RealImage(filename);
+    _real!.display();
+  }
+}
+
+void main() {
+  final img = ImageProxy('photo.jpg'); // nothing loaded yet
+  img.display(); // Loading photo.jpg...  Showing photo.jpg
+  img.display(); // Showing photo.jpg  (no reload)
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (13) Facade
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Facade Pattern*
     provides a unified interface to a set of interfaces in a subsystem, making it easier to use.
@@ -842,10 +1250,34 @@ classDiagram
     HomeTheaterFacade --> StreamingPlayer
     HomeTheaterFacade --> SmartLights
 ```
+
+**Code Example (Dart)**
+```dart
+class TV    { void on()           => print('TV on'); }
+class Sound { void surround()     => print('Surround on');
+              void volume(int v)  => print('Vol: $v'); }
+class Player{ void play(String t) => print('Playing: $t'); }
+class Lights{ void dim(int l)     => print('Lights: $l%'); }
+
+class HomeTheaterFacade {
+  final _tv=TV(); final _s=Sound(); final _p=Player(); final _l=Lights();
+  void watchMovie(String title) {
+    _l.dim(20); _tv.on(); _s.surround(); _s.volume(40); _p.play(title);
+  }
+}
+
+void main() {
+  HomeTheaterFacade().watchMovie('Inception');
+  // Lights: 20%  TV on  Surround on  Vol: 40  Playing: Inception
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (14) Command
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Command Pattern*
     encapsulates a request as an object, thereby letting you parameterize clients with queues, requests, and operations.
@@ -917,10 +1349,37 @@ classDiagram
     LightOffCommand --> Light
     ThermostatCommand --> Thermostat
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Command { void execute(); void undo(); }
+
+class Light { void on() => print('ON'); void off() => print('OFF'); }
+
+class LightOnCommand implements Command {
+  final Light _light; LightOnCommand(this._light);
+  @override void execute() => _light.on();
+  @override void undo()    => _light.off();
+}
+class RemoteControl {
+  final List<Command> _history = [];
+  void press(Command cmd) { cmd.execute(); _history.add(cmd); }
+  void undoLast() { if (_history.isNotEmpty) _history.removeLast().undo(); }
+}
+
+void main() {
+  final remote = RemoteControl();
+  remote.press(LightOnCommand(Light())); // ON
+  remote.undoLast();                     // OFF
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (15) Template Method
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Template Method Pattern*
     defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing its structure.
@@ -973,10 +1432,38 @@ classDiagram
     ReportGenerator <|-- ExcelReport
     ReportGenerator <|-- CSVReport
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class ReportGenerator {
+  void generate() { fetchData(); process(); formatOutput(); }
+  void fetchData();
+  void process();
+  void formatOutput();
+}
+class PdfReport extends ReportGenerator {
+  @override void fetchData()    => print('Fetching...');
+  @override void process()      => print('Processing...');
+  @override void formatOutput() => print('Exporting PDF');
+}
+class CsvReport extends ReportGenerator {
+  @override void fetchData()    => print('Fetching...');
+  @override void process()      => print('Processing...');
+  @override void formatOutput() => print('Exporting CSV');
+}
+
+void main() {
+  PdfReport().generate(); // Fetching...  Processing...  Exporting PDF
+  CsvReport().generate(); // Fetching...  Processing...  Exporting CSV
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (16) Compound
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Compound Pattern*
     combines two or more patterns to solve a recurring or complex design problem. Often used in frameworks and libraries to leverage the strengths of multiple patterns together.
@@ -1045,9 +1532,47 @@ classDiagram
     InputStrategy <|.. StrictValidation
     InputStrategy <|.. LenientValidation
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Observer { void update(String data); }
+
+class UserModel {
+  final List<Observer> _observers = [];
+  String _email = '';
+  void subscribe(Observer o) => _observers.add(o);
+  void setEmail(String e) {
+    _email = e;
+    for (final o in _observers) o.update(e);
+  }
+}
+class ProfileView implements Observer {
+  @override void update(String e) => print('Profile: $e');
+}
+class DashboardView implements Observer {
+  @override void update(String e) => print('Dashboard: $e');
+}
+class UserController {
+  final UserModel _model;
+  UserController(this._model);
+  void updateEmail(String e) { if (e.contains('@')) _model.setEmail(e); }
+}
+
+void main() {
+  final model = UserModel();
+  model.subscribe(ProfileView());
+  model.subscribe(DashboardView());
+  UserController(model).updateEmail('ali@example.com');
+  // Profile: ali@example.com
+  // Dashboard: ali@example.com
+}
+```
+
 -----------------------------------------------------------------------------------
 
 ## (17) Visitor
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Visitor Pattern*
     lets you define a new operation without changing the classes of the elements on which it operates.
@@ -1120,10 +1645,42 @@ classDiagram
     Rectangle ..> ShapeVisitor : accepts
     Triangle ..> ShapeVisitor : accepts
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class ShapeVisitor {
+  void visitCircle(Circle c);
+  void visitRectangle(Rectangle r);
+}
+class AreaCalculator implements ShapeVisitor {
+  @override void visitCircle(Circle c) =>
+      print('Circle area: ${(3.14159 * c.radius * c.radius).toStringAsFixed(2)}');
+  @override void visitRectangle(Rectangle r) =>
+      print('Rect area: ${r.width * r.height}');
+}
+abstract class Shape { void accept(ShapeVisitor v); }
+class Circle implements Shape {
+  final double radius; Circle(this.radius);
+  @override void accept(ShapeVisitor v) => v.visitCircle(this);
+}
+class Rectangle implements Shape {
+  final double width, height; Rectangle(this.width, this.height);
+  @override void accept(ShapeVisitor v) => v.visitRectangle(this);
+}
+
+void main() {
+  final calc = AreaCalculator();
+  Circle(5).accept(calc);         // Circle area: 78.54
+  Rectangle(4, 6).accept(calc);  // Rect area: 24.0
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (18) Null Object
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Null Object Pattern*
     provides an object as a surrogate for the lack of an object of a given type. The null object implements the expected interface but does nothing.
@@ -1183,10 +1740,37 @@ classDiagram
     Logger <|-- NullLogger
     Application o--> Logger
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Logger { void log(String msg); bool get isNull; }
+
+class ConsoleLogger implements Logger {
+  @override void log(String msg) => print('[LOG] $msg');
+  @override bool get isNull => false;
+}
+class NullLogger implements Logger {
+  @override void log(String msg) {} // silent
+  @override bool get isNull => true;
+}
+class App {
+  final Logger logger;
+  App({Logger? logger}) : logger = logger ?? NullLogger();
+  void run() => logger.log('Running');
+}
+
+void main() {
+  App().run();                        // (silent)
+  App(logger: ConsoleLogger()).run(); // [LOG] Running
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (19) Chain of Responsibility
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Chain of Responsibility Pattern*
     lets you pass requests along a chain of handlers. Each handler decides either to process the request or to pass it to the next handler in the chain.
@@ -1235,10 +1819,36 @@ classDiagram
     CashHandler <|-- TenBillHandler
     CashHandler o--> CashHandler : next
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class CashHandler {
+  CashHandler? _next;
+  CashHandler setNext(CashHandler h) { _next = h; return h; }
+  void handle(int amount) {
+    final bills = amount ~/ denomination;
+    if (bills > 0) print('\$$denomination x$bills');
+    _next?.handle(amount % denomination);
+  }
+  int get denomination;
+}
+class HundredsHandler extends CashHandler { @override int get denomination => 100; }
+class FiftiesHandler  extends CashHandler { @override int get denomination => 50;  }
+class TwentiesHandler extends CashHandler { @override int get denomination => 20;  }
+
+void main() {
+  final atm = HundredsHandler();
+  atm.setNext(FiftiesHandler()).setNext(TwentiesHandler());
+  atm.handle(270); // $100 x2  $50 x1  $20 x1
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (20) Prototype
+
+[↑ Back to TOC](#table-of-contents)
 
 
 *The Prototype Pattern*
@@ -1300,10 +1910,35 @@ classDiagram
     CharacterRegistry o--> GameCharacter : stores prototypes
     CharacterRegistry ..> GameCharacter : clones
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class GameCharacter {
+  GameCharacter clone();
+  String get info;
+}
+class Warrior implements GameCharacter {
+  String name; int level; String weapon;
+  Warrior(this.name, this.level, this.weapon);
+  @override Warrior clone() => Warrior(name, level, weapon);
+  @override String get info => '$name (Lv$level) \u2014 $weapon';
+}
+
+void main() {
+  final template = Warrior('template', 10, 'Sword');
+  final alice = template.clone()..name = 'Alice';
+  final bob   = template.clone()..name = 'Bob';
+  print(alice.info); // Alice (Lv10) \u2014 Sword
+  print(bob.info);   // Bob (Lv10) \u2014 Sword
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (21) Bridge
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Bridge Pattern*
     decouples an abstraction from its implementation so that the two can vary independently.
@@ -1377,10 +2012,46 @@ classDiagram
     Device <|.. TV
     Device <|.. Radio
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Device {
+  void enable(); void disable();
+  int get volume; set volume(int v);
+}
+class TV implements Device {
+  int _volume = 30;
+  @override void enable()  => print('TV on');
+  @override void disable() => print('TV off');
+  @override int get volume => _volume;
+  @override set volume(int v) { _volume = v; print('TV vol: $v'); }
+}
+class Radio implements Device {
+  int _volume = 20;
+  @override void enable()  => print('Radio on');
+  @override void disable() => print('Radio off');
+  @override int get volume => _volume;
+  @override set volume(int v) { _volume = v; print('Radio vol: $v'); }
+}
+class RemoteControl {
+  final Device device;
+  RemoteControl(this.device);
+  void togglePower(bool on) => on ? device.enable() : device.disable();
+  void volumeUp() => device.volume = device.volume + 10;
+}
+
+void main() {
+  RemoteControl(TV()).togglePower(true);    // TV on
+  RemoteControl(Radio()).togglePower(true); // Radio on
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (22) Flyweight
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Flyweight Pattern*
     uses sharing to support large numbers of fine-grained objects efficiently.
@@ -1432,10 +2103,35 @@ classDiagram
     GameMap o--> MapTile
     GameMap --> TileFactory
 ```
+
+**Code Example (Dart)**
+```dart
+class TileAppearance {
+  final String texture; final bool passable;
+  TileAppearance(this.texture, this.passable);
+  void render(int x, int y) => print('$texture @ ($x,$y)');
+}
+class TileFactory {
+  final Map<String, TileAppearance> _cache = {};
+  TileAppearance getTile(String type) =>
+      _cache.putIfAbsent(type, () => TileAppearance(type, type != 'wall'));
+  int get cachedCount => _cache.length;
+}
+
+void main() {
+  final factory = TileFactory();
+  [['grass','grass','wall'],['grass','wall','grass']].expand((r)=>r).forEach(factory.getTile);
+  print('Unique objects: ${factory.cachedCount}'); // 2
+  print(identical(factory.getTile('grass'), factory.getTile('grass'))); // true
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (23) Interpreter
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Interpreter Pattern*
     defines a representation for a language’s grammar along with an interpreter that uses the representation to interpret sentences in the language.
@@ -1494,10 +2190,37 @@ classDiagram
     MultiplyExpression o--> Expression : left/right
     ExpressionParser ..> Expression : creates
 ```
+
+**Code Example (Dart)**
+```dart
+abstract class Expression { int interpret(); }
+
+class Num implements Expression {
+  final int value; Num(this.value);
+  @override int interpret() => value;
+}
+class Add implements Expression {
+  final Expression left, right; Add(this.left, this.right);
+  @override int interpret() => left.interpret() + right.interpret();
+}
+class Multiply implements Expression {
+  final Expression left, right; Multiply(this.left, this.right);
+  @override int interpret() => left.interpret() * right.interpret();
+}
+
+// (3 + 5) * 2
+void main() {
+  final expr = Multiply(Add(Num(3), Num(5)), Num(2));
+  print(expr.interpret()); // 16
+}
+```
+
 -----------------------------------------------------------------------------------
 
 
 ## (24) Mediator
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Mediator Pattern*
     defines an object that encapsulates how a set of objects interact, promoting loose coupling by keeping objects from referring to each other explicitly.
@@ -1551,10 +2274,40 @@ classDiagram
     User <|-- AdminUser
     User o--> ChatMediator
     ChatRoom o--> User
-```-----------------------------------------------------------------------------------
+```
+
+**Code Example (Dart)**
+```dart
+abstract class ChatMediator { void send(String msg, User sender); }
+
+class ChatRoom implements ChatMediator {
+  final List<User> _users = [];
+  void addUser(User u) => _users.add(u);
+  @override void send(String msg, User sender) {
+    for (final u in _users) if (u != sender) u.receive(msg, sender.name);
+  }
+}
+class User {
+  final String name; final ChatMediator room;
+  User(this.name, this.room);
+  void send(String msg) => room.send(msg, this);
+  void receive(String msg, String from) => print('$name ← [$from]: $msg');
+}
+
+void main() {
+  final room = ChatRoom();
+  final alice = User('Alice', room), bob = User('Bob', room);
+  room.addUser(alice); room.addUser(bob);
+  alice.send('Hi Bob!'); // Bob ← [Alice]: Hi Bob!
+}
+```
+
+-----------------------------------------------------------------------------------
 
 
 ## (25) Adapter
+
+[↑ Back to TOC](#table-of-contents)
 
 *The Adapter Pattern*
     allows objects with incompatible interfaces to work together. Adapter wraps an existing class with a new interface.
@@ -1615,6 +2368,31 @@ classDiagram
     StripeAdapter --> StripeClient : delegates
     PayPalAdapter --> PayPalSDK : delegates
     CheckoutService o--> PaymentProcessor
+```
+
+**Code Example (Dart)**
+```dart
+abstract class PaymentProcessor {
+  bool processPayment(double amount, String currency);
+}
+// Legacy Stripe SDK (incompatible interface)
+class StripeClient {
+  bool charge(int cents, String curr) {
+    print('Stripe: ${cents}c ($curr)'); return true;
+  }
+}
+// Adapter
+class StripeAdapter implements PaymentProcessor {
+  final StripeClient _stripe = StripeClient();
+  @override
+  bool processPayment(double amount, String currency) =>
+      _stripe.charge((amount * 100).toInt(), currency);
+}
+
+void main() {
+  final PaymentProcessor processor = StripeAdapter();
+  processor.processPayment(49.99, 'USD'); // Stripe: 4999c (USD)
+}
 ```
 
 
