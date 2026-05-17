@@ -40,6 +40,39 @@
 **HAS-A can be better than IS-A**
 * When you put classe like HAS-A, this is composition. It gives you more flexiblity and can be changed behavior at runtime.
 ** Favor composition over inheritance.
+
+**UML Class Diagram**
+> Real-world example: E-commerce checkout with swappable payment methods
+
+```mermaid
+classDiagram
+    class ShoppingCart {
+        -paymentStrategy: PaymentStrategy
+        +setPaymentStrategy(s: PaymentStrategy)
+        +checkout(amount: float)
+    }
+    class PaymentStrategy {
+        <<interface>>
+        +pay(amount: float)
+    }
+    class CreditCardPayment {
+        -cardNumber: String
+        -cvv: String
+        +pay(amount: float)
+    }
+    class PayPalPayment {
+        -email: String
+        +pay(amount: float)
+    }
+    class BitcoinPayment {
+        -walletAddress: String
+        +pay(amount: float)
+    }
+    ShoppingCart o--> PaymentStrategy
+    PaymentStrategy <|.. CreditCardPayment
+    PaymentStrategy <|.. PayPalPayment
+    PaymentStrategy <|.. BitcoinPayment
+```
 ------------------------------------------------------------------------------
 
 
@@ -72,6 +105,52 @@
 
 **Analogy**
 - *Like ordering from a pizza store: you ask for a pizza, the store decides how to make it and hands you the finished product.
+
+**UML Class Diagram**
+> Real-world example: Multi-channel notification system (email, SMS, push)
+
+```mermaid
+classDiagram
+    class NotificationService {
+        <<abstract>>
+        +createNotification() Notification
+        +send(message: String)
+    }
+    class EmailService {
+        +createNotification() Notification
+    }
+    class SMSService {
+        +createNotification() Notification
+    }
+    class PushService {
+        +createNotification() Notification
+    }
+    class Notification {
+        <<interface>>
+        +deliver(message: String)
+    }
+    class EmailNotification {
+        -recipient: String
+        +deliver(message: String)
+    }
+    class SMSNotification {
+        -phoneNumber: String
+        +deliver(message: String)
+    }
+    class PushNotification {
+        -deviceToken: String
+        +deliver(message: String)
+    }
+    NotificationService <|-- EmailService
+    NotificationService <|-- SMSService
+    NotificationService <|-- PushService
+    Notification <|.. EmailNotification
+    Notification <|.. SMSNotification
+    Notification <|.. PushNotification
+    EmailService ..> EmailNotification : creates
+    SMSService ..> SMSNotification : creates
+    PushService ..> PushNotification : creates
+```
 ----------------------------------------------------------------------------------
 
 
@@ -99,6 +178,23 @@
 
 **Analogy**
 *Like the captain of a ship: there's only one captain and everyone knows how to reach them.*
+
+**UML Class Diagram**
+> Real-world example: Application-wide logger — one instance, accessible globally
+
+```mermaid
+classDiagram
+    class AppLogger {
+        -instance: AppLogger$
+        -logFilePath: String
+        -AppLogger()
+        +getInstance() AppLogger$
+        +info(message: String)
+        +warn(message: String)
+        +error(message: String)
+        +debug(message: String)
+    }
+```
 -----------------------------------------------------------------------------------
 
 
@@ -125,6 +221,52 @@
 
 **Analogy**
 *Like a vending machine: its behavior changes depending on weather you've inserted money, selected a product, or it's out of stock*
+
+**UML Class Diagram**
+> Real-world example: E-commerce order lifecycle (Pending → Processing → Shipped → Delivered)
+
+```mermaid
+classDiagram
+    class Order {
+        -state: OrderState
+        -orderId: String
+        +setState(state: OrderState)
+        +next()
+        +cancel()
+        +getStatus() String
+    }
+    class OrderState {
+        <<interface>>
+        +next(order: Order)
+        +cancel(order: Order)
+        +getStatus() String
+    }
+    class PendingState {
+        +next(order: Order)
+        +cancel(order: Order)
+        +getStatus() String
+    }
+    class ProcessingState {
+        +next(order: Order)
+        +cancel(order: Order)
+        +getStatus() String
+    }
+    class ShippedState {
+        +next(order: Order)
+        +cancel(order: Order)
+        +getStatus() String
+    }
+    class DeliveredState {
+        +next(order: Order)
+        +cancel(order: Order)
+        +getStatus() String
+    }
+    Order o--> OrderState
+    OrderState <|.. PendingState
+    OrderState <|.. ProcessingState
+    OrderState <|.. ShippedState
+    OrderState <|.. DeliveredState
+```
 -----------------------------------------------------------------------------------
 
 
@@ -150,6 +292,44 @@
 
 **Analogy**
 *Like a news agency: when news is published (subject), all subscribers (observers) are notified and receive the update.*
+
+**UML Class Diagram**
+> Real-world example: Stock market — brokers, alerts, and bots react to price changes
+
+```mermaid
+classDiagram
+    class StockMarket {
+        -observers: List~StockObserver~
+        -symbol: String
+        -price: float
+        +attach(o: StockObserver)
+        +detach(o: StockObserver)
+        +notifyObservers()
+        +updatePrice(price: float)
+    }
+    class StockObserver {
+        <<interface>>
+        +update(symbol: String, price: float)
+    }
+    class Broker {
+        -name: String
+        +update(symbol: String, price: float)
+    }
+    class PriceAlert {
+        -threshold: float
+        +update(symbol: String, price: float)
+        +sendAlert()
+    }
+    class TradingBot {
+        -strategy: String
+        +update(symbol: String, price: float)
+        +executeTrade()
+    }
+    StockMarket o--> StockObserver : notifies
+    StockObserver <|.. Broker
+    StockObserver <|.. PriceAlert
+    StockObserver <|.. TradingBot
+```
 -----------------------------------------------------------------------------------
 
 
@@ -175,6 +355,53 @@
 
 **Analogy**
 *Like adding toppings to a pizza: each topping (decorator) adds new flavor (behavior) to the base pizza (component).*
+
+**UML Class Diagram**
+> Real-world example: Coffee shop — dynamically add milk, mocha, whipped cream to any beverage
+
+```mermaid
+classDiagram
+    class Beverage {
+        <<abstract>>
+        #description: String
+        +getDescription() String
+        +getCost() float
+    }
+    class Espresso {
+        +getDescription() String
+        +getCost() float
+    }
+    class HouseBlend {
+        +getDescription() String
+        +getCost() float
+    }
+    class CondimentDecorator {
+        <<abstract>>
+        -beverage: Beverage
+        +CondimentDecorator(b: Beverage)
+        +getDescription() String
+        +getCost() float
+    }
+    class Milk {
+        +getDescription() String
+        +getCost() float
+    }
+    class Mocha {
+        +getDescription() String
+        +getCost() float
+    }
+    class WhippedCream {
+        +getDescription() String
+        +getCost() float
+    }
+    Beverage <|-- Espresso
+    Beverage <|-- HouseBlend
+    Beverage <|-- CondimentDecorator
+    CondimentDecorator o--> Beverage : wraps
+    CondimentDecorator <|-- Milk
+    CondimentDecorator <|-- Mocha
+    CondimentDecorator <|-- WhippedCream
+```
 -----------------------------------------------------------------------------------
 
 
@@ -198,6 +425,58 @@
 
 **Analogy**
 *Like ordering a custom sandwich: you choose the ingredients, the builder assembles it step by step.*
+
+**UML Class Diagram**
+> Real-world example: House construction — director drives the build, builders vary the material
+
+```mermaid
+classDiagram
+    class ConstructionDirector {
+        -builder: HouseBuilder
+        +setBuilder(b: HouseBuilder)
+        +buildBasicHouse()
+        +buildLuxuryHouse()
+    }
+    class HouseBuilder {
+        <<interface>>
+        +buildFoundation()
+        +buildWalls()
+        +buildRoof()
+        +buildGarage()
+        +buildPool()
+        +getHouse() House
+    }
+    class WoodenHouseBuilder {
+        -house: House
+        +buildFoundation()
+        +buildWalls()
+        +buildRoof()
+        +buildGarage()
+        +buildPool()
+        +getHouse() House
+    }
+    class BrickHouseBuilder {
+        -house: House
+        +buildFoundation()
+        +buildWalls()
+        +buildRoof()
+        +buildGarage()
+        +buildPool()
+        +getHouse() House
+    }
+    class House {
+        +foundation: String
+        +walls: String
+        +roof: String
+        +hasGarage: bool
+        +hasPool: bool
+    }
+    ConstructionDirector o--> HouseBuilder
+    HouseBuilder <|.. WoodenHouseBuilder
+    HouseBuilder <|.. BrickHouseBuilder
+    WoodenHouseBuilder ..> House : creates
+    BrickHouseBuilder ..> House : creates
+```
 -----------------------------------------------------------------------------------
 
 
@@ -221,6 +500,37 @@
 
 **Analogy**
 *Like a save point in a video game: you can restore to a previous state if needed.*
+
+**UML Class Diagram**
+> Real-world example: Text editor undo/redo — each save captures a snapshot of content
+
+```mermaid
+classDiagram
+    class TextEditor {
+        -content: String
+        -cursorPosition: int
+        +type(text: String)
+        +delete(chars: int)
+        +save() EditorMemento
+        +restore(m: EditorMemento)
+        +getContent() String
+    }
+    class EditorMemento {
+        -content: String
+        -cursorPosition: int
+        +getContent() String
+        +getCursorPosition() int
+    }
+    class EditorHistory {
+        -history: Stack~EditorMemento~
+        +backup(editor: TextEditor)
+        +undo(editor: TextEditor)
+        +canUndo() bool
+    }
+    TextEditor ..> EditorMemento : creates
+    EditorHistory o--> EditorMemento : stores
+    EditorHistory --> TextEditor
+```
 -----------------------------------------------------------------------------------
 
 
@@ -244,6 +554,57 @@
 
 **Analogy**
 *Like a tax auditor visiting different businesses: each business lets the auditor perform a specific operation.*
+
+**UML Class Diagram**
+> Real-world example: Shopping cart — apply standard tax or holiday tax to different item types
+
+```mermaid
+classDiagram
+    class TaxVisitor {
+        <<interface>>
+        +visitFood(item: FoodItem) float
+        +visitElectronics(item: ElectronicsItem) float
+        +visitClothing(item: ClothingItem) float
+    }
+    class StandardTax {
+        +visitFood(item: FoodItem) float
+        +visitElectronics(item: ElectronicsItem) float
+        +visitClothing(item: ClothingItem) float
+    }
+    class HolidayTax {
+        +visitFood(item: FoodItem) float
+        +visitElectronics(item: ElectronicsItem) float
+        +visitClothing(item: ClothingItem) float
+    }
+    class ShopItem {
+        <<interface>>
+        +accept(v: TaxVisitor) float
+        +getPrice() float
+    }
+    class FoodItem {
+        -price: float
+        +accept(v: TaxVisitor) float
+        +getPrice() float
+    }
+    class ElectronicsItem {
+        -price: float
+        +accept(v: TaxVisitor) float
+        +getPrice() float
+    }
+    class ClothingItem {
+        -price: float
+        +accept(v: TaxVisitor) float
+        +getPrice() float
+    }
+    TaxVisitor <|.. StandardTax
+    TaxVisitor <|.. HolidayTax
+    ShopItem <|.. FoodItem
+    ShopItem <|.. ElectronicsItem
+    ShopItem <|.. ClothingItem
+    FoodItem ..> TaxVisitor : accepts
+    ElectronicsItem ..> TaxVisitor : accepts
+    ClothingItem ..> TaxVisitor : accepts
+```
 -----------------------------------------------------------------------------------
 
 ## (10) Composite
@@ -267,6 +628,38 @@
 
 **Analogy**
 *Like a folder system: folders can contain files or other folders, and you can perform actions on both.*
+
+**UML Class Diagram**
+> Real-world example: File system — files and folders treated uniformly; getSize() works on both
+
+```mermaid
+classDiagram
+    class FileSystemItem {
+        <<interface>>
+        +getName() String
+        +getSize() long
+        +display(indent: String)
+    }
+    class File {
+        -name: String
+        -size: long
+        +getName() String
+        +getSize() long
+        +display(indent: String)
+    }
+    class Folder {
+        -name: String
+        -children: List~FileSystemItem~
+        +getName() String
+        +getSize() long
+        +display(indent: String)
+        +add(item: FileSystemItem)
+        +remove(item: FileSystemItem)
+    }
+    FileSystemItem <|.. File
+    FileSystemItem <|.. Folder
+    Folder o--> FileSystemItem : contains
+```
 -----------------------------------------------------------------------------------
 
 ## (11) Iterator
@@ -288,6 +681,45 @@
 
 **Analogy**
 *Like flipping through a playlist: you see each song in order.*
+
+**UML Class Diagram**
+> Real-world example: Music app playlist — iterate songs without exposing internal list structure
+
+```mermaid
+classDiagram
+    class MusicIterator {
+        <<interface>>
+        +hasNext() bool
+        +next() Song
+        +reset()
+    }
+    class MusicCollection {
+        <<interface>>
+        +createIterator() MusicIterator
+    }
+    class Song {
+        +title: String
+        +artist: String
+        +durationSecs: int
+    }
+    class Playlist {
+        -songs: List~Song~
+        -name: String
+        +addSong(song: Song)
+        +createIterator() MusicIterator
+    }
+    class PlaylistIterator {
+        -playlist: Playlist
+        -index: int
+        +hasNext() bool
+        +next() Song
+        +reset()
+    }
+    MusicIterator <|.. PlaylistIterator
+    MusicCollection <|.. Playlist
+    Playlist ..> PlaylistIterator : creates
+    PlaylistIterator --> Playlist
+```
 -----------------------------------------------------------------------------------
 
 
@@ -309,6 +741,44 @@
 
 **Analogy**
 *Like a receptionist: you interact with them instead of directly with the boss.*
+
+**UML Class Diagram**
+> Real-world example: Image gallery — proxy defers loading heavy images until they are displayed
+
+```mermaid
+classDiagram
+    class Image {
+        <<interface>>
+        +display()
+        +getWidth() int
+        +getHeight() int
+    }
+    class RealImage {
+        -filename: String
+        -width: int
+        -height: int
+        -loadFromDisk()
+        +display()
+        +getWidth() int
+        +getHeight() int
+    }
+    class ImageProxy {
+        -filename: String
+        -realImage: RealImage
+        +display()
+        +getWidth() int
+        +getHeight() int
+    }
+    class ImageGallery {
+        -images: List~Image~
+        +addImage(image: Image)
+        +displayAll()
+    }
+    Image <|.. RealImage
+    Image <|.. ImageProxy
+    ImageProxy --> RealImage : loads lazily
+    ImageGallery o--> Image
+```
 -----------------------------------------------------------------------------------
 
 
@@ -330,6 +800,48 @@
 
 **Analogy**
 *Like a universal remote: one remote controls many devices.*
+
+**UML Class Diagram**
+> Real-world example: Home theater — one facade call starts the TV, sound system, lights, and streaming
+
+```mermaid
+classDiagram
+    class HomeTheaterFacade {
+        -tv: Television
+        -soundSystem: SoundSystem
+        -streamingPlayer: StreamingPlayer
+        -lights: SmartLights
+        +watchMovie(title: String)
+        +endMovie()
+        +listenToMusic(playlist: String)
+    }
+    class Television {
+        +turnOn()
+        +turnOff()
+        +setInput(input: String)
+    }
+    class SoundSystem {
+        +turnOn()
+        +setVolume(level: int)
+        +setSurroundSound()
+        +turnOff()
+    }
+    class StreamingPlayer {
+        +turnOn()
+        +play(title: String)
+        +stop()
+        +turnOff()
+    }
+    class SmartLights {
+        +dim(level: int)
+        +turnOn()
+        +turnOff()
+    }
+    HomeTheaterFacade --> Television
+    HomeTheaterFacade --> SoundSystem
+    HomeTheaterFacade --> StreamingPlayer
+    HomeTheaterFacade --> SmartLights
+```
 -----------------------------------------------------------------------------------
 
 
@@ -353,6 +865,58 @@
 
 **Analogy**
 *Like a remote control: each button is a command object.*
+
+**UML Class Diagram**
+> Real-world example: Smart home remote — buttons trigger encapsulated commands, undo is supported
+
+```mermaid
+classDiagram
+    class RemoteControl {
+        -commands: Map~String, Command~
+        -history: Stack~Command~
+        +registerCommand(name: String, cmd: Command)
+        +pressButton(name: String)
+        +undoLast()
+    }
+    class Command {
+        <<interface>>
+        +execute()
+        +undo()
+    }
+    class LightOnCommand {
+        -light: Light
+        +execute()
+        +undo()
+    }
+    class LightOffCommand {
+        -light: Light
+        +execute()
+        +undo()
+    }
+    class ThermostatCommand {
+        -thermostat: Thermostat
+        -targetTemp: int
+        -previousTemp: int
+        +execute()
+        +undo()
+    }
+    class Light {
+        -location: String
+        +on()
+        +off()
+    }
+    class Thermostat {
+        +setTemperature(temp: int)
+        +getTemperature() int
+    }
+    RemoteControl o--> Command
+    Command <|.. LightOnCommand
+    Command <|.. LightOffCommand
+    Command <|.. ThermostatCommand
+    LightOnCommand --> Light
+    LightOffCommand --> Light
+    ThermostatCommand --> Thermostat
+```
 -----------------------------------------------------------------------------------
 
 
@@ -376,6 +940,39 @@
 
 **Analogy**
 *Like a coffee machine: the process is fixed, but you can choose the type of coffee.*
+
+**UML Class Diagram**
+> Real-world example: Report generator — fixed pipeline (fetch → process → format), subclasses define each step
+
+```mermaid
+classDiagram
+    class ReportGenerator {
+        <<abstract>>
+        +generate()
+        +fetchData()*
+        +processData()*
+        +formatOutput()*
+        +saveToFile()
+    }
+    class PDFReport {
+        +fetchData()
+        +processData()
+        +formatOutput()
+    }
+    class ExcelReport {
+        +fetchData()
+        +processData()
+        +formatOutput()
+    }
+    class CSVReport {
+        +fetchData()
+        +processData()
+        +formatOutput()
+    }
+    ReportGenerator <|-- PDFReport
+    ReportGenerator <|-- ExcelReport
+    ReportGenerator <|-- CSVReport
+```
 -----------------------------------------------------------------------------------
 
 
@@ -397,6 +994,57 @@
 
 **Analogy**
 *Like a Swiss Army knife: multiple tools in one package.*
+
+**UML Class Diagram**
+> Real-world example: MVC — combines Observer (model notifies views) + Strategy (controller swaps input handling)
+
+```mermaid
+classDiagram
+    class UserModel {
+        -username: String
+        -email: String
+        -observers: List~Observer~
+        +attach(o: Observer)
+        +detach(o: Observer)
+        +notifyAll()
+        +setEmail(email: String)
+    }
+    class Observer {
+        <<interface>>
+        +update(model: UserModel)
+    }
+    class ProfileView {
+        +update(model: UserModel)
+        +render()
+    }
+    class DashboardView {
+        +update(model: UserModel)
+        +render()
+    }
+    class UserController {
+        -model: UserModel
+        -inputStrategy: InputStrategy
+        +handleUpdateEmail(email: String)
+        +setInputStrategy(s: InputStrategy)
+    }
+    class InputStrategy {
+        <<interface>>
+        +validate(input: String) bool
+    }
+    class StrictValidation {
+        +validate(input: String) bool
+    }
+    class LenientValidation {
+        +validate(input: String) bool
+    }
+    UserModel o--> Observer : notifies
+    Observer <|.. ProfileView
+    Observer <|.. DashboardView
+    UserController --> UserModel
+    UserController o--> InputStrategy
+    InputStrategy <|.. StrictValidation
+    InputStrategy <|.. LenientValidation
+```
 -----------------------------------------------------------------------------------
 
 ## (17) Visitor
@@ -419,6 +1067,59 @@
 
 **Analogy**
 *Like a tax auditor visiting different businesses: each business lets the auditor perform a specific operation.*
+
+**UML Class Diagram**
+> Real-world example: Drawing app — shapes accept visitors for area calculation and XML export without modification
+
+```mermaid
+classDiagram
+    class ShapeVisitor {
+        <<interface>>
+        +visitCircle(c: Circle)
+        +visitRectangle(r: Rectangle)
+        +visitTriangle(t: Triangle)
+    }
+    class AreaCalculator {
+        -totalArea: float
+        +visitCircle(c: Circle)
+        +visitRectangle(r: Rectangle)
+        +visitTriangle(t: Triangle)
+        +getTotalArea() float
+    }
+    class XMLExporter {
+        -xml: String
+        +visitCircle(c: Circle)
+        +visitRectangle(r: Rectangle)
+        +visitTriangle(t: Triangle)
+        +getXML() String
+    }
+    class Shape {
+        <<interface>>
+        +accept(v: ShapeVisitor)
+    }
+    class Circle {
+        -radius: float
+        +accept(v: ShapeVisitor)
+    }
+    class Rectangle {
+        -width: float
+        -height: float
+        +accept(v: ShapeVisitor)
+    }
+    class Triangle {
+        -base: float
+        -height: float
+        +accept(v: ShapeVisitor)
+    }
+    ShapeVisitor <|.. AreaCalculator
+    ShapeVisitor <|.. XMLExporter
+    Shape <|.. Circle
+    Shape <|.. Rectangle
+    Shape <|.. Triangle
+    Circle ..> ShapeVisitor : accepts
+    Rectangle ..> ShapeVisitor : accepts
+    Triangle ..> ShapeVisitor : accepts
+```
 -----------------------------------------------------------------------------------
 
 
@@ -440,6 +1141,48 @@
 
 **Analogy**
 *Like a silent partner: present, but never participates.*
+
+**UML Class Diagram**
+> Real-world example: Logging — NullLogger eliminates null checks throughout the codebase
+
+```mermaid
+classDiagram
+    class Logger {
+        <<abstract>>
+        +log(message: String)
+        +error(message: String)
+        +warn(message: String)
+        +isNull() bool
+    }
+    class ConsoleLogger {
+        +log(message: String)
+        +error(message: String)
+        +warn(message: String)
+        +isNull() bool
+    }
+    class FileLogger {
+        -filePath: String
+        +log(message: String)
+        +error(message: String)
+        +warn(message: String)
+        +isNull() bool
+    }
+    class NullLogger {
+        +log(message: String)
+        +error(message: String)
+        +warn(message: String)
+        +isNull() bool
+    }
+    class Application {
+        -logger: Logger
+        +setLogger(logger: Logger)
+        +run()
+    }
+    Logger <|-- ConsoleLogger
+    Logger <|-- FileLogger
+    Logger <|-- NullLogger
+    Application o--> Logger
+```
 -----------------------------------------------------------------------------------
 
 
@@ -461,6 +1204,37 @@
 
 **Analogy**
 *Like customer service escalation: your request moves up the chain until someone resolves it.*
+
+**UML Class Diagram**
+> Real-world example: ATM cash dispenser — request passes through handlers for each bill denomination
+
+```mermaid
+classDiagram
+    class CashHandler {
+        <<abstract>>
+        -next: CashHandler
+        +setNext(handler: CashHandler) CashHandler
+        +handle(amount: int)
+        #dispense(bills: int)*
+    }
+    class HundredBillHandler {
+        #dispense(bills: int)
+    }
+    class FiftyBillHandler {
+        #dispense(bills: int)
+    }
+    class TwentyBillHandler {
+        #dispense(bills: int)
+    }
+    class TenBillHandler {
+        #dispense(bills: int)
+    }
+    CashHandler <|-- HundredBillHandler
+    CashHandler <|-- FiftyBillHandler
+    CashHandler <|-- TwentyBillHandler
+    CashHandler <|-- TenBillHandler
+    CashHandler o--> CashHandler : next
+```
 -----------------------------------------------------------------------------------
 
 
@@ -487,6 +1261,45 @@
 
 **Analogy**
 *Like making a key copy: you use an existing key (the prototype) to create a new one, rather than forging a new key from scratch.*
+
+**UML Class Diagram**
+> Real-world example: Game character spawning — clone pre-configured prototypes instead of rebuilding from scratch
+
+```mermaid
+classDiagram
+    class GameCharacter {
+        <<interface>>
+        +clone() GameCharacter
+        +getInfo() String
+    }
+    class Warrior {
+        -name: String
+        -level: int
+        -weapon: String
+        -health: int
+        +clone() GameCharacter
+        +setName(name: String)
+        +getInfo() String
+    }
+    class Mage {
+        -name: String
+        -level: int
+        -spell: String
+        -mana: int
+        +clone() GameCharacter
+        +setName(name: String)
+        +getInfo() String
+    }
+    class CharacterRegistry {
+        -prototypes: Map~String, GameCharacter~
+        +register(key: String, c: GameCharacter)
+        +spawn(key: String) GameCharacter
+    }
+    GameCharacter <|.. Warrior
+    GameCharacter <|.. Mage
+    CharacterRegistry o--> GameCharacter : stores prototypes
+    CharacterRegistry ..> GameCharacter : clones
+```
 -----------------------------------------------------------------------------------
 
 
@@ -508,6 +1321,62 @@
 
 **Analogy**
 *Like a TV remote: the remote (abstraction) works with different brands of TVs (implementations) without changing the remote.*
+
+**UML Class Diagram**
+> Real-world example: Remote control + devices — add new remotes or device brands independently
+
+```mermaid
+classDiagram
+    class RemoteControl {
+        #device: Device
+        +RemoteControl(device: Device)
+        +togglePower()
+        +volumeUp()
+        +volumeDown()
+    }
+    class AdvancedRemoteControl {
+        +mute()
+        +setChannel(num: int)
+    }
+    class Device {
+        <<interface>>
+        +isEnabled() bool
+        +enable()
+        +disable()
+        +getVolume() int
+        +setVolume(v: int)
+        +getChannel() int
+        +setChannel(c: int)
+    }
+    class TV {
+        -on: bool
+        -volume: int
+        -channel: int
+        +isEnabled() bool
+        +enable()
+        +disable()
+        +getVolume() int
+        +setVolume(v: int)
+        +getChannel() int
+        +setChannel(c: int)
+    }
+    class Radio {
+        -on: bool
+        -volume: int
+        -frequency: int
+        +isEnabled() bool
+        +enable()
+        +disable()
+        +getVolume() int
+        +setVolume(v: int)
+        +getChannel() int
+        +setChannel(c: int)
+    }
+    RemoteControl <|-- AdvancedRemoteControl
+    RemoteControl o--> Device
+    Device <|.. TV
+    Device <|.. Radio
+```
 -----------------------------------------------------------------------------------
 
 
@@ -529,6 +1398,40 @@
 
 **Analogy**
 *Like chess pieces: many pieces share the same type, only position is unique.*
+
+**UML Class Diagram**
+> Real-world example: Game map tiles — thousands of tiles share appearance data; only position is unique per tile
+
+```mermaid
+classDiagram
+    class TileAppearance {
+        -texture: String
+        -color: String
+        -isPassable: bool
+        +render(x: int, y: int)
+    }
+    class TileFactory {
+        -cache: Map~String, TileAppearance~
+        +getTile(type: String) TileAppearance
+        +getCachedCount() int
+    }
+    class MapTile {
+        -x: int
+        -y: int
+        -appearance: TileAppearance
+        +draw()
+        +isWalkable() bool
+    }
+    class GameMap {
+        -tiles: MapTile[]
+        +loadMap(data: String[][])
+        +render()
+    }
+    TileFactory o--> TileAppearance : caches shared state
+    MapTile --> TileAppearance : uses shared state
+    GameMap o--> MapTile
+    GameMap --> TileFactory
+```
 -----------------------------------------------------------------------------------
 
 
@@ -550,6 +1453,47 @@
 
 **Analogy**
 *Like a calculator: interprets and evaluates mathematical expressions.*
+
+**UML Class Diagram**
+> Real-world example: Math expression parser — builds and evaluates expression trees like (3 + 5) * 2
+
+```mermaid
+classDiagram
+    class Expression {
+        <<interface>>
+        +interpret() int
+    }
+    class NumberExpression {
+        -value: int
+        +interpret() int
+    }
+    class AddExpression {
+        -left: Expression
+        -right: Expression
+        +interpret() int
+    }
+    class SubtractExpression {
+        -left: Expression
+        -right: Expression
+        +interpret() int
+    }
+    class MultiplyExpression {
+        -left: Expression
+        -right: Expression
+        +interpret() int
+    }
+    class ExpressionParser {
+        +parse(expression: String) Expression
+    }
+    Expression <|.. NumberExpression
+    Expression <|.. AddExpression
+    Expression <|.. SubtractExpression
+    Expression <|.. MultiplyExpression
+    AddExpression o--> Expression : left/right
+    SubtractExpression o--> Expression : left/right
+    MultiplyExpression o--> Expression : left/right
+    ExpressionParser ..> Expression : creates
+```
 -----------------------------------------------------------------------------------
 
 
@@ -571,7 +1515,43 @@
 
 **Analogy**
 *Like an air traffic controller: coordinates planes so they don’t talk to each other directly.*
------------------------------------------------------------------------------------
+**UML Class Diagram**
+> Real-world example: Chat room — users never message each other directly; the room mediates all communication
+
+```mermaid
+classDiagram
+    class ChatMediator {
+        <<interface>>
+        +sendMessage(msg: String, sender: User)
+        +addUser(user: User)
+    }
+    class ChatRoom {
+        -users: List~User~
+        +sendMessage(msg: String, sender: User)
+        +addUser(user: User)
+    }
+    class User {
+        #mediator: ChatMediator
+        #name: String
+        +User(mediator: ChatMediator, name: String)
+        +send(message: String)
+        +receive(message: String, from: String)
+    }
+    class RegularUser {
+        +send(message: String)
+        +receive(message: String, from: String)
+    }
+    class AdminUser {
+        +send(message: String)
+        +receive(message: String, from: String)
+        +broadcast(message: String)
+    }
+    ChatMediator <|.. ChatRoom
+    User <|-- RegularUser
+    User <|-- AdminUser
+    User o--> ChatMediator
+    ChatRoom o--> User
+```-----------------------------------------------------------------------------------
 
 
 ## (25) Adapter
@@ -596,6 +1576,46 @@
 
 **Analogy**
 *Like a power plug adapter: lets your device (client) use a foreign socket (adaptee) by converting the interface.*
+
+**UML Class Diagram**
+> Real-world example: Payment gateway integration — adapt Stripe and PayPal SDKs to a unified interface
+
+```mermaid
+classDiagram
+    class PaymentProcessor {
+        <<interface>>
+        +processPayment(amount: float, currency: String) bool
+        +refund(transactionId: String) bool
+    }
+    class StripeAdapter {
+        -stripe: StripeClient
+        +processPayment(amount: float, currency: String) bool
+        +refund(transactionId: String) bool
+    }
+    class StripeClient {
+        +charge(cents: int, currency: String) Response
+        +reverse(chargeId: String) Response
+    }
+    class PayPalAdapter {
+        -paypal: PayPalSDK
+        +processPayment(amount: float, currency: String) bool
+        +refund(transactionId: String) bool
+    }
+    class PayPalSDK {
+        +executePayment(usd: float) Result
+        +voidTransaction(id: String) Result
+    }
+    class CheckoutService {
+        -processor: PaymentProcessor
+        +setProcessor(p: PaymentProcessor)
+        +completeOrder(amount: float)
+    }
+    PaymentProcessor <|.. StripeAdapter
+    PaymentProcessor <|.. PayPalAdapter
+    StripeAdapter --> StripeClient : delegates
+    PayPalAdapter --> PayPalSDK : delegates
+    CheckoutService o--> PaymentProcessor
+```
 
 
 
