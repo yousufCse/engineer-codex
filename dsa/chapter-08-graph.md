@@ -851,60 +851,172 @@ Priority Queue-তে (dist, node) রাখো।
 
 ---
 
-### ৩. ধাপে ধাপে Visual
+### ৩. ধাপে ধাপে Visual — Undirected Weighted Graph
+
+**উদাহরণ: ঢাকা থেকে সব শহরের সবচেয়ে ছোট পথ বের করো**
+
+---
+
+#### গ্রাফ পরিচিতি
+
+```mermaid
+graph LR
+    D["🏙️ ঢাকা"] ---|"100 km"| K["🏙️ কুমিল্লা"]
+    K ---|"60 km"| C["🏙️ চট্টগ্রাম"]
+    D ---|"80 km"| S["🏙️ সিলেট"]
+    S ---|"120 km"| K
+    D ---|"250 km"| C
+```
+
+> **Undirected** — সব edge দুইদিকেই চলে (ঢাকা→কুমিল্লা এবং কুমিল্লা→ঢাকা একই ওজন)
+
+| Edge | Weight |
+|------|--------|
+| ঢাকা ↔ কুমিল্লা | 100 km |
+| কুমিল্লা ↔ চট্টগ্রাম | 60 km |
+| ঢাকা ↔ সিলেট | 80 km |
+| সিলেট ↔ কুমিল্লা | 120 km |
+| ঢাকা ↔ চট্টগ্রাম | 250 km |
+
+---
+
+#### 🚀 Initialize — শুরুর অবস্থা
 
 ```
-Graph (undirected weighted):
-     4       8
-  0 ─── 1 ─── 2
-  |  \   |     |
-  |   \  2    7  
-  8    \  |     |
-  |    11 3 ── 4
-  |        \  /
-  7 ─── 6   9
-     1    (skip for simplicity)
+Source = ঢাকা
 
-Simple Example:
-      4
-  0 ──── 1
-  |      |
-  2      3
-  |      |
-  3 ──── 2
-      1
+dist   = { ঢাকা:0,  কুমিল্লা:∞,  সিলেট:∞,  চট্টগ্রাম:∞ }
+parent = { ঢাকা:—,  কুমিল্লা:—,  সিলেট:—,  চট্টগ্রাম:— }
 
-dist: [0, ∞, ∞, ∞]
-PQ: [(0, node=0)]
+Priority Queue (min-heap):  PQ = [ (0, ঢাকা) ]
+```
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1: PQ থেকে (dist=0, node=0) বের করো
-  Neighbors: 1(w=4), 3(w=2)
-    dist[1] = min(∞, 0+4) = 4  → PQ: [(2,3),(4,1)]
-    dist[3] = min(∞, 0+2) = 2  → PQ: [(2,3),(4,1)]
-  dist: [0, 4, ∞, 2]
+---
 
-Step 2: PQ থেকে (2, node=3) বের করো (সবচেয়ে কম!)
-  Neighbors: 0(w=2, dist[0]=0 ok), 2(w=1)
-    dist[2] = min(∞, 2+1) = 3  → PQ: [(3,2),(4,1)]
-  dist: [0, 4, 3, 2]
+#### ━━ Step 1 ━━  ঢাকা extract (dist = 0) 🟠
 
-Step 3: PQ থেকে (3, node=2) বের করো
-  Neighbors: 1(w=3), 3(w=1)
-    dist[1] = min(4, 3+3) = 4  → no update
-    dist[3] = min(2, 3+1) = 2  → no update
-  dist: [0, 4, 3, 2]
+```mermaid
+graph LR
+    D["ঢাকা<br/>dist=0"]:::current ---|"100"| K["কুমিল্লা<br/>dist=∞"]:::unvisited
+    K ---|"60"| C["চট্টগ্রাম<br/>dist=∞"]:::unvisited
+    D ---|"80"| S["সিলেট<br/>dist=∞"]:::unvisited
+    S ---|"120"| K
+    D ---|"250"| C
 
-Step 4: PQ থেকে (4, node=1) বের করো
-  Neighbors: 0(w=4, ok), 2(w=3, ok)
-  → কোনো update নেই
-  dist: [0, 4, 3, 2]
+    classDef current   fill:#e67e22,color:#fff,stroke:#ca6f1e,font-weight:bold
+    classDef unvisited fill:#95a5a6,color:#fff,stroke:#7f8c8d
+    classDef queued    fill:#2980b9,color:#fff,stroke:#1a5276
+    classDef done      fill:#27ae60,color:#fff,stroke:#1e8449
+```
 
-Final distances from 0:
-  0→0: 0
-  0→1: 4  (0→1 directly বা 0→3→2→1=2+1+3=6, তাই direct=4)
-  0→2: 3  (0→3→2 = 2+1 = 3)
-  0→3: 2  (0→3 directly)
+```
+ঢাকার প্রতিবেশী relax করো:
+
+  কুমিল্লা  →  0 + 100 = 100  <  ∞    ✅  dist[কুমিল্লা]  = 100,  parent = ঢাকা
+  সিলেট     →  0 + 80  = 80   <  ∞    ✅  dist[সিলেট]     = 80,   parent = ঢাকা
+  চট্টগ্রাম →  0 + 250 = 250  <  ∞    ✅  dist[চট্টগ্রাম] = 250,  parent = ঢাকা
+
+dist  = { ঢাকা:0 ✅,  কুমিল্লা:100,  সিলেট:80,  চট্টগ্রাম:250 }
+PQ    = [ (80, সিলেট), (100, কুমিল্লা), (250, চট্টগ্রাম) ]
+                ↑ smallest → next!
+```
+
+---
+
+#### ━━ Step 2 ━━  সিলেট extract (dist = 80) 🟠
+
+```mermaid
+graph LR
+    D["ঢাকা<br/>dist=0"]:::done ---|"100"| K["কুমিল্লা<br/>dist=100"]:::queued
+    K ---|"60"| C["চট্টগ্রাম<br/>dist=250"]:::queued
+    D ---|"80"| S["সিলেট<br/>dist=80"]:::current
+    S ---|"120"| K
+    D ---|"250"| C
+
+    classDef current fill:#e67e22,color:#fff,stroke:#ca6f1e,font-weight:bold
+    classDef queued  fill:#2980b9,color:#fff,stroke:#1a5276
+    classDef done    fill:#27ae60,color:#fff,stroke:#1e8449
+```
+
+```
+সিলেটের প্রতিবেশী relax করো:
+
+  ঢাকা     →  80 + 80  = 160  >  0    ❌  no update  (ঢাকা already dist=0)
+  কুমিল্লা →  80 + 120 = 200  >  100  ❌  no update  (ঢাকা→কুমিল্লা=100 ছোট)
+
+dist  = { ঢাকা:0 ✅,  সিলেট:80 ✅,  কুমিল্লা:100,  চট্টগ্রাম:250 }
+PQ    = [ (100, কুমিল্লা), (250, চট্টগ্রাম) ]
+```
+
+---
+
+#### ━━ Step 3 ━━  কুমিল্লা extract (dist = 100) 🟠
+
+```mermaid
+graph LR
+    D["ঢাকা<br/>dist=0"]:::done ---|"100"| K["কুমিল্লা<br/>dist=100"]:::current
+    K ---|"60"| C["চট্টগ্রাম<br/>250→160 ✅"]:::queued
+    D ---|"80"| S["সিলেট<br/>dist=80"]:::done
+    S ---|"120"| K
+    D ---|"250"| C
+
+    classDef current fill:#e67e22,color:#fff,stroke:#ca6f1e,font-weight:bold
+    classDef queued  fill:#2980b9,color:#fff,stroke:#1a5276
+    classDef done    fill:#27ae60,color:#fff,stroke:#1e8449
+```
+
+```
+কুমিল্লার প্রতিবেশী relax করো:
+
+  ঢাকা      → 100 + 100 = 200  >  0    ❌  no update
+  সিলেট     → 100 + 120 = 220  >  80   ❌  no update
+  চট্টগ্রাম → 100 + 60  = 160  <  250  ✅  dist[চট্টগ্রাম] = 160, parent = কুমিল্লা
+
+dist  = { ঢাকা:0 ✅,  সিলেট:80 ✅,  কুমিল্লা:100 ✅,  চট্টগ্রাম:160 }
+PQ    = [ (160, চট্টগ্রাম) ]
+```
+
+---
+
+#### ━━ Step 4 ━━  চট্টগ্রাম extract (dist = 160) ✅ শেষ!
+
+```mermaid
+graph LR
+    D["ঢাকা<br/>dist=0"]:::done ---|"100"| K["কুমিল্লা<br/>dist=100"]:::done
+    K ---|"60"| C["চট্টগ্রাম<br/>dist=160"]:::done
+    D ---|"80"| S["সিলেট<br/>dist=80"]:::done
+    S ---|"120"| K
+    D ---|"250"| C
+
+    classDef done fill:#27ae60,color:#fff,stroke:#1e8449,font-weight:bold
+```
+
+```
+চট্টগ্রামের প্রতিবেশী:
+  ঢাকা     → 160 + 250 = 410  >  0    ❌  no update
+  কুমিল্লা → 160 + 60  = 220  >  100  ❌  no update
+
+PQ = []  ← খালি!  🎉 Algorithm সম্পন্ন!
+```
+
+---
+
+#### 🏁 Final Shortest Paths from ঢাকা
+
+| Destination | Shortest Dist | Optimal Path |
+|-------------|:------:|------|
+| ঢাকা | **0 km** | ঢাকা |
+| সিলেট | **80 km** | ঢাকা → সিলেট |
+| কুমিল্লা | **100 km** | ঢাকা → কুমিল্লা |
+| চট্টগ্রাম | **160 km** | ঢাকা → কুমিল্লা → চট্টগ্রাম |
+
+```
+⚡ Key Insight:
+   সরাসরি  ঢাকা ──────────────────── চট্টগ্রাম = 250 km  ❌ বেশি!
+   Optimal  ঢাকা → কুমিল্লা → চট্টগ্রাম = 100+60 = 160 km  ✅ সাশ্রয়ী!
+
+   Dijkstra greedy ভাবে সবসময় সবচেয়ে কম dist-এর node process করে
+   এই সেরা পথটাই খুঁজে বের করে।
 ```
 
 ---
