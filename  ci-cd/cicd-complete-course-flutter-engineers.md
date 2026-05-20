@@ -54,14 +54,20 @@
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # PART 1 — FOUNDATIONS
 
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 1: What CI/CD Really Is (and Why You Should Care)
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 1.1 — The Problem CI/CD Solves
 
@@ -88,6 +94,8 @@ Think of it this way: you follow SOLID principles because you believe in
 code quality. CI/CD is the SOLID principle for your **delivery process**.
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 1.2 — Definitions (Real Meaning, No Buzzwords)
 
@@ -145,6 +153,8 @@ submission.
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 1.3 — The CI/CD Pipeline (The Most Important Concept)
 
 A **pipeline** is simply a series of steps (called **stages**) that your code
@@ -175,6 +185,8 @@ Push ──▶│ ANALYZE  │──▶│  TEST    │──▶│  BUILD   │
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 1.4 — Key Vocabulary You Need
 
 | Term              | What It Means                                      | Flutter Analogy                          |
@@ -191,6 +203,8 @@ Push ──▶│ ANALYZE  │──▶│  TEST    │──▶│  BUILD   │
 | **YAML**          | The file format for pipeline configuration         | Like `pubspec.yaml` — you already know it! |
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 1.5 — CI/CD in the Context of Mobile / Flutter
 
@@ -224,6 +238,8 @@ Flutter builds are heavy:
 Caching and optimization become critical.
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 1.6 — Where GitLab Fits In
 
@@ -265,6 +281,8 @@ How it works:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 1.7 — Your First Mental Model: The Factory Assembly Line
 
 ```
@@ -284,6 +302,8 @@ How it works:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 1.8 — What a `.gitlab-ci.yml` Looks Like (Sneak Peek)
 
@@ -341,6 +361,8 @@ deploy_firebase:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 1.9 — The Real-World Value
 
 | Without CI/CD                        | With CI/CD                             |
@@ -353,6 +375,8 @@ deploy_firebase:
 | Knowledge trapped in one person     | Process documented in `.gitlab-ci.yml` |
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 1.10 — Module 1 Summary & Key Takeaways
 
@@ -370,9 +394,13 @@ deploy_firebase:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 2: GitLab CI/CD Architecture & Core Concepts
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 2.1 — The `.gitlab-ci.yml` File: Your Pipeline's Blueprint
 
@@ -394,6 +422,8 @@ When GitLab detects this file, CI/CD is **automatically enabled**.
 This is called "Pipeline as Code" — version controlled, code-reviewed, portable.
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 2.2 — YAML Crash Course
 
@@ -437,6 +467,8 @@ widget_test:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 2.3 — The Anatomy of `.gitlab-ci.yml`
 
@@ -513,6 +545,8 @@ deploy_to_firebase:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 2.4 — Understanding Stages and Jobs
 
 ### How Stages Execute
@@ -540,6 +574,8 @@ Each job runs in a **fresh, clean environment**:
 - Like running `flutter clean` before every operation.
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 2.5 — Runners: The Machines That Do the Work
 
@@ -578,6 +614,8 @@ build_android:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 2.6 — Variables and Secrets
 
 ### Predefined Variables (GitLab provides these automatically)
@@ -608,6 +646,8 @@ Value:  {"type": "service_account"...}
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 2.7 — Pipeline Triggers
 
 ```
@@ -635,6 +675,8 @@ build_apk:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 2.8 — Artifacts vs Cache
 
 ```
@@ -654,6 +696,8 @@ Guaranteed availability         Best-effort (may be evicted)
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 2.9 — Module 2 Summary
 
 ```
@@ -670,9 +714,13 @@ Guaranteed availability         Best-effort (may be evicted)
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 3: Your First `.gitlab-ci.yml` Pipeline
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 3.1 — Step 1: The Absolute Minimum Pipeline
 
@@ -690,6 +738,8 @@ verify:
 That's it. **5 lines.** Push this and watch it run in GitLab.
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 3.2 — Step 2: Adding Stages
 
@@ -717,6 +767,8 @@ unit_test:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 3.3 — Step 3: Adding Cache
 
@@ -756,6 +808,8 @@ unit_test:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 3.4 — Step 4: Build Stage with Artifacts
 
@@ -812,6 +866,8 @@ build_apk:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 3.5 — Step 5: Smart Rules (The Complete Beginner Pipeline)
 
@@ -894,6 +950,8 @@ Tag v1.0.0               │ ✅ lint │ ❌      │ ✅ prod APK
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 3.6 — Common First-Timer Mistakes
 
 ```yaml
@@ -939,6 +997,8 @@ GitLab → Build → Pipeline editor → Validate
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 3.7 — Module 3 Summary
 
 ```
@@ -955,14 +1015,20 @@ GitLab → Build → Pipeline editor → Validate
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # PART 2 — FLUTTER-SPECIFIC PIPELINES
 
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 4: Flutter Analyze, Test & Build in CI
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 4.1 — Flutter Analyze in CI (Deep Dive)
 
@@ -1010,6 +1076,8 @@ linter:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 4.2 — Flutter Test in CI (Deep Dive)
 
@@ -1061,6 +1129,8 @@ test_coverage:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 4.3 — Flutter Build in CI
 
 ### Build Number Strategy
@@ -1093,6 +1163,8 @@ class AppConfig {
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 4.4 — Module 4 Summary
 
 ```
@@ -1108,9 +1180,13 @@ class AppConfig {
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 5: Code Quality Gates
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 5.1 — What Is a Quality Gate?
 
@@ -1128,6 +1204,8 @@ meet the standard, the pipeline fails, and the code can't be merged.
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 5.2 — Coverage Threshold Gate
 
@@ -1149,6 +1227,8 @@ test_coverage:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 5.3 — Enforcing Gates in GitLab
 
 ```
@@ -1164,6 +1244,8 @@ GitLab → Settings → Merge Requests
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 5.4 — Quality Gate Adoption Strategy
 
 ```
@@ -1176,9 +1258,13 @@ Phase 4 (Month 3+):  Coverage 80% + code metrics + dependency scanning
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 6: Building APK / IPA / Web Artifacts
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 6.1 — Understanding Build Artifacts in Mobile CI/CD
 
@@ -1210,6 +1296,8 @@ beyond the job that created it. For Flutter, the most important artifacts are:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 6.2 — Android Builds: APK vs AAB
 
@@ -1295,6 +1383,8 @@ Recommendation:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 6.3 — iOS Builds: The IPA
 
 iOS builds are more complex because they require macOS and code signing.
@@ -1370,6 +1460,8 @@ This file tells Xcode how to export the IPA:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 6.4 — Web Builds
 
 ```yaml
@@ -1420,6 +1512,8 @@ HTML renderer:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 6.5 — Obfuscation and Debug Symbols
 
 When building release apps, always obfuscate and keep debug symbols:
@@ -1452,6 +1546,8 @@ With debug info, they look like:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 6.6 — Artifact Management Strategy
 
 ```yaml
@@ -1468,6 +1564,8 @@ artifacts:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 6.7 — The Complete Multi-Platform Build Pipeline
 
@@ -1597,6 +1695,8 @@ build_web:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 6.8 — Module 6 Summary
 
 ```
@@ -1613,9 +1713,13 @@ build_web:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 7: Flavors, Environments & Build Variants in CI
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 7.1 — Why Flavors and Environments?
 
@@ -1641,6 +1745,8 @@ As a senior engineer, you know apps need multiple environments:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 7.2 — Method 1: Dart Defines (Simplest Approach)
 
@@ -1697,6 +1803,8 @@ build_staging:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 7.3 — Method 2: Android Flavors + iOS Schemes (Recommended for Complex Apps)
 
@@ -1784,6 +1892,8 @@ build_android_production:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 7.4 — Method 3: Entry Point Per Environment
 
 ```
@@ -1821,6 +1931,8 @@ build_prod:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 7.5 — Per-Environment Firebase Configuration
 
 ```yaml
@@ -1844,6 +1956,8 @@ build_production:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 7.6 — DRY Pipeline with `extends` and Hidden Jobs
 
@@ -1887,6 +2001,8 @@ build_ios_staging:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 7.7 — Module 7 Summary
 
 ```
@@ -1903,14 +2019,20 @@ build_ios_staging:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # PART 3 — INTERMEDIATE
 
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 8: Caching, Artifacts & Pipeline Optimization
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 8.1 — Why Optimization Matters
 
@@ -1937,6 +2059,8 @@ Total:    5 minutes   ×  20 pipelines/day = 100 minutes/day
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 8.2 — Advanced Caching Strategies
 
@@ -2019,6 +2143,8 @@ install_deps:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 8.3 — Pipeline Structure Optimization
 
@@ -2120,6 +2246,8 @@ analyze ──▶ test ──▶ build ──▶   analyze ──▶ test ─┬
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 8.4 — Interruptible Pipelines
 
 When you push new commits quickly, old pipelines are wasted:
@@ -2143,6 +2271,8 @@ deploy:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 8.5 — Module 8 Summary
 
 ```
@@ -2159,9 +2289,13 @@ deploy:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 9: Automated Testing Strategy
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 9.1 — The Testing Pyramid in CI
 
@@ -2181,6 +2315,8 @@ deploy:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 9.2 — Unit Tests in CI
 
 ```yaml
@@ -2198,6 +2334,8 @@ unit_tests:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 9.3 — Widget Tests in CI
 
 ```yaml
@@ -2211,6 +2349,8 @@ widget_tests:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 9.4 — Integration Tests in CI
 
@@ -2258,6 +2398,8 @@ integration_tests_android:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 9.5 — Golden Tests in CI
 
 Golden (screenshot) tests compare rendered widgets against reference images:
@@ -2288,6 +2430,8 @@ update_goldens:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 9.6 — Test Reports in GitLab
 
 ```yaml
@@ -2314,6 +2458,8 @@ Test Summary:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 9.7 — Module 9 Summary
 
 ```
@@ -2329,9 +2475,13 @@ Test Summary:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 10: Code Signing (Android Keystore & iOS Certificates)
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 10.1 — Why Code Signing Matters
 
@@ -2348,6 +2498,8 @@ With signing:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 10.2 — Android Code Signing in CI
 
@@ -2417,6 +2569,8 @@ The Gradle config reads the environment variables that GitLab injects automatica
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 10.3 — iOS Code Signing in CI
 
 iOS signing is more complex. You need:
@@ -2478,6 +2632,8 @@ build_signed_ipa:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 10.4 — Using Fastlane Match (Recommended for Teams)
 
 Fastlane Match stores certificates in a Git repo or cloud storage, making
@@ -2501,6 +2657,8 @@ build_ios_with_match:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 10.5 — Module 10 Summary
 
 ```
@@ -2517,9 +2675,13 @@ build_ios_with_match:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 11: Automated Deployment
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 11.1 — Deployment Targets for Flutter
 
@@ -2540,6 +2702,8 @@ build_ios_with_match:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 11.2 — Firebase App Distribution
 
@@ -2578,6 +2742,8 @@ deploy_ios_firebase:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 11.3 — Google Play Store Deployment
 
 ```yaml
@@ -2613,6 +2779,8 @@ You can promote between tracks without rebuilding!
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 11.4 — TestFlight (iOS) Deployment
 
 ```yaml
@@ -2642,6 +2810,8 @@ GitLab Variables:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 11.5 — Web Deployment
 
@@ -2675,6 +2845,8 @@ deploy_web_firebase:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 11.6 — Deployment Environments in GitLab
 
 ```yaml
@@ -2706,6 +2878,8 @@ Deployments → Environments:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 11.7 — Module 11 Summary
 
 ```
@@ -2722,14 +2896,20 @@ Deployments → Environments:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # PART 4 — ADVANCED
 
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 12: GitLab Runners (Deep Dive)
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 12.1 — Runner Architecture
 
@@ -2753,6 +2933,8 @@ Deployments → Environments:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 12.2 — Setting Up a Self-Hosted macOS Runner
 
@@ -2794,6 +2976,8 @@ sudo xcodebuild -license accept
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 12.3 — Docker Runner for Android
 
 ```bash
@@ -2828,6 +3012,8 @@ gitlab-runner register \
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 12.4 — Runner Fleet Strategy
 
 ```
@@ -2843,6 +3029,8 @@ Recommended Setup for Flutter Teams:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 12.5 — Module 12 Summary
 
@@ -2860,9 +3048,13 @@ Recommended Setup for Flutter Teams:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 13: Multi-Stage, Multi-Platform Pipelines
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 13.1 — The Complete Flutter Pipeline Architecture
 
@@ -2881,6 +3073,8 @@ Recommended Setup for Flutter Teams:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 13.2 — Using `include` for Modular Pipelines
 
@@ -2932,6 +3126,8 @@ lint:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 13.3 — Parent-Child Pipelines
 
 For complex projects, trigger separate pipelines:
@@ -2962,6 +3158,8 @@ trigger_ios:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 13.4 — Module 13 Summary
 
 ```
@@ -2976,9 +3174,13 @@ trigger_ios:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 14: Security Scanning, Dependency Checks & SAST
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 14.1 — Security in Your Pipeline
 
@@ -3002,6 +3204,8 @@ trigger_ios:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 14.2 — Dependency Scanning
 
 ```yaml
@@ -3023,6 +3227,8 @@ dependency_scan:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 14.3 — Secret Detection
 
@@ -3058,6 +3264,8 @@ secret_detection:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 14.4 — GitLab Built-In Security (Ultimate Tier)
 
 If you have GitLab Ultimate:
@@ -3074,6 +3282,8 @@ These templates automatically scan your code and report findings in the MR.
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 14.5 — Module 14 Summary
 
 ```
@@ -3089,9 +3299,13 @@ These templates automatically scan your code and report findings in the MR.
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 15: Monorepo Strategies & Pipeline-as-Code Patterns
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 15.1 — Monorepo Structure for Flutter
 
@@ -3119,6 +3333,8 @@ my_company/
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 15.2 — Monorepo Pipeline with `changes:`
 
@@ -3149,6 +3365,8 @@ test_core_package:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 15.3 — Using Melos for Monorepo CI
 
@@ -3191,6 +3409,8 @@ test_all:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 15.4 — Reusable Pipeline Templates
 
@@ -3250,6 +3470,8 @@ build:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 15.5 — Module 15 Summary
 
 ```
@@ -3264,14 +3486,20 @@ build:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # PART 5 — EXPERT
 
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 16: Release Management
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 16.1 — Semantic Versioning (SemVer)
 
@@ -3289,6 +3517,8 @@ Examples:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 16.2 — Git Tag-Based Releases
 
@@ -3316,6 +3546,8 @@ release_build:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 16.3 — Automated Changelog Generation
 
@@ -3361,6 +3593,8 @@ feat!: redesign navigation to use GoRouter
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 16.4 — GitLab Releases
 
 ```yaml
@@ -3384,6 +3618,8 @@ create_release:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 16.5 — Complete Release Pipeline
 
@@ -3461,6 +3697,8 @@ create_gitlab_release:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 16.6 — Module 16 Summary
 
 ```
@@ -3476,9 +3714,13 @@ create_gitlab_release:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 17: GitOps, Feature Flags & Rollback Strategies
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 17.1 — GitOps for Flutter
 
@@ -3501,6 +3743,8 @@ code, configuration, infrastructure, and deployments.
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 17.2 — Feature Flags
 
@@ -3542,6 +3786,8 @@ if (FeatureFlags.newCheckout) {
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 17.3 — Rollback Strategies
 
@@ -3585,6 +3831,8 @@ Firebase Remote Config:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 17.4 — Canary Deployments for Mobile
 
 ```
@@ -3619,6 +3867,8 @@ deploy_full:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 17.5 — Module 17 Summary
 
 ```
@@ -3634,9 +3884,13 @@ deploy_full:
 ---
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 # MODULE 18: Designing CI/CD for a Team — Best Practices & Decision Framework
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 18.1 — The Decision Framework
 
@@ -3670,6 +3924,8 @@ When designing CI/CD for your team, answer these questions:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 18.2 — Starter Template (Solo / Small Team)
 
@@ -3714,6 +3970,8 @@ build:
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 18.3 — Standard Template (Medium Team)
 
 ```yaml
@@ -3740,6 +3998,8 @@ variables:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 18.4 — Enterprise Template (Large Team)
 
@@ -3773,6 +4033,8 @@ workflow:
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 18.5 — Best Practices Checklist
 
@@ -3822,6 +4084,8 @@ TEAM
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 18.6 — Pipeline Maturity Model
 
 ```
@@ -3867,6 +4131,8 @@ LEVEL 5 — EXPERT (Month 6+)
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 18.7 — Troubleshooting Guide
 
 ### Common Pipeline Failures
@@ -3907,6 +4173,8 @@ FIX:     Check runner registration, verify tags match
 
 ---
 
+[↑ Back to TOC](#table-of-contents)
+
 ## 18.8 — Cost Optimization Strategies
 
 ```
@@ -3942,6 +4210,8 @@ FIX:     Check runner registration, verify tags match
 ```
 
 ---
+
+[↑ Back to TOC](#table-of-contents)
 
 ## 18.9 — Module 18 Summary & Course Conclusion
 
