@@ -6,6 +6,44 @@
 
 ---
 
+## ⏱ ৫ মিনিটের Quick Start
+
+পুরো গাইড পড়ার আগে একটা deep link নিজের চোখে কাজ করতে দেখো। এই টুকু করলেই একটা `myapp://` link তোমার app খুলবে।
+
+**১. package যোগ করো:**
+```bash
+flutter pub add app_links
+```
+
+**২. `AndroidManifest.xml`-এ `<activity>`-র ভেতরে এই intent-filter যোগ করো:**
+```xml
+<intent-filter>
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+    <data android:scheme="myapp"/>
+</intent-filter>
+```
+
+**৩. `main.dart`-এ link শোনো:**
+```dart
+final appLinks = AppLinks();
+appLinks.uriLinkStream.listen((uri) {
+  debugPrint('Deep link এলো: $uri'); // → myapp://products/123
+});
+```
+
+**৪. test করো:**
+```bash
+adb shell am start -a android.intent.action.VIEW \
+  -d "myapp://products/123" com.example.your_app
+```
+
+Console-এ `Deep link এলো: myapp://products/123` দেখলে — তুমি প্রস্তুত! 🎉  
+এবার নিচ থেকে production-ready setup (verification, go_router, auth guard) ধাপে ধাপে শেখো।
+
+---
+
 ## 📋 Table of Contents
 
 | # | বিষয় |
@@ -31,6 +69,9 @@
 ## ১. Deep Link কী এবং কেন দরকার?
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+
+> 🎯 **এই section শেষে তুমি পারবে:** Deep Link আসলে কী, সাধারণ web link-এর সাথে এর পার্থক্য
+> কোথায়, আর কোন কোন বাস্তব ক্ষেত্রে এটা দরকার হয় — তা স্পষ্ট বুঝতে।
 
 ### সহজ ভাষায় Deep Link
 
@@ -75,6 +116,9 @@ Deep Link:
 ## ২. Deep Link এর প্রকারভেদ
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+
+> 🎯 **এই section শেষে তুমি পারবে:** তিন ধরনের deep link (Custom Scheme, App Links,
+> Universal Links) আলাদা করতে আর তোমার project-এ কোনটা লাগবে তা বেছে নিতে।
 
 Flutter-এ মূলত **৩ ধরনের** Deep Link আছে:
 
@@ -153,6 +197,9 @@ Example:  https://shop.example.com/products/123
 ## ৩. Deep Link কীভাবে কাজ করে?
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+
+> 🎯 **এই section শেষে তুমি পারবে:** link click থেকে screen খোলা পর্যন্ত পুরো flow বুঝতে,
+> আর সবচেয়ে গুরুত্বপূর্ণ — **Cold Start vs Warm Start** কেন আলাদাভাবে handle করতে হয় তা ধরতে।
 
 ### সম্পূর্ণ Flow
 
@@ -241,6 +288,9 @@ Warm Start (App background-এ ছিল):
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
 
+> 🎯 **এই section শেষে তুমি পারবে:** নতুন project তৈরি করে দরকারি package গুলো যোগ করতে আর
+> একটা পরিচ্ছন্ন folder structure দাঁড় করাতে।
+
 ### তোমার কী লাগবে
 
 - [ ] Flutter SDK (3.0 বা তার উপরে)
@@ -325,6 +375,10 @@ deep_link_demo/
 ## ৫. Android Setup
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+
+> 🎯 **এই section শেষে তুমি পারবে:** Android-এ Custom Scheme আর verified App Links দুটোই
+> setup করতে, এবং `assetlinks.json` দিয়ে domain ownership verify করাতে।  
+> 🍏 *শুধু iOS নিয়ে কাজ করলে এই section skip করে [৬. iOS Setup](#৬-ios-setup)-এ যাও।*
 
 ### ৫.১ Custom URL Scheme (myapp://)
 
@@ -498,6 +552,10 @@ adb shell pm get-app-links com.example.deep_link_demo
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
 
+> 🎯 **এই section শেষে তুমি পারবে:** iOS-এ Custom Scheme আর Universal Links setup করতে,
+> এবং `apple-app-site-association` (AASA) file ঠিকভাবে server-এ রাখতে।  
+> 🤖 *শুধু Android নিয়ে কাজ করলে এই section skip করে [৭. Flutter Packages](#৭-flutter-packages)-এ যাও।*
+
 ### ৬.১ Custom URL Scheme (iOS)
 
 `ios/Runner/Info.plist` ফাইল খোলো এবং যোগ করো:
@@ -662,6 +720,9 @@ Content-Type: application/json
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
 
+> 🎯 **এই section শেষে তুমি পারবে:** কোন package কী কাজে লাগে তা বুঝতে এবং `app_links` ও
+> `go_router`-এর মূল API গুলো চিনতে।
+
 ### কোন Package কখন ব্যবহার করবো?
 
 ```
@@ -723,6 +784,9 @@ context.go('/search?q=flutter');
 ## ৮. Basic Implementation — app_links
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+
+> 🎯 **এই section শেষে তুমি পারবে:** `app_links` দিয়ে cold start ও warm start দুই ক্ষেত্রেই
+> incoming URI ধরতে এবং URI-এর প্রতিটা অংশ (scheme, host, path, query) আলাদা করতে।
 
 ### Step-by-step: সবচেয়ে সহজ implementation
 
@@ -895,6 +959,9 @@ uri.queryParameters → {"color": "red"}
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
 
+> 🎯 **এই section শেষে তুমি পারবে:** manual parsing বাদ দিয়ে `go_router` দিয়ে declarative
+> routing করতে এবং deep link-কে সরাসরি সঠিক screen-এ map করতে।
+
 ### কেন go_router ব্যবহার করবো?
 
 ```
@@ -1041,6 +1108,10 @@ class NotFoundScreen extends StatelessWidget {
   }
 }
 ```
+
+> 💡 **`ProfileScreen` ও `SearchScreen`** — উপরের `ProductScreen`-এর মতোই সহজ। নিচের router-এ
+> এদের ব্যবহার করা হয়েছে, তাই copy করার আগে এই দুটো screen নিজে তৈরি করে নাও (একটা constructor
+> parameter — `username` / `query` — নাও আর `Text`-এ দেখাও)।
 
 ### Step 2: Router Configuration
 
@@ -1240,6 +1311,9 @@ final extra = state.extra as Map<String, dynamic>?;
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
 
+> 🎯 **এই section শেষে তুমি পারবে:** nested routes ও ShellRoute (persistent bottom nav)
+> বানাতে, আর path parameter বনাম query parameter কখন কোনটা ব্যবহার করতে হয় তা বুঝতে।
+
 ### Nested Routes
 
 Child routes parent-এর path inherit করে।
@@ -1408,6 +1482,13 @@ Read:  state.pathParameters['productId']      → "123"
 
 [⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
 
+> 🎯 **এই section শেষে তুমি পারবে:** protected page-এ deep link এলে user-কে আগে login করানো,
+> তারপর সে যেখানে যেতে চেয়েছিল ঠিক সেখানে ফেরত পাঠানো।
+
+> 📦 **নতুন dependency:** এখান থেকে আমরা state management-এর জন্য `provider` ব্যবহার করব
+> (`pubspec.yaml`-এ আগেই যোগ করা আছে)। আগের সহজ example গুলোতে `setState` ছিল — এখন
+> `AuthService`-এর state পুরো app জুড়ে লাগবে বলে `ChangeNotifier` + `provider` ব্যবহার করছি।
+
 ### কেন দরকার?
 
 Deep link করে কেউ যদি protected page-এ আসে (যেমন `/orders/456`), তাহলে তাকে আগে login করাতে হবে। Login-এর পরে সে originally যেখানে যেতে চেয়েছিল সেখানে পাঠাতে হবে।
@@ -1420,7 +1501,7 @@ flowchart TD
     B --> C[redirect function চালে]
     C --> D{User logged in?}
     D -->|হ্যাঁ| E[✅ OrderScreen দেখাও]
-    D -->|না| F[/login?redirect=%2Forders%2F456]
+    D -->|না| F["/login?redirect=%2Forders%2F456"]
     F --> G[LoginScreen দেখাও]
     G --> H[User credentials দেয়]
     H --> I[Login success]
@@ -1664,7 +1745,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _login,
                 child: _isLoading
-                    ? const CircularProgressIndicator()
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
                     : const Text('Login'),
               ),
             ),
@@ -2312,7 +2397,7 @@ flowchart TD
 
     R --> S[go_router redirect check]
     S --> T{Auth required?}
-    T -->|Yes + Not logged in| U[/login?redirect=...]
+    T -->|Yes + Not logged in| U["/login?redirect=..."]
     T -->|No / Logged in| V{Route match?}
 
     U --> W[User logs in]
