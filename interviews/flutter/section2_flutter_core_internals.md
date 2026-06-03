@@ -1,200 +1,477 @@
-# Section 2: Flutter Core Internals
+# Section 2 — Flutter Core Internals
+
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually.
 
 ---
 
-**Q:** Explain the three trees in Flutter — Widget tree, Element tree, and RenderObject tree. What is each one, how do they relate, and why does Flutter need all three?
+## How to use this section
 
-**A:** Flutter maintains three parallel tree structures that work together to render UI:
+Each question has the same shape:
 
-**Widget tree** — This is what you write in code. Widgets are lightweight, immutable configuration objects that describe what the UI should look like. They are cheap to create and are rebuilt frequently. Think of them as blueprints.
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — a detailed, step-by-step explanation with real-life examples and code.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected questions · **Back to top** — return to the index.
 
-**Element tree** — Elements are the living instances that sit between widgets and render objects. Each widget, when inflated, creates an element. The element holds the widget's position in the tree, manages the widget's lifecycle, and holds a reference to both its widget and its render object. Elements are long-lived — they persist across rebuilds.
+Each question is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
 
-**RenderObject tree** — These objects handle the actual layout and painting. They know their size, position, and how to paint themselves to the screen. They are expensive to create, so Flutter avoids recreating them unnecessarily.
+> **Interview tip:** Always give the **short answer first** (2–3 sentences), then stop. Let the interviewer ask "can you go deeper?" Speaking simply and clearly is itself a senior skill — and it works the same for both remote and BD companies.
 
-**Why three?** Widgets are rebuilt constantly (every `setState`), but creating layout and paint objects on every frame would be extremely expensive. The Element tree acts as a bridge — when a widget rebuilds, the element compares the old and new widget. If the widget type and key match, Flutter reuses the existing element and render object, only updating properties. This separation is what makes Flutter fast: cheap rebuilds at the widget level, expensive objects reused at the render level.
+---
 
-**Example:**
+<a id="toc"></a>
+
+## Table of Contents
+
+**A. The three trees & widget identity**
+1. [The three trees — Widget, Element, RenderObject](#q1) · *Very common*
+2. [Why are widgets immutable?](#q2) · *Common*
+3. [Keys — Value, Object, Unique, Global, Local](#q3) · *Very common*
+4. [How Flutter reuses widgets (reconciliation)](#q4) · *Common*
+
+**B. Widgets & state**
+5. [StatelessWidget vs StatefulWidget](#q5) · *Very common*
+6. [The full StatefulWidget lifecycle](#q6) · *Very common*
+7. [What does `setState` really do?](#q7) · *Very common*
+8. [What is BuildContext?](#q8) · *Very common*
+9. [InheritedWidget & how Provider is built on it](#q9) · *Very common*
+
+**C. Performance — const, repaints, threads**
+10. [How `const` prevents rebuilds](#q10) · *Common*
+11. [RepaintBoundary — isolating repaints](#q11) · *Common*
+12. [How Flutter hits 60/120fps — UI thread vs raster thread](#q12) · *Very common*
+
+**D. Layout & constraints**
+13. [The layout rule — constraints down, sizes up, parent sets position](#q13) · *Very common*
+14. [BoxConstraints — tight, loose, unbounded](#q14) · *Common*
+15. ["RenderFlex overflowed" — why and how to fix](#q15) · *Very common*
+16. [MediaQuery vs LayoutBuilder](#q16) · *Common*
+
+**E. The rendering pipeline & graphics**
+17. [The rendering pipeline — from tap to pixels](#q17) · *Common*
+18. [Impeller vs Skia — why Flutter switched](#q18) · *Common*
+
+**F. Tooling & the dev loop**
+19. [Hot Reload vs Hot Restart vs Full Restart](#q19) · *Very common*
+20. [pub.dev, pubspec.yaml & version constraints](#q20) · *Common*
+21. [Flutter SDK channels — stable, beta, master](#q21) · *Common*
+
+**G. How Flutter & Dart fit together (deep architecture)**
+22. [The three layers — Embedder, Engine, Framework](#q22) · *Deeper*
+23. [How Dart runs inside the engine (JIT vs AOT)](#q23) · *Deeper*
+
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
+
+---
+
+<a id="study-plan"></a>
+
+## How to prepare gradually (study plan)
+
+You don't need to study all 23 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
+
+**Stage 1 — The mental model (start here).** Nothing else makes sense without this.
+→ [Q1 Three trees](#q1) · [Q5 Stateless vs Stateful](#q5) · [Q7 setState](#q7) · [Q8 BuildContext](#q8)
+
+**Stage 2 — State & lifecycle (the daily work).**
+→ [Q6 Lifecycle](#q6) · [Q9 InheritedWidget & Provider](#q9) · [Q3 Keys](#q3) · [Q2 Why widgets are immutable](#q2)
+
+**Stage 3 — Layout (where bugs happen).**
+→ [Q13 Constraints down, sizes up](#q13) · [Q15 RenderFlex overflow](#q15) · [Q14 BoxConstraints](#q14) · [Q16 MediaQuery vs LayoutBuilder](#q16)
+
+**Stage 4 — Performance (the senior signal).**
+→ [Q10 const & rebuilds](#q10) · [Q12 60/120fps & threads](#q12) · [Q11 RepaintBoundary](#q11) · [Q4 Reconciliation](#q4)
+
+**Stage 5 — Deep internals (tie-breakers, do last).**
+→ [Q17 Rendering pipeline](#q17) · [Q18 Impeller vs Skia](#q18) · [Q22 Three layers](#q22) · [Q23 JIT vs AOT inside the engine](#q23) · [Q19 Hot reload](#q19) · [Q20 pubspec](#q20) · [Q21 Channels](#q21)
+
+**Short on time (1 hour before the interview)?** Just review these eight:
+[Q1](#q1) · [Q3](#q3) · [Q5](#q5) · [Q7](#q7) · [Q8](#q8) · [Q12](#q12) · [Q13](#q13) · [Q15](#q15), then read the [Cheat Sheet](#cheatsheet).
+
+---
+
+# A. The three trees & widget identity
+
+---
+
+<a id="q1"></a>
+## 1. Explain the three trees in Flutter — Widget, Element, and RenderObject. Why does Flutter need all three?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Flutter keeps three trees that work together. The Widget tree is the cheap blueprint I write in code. The Element tree is the living bridge that remembers each widget's place and state. The RenderObject tree does the real layout and painting. Flutter needs all three so it can throw away and rebuild cheap widgets constantly, while reusing the expensive render objects underneath."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: blueprint, site manager, building.**
+Think of building a house:
+- The **Widget** is the *blueprint* — a piece of paper that says "blue door here." Paper is cheap; you can redraw it many times.
+- The **Element** is the *site manager* — a real person who stands on the spot, remembers what was built there, and decides what actually needs changing.
+- The **RenderObject** is the *real building* — bricks and walls. Expensive to build, so you don't tear it down for a small change.
+
+**Step 2 — The Widget tree (cheap blueprint, immutable).**
+Widgets are the objects you write. They only *describe* the UI. They are immutable and cheap, so Flutter happily throws them away and makes new ones on every rebuild.
+
 ```dart
-// When you write this:
 Container(
   color: Colors.blue,
-  child: Text('Hello'),
+  child: const Text('Hello'),
 )
-
-// Flutter creates:
-// Widget tree:   Container → Text
-// Element tree:  ContainerElement → TextElement
-// RenderObject:  RenderDecoratedBox → RenderParagraph
-
-// On setState, new Container widget is created,
-// but Element compares (same type, same key?) and
-// REUSES the existing RenderDecoratedBox, just updating color.
 ```
 
-**Why it matters:** This is the most fundamental Flutter architecture question. Interviewers want to see that you understand Flutter's performance model — not just how to use widgets, but why Flutter can rebuild widgets 60 times per second without killing performance.
+**Step 3 — The Element tree (the living bridge).**
+When a widget is first shown, Flutter "inflates" it into an **Element**. The element holds the widget's position in the tree, keeps the `State` object (for stateful widgets), and points to the render object. Elements are long-lived — they survive across rebuilds, which is exactly why your state survives.
 
-**Common mistake:** Saying "widgets are the UI elements on screen." Widgets are NOT on screen — RenderObjects are. Widgets are just configuration. Another mistake is not knowing the Element tree exists at all, or confusing Elements with Widgets.
+**Step 4 — The RenderObject tree (real layout and paint).**
+Render objects know their size and position, and how to paint. They are expensive to create, so Flutter avoids making new ones.
+
+```dart
+// What you write:    Container → Text
+// Element tree:      ContainerElement → TextElement   (long-lived)
+// RenderObject tree: RenderDecoratedBox → RenderParagraph (expensive, reused)
+```
+
+**Step 5 — Why three? The whole point is speed.**
+On every `setState`, Flutter makes a fresh Widget tree (cheap). The Element looks at the old widget and the new widget. If the type and key match, it keeps the same element and the same render object, and only updates the changed properties — like the color.
+
+```dart
+// setState runs → a new Container widget is created
+// Element checks: same type? same key? → yes
+// → REUSE the existing RenderDecoratedBox, just change its color
+// → no new render object, no full rebuild of the subtree
+```
+
+So: cheap rebuilds at the widget level, expensive objects reused at the render level. That is how Flutter can rebuild 60+ times a second without dying.
+
+**Why interviewers ask:** This is the single most fundamental Flutter architecture question. They want to see you understand the performance model — not just how to use widgets, but why rebuilding them constantly is cheap.
+
+**Common mistake:** Saying "widgets are the things on screen." Widgets are **not** on screen — RenderObjects are. Widgets are just configuration. Another mistake is not knowing the Element tree exists at all.
+
+**Follow-ups they may ask:**
+- *"What lives where?"* → The widget holds config. The element holds the `State` and tree position. The render object holds size, position, and paint.
+- *"Why is state on the Element, not the Widget?"* → Because widgets are thrown away on every rebuild. State must live on something long-lived — the element.
+
+**Related:** [Q2 — why widgets are immutable](#q2) · [Q4 — reconciliation](#q4) · [Q8 — BuildContext is the element](#q8)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the difference between StatelessWidget and StatefulWidget? When should you use each, and what are the internal differences?
+<a id="q2"></a>
+## 2. Why are Flutter widgets immutable? Doesn't creating new widgets every frame waste memory?
 
-**A:** A **StatelessWidget** has no mutable state. Once built, it cannot change on its own — it only rebuilds when its parent provides new configuration (new constructor arguments). Its `build()` method is a pure function of its input.
+> Common · Medium
 
-A **StatefulWidget** owns mutable state via a companion `State` object. It can trigger rebuilds on its own by calling `setState()`. The widget itself is still immutable, but the `State` object is long-lived and persists across rebuilds.
+**Short answer (say this):**
+"Widgets are immutable because they are just a description of the UI, and a description should not change under you. Making new widgets is cheap — they are tiny config objects, and Dart's garbage collector is tuned for exactly this 'create and throw away' pattern. The expensive things, the render objects, are not recreated; they are reused through the element tree."
 
-**Internally**, the key difference is:
-- `StatelessWidget` → creates a `StatelessElement` → the element calls `widget.build(context)` directly.
-- `StatefulWidget` → creates a `StatefulElement` → the element creates a `State` object via `createState()` → the element calls `state.build(context)`.
+**Let's understand it fully:**
 
-The `State` object is attached to the `Element`, not the widget. This is why state survives widget rebuilds — the element persists and keeps its `State` reference.
+**Step 1 — Immutable means "cannot change after it's built."**
+A widget's fields are all `final`. Once you create `Text('Hi')`, that object never changes. To show new text, you create a brand-new `Text` widget.
 
-**When to use each:**
-- Use `StatelessWidget` when the widget depends entirely on its constructor arguments and inherited data (e.g., a styled label, a layout wrapper).
-- Use `StatefulWidget` when the widget needs to hold mutable data that changes over its lifetime (e.g., a form field, an animation controller, a toggle).
-
-**Example:**
 ```dart
-// Stateless — output depends only on input
+class Greeting extends StatelessWidget {
+  final String name;            // final — cannot change
+  const Greeting({required this.name});
+  // ...
+}
+```
+
+**Step 2 — Why immutable is a good thing.**
+A widget is a *snapshot* of what the UI should look like right now. If a widget could change itself secretly, Flutter could never trust it to compare old vs new during a rebuild. Immutability makes the "did anything change?" check simple and safe.
+
+**Step 3 — But isn't making new objects every frame wasteful?**
+This is the key worry, and the answer is no, for two reasons:
+1. Widgets are **tiny** — just a few fields. Creating one is almost free.
+2. Dart's garbage collector uses a "most objects die young" design. Short-lived objects (like widgets) are cleaned up extremely cheaply.
+
+**Step 4 — The expensive stuff is NOT recreated.**
+You rebuild the cheap Widget tree, but the expensive RenderObject tree is reused via the Element tree (see [Q1](#q1)). So "new widgets every frame" does **not** mean "new layout objects every frame."
+
+```dart
+// Rebuild: new Text('1') widget made (cheap)
+// Element reuses the SAME RenderParagraph (expensive) and updates its text
+```
+
+**Step 5 — The practical rule that follows.**
+Because rebuilds are cheap, you should not fight them. Instead, keep rebuilds small and use `const` so unchanged parts are skipped entirely (see [Q10](#q10)).
+
+**Why interviewers ask:** To see you understand that "rebuild" is cheap by design, and that you won't write hacky code to avoid rebuilds out of fear.
+
+**Common mistake:** Trying hard to "avoid rebuilds" everywhere because you think they are expensive. The rebuild itself is cheap; what matters is keeping `build()` light and using `const`.
+
+**Follow-ups they may ask:**
+- *"If widgets are immutable, how does the UI change?"* → You build a new widget tree; the element diffs it and updates only what changed.
+- *"Where does the changing data live then?"* → In the `State` object (on the element), not in the widget.
+
+**Related:** [Q1 — three trees](#q1) · [Q10 — const skips rebuilds](#q10) · [Q7 — setState](#q7)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q3"></a>
+## 3. What are Keys in Flutter? When do you use ValueKey, ObjectKey, UniqueKey, GlobalKey, and LocalKey?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Keys solve the widget identity problem. When Flutter rebuilds, it matches old and new widgets by type and key. Without a key, it matches same-type widgets by position, so reordering a list attaches the wrong state to the wrong item. I use a `ValueKey` with a stable id for list items, and a `GlobalKey` only when I truly need to reach a widget's state from outside."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem: same type, wrong identity.**
+When Flutter updates a list of same-type widgets, and there is no key, it matches them by their position. So if two items swap places, the state (typed text, scroll position, animation) stays at the old position — attached to the wrong item.
+
+```dart
+// WITHOUT keys — swapping these two breaks their state,
+// because Flutter matches by index, not by item.
+Column(children: [
+  TextField(),  // typed text stays at index 0
+  TextField(),  // even if the items swap
+])
+```
+
+**Step 2 — A key is like a name tag.**
+A key tells Flutter "this is the *same* widget as before, even if it moved." Now Flutter follows the widget, not the slot.
+
+**Step 3 — `LocalKey` and its three kinds (unique among siblings).**
+`LocalKey` is the base for keys that only need to be unique among siblings (same parent).
+- **`ValueKey<T>`** — identity from a value using `==`. Best when you have a natural id like a database id or email.
+- **`ObjectKey`** — identity from an object's reference (`identical`). Use when two objects might be `==` equal but you must tell them apart by reference.
+- **`UniqueKey`** — every instance is different. Use to *force* a fresh element/state ("treat this as brand new").
+
+```dart
+// ValueKey with a stable id — state follows the item
+Column(
+  children: items.map((item) => Dismissible(
+    key: ValueKey(item.id),
+    child: ListTile(title: Text(item.name)),
+  )).toList(),
+)
+```
+
+**Step 4 — `GlobalKey` (unique across the whole app).**
+A `GlobalKey` is unique app-wide and lets you reach a widget's `State` or render object from outside. The classic use is form validation.
+
+```dart
+final formKey = GlobalKey<FormState>();
+
+Form(
+  key: formKey,
+  child: ElevatedButton(
+    onPressed: () {
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
+      }
+    },
+    child: const Text('Submit'),
+  ),
+)
+```
+
+**Step 5 — Force a fresh widget on purpose.**
+Changing a key makes Flutter throw away the old element and build a new one. This is how `AnimatedSwitcher` knows to animate:
+
+```dart
+AnimatedSwitcher(
+  duration: const Duration(milliseconds: 300),
+  child: Text('$_counter', key: ValueKey<int>(_counter)),
+  // new value → new key → new element → animation plays
+)
+```
+
+**Why interviewers ask:** This separates developers who just patch layout bugs from those who understand the reconciliation algorithm. Key misuse causes subtle, hard-to-reproduce bugs in lists and animations.
+
+**Common mistake:** Using `GlobalKey` everywhere "to be safe." It is expensive (global registry lookup) and blocks some optimizations. Another classic: using the list *index* as a key for a reorderable list — the index changes on reorder, so it defeats the purpose.
+
+**Follow-ups they may ask:**
+- *"Index as a key — why bad?"* → On reorder the index moves, so Flutter still matches by position. Use a stable id (`ValueKey(item.id)`).
+- *"When is `UniqueKey` right?"* → When you *want* a rebuild from scratch, e.g. to replay an animation or reset state.
+
+**Related:** [Q4 — reconciliation](#q4) · [Q1 — three trees](#q1) · [Q6 — state lives on the element](#q6)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q4"></a>
+## 4. How does Flutter decide whether to reuse a widget or rebuild it? (Reconciliation)
+
+> Common · Medium
+
+**Short answer (say this):**
+"On each rebuild, Flutter walks the new widget tree next to the old element tree and asks one question per spot: does the new widget have the same type and key as the old one? If yes, it reuses the element and render object and just updates properties. If no, it throws the old one away and inflates a new one."
+
+**Let's understand it fully:**
+
+**Step 1 — Reconciliation is the "what changed?" step.**
+After `build()` produces a new widget tree, Flutter must turn those cheap blueprints into real updates without rebuilding everything. That matching process is called reconciliation (or diffing).
+
+**Step 2 — The rule: same `runtimeType` AND same `key` → reuse.**
+At each position, Flutter compares the old widget with the new widget:
+- Same type and same key → **reuse** the element and render object, just update the changed fields.
+- Different type or different key → **discard** the old element (and its state) and build a fresh one.
+
+```dart
+// Old: Container(color: blue)   New: Container(color: red)
+// Same type, same key → reuse the RenderDecoratedBox, change color only.
+
+// Old: Container(...)           New: SizedBox(...)
+// Different type → discard the old element + state, build SizedBox fresh.
+```
+
+**Step 3 — This is per-position, top to bottom.**
+Flutter does not search the whole tree for a match. It compares position by position. That is why reordering a list without keys confuses it — the widget at slot 1 is compared to whatever used to be at slot 1.
+
+**Step 4 — Keys override position matching.**
+A key lets Flutter match by identity instead of slot, so it can move an element to a new position and keep its state (see [Q3](#q3)).
+
+**Step 5 — Why this matters for performance.**
+Because reuse keeps the expensive render objects, a rebuild is usually just "update a few properties." This is the mechanism that makes the three-tree design (see [Q1](#q1)) fast in practice.
+
+**Why interviewers ask:** It proves you understand *why* keys exist and *why* changing a widget's type resets its state. It connects the three trees to real behavior.
+
+**Common mistake:** Thinking Flutter does a deep "smart diff" that can find a moved widget anywhere. It only checks type and key, position by position — that is why keys are needed.
+
+**Follow-ups they may ask:**
+- *"What happens to State when the type changes?"* → The old element and its `State` are thrown away; a brand-new `State` is created.
+- *"Why does wrapping a widget in a new parent reset its state?"* → Its position/type in the tree changed, so it no longer matches the old element.
+
+**Related:** [Q3 — keys](#q3) · [Q1 — three trees](#q1) · [Q10 — const short-circuits this](#q10)
+
+[↑ Back to top](#toc)
+
+---
+
+# B. Widgets & state
+
+---
+
+<a id="q5"></a>
+## 5. What is the difference between StatelessWidget and StatefulWidget? What is different internally?
+
+> Very common · Easy–Medium
+
+**Short answer (say this):**
+"A StatelessWidget has no changing data — it only rebuilds when its parent gives it new inputs. A StatefulWidget owns changing data in a separate `State` object and can rebuild itself by calling `setState`. The key internal point: the `State` lives on the Element, not on the widget, which is why state survives rebuilds."
+
+**Let's understand it fully:**
+
+**Step 1 — StatelessWidget: output depends only on input.**
+It cannot change on its own. Give it the same inputs and it always builds the same thing. It rebuilds only when the parent passes new constructor values.
+
+```dart
 class Greeting extends StatelessWidget {
   final String name;
   const Greeting({required this.name});
 
   @override
-  Widget build(BuildContext context) {
-    return Text('Hello, $name');
-  }
+  Widget build(BuildContext context) => Text('Hello, $name');
 }
+```
 
-// Stateful — holds mutable state
+**Step 2 — StatefulWidget: owns changing data.**
+It pairs an immutable widget with a long-lived `State` object. The `State` can change its own fields and call `setState` to rebuild.
+
+```dart
 class Counter extends StatefulWidget {
-  const Counter();
-
+  const Counter({super.key});
   @override
   State<Counter> createState() => _CounterState();
 }
 
 class _CounterState extends State<Counter> {
   int _count = 0;
-
   @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => setState(() => _count++),
-      child: Text('Count: $_count'),
-    );
-  }
+  Widget build(BuildContext context) => TextButton(
+        onPressed: () => setState(() => _count++),
+        child: Text('Count: $_count'),
+      );
 }
 ```
 
-**Why it matters:** Interviewers want to see that you understand the state ownership model, not just the syntax difference. Knowing that `State` lives on the `Element` demonstrates deep understanding.
+**Step 3 — The internal difference (this is the senior point).**
+- `StatelessWidget` → creates a `StatelessElement` → the element calls `widget.build(context)`.
+- `StatefulWidget` → creates a `StatefulElement` → the element calls `createState()` once, then calls `state.build(context)`.
 
-**Common mistake:** Saying "StatelessWidget can't change." It absolutely can rebuild with different data — it just can't trigger its own rebuild. Another mistake: reaching for `StatefulWidget` when `StatelessWidget` + state management (Provider, Riverpod, etc.) would be cleaner.
+The `State` object is attached to the **Element**, which is long-lived. The widget itself is thrown away on every rebuild. That is exactly why `_count` survives: it lives on the element's `State`, not on the widget.
 
----
+**Step 4 — When to use each.**
+- `StatelessWidget` when everything comes from the constructor or inherited data (a styled label, a layout wrapper).
+- `StatefulWidget` when the widget owns data that changes over its life (a form field, an `AnimationController`, a toggle).
 
-**Q:** What is InheritedWidget? How does it enable context-based data passing, and how is Provider built on top of it?
+**Why interviewers ask:** They want the state-ownership model, not just the syntax. Saying "the `State` lives on the element" shows real understanding.
 
-**A:** `InheritedWidget` is a special widget that efficiently propagates data down the widget tree. Any descendant can access the data in O(1) time using `context.dependOnInheritedWidgetOfExactType<T>()`. When the `InheritedWidget` updates, only the widgets that registered a dependency on it get rebuilt — not the entire subtree.
+**Common mistake:** Saying "a StatelessWidget can't change." It can absolutely rebuild with new data from its parent — it just can't trigger its own rebuild. Another: reaching for `StatefulWidget` when `StatelessWidget` plus a state manager (Provider, Riverpod, BLoC) would be cleaner.
 
-**How it works internally:** When a widget calls `context.dependOnInheritedWidgetOfExactType<T>()`, the framework walks up the element tree (via a hash map, so it's O(1)) to find the nearest `InheritedElement` of that type. It also registers the calling element as a dependent. When the `InheritedWidget` is replaced and `updateShouldNotify()` returns true, the framework calls `didChangeDependencies()` on every registered dependent and marks them for rebuild.
+**Follow-ups they may ask:**
+- *"Why is the widget and State split into two classes?"* → So the widget can be immutable and disposable while the `State` stays alive on the element.
+- *"Does a StatelessWidget ever rebuild?"* → Yes, whenever its parent rebuilds it with new configuration, or an `InheritedWidget` it depends on changes.
 
-**Provider** wraps `InheritedWidget` to add lifecycle management, lazy initialization, type safety, and a cleaner API. Under the hood, `Provider` creates an `InheritedWidget` and provides the `context.watch()` / `context.read()` / `Consumer` API that delegates to `dependOnInheritedWidgetOfExactType`. Provider also handles disposing resources, change notification via `ChangeNotifier`, and scoping.
+**Related:** [Q6 — lifecycle](#q6) · [Q7 — setState](#q7) · [Q2 — immutability](#q2)
 
-**Example:**
-```dart
-// Raw InheritedWidget
-class ThemeData extends InheritedWidget {
-  final Color primaryColor;
-
-  const ThemeData({
-    required this.primaryColor,
-    required super.child,
-  });
-
-  static ThemeData of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ThemeData>()!;
-  }
-
-  @override
-  bool updateShouldNotify(ThemeData oldWidget) {
-    return primaryColor != oldWidget.primaryColor;
-  }
-}
-
-// Usage — any descendant can access it:
-class MyButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = ThemeData.of(context); // O(1) lookup
-    return Container(color: theme.primaryColor);
-  }
-}
-
-// Provider does this same thing but with a cleaner API:
-// ChangeNotifierProvider<MyModel>(
-//   create: (_) => MyModel(),
-//   child: Consumer<MyModel>(
-//     builder: (ctx, model, _) => Text(model.value),
-//   ),
-// )
-```
-
-**Why it matters:** `InheritedWidget` is the backbone of almost every state management solution in Flutter (Provider, Riverpod's `ProviderScope`, the Theme system, MediaQuery, Navigator). Understanding it means understanding how data flows in Flutter.
-
-**Common mistake:** Thinking `InheritedWidget` rebuilds its entire subtree. It does not — only widgets that explicitly registered a dependency via `dependOnInheritedWidgetOfExactType` are rebuilt. Also, confusing `context.dependOnInheritedWidgetOfExactType` (registers dependency, triggers rebuild) with `context.getInheritedWidgetOfExactType` (just reads, no dependency).
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Walk through the full StatefulWidget lifecycle. When is each method called, and what should you do in each?
+<a id="q6"></a>
+## 6. Walk through the full StatefulWidget lifecycle. When is each method called, and what do you do in it?
 
-**A:** Here is the complete lifecycle in order:
+> Very common · Medium
 
-1. **`createState()`** — Called once when the framework inflates the `StatefulWidget`. Creates the `State` object. Never call this yourself.
+**Short answer (say this):**
+"The order is: `createState`, then `initState` for one-time setup, then `didChangeDependencies` where it's safe to read inherited widgets, then `build`. While alive, `didUpdateWidget` runs when the parent passes new config, and `build` runs on every rebuild. At the end, `deactivate` then `dispose`, where I clean up controllers and subscriptions."
 
-2. **`initState()`** — Called once immediately after the `State` object is created and inserted into the tree. Use this for one-time initialization: creating `AnimationController`s, subscribing to streams, initializing variables. You cannot use `context` for inherited widget lookups here because the widget is not yet fully mounted in the tree.
+**Let's understand it fully:**
 
-3. **`didChangeDependencies()`** — Called immediately after `initState()` and again whenever an `InheritedWidget` that this widget depends on changes. This is where you safely access `context.dependOnInheritedWidgetOfExactType`. Commonly used for MediaQuery lookups or Theme access that requires one-time side effects.
+**Step 1 — `createState()`.**
+Called once when the framework inflates the widget. It creates the `State` object. You never call it yourself.
 
-4. **`build()`** — Called whenever the widget needs to render. Triggered by `setState()`, `didChangeDependencies()`, or when the parent rebuilds with new configuration. Must be pure and fast — no side effects, no heavy computation. Returns a widget tree.
+**Step 2 — `initState()`.**
+Called once, right after the `State` is created and put in the tree. Do one-time setup here: create `AnimationController`s, subscribe to streams, set initial values. You **cannot** do inherited-widget lookups here yet (the element isn't fully mounted).
 
-5. **`didUpdateWidget(oldWidget)`** — Called when the parent rebuilds and provides a new widget instance of the same type. The framework passes the old widget so you can compare and react. Use this to update controllers or subscriptions when configuration changes (e.g., if an `AnimationController` duration changes).
+**Step 3 — `didChangeDependencies()`.**
+Called right after `initState`, and again whenever an `InheritedWidget` you depend on changes. This is the first **safe** place to use `context` for inherited lookups like `Theme.of` or `MediaQuery.of`.
 
-6. **`deactivate()`** — Called when the element is removed from the tree. It might be reinserted elsewhere (e.g., via `GlobalKey`). Rarely used directly.
+**Step 4 — `build()`.**
+Called whenever the widget must render: after `setState`, after `didChangeDependencies`, or when the parent rebuilds. It must be **pure and fast** — no side effects, no heavy work.
 
-7. **`dispose()`** — Called when the `State` is permanently removed. Clean up everything: cancel timers, dispose controllers, close streams, remove listeners. This is your last chance — after this, the `State` is garbage collected.
+**Step 5 — `didUpdateWidget(oldWidget)`.**
+Called when the parent rebuilds and gives a new widget of the same type. Compare old vs new config and react — e.g. update a controller if a duration changed.
 
-**Example:**
+**Step 6 — `deactivate()` then `dispose()`.**
+`deactivate` runs when the element is removed (it might be reinserted via a `GlobalKey`). `dispose` runs when the `State` is gone for good. Clean up everything in `dispose`: cancel timers, dispose controllers, close streams, remove listeners.
+
 ```dart
 class _MyWidgetState extends State<MyWidget>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late StreamSubscription _subscription;
+  late final AnimationController _controller;
+  late final StreamSubscription _sub;
 
   @override
   void initState() {
-    super.initState();
-    // One-time setup
+    super.initState();                         // call super FIRST
     _controller = AnimationController(
       vsync: this,
-      duration: widget.duration, // Access widget config
+      duration: widget.duration,
     );
-    _subscription = myStream.listen(_onData);
+    _sub = myStream.listen(_onData);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Safe to use InheritedWidgets here
-    final locale = Localizations.localeOf(context);
-    // React to inherited widget changes
+    final locale = Localizations.localeOf(context); // safe here
   }
 
   @override
   void didUpdateWidget(MyWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Parent rebuilt with new config — update if needed
     if (widget.duration != oldWidget.duration) {
       _controller.duration = widget.duration;
     }
@@ -203,223 +480,800 @@ class _MyWidgetState extends State<MyWidget>
   @override
   void dispose() {
     _controller.dispose();
-    _subscription.cancel();
-    super.dispose(); // Always call super.dispose() LAST
+    _sub.cancel();
+    super.dispose();                           // call super LAST
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) => Opacity(
-        opacity: _controller.value,
-        child: child,
-      ),
-      child: Text('Hello'),
-    );
-  }
+  Widget build(BuildContext context) => const SizedBox();
 }
 ```
 
-**Why it matters:** This directly tests whether you write leak-free Flutter code. Missed `dispose()` calls are one of the most common sources of memory leaks and crashes in production Flutter apps.
+**Why interviewers ask:** It directly tests whether you write leak-free code. A missed `dispose()` is one of the most common causes of memory leaks and "setState called after dispose" crashes.
 
-**Common mistake:** Forgetting to call `super.initState()` first and `super.dispose()` last. Another: doing `InheritedWidget` lookups in `initState` (it will crash or return null). Also: not cleaning up listeners in `dispose()`, causing "setState called after dispose" errors.
+**Common mistake:** Forgetting `super.initState()` first and `super.dispose()` last. Doing inherited lookups (`MediaQuery.of`) in `initState`. Not cancelling listeners in `dispose`.
+
+**Follow-ups they may ask:**
+- *"Why not read MediaQuery in initState?"* → The element isn't mounted yet, so the inherited ancestors aren't reachable. Use `didChangeDependencies`.
+- *"What's the difference between `didChangeDependencies` and `didUpdateWidget`?"* → `didChangeDependencies` reacts to inherited-widget changes; `didUpdateWidget` reacts to the parent passing new config.
+
+**Related:** [Q8 — BuildContext](#q8) · [Q7 — setState](#q7) · [Q9 — InheritedWidget](#q9)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is BuildContext? Why can't you use it before `initState` completes? What does "context" actually represent?
+<a id="q7"></a>
+## 7. What does `setState` actually do? Why is it not just "refresh the screen"?
 
-**A:** `BuildContext` is the `Element` itself. Literally — `Element` implements `BuildContext`. So when you use `context` in a `build()` method, you're interacting with the element node in the element tree.
+> Very common · Medium
 
-It represents this widget's position in the element tree and provides methods to walk the tree — finding ancestor widgets, inherited data, render objects, and theme/media information.
+**Short answer (say this):**
+"`setState` does two things: it runs the function I give it so I can change my state fields, then it marks this element as dirty so Flutter schedules a rebuild on the next frame. It does not paint immediately, and it does not rebuild the whole app — only this element's subtree is rebuilt."
 
-You cannot use `context` for inherited widget lookups inside the `State` constructor or before `initState` completes because at that point, the element hasn't been mounted into the tree yet. The `InheritedWidget` ancestor chain doesn't exist for this element until mounting is complete. Specifically, `dependOnInheritedWidgetOfExactType` requires the element to be in `_ElementLifecycle.active` state.
+**Let's understand it fully:**
 
-After `initState` finishes, `didChangeDependencies` is called — that is the first safe place to use `context` for inherited lookups.
+**Step 1 — `setState` is "change data, then mark dirty."**
+The function you pass is where you mutate your fields. After it runs, `setState` calls `markNeedsBuild()` on the element, which adds the element to a list of dirty elements.
 
-**Example:**
 ```dart
-class _MyState extends State<MyWidget> {
-  @override
-  void initState() {
-    super.initState();
-
-    // ❌ WRONG — element not fully mounted yet
-    // final size = MediaQuery.of(context).size;
-
-    // ✅ OK — accessing widget config (no tree walk needed)
-    print(widget.title);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // ✅ CORRECT — safe to walk the tree
-    final size = MediaQuery.of(context).size;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // ✅ CORRECT — context is fully active
-    final theme = Theme.of(context);
-    return Container();
-  }
-}
-
-// Context is the element — proven by the framework source:
-// abstract class Element implements BuildContext { ... }
+setState(() {
+  _count++;          // change the data here
+});
+// Flutter now knows: this element is dirty, rebuild it next frame
 ```
 
-**Why it matters:** This question tests whether you understand the tree mounting process. Interviewers are evaluating if you know the difference between compile-time widget configuration and runtime tree relationships.
+**Step 2 — It does NOT rebuild right now.**
+`setState` does not paint on the spot. Flutter waits for the next vsync (frame), then rebuilds all dirty elements together. So calling `setState` five times in a row still results in one rebuild.
 
-**Common mistake:** Saying "context is a reference to the widget." It is not — it IS the element. Another: using `context` in async callbacks after the widget might have been disposed, leading to "looking up a deactivated widget's ancestor" errors. Always check `mounted` before using context in async code.
+**Step 3 — Only this subtree rebuilds, not the app.**
+Flutter rebuilds from the dirty element down. Parents and siblings are untouched (unless they were also marked dirty). This is why `const` children are skipped — they didn't change (see [Q10](#q10)).
+
+**Step 4 — Why the function form (not just a flag)?**
+Putting the change *inside* `setState(() { ... })` makes it obvious which state changed, and guarantees the mutation happens before the rebuild is scheduled. Changing the field outside and then calling `setState(() {})` works but is considered poor style.
+
+**Step 5 — The number one bug: `setState` after dispose.**
+If an async task finishes after the widget is gone, calling `setState` crashes. Guard with `mounted`:
+
+```dart
+Future<void> load() async {
+  final data = await api.fetch();
+  if (!mounted) return;      // widget gone? stop here
+  setState(() => _data = data);
+}
+```
+
+**Why interviewers ask:** Many people think `setState` instantly redraws everything. They want to hear: it marks dirty and schedules one rebuild of this subtree on the next frame.
+
+**Common mistake:** Doing heavy work *inside* the `setState` callback. The callback should only assign fields. Compute first, then `setState` to assign the result. Also forgetting the `mounted` check in async code.
+
+**Follow-ups they may ask:**
+- *"Does `setState` rebuild parents?"* → No. It marks this element dirty; the rebuild starts here and goes down.
+- *"What if I call setState 3 times quickly?"* → You still get one rebuild on the next frame; dirty elements are batched.
+
+**Related:** [Q5 — Stateful state lives on element](#q5) · [Q10 — const skips rebuilds](#q10) · [Q12 — frames](#q12)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are Keys in Flutter? What problem do they solve, and when should you use GlobalKey, ValueKey, ObjectKey, UniqueKey, and LocalKey?
+<a id="q8"></a>
+## 8. What is BuildContext? Why can't you use it before `initState` finishes?
 
-**A:** Keys solve the **widget identity problem**. When Flutter rebuilds, it matches old and new widgets by their `runtimeType` and `key`. Without keys, if you reorder a list of same-type widgets, Flutter can't tell which element belongs to which widget — it just matches by position. This means state gets attached to the wrong widget.
+> Very common · Medium
 
-**Key types:**
+**Short answer (say this):**
+"BuildContext *is* the Element — `Element` implements `BuildContext`. It represents this widget's exact spot in the element tree, and it's how you walk up to find inherited widgets, theme, or media data. You can't use it for inherited lookups in `initState` because the element isn't fully mounted in the tree yet."
 
-- **`LocalKey`** — Abstract base class for keys that are unique among siblings (same parent). `ValueKey`, `ObjectKey`, and `UniqueKey` all extend this.
+**Let's understand it fully:**
 
-- **`ValueKey<T>`** — Uses `==` on a value for identity. Best when you have a natural unique identifier like a database ID or email.
+**Step 1 — The big reveal: context is the element.**
+People imagine `context` as some magic handle. In the Flutter source, `abstract class Element implements BuildContext`. So when you use `context`, you are talking to the element node that represents your widget's position.
 
-- **`ObjectKey`** — Uses `identical()` (reference equality) on an object. Use when two different objects might be `==` equal but you need to distinguish by reference.
+**Step 2 — What it represents: your place in the tree.**
+Because it is your element, it knows your ancestors. That is how `Theme.of(context)`, `MediaQuery.of(context)`, and `Navigator.of(context)` work — they walk up from your element to find the nearest matching ancestor.
 
-- **`UniqueKey`** — Every instance is unique. Use when you want to force recreation of an element/state — effectively saying "this is always a new widget."
+**Step 3 — Why `initState` can't do inherited lookups.**
+During `initState`, the element exists but is not yet fully *active* in the tree, so the inherited-widget ancestor chain isn't reachable for it. `dependOnInheritedWidgetOfExactType` needs the element to be active. So lookups crash or return null there.
 
-- **`GlobalKey`** — Unique across the entire app, not just siblings. Provides access to the element and state from anywhere. Used for: accessing a widget's `State` from outside, moving a widget between different parents while preserving state, and form validation with `GlobalKey<FormState>`.
-
-**Example:**
 ```dart
-// ❌ WITHOUT keys — reordering breaks state
-Column(
-  children: [
-    // If these swap positions, Flutter matches by index,
-    // so TextField state (typed text) stays at old position
-    TextField(initialValue: 'A'),
-    TextField(initialValue: 'B'),
-  ],
-)
+@override
+void initState() {
+  super.initState();
+  // WRONG — element not fully mounted yet:
+  // final size = MediaQuery.of(context).size;
 
-// ✅ WITH ValueKey — state follows the widget
-Column(
-  children: items.map((item) => Dismissible(
-    key: ValueKey(item.id), // Unique, stable identifier
-    child: ListTile(title: Text(item.name)),
-  )).toList(),
-)
+  // OK — reading widget config needs no tree walk:
+  print(widget.title);
+}
 
-// GlobalKey — access state externally
-final formKey = GlobalKey<FormState>();
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  // CORRECT — first safe place to walk the tree:
+  final size = MediaQuery.of(context).size;
+}
+```
 
-Form(
-  key: formKey,
-  child: Column(children: [
-    TextFormField(validator: (v) => v!.isEmpty ? 'Required' : null),
-    ElevatedButton(
-      onPressed: () {
-        if (formKey.currentState!.validate()) {
-          formKey.currentState!.save();
-        }
-      },
-      child: Text('Submit'),
-    ),
-  ]),
-)
+**Step 4 — The async trap: a "stale" context.**
+After an `await`, the widget may already be disposed, so its context is dead. Using it then throws "looking up a deactivated widget's ancestor." Always check `mounted` first.
 
-// UniqueKey — force fresh state
-AnimatedSwitcher(
-  duration: Duration(milliseconds: 300),
-  child: Text(
-    '$_counter',
-    key: ValueKey<int>(_counter), // New key = new element = animation plays
+```dart
+Future<void> go() async {
+  await Future.delayed(const Duration(seconds: 2));
+  if (!mounted) return;
+  Navigator.of(context).pop();   // safe now
+}
+```
+
+**Why interviewers ask:** It tests whether you understand tree mounting and the difference between compile-time widget config and runtime tree relationships.
+
+**Common mistake:** Saying "context is a reference to the widget." It is not — it **is** the element. Also using a context in async callbacks after the widget might be gone.
+
+**Follow-ups they may ask:**
+- *"Why does `context.read` work but `context.watch` not in initState?"* → Both ultimately need the active element; do reads in `initState` only via `context.read` carefully, and prefer `didChangeDependencies` for anything that depends on inherited data.
+- *"What is `mounted`?"* → A flag on `State` that is true while the element is in the tree. Check it before using `context` after an `await`.
+
+**Related:** [Q1 — context is the element](#q1) · [Q6 — lifecycle](#q6) · [Q9 — InheritedWidget lookups](#q9)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q9"></a>
+## 9. What is InheritedWidget? How does it pass data down, and how is Provider built on top of it?
+
+> Very common · Medium–Hard
+
+**Short answer (say this):**
+"InheritedWidget pushes data down the tree so any descendant can read it in O(1) with `dependOnInheritedWidgetOfExactType`. When it updates, only the widgets that *registered* a dependency on it rebuild — not the whole subtree. Provider is a friendly wrapper around it that adds lifecycle, lazy creation, and a cleaner API like `context.watch` and `Consumer`."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem: passing data through many layers.**
+Without it, you would pass data down through every constructor ("prop drilling"). InheritedWidget lets a deep child grab the data directly.
+
+**Step 2 — How a child reads it (and why it's fast).**
+The framework keeps a map of inherited widgets by type at each element, so looking up the nearest one is O(1) — not a slow walk. The call also *registers* your element as a dependent.
+
+```dart
+class AppTheme extends InheritedWidget {
+  final Color primaryColor;
+  const AppTheme({required this.primaryColor, required super.child});
+
+  static AppTheme of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<AppTheme>()!;
+
+  @override
+  bool updateShouldNotify(AppTheme oldWidget) =>
+      primaryColor != oldWidget.primaryColor;
+}
+
+// any descendant:
+final theme = AppTheme.of(context);   // O(1) lookup + registers dependency
+```
+
+**Step 3 — Only dependents rebuild (the key efficiency).**
+When the InheritedWidget is replaced and `updateShouldNotify` returns true, the framework calls `didChangeDependencies` and marks **only the registered dependents** for rebuild — not the entire subtree.
+
+**Step 4 — `dependOn...` vs `getInheritedWidget...`.**
+- `dependOnInheritedWidgetOfExactType` → reads **and** registers a dependency (you rebuild on change).
+- `getInheritedWidgetOfExactType` → just reads, no dependency, no rebuild.
+
+**Step 5 — How Provider sits on top.**
+Provider creates an InheritedWidget under the hood and gives you a nicer API: `context.watch<T>()` (read + rebuild), `context.read<T>()` (read once, no rebuild), and `Consumer<T>`. It also handles lazy creation, disposing resources, and change notification via `ChangeNotifier`.
+
+```dart
+ChangeNotifierProvider<CartModel>(
+  create: (_) => CartModel(),
+  child: Consumer<CartModel>(
+    builder: (ctx, cart, _) => Text('${cart.itemCount}'),
   ),
 )
 ```
 
-**Why it matters:** Interviewers use this to distinguish Flutter developers who debug layout issues from those who truly understand the reconciliation algorithm. Key misuse causes subtle, hard-to-reproduce bugs in lists and animations.
+**Why interviewers ask:** InheritedWidget is the backbone of almost every state solution — Provider, Riverpod's `ProviderScope`, Theme, MediaQuery, Navigator. Understanding it means understanding how data flows in Flutter.
 
-**Common mistake:** Using `GlobalKey` everywhere "just to be safe." `GlobalKey` is expensive — it requires a global registry lookup and prevents certain framework optimizations. Use `ValueKey` for lists. Another: using the item's index as a key for a reorderable list — the index changes on reorder, defeating the purpose.
+**Common mistake:** Thinking it rebuilds the whole subtree. Only registered dependents rebuild. Also confusing `dependOn...` (registers + rebuilds) with `get...` (just reads).
+
+**Follow-ups they may ask:**
+- *"What is `updateShouldNotify`?"* → It decides whether dependents should rebuild when the inherited data changes. Return true only if the value actually changed.
+- *"Why is the lookup O(1)?"* → Each element caches its inherited widgets by type in a map, so finding the nearest one is a direct lookup, not a tree walk.
+
+**Related:** [Q6 — didChangeDependencies](#q6) · [Q8 — BuildContext](#q8) · [Q16 — MediaQuery uses this](#q16)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** How does the `const` constructor prevent widget rebuilds? What does `const` mean at the widget tree level?
+# C. Performance — const, repaints, threads
 
-**A:** When you mark a widget constructor as `const` and instantiate it with `const`, Dart creates the widget object at compile time and canonicalizes it — meaning every `const Text('Hello')` in your entire app is the exact same object in memory.
+---
 
-At the widget tree level, this matters during reconciliation. When the parent rebuilds, Flutter compares the old child widget to the new child widget. If they are the same identical object (which `const` guarantees), Flutter short-circuits and skips rebuilding that entire subtree. No `build()` call, no diffing of children — it's an instant "nothing changed."
+<a id="q10"></a>
+## 10. How does a `const` constructor prevent widget rebuilds? What does `const` mean at the tree level?
 
-This is different from just having the same data. Two `Text('Hello')` without `const` are two different objects — Flutter must still call `build()` and compare their properties. With `const`, the `identical()` check returns true immediately.
+> Common · Medium
 
-**Example:**
+**Short answer (say this):**
+"A `const` widget is built at compile time and canonicalized — every `const Text('Hello')` in the app is the exact same object in memory. During reconciliation, when the parent rebuilds, Flutter sees the new child is the *identical* object as the old one, so it skips rebuilding that whole subtree instantly. No `build` call, no diffing."
+
+**Let's understand it fully:**
+
+**Step 1 — `const` builds the object before the app runs.**
+With a const constructor and a const call, Dart creates the widget at compile time and reuses one shared instance everywhere (canonicalization).
+
+**Step 2 — The reconciliation short-circuit.**
+When the parent rebuilds, Flutter compares old child vs new child. If they are the **identical** object (which `const` guarantees), Flutter stops right there — "nothing changed" — and skips the subtree.
+
 ```dart
-class ParentWidget extends StatefulWidget {
-  @override
-  State<ParentWidget> createState() => _ParentWidgetState();
-}
-
-class _ParentWidgetState extends State<ParentWidget> {
+class _ParentState extends State<Parent> {
   int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
-    print('Parent build');
-    return Column(
-      children: [
-        // ✅ const — will NOT rebuild when _counter changes
-        const Text('I never rebuild'),
-        const MyExpensiveWidget(),
-
-        // ❌ Not const — WILL rebuild every time
-        Text('Counter: $_counter'),
-
-        ElevatedButton(
-          onPressed: () => setState(() => _counter++),
-          child: const Text('Increment'), // Even button's child is const
-        ),
-      ],
-    );
-  }
-}
-
-// To benefit from const, the widget must:
-// 1. Have a const constructor
-// 2. All fields must be final
-// 3. All arguments must be compile-time constants
-class MyExpensiveWidget extends StatelessWidget {
-  const MyExpensiveWidget({super.key}); // const constructor
-
-  @override
-  Widget build(BuildContext context) {
-    print('Expensive build'); // This won't print on parent rebuilds!
-    return Container(/* heavy subtree */);
+    return Column(children: [
+      const Text('I never rebuild'),     // identical object → skipped
+      const ExpensiveWidget(),           // its build() won't run again
+      Text('Counter: $_counter'),        // NOT const → rebuilds each time
+      ElevatedButton(
+        onPressed: () => setState(() => _counter++),
+        child: const Text('Increment'),  // even this child is const
+      ),
+    ]);
   }
 }
 ```
 
-**Why it matters:** This tests performance awareness. Judicious use of `const` is one of the easiest and most impactful optimizations in Flutter. Interviewers want to know if you write performant widget trees by default.
+**Step 3 — Same data is NOT the same as `const`.**
+Two `Text('Hello')` without `const` are two *different* objects, so Flutter still calls `build` and compares properties. With `const`, the `identical()` check is true immediately, so it bails out faster.
 
-**Common mistake:** Thinking `const` prevents ALL rebuilds. It only prevents rebuilds triggered by parent reconstruction. If the `const` widget depends on an `InheritedWidget` that changes, it will still rebuild. Also: thinking `final` alone is enough — `final` means the field can't be reassigned, but `const` means the entire object is compile-time immutable.
+**Step 4 — The three requirements for a widget to be const.**
+1. It has a `const` constructor.
+2. All its fields are `final`.
+3. All the arguments you pass are compile-time constants.
+
+**Step 5 — The limit: const only stops *parent-triggered* rebuilds.**
+If a const widget depends on an `InheritedWidget` that changes (like Theme), it still rebuilds — because that is a dependency change, not a parent rebuild.
+
+**Why interviewers ask:** It tests whether "use const everywhere" is something you memorized or understood. The real reason is identical-object reuse plus the reconciliation short-circuit.
+
+**Common mistake:** Thinking `const` prevents *all* rebuilds. It only stops rebuilds caused by the parent reconstructing. Also thinking `final` alone is enough — `final` stops reassignment, but `const` makes the whole object a compile-time constant.
+
+**Follow-ups they may ask:**
+- *"What if one value comes from the network?"* → It can't be `const`. Keep the changing part separate and make the rest `const`.
+- *"Does const help if the widget watches an InheritedWidget?"* → Not against that dependency — it will still rebuild when the inherited data changes.
+
+**Related:** [Q4 — reconciliation](#q4) · [Q2 — immutability](#q2) · [Q12 — fewer rebuilds = smoother frames](#q12)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the difference between Hot Reload, Hot Restart, and Full Restart? What does each reset?
+<a id="q11"></a>
+## 11. What is RepaintBoundary? How does it reduce repaints, and when should you add it?
 
-**A:**
+> Common · Medium
 
-**Hot Reload** — Injects updated source code into the running Dart VM without restarting. Preserves the app's current state (all `State` objects, global variables, static fields, navigation stack). Only re-executes `build()` methods with the new code. Takes about 1 second. Does NOT re-run `main()` or `initState()`.
+**Short answer (say this):**
+"A RepaintBoundary puts its subtree on its own paint layer. Without it, when something needs repainting, Flutter repaints everything up to the nearest boundary, which can be a large region. With it, a frequently-changing area repaints alone, without forcing its expensive neighbors to repaint."
 
-**Hot Restart** — Recompiles the entire app and restarts the Dart VM. Destroys all state — global variables reset, static fields reset, `State` objects are recreated. Re-runs `main()` and `initState()`. Takes a few seconds. Does NOT recompile native platform code (Kotlin/Swift).
+**Let's understand it fully:**
 
-**Full Restart (cold start)** — Completely stops the app, recompiles everything including native platform code, and reinstalls the APK/IPA. Needed when you change native code, add plugins, modify `pubspec.yaml` dependencies, or change platform-specific configuration. Takes 30+ seconds.
+**Step 1 — A real-life picture: separate sheets of glass.**
+Imagine painting on layers of glass stacked on top of each other. If everything is on one sheet, changing one thing means repainting the whole sheet. A RepaintBoundary gives the changing thing its **own** sheet, so you only repaint that one.
 
-**Example:**
+**Step 2 — How repaint regions work by default.**
+When a render object needs repainting, Flutter walks up to the nearest repaint boundary and repaints everything inside it. If that boundary is far up, a big region repaints unnecessarily.
+
+**Step 3 — Inserting a boundary isolates the change.**
+You are telling Flutter: "the inside changes on its own; don't repaint the outside when the inside changes."
+
 ```dart
-// Scenario: You have this running app
-int globalCounter = 0; // global variable
+// WITHOUT — the spinner forces the whole column to repaint
+Column(children: [
+  ExpensiveHeader(),
+  CircularProgressIndicator(),   // animates ~60fps
+  ExpensiveFooter(),
+])
+
+// WITH — only the spinner's layer repaints
+Column(children: [
+  const ExpensiveHeader(),
+  RepaintBoundary(child: CircularProgressIndicator()),
+  const ExpensiveFooter(),
+])
+```
+
+**Step 4 — When to add it (and when not to).**
+Add it around something that repaints often while its neighbors don't: an animation, a video, custom canvas drawing. Do **not** add it everywhere — each boundary makes a new compositing layer that uses GPU memory, so overuse can make things worse.
+
+**Step 5 — Flutter already adds some for you.**
+`ListView` items and `Navigator` routes already get RepaintBoundaries, so you don't need to add your own there.
+
+**Why interviewers ask:** It tests advanced rendering knowledge — knowing *when* repaints happen and how to isolate them is what lets you ship 60fps on low-end devices.
+
+**Common mistake:** Wrapping everything in RepaintBoundary. Each one costs GPU memory; too many can exhaust texture memory and hurt performance. Also thinking it helps layout — it does not; layout still flows through it normally.
+
+**Follow-ups they may ask:**
+- *"How do you check if it helps?"* → DevTools → "Highlight Repaints". Regions that flash together should be split with a boundary.
+- *"Does it help with layout cost?"* → No, only paint. Layout still propagates normally.
+
+**Related:** [Q12 — raster thread cost](#q12) · [Q17 — paint phase](#q17)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q12"></a>
+## 12. How does Flutter hit 60/120fps? What are the UI thread and the raster thread?
+
+> Very common · Medium–Hard
+
+**Short answer (say this):**
+"Flutter has a frame budget of about 16ms at 60fps, or 8ms at 120fps. It uses multiple threads: the UI thread runs my Dart code — build, layout, and building the layer tree — and the raster thread turns those layers into pixels on the GPU. Because they run in parallel, the raster thread can paint frame N while the UI thread builds frame N+1."
+
+**Let's understand it fully:**
+
+**Step 1 — The frame budget.**
+At 60fps each frame must finish in ~16ms; at 120fps in ~8ms. Miss the budget and you drop a frame — that is jank.
+
+**Step 2 — The UI thread (your Dart code).**
+This runs `build()`, layout, hit-testing, gestures, and animation ticks. Its output is a **LayerTree** — a set of paint instructions, *not* pixels yet.
+
+**Step 3 — The raster thread (the GPU work).**
+It takes the LayerTree and rasterizes it into actual pixels on the GPU. It runs on a *separate* thread, so even slow rasterization doesn't block the UI thread.
+
+**Step 4 — Two more threads.**
+- **Platform thread** — platform messages, plugin calls, system events.
+- **I/O thread** — heavy I/O like image decoding, so it doesn't block the UI thread.
+
+**Step 5 — The diagnosis that changes the fix.**
+This is the senior point. Open DevTools and look at the two bars:
+- **UI bar is red (>16ms)** → your *Dart* is the problem: heavy `build()`, big synchronous work. Fix with `const`, fewer widgets, or move CPU work to an isolate.
+- **Raster bar is red** → the *GPU* is the problem: too much overdraw, expensive shadows/clips. Fix with `RepaintBoundary`, simpler effects.
+
+```dart
+// Jank: heavy work on the UI thread blocks frames
+void onTap() {
+  setState(() {
+    _data = expensiveComputation();   // 50ms → misses ~3 frames
+  });
+}
+
+// Fix: move CPU-heavy work off the UI thread with an isolate
+void onTap() async {
+  final result = await compute(expensiveComputation, input);
+  if (!mounted) return;
+  setState(() => _data = result);
+}
+```
+
+**Why interviewers ask:** This is the ultimate performance question. It tests whether you can tell *where* the jank is — UI thread (your code) vs raster thread (GPU) — because the fix is completely different.
+
+**Common mistake:** Saying "Flutter is single-threaded." It has at least four threads. Also blaming all jank on the GPU — if the UI bar is red, the problem is your Dart code. And remember `async`/`await` does **not** create a new thread; only isolates give true parallel CPU work.
+
+**Follow-ups they may ask:**
+- *"Why does shader jank stall the raster thread?"* → Old Skia compiled shaders at runtime, stalling the raster thread on first use (see [Q18](#q18)).
+- *"Why does my 60fps app jank on a 120Hz phone?"* → The budget drops from 16ms to 8ms, so marginal work now misses frames.
+
+**Related:** [Q11 — RepaintBoundary](#q11) · [Q17 — rendering pipeline](#q17) · [Q18 — Impeller](#q18)
+
+[↑ Back to top](#toc)
+
+---
+
+# D. Layout & constraints
+
+---
+
+<a id="q13"></a>
+## 13. Explain Flutter's layout rule: "constraints go down, sizes go up, parent sets position." Walk through an example.
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Layout is a single pass with three rules. A parent passes constraints (min/max width and height) down to each child. Each child picks its own size within those constraints and reports it back up. Then the parent places the child — the child never knows its own position. Because it's one walk down and up, layout is O(n)."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a tailor and a customer.**
+The parent is the tailor who says "your shirt must be between size S and L" (constraints down). The child customer picks a size in that range and says "I'll take M" (size up). Then the tailor decides where the customer stands in the photo (parent sets position).
+
+**Step 2 — Rule 1: constraints go down.**
+A parent gives each child a `BoxConstraints`: `minWidth, maxWidth, minHeight, maxHeight`. The child *must* end up within these.
+
+**Step 3 — Rule 2: sizes go up.**
+The child chooses its own size inside the constraints and reports it back. It cannot pick a size outside the allowed range.
+
+**Step 4 — Rule 3: parent sets position.**
+The child does not know where it will be placed; only the parent knows (stored in the parent data as an offset). A child's `size` says nothing about its position.
+
+```dart
+// Screen is 400 x 800
+SizedBox(            // gets 0≤w≤400, 0≤h≤800
+  width: 300,
+  height: 200,       // passes tight 0≤w≤300, 0≤h≤200 down
+  child: Center(     // receives 0≤w≤300, 0≤h≤200
+                     // passes LOOSE 0≤w≤300, 0≤h≤200 down
+    child: Container( // receives those loose constraints
+      width: 100,
+      height: 50,     // picks 100x50, reports size UP
+      color: Colors.blue,
+    ),
+    // Center is 300x200, child is 100x50
+    // → Center POSITIONS the child at offset (100, 75) to center it
+  ),
+)
+```
+
+**Step 5 — Why it's a single pass (O(n)).**
+Constraints flow down once and sizes flow up once, in one depth-first walk. It is **not** multi-pass like CSS. That is a big reason Flutter layout is fast.
+
+**Why interviewers ask:** This is the foundation of every layout bug. "RenderFlex overflowed," "unbounded constraints," and sizing surprises all come from misunderstanding this flow. They want proof you can debug layout without trial and error.
+
+**Common mistake:** Saying "a child knows its position." It does not. Also thinking layout is multi-pass like CSS. And assuming a widget "has" a fixed size — a `Container()` with no explicit size behaves completely differently depending on the constraints flowing in.
+
+**Follow-ups they may ask:**
+- *"Where is a child's position stored?"* → In the parent data (an offset), set by the parent — not on the child itself.
+- *"Why is layout O(n)?"* → Each render object is visited once on the way down (constraints) and once on the way up (size).
+
+**Related:** [Q14 — BoxConstraints](#q14) · [Q15 — overflow](#q15) · [Q16 — LayoutBuilder gives constraints](#q16)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q14"></a>
+## 14. What are BoxConstraints? Explain tight vs loose, and what "unbounded" means.
+
+> Common · Medium
+
+**Short answer (say this):**
+"BoxConstraints are four numbers: min and max width, min and max height. Tight means min equals max, so the child has no choice. Loose means min is 0, so the child can be any size up to the max. Unbounded means a max is infinity, which happens inside scrollables — and a widget that tries to fill all space will then try to be infinitely big and error."
+
+**Let's understand it fully:**
+
+**Step 1 — The four numbers.**
+Every `RenderBox` receives `minWidth, maxWidth, minHeight, maxHeight` from its parent and must choose a size within them.
+
+**Step 2 — Tight constraints (no choice).**
+`minWidth == maxWidth` (and/or the height pair are equal). The child must be exactly that size. The screen passes tight constraints to your root, forcing it to fill the screen.
+
+```dart
+BoxConstraints.tight(const Size(200, 200));
+// min=max=200 in both axes → child MUST be 200x200
+```
+
+**Step 3 — Loose constraints (freedom up to a max).**
+`minWidth = 0`, so the child can be anywhere from 0 to max. `Center` loosens constraints — "be as small as you want, up to my size."
+
+```dart
+BoxConstraints.loose(const Size(200, 200));
+// min=0, max=200 → child can be 0..200
+```
+
+**Step 4 — Unbounded constraints (max is infinity).**
+Scrollables like `ListView` pass `maxHeight = double.infinity` in the scroll direction, because children can be any height. The trouble: a widget that wants to be as big as possible (a bare `Container()`, or `Expanded`) tries to become infinitely large and errors.
+
+```dart
+// CRASHES — Column has infinite height inside ListView
+ListView(children: [
+  Column(children: [
+    Expanded(child: Text('Boom')),
+    // remaining space = infinity → "unbounded height" error
+  ]),
+])
+
+// FIX — give the inner Column a bounded height
+ListView(children: [
+  SizedBox(
+    height: 300,
+    child: Column(children: [
+      Expanded(child: Text('Works')),   // now 300 - siblings
+    ]),
+  ),
+])
+```
+
+**Step 5 — Reading the error.**
+"BoxConstraints forces an infinite ... " or "RenderFlex children have non-zero flex but incoming height constraints are unbounded" both mean: a flex/fill widget met infinity. Give it a bounded size.
+
+**Why interviewers ask:** Almost every "RenderBox was not laid out" or "Infinity" trace comes back to a constraints mismatch. They want to see you can diagnose from the message, not randomly wrap things in `Expanded`.
+
+**Common mistake:** Thinking `double.infinity` is itself a bug. It is intentional — scrollables use it. The bug is a child that doesn't know how to handle unbounded constraints.
+
+**Follow-ups they may ask:**
+- *"Why does `Container()` with no size sometimes fill and sometimes not?"* → It expands to fill *bounded* constraints, but errors under *unbounded* ones.
+- *"How do I give a height inside a scrollable?"* → Wrap in `SizedBox`, or use `shrinkWrap: true` on the inner list.
+
+**Related:** [Q13 — constraints flow](#q13) · [Q15 — overflow fixes](#q15) · [Q16 — LayoutBuilder](#q16)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q15"></a>
+## 15. Why does "RenderFlex overflowed" happen, and how do you fix it?
+
+> Very common · Easy–Medium
+
+**Short answer (say this):**
+"RenderFlex is the render object behind Row and Column. The overflow means the children's total size along the main axis is bigger than the space available. The fix depends on intent: let children share space with Flexible or Expanded, ellipsis long text, or wrap in a scroll view if the content is genuinely larger than the screen."
+
+**Let's understand it fully:**
+
+**Step 1 — What the error means.**
+A `Row` of three 200px children in a 400px screen needs 600px but has 400px. The extra 200px overflows, and you see the yellow-and-black stripes.
+
+**Step 2 — Root cause 1: fixed children exceed the parent.**
+Fix with `Expanded` (children share space, each forced to fill its share) or `Flexible` (children share space but may be smaller).
+
+```dart
+// OVERFLOW — three fixed 200px items in a 400px row
+Row(children: [
+  Container(width: 200, height: 50, color: Colors.red),
+  Container(width: 200, height: 50, color: Colors.green),
+  Container(width: 200, height: 50, color: Colors.blue),
+])
+
+// FIX — Expanded shares the space
+Row(children: [
+  Expanded(child: Container(height: 50, color: Colors.red)),
+  Expanded(flex: 2, child: Container(height: 50, color: Colors.green)),
+  Expanded(child: Container(height: 50, color: Colors.blue)),
+])
+```
+
+**Step 3 — Root cause 2: long text.**
+Wrap the `Text` in `Expanded` and add `overflow: TextOverflow.ellipsis`.
+
+```dart
+Row(children: [
+  const Icon(Icons.info),
+  Expanded(
+    child: Text(
+      'A very long line that would overflow without Expanded',
+      overflow: TextOverflow.ellipsis,
+    ),
+  ),
+])
+```
+
+**Step 4 — Root cause 3: content should scroll.**
+If the content is legitimately bigger than the screen, wrap the Row/Column in a `SingleChildScrollView`.
+
+```dart
+SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(children: tiles),
+)
+```
+
+**Step 5 — Root cause 4: unbounded cascade.**
+A `Column` inside a `ListView` (both vertical) gives the Column infinite height. Wrap the inner Column in a `SizedBox`, or set `shrinkWrap: true` on the inner list (see [Q14](#q14)).
+
+**Why interviewers ask:** It is the single most common Flutter layout error. They want to see you pick the *right* fix based on intent, not randomly try wrappers.
+
+**Common mistake:** Using `Expanded` outside a Row/Column/Flex — it only works inside flex containers. Wrapping everything in `SingleChildScrollView` as a blanket fix. Confusing `Flexible` (`FlexFit.loose`, may be smaller) with `Expanded` (`FlexFit.tight`, must fill its share).
+
+**Follow-ups they may ask:**
+- *"Flexible vs Expanded?"* → `Expanded` is `Flexible(fit: FlexFit.tight)` — it must fill its share. `Flexible` lets the child be smaller.
+- *"Why does `Expanded` crash inside a ListView?"* → The main-axis constraint is unbounded (infinity), so "fill remaining space" is undefined.
+
+**Related:** [Q13 — constraints](#q13) · [Q14 — unbounded](#q14)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q16"></a>
+## 16. What is the difference between MediaQuery and LayoutBuilder? When do you use each?
+
+> Common · Medium
+
+**Short answer (say this):**
+"MediaQuery gives global screen info — full screen size, padding, text scale, orientation. LayoutBuilder gives the actual constraints my widget got at its specific spot in the tree. So if my widget sits inside a 300px box, MediaQuery still reports the full screen width, but LayoutBuilder reports 300. For reusable, responsive widgets, LayoutBuilder is usually more correct."
+
+**Let's understand it fully:**
+
+**Step 1 — MediaQuery = info about the whole window.**
+It reports screen size, device pixel ratio, text scale factor, safe-area padding (notch, status bar), orientation, and brightness. It comes from the nearest `MediaQuery` ancestor (usually set by `MaterialApp`) and is the **same** everywhere in the tree.
+
+```dart
+final screenWidth = MediaQuery.of(context).size.width;
+if (screenWidth > 600) return TabletLayout();
+return PhoneLayout();
+```
+
+**Step 2 — LayoutBuilder = the space YOU actually got.**
+It gives you the `BoxConstraints` the parent passed to *this* spot. That is how much room your widget really has — not the whole screen.
+
+```dart
+SizedBox(
+  width: 300,
+  child: LayoutBuilder(
+    builder: (context, constraints) {
+      // constraints.maxWidth == 300, NOT the screen width
+      return constraints.maxWidth > 200 ? WideVersion() : NarrowVersion();
+    },
+  ),
+)
+```
+
+**Step 3 — The critical difference, side by side.**
+Inside a `SizedBox(width: 300)` on a 400px screen:
+- `MediaQuery.of(context).size.width` → **400** (whole screen).
+- `LayoutBuilder` → `maxWidth: 300` (your actual space).
+
+**Step 4 — A real responsive example.**
+A grid that adapts to the space it is given, so it works in split-screen or inside a panel:
+
+```dart
+LayoutBuilder(
+  builder: (context, constraints) {
+    final columns = (constraints.maxWidth / 150).floor().clamp(1, 6);
+    return GridView.count(crossAxisCount: columns, children: cards);
+  },
+)
+```
+
+**Step 5 — A rebuild gotcha with MediaQuery.**
+`MediaQuery.of(context)` depends on *all* media properties, so your widget rebuilds when *any* of them change — including the keyboard appearing. To depend only on size, use `MediaQuery.sizeOf(context)`.
+
+**Why interviewers ask:** It tests practical responsive-design knowledge. Many apps break in split-screen or when embedded in a smaller container because the dev used MediaQuery where LayoutBuilder was correct.
+
+**Common mistake:** Using MediaQuery for layout inside nested, reusable widgets. If a widget might ever sit in a constrained parent (it usually will), LayoutBuilder is more correct. Also not knowing `MediaQuery.of` causes rebuilds on keyboard show/hide — prefer `sizeOf`.
+
+**Follow-ups they may ask:**
+- *"Why does `MediaQuery.of` rebuild on keyboard open?"* → It depends on the whole MediaQueryData, including view insets. Use `MediaQuery.sizeOf` to avoid that.
+- *"Which for tablet vs phone?"* → MediaQuery for whole-screen breakpoints; LayoutBuilder for adapting to local space.
+
+**Related:** [Q9 — MediaQuery is an InheritedWidget](#q9) · [Q13 — LayoutBuilder exposes constraints](#q13)
+
+[↑ Back to top](#toc)
+
+---
+
+# E. The rendering pipeline & graphics
+
+---
+
+<a id="q17"></a>
+## 17. Describe Flutter's rendering pipeline. How does a frame go from a tap to pixels on screen?
+
+> Common · Medium–Hard
+
+**Short answer (say this):**
+"Each frame, triggered by a vsync signal, runs through phases: a state change marks an element dirty, then build produces new widgets, then layout sizes and positions render objects, then paint records draw commands into layers, then compositing flattens the layers, then the raster thread turns them into pixels, and finally the GPU shows the frame."
+
+**Let's understand it fully:**
+
+**Step 1 — Trigger: a state change marks dirty.**
+A tap, scroll, or animation tick calls `setState` (or similar), which marks the element dirty and asks the engine to schedule a frame.
+
+**Step 2 — Vsync: the frame begins.**
+The platform sends a vsync callback (~every 16ms at 60fps). Flutter starts the frame work.
+
+**Step 3 — Build phase.**
+Flutter rebuilds the dirty elements by calling `build()`, then reconciles new widgets against old ones (see [Q4](#q4)), updating render-object properties where needed.
+
+**Step 4 — Layout phase.**
+Starting at the root, constraints flow down and sizes flow up in one depth-first pass; parents position children (see [Q13](#q13)).
+
+**Step 5 — Paint phase.**
+Each render object paints itself into `Layer` objects as *recorded draw commands* — not pixels yet. `RepaintBoundary` nodes create separate layers (see [Q11](#q11)).
+
+**Step 6 — Composite, rasterize, display.**
+The layer tree is flattened and handed to the engine. The **raster thread** turns it into GPU commands and actual pixels, then the GPU presents the frame.
+
+```dart
+// Tracing a tap:
+ElevatedButton(
+  onPressed: () => setState(() => _count++), // 1. marks dirty
+  child: Text('$_count'),
+)
+// 2. next vsync arrives
+// 3. BUILD: build() runs, Text('0') vs Text('1') → update RenderParagraph
+// 4. LAYOUT: RenderParagraph re-measures text
+// 5. PAINT: records new draw commands into its Layer
+// 6. COMPOSITE → RASTERIZE (raster thread) → DISPLAY
+// user sees '1'
+```
+
+**Why interviewers ask:** Understanding the pipeline is essential for debugging janky frames. If you know layout and paint are separate, you know a `RepaintBoundary` helps paint, not layout. If you know rasterization is on a separate thread, you understand why shader compilation causes jank.
+
+**Common mistake:** Saying "Flutter repaints the whole screen every frame." It tracks dirty regions and repaint boundaries. Also conflating build and paint — `build()` produces widgets, not pixels. And forgetting rasterization runs on a separate thread.
+
+**Follow-ups they may ask:**
+- *"Where does build end and paint begin?"* → Build makes widgets/elements; layout sizes them; paint records draw commands; raster makes pixels.
+- *"Why does a RepaintBoundary not help layout?"* → It isolates the paint layer only; layout constraints still flow through it.
+
+**Related:** [Q12 — UI vs raster thread](#q12) · [Q13 — layout phase](#q13) · [Q18 — rasterization & shaders](#q18)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q18"></a>
+## 18. What is Impeller, and how does it differ from Skia? Why did Flutter move to it?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Skia is the older 2D engine Flutter used; it compiled GPU shaders the first time it met a new drawing operation, which caused 'shader jank' — a stutter the first time you saw an animation. Impeller is Flutter's newer engine that compiles all shaders ahead of time, at build time, so there is no runtime shader compilation and no first-frame jank."
+
+**Let's understand it fully:**
+
+**Step 1 — Skia and the shader-jank problem.**
+Skia is a general-purpose 2D graphics library. It compiled shaders **lazily at runtime** — the first time a particular effect appeared, the raster thread stalled (often 50–200ms) compiling the shader. You could pre-warm shaders with `--cache-sksl`, but it was fragile and manual.
+
+**Step 2 — Impeller's core idea: compile shaders ahead of time.**
+Impeller is built specifically for Flutter. All its shaders are **precompiled at engine build time**, so at runtime there is zero shader compilation. The GPU pipeline state is known in advance.
+
+```dart
+// With Skia:
+// First time a complex animation appears
+//   → Skia compiles its shader now → raster thread STALLS → visible stutter
+//   → later frames are smooth (shader cached)
+
+// With Impeller:
+// Same animation → shaders already compiled at build time
+//   → raster thread proceeds immediately → smooth from frame one
+```
+
+**Step 3 — Other differences.**
+- Skia: shared, general-purpose codebase. Impeller: purpose-built for Flutter's patterns.
+- Impeller uses **Metal** on iOS and **Vulkan** (OpenGL fallback) on Android.
+- Impeller's win is *predictability* — even if average FPS is similar, the worst-case frames are far better.
+
+**Step 4 — You don't change app code.**
+Impeller is enabled at the engine level. As of recent Flutter releases it is the default on iOS (since 3.16) and on Android (since 3.27 generally; began 3.22).
+
+```bash
+flutter run --enable-impeller     # force Impeller
+flutter run --no-enable-impeller  # force Skia
+```
+
+**Why interviewers ask:** It shows you keep up with Flutter's evolution and understand the rendering stack below the widgets. Teams shipping to low-end Android especially care, because shader jank was their top user complaint.
+
+**Common mistake:** Saying Impeller is "faster" in every case. Its advantage is *consistency* (no jank spikes), not raw throughput. Some Skia-optimized paths may even be slightly slower on Impeller today.
+
+**Follow-ups they may ask:**
+- *"What exactly is shader jank?"* → A stall on the raster thread the first time Skia must compile a shader for a new drawing operation.
+- *"Why is predictable frame time better than higher average FPS?"* → Users notice the *worst* frames (stutters), not the average.
+
+**Related:** [Q12 — raster thread](#q12) · [Q17 — rasterization](#q17)
+
+[↑ Back to top](#toc)
+
+---
+
+# F. Tooling & the dev loop
+
+---
+
+<a id="q19"></a>
+## 19. What is the difference between Hot Reload, Hot Restart, and Full Restart? What does each reset?
+
+> Very common · Easy–Medium
+
+**Short answer (say this):**
+"Hot Reload injects new code into the running VM and keeps all state — it just re-runs `build`, in about a second. Hot Restart restarts the Dart VM and wipes all state, re-running `main` and `initState`. Full Restart rebuilds everything including native code and reinstalls the app — needed when you touch native code, plugins, or pubspec."
+
+**Let's understand it fully:**
+
+**Step 1 — Hot Reload (keeps state).**
+It pushes updated Dart code into the running VM **without** restarting. All `State` objects, globals, statics, and the navigation stack are preserved. It re-runs `build()` with the new code but does **not** re-run `main()` or `initState()`. About 1 second.
+
+**Step 2 — Hot Restart (wipes Dart state).**
+It restarts the Dart VM. Globals, statics, and `State` objects are recreated; `main()` and `initState()` run again. A few seconds. It does **not** recompile native Kotlin/Swift code.
+
+**Step 3 — Full Restart / cold start (rebuilds native too).**
+It stops the app, recompiles everything including native platform code, and reinstalls the APK/IPA. Needed when you change native code, add a plugin, edit `pubspec.yaml` dependencies, or change platform config. 30+ seconds.
+
+```dart
+int globalCounter = 0;
 
 class _MyState extends State<MyWidget> {
   int localCounter = 10;
@@ -427,841 +1281,406 @@ class _MyState extends State<MyWidget> {
   @override
   void initState() {
     super.initState();
-    globalCounter++;
-    print('initState called, global=$globalCounter');
+    globalCounter++;            // runs again only on Hot Restart
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Text(
-      'Local: $localCounter, Global: $globalCounter',
-      style: TextStyle(fontSize: 24), // Change this to 32...
-    );
-  }
+  Widget build(BuildContext context) =>
+      Text('L:$localCounter G:$globalCounter',
+          style: const TextStyle(fontSize: 24)); // change to 32...
 }
 
 // Hot Reload after changing fontSize to 32:
-//   → fontSize updates to 32
-//   → localCounter still 10 (state preserved)
-//   → globalCounter unchanged (no re-init)
-//   → initState NOT called
-
+//   fontSize → 32, localCounter stays 10, initState NOT called
 // Hot Restart:
-//   → localCounter resets to 10
-//   → globalCounter resets to 0, then incremented to 1
-//   → initState IS called
-
+//   localCounter → 10 fresh, globalCounter → 0 then 1, initState called
 // Full Restart needed when:
-//   → You add firebase_core to pubspec.yaml
-//   → You modify AndroidManifest.xml
-//   → You add a new method channel
+//   adding firebase_core, editing AndroidManifest.xml, new method channel
 ```
 
-**Why it matters:** This is a practical productivity question. Interviewers want to know if you understand which changes require which restart level — debugging becomes painful if you don't.
+**Step 4 — When Hot Reload can't help.**
+Hot Reload cannot apply changes to `main()`, global initializers, `initState` logic that already ran, enum definitions, or some generic type changes. When it "doesn't work," reach for Hot Restart.
 
-**Common mistake:** Expecting Hot Reload to pick up changes to `initState` logic, enum definitions, generic type changes, or native code. If Hot Reload "doesn't work," candidates sometimes get confused instead of knowing to try Hot Restart. Also: not knowing that Hot Reload can't handle changes to the `main()` function or global initializers.
+**Why interviewers ask:** It is a practical productivity question. Knowing which change needs which restart level makes debugging far faster.
+
+**Common mistake:** Expecting Hot Reload to pick up `initState` changes, enum changes, or native code changes. Also not knowing Hot Reload can't handle changes to `main()` or global initializers.
+
+**Follow-ups they may ask:**
+- *"Why doesn't Hot Reload re-run initState?"* → It preserves existing `State` objects, so their `initState` already ran; only `build` re-runs.
+- *"When is Full Restart mandatory?"* → Any native change: new plugin, edited manifest/Info.plist, new platform channel.
+
+**Related:** [Q6 — initState runs on restart](#q6) · [Q23 — JIT enables hot reload](#q23)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Describe the Flutter rendering pipeline. How does a frame go from user interaction to pixels on screen?
+<a id="q20"></a>
+## 20. What is pub.dev? How does pubspec.yaml manage dependencies, and how do `^`, `>=`, and `==` work?
 
-**A:** Here's the full pipeline for a single frame, triggered at each vsync signal (~16ms at 60fps):
+> Common · Medium
 
-**1. User Input / Animations** — A tap, scroll, or animation tick triggers a state change. `setState()` marks the element as dirty.
+**Short answer (say this):**
+"pub.dev is the official package registry for Dart and Flutter, like npm for JavaScript. pubspec.yaml declares your project's dependencies and version rules; `flutter pub get` resolves and locks exact versions into pubspec.lock. `dependencies` ship in the app; `dev_dependencies` are only for development. The caret `^1.5.0` means `>=1.5.0 <2.0.0` and is the recommended default."
 
-**2. Vsync signal** — The platform sends a vsync callback. Flutter's engine schedules a frame.
+**Let's understand it fully:**
 
-**3. Build phase** — The framework walks the dirty elements and calls their `build()` methods. This produces new widgets, which are reconciled against old widgets to update the element tree. New or updated `RenderObject` properties are applied.
+**Step 1 — pub.dev and pubspec.yaml.**
+pub.dev hosts open-source packages with a score for popularity, health, and maintenance. `pubspec.yaml` at the project root declares the name, version, SDK constraints, and dependencies. `flutter pub get` resolves compatible versions and writes the exact resolved versions to `pubspec.lock` for reproducible builds.
 
-**4. Layout phase** — Starting from the root, the framework walks the render tree. Parent passes constraints down to children. Children determine their size within those constraints and report back. Parent then positions children. This is a single depth-first pass.
+**Step 2 — `dependencies` vs `dev_dependencies`.**
+- `dependencies` — needed to **run** the app; they ship in the binary (e.g. `http`, `provider`, `flutter_bloc`).
+- `dev_dependencies` — needed only for **development/testing**; they are **not** in the release build (e.g. `flutter_test`, `flutter_lints`, `mockito`, `build_runner`).
 
-**5. Paint phase** — Each `RenderObject` paints itself into a series of `Layer` objects. Layers are recorded as display lists (lists of drawing commands), not actual pixels yet. `RepaintBoundary` nodes create separate layers to isolate repaints.
+Putting a test tool in `dependencies` bloats your release binary for no reason.
 
-**6. Compositing** — The layer tree is flattened and sent to the engine. The engine's compositor (Impeller or Skia) arranges layers, applies transforms, clips, and opacity.
+**Step 3 — Semantic versioning: MAJOR.MINOR.PATCH.**
+- MAJOR (`2.x.x`) — breaking changes.
+- MINOR (`x.4.x`) — new features, backward-compatible.
+- PATCH (`x.x.1`) — bug fixes, backward-compatible.
 
-**7. Rasterization** — The raster thread (GPU thread) takes the composited layers and converts them to GPU commands, producing actual pixels. This happens on a separate thread so it doesn't block the UI thread.
+**Step 4 — The constraint syntax.**
+- `^1.5.0` (caret) → `>=1.5.0 <2.0.0`. Allows minor/patch upgrades, not the next major. The recommended default.
+- `>=1.5.0 <3.0.0` → explicit range, when you know your code works across majors.
+- `==1.5.0` → exact pin. Discourages updates and causes conflicts; rarely right.
+- `>=1.5.0` → open-ended, dangerous (a future major could break you).
+- `any` → accepts anything; only for throwaway prototypes.
 
-**8. Display** — The GPU presents the frame to the screen.
-
-**Example:**
-```dart
-// Tracing a tap through the pipeline:
-
-// 1. User taps button → GestureDetector fires onTap
-ElevatedButton(
-  onPressed: () {
-    setState(() => _count++); // Marks element dirty
-  },
-  child: Text('$_count'),
-)
-
-// 2. Next vsync arrives (~16ms later)
-
-// 3. BUILD: Framework calls _MyState.build()
-//    → New Text widget with updated _count
-//    → Element compares old Text('0') vs new Text('1')
-//    → Same type, updates RenderParagraph's text property
-
-// 4. LAYOUT: RenderParagraph recalculates text size
-//    → Parent may need to re-layout if size changed
-
-// 5. PAINT: RenderParagraph.paint() draws new text
-//    → Records commands into its Layer
-
-// 6. COMPOSITE: Engine composites all layers
-
-// 7. RASTERIZE: Raster thread converts to pixels
-
-// 8. Frame displayed — user sees '1' instead of '0'
-```
-
-**Why it matters:** Understanding the pipeline is essential for debugging janky frames. If you know that layout and paint are separate, you know that a `RepaintBoundary` helps with paint but not layout. If you know rasterization is on a separate thread, you understand why shader compilation causes jank (the raster thread stalls).
-
-**Common mistake:** Saying "Flutter repaints the whole screen every frame." Flutter is smart about dirty regions and repaint boundaries. Another mistake: conflating build and paint — `build()` produces widgets, not pixels. Also: not knowing that rasterization happens on a separate thread.
-
----
-
-**Q:** Explain Flutter's layout algorithm: "constraints go down, sizes go up, parent sets position." Walk through an example.
-
-**A:** Flutter's layout is a single-pass algorithm with three rules:
-
-1. **Constraints go down** — A parent tells each child: "You must be at least this big and at most this big" via `BoxConstraints` (minWidth, maxWidth, minHeight, maxHeight).
-
-2. **Sizes go up** — Each child chooses its own size within those constraints and reports it back to the parent. The child cannot choose a size outside the constraints.
-
-3. **Parent sets position** — The child has no idea where it will be placed. Only the parent knows the child's position (stored in `BoxParentData.offset`). The child's own `size` property says nothing about its position.
-
-This is a depth-first traversal — layout is resolved in a single walk of the tree, making it O(n).
-
-**Example:**
-```dart
-// Screen is 400x800
-
-SizedBox(        // Gets constraints: 0≤w≤400, 0≤h≤800
-  width: 300,    // Passes tight constraints to child: w=300, h=800
-  height: 200,   // Actually: 0≤w≤300, 0≤h≤200
-  child: Center( // Receives: 0≤w≤300, 0≤h≤200
-                  // Passes LOOSE constraints to child: 0≤w≤300, 0≤h≤200
-    child: Container( // Receives: 0≤w≤300, 0≤h≤200
-      width: 100,
-      height: 50,
-      color: Colors.blue,
-      // Container sizes itself: 100x50 (within constraints)
-      // Reports size UP to Center
-    ),
-    // Center receives child size (100x50)
-    // Center sizes itself to max: 300x200
-    // Center POSITIONS child at offset (100, 75) to center it
-  ),
-)
-
-// Step-by-step:
-// 1. SizedBox gets screen constraints → passes w=300, h=200 down
-// 2. Center gets 300x200 → loosens to 0-300, 0-200 → passes down
-// 3. Container gets 0-300, 0-200 → picks 100x50 → sends size UP
-// 4. Center knows child is 100x50, self is 300x200
-//    → sets child offset to (100, 75) ← parent sets position
-// 5. SizedBox knows Center is 300x200 → reports to its parent
-```
-
-**Why it matters:** This is the foundation of understanding every layout issue in Flutter. "RenderFlex overflowed," "unbounded constraints," and sizing bugs all come from misunderstanding this flow. Interviewers want proof you can debug layout without trial-and-error.
-
-**Common mistake:** Saying "a child knows its position." It doesn't. Also: thinking layout is multi-pass like CSS — Flutter does it in one pass. Another mistake: assuming a widget "has" a size independent of constraints — a `Container()` with no explicit size is completely different depending on what constraints flow into it.
-
----
-
-**Q:** What are BoxConstraints? What are tight vs. loose constraints? What does "unbounded" mean, and why does "Infinity" cause errors?
-
-**A:**
-
-`BoxConstraints` defines four values: `minWidth`, `maxWidth`, `minHeight`, `maxHeight`. Every `RenderBox` receives these from its parent and must choose a size within them.
-
-**Tight constraints** — `minWidth == maxWidth` and/or `minHeight == maxHeight`. The child has no choice; it must be exactly that size. Example: the screen passes tight constraints to your root widget, forcing it to fill the screen.
-
-**Loose constraints** — `minWidth = 0` (or `minHeight = 0`), giving the child freedom to be anywhere from 0 to max. `Center` loosens constraints — it tells its child "you can be as small as you want, up to my size."
-
-**Unbounded constraints** — `maxWidth = double.infinity` or `maxHeight = double.infinity`. Scrollable widgets like `ListView` pass unbounded constraints in the scroll direction because children can be any height. The problem: widgets that try to be as big as possible (like `Container()` with no explicit size) will try to become infinitely large, causing an error.
-
-**Example:**
-```dart
-// Tight: child MUST be 200x200
-BoxConstraints.tight(Size(200, 200))
-// minWidth=200, maxWidth=200, minHeight=200, maxHeight=200
-
-// Loose: child can be 0-200 in both axes
-BoxConstraints.loose(Size(200, 200))
-// minWidth=0, maxWidth=200, minHeight=0, maxHeight=200
-
-// Unbounded in vertical axis (inside ListView)
-// minWidth=0, maxWidth=400, minHeight=0, maxHeight=Infinity
-
-// ❌ This crashes inside a ListView:
-ListView(
-  children: [
-    Column(
-      children: [
-        Expanded(child: Text('Boom')),
-        // Expanded tries to fill remaining space
-        // But Column has infinite height inside ListView
-        // Remaining space = infinity - siblings = infinity
-        // ERROR: RenderFlex children have non-zero flex
-        // but incoming height constraints are unbounded
-      ],
-    ),
-  ],
-)
-
-// ✅ Fix: Give Column a bounded height
-ListView(
-  children: [
-    SizedBox(
-      height: 300,
-      child: Column(
-        children: [
-          Expanded(child: Text('Works')), // Now 300 - siblings
-        ],
-      ),
-    ),
-  ],
-)
-```
-
-**Why it matters:** Nearly every "RenderBox was not laid out" or "Infinity" error trace comes back to a constraints mismatch. Interviewers want to see that you can diagnose these from the error message alone instead of randomly wrapping widgets in `Expanded`.
-
-**Common mistake:** Thinking `double.infinity` is a bug. It's intentional — scrollables use it. The bug is when a child doesn't know how to handle unbounded constraints. Also: not understanding that `Container()` with no size expands to fill constraints — put it in an unbounded context and it breaks.
-
----
-
-**Q:** Why does "RenderFlex overflowed" happen, and how do you fix it?
-
-**A:** `RenderFlex` is the render object behind `Row` and `Column`. The overflow error means the total size of the children along the main axis exceeds the available space. For example, a `Row` with three 200px-wide children in a 400px-wide screen — 600px of children, 400px of space. The excess 200px "overflows" and you see the yellow-black striped warning.
-
-**Root causes and fixes:**
-
-- **Fixed-size children exceed parent** — Use `Flexible` or `Expanded` to let children share space proportionally instead of demanding fixed sizes.
-- **Text too long** — Wrap `Text` in `Flexible` or `Expanded` and set `overflow: TextOverflow.ellipsis`.
-- **Content should scroll** — Wrap the `Row`/`Column` in `SingleChildScrollView` when content legitimately exceeds the screen.
-- **Unbounded constraints cascading** — A `Column` inside a `ListView` (both vertical) causes the Column to get infinite height. Wrap the inner `Column` in a `SizedBox` or use `shrinkWrap: true` on the inner list.
-
-**Example:**
-```dart
-// ❌ OVERFLOW — three 200px items in a 400px row
-Row(
-  children: [
-    Container(width: 200, height: 50, color: Colors.red),
-    Container(width: 200, height: 50, color: Colors.green),
-    Container(width: 200, height: 50, color: Colors.blue),
-  ],
-)
-
-// ✅ FIX 1: Flexible — children share space
-Row(
-  children: [
-    Flexible(child: Container(height: 50, color: Colors.red)),
-    Flexible(child: Container(height: 50, color: Colors.green)),
-    Flexible(child: Container(height: 50, color: Colors.blue)),
-  ],
-)
-
-// ✅ FIX 2: Expanded for equal distribution
-Row(
-  children: [
-    Expanded(child: Container(height: 50, color: Colors.red)),
-    Expanded(flex: 2, child: Container(height: 50, color: Colors.green)),
-    Expanded(child: Container(height: 50, color: Colors.blue)),
-  ],
-)
-
-// ✅ FIX 3: Scrollable when content is legitimately large
-SingleChildScrollView(
-  scrollDirection: Axis.horizontal,
-  child: Row(
-    children: List.generate(10,
-      (i) => Container(width: 200, height: 50, color: Colors.primaries[i]),
-    ),
-  ),
-)
-
-// ✅ FIX 4: Long text
-Row(
-  children: [
-    Icon(Icons.info),
-    Expanded( // Prevents text from overflowing
-      child: Text(
-        'This is a very long text that would overflow without Expanded',
-        overflow: TextOverflow.ellipsis,
-      ),
-    ),
-  ],
-)
-```
-
-**Why it matters:** This is the single most common Flutter layout error. Interviewers want to see that you understand the constraint system well enough to pick the right fix, not just randomly try wrappers.
-
-**Common mistake:** Using `Expanded` outside a `Row`/`Column`/`Flex` — it only works inside flex containers. Another: wrapping everything in `SingleChildScrollView` as a blanket fix, which can create performance issues and doesn't address the real layout problem. Also: confusing `Flexible(fit: FlexFit.loose)` (child can be smaller) with `Expanded` which is `Flexible(fit: FlexFit.tight)` (child MUST fill allocated space).
-
----
-
-**Q:** What is the difference between MediaQuery and LayoutBuilder? When should you use each?
-
-**A:**
-
-**`MediaQuery`** gives you information about the entire screen/window: screen size, pixel ratio, text scale factor, padding (safe area insets), orientation, platform brightness, and more. It comes from the nearest `MediaQuery` widget ancestor (usually set by `MaterialApp`). It reports the same values regardless of where your widget sits in the tree.
-
-**`LayoutBuilder`** gives you the actual constraints that the parent is passing to your widget at that specific position in the tree. It tells you how much space is available for YOUR widget, not the whole screen.
-
-The critical difference: if your widget is inside a `SizedBox(width: 300)`, `MediaQuery.of(context).size.width` still returns the full screen width (e.g., 400), while `LayoutBuilder` gives you `maxWidth: 300`.
-
-**Example:**
-```dart
-// MediaQuery — global screen info
-Widget build(BuildContext context) {
-  final screenWidth = MediaQuery.of(context).size.width;
-  final textScale = MediaQuery.of(context).textScaleFactor;
-  final padding = MediaQuery.of(context).padding; // notch, status bar
-
-  // Good for: choosing between phone/tablet layout
-  if (screenWidth > 600) {
-    return TabletLayout();
-  }
-  return PhoneLayout();
-}
-
-// LayoutBuilder — local available space
-Widget build(BuildContext context) {
-  return SizedBox(
-    width: 300, // Restricts available width
-    child: LayoutBuilder(
-      builder: (context, constraints) {
-        // constraints.maxWidth = 300 (NOT screen width)
-        // constraints.maxHeight = whatever parent allows
-        print(constraints); // BoxConstraints(0.0<=w<=300.0, 0.0<=h<=800.0)
-
-        if (constraints.maxWidth > 200) {
-          return WideVersion();
-        }
-        return NarrowVersion();
-      },
-    ),
-  );
-}
-
-// Real-world: responsive grid that adapts to AVAILABLE space
-LayoutBuilder(
-  builder: (context, constraints) {
-    final columns = (constraints.maxWidth / 150).floor();
-    return GridView.count(
-      crossAxisCount: columns.clamp(1, 6),
-      children: items.map((item) => ItemCard(item)).toList(),
-    );
-  },
-)
-```
-
-**Why it matters:** This tests practical responsive design knowledge. Many apps break when placed in split-screen mode or embedded in a smaller container because the developer used `MediaQuery` when they should have used `LayoutBuilder`.
-
-**Common mistake:** Using `MediaQuery` for responsive layouts inside nested widgets. If your widget is ever going to be reused inside a constrained parent (and in real apps, it almost always is), `LayoutBuilder` is more correct. Another mistake: not knowing that `MediaQuery.of(context)` registers a dependency — your widget rebuilds when ANY MediaQuery property changes (including keyboard appearing), which can cause unnecessary rebuilds. Use `MediaQuery.sizeOf(context)` to depend only on size changes.
-
----
-
-**Q:** What is RepaintBoundary? How does it reduce repaints, and when should you add it?
-
-**A:** `RepaintBoundary` creates a separate compositing layer for its subtree. Without it, when a `RenderObject` is marked as needing repaint, Flutter walks up the tree to find the nearest repaint boundary and repaints everything within that boundary. By default, the nearest boundary might be far up the tree, causing a large region to repaint.
-
-When you insert a `RepaintBoundary`, you're telling Flutter: "The stuff inside here changes independently from the stuff outside. Don't repaint the outside when the inside changes, and vice versa."
-
-**When to use it:**
-- Around widgets that repaint frequently while their surroundings don't (animations, video, canvas drawing).
-- Around expensive-to-paint static content that shouldn't repaint when siblings change.
-- Flutter already adds `RepaintBoundary` automatically in some places (`ListView` items, `Navigator` routes).
-
-**When NOT to use it:**
-- Around widgets that always repaint together with their parent — you'd add layer overhead for no benefit.
-- Everywhere blindly — each `RepaintBoundary` creates a new compositing layer, which uses GPU memory.
-
-**Example:**
-```dart
-// Without RepaintBoundary — spinner causes entire page to repaint
-Column(
-  children: [
-    ExpensiveHeader(),   // Repaints when spinner changes!
-    CircularProgressIndicator(), // Animating 60fps
-    ExpensiveFooter(),   // Repaints when spinner changes!
-  ],
-)
-
-// With RepaintBoundary — only spinner region repaints
-Column(
-  children: [
-    ExpensiveHeader(),   // NOT repainted
-    RepaintBoundary(
-      child: CircularProgressIndicator(), // Only this repaints
-    ),
-    ExpensiveFooter(),   // NOT repainted
-  ],
-)
-
-// Diagnostic: Check if RepaintBoundary is helping
-// In DevTools → "Highlight Repaints" toggle
-// Each repaint boundary flashes a different color when repainted
-// If two regions flash together, add RepaintBoundary between them
-
-// Flutter adds these automatically:
-ListView.builder(
-  itemBuilder: (context, index) {
-    // Each item already gets a RepaintBoundary
-    return ListTile(title: Text('Item $index'));
-  },
-)
-```
-
-**Why it matters:** This tests advanced rendering knowledge. Knowing when repaints happen and how to isolate them separates "it works" Flutter developers from those who can ship at 60fps on low-end devices.
-
-**Common mistake:** Adding `RepaintBoundary` around everything. Each one creates a compositing layer that consumes GPU memory. Overuse can actually make performance worse by exhausting GPU texture memory. Also: thinking `RepaintBoundary` helps with layout — it doesn't. Layout still propagates through it normally.
-
----
-
-**Q:** What is Impeller, and how does it differ from Skia? Why did Flutter move to Impeller?
-
-**A:** **Skia** is an open-source 2D graphics library (by Google) that Flutter originally used for all rendering. Skia compiles shaders at runtime — the first time Flutter encounters a specific drawing operation, Skia compiles the necessary GPU shader. This causes **shader compilation jank**: the first time you see a certain animation or transition, it stutters because the raster thread is blocked waiting for shader compilation. You can pre-warm shaders with `--cache-sksl`, but it's fragile and manual.
-
-**Impeller** is Flutter's custom rendering engine, built from scratch to eliminate shader compilation jank. Its core design difference: all shaders are pre-compiled at build time during the Flutter Engine build. At runtime, there is zero shader compilation. The GPU pipeline state is fully known ahead of time.
-
-**Key differences:**
-- Skia compiles shaders lazily at runtime → first-frame jank. Impeller compiles all shaders AOT → no jank.
-- Skia uses a shared general-purpose codebase. Impeller is purpose-built for Flutter's rendering patterns.
-- Impeller uses Metal on iOS and Vulkan (with OpenGL fallback) on Android.
-- Impeller produces more predictable frame timing — even if average FPS is similar, the worst-case frames are much better.
-
-**Example:**
-```dart
-// The jank scenario Impeller solves:
-
-// With Skia:
-// Frame 1: User opens page with a complex animation
-//   → Skia encounters new shader combination
-//   → Raster thread STALLS for 50-200ms compiling shader
-//   → Frame drops, visible stutter
-//   → Subsequent frames are smooth (shader cached)
-
-// With Impeller:
-// Frame 1: Same complex animation
-//   → All shaders already compiled at build time
-//   → Raster thread proceeds immediately
-//   → Smooth from the very first frame
-
-// You don't need to change any Flutter code.
-// Impeller is enabled at the engine level.
-
-// To check which renderer is active (debug):
-// flutter run --enable-impeller   (Impeller)
-// flutter run --no-enable-impeller (Skia)
-
-// On iOS: Impeller is the default since Flutter 3.16
-// On Android: Impeller became default in Flutter 3.22
-```
-
-**Why it matters:** This shows you keep up with Flutter's evolution and understand the rendering stack beyond the widget layer. Interviewers at companies shipping to low-end Android devices especially care about this because shader jank was their #1 user complaint.
-
-**Common mistake:** Saying Impeller is "faster" than Skia in all cases. It's not necessarily faster in throughput — its advantage is consistency and predictability (no jank spikes). Some complex Skia-optimized paths may even be slightly slower on Impeller currently. The win is eliminating worst-case frame times.
-
----
-
-**Q:** How does Flutter achieve 60/120fps? What are the UI thread and raster thread?
-
-**A:** Flutter targets 60fps (or 120fps on high refresh displays), meaning each frame has a budget of ~16ms (or ~8ms at 120fps). Flutter achieves this through a multi-threaded architecture and an efficient single-pass rendering pipeline.
-
-**UI Thread (Dart)** — Runs all Dart code: build, layout, semantics, and the layer tree construction. This is where your `build()` methods execute, gestures are processed, and animations tick. The output is a `LayerTree` — a tree of compositing instructions (not pixels).
-
-**Raster Thread (GPU)** — Takes the `LayerTree` from the UI thread and converts it into GPU commands. This is where actual pixel rendering happens (rasterization). It runs on a separate thread so that even if rasterization is slow, the UI thread can start preparing the next frame.
-
-**Platform Thread** — Handles platform messages (keyboard, system events, plugin communication).
-
-**I/O Thread** — Handles expensive I/O (image decoding, file reads) so they don't block the UI thread.
-
-**How 60fps is achieved:**
-- Vsync-driven: Flutter only does work when the display is ready for a new frame.
-- Single-pass layout: O(n), not iterative like CSS.
-- Dirty-only rebuilds: Only widgets marked dirty are rebuilt.
-- Layer caching: Unchanged layers from previous frames are reused.
-- Separate threads: Build and rasterize overlap — while the raster thread paints frame N, the UI thread can build frame N+1.
-
-**Example:**
-```dart
-// Frame budget visualization:
-// 60fps = 16.67ms per frame
-// 120fps = 8.33ms per frame
-
-//    Frame N              Frame N+1
-// UI Thread:  [build|layout|paint]  [build|layout|paint]
-// Raster:          [rasterize]           [rasterize]
-//              ← 16ms →
-
-// ❌ Jank: Dart computation blocks UI thread
-void onTap() {
-  setState(() {
-    // This takes 50ms — misses 3 frames!
-    final result = expensiveComputation();
-    _data = result;
-  });
-}
-
-// ✅ Fix: Move heavy work to an isolate
-void onTap() async {
-  final result = await compute(expensiveComputation, input);
-  setState(() => _data = result);
-}
-
-// ✅ Diagnostic: Check thread performance in DevTools
-// "UI" bar shows build/layout time
-// "Raster" bar shows GPU rendering time
-// If UI > 16ms → simplify build/layout (fewer widgets, const)
-// If Raster > 16ms → reduce overdraw, add RepaintBoundary,
-//                     simplify visual effects (shadows, clips)
-
-// Common 120fps pitfall:
-// Your app runs fine at 60fps (16ms budget)
-// On ProMotion/120Hz device, budget drops to 8ms
-// Marginal performance issues become visible jank
-```
-
-**Why it matters:** This is the ultimate performance question. It tests whether you can reason about why an app is janky and whether the bottleneck is on the UI thread (your Dart code) or the raster thread (GPU work). This distinction completely changes the fix.
-
-**Common mistake:** Saying "Flutter runs on a single thread." It doesn't — it has at least four threads. Another: blaming all jank on the GPU. If DevTools shows the UI thread bar is red, the problem is your Dart code (heavy `build()`, synchronous computation), not the rendering. Also: not understanding that `async`/`await` doesn't give you a new thread — Dart isolates are needed for true parallel execution of CPU-intensive work.
-
----
-
-**Q:** Explain Flutter's architecture layers end to end — the Embedder layer, Engine layer, and Framework layer. What does each layer do, and how do they communicate?
-
-**A:** Flutter is a three-layer stack. Each layer has a clear responsibility, and they communicate through well-defined boundaries.
-
-**1. Embedder Layer (Platform-specific, written in platform-native languages)**
-
-This is the thinnest layer, and it's different for every platform. On Android it's Java/Kotlin, on iOS it's Objective-C/Swift, on web it's JavaScript, on desktop it's C++ (Windows), Objective-C (macOS), or C (Linux). Its job is to host the Flutter engine inside the platform's native application model.
-
-Specifically, the embedder:
-- Creates and manages the native window/surface that Flutter renders into.
-- Forwards platform events (touch, keyboard, mouse, lifecycle) to the engine.
-- Manages the vsync signal from the display and delivers it to the engine.
-- Provides the rendering surface (Metal view on iOS, Surface/SurfaceTexture on Android, Canvas on web).
-- Handles platform channels for native plugin communication.
-- Manages accessibility bridges (maps Flutter's semantics tree to platform accessibility APIs like TalkBack/VoiceOver).
-
-**2. Engine Layer (C/C++, ~400k lines)**
-
-This is the core runtime. It's written primarily in C++ and ships as a precompiled binary with every Flutter app. It contains:
-- **Dart Runtime** — The Dart VM (in debug/profile) or the AOT-compiled runtime support (in release). Manages Dart memory, garbage collection, and isolates.
-- **Rendering Engine** — Impeller (or Skia on older builds). Takes the layer tree from the framework and rasterizes it into GPU commands and ultimately pixels.
-- **Text Layout** — Uses libraries like HarfBuzz (text shaping), ICU (internationalization), and minikin/libtxt for paragraph layout. This is why Flutter text rendering is consistent across platforms.
-- **Platform Channels codec** — Serializes/deserializes messages between Dart and native code.
-- **I/O and networking** — Low-level file access, HTTP, sockets — abstracted away from the platform.
-
-**3. Framework Layer (Dart, ~700k lines)**
-
-This is what you interact with as a Flutter developer. It's written entirely in Dart and is the open-source `flutter/flutter` repository. From bottom to top:
-- **`dart:ui`** — The thin binding layer. Exposes engine capabilities to Dart (Canvas, Paint, SceneBuilder, Window). This is the bridge between the engine and the framework.
-- **Rendering** — The `RenderObject` tree, layout algorithm, painting, hit testing.
-- **Widgets** — The reactive widget layer (Element tree, reconciliation, `StatelessWidget`, `StatefulWidget`, `InheritedWidget`).
-- **Material / Cupertino** — High-level opinionated design-language widgets (buttons, dialogs, navigation).
-- **Animation / Gestures / Painting / Foundation** — Cross-cutting utilities used throughout.
-
-**Communication between layers:**
-- Framework → Engine: The framework builds a `LayerTree` and submits it to the engine via `dart:ui`'s `SceneBuilder` and `window.render(scene)`.
-- Engine → Framework: The engine delivers vsync callbacks, platform events, and lifecycle events up to the framework via `dart:ui` callback hooks like `window.onBeginFrame` and `window.onPointerDataPacket`.
-- Engine ↔ Embedder: The embedder calls into the engine's C API to deliver surface handles, input events, and vsync. The engine calls back into the embedder for platform-specific tasks (clipboard, haptics, etc.).
-- Framework ↔ Native code: Platform channels pass binary messages through the engine to the embedder, which routes them to native plugin code.
-
-**Example:**
-```dart
-// Trace a tap from hardware to your Dart code:
-
-// 1. EMBEDDER: Android Activity receives MotionEvent from OS
-//    → FlutterView converts to Flutter-format pointer data
-//    → Sends to engine via JNI
-
-// 2. ENGINE: Receives pointer data
-//    → Converts to PointerDataPacket
-//    → Calls Dart callback: window.onPointerDataPacket
-
-// 3. FRAMEWORK (dart:ui): Receives PointerDataPacket
-//    → GestureBinding dispatches to hit-test results
-//    → GestureDetector's onTap fires
-//    → Your callback runs:
-
-GestureDetector(
-  onTap: () {
-    // Your Dart code here — running in the Framework layer
-    setState(() => _tapped = true);
-    // setState triggers build → new LayerTree
-    // → Framework sends LayerTree DOWN to engine
-    // → Engine rasterizes to pixels
-    // → Embedder presents frame to native surface
-  },
-  child: Text('Tap me'),
-)
-
-// Platform channel communication:
-// Dart Framework → Engine (binary codec) → Embedder → Native code
-const platform = MethodChannel('com.example/battery');
-final level = await platform.invokeMethod('getBatteryLevel');
-// Embedder receives this on platform thread → calls native API
-// Result flows back: Native → Embedder → Engine → Dart
-```
-
-**Why it matters:** This question tests whether you see Flutter as a holistic system or just a widget toolkit. Understanding the layer stack is essential for: writing platform plugins, debugging platform-specific issues, optimizing rendering performance, and contributing to the Flutter engine. Senior roles especially demand this knowledge.
-
-**Common mistake:** Saying Flutter uses the platform's native rendering (like React Native). Flutter does NOT use OEM widgets — it owns every pixel via its own rendering engine. The embedder provides a canvas and events, nothing more. Another mistake: thinking `dart:ui` is the engine. It's a Dart binding to the engine — a thin API surface, not the engine itself. Also: not knowing that text layout lives in the engine layer, which is why Flutter text looks identical on Android and iOS.
-
----
-
-**Q:** How do Flutter and Dart work together? How is the Dart VM embedded inside the Flutter engine, and how does Dart code compile to native ARM code in release mode?
-
-**A:** The Dart VM is compiled directly into the Flutter engine binary. When a Flutter app launches, the embedder initializes the engine, which in turn boots the Dart runtime. Dart doesn't run separately — it's a component inside the engine process.
-
-**Debug mode (JIT — Just-In-Time):**
-- The full Dart VM is included, complete with JIT compiler and interpreter.
-- Dart source code is compiled to an intermediate representation called **Kernel bytecode** (`.dill` file).
-- At runtime, the VM interprets this bytecode and JIT-compiles hot paths to machine code.
-- This enables hot reload: the VM can inject updated Kernel bytecode into the running isolate, patch class definitions, and re-run `build()` methods — without restarting the app.
-- Performance is lower than release because of JIT overhead and assertions being enabled.
-
-**Release mode (AOT — Ahead-Of-Time):**
-- The Dart compiler (`gen_snapshot`) takes the Kernel bytecode and compiles it to native ARM/x86 machine code at build time.
-- The output is a shared library (`.so` on Android, part of `App.framework` on iOS) containing precompiled native instructions.
-- At runtime, a slimmed-down Dart runtime (no JIT, no interpreter, no compiler) manages memory and garbage collection, but all code is already native.
-- This eliminates JIT warm-up, reduces memory usage, and produces consistent performance.
-- The trade-off: no hot reload, no `dart:mirrors` (reflection), and tree-shaking removes unused code.
-
-**How Dart calls the engine (going down):**
-Dart code calls methods on `dart:ui` classes (like `Canvas.drawRect`, `SceneBuilder.pushTransform`, `PlatformDispatcher.scheduleFrame`). These are FFI bindings — Dart `native` functions that map directly to C++ engine methods. When the framework finishes building a frame, it calls `window.render(scene)`, which hands the composited `Scene` object to the engine for rasterization.
-
-**How the engine calls Dart (going up):**
-The engine holds references to specific Dart callback functions registered via `dart:ui`. When the engine receives a vsync signal, it invokes `PlatformDispatcher.onBeginFrame` and `onDrawFrame`. When touch input arrives, it calls `PlatformDispatcher.onPointerDataPacket`. These callbacks are the entry points through which the engine drives the Dart framework's frame loop.
-
-**Example:**
-```dart
-// Debug mode compilation chain:
-// .dart files → (frontend compiler) → Kernel .dill
-// Kernel .dill → (Dart VM) → interpreted + JIT-compiled at runtime
-// Result: Hot reload works, assertions enabled, slower execution
-
-// Release mode compilation chain:
-// .dart files → (frontend compiler) → Kernel .dill
-// Kernel .dill → (gen_snapshot / AOT compiler) → native ARM .so / .framework
-// Result: No VM overhead, ~5-10x faster startup, no hot reload
-
-// Profile mode: AOT-compiled like release, but with
-// observatory/DevTools support and some debugging symbols
-
-// The dart:ui bridge in action:
-import 'dart:ui' as ui;
-
-// Framework calling ENGINE (going down):
-void renderFrame() {
-  final recorder = ui.PictureRecorder();
-  final canvas = ui.Canvas(recorder);
-  canvas.drawRect(
-    Rect.fromLTWH(0, 0, 100, 100),
-    Paint()..color = Color(0xFF0000FF),
-  );
-  // canvas.drawRect is a native call into the C++ engine
-  // The engine records this draw command for later rasterization
-
-  final picture = recorder.endRecording();
-  final builder = ui.SceneBuilder();
-  builder.pushOffset(0, 0);
-  builder.addPicture(Offset.zero, picture);
-  final scene = builder.build();
-
-  // This hands the scene to the engine's raster thread
-  ui.PlatformDispatcher.instance.views.first.render(scene);
-}
-
-// ENGINE calling framework (going up):
-void main() {
-  // Register callbacks that the engine will invoke
-  ui.PlatformDispatcher.instance.onBeginFrame = (Duration timestamp) {
-    // Engine calls this at every vsync
-    // Framework uses this to tick animations
-  };
-
-  ui.PlatformDispatcher.instance.onDrawFrame = () {
-    // Engine calls this after onBeginFrame
-    // Framework uses this to build, layout, paint
-  };
-
-  // Request the engine to schedule a frame
-  ui.PlatformDispatcher.instance.scheduleFrame();
-}
-// In practice, you never write this — WidgetsBinding sets it all up.
-// But this is what happens under the hood.
-```
-
-**Why it matters:** This question separates Flutter developers who understand the full compilation and runtime model from those who just write Dart widgets. Knowing JIT vs AOT explains why hot reload only works in debug, why release apps are faster, and why reflection is unavailable. It's critical for debugging build failures, understanding platform-specific packaging, and making informed decisions about code size and startup time.
-
-**Common mistake:** Saying "Dart is interpreted." In release mode, Dart is fully AOT-compiled to native machine code — there's no interpreter involved. Another mistake: thinking the Dart VM runs separately from Flutter, like Node.js runs V8. The Dart runtime is statically linked into the Flutter engine binary — they're one process. Also: confusing JIT mode with "debug is slow because it's not optimized." JIT mode is slower partly because assertions are enabled and DevTools instrumentation is active, not just because of JIT itself.
-
----
-
-**Q:** What is pub.dev? How does pubspec.yaml manage dependencies? What is the difference between dependencies and dev_dependencies, and how does semantic versioning work with `^`, `>=`, and `==`?
-
-**A:** **pub.dev** is Dart's and Flutter's official package registry — the equivalent of npm for JavaScript or PyPI for Python. It hosts open-source packages that you can search, browse, and add to your project. Each package has a pub score based on popularity, health (static analysis, documentation), and maintenance.
-
-**pubspec.yaml** is the project configuration file at the root of every Dart/Flutter project. It declares your project's name, version, environment constraints, and all dependencies. When you run `flutter pub get`, the pub resolver reads this file, resolves compatible versions for all direct and transitive dependencies, downloads them, and writes the exact resolved versions to `pubspec.lock`.
-
-**`dependencies` vs `dev_dependencies`:**
-- **`dependencies`** — Packages needed to run your app. They ship in the final binary. Examples: `http`, `provider`, `flutter_bloc`, `cached_network_image`.
-- **`dev_dependencies`** — Packages needed only during development and testing. They are NOT included in the release build. Examples: `flutter_test`, `flutter_lints`, `mockito`, `build_runner`, `integration_test`.
-
-The distinction matters for app size and compile time. If you put a testing framework in `dependencies`, it gets compiled into your production binary for no reason.
-
-**Semantic versioning:**
-Packages follow semver: `MAJOR.MINOR.PATCH` (e.g., `2.4.1`).
-- MAJOR (2.x.x) — Breaking API changes.
-- MINOR (x.4.x) — New features, backward-compatible.
-- PATCH (x.x.1) — Bug fixes, backward-compatible.
-
-**Version constraint syntax:**
-- **`^1.5.0`** (caret syntax) — Means `>=1.5.0 <2.0.0`. Allows any minor/patch upgrade but not the next major version. This is the most commonly used and recommended constraint. It says: "I trust this package to not break me within the same major version."
-- **`>=1.5.0 <3.0.0`** — Explicit range. Use when you know your code works across major versions.
-- **`==1.5.0`** (exact pin) — Locks to exactly this version. Discourages updates and causes version conflicts in consumers of your package. Rarely appropriate.
-- **`>=1.5.0`** (open-ended) — No upper bound. Dangerous because future major versions could break your code.
-- **`any`** — Accepts any version. Only useful in very early prototyping.
-
-**Example:**
 ```yaml
-# pubspec.yaml
 name: my_flutter_app
-description: A demo application
-version: 1.0.0+1  # appVersion+buildNumber
+version: 1.0.0+1            # appVersion+buildNumber
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'    # Dart SDK constraint
-  flutter: '>=3.10.0'       # Flutter SDK constraint
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   flutter:
-    sdk: flutter             # Flutter SDK dependency
-  provider: ^6.1.0           # >=6.1.0 <7.0.0
-  http: ^1.2.0               # >=1.2.0 <2.0.0
-  shared_preferences: '>=2.0.0 <3.0.0'  # Explicit range
-  
-  # Git dependency (for unreleased packages)
-  my_package:
-    git:
-      url: https://github.com/user/my_package.git
-      ref: main              # branch, tag, or commit hash
-  
-  # Path dependency (for local packages / monorepos)
+    sdk: flutter
+  provider: ^6.1.0         # >=6.1.0 <7.0.0
+  http: ^1.2.0             # >=1.2.0 <2.0.0
   shared_models:
-    path: ../shared_models
+    path: ../shared_models # local package / monorepo
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0     # Linting rules — dev only
-  mockito: ^5.4.0           # Test mocking — dev only
-  build_runner: ^2.4.0      # Code generation — dev only
-
-# After running `flutter pub get`, pubspec.lock records:
-# provider: 6.1.2       ← exact resolved version
-# http: 1.2.1           ← exact resolved version
-# These locked versions ensure reproducible builds.
+  flutter_lints: ^5.0.0    # dev only
+  build_runner: ^2.4.0     # dev only
 ```
 
-```dart
-// Checking dependency info programmatically:
-// $ flutter pub deps          — shows dependency tree
-// $ flutter pub outdated      — shows available upgrades
-// $ flutter pub upgrade       — upgrades within constraints
+**Step 5 — Resolving conflicts.**
+If two packages need incompatible versions of a third, the solver fails with "incompatible version constraints." Fix by loosening/upgrading constraints. As a last resort, `dependency_overrides` forces a version globally — use it only temporarily, since mismatched APIs can crash at runtime.
 
-// Common scenario: version conflict
-// Your app depends on package_a: ^1.0.0 and package_b: ^2.0.0
-// But package_b internally depends on package_a: ^2.0.0
-// Result: pub solver fails — "incompatible version constraints"
-// Fix: upgrade your package_a constraint or find compatible versions
-
-// dependency_overrides — nuclear option for conflicts
-dependency_overrides:
-  package_a: ^2.0.0  # Forces this version globally
-  # WARNING: This can cause runtime crashes if APIs changed
-  # Only use temporarily while waiting for package updates
+```bash
+flutter pub deps        # dependency tree
+flutter pub outdated    # available upgrades
+flutter pub upgrade     # upgrade within constraints
 ```
 
-**Why it matters:** Every Flutter project starts with pubspec.yaml. Interviewers test this to gauge whether you can manage real-world projects — resolving version conflicts, structuring monorepos with path dependencies, and keeping build sizes small by correctly separating dev dependencies. Senior candidates are expected to understand the resolver and know how to debug dependency conflicts.
+**Why interviewers ask:** Every project starts with pubspec.yaml. They gauge whether you can manage real projects — resolving conflicts, structuring monorepos with path dependencies, and keeping builds small by separating dev deps.
 
-**Common mistake:** Using `==` for all dependencies. This makes version resolution nearly impossible in any non-trivial project because transitive dependencies can't find compatible versions. The caret `^` syntax exists precisely to allow safe, flexible resolution. Another mistake: putting `build_runner`, `mockito`, or `flutter_test` in `dependencies` instead of `dev_dependencies` — this bloats the release binary. Also: not committing `pubspec.lock` for apps (you should, for reproducible builds) while committing it for packages (you shouldn't, since consumers need flexible resolution).
+**Common mistake:** Using `==` for everything, which makes resolution nearly impossible. Putting `build_runner`/`mockito`/`flutter_test` in `dependencies`. Also: commit `pubspec.lock` for **apps** (reproducible builds) but not for **packages** (consumers need flexible resolution).
+
+**Follow-ups they may ask:**
+- *"What does the caret `^` mean?"* → "Up to the next major" — `^1.5.0` is `>=1.5.0 <2.0.0`.
+- *"Should you commit pubspec.lock?"* → Yes for apps, no for reusable packages.
+
+**Related:** [Q21 — SDK channels & versions](#q21) · [Q23 — SDK constraints](#q23)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are Flutter's SDK channels — stable, beta, and master? What does each mean, and which should you use in production?
+<a id="q21"></a>
+## 21. What are Flutter's SDK channels — stable, beta, and master? Which should production use?
 
-**A:** Flutter distributes its SDK through three channels, each representing a different trade-off between stability and access to new features.
+> Common · Easy–Medium
 
-**Stable** — Production-ready releases. These go through extensive testing, including Google's own production apps (Google Pay, Google Ads, etc.). Releases happen roughly every quarter (e.g., Flutter 3.22, 3.24). All known critical bugs are fixed or documented. API surfaces are frozen — no breaking changes between stable patch releases (3.22.0 → 3.22.1 → 3.22.2). This is the only channel recommended for production apps.
+**Short answer (say this):**
+"Stable is the production-ready track, released about quarterly and heavily tested, including by Google's own apps — it's the only channel for production. Beta is a monthly preview of nearly-final features. Master is the bleeding edge, updated many times a day, and can break anytime — only for Flutter contributors or experiments."
 
-**Beta** — Pre-release preview. Updated roughly monthly. Contains features that are complete but still undergoing broader testing. May have bugs, and APIs might still change before they reach stable. Use this if you need a specific upcoming feature and are willing to accept some risk, or to pre-test your app against the next stable release.
+**Let's understand it fully:**
 
-**Master** — The bleeding edge. This is the `main` branch of the Flutter repository. Updated with every merged commit, multiple times per day. Contains experimental features, work-in-progress code, and can break at any time. No stability guarantees. Use this only if you're contributing to Flutter itself or need access to a very specific fix/feature that hasn't landed in beta yet.
+**Step 1 — Stable (use this in production).**
+Production-ready releases, roughly quarterly (e.g. 3.22, 3.24). Extensively tested, including in Google Pay and Google Ads. APIs are frozen across patch releases (3.22.0 → 3.22.1), so no breaking changes within a stable line.
 
-**Example:**
+**Step 2 — Beta (preview / pre-test).**
+Updated about monthly. Features are complete but still in broader testing; APIs may still change before they reach stable. Use it to try an upcoming feature or to pre-test your app against the next stable — but don't ship it to users.
+
+**Step 3 — Master (bleeding edge).**
+The `main` branch of the Flutter repo, updated with every merge, many times a day. Experimental and can break anytime. Only for contributing to Flutter or grabbing a fix that hasn't reached beta.
+
 ```bash
-# Check your current channel
-flutter channel
-# Output: Flutter is on the stable channel
+flutter channel              # shows current channel
+flutter channel stable       # for production
+flutter upgrade              # always upgrade after switching
 
-# Switch channels
-flutter channel stable   # For production
-flutter channel beta     # For preview/testing
-flutter channel master   # For bleeding edge
-
-# After switching, always upgrade
-flutter upgrade
-
-# Check version
 flutter --version
-# Flutter 3.24.0 • channel stable • https://github.com/flutter/flutter.git
-# Dart 3.5.0 • DevTools 2.37.2
-
-# Pin a specific version (CI best practice)
-# In your CI pipeline, don't just use "latest stable"
-# Pin to a specific version for reproducible builds:
-# flutter version 3.22.2
-
-# Channel comparison for a real scenario:
-# 
-# You need Impeller on Android (was experimental, now default)
-# 
-# master:  Has it with latest fixes (might break other things)
-# beta:    Has it, fairly stable, some edge cases
-# stable:  Has it — fully tested and production-ready
-#
-# Rule: wait for stable unless you have a hard deadline
-#       and the feature is only in beta
+# Flutter 3.24.0 • channel stable • ...
 ```
+
+**Step 4 — Pin versions in CI.**
+Don't rely on "latest stable" in CI. Pin a specific version so every machine builds the same thing, avoiding "works on my machine" drift.
+
+```bash
+flutter version 3.22.2       # pin a specific version in CI
+```
+
+**Step 5 — Channel vs version.**
+A channel is a *release track*; a version is a *specific build*. You can be on the stable channel at version 3.22.2 — the channel says which track you follow, not which exact version.
+
+**Why interviewers ask:** It tests professional maturity. Juniors chase shiny features on master; seniors understand release management, reproducible builds, and the cost of debugging framework bugs instead of shipping features.
+
+**Common mistake:** Using beta/master in production because "stable lacks a feature." There is almost always a safer workaround on stable. Also not pinning the SDK version in CI. And confusing channels with versions.
+
+**Follow-ups they may ask:**
+- *"How do you test against the next release safely?"* → Run CI on beta periodically to catch breaking changes early, without shipping beta.
+- *"Channel vs version — what's the difference?"* → Channel = track (stable/beta/master); version = exact build (e.g. 3.22.2).
+
+**Related:** [Q20 — version constraints](#q20) · [Q19 — dev loop](#q19)
+
+[↑ Back to top](#toc)
+
+---
+
+# G. How Flutter & Dart fit together (deep architecture)
+
+---
+
+<a id="q22"></a>
+## 22. Explain Flutter's three architecture layers — Embedder, Engine, and Framework. How do they communicate?
+
+> Deeper question · Hard
+
+**Short answer (say this):**
+"Flutter is three layers. The Embedder is the thin, platform-specific host that gives Flutter a window, input events, and vsync. The Engine is the C++ core that holds the Dart runtime, the rendering engine, and text layout. The Framework is the Dart layer I actually use — render objects, widgets, and Material/Cupertino. The framework sends layer trees down to the engine, and the engine sends events and vsync up."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: stage, crew, and script.**
+The Embedder is the *stage* the platform provides. The Engine is the *backstage crew* (lights, sound, the heavy machinery). The Framework is the *script and actors* you write. You work on the script; the crew turns it into a real show on the stage.
+
+**Step 2 — Embedder layer (platform-native, thin).**
+Different for each platform (Kotlin/Java on Android, Swift/Obj-C on iOS, C++ on Windows, JS on web). It hosts the engine inside the native app: creates the window/surface, forwards touch/keyboard/lifecycle events, delivers the display's vsync, provides the render surface, routes platform channels, and bridges accessibility (TalkBack/VoiceOver).
+
+**Step 3 — Engine layer (C/C++, ships precompiled).**
+The core runtime, shipped as a precompiled binary with every app. It contains:
+- The **Dart runtime** (the VM in debug/profile; AOT runtime support in release) — memory, GC, isolates.
+- The **rendering engine** — Impeller (or Skia) turns the layer tree into pixels.
+- **Text layout** — HarfBuzz, ICU, libtxt; this is why text looks identical across platforms.
+- **Platform-channel codec** and low-level I/O.
+
+**Step 4 — Framework layer (Dart, what you write).**
+From bottom to top:
+- **`dart:ui`** — the thin binding exposing engine features (Canvas, SceneBuilder).
+- **Rendering** — the RenderObject tree, layout, paint, hit-testing.
+- **Widgets** — Element tree, reconciliation, Stateless/Stateful/Inherited widgets.
+- **Material / Cupertino** — the high-level design widgets.
+
+**Step 5 — How they talk.**
+- Framework → Engine: builds a `LayerTree` and submits it via `dart:ui` (`SceneBuilder`, `window.render(scene)`).
+- Engine → Framework: delivers vsync, input, and lifecycle up via `dart:ui` hooks (`onBeginFrame`, `onPointerDataPacket`).
+- Engine ↔ Embedder: the embedder calls the engine's C API (surface, input, vsync); the engine calls back for platform tasks (clipboard, haptics).
+- Framework ↔ Native code: platform channels carry binary messages through the engine to the embedder, which routes to plugin code.
 
 ```dart
-// Practical channel strategy for teams:
+// Trace a tap, hardware → your Dart:
+// 1. EMBEDDER: Android gets a MotionEvent → sends pointer data to engine
+// 2. ENGINE: builds a PointerDataPacket → calls window.onPointerDataPacket
+// 3. FRAMEWORK: GestureBinding hit-tests → your onTap runs:
+GestureDetector(
+  onTap: () => setState(() => _tapped = true),
+  // setState → build → new LayerTree → DOWN to engine → rasterized → shown
+  child: const Text('Tap me'),
+)
 
-// 1. PRODUCTION APP: Always stable
-//    - pubspec.yaml environment: sdk: '>=3.4.0 <4.0.0'
-//    - CI runs on pinned stable version
-//    - Upgrade stable versions deliberately, not automatically
-
-// 2. PRE-RELEASE TESTING: Run CI on beta periodically
-//    - Catches breaking changes before they hit stable
-//    - Gives you time to file bugs upstream
-//    - Don't ship beta to users
-
-// 3. NEVER use master for anything user-facing
-//    - It breaks. Regularly. By design.
-//    - It's for Flutter contributors and experimenters
-
-// Checking what's coming in the next release:
-// https://github.com/flutter/flutter/wiki/Hotfixes-to-the-Stable-Channel
-// This page lists every cherrypick and hotfix applied to stable
+// Platform channel: Dart → Engine → Embedder → native code
+const platform = MethodChannel('com.example/battery');
+final level = await platform.invokeMethod('getBatteryLevel');
 ```
 
-**Why it matters:** This tests professional maturity. Junior developers might chase shiny features on master and ship unstable code. Senior developers understand release management, reproducible builds, and the cost of debugging framework bugs instead of shipping features. Interviewers evaluate whether you can make responsible engineering decisions for a team.
+**Why interviewers ask:** It shows whether you see Flutter as a whole system or just a widget toolkit. It matters for writing plugins, debugging platform-specific issues, and optimizing rendering — exactly what senior roles expect.
 
-**Common mistake:** Using `beta` or `master` in production because "stable is missing a feature I need." In almost all cases, there's a workaround on stable that's safer than upgrading the entire SDK. Another mistake: not pinning SDK versions in CI — if one developer is on 3.22 and another on 3.24, you get "works on my machine" inconsistencies. Also: confusing channels with versioning. You can be on the stable channel at version 3.22.2 — the channel determines which release track you follow, not a specific version.
+**Common mistake:** Saying Flutter uses the platform's native widgets like React Native. It does **not** — Flutter owns every pixel via its own engine; the embedder only gives a canvas and events. Also thinking `dart:ui` *is* the engine — it's just a thin Dart binding to it.
+
+**Follow-ups they may ask:**
+- *"Why does Flutter text look the same on iOS and Android?"* → Text layout lives in the engine (HarfBuzz/ICU), not in the OS.
+- *"What does the embedder NOT do?"* → It doesn't render widgets; it only hosts the engine and forwards events/surface/vsync.
+
+**Related:** [Q23 — Dart runtime in the engine](#q23) · [Q12 — threads](#q12) · [Q17 — pipeline](#q17)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q23"></a>
+## 23. How do Flutter and Dart work together? How is the Dart VM embedded, and how does Dart reach native code (JIT vs AOT)?
+
+> Deeper question · Hard
+
+**Short answer (say this):**
+"The Dart runtime is compiled right into the Flutter engine — Dart doesn't run as a separate process. In debug it's JIT-compiled, which is what makes hot reload possible. In release it's AOT-compiled to native machine code, so there's no interpreter and startup is fast. Dart talks to the engine through `dart:ui` bindings that map to C++ engine calls."
+
+**Let's understand it fully:**
+
+**Step 1 — The Dart runtime lives inside the engine.**
+When a Flutter app launches, the embedder boots the engine, which boots the Dart runtime. Dart is a *component inside the engine process* — not a separate program like Node running V8.
+
+**Step 2 — Debug mode (JIT — Just-In-Time).**
+The full Dart VM is included with its JIT compiler. Source is compiled to **Kernel bytecode** (`.dill`); at runtime the VM runs it and JIT-compiles hot paths. This is what enables **hot reload**: the VM can inject updated Kernel into the running isolate and re-run `build()`. It's slower than release because of JIT overhead and enabled assertions.
+
+```text
+debug:   .dart → Kernel .dill → VM interprets + JIT-compiles at runtime
+         → hot reload works, assertions on, slower
+```
+
+**Step 3 — Release mode (AOT — Ahead-Of-Time).**
+`gen_snapshot` compiles the Kernel to native ARM/x86 at **build time**. The output is a shared library (`.so` on Android, inside `App.framework` on iOS). At runtime a slimmed-down Dart runtime (no JIT, no interpreter) only manages memory, GC, and isolates — all code is already native.
+
+```text
+release: .dart → Kernel .dill → gen_snapshot (AOT) → native .so / .framework
+         → no VM compile, fast startup, no hot reload, no reflection
+profile: AOT like release, but with DevTools/profiling support
+```
+
+**Step 4 — How Dart calls the engine (going down).**
+Dart calls `dart:ui` classes (`Canvas.drawRect`, `SceneBuilder.pushTransform`). These are bindings that map to C++ engine methods. When a frame is ready, the framework calls `window.render(scene)` to hand the composited scene to the engine for rasterization.
+
+```dart
+import 'dart:ui' as ui;
+// Framework → Engine (down):
+final recorder = ui.PictureRecorder();
+final canvas = ui.Canvas(recorder);
+canvas.drawRect(const Rect.fromLTWH(0, 0, 100, 100),
+    ui.Paint()..color = const ui.Color(0xFF0000FF)); // native call into C++
+final scene = (ui.SceneBuilder()..addPicture(ui.Offset.zero, recorder.endRecording())).build();
+ui.PlatformDispatcher.instance.views.first.render(scene); // hand to engine
+```
+
+**Step 5 — How the engine calls Dart (going up).**
+The engine holds references to Dart callbacks registered via `dart:ui`. At each vsync it calls `onBeginFrame` then `onDrawFrame`; on touch it calls `onPointerDataPacket`. These callbacks drive the framework's frame loop (you never write them — `WidgetsBinding` sets them up).
+
+**Why interviewers ask:** It separates devs who understand the full compile/runtime model from those who only write widgets. It explains why hot reload is debug-only, why release is faster, and why reflection (`dart:mirrors`) is unavailable.
+
+**Common mistake:** Saying "Dart is interpreted." In release it's fully AOT-compiled native code. Also thinking the Dart VM runs separately like Node — it's statically linked into the engine, one process. And blaming JIT alone for debug slowness — assertions and instrumentation also matter.
+
+**Follow-ups they may ask:**
+- *"Why no hot reload in release?"* → AOT code is fixed native machine code; there's no VM to inject new Kernel into.
+- *"Why is reflection unavailable in release?"* → AOT tree-shakes unused code, so `dart:mirrors` can't inspect types at runtime.
+
+**Related:** [Q22 — engine layer](#q22) · [Q19 — JIT enables hot reload](#q19)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="cheatsheet"></a>
+
+# Cheat Sheet (last-night review)
+
+Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
+
+## Quick comparison tables
+
+**The three trees**
+
+| Tree | What it is | Lifespan | Cost |
+|---|---|---|---|
+| Widget | the blueprint you write | thrown away each rebuild | cheap |
+| Element | the living bridge + holds `State` | long-lived | medium |
+| RenderObject | does layout & paint | reused, rarely recreated | expensive |
+
+**Stateless vs Stateful**
+
+| | StatelessWidget | StatefulWidget |
+|---|---|---|
+| Changing data | none | yes, in a `State` object |
+| Rebuilds itself | no (only parent rebuilds it) | yes, via `setState` |
+| State lives on | — | the Element |
+
+**Keys**
+
+| Key | Identity by | Use for |
+|---|---|---|
+| `ValueKey` | a value (`==`) | list items with a stable id |
+| `ObjectKey` | reference (`identical`) | objects equal by value, differ by reference |
+| `UniqueKey` | always unique | force a fresh element/state |
+| `GlobalKey` | app-wide | reach state from outside (e.g. Form) |
+
+**MediaQuery vs LayoutBuilder**
+
+| MediaQuery | LayoutBuilder |
+|---|---|
+| whole-screen info | your actual constraints |
+| same everywhere | depends on your spot |
+| phone vs tablet breakpoints | adapt to local space |
+
+**Constraints**
+
+| Term | Meaning |
+|---|---|
+| tight | min == max (no choice) |
+| loose | min = 0 (free up to max) |
+| unbounded | max = infinity (inside scrollables) |
+
+**Hot Reload vs Hot Restart vs Full Restart**
+
+| | Hot Reload | Hot Restart | Full Restart |
+|---|---|---|---|
+| State | kept | wiped | wiped |
+| Runs `main`/`initState` | no | yes | yes |
+| Native code | no | no | rebuilt |
+| Speed | ~1s | a few s | 30s+ |
+
+**JIT vs AOT**
+
+| JIT (debug) | AOT (release) |
+|---|---|
+| compile while running | compile before running |
+| enables hot reload | fast startup, native |
+| slower (assertions on) | no reflection, no hot reload |
+
+## One-line reminders
+
+- **Three trees**: Widget = cheap blueprint, Element = living bridge + state, RenderObject = expensive layout/paint. ([Q1](#q1))
+- **Widgets are immutable** and cheap; the expensive render objects are reused via the element. ([Q2](#q2))
+- **Keys** match widgets by identity, not position — use `ValueKey(id)` for lists, `GlobalKey` sparingly. ([Q3](#q3))
+- **Reconciliation**: same type + same key → reuse; else discard and rebuild. ([Q4](#q4))
+- **State lives on the Element**, which is why it survives rebuilds. ([Q5](#q5))
+- **Lifecycle**: initState (setup) → didChangeDependencies (safe context) → build; dispose to clean up. ([Q6](#q6))
+- **`setState`** changes data + marks dirty → one rebuild next frame of this subtree only. Check `mounted` after `await`. ([Q7](#q7))
+- **BuildContext IS the Element** — no inherited lookups in `initState`; use `didChangeDependencies`. ([Q8](#q8))
+- **InheritedWidget** rebuilds only registered dependents; Provider wraps it with a nicer API. ([Q9](#q9))
+- **`const`** widgets are identical objects → reconciliation skips them instantly. ([Q10](#q10))
+- **RepaintBoundary** isolates frequent repaints onto their own layer — don't overuse it. ([Q11](#q11))
+- **UI thread = your Dart**, **raster thread = GPU**. Red UI bar → fix your code; red raster bar → fix GPU work. ([Q12](#q12))
+- **Layout**: constraints down, sizes up, parent sets position — single pass, O(n). ([Q13](#q13))
+- **Unbounded** (infinity) constraints inside scrollables break fill/flex widgets — give a bounded size. ([Q14](#q14))
+- **RenderFlex overflow** → `Expanded`/`Flexible`, ellipsis text, or a scroll view. ([Q15](#q15))
+- **MediaQuery** = whole screen; **LayoutBuilder** = your actual space. Prefer LayoutBuilder for reusable widgets. ([Q16](#q16))
+- **Pipeline**: build → layout → paint (layers) → composite → rasterize (raster thread) → display. ([Q17](#q17))
+- **Impeller** precompiles shaders (no jank); **Skia** compiled them at runtime (first-frame jank). ([Q18](#q18))
+- **Hot Reload** keeps state; **Hot Restart** wipes Dart state; **Full Restart** rebuilds native. ([Q19](#q19))
+- **`^1.5.0`** = `>=1.5.0 <2.0.0`; keep test tools in `dev_dependencies`; commit `pubspec.lock` for apps. ([Q20](#q20))
+- **Stable** for production; **beta** to pre-test; **master** only for contributors. Pin versions in CI. ([Q21](#q21))
+- **Three layers**: Embedder (host) → Engine (C++ core, Dart runtime, rendering) → Framework (your Dart). ([Q22](#q22))
+- **Dart is JIT in debug** (hot reload), **AOT native in release** (fast, no reflection); the runtime is inside the engine. ([Q23](#q23))
+
+[↑ Back to top](#toc)
+
+---
+
+# Practice: how interviewers go deeper
+
+Interviewers rarely stop at one question. They keep digging to test your depth. Practice answering this chain out loud — calmly, step by step:
+
+1. *"What are the three trees?"* → Widget (blueprint), Element (living bridge + state), RenderObject (layout/paint).
+2. *"Then why can Flutter rebuild widgets 60 times a second?"* → Widgets are cheap; the element reuses the expensive render objects.
+3. *"How does the element decide to reuse?"* → Same type and key → reuse and update properties; else discard and rebuild.
+4. *"So why do keys matter in a list?"* → Without keys, matching is by position, so reordering attaches state to the wrong item.
+5. *"How would you make a frequently-changing item cheaper?"* → `const` for the static parts, `RepaintBoundary` to isolate its repaints, and keep `build()` light.
+
+Being able to calmly go step by step like this — without guessing — is exactly what makes you sound **senior**, in both remote and BD interviews.
+
+[↑ Back to top](#toc)

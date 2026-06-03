@@ -1,1465 +1,2004 @@
-# Section 1: Dart Language
+# Section 1 — Dart Language
+
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually.
 
 ---
 
-**Q:** What is null safety in Dart? Explain `?`, `!`, `late`, and the `required` keyword.
+## How to use this section
 
-**A:** Null safety, introduced in Dart 2.12, makes types non-nullable by default. A variable declared as `String name` can never hold `null` — the compiler enforces this at compile time, eliminating an entire class of null-reference crashes.
+Each question has the same shape:
 
-- `?` (nullable type): Adding `?` after a type opts that variable into nullability. `String? name` means `name` can be either a `String` or `null`.
-- `!` (null assertion operator): Tells the compiler "I guarantee this is not null right now." If it is null at runtime, it throws a runtime exception. Use sparingly — it defeats the purpose of null safety.
-- `late`: Declares a non-nullable variable that will be initialized after declaration but before first use. The compiler trusts you. If you access it before assigning, it throws a `LateInitializationError` at runtime.
-- `required`: Used with named parameters to make them mandatory. Before null safety, all named parameters were optional. Now, if a named parameter is non-nullable and has no default, you must mark it `required`.
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — a detailed, step-by-step explanation with real-life examples and code.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected questions · **Back to top** — return to the index.
 
-**Example:**
+Each question is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
+
+> **Interview tip:** Always give the **short answer first** (2–3 sentences), then stop. Let the interviewer ask "can you go deeper?" Speaking simply and clearly is itself a senior skill — and it works the same for both remote and BD companies.
+
+---
+
+<a id="toc"></a>
+
+## Table of Contents
+
+**A. Variables, null safety & types**
+1. [Null safety — `?`, `!`, `late`, `required`](#q1) · *Very common*
+2. [`var`, `dynamic`, `Object`, `final`, `const`](#q2) · *Very common*
+3. [`const` constructor & Flutter performance](#q3) · *Common*
+4. [Equality — `==`, `hashCode`, `identical`](#q4) · *Very common*
+5. [Generics & bounded generics](#q5) · *Common*
+6. [Exception vs Error](#q6) · *Common*
+
+**B. Functions & closures**
+7. [Named / positional / optional parameters](#q7) · *Very common*
+8. [Closures](#q8) · *Common*
+9. [Cascade `..` vs method chaining](#q9) · *Common*
+10. [`typedef`, spread `...`, collection if/for](#q10) · *Common*
+
+**C. Classes & object-oriented Dart**
+11. [Constructors — normal / named / factory / const / redirecting](#q11) · *Very common*
+12. [`extends` vs `implements` vs `with` vs `on`](#q12) · *Very common*
+13. [Mixins in depth](#q13) · *Common*
+14. [Extension methods](#q14) · *Common*
+15. [Enhanced enums](#q15) · *Common*
+
+**D. Dart 3 new features**
+16. [Records](#q16) · *Very common*
+17. [Patterns & switch expressions](#q17) · *Very common*
+18. [Sealed classes & class modifiers](#q18) · *Common*
+
+**E. Async & concurrency**
+19. [Future & async/await](#q19) · *Very common*
+20. [Event loop — microtask vs event queue](#q20) · *Deeper*
+21. [Streams — single vs broadcast](#q21) · *Very common*
+22. [Generators — `sync*` / `async*`](#q22) · *Common*
+23. [Isolates & `compute()`](#q23) · *Very common*
+
+**F. How Dart runs (compile & memory)**
+24. [JIT vs AOT](#q24) · *Common*
+25. [Dart VM](#q25) · *Deeper*
+26. [Garbage collection](#q26) · *Deeper*
+
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
+
+---
+
+<a id="study-plan"></a>
+
+## How to prepare gradually (study plan)
+
+You don't need to study all 26 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
+
+**Stage 1 — Core fundamentals (start here).** These come up in almost every interview.
+→ [Q1 Null safety](#q1) · [Q2 var/final/const](#q2) · [Q7 Parameters](#q7) · [Q19 Future & async](#q19) · [Q21 Streams](#q21)
+
+**Stage 2 — Object-oriented Dart.** How you design classes.
+→ [Q11 Constructors](#q11) · [Q12 extends/implements/with/on](#q12) · [Q4 Equality](#q4) · [Q13 Mixins](#q13) · [Q14 Extensions](#q14)
+
+**Stage 3 — Modern Dart 3 (shows you are up to date).**
+→ [Q16 Records](#q16) · [Q17 Patterns](#q17) · [Q18 Sealed classes](#q18) · [Q15 Enhanced enums](#q15)
+
+**Stage 4 — Depth & senior signal.**
+→ [Q3 const & performance](#q3) · [Q5 Generics](#q5) · [Q6 Exceptions](#q6) · [Q9 Cascade](#q9) · [Q10 typedef/spread](#q10) · [Q22 Generators](#q22) · [Q23 Isolates](#q23)
+
+**Stage 5 — Deep-dive tie-breakers (do last).** These separate strong seniors from the rest.
+→ [Q20 Event loop](#q20) · [Q24 JIT vs AOT](#q24) · [Q25 Dart VM](#q25) · [Q26 Garbage collection](#q26)
+
+**Short on time (1 hour before the interview)?** Just review these eight:
+[Q1](#q1) · [Q2](#q2) · [Q4](#q4) · [Q12](#q12) · [Q19](#q19) · [Q20](#q20) · [Q21](#q21) · [Q23](#q23), then read the [Cheat Sheet](#cheatsheet).
+
+---
+
+# A. Variables, null safety & types
+
+---
+
+<a id="q1"></a>
+## 1. What is null safety in Dart? Explain `?`, `!`, `late`, and `required`.
+
+> Very common · Easy–Medium
+
+**Short answer (say this):**
+"Null safety means a variable cannot hold `null` unless I clearly allow it. Before null safety, any object could secretly be null, and using a null object crashed the app. Now Dart catches this mistake while I am writing code, before the app ever runs — so a whole category of crashes disappears."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem null safety solves.**
+Before null safety, this code looked fine but crashed for real users:
+
 ```dart
-// Nullable type
-String? nickname; // Can be null
-print(nickname?.length); // Safe access — returns null if nickname is null
+String name = null;   // old Dart allowed this
+print(name.length);   // crash at runtime: "name is null"
+```
 
-// Null assertion
-String? email = getUserEmail();
-print(email!.length); // Crashes if email is null
+The bug was found only after the app shipped — the worst time. Null safety moves the error to coding time, where it is cheap to fix:
 
-// late
-class UserProfile {
-  late String bio; // Will be set before first read
+```dart
+String name = null;   // red error in your editor right away
+```
 
-  void loadBio() {
-    bio = fetchBioFromApi();
+This is the whole point: catch null mistakes early, not in front of users.
+
+**Step 2 — `?` means "this is allowed to be null."**
+A normal type can never be null. Add `?` to opt in:
+
+```dart
+String  city = 'Dhaka';   // can NEVER be null
+String? nickname;          // CAN be null (starts as null)
+
+print(nickname?.length);   // ?. means: only call .length if not null, else give null
+```
+
+The `?.` operator is the safe way to use a maybe-null value. If `nickname` is null, the whole thing becomes null instead of crashing.
+
+**Step 3 — `!` means "I promise this is NOT null right now."**
+It is a promise to the compiler. If your promise is wrong, the app crashes on that exact line:
+
+```dart
+String? email = getEmail();
+print(email!.length);   // if email is null, it crashes right here
+```
+
+So `!` is risky. It turns off Dart's protection. Use it only when you are 100% sure.
+
+**Step 4 — `late` means "I'll set this soon, before anyone reads it."**
+Use it when you can't set the value immediately, but it's never truly null:
+
+```dart
+class ProfilePage {
+  late String userId;            // not set yet, but not null either
+
+  void init(String id) {
+    userId = id;                 // set it later
   }
 }
+// Reading userId before init() runs gives a LateInitializationError
+```
 
-// required keyword
+`late` is also great for lazy loading — the value is created only when first used:
+
+```dart
+late final result = doExpensiveWork(); // runs only when 'result' is first read
+```
+
+**Step 5 — `required` means "you must pass this value."**
+This is used a lot in Flutter widgets:
+
+```dart
 class LoginRequest {
   final String username;
-  final String password;
+  LoginRequest({required this.username}); // you cannot forget username
+}
 
-  LoginRequest({required this.username, required this.password});
+LoginRequest();                  // error: username is required
+LoginRequest(username: 'srana'); // correct
+```
+
+**Step 6 — The smart part: Dart "promotes" after a check.**
+Once you check a value is not null, Dart is smart enough to treat it as not-null below that line — so you don't need `!`:
+
+```dart
+String greet(String? name) {
+  if (name == null) return 'Hi guest';
+  return 'Hi $name';   // Dart already knows name is NOT null here
 }
 ```
 
-**Why it matters:** The interviewer is checking if you understand sound null safety — the idea that the type system guarantees a non-nullable variable can never be null. This is foundational to writing safe Dart code.
+**Bonus — the helper operators you should know:**
 
-**Common mistake:** Candidates overuse `!` everywhere to silence the compiler. That is just null safety with extra steps — you are moving the crash from compile time to runtime. Another mistake is using `late` on fields that might never be initialized, turning a compile-time guarantee into a runtime gamble.
-
----
-
-**Q:** What are the differences between `var`, `dynamic`, `Object`, `final`, and `const` in Dart?
-
-**A:** These keywords control type inference, type flexibility, and mutability — three different axes.
-
-- `var`: The compiler infers the type from the right-hand side. Once inferred, the type is fixed. `var x = 10;` makes `x` an `int` permanently.
-- `dynamic`: Opts out of static type checking entirely. You can call any method on a `dynamic` variable — the compiler will not complain, but you get a runtime error if the method does not exist.
-- `Object`: The root of the Dart type hierarchy (except `null`). Unlike `dynamic`, the compiler only allows methods defined on `Object` itself (like `toString()`, `hashCode`). It is type-safe.
-- `final`: The variable can be assigned exactly once. The value can be determined at runtime. The object it points to can still be mutated internally (e.g., adding items to a `final List`).
-- `const`: The value must be a compile-time constant. Deeply immutable — the object and everything it contains is frozen. `const` objects are canonicalized (identical values share the same instance in memory).
-
-**Example:**
 ```dart
-var name = 'Alice';       // Inferred as String, cannot assign int later
-// name = 42;             // Compile error
-
-dynamic anything = 'Hi';
-anything = 42;            // Fine — no type constraint
-anything.nonExistentMethod(); // Compiles, crashes at runtime
-
-Object obj = 'Hello';
-// obj.length;            // Compile error — Object has no .length
-(obj as String).length;   // Works with explicit cast
-
-final now = DateTime.now();      // Assigned once, value determined at runtime
-// now = DateTime.now();         // Compile error — already assigned
-
-const pi = 3.14159;             // Compile-time constant
-const list = [1, 2, 3];        // Deeply immutable
-// list.add(4);                 // Runtime error — cannot modify const list
-
-final mutableList = [1, 2, 3];
-mutableList.add(4);             // Works — final only locks the reference
+final shown = nickname ?? 'Guest';   // ?? = use 'Guest' if nickname is null
+nickname ??= 'Guest';                // ??= = set it to 'Guest' only if it's null now
 ```
 
-**Why it matters:** This question tests whether you understand Dart's type system depth — inference vs. erasure vs. safety, and immutability semantics. Interviewers want to know if you choose the right tool for the right constraint.
+**Why interviewers ask:** They want to see you treat null safety as a guarantee from the compiler, not just as red errors to silence. Using `if`-checks and `??` instead of `!` shows maturity.
 
-**Common mistake:** Confusing `final` and `const`. Saying "final means constant" is wrong. `final` locks the binding, `const` freezes the value. Also, using `dynamic` when `Object` would suffice — `dynamic` skips type checking entirely, which is almost never what you want.
+**Common mistake:** Putting `!` everywhere to make red errors go away. That only moves the crash from your screen (safe) to the user's phone (bad). Every `!` is a place where you turned off Dart's help.
+
+**Follow-ups they may ask:**
+- *"`late` vs `final`?"* → `late` = set later. `final` = set only once. `late final` = set later and only once.
+- *"What is `??`?"* → "use this default if null." Example: `final name = nickname ?? 'Guest';`
+- *"What does 'sound' null safety mean?"* → "Sound" means the guarantee is 100% reliable — if a type is not nullable, Dart truly makes sure it is never null.
+
+**Related:** [Q2 — var/dynamic/final/const](#q2)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are Futures in Dart? How does `async`/`await` work under the hood?
+<a id="q2"></a>
+## 2. What is the difference between `var`, `dynamic`, `Object`, `final`, and `const`?
 
-**A:** A `Future<T>` represents a value that will be available at some point in the future — the result of an asynchronous operation. It can complete with a value (`T`) or with an error.
+> Very common · Medium
 
-Under the hood, Dart runs on a single-threaded event loop (like JavaScript). When you call an async operation (e.g., an HTTP request), Dart hands that work off to the underlying system (OS-level I/O, timers, etc.) and moves on. When the result comes back, it is placed on the event queue. The event loop picks it up and runs the registered callback.
+**Short answer (say this):**
+"These solve three different problems. `var` lets Dart guess the type. `dynamic` turns off type checking (risky). `Object` is the safe parent of all types. `final` means a value can be set only once. `const` means the value is fixed and known before the app even runs."
 
-`async`/`await` is syntactic sugar over Futures. When the compiler sees `await`, it transforms the function into a state machine. Everything after `await` becomes a `.then()` callback behind the scenes. The function suspends at the `await` point, yields control back to the event loop, and resumes when the Future completes.
+**Let's understand it fully:**
 
-Key: `await` does NOT block the thread. It only suspends that particular async function.
+These five words feel similar but answer three different questions:
+1. *What type is it?* → `var`, `dynamic`, `Object`
+2. *Can it change?* → `final`, `const`
 
-**Example:**
+**Step 1 — `var`: let Dart guess the type.**
+You don't write the type; Dart figures it out from the value. After that, the type is fixed.
+
 ```dart
-// What you write:
-Future<String> fetchUser() async {
-  final response = await http.get(Uri.parse('https://api.example.com/user'));
-  final decoded = jsonDecode(response.body);
-  return decoded['name'];
-}
-
-// What the compiler roughly transforms it into:
-Future<String> fetchUser() {
-  return http.get(Uri.parse('https://api.example.com/user')).then((response) {
-    final decoded = jsonDecode(response.body);
-    return decoded['name'];
-  });
-}
-
-// Error handling
-Future<void> loadData() async {
-  try {
-    final data = await fetchUser();
-    print(data);
-  } catch (e) {
-    print('Error: $e');
-  }
-}
-
-// Running Futures in parallel
-final results = await Future.wait([fetchUser(), fetchPosts(), fetchSettings()]);
+var count = 10;     // Dart sees 10, so count is an int, forever
+// count = 'hello'; // error: count is locked as int
 ```
 
-**Why it matters:** This is core to every Flutter app. Interviewers check whether you understand that Dart is single-threaded and that `await` is non-blocking — it does not spin up another thread. They want to see that you can reason about execution order.
+**Step 2 — `dynamic`: turn off type checking (be careful).**
+`dynamic` says "I don't care about the type." You can call any method. If that method doesn't exist, it crashes while running, not while coding.
 
-**Common mistake:** Saying `await` "blocks the thread" or "pauses execution." It suspends only the current function's execution — the event loop continues processing other events. Another mistake is awaiting Futures sequentially when they could run in parallel with `Future.wait()`.
-
----
-
-**Q:** Explain Streams in Dart — single-subscription vs. broadcast, `StreamController`, and `StreamBuilder`.
-
-**A:** A `Stream<T>` is a sequence of asynchronous events over time. While a `Future` delivers one value, a `Stream` delivers zero or more values.
-
-**Single-subscription stream**: Can only have one listener at a time. If you try to listen twice, it throws. Most streams (file I/O, HTTP response bodies) are single-subscription because the data sequence should only be consumed once.
-
-**Broadcast stream**: Can have multiple listeners. Each listener receives events from the point it starts listening — it does not replay past events. Use `stream.asBroadcastStream()` to convert, or create with `StreamController.broadcast()`.
-
-**StreamController**: Lets you create a stream and push events into it manually. It is the "write side" of a stream. You get a `sink` to add data and a `stream` property for consumers.
-
-**StreamBuilder**: A Flutter widget that rebuilds itself whenever a new event arrives on a stream. It provides an `AsyncSnapshot` with the current connection state and latest data or error.
-
-**Example:**
 ```dart
-// StreamController
-final controller = StreamController<int>();
-controller.sink.add(1);
-controller.sink.add(2);
-controller.stream.listen((value) => print(value)); // Prints 1, 2
-controller.close(); // Always close when done
-
-// Broadcast stream
-final broadcastController = StreamController<int>.broadcast();
-broadcastController.stream.listen((v) => print('Listener A: $v'));
-broadcastController.stream.listen((v) => print('Listener B: $v'));
-broadcastController.add(42); // Both listeners receive 42
-
-// Stream transformations
-final stream = Stream.periodic(Duration(seconds: 1), (i) => i);
-stream
-    .where((i) => i.isEven)
-    .map((i) => 'Even: $i')
-    .take(5)
-    .listen(print);
-
-// StreamBuilder in Flutter
-StreamBuilder<int>(
-  stream: counterStream,
-  initialData: 0,
-  builder: (context, snapshot) {
-    if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-    if (!snapshot.hasData) return CircularProgressIndicator();
-    return Text('Count: ${snapshot.data}');
-  },
-)
+dynamic value = 'hello';
+value = 42;                 // allowed
+value.somethingFake();      // compiles fine, but crashes when run
 ```
 
-**Why it matters:** Streams are everywhere in Flutter — Firebase Firestore snapshots, BLoC pattern, form validation, WebSockets. The interviewer wants to see if you can choose the right stream type and handle its lifecycle (closing controllers to prevent memory leaks).
+Use `dynamic` almost never. The main real reason is reading messy JSON where the type is truly unknown.
 
-**Common mistake:** Forgetting to close `StreamController`, leading to memory leaks. Also, trying to listen to a single-subscription stream multiple times without converting it to broadcast first. Another frequent error is not handling the `ConnectionState` properly in `StreamBuilder`.
+**Step 3 — `Object`: the safe parent of everything.**
+Every type is an `Object`. But unlike `dynamic`, it is safe — you can only call methods that all objects have (like `toString()`), until you check the real type.
 
----
-
-**Q:** Why is Dart single-threaded? What do Isolates solve, and what is the `compute()` function?
-
-**A:** Dart uses a single-threaded event loop model for its main execution. This means all your Dart code, UI rendering, and event handling run on one thread — no shared mutable state, no locks, no race conditions by default. This is a deliberate design choice that makes concurrent programming dramatically simpler.
-
-The problem: CPU-intensive work (image processing, JSON parsing of large payloads, encryption) runs on that same thread and blocks the UI, causing jank.
-
-**Isolates** are Dart's solution. An Isolate is an independent worker with its own memory heap and event loop. Isolates do NOT share memory — they communicate exclusively by passing messages (which are copied, not shared). This eliminates data races entirely at the language level.
-
-**`compute()`** (from the Flutter framework, now `Isolate.run()` in Dart 2.19+) is a convenience function that spawns an Isolate, runs a single function, returns the result, and kills the Isolate. It is the simplest way to offload a one-shot heavy computation.
-
-**Example:**
 ```dart
-// Using Isolate.run (Dart 2.19+)
-Future<List<Product>> parseProducts(String jsonString) async {
-  return await Isolate.run(() {
-    final list = jsonDecode(jsonString) as List;
-    return list.map((e) => Product.fromJson(e)).toList();
-  });
-}
-
-// Using Flutter's compute()
-Future<List<Product>> parseProducts(String jsonString) async {
-  return await compute(_parseJson, jsonString);
-}
-
-// Must be a top-level or static function
-List<Product> _parseJson(String jsonString) {
-  final list = jsonDecode(jsonString) as List;
-  return list.map((e) => Product.fromJson(e)).toList();
-}
-
-// Full Isolate with bidirectional communication
-Future<void> longRunningTask() async {
-  final receivePort = ReceivePort();
-  await Isolate.spawn(_worker, receivePort.sendPort);
-
-  receivePort.listen((message) {
-    print('Received from isolate: $message');
-  });
-}
-
-void _worker(SendPort sendPort) {
-  // Heavy computation here
-  sendPort.send('Result from isolate');
+Object thing = 'hello';
+// print(thing.length);     // error: Object has no 'length'
+if (thing is String) {
+  print(thing.length);      // now Dart knows it's a String
 }
 ```
 
-**Why it matters:** Interviewers test this to see if you understand performance optimization in Flutter. If your app drops frames, and you do not know about Isolates, you have no solution for CPU-bound work. They also want to verify you know the difference between I/O-bound (use Futures) and CPU-bound (use Isolates) work.
+Quick comparison: `dynamic` = "trust me, don't check" (dangerous). `Object` = "check before you use" (safe).
 
-**Common mistake:** Thinking Isolates are like threads with shared memory. They are not — data is copied across Isolate boundaries, so sending huge objects is expensive. Also, passing closures that capture state to `compute()` fails because the function must be top-level or static.
+**Step 4 — `final`: set only once.**
+A `final` variable is assigned one time. The value can be decided while the app runs (like the current time). Important: `final` locks the variable, but you can still change inside a final list.
 
----
-
-**Q:** What are extension methods in Dart? What is the syntax, and what are the limitations?
-
-**A:** Extension methods let you add new functionality to existing types without modifying them or creating subclasses. They were introduced in Dart 2.7. You can add methods, getters, setters, and operators to any type — including types you do not own (like `String`, `int`, or third-party classes).
-
-**Limitations:**
-- Extensions are resolved statically, not dynamically. If a variable is typed as `dynamic`, extension methods will not work.
-- You cannot override existing methods — if the type already has a method with that name, the original wins.
-- Extensions cannot add instance state (fields). They can only add behavior.
-- They do not appear in the type's interface — they are syntactic sugar for static dispatch.
-
-**Example:**
 ```dart
-// Basic extension
-extension StringExtras on String {
-  String capitalize() =>
-      isEmpty ? this : '${this[0].toUpperCase()}${substring(1)}';
+final now = DateTime.now();  // value decided at runtime, fine
+// now = DateTime.now();      // error: already set once
 
-  bool get isEmail => RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(this);
-}
-
-// Usage
-print('hello'.capitalize());  // Hello
-print('user@test.com'.isEmail); // true
-
-// Extension on generic type
-extension ListExtras<T> on List<T> {
-  T? get firstOrNull => isEmpty ? null : first;
-
-  List<T> separatedBy(T separator) {
-    return expand((item) => [item, separator]).toList()..removeLast();
-  }
-}
-
-// Named extensions for disambiguation
-extension DateFormatting on DateTime {
-  String get ymd => '$year-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
-}
-
-// Limitation: does not work with dynamic
-dynamic val = 'hello';
-// val.capitalize(); // Runtime error — extension not resolved on dynamic
-(val as String).capitalize(); // Works — cast to String first
+final items = [1, 2, 3];
+items.add(4);                // OK! final locks the box, not the contents
 ```
 
-**Why it matters:** Extensions show you write idiomatic Dart. Interviewers look for whether you use them to keep code clean and cohesive rather than scattering utility functions. It also tests your understanding of static vs. dynamic dispatch.
+**Step 5 — `const`: fixed and known before running.**
+A `const` value must be known at compile time (before the app runs). It is fully frozen, and Dart reuses the same one in memory.
 
-**Common mistake:** Expecting extension methods to work on `dynamic` types. The compiler resolves extensions at compile time based on the static type, so `dynamic` bypasses them entirely. Another mistake is trying to use extensions to add stored properties — they can only add computed behavior.
+```dart
+const pi = 3.14;             // a fixed number, fine
+const list = [1, 2, 3];
+// list.add(4);              // error: const is fully frozen
+
+// const bad = DateTime.now(); // error: now() is only known while running
+```
+
+Easy way to remember:
+- **`final`** = *lock the box* (you can set it once, even at runtime).
+- **`const`** = *freeze everything from the factory* (must be known before running).
+
+**Why interviewers ask:** Many people wrongly say "final means constant." They want to hear the real difference: `final` = set once; `const` = known before running.
+
+**Common mistake:** Thinking a `final List` is fully unchangeable. It is not — you can still add or remove items. Only `const` makes the contents frozen.
+
+**Follow-ups they may ask:**
+- *"When would you use `dynamic`?"* → Almost never. Maybe only for unknown JSON. Prefer `Object` or a real type.
+- *"Can `final` and `const` be combined?"* → Yes — `static const` for class-level constants. A single variable is either `final` or `const`, not both.
+
+**Related:** [Q1 — null safety](#q1) · [Q3 — const constructor](#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are mixins in Dart? Explain the `with` keyword, `on` keyword, and the difference from an abstract class.
+<a id="q3"></a>
+## 3. What is a `const` constructor, and why does it help Flutter performance?
 
-**A:** A mixin is a way to reuse a class's code in multiple class hierarchies. Dart's single inheritance means a class can only `extend` one parent. Mixins solve this by letting you compose behaviors from multiple sources using the `with` keyword.
+> Common · Medium
 
-- `with`: Applies one or more mixins to a class. `class Dog extends Animal with Barking, Fetching {}` means `Dog` inherits from `Animal` and mixes in both `Barking` and `Fetching`.
-- `on`: Restricts which classes can use the mixin. `mixin Swimmer on Animal {}` means only classes that extend `Animal` (or `Animal` itself) can use `Swimmer`. It also lets the mixin call methods from that superclass.
+**Short answer (say this):**
+"A `const` constructor lets Dart build the whole object before the app runs. Dart then reuses the same object in memory instead of making new copies. In Flutter, `const` widgets are built once and skipped during rebuilds, so the screen updates faster."
 
-**Mixin vs. abstract class:**
-- An abstract class can have constructors; a mixin declared with the `mixin` keyword cannot.
-- A class can use multiple mixins but can only extend one abstract class.
-- Mixins are for composing behavior horizontally; abstract classes are for defining a vertical inheritance hierarchy.
-- With the `mixin` keyword, the class cannot be instantiated directly or extended — it can only be mixed in.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — What a const constructor is.**
+A normal constructor builds a new object every time you call it. A `const` constructor lets Dart build the object at compile time (before running) — but only if all its fields are `final`.
+
 ```dart
-mixin Logging {
-  void log(String message) => print('[LOG] $message');
+class Point {
+  final int x;
+  final int y;
+  const Point(this.x, this.y);  // const constructor (x and y are final)
 }
+```
 
-mixin Caching {
-  final Map<String, dynamic> _cache = {};
+**Step 2 — The magic: Dart reuses the same object.**
+When two `const` objects have the same values, Dart creates only one and shares it everywhere. This is called *canonicalization* — a big word that simply means "reuse the same one."
 
-  void cacheValue(String key, dynamic value) => _cache[key] = value;
-  dynamic getCached(String key) => _cache[key];
-}
+```dart
+const a = Point(1, 2);
+const b = Point(1, 2);
+print(identical(a, b)); // true, SAME object in memory (reused)
 
-// Using multiple mixins
-class ApiService with Logging, Caching {
-  Future<String> fetchData(String url) async {
-    final cached = getCached(url);
-    if (cached != null) {
-      log('Cache hit for $url');
-      return cached;
-    }
-    log('Fetching $url');
-    final data = await _httpGet(url);
-    cacheValue(url, data);
-    return data;
-  }
-}
+final c = Point(1, 2);
+print(identical(a, c)); // false, final builds a NEW object
+```
 
-// Restricting with 'on'
-abstract class Widget {
-  void build();
-}
+**Step 3 — Why this matters in Flutter (the real benefit).**
+Flutter rebuilds widgets very often. When you write `const Text('Hello')`, Flutter sees it is the same object as last time, so it skips rebuilding it. Less work means a smoother app, especially in long lists.
 
-mixin Draggable on Widget {
-  void onDrag() {
-    build(); // Can call Widget's methods because of 'on Widget'
-    print('Dragging...');
-  }
-}
+```dart
+// Good: this Text is built once and reused on every rebuild
+const Text('Welcome');
 
-class DraggableCard extends Widget with Draggable {
+// Without const: a new Text object is made on every rebuild
+Text('Welcome');
+```
+
+So the advice "use `const` everywhere you can" is not random — it directly reduces rebuild work.
+
+**Why interviewers ask:** They want to know if "use const everywhere" is something you just memorized, or something you understand. The real reason is: const objects are reused, so Flutter can skip rebuilding them.
+
+**Common mistake:** Saying const "makes it faster" with no reason. The reason is: const objects are shared in memory, and Flutter skips rebuilding the same object.
+
+**Follow-ups they may ask:**
+- *"Why must all fields be `final`?"* → Because a const object is frozen. If a field could change, it wouldn't be a fixed compile-time value.
+- *"What if one value comes from the network?"* → Then it can't be `const`. Keep the changing part separate and make the rest `const`.
+
+**Related:** [Q2 — final vs const](#q2) · [Q26 — garbage collection](#q26)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q4"></a>
+## 4. How do you check if two objects are equal? Explain `==`, `hashCode`, and `identical`.
+
+> Very common · Medium
+
+**Short answer (say this):**
+"By default, Dart says two objects are equal only if they are the exact same object. To compare by values, I override `==` and `hashCode` together — they must always agree. In real projects I use `Equatable` or `freezed` so I don't make mistakes by hand."
+
+**Let's understand it fully:**
+
+**Step 1 — The default is "same object" equality.**
+By default, two objects are equal only if they are literally the same one in memory:
+
+```dart
+class User { final String name; User(this.name); }
+
+final a = User('Sara');
+final b = User('Sara');
+print(a == b); // false! Same name, but they are two different objects
+```
+
+This surprises people. Same data, but `==` is false, because Dart compared identity, not values.
+
+**Step 2 — Three things, explained with people.**
+Imagine two people:
+- **`identical(a, b)`** asks: *"Are these the same single person?"* (same object in memory)
+- **`==`** (value equality) asks: *"Are these two people twins with the exact same details?"*
+- **`hashCode`** is like a person's ID number used for fast searching.
+
+**Step 3 — How to compare by value (override `==` and `hashCode`).**
+You must override both together. The rule: if `a == b`, then `a.hashCode` must equal `b.hashCode`.
+
+```dart
+class Money {
+  final int amount;
+  final String currency;
+  const Money(this.amount, this.currency);
+
   @override
-  void build() => print('Building card');
+  bool operator ==(Object other) =>
+      other is Money &&
+      other.amount == amount &&
+      other.currency == currency;
+
+  @override
+  int get hashCode => Object.hash(amount, currency); // easy and correct
 }
 
-// This would be a compile error:
-// class NotAWidget with Draggable {} // Error: Draggable requires Widget
+print(Money(100, 'BDT') == Money(100, 'BDT')); // true now
 ```
 
-**Why it matters:** Mixins test your understanding of Dart's composition model. In Flutter, mixins appear constantly — `TickerProviderStateMixin`, `WidgetsBindingObserver`, `AutomaticKeepAliveClientMixin`. The interviewer wants to know you understand the linearization order and when to use a mixin vs. inheritance.
+Use `Object.hash(...)` to combine fields — don't invent your own math.
 
-**Common mistake:** Not understanding mixin linearization order. When multiple mixins define the same method, the last one in the `with` clause wins. Also, confusing `mixin` with `mixin class` (Dart 3) — `mixin class` can be both extended AND mixed in, while a pure `mixin` cannot be extended.
+**Step 4 — Why `hashCode` matters (the hidden bug).**
+`Set` and `Map` use `hashCode` first to find items quickly, then use `==` to confirm. If you override `==` but forget `hashCode`, your objects can "disappear" from a `Set` or `Map`:
+
+```dart
+final seen = <Money>{};
+seen.add(Money(100, 'BDT'));
+print(seen.contains(Money(100, 'BDT'))); // false if hashCode is missing!
+```
+
+**Step 5 — Why this matters in state management.**
+In BLoC or Riverpod, if a new state object is `==` the old one, the UI correctly does not rebuild. If your equality is wrong, you either rebuild too much, or never rebuild. That is why `Equatable` and `freezed` (which auto-generate `==` and `hashCode`) are so popular.
+
+**Why interviewers ask:** Wrong equality causes two classic bugs: items lost in a Set or Map, and screens rebuilding wrongly in state management. They want to know you understand the `==` plus `hashCode` contract.
+
+**Common mistake:** Overriding `==` but forgetting `hashCode` (or the opposite). Always do both. Also, never use changing (mutable) fields in `hashCode`.
+
+**Follow-ups they may ask:**
+- *"Why use only unchanging fields in `hashCode`?"* → If a field changes after the object is inside a Set, its "ID" changes and the Set can't find it anymore.
+- *"How do you avoid writing this by hand?"* → Use `Equatable` or `freezed`; they generate correct `==` and `hashCode` for you.
+
+**Related:** [Q16 — records (built-in value equality)](#q16) · [Q3 — const & identical](#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Why do generics exist in Dart? Explain bounded generics and generic methods.
+<a id="q5"></a>
+## 5. Why do we use generics? Explain `<T>` and bounded generics.
 
-**A:** Generics let you write code that works with multiple types while retaining type safety. Without generics, you would either duplicate code for each type or use `dynamic` and lose compile-time checks. Generics give you reusability without sacrificing safety.
+> Common · Medium
 
-Dart generics are **reified** — the type information is preserved at runtime (unlike Java, where it is erased). This means you can check `list is List<int>` at runtime and get a correct answer.
+**Short answer (say this):**
+"Generics let me write code once and reuse it safely with any type. `List<int>` means only ints go in and come out, and Dart checks this while I code. A bound like `<T extends Comparable>` adds a rule, so I can safely use certain methods on T."
 
-**Bounded generics** constrain the type parameter to be a subtype of a given type. `T extends Comparable<T>` means `T` must implement `Comparable`, so you can safely call `.compareTo()` on it.
+**Let's understand it fully:**
 
-**Generic methods** parameterize a single method rather than an entire class.
+**Step 1 — The problem without generics.**
+Without generics, you'd use `dynamic`, which removes safety:
 
-**Example:**
 ```dart
-// Generic class
-class Result<T> {
-  final T? data;
-  final String? error;
-
-  Result.success(this.data) : error = null;
-  Result.failure(this.error) : data = null;
-
-  bool get isSuccess => data != null;
-}
-
-// Usage — type is inferred or explicit
-final result = Result<User>.success(user);
-final errorResult = Result<String>.failure('Not found');
-
-// Bounded generic
-class SortedList<T extends Comparable<T>> {
-  final List<T> _items = [];
-
-  void add(T item) {
-    _items.add(item);
-    _items.sort(); // Safe — T is guaranteed to have compareTo()
-  }
-}
-
-// Generic method
-T firstWhere<T>(List<T> items, bool Function(T) predicate) {
-  for (final item in items) {
-    if (predicate(item)) return item;
-  }
-  throw StateError('No element');
-}
-
-// Reified generics — runtime type checking works
-void checkType(List list) {
-  if (list is List<int>) {
-    print('This is a list of integers');
-  }
-}
-
-checkType([1, 2, 3]);     // Prints: This is a list of integers
-checkType(['a', 'b']);     // Does not print
+List things = [1, 2, 'oops']; // mixed types, no safety
+int total = 0;
+for (var t in things) total += t; // crash at 'oops' while running
 ```
 
-**Why it matters:** Generics are fundamental to how Flutter and Dart libraries work — `Future<T>`, `Stream<T>`, `ValueNotifier<T>`, `Provider<T>`. The interviewer is checking if you can write type-safe, reusable abstractions and if you know Dart generics are reified.
+**Step 2 — Generics = a labeled container.**
+Think of a generic like a labeled box. A "box of `int`" only holds ints. The label keeps wrong items out — and Dart checks it while you code:
 
-**Common mistake:** Not knowing Dart generics are reified. Candidates coming from Java assume type erasure and avoid runtime type checks. Another mistake is making everything `dynamic` instead of using a proper generic constraint — this throws away compiler help.
+```dart
+List<int> numbers = [1, 2, 3];
+// numbers.add('oops'); // caught immediately, not at runtime
+```
+
+**Step 3 — Writing your own generic class.**
+The `<T>` is a placeholder for "any one type the caller chooses."
+
+```dart
+class Box<T> {
+  final T value;
+  const Box(this.value);
+  T get content => value;
+}
+
+final intBox = Box<int>(5);        // T is int
+final textBox = Box<String>('hi'); // T is String
+```
+
+**Step 4 — Bounded generics = a rule on the label.**
+Sometimes you need T to have certain abilities. A bound says "T must be this kind of type." For example, to compare values, T must be `Comparable`:
+
+```dart
+// T must be comparable (like numbers or text), so compareTo() is allowed
+T bigger<T extends Comparable<T>>(T a, T b) =>
+    a.compareTo(b) >= 0 ? a : b;
+
+print(bigger<int>(5, 9));         // 9
+print(bigger<String>('a', 'z'));  // 'z'
+```
+
+Without the bound `extends Comparable`, Dart wouldn't know T can be compared, so `compareTo` would be an error.
+
+**Why interviewers ask:** To see you write type-safe, reusable code instead of using `dynamic` and hoping nothing breaks.
+
+**Common mistake:** Using `List<dynamic>` or a bare `List` when `List<int>` works. This throws away Dart's safety.
+
+**Follow-ups they may ask:**
+- *"Why add a bound?"* → Without it, Dart treats T as a plain `Object`, so you can only use basic methods. The bound unlocks more methods.
+- *"Real Flutter example?"* → `Future<User>`, `List<Widget>`, `StreamBuilder<int>` — generics are everywhere.
+
+**Related:** [Q2 — types](#q2)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are closures in Dart? Explain lexical scope and variable capture.
+<a id="q6"></a>
+## 6. What is the difference between an `Exception` and an `Error` in Dart?
 
-**A:** A closure is a function that captures variables from its enclosing lexical scope. Even after the enclosing scope has finished executing, the closure retains a live reference to those variables — not a copy of their values.
+> Common · Easy–Medium
 
-**Lexical scope** means a function can access variables from all surrounding scopes, determined by where the function is written in the source code (not where it is called).
+**Short answer (say this):**
+"An `Exception` is a problem you can expect and handle — like a failed network call. An `Error` usually means a bug in my code — like a wrong list index. So I catch and handle exceptions, but I fix errors instead of hiding them."
 
-**Variable capture** means the closure holds a reference to the variable itself. If the variable changes after the closure is created, the closure sees the updated value.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — The simple difference.**
+- **Exception** = something that can go wrong even in correct code (no internet, bad server response). → Catch and handle it.
+- **Error** = a programmer mistake (wrong index, calling something wrongly). → Fix the code, don't catch it.
+
 ```dart
-// Basic closure
+// Exception, expected, handle it:
+throw const FormatException('Bad date format');
+
+// Error, a bug, fix it:
+final list = [1, 2];
+print(list[5]); // RangeError, your code is wrong, fix it
+```
+
+**Step 2 — How to catch exceptions properly.**
+
+```dart
+Future<User> loadUser() async {
+  try {
+    return await api.fetchUser();
+  } on TimeoutException {
+    rethrow;                         // pass it up to be retried
+  } catch (e, stackTrace) {
+    log('Failed to load user', e, stackTrace);
+    throw UserLoadException();       // turn it into a clear app error
+  } finally {
+    print('done trying');            // 'finally' always runs
+  }
+}
+```
+
+**Step 3 — Three keywords to know.**
+- **`on Type`** → catch only a specific exception type.
+- **`catch (e, stackTrace)`** → get the error and where it came from.
+- **`rethrow`** → throw the same error again without losing the original stack trace. (Using `throw e;` instead loses that information — a common mistake.)
+- **`finally`** → runs no matter what (good for closing files, hiding a loading spinner).
+
+**Step 4 — Make your own exception.**
+
+```dart
+class UserLoadException implements Exception {
+  final String message;
+  UserLoadException([this.message = 'Could not load user']);
+  @override
+  String toString() => 'UserLoadException: $message';
+}
+```
+
+**Why interviewers ask:** To check you don't wrap everything in an empty `catch (e) {}` that hides real bugs.
+
+**Common mistake:** Catching every error just to stop crashes. This hides bugs and makes them very hard to find later. Catch what you can handle; let real bugs surface in development.
+
+**Follow-ups they may ask:**
+- *"`rethrow` vs `throw e`?"* → `rethrow` keeps the original stack trace (where it really started). `throw e` resets it, so you lose the trail.
+- *"Should you catch `Error` types?"* → Usually no. They mean your code is wrong — fix the code instead.
+
+**Related:** [Q19 — error handling with async](#q19)
+
+[↑ Back to top](#toc)
+
+---
+
+# B. Functions & closures
+
+---
+
+<a id="q7"></a>
+## 7. What are named, positional, and optional parameters? When do you use each?
+
+> Very common · Easy
+
+**Short answer (say this):**
+"Positional parameters depend on order and are good for one or two obvious values. Named parameters use a label, so the code reads clearly — that's why Flutter widgets use them everywhere. `required` makes a named one mandatory, and `[ ]` makes a positional one optional with a default."
+
+**Let's understand it fully:**
+
+**Step 1 — Positional parameters (order matters).**
+
+```dart
+int add(int a, int b) => a + b;
+add(2, 3); // 5, you must pass them in order
+```
+
+**Step 2 — Optional positional with a default (use `[ ]`).**
+
+```dart
+int increase(int x, [int by = 1]) => x + by;
+increase(5);     // 6  (by defaults to 1)
+increase(5, 10); // 15
+```
+
+**Step 3 — Named parameters (use a label, very readable).**
+
+```dart
+void createUser({required String name, bool isAdmin = false}) {}
+
+createUser(name: 'Sara');                 // isAdmin defaults to false
+createUser(name: 'Sara', isAdmin: true);  // clear and readable
+```
+
+**Step 4 — Why named parameters are better for many values.**
+Compare these two calls:
+
+```dart
+createUser('Sara', true, false);                       // what do true/false mean?
+createUser(name: 'Sara', isAdmin: true, sendEmail: false); // explains itself
+```
+
+Simple rule: if you have many values, or any `true/false` value, use named parameters. They explain themselves and survive code changes (order doesn't matter).
+
+**Why interviewers ask:** Good parameter design is a sign of a senior who writes readable, maintainable APIs.
+
+**Common mistake:** Passing a bare `true` as a positional value. Six months later, nobody remembers what that `true` means.
+
+**Follow-ups they may ask:**
+- *"Can a parameter be required AND named?"* → Yes: `{required String name}`. This is the most common Flutter style.
+- *"Default value for a named parameter?"* → `{bool isAdmin = false}`.
+
+**Related:** [Q11 — constructors use named params](#q11)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q8"></a>
+## 8. What is a closure? Explain it simply with an example.
+
+> Common · Medium
+
+**Short answer (say this):**
+"A closure is a function that remembers the variables around it, even after that outer code has finished running. It is how callbacks keep access to their data. The key point: a closure remembers the variable itself, not a frozen copy of its value."
+
+**Let's understand it fully:**
+
+**Step 1 — The backpack idea.**
+Think of a closure like a backpack. When you create a function, it puts the nearby variables into its backpack and carries them everywhere — even after the outer function has ended.
+
+```dart
 Function makeCounter() {
-  int count = 0; // This variable is captured
-  return () {
-    count++;
-    return count;
-  };
+  var count = 0;            // this goes into the function's "backpack"
+  return () => ++count;     // the returned function remembers count
 }
 
-final counter = makeCounter();
-print(counter()); // 1
-print(counter()); // 2 — count persists between calls
-
-// Variable capture — captures the variable, not the value
-var callbacks = <Function>[];
-for (var i = 0; i < 3; i++) {
-  callbacks.add(() => print(i));
-}
-callbacks.forEach((cb) => cb()); // Prints: 0, 1, 2
-// Each iteration creates a new 'i' because var in for-loop is scoped per iteration
-
-// Contrast with a shared variable
-var shared = 0;
-var fns = <Function>[];
-for (shared = 0; shared < 3; shared++) {
-  fns.add(() => print(shared));
-}
-fns.forEach((fn) => fn()); // Prints: 3, 3, 3 — all closures see the same 'shared'
-
-// Practical use — event handlers
-Widget buildButton(String label, VoidCallback onTap) {
-  return ElevatedButton(
-    onPressed: () {
-      print('Tapped $label'); // Captures 'label' from parameter
-      onTap();                // Captures 'onTap' from parameter
-    },
-    child: Text(label),
-  );
-}
+final next = makeCounter();
+print(next()); // 1
+print(next()); // 2  (count is remembered between calls!)
+print(next()); // 3
 ```
 
-**Why it matters:** Closures are the backbone of Dart's functional programming features. Every callback you pass to `.map()`, `.where()`, `setState()`, or gesture handlers is a closure. The interviewer wants to know if you understand variable capture semantics, especially in loops.
+The outer function `makeCounter` already finished, but `count` is still alive inside the returned function. That is a closure.
 
-**Common mistake:** Assuming closures capture the value at creation time. They capture the variable reference. The classic loop-closure bug (all callbacks printing the same final value) catches many candidates. In Dart, `for (var i ...)` creates a new variable per iteration which avoids this, but using an external variable does not.
+**Step 2 — It remembers the variable, not a copy.**
+This is important. If the variable changes, the closure sees the new value:
+
+```dart
+int value = 10;
+final show = () => print(value); // remembers the variable 'value'
+value = 99;
+show(); // prints 99, not 10 — it read the latest value
+```
+
+**Step 3 — Closures are everywhere in Flutter.**
+Every button callback is a closure that remembers data from around it:
+
+```dart
+ElevatedButton(
+  onPressed: () => context.read<AuthBloc>().add(LoginPressed(user)),
+  // this closure "remembers" context and user
+  child: const Text('Login'),
+);
+```
+
+**Why interviewers ask:** Closures power all callbacks, `.then()`, and event handlers. They want to see you understand how the data stays available.
+
+**Common mistake:** Thinking a closure copies the value. It remembers the live variable, so the value can change.
+
+**Follow-ups they may ask:**
+- *"Any danger with closures?"* → Yes. Accidentally keeping a big object or `context` alive can cause a memory leak. Be careful with closures inside long-living objects.
+
+**Related:** [Q19 — async callbacks](#q19) · [Q21 — stream listeners](#q21)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is cascade notation (`..`) in Dart? When should you use it, and how is it different from method chaining?
+<a id="q9"></a>
+## 9. What is cascade notation (`..`)? How is it different from method chaining?
 
-**A:** Cascade notation (`..`) lets you perform multiple operations on the same object without repeating its name. Each `..` operation returns the original object, not the result of the operation.
+> Common · Easy–Medium
 
-**Method chaining** relies on each method explicitly returning `this`. Cascade notation works even when methods return `void` or something else entirely — the `..` always evaluates to the original receiver.
+**Short answer (say this):**
+"Cascade (`..`) lets me run many actions on the same object without writing its name again. Each `..` ignores what the action returns and gives back the original object. Method chaining is different — it works only because each method returns something to call the next one on."
 
-You can also use `?..` for null-aware cascades.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — The "and also..." idea.**
+`..` is like saying "...and also...and also..." about the same object.
+
 ```dart
-// Without cascade — repetitive
-var paint = Paint();
+// Without cascade, repeat the name every time:
+final paint = Paint();
 paint.color = Colors.red;
-paint.strokeWidth = 2.0;
+paint.strokeWidth = 4;
 paint.style = PaintingStyle.stroke;
 
-// With cascade — concise
-var paint = Paint()
+// With cascade, cleaner, same object:
+final paint2 = Paint()
   ..color = Colors.red
-  ..strokeWidth = 2.0
+  ..strokeWidth = 4
   ..style = PaintingStyle.stroke;
-
-// Cascades work even when the method returns void
-var list = <int>[]
-  ..add(1)      // add() returns void, but cascade returns the list
-  ..add(2)
-  ..addAll([3, 4])
-  ..sort();
-
-// Method chaining — requires each method to return 'this'
-class QueryBuilder {
-  QueryBuilder where(String clause) { /* ... */ return this; }
-  QueryBuilder orderBy(String field) { /* ... */ return this; }
-  QueryBuilder limit(int n) { /* ... */ return this; }
-}
-
-// Chaining only works because each method explicitly returns QueryBuilder
-final query = QueryBuilder().where('age > 18').orderBy('name').limit(10);
-
-// Null-aware cascade
-user?..name = 'Alice'
-     ..email = 'alice@example.com';
-// Does nothing if user is null
 ```
 
-**Why it matters:** Cascade notation is distinctly Dart. Interviewers use it to check if you write idiomatic Dart. It also reveals whether you understand the difference between an operator that returns the receiver vs. a method that returns `this`.
+Both do the same thing, but the cascade version is shorter and clearer.
 
-**Common mistake:** Confusing cascade with method chaining and thinking the method's return value matters. With cascades, the return value of each operation is discarded — you always get back the original object. Another mistake is using cascades when you actually need the return value of a method call.
+**Step 2 — Cascade vs method chaining (the real difference).**
+- **Cascade (`..`)** → ignores the return value, always gives back the original object. Good for setting many properties.
+- **Method chaining (`a.b().c()`)** → works only because each method returns an object to keep going.
+
+```dart
+// Method chaining: each step returns a String to continue
+final result = 'hello world'.toUpperCase().trim().substring(0, 5);
+
+// Cascade: setting properties returns nothing useful, so .. is perfect
+final list = <int>[]..add(1)..add(2)..add(3);
+```
+
+**Step 3 — Null-safe cascade (`?..`).**
+
+```dart
+paint?..color = Colors.blue; // does nothing if paint is null
+```
+
+**Why interviewers ask:** It's small, but it shows whether you read return types and write clean Dart.
+
+**Follow-ups they may ask:**
+- *"What is `?..`?"* → Same as `..`, but it does nothing if the object is null.
+
+**Related:** [Q10 — more syntax sugar](#q10)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Explain the spread operator (`...`) and collection `if`/`for` in Dart.
+<a id="q10"></a>
+## 10. What is `typedef`, the spread operator (`...`), and collection `if`/`for`?
 
-**A:** These are collection literals features that let you build lists, sets, and maps declaratively.
+> Common · Easy
 
-- **Spread (`...`)**: Unpacks all elements of a collection into another collection. `...?` is the null-aware variant — it does nothing if the collection is `null`.
-- **Collection `if`**: Conditionally includes an element based on a boolean condition.
-- **Collection `for`**: Generates elements from a loop inline.
+**Short answer (say this):**
+"`typedef` gives a nickname to a type — usually a function type — so the code reads better. The spread operator and collection `if`/`for` let me build lists in a clean, readable way, which is very useful for Flutter widget lists."
 
-These are evaluated at build time (for `const`) or runtime, and they compose naturally. They are particularly powerful in Flutter for building widget trees conditionally.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — `typedef`: a nickname for a type.**
+If a function type is long and used many times, give it one clear name:
+
 ```dart
-// Spread operator
-final base = [1, 2, 3];
-final extended = [0, ...base, 4]; // [0, 1, 2, 3, 4]
+// Without typedef, long and repeated:
+void setValidator(String? Function(String value) check) {}
 
-// Null-aware spread
-List<int>? maybeList;
-final safe = [0, ...?maybeList]; // [0] — no crash
-
-// Merging maps
-final defaults = {'theme': 'light', 'lang': 'en'};
-final overrides = {'theme': 'dark'};
-final config = {...defaults, ...overrides}; // theme is 'dark'
-
-// Collection if
-final isLoggedIn = true;
-final nav = [
-  'Home',
-  'Search',
-  if (isLoggedIn) 'Profile',
-  if (!isLoggedIn) 'Login',
-]; // ['Home', 'Search', 'Profile']
-
-// Collection for
-final squares = [
-  for (var i = 1; i <= 5; i++) i * i,
-]; // [1, 4, 9, 16, 25]
-
-// Flutter widget tree — where this shines
-Column(
-  children: [
-    Header(),
-    ...menuItems.map((item) => MenuTile(item)),
-    if (isAdmin) AdminPanel(),
-    for (var notification in alerts)
-      NotificationBanner(notification),
-  ],
-)
+// With typedef, clean:
+typedef Validator = String? Function(String value);
+void setValidator(Validator check) {}
 ```
 
-**Why it matters:** In Flutter, you build UI declaratively. Collection `if`/`for` and spread are how you conditionally render widgets and compose lists without imperative code. Interviewers want to see that you can construct widget trees cleanly.
+`typedef` can also name non-function types: `typedef Json = Map<String, dynamic>;`
 
-**Common mistake:** Using separate builder methods with `if/else` blocks and `addAll()` when collection `if`/`for` would be cleaner. Also forgetting `...?` when the list might be null and getting a crash at runtime.
+**Step 2 — Spread (`...`): pour one list into another.**
+
+```dart
+final first = [1, 2];
+final second = [3, 4];
+final all = [...first, ...second]; // [1, 2, 3, 4]
+```
+
+`...?` is the null-safe version (pours in only if not null):
+
+```dart
+final all = [...first, ...?maybeNullList];
+```
+
+**Step 3 — Collection `if` and `for`: build lists with logic inside.**
+This is extremely useful in Flutter widget lists:
+
+```dart
+final widgets = [
+  const Header(),
+  if (isLoggedIn) const ProfileButton(),   // add only if logged in
+  for (final item in items) ItemTile(item), // add one per item
+  ...?footerWidgets,                         // add list if not null
+];
+```
+
+Without this, you'd build the list with many `if` blocks and `.add()` calls before the `return` — messy and hard to read.
+
+**Why interviewers ask:** To see if you write clean, modern, declarative Dart instead of old imperative list-building.
+
+**Follow-ups they may ask:**
+- *"Is there a collection `if-else`?"* → Yes: `if (cond) WidgetA() else WidgetB()` inside a list.
+
+**Related:** [Q9 — cascade](#q9)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Explain named, positional, and optional parameters in Dart. When do you use each?
-
-**A:** Dart has three kinds of parameters:
-
-1. **Required positional**: Defined without braces or brackets. Order matters. Always required.
-2. **Optional positional**: Wrapped in `[]`. Order matters. Can have default values.
-3. **Named**: Wrapped in `{}`. Order does not matter when calling. Optional by default unless marked `required`.
-
-You cannot mix optional positional and named parameters in the same function — it is one or the other (after any required positional parameters).
-
-**Example:**
-```dart
-// Required positional
-int add(int a, int b) => a + b;
-add(2, 3); // Must be in order
-
-// Optional positional with defaults
-String greet(String name, [String greeting = 'Hello', String? suffix]) {
-  return '$greeting, $name${suffix ?? ''}';
-}
-greet('Alice');                  // Hello, Alice
-greet('Alice', 'Hi');            // Hi, Alice
-greet('Alice', 'Hey', '!');      // Hey, Alice!
-
-// Named parameters (the Flutter convention)
-void createUser({
-  required String name,
-  required String email,
-  int age = 0,
-  String? phone,
-}) {
-  // ...
-}
-
-createUser(email: 'a@b.com', name: 'Alice'); // Order doesn't matter
-createUser(name: 'Bob', email: 'b@b.com', age: 30);
-
-// Flutter widget constructors — always named
-class CustomCard extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final VoidCallback? onTap;
-
-  const CustomCard({
-    super.key,
-    required this.title,
-    this.subtitle,
-    this.onTap,
-  });
-}
-```
-
-**When to use each:**
-- **Required positional**: When you have 1–2 obvious arguments (like `add(a, b)`). Order is self-evident.
-- **Optional positional**: Rare in Flutter. Useful for functions where an optional argument has an obvious position (like `List.generate(length, generator, [growable])`).
-- **Named**: The default choice in Flutter. Use for constructors, configuration methods, and anything with more than 2 parameters. Self-documenting at the call site.
-
-**Why it matters:** Flutter APIs are almost entirely named parameters. The interviewer checks if you understand why (readability, flexibility, self-documentation) and if you use `required` correctly for non-nullable named parameters.
-
-**Common mistake:** Using optional positional parameters in widget constructors — it makes the call site unreadable. Also, forgetting `required` on non-nullable named parameters that have no default, which causes a compile error.
+# C. Classes & object-oriented Dart
 
 ---
 
-**Q:** What are factory constructors in Dart? How do they differ from regular constructors, and what is a redirect factory?
+<a id="q11"></a>
+## 11. Explain Dart's constructors: normal, named, factory, const, and redirecting.
 
-**A:** A `factory` constructor is a constructor that does not always create a new instance. Unlike a regular constructor, it can return an existing instance, a subclass instance, or even `null` (if the return type allows it). It does not have access to `this`.
+> Very common · Medium
 
-**Key differences from a regular constructor:**
-- A regular (generative) constructor always creates a new instance and initializes `this`.
-- A factory constructor has a body like a regular method, must explicitly return an instance, and cannot access `this` or initialize fields via initializer lists.
-- Factory constructors can implement caching (return a previously created instance), return a subtype, or run logic to decide what to return.
+**Short answer (say this):**
+"A normal constructor always makes a new object. A named constructor gives a clear second way to build it. A factory constructor does not have to make a new object — it can return a cached one or even a subtype. Redirecting means one constructor calls another to avoid repeating code."
 
-**Redirect factory constructor** uses `= ClassName.constructor` to redirect to another constructor directly. The compiler can inline this.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — Normal (generative) constructor.**
+Builds a fresh object every time. The `this.x` shortcut assigns the field directly.
+
 ```dart
-// Factory for caching (singleton pattern)
-class Database {
-  static final Database _instance = Database._internal();
-
-  factory Database() => _instance; // Always returns the same instance
-
-  Database._internal(); // The real constructor, private
-}
-
-final db1 = Database();
-final db2 = Database();
-print(identical(db1, db2)); // true — same instance
-
-// Factory returning a subtype
-abstract class Shape {
-  double get area;
-
-  factory Shape.circle(double radius) => Circle(radius);
-  factory Shape.square(double side) => Square(side);
-}
-
-class Circle implements Shape {
-  final double radius;
-  Circle(this.radius);
-  @override
-  double get area => 3.14159 * radius * radius;
-}
-
-class Square implements Shape {
-  final double side;
-  Square(this.side);
-  @override
-  double get area => side * side;
-}
-
-// Factory with fromJson pattern
 class User {
+  final String id;
   final String name;
-  final int age;
+  User(this.id, this.name); // normal constructor
+}
+```
 
-  User(this.name, this.age);
+**Step 2 — Named constructor (a clearly-labeled second way).**
+
+```dart
+class User {
+  final String id;
+  final String name;
+  User(this.id, this.name);
+  User.guest() : id = '0', name = 'Guest'; // named constructor
+}
+
+final u = User.guest(); // clear what this does
+```
+
+**Step 3 — The initializer list (the part after `:`).**
+The code after `:` runs before the constructor body. It is the only place to set `final` fields, call `super(...)`, and use `assert`.
+
+```dart
+User(String id, String name)
+    : id = id,
+      assert(id.isNotEmpty, 'id cannot be empty') {
+  // body runs after the initializer list
+}
+```
+
+**Step 4 — Redirecting constructor (call another constructor).**
+Avoids repeating logic by forwarding to another constructor:
+
+```dart
+class User {
+  final String id;
+  final String name;
+  User(this.id, this.name);
+  User.anonymous() : this('0', 'Anonymous'); // redirects to User(...)
+}
+```
+
+**Step 5 — Factory constructor (the special one).**
+A factory does not have to create a new object. It can:
+- return a cached object,
+- return a subtype,
+- or fail (throw) while building.
+
+```dart
+class User {
+  final String id;
+  final String name;
+  User(this.id, this.name);
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(json['name'] as String, json['age'] as int);
+    return User(json['id'] as String, json['name'] as String);
   }
-}
-
-// Redirect factory constructor
-class Logger {
-  factory Logger() = _ConsoleLogger; // Redirects to _ConsoleLogger
-}
-
-class _ConsoleLogger implements Logger {
-  // implementation
 }
 ```
 
-**Why it matters:** Factory constructors appear in almost every Flutter/Dart codebase — singletons, `fromJson` deserialization, abstract class instantiation patterns. Interviewers test whether you understand when `factory` is the right tool vs. a named or generative constructor.
+`fromJson` is a factory exactly because it might fail, return a cached object, or return a subtype — a normal constructor can't do that.
 
-**Common mistake:** Using `factory` when a named constructor would suffice (e.g., `factory User.fromJson` when there is no conditional logic — a plain named constructor works fine and is simpler). Also, trying to use initializer lists or `this` inside a factory constructor.
+**Step 6 — const constructor.**
+Builds the object before running (all fields must be `final`). See [Q3](#q3).
+
+**Why interviewers ask:** Many people only know `fromJson` but can't explain why it's a factory. They want the real reason: factories can break the "one call = one new object" rule.
+
+**Common mistake:** Thinking a factory always makes a new object. It doesn't have to. Also, trying to use `this` inside a factory — the object doesn't exist yet.
+
+**Follow-ups they may ask:**
+- *"Can a factory return null?"* → No (with null safety, the return type must be non-null unless declared nullable). It must return a valid object.
+- *"When use named vs factory?"* → Named = a simple alternate way to build. Factory = when you need control (caching, subtypes, validation).
+
+**Related:** [Q3 — const constructor](#q3) · [Q12 — OOP keywords](#q12) · [Q7 — named parameters](#q7)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Dart has no `interface` keyword. How do you achieve both abstract classes and interfaces?
+<a id="q12"></a>
+## 12. Dart has no `interface` keyword. How do you get interfaces? And what is the difference between `extends`, `implements`, `with`, and `on`?
 
-**A:** In Dart, every class implicitly defines an interface. When you write `class Foo { ... }`, you are also defining an interface that contains all of Foo's public members. Any class can `implement` Foo to adopt that interface — it must then provide its own implementation of every member.
+> Very common · Medium — the most common Dart OOP question.
 
-- `extends` (inheritance): Inherits implementation. Single inheritance only.
-- `implements` (interface): Adopts the interface contract only. Must override every member. Can implement multiple classes.
-- `abstract class`: Cannot be instantiated directly. Can have both abstract (unimplemented) and concrete (implemented) methods.
+**Short answer (say this):**
+"In Dart, every class can be used as an interface automatically. `extends` is for inheriting code — only one parent. `implements` takes only the rules (the contract) and forces me to write everything myself. `with` adds reusable behavior (a mixin). `on` limits which classes a mixin can be used with."
 
-The pattern in Dart is: use `abstract class` when you want to define a contract with some shared implementation. Use `implements` when you only care about the API shape.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — Dart has no `interface` keyword, because every class IS an interface.**
+In Java you write `interface`. In Dart, every class automatically defines an interface (its list of methods). So you can `implements` any class.
+
+**Step 2 — `extends`: inherit the parent's code (only ONE parent).**
+You get the parent's working code for free and can reuse or override it.
+
 ```dart
-// Abstract class — partial implementation
-abstract class Animal {
-  String get name; // Abstract — subclass must implement
-
-  void breathe() => print('$name is breathing'); // Concrete — inherited
+class Animal {
+  void breathe() => print('breathing');
 }
 
 class Dog extends Animal {
-  @override
-  String get name => 'Dog';
-  // breathe() is inherited
+  void bark() => print('woof');
 }
 
-// Any class as an interface
-class Printer {
-  void printDocument(String doc) => print(doc);
+Dog().breathe(); // inherited from Animal for free
+```
+
+**Step 3 — `implements`: take only the rules, write all the code yourself.**
+You get none of the code — only the requirement to provide every method.
+
+```dart
+class Animal {
+  void breathe() => print('breathing');
 }
 
-class MockPrinter implements Printer {
+class Robot implements Animal {
+  // must write breathe() myself; nothing is inherited
   @override
-  void printDocument(String doc) {
-    // Must provide own implementation — nothing is inherited
-    print('[MOCK] $doc');
+  void breathe() => print('robot pretends to breathe');
+}
+```
+
+You can `implements` many classes at once (many contracts).
+
+**Step 4 — `with`: add reusable behavior (mixin).**
+
+```dart
+mixin Swimmer {
+  void swim() => print('swimming');
+}
+
+class Duck extends Animal with Swimmer {} // gets breathe() AND swim()
+```
+
+**Step 5 — `on`: limit where a mixin can be used.**
+
+```dart
+mixin Validating on Form {
+  // can only be added to classes that are a Form
+}
+```
+
+**Step 6 — A clear comparison table.**
+
+| Keyword | What you get | How many | When to use |
+|---|---|---|---|
+| `extends` | the parent's **code** | only **one** | "is-a" + reuse code |
+| `implements` | only the **rules** (write all code) | many | follow a contract |
+| `with` | reusable **behavior** | many | share behavior across classes |
+| `on` | a **rule** for a mixin | — | restrict a mixin to a type |
+
+Easy way to remember:
+- **`extends`** = "I get my parent's code for free."
+- **`implements`** = "I promise to follow these rules, but I write the code myself."
+
+**Why interviewers ask:** This is the clearest test of whether you truly understand Dart OOP.
+
+**Common mistake:** Saying "Dart has no interfaces." Wrong — every class is also an interface. Also mixing up `extends` (inherit code) with `implements` (rewrite everything).
+
+**Follow-ups they may ask:**
+- *"Why use `implements` in testing?"* → You can make a fake version of a class to test without pulling in the real code. Great for mocking.
+- *"Can a class extend one and implement many?"* → Yes: `class A extends B implements C, D {}`.
+
+**Related:** [Q13 — mixins in depth](#q13) · [Q11 — constructors](#q11)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q13"></a>
+## 13. What are mixins? Explain `with`, `on`, and what happens when two mixins have the same method.
+
+> Common · Medium–Hard
+
+**Short answer (say this):**
+"A mixin is reusable behavior you add to a class with `with`, without using inheritance. You can add many mixins. If two mixins have the same method, the last one wins. The `on` keyword limits a mixin so it can only be used on a certain type."
+
+**Let's understand it fully:**
+
+**Step 1 — Mixins are "extra skills" for a class.**
+Think of mixins as abilities you attach to a class. A `Duck` can get the "Swimmer" skill and the "Walker" skill — without inheriting from them.
+
+```dart
+mixin Swimmer {
+  void swim() => print('swimming');
+}
+mixin Walker {
+  void walk() => print('walking');
+}
+
+class Duck with Swimmer, Walker {}
+
+Duck()..swim()..walk(); // has both skills
+```
+
+**Step 2 — What if two mixins have the SAME method?**
+Dart lines them up from left to right, and the last one wins:
+
+```dart
+mixin A { void greet() => print('Hello from A'); }
+mixin B { void greet() => print('Hello from B'); }
+
+class C with A, B {}   // B is last
+C().greet();           // "Hello from B"  (last mixin wins)
+```
+
+This ordering is called *linearization* — Dart flattens the mixins into a clear single line, so there is no confusion.
+
+**Step 3 — `on`: restrict a mixin to a certain type.**
+`on` says "this mixin can only be added to classes of this type." This lets the mixin safely use that type's methods:
+
+```dart
+class Animal {
+  void breathe() => print('breathing');
+}
+
+mixin Pet on Animal {
+  void play() {
+    breathe();        // safe — we know the host is an Animal
+    print('playing');
   }
 }
 
-// Multiple interfaces
-abstract class Readable {
-  String read();
-}
-
-abstract class Writable {
-  void write(String data);
-}
-
-class File implements Readable, Writable {
-  @override
-  String read() => 'file contents';
-
-  @override
-  void write(String data) => print('Writing: $data');
-}
-
-// Dart 3: 'interface class' modifier
-interface class Serializable {
-  String serialize() => '{}';
-}
-
-// Can implement but cannot extend
-class Config implements Serializable {
-  @override
-  String serialize() => '{"setting": true}';
-}
-
-// class SubConfig extends Serializable {} // Compile error in Dart 3
+class Cat extends Animal with Pet {} // Cat is an Animal, so Pet is allowed
 ```
 
-**Why it matters:** This is a classic Dart question that tests whether you understand the "implicit interface" concept. In Flutter, you see this everywhere — implementing `ChangeNotifier`, `Listenable`, etc. The interviewer is evaluating your understanding of OOP in Dart.
+**Step 4 — Why mixins can't have a constructor.**
+A mixin gets merged into the main class, which already handles object creation. So a mixin has no separate object to construct — that's why it can't have a constructor.
 
-**Common mistake:** Saying "Dart doesn't have interfaces." It does — every class IS an interface. The nuance is that there is no separate `interface` keyword (until Dart 3 added `interface class` as a modifier). Another mistake is using `extends` when `implements` is more appropriate, accidentally inheriting behavior you did not want.
+**Why interviewers ask:** To check you understand mixin order (last wins) and the purpose of `on`.
+
+**Common mistake:** Calling mixins "multiple inheritance." It's not a confusing diamond — Dart lines them up in order and the last one wins. Clean and predictable.
+
+**Follow-ups they may ask:**
+- *"Mixin vs interface (`implements`)?"* → A mixin gives you working code. `implements` gives you only rules and you write the code.
+- *"`with` vs `extends`?"* → `extends` = one parent's code. `with` = add many reusable behaviors.
+
+**Related:** [Q12 — extends/implements/with/on](#q12)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are enhanced enums in Dart? Can enums have methods, fields, and implement interfaces?
+<a id="q14"></a>
+## 14. What are extension methods? What can they NOT do?
 
-**A:** Since Dart 2.17, enums are full-featured classes. They can have fields (instance variables), constructors, methods, getters, and can even implement interfaces. Each enum value is a compile-time constant instance of the enum class.
+> Common · Medium
 
-**Constraints:**
-- Constructors must be `const`.
-- You cannot extend an enum.
-- Instance fields must be `final`.
-- The `index` and `values` properties are automatically provided.
-- Generative constructors must produce all values at the enum declaration.
+**Short answer (say this):**
+"Extensions let me add methods to a type I don't own — like `String` or `int` — without changing it or wrapping it. The main limits: they are chosen based on the variable's written type (not its real type), and they cannot add new fields (no state)."
 
-**Example:**
+**Let's understand it fully:**
+
+**Step 1 — Add a "button" to an existing tool.**
+An extension is like adding a new helper method to a type you can't edit:
+
 ```dart
-enum Planet implements Comparable<Planet> {
-  mercury(diameter: 4879, distanceFromSun: 57.9),
-  venus(diameter: 12104, distanceFromSun: 108.2),
-  earth(diameter: 12756, distanceFromSun: 149.6),
-  mars(diameter: 6792, distanceFromSun: 227.9);
-
-  final double diameter; // km
-  final double distanceFromSun; // million km
-
-  const Planet({required this.diameter, required this.distanceFromSun});
-
-  // Methods
-  bool get isInnerPlanet => distanceFromSun < 200;
-  String get description => '$name: ${diameter}km, ${distanceFromSun}M km from Sun';
-
-  // Implementing Comparable
-  @override
-  int compareTo(Planet other) => distanceFromSun.compareTo(other.distanceFromSun);
+extension StringHelpers on String {
+  bool get isValidEmail => contains('@') && contains('.');
+  String capitalize() =>
+      isEmpty ? this : '${this[0].toUpperCase()}${substring(1)}';
 }
 
-// Usage
-print(Planet.earth.isInnerPlanet);   // true
-print(Planet.earth.description);     // earth: 12756.0km, 149.6M km from Sun
-
-final sorted = Planet.values.toList()..sort();
-print(sorted.first); // Planet.mercury
-
-// Practical Flutter example
-enum AppRoute {
-  home(path: '/', icon: Icons.home),
-  search(path: '/search', icon: Icons.search),
-  profile(path: '/profile', icon: Icons.person);
-
-  final String path;
-  final IconData icon;
-
-  const AppRoute({required this.path, required this.icon});
-}
+'a@b.com'.isValidEmail; // true
+'hello'.capitalize();   // 'Hello'
 ```
 
-**Why it matters:** Enhanced enums replace many cases where you would previously use a class with static constants. The interviewer checks whether you leverage this feature for cleaner, more expressive code — especially in routing, theming, and configuration.
+Now `String` feels like it always had these methods. Very clean.
 
-**Common mistake:** Forgetting that enum constructors must be `const` and fields must be `final`. Trying to add mutable state to an enum value will not compile. Also, not knowing this feature exists and writing verbose class hierarchies when a simple enhanced enum would do.
+**Step 2 — Real Flutter example (very common).**
+
+```dart
+extension ContextX on BuildContext {
+  double get width => MediaQuery.of(this).size.width;
+  ThemeData get theme => Theme.of(this);
+}
+
+// usage inside a widget:
+final w = context.width;     // instead of MediaQuery.of(context).size.width
+final t = context.theme;     // instead of Theme.of(context)
+```
+
+**Step 3 — Limit 1: no new fields (no stored data).**
+Extensions can add methods and getters, but not instance variables. They add behavior, not state.
+
+**Step 4 — Limit 2: chosen by the WRITTEN type, not the real type.**
+This is the tricky part. Extensions are picked at compile time based on the declared type:
+
+```dart
+String text = 'hi';
+text.capitalize();   // works — declared type is String
+
+Object thing = 'hi';
+// thing.capitalize(); // error — declared type is Object, not String
+```
+
+So extensions are not like overridden methods (which use the real runtime type).
+
+**Why interviewers ask:** To see if you know extensions are resolved by the written type, and that they can't hold state.
+
+**Common mistake:** Expecting an extension to behave polymorphically (by real type). It is chosen by the declared type.
+
+**Follow-ups they may ask:**
+- *"Can two extensions define the same method?"* → Yes, but then it's ambiguous; you must call one explicitly: `StringHelpers('hi').capitalize()`.
+
+**Related:** [Q12 — OOP keywords](#q12)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is `typedef` in Dart, and when is it useful?
+<a id="q15"></a>
+## 15. What are enhanced enums? Can an enum have fields and methods?
 
-**A:** `typedef` creates a named alias for a type, most commonly for function signatures. It improves readability by giving a meaningful name to a complex type, and it makes it easier to change the type in one place.
+> Common · Medium
 
-Since Dart 2.13, `typedef` works with any type, not just functions.
+**Short answer (say this):**
+"Yes. Since Dart 2.17, enums can have fields, a const constructor, and methods. So instead of an enum plus a separate helper, I keep the data and behavior together on the enum itself."
 
-**Example:**
+**Let's understand it fully:**
+
+**Step 1 — A basic enum is a fixed list of choices.**
+
 ```dart
-// Function typedef — the classic use case
-typedef Predicate<T> = bool Function(T item);
-typedef JsonMap = Map<String, dynamic>;
-typedef VoidCallback = void Function(); // This is defined in Flutter
+enum Status { active, paused, cancelled }
+```
 
-// Without typedef — hard to read
-void filter(List<int> items, bool Function(int) test) { /* ... */ }
+**Step 2 — The old, painful way (before 2.17).**
+People used a `switch` helper to attach data to each value — messy and easy to forget cases:
 
-// With typedef — self-documenting
-void filter(List<int> items, Predicate<int> test) { /* ... */ }
-
-// Non-function typedef (Dart 2.13+)
-typedef StringList = List<String>;
-typedef UserJson = Map<String, dynamic>;
-typedef Callback<T> = void Function(T value);
-
-// Practical use — API layer
-typedef ApiResponse<T> = Future<Result<T>>;
-typedef FromJson<T> = T Function(JsonMap json);
-
-class ApiClient {
-  ApiResponse<T> get<T>(String url, {required FromJson<T> parser}) async {
-    final response = await http.get(Uri.parse(url));
-    final json = jsonDecode(response.body) as JsonMap;
-    return Result.success(parser(json));
+```dart
+int priceOf(Plan p) {
+  switch (p) {
+    case Plan.free: return 0;
+    case Plan.pro: return 12;
+    // forget a case, and you get a bug
   }
 }
-
-// Makes callback types readable in class definitions
-typedef OnUserSelected = void Function(User user);
-typedef OnError = void Function(String message, int code);
-
-class UserPicker extends StatelessWidget {
-  final OnUserSelected onSelected;
-  final OnError? onError;
-  // ...
-}
 ```
 
-**Why it matters:** Typedefs show that you value code readability and maintainability. In larger codebases, function types get complex fast. The interviewer is checking if you use typedefs to tame that complexity.
+**Step 3 — The modern way: put data and methods on the enum.**
 
-**Common mistake:** Overusing typedefs for trivial types — aliasing `int` as `UserId` can be confusing because Dart typedefs are transparent aliases (not distinct types), so a `UserId` and a plain `int` are interchangeable. For truly distinct types, you need a wrapper class or an extension type (Dart 3).
+```dart
+enum Plan {
+  free(price: 0, maxProjects: 1),
+  pro(price: 12, maxProjects: 50),
+  team(price: 40, maxProjects: 1000);
+
+  // const constructor + final fields
+  const Plan({required this.price, required this.maxProjects});
+  final int price;
+  final int maxProjects;
+
+  // methods and getters on the enum
+  bool get isPaid => price > 0;
+}
+
+Plan.pro.price;     // 12
+Plan.pro.isPaid;    // true
+```
+
+**Step 4 — Useful built-in enum features.**
+
+```dart
+Plan.values;                 // [Plan.free, Plan.pro, Plan.team]
+Plan.pro.index;              // 1
+Plan.pro.name;               // 'pro'
+Plan.values.byName('free');  // Plan.free  (find by text)
+```
+
+**Why interviewers ask:** To see if you write modern Dart instead of old enum + switch helpers.
+
+**Follow-ups they may ask:**
+- *"enum vs sealed class?"* → enum = a fixed list of single values that all share the same shape. sealed class = a fixed list of types that can each hold different data (see [Q18](#q18)).
+
+**Related:** [Q18 — sealed classes](#q18)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are sealed classes in Dart 3, and how do they relate to pattern matching?
+# D. Dart 3 new features (records, patterns, sealed classes)
 
-**A:** A `sealed` class restricts which classes can directly extend or implement it — only classes within the same library (same file) can do so. Outside that file, the sealed class cannot be extended, implemented, or mixed in.
-
-The key benefit: the compiler knows ALL subtypes at compile time. This enables **exhaustiveness checking** in switch expressions. If you match on a sealed type, the compiler warns you if you miss a case — no need for a `default` branch.
-
-This is Dart's version of algebraic data types (ADTs), similar to Kotlin's `sealed class` or Rust's `enum`.
-
-**Example:**
-```dart
-// All subtypes must be in the same file
-sealed class AuthState {}
-
-class Authenticated extends AuthState {
-  final User user;
-  Authenticated(this.user);
-}
-
-class Unauthenticated extends AuthState {}
-
-class Loading extends AuthState {}
-
-class AuthError extends AuthState {
-  final String message;
-  AuthError(this.message);
-}
-
-// Exhaustive switch — compiler checks all cases
-String describeState(AuthState state) {
-  return switch (state) {
-    Authenticated(user: var u) => 'Welcome, ${u.name}',
-    Unauthenticated()          => 'Please sign in',
-    Loading()                  => 'Loading...',
-    AuthError(message: var m)  => 'Error: $m',
-    // No default needed — compiler knows these are all cases
-  };
-}
-
-// If you add a new subtype and forget to update the switch,
-// the compiler gives a warning — this prevents bugs
-
-// Practical use with BLoC/Cubit
-sealed class CounterEvent {}
-class Increment extends CounterEvent {}
-class Decrement extends CounterEvent {}
-class Reset extends CounterEvent {
-  final int value;
-  Reset(this.value);
-}
-```
-
-**Why it matters:** Sealed classes are the foundation of type-safe state management in modern Dart. They replace the error-prone pattern of `if (state is X) else if (state is Y)` with compiler-verified exhaustive switches. Interviewers look for this to gauge your Dart 3 proficiency.
-
-**Common mistake:** Placing subtypes in different files — the compiler loses exhaustiveness checking. Another mistake is using an abstract class instead of a sealed class for state types, giving up the compiler guarantee that all cases are handled.
+> These three features show you write Dart **today**, not Dart from years ago. Expect at least one of them.
 
 ---
 
-**Q:** What are records in Dart 3? What is the syntax, and how do you destructure them?
+<a id="q16"></a>
+## 16. What are records in Dart 3?
 
-**A:** Records are anonymous, immutable, aggregate types. Think of them as lightweight, value-type tuples with optional named fields. They are compared by structure and value (structural equality), not by identity.
+> Very common (Dart 3) · Medium
 
-Records solve the problem of returning multiple values from a function without creating a dedicated class.
+**Short answer (say this):**
+"A record is a quick way to group a few values together without creating a class. It is immutable (cannot change), and two records with the same values are equal. The most common use is returning more than one value from a function."
 
-**Syntax:** Parentheses with comma-separated fields. Named fields use curly braces within the record type.
+**Let's understand it fully:**
 
-**Example:**
+**Step 1 — The problem before records.**
+To return two values, you either made a whole class (too much work) or returned a `List`/`Map` (no safety):
+
 ```dart
-// Positional record
-(int, String) userInfo = (1, 'Alice');
-print(userInfo.$1); // 1 (positional fields use $1, $2, ...)
-print(userInfo.$2); // Alice
+// Old, unsafe way:
+List getResponse() => [200, 'OK'];
+final r = getResponse();
+final code = r[0]; // which index is what? easy to mix up
+```
 
-// Named fields
-({String name, int age}) person = (name: 'Bob', age: 30);
-print(person.name); // Bob
-print(person.age);  // 30
+**Step 2 — Records = a small bag of values.**
+Think of a record like a small bag carrying a few items together. No class needed.
 
-// Mixed positional and named
-(int, {String name, bool active}) record = (42, name: 'Test', active: true);
-print(record.$1);     // 42
-print(record.name);   // Test
+```dart
+// Return two values cleanly:
+(int, String) getResponse() => (200, 'OK');
 
-// Returning multiple values from a function
-(double lat, double lng) getCoordinates(String city) {
-  return (23.8103, 90.4125); // Dhaka
+final result = getResponse();
+print(result.$1); // 200  (access by position: $1, $2, ...)
+print(result.$2); // OK
+```
+
+**Step 3 — Unpack (destructure) in one line.**
+
+```dart
+final (code, body) = getResponse();
+print('$code $body'); // 200 OK
+```
+
+**Step 4 — Named fields (clearer than $1, $2).**
+
+```dart
+({double lat, double lng}) getLocation() => (lat: 23.8, lng: 90.4);
+
+final loc = getLocation();
+print(loc.lat); // 23.8
+print(loc.lng); // 90.4
+```
+
+**Step 5 — Records compare by value (built-in equality).**
+
+```dart
+print((1, 'a') == (1, 'a')); // true, same values means equal
+```
+
+When to use: use a record for quick, temporary groups of values. Use a real class once the data has a clear name and needs methods.
+
+**Why interviewers ask:** To see if you use records instead of old tricks like the `Tuple2` package or returning a `Map`.
+
+**Common mistake:** Using records everywhere as your main data model. Once data has a real meaning (like `User`), make a proper class.
+
+**Follow-ups they may ask:**
+- *"Can you change a record's value?"* → No, records are immutable.
+- *"Records vs a class?"* → Records = quick, no name, no methods. Class = named, can have methods, better for real models.
+
+**Related:** [Q4 — value equality](#q4) · [Q17 — destructuring patterns](#q17)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q17"></a>
+## 17. What is pattern matching, destructuring, and switch expressions?
+
+> Very common (Dart 3) · Medium–Hard
+
+**Short answer (say this):**
+"Patterns let me check the shape of data and pull values out at the same time. A switch *expression* returns a value, which is much cleaner than a long switch that assigns variables. And `if-case` lets me check a shape and unpack it in one line — great for reading JSON safely."
+
+**Let's understand it fully:**
+
+**Step 1 — Destructuring: unpack values in one step.**
+
+```dart
+final (a, b) = (1, 2);            // a = 1, b = 2
+final [first, second] = [10, 20]; // first = 10, second = 20
+final {'name': name} = {'name': 'Sara'}; // name = 'Sara'
+```
+
+**Step 2 — switch expression: a switch that RETURNS a value.**
+Old switch *statement* (sets a variable):
+
+```dart
+String label;
+switch (status) {
+  case Status.active: label = 'Active'; break;
+  case Status.paused: label = 'Paused'; break;
+  default: label = 'Unknown';
 }
+```
 
-final (lat, lng) = getCoordinates('Dhaka'); // Destructuring
-print('$lat, $lng');
+New switch *expression* (returns the value directly, cleaner):
 
-// Structural equality
-final a = (1, 'hello');
-final b = (1, 'hello');
-print(a == b); // true — same structure and values
-
-// Destructuring in pattern matching
-final (String name, int age) = ('Alice', 25);
-
-// With switch
-sealed class Shape {}
-class Circle extends Shape { final double radius; Circle(this.radius); }
-class Rect extends Shape { final double w, h; Rect(this.w, this.h); }
-
-(String, double) describe(Shape shape) => switch (shape) {
-  Circle(radius: var r) => ('circle', 3.14 * r * r),
-  Rect(w: var w, h: var h) => ('rectangle', w * h),
+```dart
+final label = switch (status) {
+  Status.active => 'Active',
+  Status.paused => 'Paused',
+  _ => 'Unknown',          // _ means "anything else"
 };
 ```
 
-**Why it matters:** Records eliminate the need for throwaway data classes. Before Dart 3, returning two values required creating a class or using a `Map`. The interviewer checks whether you know this and can use destructuring effectively to write concise code.
+**Step 3 — Patterns inside a switch (match shape + unpack).**
 
-**Common mistake:** Confusing records with `Map` or `List`. Records are typed, fixed-size, immutable, and compared by value. Also, forgetting that positional fields are accessed via `$1`, `$2` (not `$0` — it is 1-indexed).
-
----
-
-**Q:** Explain pattern matching and switch expressions in Dart 3.
-
-**A:** Dart 3 overhauls `switch` from a statement into an expression and adds full pattern matching. Patterns let you destructure and test the shape and content of a value simultaneously.
-
-**Switch expression**: Returns a value. Uses `=>` instead of `case:` and has no fall-through.
-
-**Pattern types include:**
-- **Constant patterns**: `case 42`, `case 'hello'`
-- **Variable patterns**: `case var x` (binds the value to `x`)
-- **Object patterns**: `case Circle(radius: var r)` (destructures an object)
-- **Logical patterns**: `case > 0 && < 100` (combines conditions)
-- **List/Map patterns**: `case [var first, ...var rest]`
-- **Record patterns**: `case (var x, var y)`
-- **Null-check patterns**: `case var x?` (matches non-null)
-- **Guard clauses**: `case var x when x > 0`
-
-**Example:**
 ```dart
-// Switch expression — returns a value
-String describe(int n) => switch (n) {
-  0 => 'zero',
-  1 => 'one',
-  >= 2 && <= 9 => 'single digit',
-  _ => 'large number', // _ is the wildcard (default)
+String describe(Object o) => switch (o) {
+  (int x, int y) => 'point $x, $y',          // matches a record
+  [final first, ...] => 'list starts with $first', // matches a list
+  int n when n > 0 => 'positive number',     // 'when' adds a condition
+  String s => 'text: $s',                     // matches a String + binds it
+  _ => 'something else',
 };
+```
 
-// Object destructuring pattern
-sealed class Notification {}
-class Email extends Notification { final String subject; Email(this.subject); }
-class SMS extends Notification { final String number; SMS(this.number); }
-class Push extends Notification { final String title; final int badge; Push(this.title, this.badge); }
+**Step 4 — `if-case`: check a shape and unpack in one line.**
+This is excellent for safely reading JSON:
 
-String handle(Notification n) => switch (n) {
-  Email(subject: var s) => 'Email: $s',
-  SMS(number: var num) => 'SMS from $num',
-  Push(title: var t, badge: var b) when b > 0 => '$t ($b new)',
-  Push(title: var t) => t,
+```dart
+final json = {'token': 'abc123'};
+
+if (json case {'token': final String token}) {
+  saveToken(token); // token is ready to use AND guaranteed to be a String
+}
+```
+
+If the shape doesn't match (no `token`, or it's not a String), the `if` is simply skipped — no crash.
+
+**Why interviewers ask:** To replace old, long `if (x is Type) { final t = x as Type; ... }` code with clean pattern matching.
+
+**Common mistake:** Not knowing the difference between a switch *statement* (does an action) and a switch *expression* (returns a value).
+
+**Follow-ups they may ask:**
+- *"What does `User(:final id)` mean?"* → It matches a `User` object and pulls out its `id` field into a variable named `id`.
+- *"What is `when`?"* → An extra condition added to a pattern, like `int n when n > 0`.
+
+**Related:** [Q16 — records](#q16) · [Q18 — sealed + exhaustive switch](#q18)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q18"></a>
+## 18. What are sealed classes? And the new class modifiers (`sealed`, `final`, `base`, `interface`)?
+
+> Common (Dart 3) · Hard
+
+**Short answer (say this):**
+"A `sealed` class has a fixed, known set of subclasses, all in the same file. The big benefit: when I `switch` over it, Dart checks that I handled every case. If I add a new subclass later and forget to handle it, the code won't even compile. The other modifiers — `final`, `base`, `interface` — control how a class can be reused in other files."
+
+**Let's understand it fully:**
+
+**Step 1 — `sealed` is like a fixed menu.**
+A sealed class says "these are the only options that exist." This is perfect for app states like *loading / success / error*:
+
+```dart
+sealed class Result {}
+
+class Loading extends Result {}
+class Success extends Result {
+  final String data;
+  Success(this.data);
+}
+class Failure extends Result {
+  final String error;
+  Failure(this.error);
+}
+```
+
+**Step 2 — The big benefit: Dart forces you to handle every case.**
+
+```dart
+String show(Result r) => switch (r) {
+  Loading() => 'Loading...',
+  Success(:final data) => 'Got: $data',
+  Failure(:final error) => 'Error: $error',
+  // No "default" needed — Dart knows these are ALL the options.
 };
-
-// List patterns
-final list = [1, 2, 3, 4, 5];
-final [first, second, ...rest] = list;
-print(first); // 1
-print(rest);  // [3, 4, 5]
-
-// If-case — pattern matching in if statements
-void processResponse(Object response) {
-  if (response case {'status': int code, 'data': Map data} when code == 200) {
-    print('Success: $data');
-  }
-}
-
-// Map patterns
-final json = {'name': 'Alice', 'age': 25};
-if (json case {'name': String name, 'age': int age}) {
-  print('$name is $age years old');
-}
-
-// Null-check pattern
-String? maybeNull = getNullableValue();
-if (maybeNull case var value?) {
-  print(value.length); // value is promoted to non-null String
-}
-
-// Practical: parsing API responses
-Widget buildFromResponse(Map<String, dynamic> response) {
-  return switch (response) {
-    {'error': String msg} => ErrorWidget(msg),
-    {'data': List items} when items.isNotEmpty => ListWidget(items),
-    {'data': List _} => EmptyWidget(),
-    _ => UnknownWidget(),
-  };
-}
 ```
 
-**Why it matters:** Pattern matching and switch expressions are the most significant Dart 3 features. They transform how you write conditional logic. The interviewer wants to see if you have adopted Dart 3 idioms or are still writing chains of `if-else` and `is` checks.
+If you later add `class Empty extends Result {}` and forget to handle it, the code won't compile. Dart points right at the missing case. This stops a whole class of bugs.
 
-**Common mistake:** Forgetting the `_` wildcard as the default case, which can cause a compile error if the switch is not exhaustive. Also, not using `when` guards and instead nesting `if` statements inside case bodies. Another mistake is not realizing that `if-case` exists for single-pattern checks.
+**Step 3 — Why this beats old approaches.**
+Old way: one class with three nullable fields and a `type` flag — easy to create invalid states (data AND error at once?). Sealed classes make invalid states impossible and ensure every state is handled.
+
+**Step 4 — The other class modifiers (control reuse in other files).**
+
+| Modifier | Can `extend`? | Can `implement`? | Meaning |
+|---|:---:|:---:|---|
+| (none) | yes | yes | normal class |
+| `final` | no | no | fully locked, no extending or implementing |
+| `base` | yes | no | can extend, but cannot re-implement |
+| `interface` | no | yes | only a contract, implement it, don't extend it |
+| `sealed` | no | no | fixed subclasses, safe and complete `switch` |
+
+(Note: `final` here is the *class modifier*, which is different from the `final` keyword for variables.)
+
+**Why interviewers ask:** To see if you use the type system to prevent bugs — like making sure every app state is handled.
+
+**Common mistake:** Not knowing that the "handle every case" benefit specifically needs `sealed`. A normal class doesn't give that check.
+
+**Follow-ups they may ask:**
+- *"sealed class vs freezed union?"* → Both model fixed states. `sealed` is built into the language and gives compile-time "handle all cases" for free, without code generation.
+- *"Why the `interface` modifier?"* → It clearly says "implement me, don't extend me," and Dart enforces it across files.
+
+**Related:** [Q15 — enum vs sealed](#q15) · [Q17 — switch patterns](#q17)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are the Dart compilation modes — JIT vs. AOT? When is each used?
-
-**A:** Dart supports two compilation modes that serve fundamentally different purposes:
-
-**JIT (Just-In-Time):**
-- Compiles code on-the-fly during execution.
-- Used during **development** (`flutter run` in debug mode).
-- Enables **hot reload** and **hot restart** — you change code and see results in under a second without losing app state.
-- Includes the full Dart VM with a runtime compiler, debugging info, and assertions.
-- Produces larger binaries and slower execution, but the development experience is fast.
-- Also supports dart's Observatory (DevTools) for profiling and debugging.
-
-**AOT (Ahead-Of-Time):**
-- Compiles to native machine code before the app runs.
-- Used for **release builds** (`flutter build apk`, `flutter build ios`).
-- Produces small, fast, optimized binaries. No runtime compiler is included.
-- Startup is much faster because there is no compilation step at runtime.
-- Does not support hot reload or reflection (`dart:mirrors` is unavailable).
-- Tree shaking removes unused code, reducing binary size.
-
-**The brilliance of Dart for Flutter is having both:** fast development with JIT, high-performance releases with AOT.
-
-**Example:**
-```dart
-// Debug mode (JIT) — assertions run
-assert(price >= 0, 'Price must be non-negative');
-// This line disappears in release (AOT) builds
-
-// You can check the mode at runtime
-void main() {
-  // kDebugMode is a const bool from Flutter
-  if (kDebugMode) {
-    print('Running in debug mode');
-  }
-
-  // kReleaseMode for release checks
-  if (kReleaseMode) {
-    // Initialize crash reporting, analytics, etc.
-    initCrashlytics();
-  }
-}
-
-// Compilation targets:
-// flutter run                → JIT (debug, hot reload)
-// flutter run --profile      → AOT (profiling, no hot reload, DevTools)
-// flutter build apk          → AOT (release, optimized, tree-shaken)
-// flutter build ios          → AOT (release, optimized)
-// dart compile exe app.dart  → AOT native executable (server/CLI)
-// dart run app.dart          → JIT (Dart scripts)
-```
-
-**Why it matters:** This explains why Flutter's development experience is fast AND why release apps are performant. The interviewer is testing whether you understand the compilation pipeline and can reason about what works in debug vs. release (e.g., `dart:mirrors` only in JIT, assertions stripped in AOT).
-
-**Common mistake:** Thinking hot reload works in release builds — it requires the JIT compiler, which is stripped from release binaries. Also, testing performance in debug mode and drawing conclusions — debug mode includes the JIT overhead and is significantly slower than release. Always benchmark on release builds.
+# E. Async & concurrency (Future, Stream, Isolate)
 
 ---
 
-**Q:** What is the Dart VM? How does it execute Dart code, and what does "virtual machine" mean in the Dart context?
+<a id="q19"></a>
+## 19. What is a `Future`? How does `async`/`await` work? Does `await` freeze the app?
 
-**A:** The Dart VM is the runtime environment that executes Dart code. But calling it a "virtual machine" is slightly misleading — it is not a traditional bytecode interpreter like the JVM. The Dart VM is a collection of components that work together to run Dart programs, and the way it executes code changes dramatically depending on the compilation mode.
+> Very common · Medium
 
-**What the Dart VM actually contains:**
+**Short answer (say this):**
+"A `Future` is a value that will be ready later — like a receipt for food you ordered. `async`/`await` lets me write this in a simple top-to-bottom style. Very important: `await` does not freeze the app. It only pauses that one function and lets the rest of the app keep working."
 
-- **A runtime system**: Memory management (garbage collector), type system enforcement, isolate infrastructure, and native API bindings.
-- **A JIT compiler** (in development mode): Parses Dart source into an intermediate representation called kernel binary (`.dill` format), then compiles it to native machine code on the fly during execution. The JIT can use runtime profiling data to optimize hot code paths — it may recompile a function multiple times as it learns which branches are taken most often.
-- **An interpreter** (optional): The VM can interpret kernel binary directly without compiling to machine code. This is used in some debugging scenarios.
-- **A debugger and profiler**: Provides the Dart Observatory / DevTools service protocol for breakpoints, stepping, heap inspection, and CPU profiling.
+**Let's understand it fully:**
 
-**In AOT mode**, the Dart VM is stripped down. There is no JIT compiler, no parser, no source-level tooling. What ships with your release Flutter app is a lean **Dart runtime** — essentially just the garbage collector, isolate support, and type checking infrastructure. The actual Dart code has already been compiled to native machine code by the AOT compiler at build time.
+**Step 1 — The restaurant example.**
+Imagine ordering food at a restaurant:
+- You order and get a receipt now → that's the `Future`.
+- The food arrives later → that's the value.
+- While you wait, the kitchen keeps serving other customers → that's the app staying responsive.
 
-So "Dart VM" in practice means two things depending on context:
-1. **During development**: A full-featured runtime with JIT compilation, debugging, and hot reload support.
-2. **In production**: A minimal runtime that manages memory, isolates, and dispatches already-compiled native code.
+`await` waits for your order only — it does not stop the whole restaurant.
 
-**Example:**
+**Step 2 — Without and with async/await.**
+
 ```dart
-// How Dart code flows through the VM:
-
-// 1. SOURCE → KERNEL
-//    Dart source (.dart) is parsed by the Common Front End (CFE)
-//    into Kernel Binary (.dill) — a platform-independent AST format
-//    dart compile kernel app.dart → produces app.dill
-
-// 2a. KERNEL → JIT (development)
-//    The VM loads the .dill, JIT compiles to native code on-the-fly
-//    dart run app.dart  (internally: parse → kernel → JIT → execute)
-
-// 2b. KERNEL → AOT (production)
-//    The AOT compiler takes the .dill and compiles it to native code
-//    before the app ever runs
-//    dart compile exe app.dart  (internally: parse → kernel → AOT → native binary)
-
-// You can actually inspect the kernel format:
-// dart compile kernel app.dart    → produces app.dill
-// dart run app.dill               → VM executes the kernel binary via JIT
-
-// In Flutter:
-// flutter run          → Full Dart VM with JIT (hot reload works)
-// flutter build apk    → AOT compiler runs at build time,
-//                         only the slim Dart runtime ships in the APK
-
-// The runtime services available in both modes:
-void main() {
-  // Garbage collection — always available
-  // (You don't call it directly, but you can observe it via DevTools)
-
-  // Isolate infrastructure — always available
-  Isolate.spawn(heavyWork, data);
-
-  // Type checking — always available
-  if (someVar is String) { /* runtime type check works in AOT too */ }
-
-  // dart:mirrors — JIT ONLY, not available in AOT/Flutter
-  // This is why reflection-based libraries don't work in Flutter release builds
-}
-```
-
-**Why it matters:** This question reveals whether you understand what actually runs on a user's device. Interviewers ask this to distinguish candidates who know Flutter's runtime architecture from those who just write widgets. It also explains practical constraints — why `dart:mirrors` is unavailable in Flutter, why release builds are faster, and why hot reload is a development-only feature.
-
-**Common mistake:** Describing the Dart VM as a bytecode interpreter like the JVM. It is not — in JIT mode, it compiles to native machine code (not bytecode interpretation), and in AOT mode, there is no "VM" running at all in the traditional sense, just a runtime. Another mistake is not knowing about the Kernel intermediate format (`.dill`) and thinking Dart compiles source code directly to machine code.
-
----
-
-**Q:** Explain the Dart event loop. What are the microtask queue and event queue? How are `async`/`await` and Futures scheduled under the hood? Why is Dart single-threaded but non-blocking?
-
-**A:** The Dart event loop is the core execution model. Every Dart isolate has exactly one thread and one event loop. The event loop continuously pulls tasks from two queues and executes them one at a time, to completion, before picking up the next task.
-
-**The two queues:**
-
-1. **Microtask queue** (high priority): Small, quick tasks that must run before the event loop processes the next event. Microtasks are typically internal continuations — for example, the resolution of a `Future` that completes synchronously, or tasks scheduled via `scheduleMicrotask()`. The event loop drains the entire microtask queue before looking at the event queue.
-
-2. **Event queue** (normal priority): External events like I/O completions, timer callbacks (`Timer`, `Future.delayed`), UI events (taps, gestures), repaint signals, and messages from other isolates. These are processed one at a time, in order.
-
-**The loop cycle:**
-```
-while (true) {
-  while (microtaskQueue.isNotEmpty) {
-    run(microtaskQueue.removeFirst());   // Drain ALL microtasks first
-  }
-  if (eventQueue.isNotEmpty) {
-    run(eventQueue.removeFirst());       // Then process ONE event
-  }
-  // Repeat — check microtasks again after each event
-}
-```
-
-**How `async`/`await` and Futures are scheduled:**
-
-When a `Future` completes, its `.then()` callback is not run immediately — it is placed on the **microtask queue**. This means:
-- `Future.value(42).then((v) => print(v))` schedules the print as a microtask, not synchronously.
-- `await` suspends the function and registers a continuation. When the awaited Future completes, the continuation is enqueued as a microtask.
-- `Future(() => work())` schedules `work()` on the **event queue** (not microtask).
-- `Future.microtask(() => work())` explicitly schedules on the **microtask queue**.
-- `Future.delayed(duration, callback)` creates a timer — the callback lands on the **event queue** when the timer fires.
-
-**Why single-threaded but non-blocking:**
-
-Dart delegates all blocking operations (network, file I/O, timers) to the operating system or a thread pool managed by the Dart runtime. Your Dart code never waits for I/O — it registers a callback and moves on. When the OS signals that data is ready, the runtime places the callback on the event queue. This is the same model Node.js uses.
-
-**Example:**
-```dart
-import 'dart:async';
-
-void main() {
-  print('1: main start');
-
-  // Scheduled on the EVENT queue
-  Future(() => print('5: Future (event queue)'));
-
-  // Scheduled on the MICROTASK queue
-  Future.microtask(() => print('3: microtask'));
-
-  // Also microtask — .then() on a completed future
-  Future.value('done').then((_) => print('4: Future.value.then (microtask)'));
-
-  // scheduleMicrotask — directly enqueues a microtask
-  scheduleMicrotask(() => print('2: scheduleMicrotask'));
-
-  print('1.5: main end');
+// A Future is a "value coming later"
+Future<String> fetchName() async {
+  await Future.delayed(const Duration(seconds: 2)); // pretend network
+  return 'Sara';
 }
 
-// Output (deterministic):
-// 1: main start
-// 1.5: main end
-// 2: scheduleMicrotask
-// 3: microtask
-// 4: Future.value.then (microtask)
-// 5: Future (event queue)
-
-// Explanation:
-// - Synchronous code runs first (1, 1.5)
-// - Then ALL microtasks drain (2, 3, 4) — in the order they were scheduled
-// - Then the event queue is checked (5)
-
-// Practical consequence — microtask flooding
-void badIdea() {
-  // If you keep scheduling microtasks endlessly, the event queue
-  // (including UI repaints) NEVER gets processed → frozen app
-  Future.microtask(() {
-    Future.microtask(() {
-      Future.microtask(() {
-        // This starves the event queue
-      });
-    });
-  });
-}
-
-// How await interacts with the event loop
-Future<void> fetchData() async {
-  print('A: before await');
-
-  // At this point, fetchData() suspends.
-  // The event loop is FREE to process other events (UI, timers).
-  // When the HTTP response arrives (event queue), the continuation
-  // is scheduled as a microtask.
-  final data = await http.get(Uri.parse('https://api.example.com'));
-
-  // This line runs as a microtask after the event loop picks up the
-  // I/O completion event and the Future completes.
-  print('B: after await — got ${data.statusCode}');
-}
-
-// Timer resolution and the event queue
-Future<void> timerExample() async {
+void main() async {
   print('start');
-
-  await Future.delayed(Duration.zero); // Yields to event queue
-  print('after zero-delay'); // Runs on next event loop iteration
-
-  // Common pattern: yielding to let the UI repaint
-  // between heavy synchronous chunks
-  for (var i = 0; i < bigList.length; i++) {
-    processItem(bigList[i]);
-    if (i % 100 == 0) {
-      await Future.delayed(Duration.zero); // Let UI breathe
-    }
-  }
+  final name = await fetchName(); // pause THIS function for 2s
+  print('Hello $name');           // runs after the value arrives
+  print('end');
 }
+// Output: start, then after 2s, Hello Sara, then end
 ```
 
-**Why it matters:** This is the most important systems-level Dart question. Interviewers ask it to test whether you can debug timing bugs, understand why the UI freezes, and reason about the execution order of asynchronous code. If you understand the event loop, you can explain why `setState` after `await` might run on stale data, why heavy synchronous code causes jank, and how microtask flooding can lock up an app.
+During those 2 seconds, the app is not frozen — buttons still work, animations still play. Only this function is paused.
 
-**Common mistake:** Saying microtasks and events are the same queue. They are not — microtasks have strict priority over events, and the entire microtask queue drains before each event. Another mistake is thinking `Future(() => ...)` and `Future.microtask(() => ...)` behave the same — they schedule on different queues with different priorities. The most dangerous mistake in practice is not realizing that an infinite chain of microtasks will starve the event queue and freeze the UI, because the event loop will never get past the microtask phase.
+**Step 3 — The most important point: `await` is not blocking.**
+`await` means "pause here and let the app do other things until the value is ready." It does not stop the screen. (If it did, every app would freeze on every network call.)
+
+**Step 4 — Running things in parallel (a senior detail).**
+If two tasks don't depend on each other, don't `await` them one by one — that's slow. Run them together with `Future.wait`:
+
+```dart
+// Slow: 2s + 2s = 4s total
+final a = await fetchA();
+final b = await fetchB();
+
+// Fast: both run together = about 2s total
+final results = await Future.wait([fetchA(), fetchB()]);
+```
+
+But if B needs A's result, then sequential `await` is correct.
+
+**Why interviewers ask:** The number one async mistake is thinking `await` freezes the whole app. They want to hear: it only pauses that function; the app keeps running.
+
+**Common mistake:** Awaiting independent calls one by one (slow). Use `Future.wait` to run them together.
+
+**Follow-ups they may ask:**
+- *"`Future.wait` vs `Future.any`?"* → `wait` finishes when all are done. `any` finishes when the first one is done.
+- *"How do you handle errors with await?"* → Wrap the `await` in `try/catch` to catch errors from the Future.
+
+**Related:** [Q20 — event loop](#q20) · [Q21 — Streams](#q21) · [Q6 — error handling](#q6)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** How does Dart manage memory? Explain Dart's garbage collection, generational GC (new space vs. old space), and what triggers a GC cycle.
+<a id="q20"></a>
+## 20. Explain the event loop: microtask queue vs event queue.
 
-**A:** Dart uses automatic garbage collection (GC) to manage memory. You allocate objects freely, and the runtime reclaims memory when objects are no longer reachable. Dart's GC is specifically optimized for the Flutter use case — short-lived, widget-heavy object allocation patterns where many small objects are created every frame and die quickly.
+> Deeper question · Hard — a senior tie-breaker.
 
-**Generational hypothesis:** Most objects die young. A widget tree rebuild creates thousands of temporary objects (layout constraints, paint commands, short-lived closures) that become garbage almost immediately. Dart's GC exploits this by splitting the heap into two generations:
+**Short answer (say this):**
+"Dart runs on a single event loop with two lines: a microtask line (high priority) and an event line (normal). Dart finishes all microtasks before taking the next event. Futures and code after `await` use the microtask line, while timers, taps, and network results use the event line."
 
-**1. New space (young generation):**
-- A small, fixed-size memory area (typically a few MB).
-- Uses a **semi-space** (copying) collector with two halves: "from space" and "to space."
-- When new space fills up, the GC copies all surviving (reachable) objects from "from space" to "to space," then swaps the roles of the two halves. Unreachable objects are not copied — their memory is reclaimed instantly by the swap.
-- This is extremely fast — cost is proportional to the number of **surviving** objects, not the total number of allocated objects. If most objects are dead (which they usually are), the GC does almost no work.
-- Objects that survive multiple new-space collections are **promoted** to old space.
+**Let's understand it fully:**
 
-**2. Old space (old generation):**
-- A larger memory region for long-lived objects (app state, singletons, cached data, images).
-- Uses a **mark-sweep** (or mark-compact) collector. The GC traverses all reachable objects from root references (global variables, stack, isolate state), marks them as alive, then sweeps through memory and frees unmarked objects.
-- Old-space GC is more expensive and runs less frequently.
-- Dart's old-space collector can run **concurrently** — it does much of its work on a background thread, pausing the main thread only briefly for a final synchronization step. This minimizes UI jank.
+**Step 1 — The bank with two lines.**
+Imagine a bank with two queues:
+- **Microtask line = VIP line.** Always served completely first.
+- **Event line = normal line.** Served only after the VIP line is empty.
 
-**What triggers a GC cycle:**
-- **New-space GC**: Triggers when the new space fills up. This happens frequently (potentially every frame) but is very fast (sub-millisecond typically).
-- **Old-space GC**: Triggers based on memory pressure heuristics — when old space usage crosses a threshold relative to its total size, or when the system is under memory pressure. The runtime dynamically adjusts these thresholds.
-- **Idle-time GC**: The Dart runtime is aware of the Flutter engine's frame schedule. It can perform GC work during idle time between frames, further reducing jank.
-- The runtime may also trigger GC when an Isolate is paused or terminated.
+Dart works the same way: it empties the whole microtask (VIP) line before taking even one item from the event (normal) line.
 
-**Example:**
+**Step 2 — Who goes in which line?**
+- **Microtask (VIP):** `Future.microtask(...)`, `scheduleMicrotask(...)`, and the code that runs after an `await` completes.
+- **Event (normal):** `Future(...)`, `Timer`, user taps, network responses, file reads.
+
+**Step 3 — Predict the output (this exact question is common).**
+
 ```dart
-// Understanding allocation patterns and GC impact
+void main() {
+  print('1');                          // runs now (synchronous)
+  Future(() => print('2'));            // normal line (event)
+  Future.microtask(() => print('3'));  // VIP line (microtask)
+  print('4');                          // runs now (synchronous)
+}
+```
 
-// GOOD: Short-lived objects — perfect for new-space GC
-Widget build(BuildContext context) {
-  // These objects are created every build, die immediately after layout/paint.
-  // New-space GC handles this extremely efficiently.
-  final padding = EdgeInsets.all(16.0);     // Short-lived
-  final style = TextStyle(fontSize: 14);     // Short-lived
-  return Padding(
-    padding: padding,
-    child: Text('Hello', style: style),
-  );
+Output order:
+1. `1` and `4` — normal synchronous code runs first, top to bottom.
+2. `3` — the VIP (microtask) line is emptied next.
+3. `2` — finally the normal (event) line.
+
+So the output is: **`1, 4, 3, 2`.**
+
+**Step 4 — Why this matters in real apps.**
+If you keep adding microtasks in a loop, the VIP line never empties, and the normal line (which includes rendering and taps) never gets served — the app freezes. So don't flood the microtask queue.
+
+**Why interviewers ask:** If you can correctly predict `1, 4, 3, 2`, you truly understand Dart's async model. It's a strong senior signal.
+
+**Common mistake:** Thinking timers or Futures run before microtasks. Microtasks (VIP) always go first.
+
+**Follow-ups they may ask:**
+- *"Where does code after `await` continue?"* → On the microtask (VIP) line, so it runs before the next normal event.
+- *"What can freeze the UI?"* → Long synchronous work, or flooding the microtask queue. Both block rendering.
+
+**Related:** [Q19 — async/await](#q19) · [Q23 — single-threaded & isolates](#q23)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q21"></a>
+## 21. What is a `Stream`? Explain single-subscription vs broadcast, `StreamController`, and `StreamBuilder`.
+
+> Very common · Medium
+
+**Short answer (say this):**
+"A `Future` gives one value; a `Stream` gives many values over time. A single-subscription stream allows only one listener (the default). A broadcast stream allows many listeners. `StreamController` creates and feeds a stream, and `StreamBuilder` rebuilds a widget every time a new value arrives."
+
+**Let's understand it fully:**
+
+**Step 1 — Future vs Stream.**
+- **Future = one delivery.** (One pizza arrives, once.)
+- **Stream = a subscription.** (A YouTube channel keeps posting new videos over time.)
+
+```dart
+Future<int> oneValue() async => 42;        // one value
+Stream<int> manyValues() async* {          // many values
+  yield 1;
+  yield 2;
+  yield 3;
+}
+```
+
+**Step 2 — Single-subscription vs broadcast.**
+- **Single-subscription (default):** only one listener allowed. If you try to listen twice, it throws an error. Good for a one-time data flow (like reading a file).
+- **Broadcast:** many listeners allowed. But new listeners do not see old values — only values added after they join.
+
+```dart
+// Single-subscription:
+final controller = StreamController<int>();
+controller.stream.listen((v) => print('A: $v')); // one listener
+// controller.stream.listen(...);                  // second listen throws error
+
+// Broadcast:
+final bus = StreamController<int>.broadcast();
+bus.stream.listen((v) => print('A: $v'));
+bus.stream.listen((v) => print('B: $v')); // many listeners allowed
+```
+
+**Step 3 — StreamController = the "feed" side of a stream.**
+It gives you a `stream` to listen to, and you push values with `add(...)`. Always `close()` it when done.
+
+```dart
+final controller = StreamController<int>();
+controller.stream.listen((v) => print(v));
+controller.add(1);  // listener prints 1
+controller.add(2);  // listener prints 2
+controller.close(); // always close to free resources
+```
+
+**Step 4 — StreamBuilder = auto-rebuild a widget on each value.**
+
+```dart
+StreamBuilder<int>(
+  stream: counterStream,
+  builder: (context, snapshot) {
+    if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+    if (!snapshot.hasData) return const CircularProgressIndicator();
+    return Text('Count: ${snapshot.data}');
+  },
+);
+```
+
+**Step 5 — The number one stream bug: not cleaning up.**
+Every subscription must be cancelled, and every controller closed, usually in `dispose()`. Forgetting this is a very common memory leak:
+
+```dart
+late final StreamSubscription _sub;
+
+@override
+void initState() {
+  super.initState();
+  _sub = myStream.listen(_onData);
 }
 
-// BETTER: const objects skip GC entirely — they live in read-only memory
-Widget build(BuildContext context) {
-  return const Padding(
-    padding: EdgeInsets.all(16.0),       // Compile-time constant, never GC'd
-    child: Text('Hello', style: TextStyle(fontSize: 14)),
-  );
+@override
+void dispose() {
+  _sub.cancel();    // stop listening
+  super.dispose();
 }
+```
 
-// PROBLEMATIC: Large object churn promotes objects to old space unnecessarily
-void processImages(List<Uint8List> images) {
-  for (final image in images) {
-    // Each iteration allocates large buffers that may survive
-    // a new-space GC and get promoted to old space
-    final processed = applyFilter(image);      // Large allocation
-    final resized = resize(processed, 800);    // Another large allocation
-    saveToCache(resized);
+**Why interviewers ask:** To check you know single vs broadcast, and that you clean up properly.
+
+**Common mistake:** Forgetting to cancel subscriptions or close controllers, causing a memory leak. Also, exposing the `StreamController` itself instead of just its `stream` (which lets others mess with it).
+
+**Follow-ups they may ask:**
+- *"Does broadcast replay old values to new listeners?"* → No. They only get values added after they start listening. (Use RxDart's `BehaviorSubject` if you need the last value replayed.)
+- *"FutureBuilder vs StreamBuilder?"* → FutureBuilder = one value. StreamBuilder = many values over time.
+
+**Related:** [Q19 — Future vs Stream](#q19) · [Q22 — generators make streams](#q22)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q22"></a>
+## 22. What are generators — `sync*`/`yield` and `async*`/`yield*`?
+
+> Common · Medium–Hard
+
+**Short answer (say this):**
+"Generators produce a sequence of values lazily, one at a time. `sync*` makes an `Iterable` and gives values only when asked. `async*` makes a `Stream` and can `await` between values. `yield` gives one value; `yield*` gives all values from another sequence."
+
+**Let's understand it fully:**
+
+**Step 1 — `sync*` makes a lazy `Iterable`.**
+"Lazy" means nothing runs until you actually ask for each value. This saves memory:
+
+```dart
+Iterable<int> firstNumbers(int n) sync* {
+  for (var i = 0; i < n; i++) {
+    print('making $i');
+    yield i;            // give one value, then pause until asked again
   }
-  // The intermediate buffers are now in old space, requiring
-  // a more expensive mark-sweep collection
 }
 
-// BETTER: Process in isolate — its entire heap is reclaimed when it exits
-Future<void> processImages(List<Uint8List> images) async {
-  await Isolate.run(() {
-    for (final image in images) {
-      final processed = applyFilter(image);
-      final resized = resize(processed, 800);
-      saveToCache(resized);
-    }
-    // When this isolate exits, ALL its memory is freed instantly
-    // — no GC needed, the entire heap is discarded
-  });
+final nums = firstNumbers(3); // nothing printed yet!
+print('created');             // "created" prints first
+for (final n in nums) {       // NOW it runs, one at a time
+  print('got $n');
 }
+```
 
-// Monitoring GC in DevTools:
-// 1. Open Flutter DevTools → Memory tab
-// 2. Watch for GC events (shown as vertical markers on the timeline)
-// 3. Look for "GC jank" — pauses >16ms during old-space collection
-//
-// Key metrics to watch:
-// - Dart heap used / allocated
-// - Number of GC events per second
-// - Old-space vs new-space collection frequency
-// - External allocations (native memory via FFI, images)
+**Step 2 — `async*` makes a `Stream` (values over time).**
+It can `await` between values — perfect for things like a timer or live updates:
 
-// Common memory leak patterns that defeat GC:
-class _MyWidgetState extends State<MyWidget> {
-  late StreamSubscription _sub;
-
-  @override
-  void initState() {
-    super.initState();
-    _sub = someStream.listen((data) {
-      setState(() { /* update UI */ });
-    });
-  }
-
-  // FORGETTING THIS = memory leak
-  // The subscription holds a reference to this State object,
-  // preventing GC even after the widget is removed from the tree
-  @override
-  void dispose() {
-    _sub.cancel(); // Always cancel subscriptions
-    super.dispose();
+```dart
+Stream<int> ticks(int n) async* {
+  for (var i = 0; i < n; i++) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield i;            // emit one value every second
   }
 }
 ```
 
-**Why it matters:** This question separates senior engineers from mid-level ones. Understanding GC explains why `const` constructors matter (they skip allocation entirely), why Isolates are useful for memory-heavy work (their heap is freed in bulk), and why uncancelled streams cause leaks. Interviewers want to know you can diagnose and prevent memory issues in production Flutter apps using DevTools.
+**Step 3 — `yield` vs `yield*`.**
+- `yield value` → give one value.
+- `yield* anotherSequence` → give all values from another iterable or stream (flatten it in):
 
-**Common mistake:** Saying Dart uses reference counting — it does not; it uses tracing garbage collection. Another mistake is not understanding why `const` widgets help performance — they are canonicalized and never need to be collected. The most practical mistake is ignoring `dispose()` in StatefulWidgets, leaving dangling references (stream subscriptions, animation controllers, focus nodes) that prevent the GC from reclaiming entire widget subtrees.
+```dart
+Iterable<int> combined() sync* {
+  yield 0;
+  yield* firstNumbers(3); // gives 0, 1, 2 from the other generator
+  yield 99;
+}
+// produces: 0, 0, 1, 2, 99
+```
+
+**Why interviewers ask:** To check you understand laziness (`sync*` does nothing until used) and the difference between `Iterable` and `Stream`.
+
+**Common mistake:** Mixing them up. Remember: `sync*` → `Iterable` (pull when asked). `async*` → `Stream` (pushed over time).
+
+**Follow-ups they may ask:**
+- *"Why is `sync*` useful?"* → For big or even infinite sequences — you only compute what you actually use, saving memory.
+
+**Related:** [Q21 — async* makes streams](#q21)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q23"></a>
+## 23. Why is Dart single-threaded? What are isolates, and what is `compute()` / `Isolate.run`?
+
+> Very common · Medium–Hard
+
+**Short answer (say this):**
+"Dart runs your code on a single thread, so there are no locks and no race conditions — it's simple and safe. The downside: heavy work freezes the screen. An isolate is a separate worker with its own memory. Isolates don't share memory; they pass messages. `compute()` and `Isolate.run` are easy shortcuts to run heavy work on another isolate."
+
+**Let's understand it fully:**
+
+**Step 1 — Single-threaded = one worker at one desk.**
+Dart does one thing at a time on a single thread. The good news: no two pieces of code touch the same data at once, so there are no race conditions and no need for locks. Simple and safe.
+
+**Step 2 — The problem: heavy work freezes the screen.**
+Because there's only one worker, a slow CPU task blocks everything — including drawing the screen. The app freezes (janks):
+
+```dart
+// This heavy loop freezes the UI while it runs
+int slowSum() {
+  var total = 0;
+  for (var i = 0; i < 1000000000; i++) total += i;
+  return total;
+}
+```
+
+(Note: a network call does NOT freeze the app — that's I/O, which is already non-blocking. Only heavy CPU work freezes it.)
+
+**Step 3 — Isolates = hire a second worker at a separate desk.**
+An isolate is a separate worker with its own memory. They cannot share papers (memory) — they pass notes (messages) to each other. This is why there are no locks: nothing is shared.
+
+**Step 4 — The easy ways to use an isolate.**
+
+```dart
+// Easiest, modern way (Dart 2.19+):
+final result = await Isolate.run(() => slowSum()); // runs on another worker
+
+// Flutter's older shortcut (needs a top-level or static function):
+final parsed = await compute(parseBigJson, rawText);
+```
+
+While the isolate does the heavy work, the UI thread stays free, so the screen stays smooth.
+
+**Step 5 — The cost: data is copied.**
+Because memory isn't shared, the input and result are copied between isolates. This copy has a cost. So use isolates only for big work, not small tasks.
+
+Rule of thumb: use an isolate for CPU-heavy work that takes more than about 16ms — big JSON parsing, image processing, encryption. Don't use it for network calls (already non-blocking) or tiny tasks (copy cost isn't worth it).
+
+**Why interviewers ask:** To see if you understand the "no shared memory" model and know when an isolate is actually worth it.
+
+**Common mistake:** Saying "use an isolate to speed up a network call." Network I/O is already non-blocking — an isolate won't help and just adds copy cost.
+
+**Follow-ups they may ask:**
+- *"How do isolates talk to each other?"* → Through `SendPort` and `ReceivePort` (sending messages). `compute`/`Isolate.run` hide this for the simple case.
+- *"Why no locks in Dart?"* → Because nothing is shared between isolates — each has its own memory.
+
+**Related:** [Q20 — event loop / single-threaded](#q20) · [Q19 — async/await](#q19)
+
+[↑ Back to top](#toc)
+
+---
+
+# F. How Dart runs (compile & memory)
+
+---
+
+<a id="q24"></a>
+## 24. What is JIT vs AOT? Why does it matter for Flutter?
+
+> Common · Medium
+
+**Short answer (say this):**
+"During development, Dart uses JIT (compiles while running), which is what makes hot reload so fast. In a release build, Dart uses AOT (compiled to native code before running), so the app starts fast and runs smoothly. That's why we never judge performance from a debug build."
+
+**Let's understand it fully:**
+
+**Step 1 — What the two words mean.**
+- **JIT = Just-In-Time:** code is compiled while the app runs. Flexible and fast to change, which enables hot reload.
+- **AOT = Ahead-Of-Time:** code is compiled to native machine code before the app runs. No compiling at runtime, which gives fast startup and smooth performance.
+
+**Step 2 — When each is used in Flutter.**
+
+| | JIT (debug mode) | AOT (release mode) |
+|---|---|---|
+| When | development | production (real users) |
+| Best for | hot reload, fast coding | fast startup, real performance |
+| Speed | slower (extra checks) | fast (native code) |
+
+**Step 3 — Why this matters in practice.**
+In debug mode, the app is slower because of JIT and extra debug checks. So if your app feels laggy in debug, don't panic — test it in release mode (`flutter run --release`) before judging performance. Many "performance bugs" disappear in release.
+
+**Why interviewers ask:** To check you know you must never measure performance in debug mode.
+
+**Common mistake:** Complaining about lag in a debug build and trying to "optimize" it. Always test speed in release mode first.
+
+**Follow-ups they may ask:**
+- *"What about Flutter web?"* → For web, Dart compiles to JavaScript (or newer WebAssembly), not native ARM code.
+- *"What is profile mode?"* → A middle mode: release-like performance, but with some profiling tools on, for measuring real performance.
+
+**Related:** [Q25 — Dart VM](#q25)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q25"></a>
+## 25. What is the Dart VM?
+
+> Deeper question · Hard
+
+**Short answer (say this):**
+"The Dart VM is the system that runs Dart. In development it compiles and runs your code (JIT). In a release build, your code is already compiled to native (AOT), but a small part of the VM is still included to handle things like garbage collection, isolates, and the event loop. So 'VM' does not mean 'slow' or 'interpreted'."
+
+**Let's understand it fully:**
+
+**Step 1 — Two jobs of the VM: compiler + runtime helpers.**
+The Dart VM has two parts:
+1. A compiler (used in development for JIT).
+2. Runtime helpers — garbage collection (memory cleanup), isolate management, the event loop.
+
+**Step 2 — What happens in release (AOT).**
+In a release build, the compiler part is no longer needed (code is already native). But the runtime helpers are still bundled into your app, because the app still needs memory cleanup, isolates, and the event loop.
+
+So: AOT removes the compiler, but keeps the runtime helpers.
+
+**Step 3 — The common misunderstanding.**
+"VM" makes people think "slow or interpreted like old Java." That's wrong for release Flutter — your code runs as native machine code. The VM runtime just provides support services in the background.
+
+**Common mistake:** Thinking AOT means "no VM at all." The compiler is gone in release, but the runtime support stays.
+
+**Follow-ups they may ask:**
+- *"What is a snapshot?"* → A saved, ready-to-load form of your program, used to make the app start faster.
+
+**Related:** [Q24 — JIT vs AOT](#q24) · [Q26 — garbage collection](#q26)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q26"></a>
+## 26. How does Dart manage memory (garbage collection)?
+
+> Deeper question · Hard
+
+**Short answer (say this):**
+"Dart automatically frees memory you no longer use — that's garbage collection (GC). It uses a 'generational' design based on a simple idea: most objects die young. New objects go to a small area that is cleaned quickly. Objects that survive move to an older area that is cleaned less often."
+
+**Let's understand it fully:**
+
+**Step 1 — What garbage collection is.**
+You don't free memory by hand in Dart. The GC automatically finds objects you no longer use and frees them. This prevents most memory bugs.
+
+**Step 2 — The key idea: "most objects die young."**
+In real apps, most objects are created and thrown away very fast (especially Flutter widgets, which are rebuilt constantly). Dart's GC is designed around this:
+- **Young area (new space):** new objects go here. It is cleaned quickly and often (cheap).
+- **Old area (old space):** objects that survive a while get moved here. It is cleaned less often.
+
+This is called generational GC — separating "young" (short-lived) from "old" (long-lived) objects.
+
+**Step 3 — Why this matters for Flutter.**
+Flutter creates a huge number of short-lived widget objects every frame. Because cleaning the young area is cheap, this is okay by design — it's a big reason rebuilding widgets is acceptable.
+
+**Step 4 — The practical rule.**
+GC still takes a tiny bit of time. If you create lots of objects inside `build()` or inside scroll/animation callbacks (which run 60–120 times per second), the cleanup adds up and can cause small freezes (jank). So avoid heavy object creation in these "hot paths."
+
+```dart
+// Wrong: creating a new heavy object on every build/frame
+Widget build(BuildContext context) {
+  final formatter = DateFormat('yyyy-MM-dd'); // made every rebuild
+  return Text(formatter.format(date));
+}
+
+// Better: create it once and reuse it
+static final _formatter = DateFormat('yyyy-MM-dd');
+```
+
+**Why interviewers ask:** To connect memory behavior to a real Flutter rule — don't allocate heavily in hot paths.
+
+**Follow-ups they may ask:**
+- *"What triggers a GC?"* → Mostly when the young area fills up. You can't control GC directly, but you control how many objects you create.
+- *"Can Dart still leak memory?"* → Yes — if you hold references you don't need (uncancelled stream subscriptions, listeners, big objects in closures). GC can't free what is still referenced.
+
+**Related:** [Q25 — Dart VM](#q25) · [Q3 — const reduces allocations](#q3)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="cheatsheet"></a>
+
+# Cheat Sheet (last-night review)
+
+Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
+
+## Quick comparison tables
+
+**`final` vs `const`**
+
+| | `final` | `const` |
+|---|---|---|
+| Set when | once, runtime is fine | compile time (before running) |
+| Contents | can change inside (e.g. a list) | fully frozen |
+| Memory | a new object each time | the same object is reused |
+
+**`extends` vs `implements` vs `with`**
+
+| | What you get | How many |
+|---|---|---|
+| `extends` | the parent's code | one |
+| `implements` | only the rules (rewrite all) | many |
+| `with` (mixin) | reusable behavior | many |
+
+**`Future` vs `Stream`**
+
+| `Future` | `Stream` |
+|---|---|
+| one value, once | many values over time |
+| `await` / `.then()` | `listen()` / `await for` |
+| `FutureBuilder` | `StreamBuilder` |
+
+**`sync*` vs `async*`**
+
+| `sync*` | `async*` |
+|---|---|
+| returns an `Iterable` | returns a `Stream` |
+| lazy — pulled when asked | pushed over time |
+
+**JIT vs AOT**
+
+| JIT (debug) | AOT (release) |
+|---|---|
+| compile while running | compile before running |
+| enables hot reload | fast startup, smooth |
+| development | production |
+
+## One-line reminders
+
+- **Null safety** = a variable can't be null unless you allow it with `?`. Every `!` is a risky promise. ([Q1](#q1))
+- **`final`** locks the box (set once); **`const`** freezes everything and reuses the same object. ([Q2](#q2), [Q3](#q3))
+- **`==` and `hashCode`** must always be overridden together, using fields that don't change. ([Q4](#q4))
+- **`extends`** = inherit code (one). **`implements`** = follow rules, write all code (many). **`with`** = add behavior. ([Q12](#q12))
+- **Factory** constructor can return a cached object or a subtype; a normal one always makes a new object. ([Q11](#q11))
+- **Records** = quick value bags. **Patterns** = match shape + unpack. **Sealed** classes = "handle every case" safety. ([Q16](#q16), [Q17](#q17), [Q18](#q18))
+- **`await` does NOT freeze the app** — it pauses one function and lets other work continue. ([Q19](#q19))
+- **Microtasks (VIP) run before events (normal)** → output `1, 4, 3, 2`. ([Q20](#q20))
+- **Single-subscription** stream = one listener; **broadcast** = many. Always cancel and close. ([Q21](#q21))
+- **`sync*`** → lazy `Iterable`; **`async*`** → `Stream`. `yield` = one value; `yield*` = all from another. ([Q22](#q22))
+- **Isolates** = separate worker, separate memory, pass messages. Use for heavy CPU work, not network. ([Q23](#q23))
+- **JIT** (debug) = hot reload; **AOT** (release) = fast native. Never test speed in debug. ([Q24](#q24))
+- **Generational GC**: most objects die young, so cleanup is cheap. Don't allocate inside `build()`. ([Q26](#q26))
+
+[↑ Back to top](#toc)
+
+---
+
+# Practice: how interviewers go deeper
+
+Interviewers rarely stop at one question. They keep digging to test your depth. Practice answering this chain out loud — calmly, step by step:
+
+1. *"What is the difference between `final` and `const`?"* → set once (runtime ok) vs known before running (frozen).
+2. *"Then why does `const` help Flutter?"* → const objects are reused in memory, so Flutter skips rebuilding them.
+3. *"How does Flutter know it can skip?"* → it's the same object as before, so the widget doesn't need to update.
+4. *"What if one value is decided at runtime?"* → then it can't be `const`; keep the changing part separate and make the rest `const`.
+5. *"How would you prove the rebuild was skipped?"* → use Flutter DevTools, "Track Widget Rebuilds".
+
+Being able to calmly go step by step like this — without guessing — is exactly what makes you sound **senior**, in both remote and BD interviews.
+
+[↑ Back to top](#toc)
