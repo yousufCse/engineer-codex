@@ -1,945 +1,1055 @@
-# Section 17: Git & Version Control
+# Section 17 — Git & Version Control
+
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually. Commands shown as you'd actually type them.
 
 ---
 
-**Q:** What do `git init`, `git clone`, `git status`, `git add`, `git commit`, `git push`, and `git pull` each do?
+## How to use this section
 
-**A:**
-These are the core Git commands every developer uses daily. Here's what each one does:
+Each question has the same shape:
 
-- **`git init`** — Initialises a new, empty Git repository in the current directory. Creates a hidden `.git/` folder that stores all version history and config.
-- **`git clone <url>`** — Downloads a full copy of a remote repository (history and all) to your local machine.
-- **`git status`** — Shows the current state of your working directory: which files are modified, staged, or untracked.
-- **`git add <file>` / `git add .`** — Stages changes. Moves files from "working directory" into the "staging area" (index), ready to be committed.
-- **`git commit -m "message"`** — Saves a snapshot of all staged changes to your local repository history.
-- **`git push <remote> <branch>`** — Uploads your local commits to the remote repository (e.g. GitHub).
-- **`git pull`** — Downloads and immediately merges remote changes into your current branch. It is shorthand for `git fetch` + `git merge`.
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — a step-by-step explanation with real commands.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected questions · **Back to top** — return to the index.
 
-```
-Working Directory  →  git add  →  Staging Area  →  git commit  →  Local Repo  →  git push  →  Remote Repo
-Remote Repo        →  git pull  →  Local Repo + Working Directory (fetch + merge combined)
-```
+Each question is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
 
-**Example:**
-```bash
-git init                          # Start new repo
-git clone https://github.com/org/flutter-app.git  # Copy remote repo
-
-git status                        # See what changed
-git add lib/main.dart             # Stage one file
-git add .                         # Stage everything
-git commit -m "feat: add login screen"
-git push origin main              # Upload to GitHub
-git pull origin main              # Get latest from GitHub
-```
-
-**Why it matters:** The interviewer is checking that you understand the full Git lifecycle — working directory → staging → local history → remote — and are not just cargo-culting commands.
-
-**Common mistake:** Confusing `git add .` (stages all changes) with `git commit` (saves staged changes). Candidates sometimes say "commit saves all changes" — it only saves what was staged first.
+> **Interview tip:** For Git, explain *what the command does to your history* (the commit graph), not just the syntax. Knowing *why* `rebase` rewrites history is the senior signal.
 
 ---
 
-**Q:** How do you create, switch to, and delete a branch in Git?
+<a id="toc"></a>
 
-**A:**
-Branches let you work on features or fixes in isolation without touching `main`.
+## Table of Contents
 
-- **Create:** `git branch <name>` creates a branch but keeps you on the current one.
-- **Create + Switch:** `git checkout -b <name>` (classic) or `git switch -c <name>` (modern, preferred).
-- **Switch:** `git checkout <name>` or `git switch <name>`.
-- **Delete (merged):** `git branch -d <name>` — safe delete; Git blocks deletion if the branch has unmerged changes.
-- **Delete (force):** `git branch -D <name>` — force delete regardless.
-- **Delete remote branch:** `git push origin --delete <name>`.
+**A. Everyday commands**
+1. [Core commands (init/clone/status/add/commit/push/pull)](#q1) · *Very common*
+2. [Branching (create/switch/delete)](#q2) · *Very common*
+3. [`fetch` vs `pull`](#q3) · *Common*
 
-```
-main ──────●──────●──────●
-                   \
-feature/login       ●──────●  (git switch -c feature/login)
-```
+**B. Combining work**
+4. [`merge` vs `rebase`](#q4) · *Very common*
+5. [Resolving merge conflicts](#q5) · *Very common*
+6. [`cherry-pick`](#q6) · *Common*
 
-**Example:**
+**C. Undoing & fixing**
+7. [`reset` — soft / mixed / hard](#q7) · *Very common*
+8. [`revert` vs `reset`](#q8) · *Common*
+9. [Undo the last commit (keep changes)](#q9) · *Common*
+10. [`stash`](#q10) · *Common*
+
+**D. History & debugging**
+11. [`log` & `blame`](#q11) · *Common*
+12. [`bisect` — find the bad commit](#q12) · *Deeper*
+13. [Detached HEAD](#q13) · *Deeper*
+
+**E. Workflows & team**
+14. [`.gitignore` (Flutter entries)](#q14) · *Common*
+15. [Git Flow vs GitHub Flow vs Trunk-Based](#q15) · *Common*
+16. [Conventional Commits](#q16) · *Common*
+17. [Squashing commits](#q17) · *Common*
+18. [Pull Requests & code review](#q18) · *Very common*
+19. [Hotfix on production](#q19) · *Common*
+
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
+
+---
+
+<a id="study-plan"></a>
+
+## How to prepare gradually (study plan)
+
+**Stage 1 — The daily basics (start here).**
+→ [Q1 Core commands](#q1) · [Q2 Branching](#q2) · [Q3 fetch vs pull](#q3)
+
+**Stage 2 — Combining and fixing.**
+→ [Q4 merge vs rebase](#q4) · [Q5 Conflicts](#q5) · [Q7 reset](#q7) · [Q9 Undo last commit](#q9)
+
+**Stage 3 — Undo tools & history.**
+→ [Q8 revert vs reset](#q8) · [Q10 stash](#q10) · [Q11 log & blame](#q11)
+
+**Stage 4 — Team workflows.**
+→ [Q15 Branching strategies](#q15) · [Q16 Conventional commits](#q16) · [Q18 PRs & review](#q18) · [Q19 Hotfix](#q19)
+
+**Stage 5 — The deeper tools.**
+→ [Q6 cherry-pick](#q6) · [Q12 bisect](#q12) · [Q13 Detached HEAD](#q13) · [Q17 squash](#q17)
+
+**Short on time?** Review [Q1](#q1) · [Q2](#q2) · [Q4](#q4) · [Q5](#q5) · [Q7](#q7) · [Q9](#q9), then the [Cheat Sheet](#cheatsheet).
+
+---
+
+# A. Everyday commands
+
+---
+
+<a id="q1"></a>
+## 1. What do `git init`, `clone`, `status`, `add`, `commit`, `push`, and `pull` do?
+
+> Very common · Easy
+
+**Short answer (say this):**
+"These are the everyday commands. `init` starts a repo, `clone` copies a remote one. `status` shows what changed, `add` stages changes, `commit` saves them to history. `push` sends commits to the remote, `pull` brings remote commits down. The flow is: edit → add → commit → push."
+
+**Let's understand it fully:**
+
+**Step 1 — The mental model: three areas.**
+- **Working directory** — your files as you edit them.
+- **Staging area (index)** — changes you've marked to include in the next commit (`add`).
+- **Repository** — the saved history of commits (`commit`).
+
+**Step 2 — Starting a repo.**
+
 ```bash
-# Create and switch to a new feature branch
-git switch -c feature/onboarding
+git init               # turn the current folder into a new Git repo
+git clone <url>        # copy an existing remote repo (with its history)
+```
 
-# Do your work, commit...
-git add .
-git commit -m "feat: add onboarding flow"
+**Step 3 — The daily cycle.**
 
-# Switch back to main
+```bash
+git status             # what changed / what's staged
+git add file.dart      # stage one file  (git add . = stage everything)
+git commit -m "feat: add login"   # save staged changes to history
+git push               # upload commits to the remote (e.g. GitHub)
+git pull               # download + merge remote commits into your branch
+```
+
+**Step 4 — A commit is a save point.**
+Think of a commit as a labeled save point in a video game — you can always go back to it. Each commit records *what* changed, *who* changed it, and *when*.
+
+**Why interviewers ask:** It's the absolute baseline; they confirm you understand the staging → commit → push flow.
+
+**Common mistake:** Confusing `add` (stage) with `commit` (save). `add` only marks changes; `commit` records them.
+
+**Follow-ups they may ask:**
+- *"add vs commit?"* → `add` stages; `commit` saves the staged changes.
+- *"What does a commit store?"* → A snapshot, an author, a message, and a link to its parent commit.
+
+**Related:** [Q2 — branching](#q2) · [Q3 — fetch vs pull](#q3)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q2"></a>
+## 2. How do you create, switch to, and delete a branch?
+
+> Very common · Easy
+
+**Short answer (say this):**
+"A branch is a separate line of work so you can build a feature without touching the main code. You create and switch with `git switch -c name`, move between branches with `git switch`, and delete a merged branch with `git branch -d`. The modern commands are `switch` and `restore`; older tutorials use `checkout`."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a parallel workspace.**
+A branch is like a copy of the project where you can experiment freely. If it works, you merge it back; if not, you delete it — main stays safe.
+
+**Step 2 — The commands.**
+
+```bash
+git branch                 # list branches
+git switch -c feature/login   # create AND switch to a new branch
+git switch main            # switch back to main
+git branch -d feature/login   # delete a merged branch (-D to force)
+git push -u origin feature/login  # push the new branch to the remote
+```
+
+(`git checkout -b feature/login` is the older equivalent of `switch -c`.)
+
+**Step 3 — Why branches matter.**
+They let many people work in parallel without stepping on each other, and keep `main` always releasable. You merge a finished branch back via a Pull Request ([Q18](#q18)).
+
+**Why interviewers ask:** Branching is fundamental to team workflows; they confirm you work in branches, not directly on main.
+
+**Common mistake:** Committing straight to `main`. Real teams protect `main` and merge via reviewed branches.
+
+**Follow-ups they may ask:**
+- *"switch vs checkout?"* → `switch`/`restore` are the newer, clearer commands; `checkout` does both jobs (and more), which is confusing.
+
+**Related:** [Q15 — branching strategies](#q15) · [Q18 — pull requests](#q18)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q3"></a>
+## 3. What is the difference between `git fetch` and `git pull`?
+
+> Common · Easy–Medium
+
+**Short answer (say this):**
+"`fetch` downloads the latest commits from the remote but doesn't change your working branch — it just updates your knowledge of the remote. `pull` does a `fetch` and then immediately merges those changes into your current branch. So `pull = fetch + merge`."
+
+**Let's understand it fully:**
+
+**Step 1 — `fetch` — look, don't touch.**
+
+```bash
+git fetch          # download remote commits; your files are unchanged
+git log origin/main   # you can now inspect what's new before merging
+```
+
+`fetch` is safe — it never changes your working files. It just updates the remote-tracking branches (`origin/main`).
+
+**Step 2 — `pull` — fetch and merge in one step.**
+
+```bash
+git pull           # = git fetch + git merge origin/<branch>
+```
+
+This updates your current branch immediately. Convenient, but it can create a surprise merge or conflict.
+
+**Step 3 — When to use which.**
+- **`fetch`** when you want to review remote changes first (safer).
+- **`pull`** when you just want to get up to date quickly.
+- `git pull --rebase` replays your local commits on top of the remote ones, keeping history linear (see [rebase](#q4)).
+
+**Why interviewers ask:** It tests whether you understand that `pull` quietly merges, which can surprise you.
+
+**Common mistake:** Thinking `fetch` updates your files (it doesn't), or `pull`-ing onto uncommitted changes and getting a messy conflict.
+
+**Follow-ups they may ask:**
+- *"What is `origin`?"* → The default name for the remote you cloned from.
+
+**Related:** [Q1 — core commands](#q1) · [Q4 — merge vs rebase](#q4)
+
+[↑ Back to top](#toc)
+
+---
+
+# B. Combining work
+
+---
+
+<a id="q4"></a>
+## 4. What is the difference between `git merge` and `git rebase`? When do you use each?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Both combine work from two branches, but differently. `merge` joins them with a new merge commit, keeping the true history (branches visibly came together). `rebase` replays your commits on top of another branch, making a clean, linear history — but it rewrites your commits. The golden rule: never rebase commits you've already shared/pushed."
+
+**Let's understand it fully:**
+
+**Step 1 — `merge` — joins, keeps history.**
+
+```bash
 git switch main
-
-# Delete the branch after merging
-git branch -d feature/onboarding
-
-# Delete from remote too
-git push origin --delete feature/onboarding
+git merge feature   # creates a merge commit tying the two histories together
 ```
 
-**Why it matters:** Daily workflow skill. The interviewer wants to know you work with branches confidently and keep `main` clean.
+History shows the branch split and came back — honest, but can look busy.
 
-**Common mistake:** Using `git checkout -b` is fine, but candidates who don't know `git switch` (introduced in Git 2.23) may appear out of date. Also, forgetting to delete remote branches after merging is a common bad habit.
+**Step 2 — `rebase` — replays, makes it linear.**
 
----
-
-**Q:** What is the difference between `git merge` and `git rebase`? When do you use each?
-
-**A:**
-Both integrate changes from one branch into another, but they do it differently.
-
-**`git merge`** creates a new "merge commit" that ties together both branch histories. The original commit history of both branches is preserved exactly.
-
-**`git rebase`** re-applies your commits on top of the target branch, one by one, as if you had started your branch from the latest commit. It rewrites commit history — your branch's commits get new SHA hashes.
-
-```
---- MERGE ---
-main:    A──B──C──────M   (M = merge commit)
-              \      /
-feature:       D──E
-
---- REBASE ---
-main:    A──B──C
-                \
-feature:         D'──E'   (D and E replayed on top of C, new hashes)
-```
-
-| | Merge | Rebase |
-|---|---|---|
-| History | Preserves exact history | Linear, clean history |
-| Merge commit | Yes | No |
-| Safe for shared branches | Yes | No (rewrites history) |
-| Best for | `main`, `develop`, shared branches | Feature branches before PR |
-
-**When to use merge:** Integrating a completed feature back into `main` or `develop`. Especially on shared branches where others have pulled the branch.
-
-**When to use rebase:** Before opening a pull request, to replay your feature branch on top of the latest `main` and keep a clean linear history. **Never rebase a branch that others are working on.**
-
-**Example:**
 ```bash
-# Merge: bring feature into main
-git switch main
-git merge feature/login
-
-# Rebase: update feature branch before PR
-git switch feature/login
-git rebase main
-# Resolve any conflicts, then:
-git rebase --continue
+git switch feature
+git rebase main     # moves feature's commits to sit on top of latest main
 ```
 
-**Why it matters:** This is one of the most common Git interview questions. The interviewer is testing whether you understand trade-offs and won't blindly rebase shared branches and break teammates' histories.
+It looks as if you started your work *after* the latest main — a clean straight line. But the commits are *rewritten* (new IDs).
 
-**Common mistake:** Saying "rebase is always better because it's cleaner." Rebasing a shared/public branch is destructive — it rewrites SHA hashes and forces everyone else to reset their local copies.
+**Step 3 — The picture.**
+
+```
+merge:                 rebase:
+  A---B---C main         A---B---C main
+       \   \                      \
+        D---E feature              D'--E' feature (replayed on top)
+```
+
+**Step 4 — The golden rule.**
+**Never rebase commits that others already have** (e.g. pushed to a shared branch). Rebase rewrites history, so it would break everyone else's copy. Rebase *local, unpushed* work; merge shared branches.
+
+**Why interviewers ask:** It's the classic Git judgment question — clean history vs safety.
+
+**Common mistake:** Rebasing a shared/pushed branch and force-pushing, breaking teammates' history.
+
+**Follow-ups they may ask:**
+- *"Why does rebase change commit IDs?"* → It creates new commits with the same changes but new parents, so the hashes differ.
+- *"pull --rebase?"* → Fetches then rebases your local commits on top — keeps history linear.
+
+**Related:** [Q5 — conflicts](#q5) · [Q3 — fetch vs pull](#q3) · [Q17 — squash](#q17)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What causes a merge conflict, and how do you resolve one step by step?
+<a id="q5"></a>
+## 5. What causes a merge conflict, and how do you resolve one step by step?
 
-**A:**
-A merge conflict happens when two branches modify the **same lines** of the same file, and Git cannot automatically determine which version to keep. Git marks the conflicting sections and pauses the merge.
+> Very common · Medium
 
-**Step-by-step resolution:**
+**Short answer (say this):**
+"A conflict happens when two branches change the *same lines* of the same file in different ways, so Git can't decide which to keep. You resolve it by opening the marked file, choosing the correct final code, removing the conflict markers, then staging and committing. Tests after resolving are essential."
 
-1. Attempt the merge: `git merge feature/login`
-2. Git reports conflicts: `CONFLICT (content): Merge conflict in lib/auth/login_page.dart`
-3. Open the file — Git marks the conflict like this:
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture.**
+Two people edit the same sentence in a shared document. The system can't know which version is right, so it asks a human (you) to decide.
+
+**Step 2 — What a conflict looks like.**
 
 ```
 <<<<<<< HEAD
-  // current branch version
-  final title = 'Login';
+final color = Colors.blue;     // your version
 =======
-  // incoming branch version
-  final title = 'Sign In';
->>>>>>> feature/login
+final color = Colors.green;    // their version
+>>>>>>> feature
 ```
 
-4. Edit the file to resolve: delete the markers, keep the correct version (or combine both).
-5. Stage the resolved file: `git add lib/auth/login_page.dart`
-6. Complete the merge: `git commit`
+**Step 3 — Resolve it step by step.**
 
-**Example:**
 ```bash
-git switch main
-git merge feature/login
-# Git says: Automatic merge failed; fix conflicts
+# 1. Git tells you which files conflict
+git status
 
-# Open conflicted file in VS Code
-code lib/auth/login_page.dart
-# Manually resolve, then:
+# 2. Open each file, pick the correct final code, and DELETE the
+#    <<<<<<<, =======, >>>>>>> marker lines.
 
-git add lib/auth/login_page.dart
-git commit -m "merge: resolve conflict in login_page title"
+# 3. Stage the resolved file
+git add lib/theme.dart
 
-# Or to abort and go back to pre-merge state:
-git merge --abort
+# 4. Finish the merge
+git commit          # (or: git rebase --continue if rebasing)
+
+# 5. Run the app/tests to confirm nothing broke
 ```
 
-**Why it matters:** Conflicts are inevitable on real teams. The interviewer wants to know you stay calm, understand the markers, and resolve conflicts deliberately — not just pick one side blindly.
+**Step 4 — Make conflicts rarer.**
+Pull/rebase often (small, frequent merges), keep branches short-lived, and keep functions small so two people are less likely to touch the same lines.
 
-**Common mistake:** Deleting the conflict markers without actually reading both versions. This is how bugs get silently introduced during merges.
+**Why interviewers ask:** Everyone hits conflicts; they want to see you resolve them calmly and correctly, not panic or `--force`.
+
+**Common mistake:** Leaving a `<<<<<<<` marker in the file (it breaks the build), or blindly accepting one side without checking the logic.
+
+**Follow-ups they may ask:**
+- *"How to abort?"* → `git merge --abort` (or `git rebase --abort`) returns to the state before you started.
+
+**Related:** [Q4 — merge vs rebase](#q4) · [Q10 — stash](#q10)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the difference between `git fetch` and `git pull`?
+<a id="q6"></a>
+## 6. What is `git cherry-pick`, and when would you use it?
 
-**A:**
-- **`git fetch`** downloads remote changes (commits, branches, tags) into your local repo but does **not** touch your working directory or current branch. It updates your remote-tracking references (e.g. `origin/main`) only.
-- **`git pull`** = `git fetch` + `git merge`. It downloads changes AND immediately merges them into your current branch.
+> Common · Medium
 
-```
-git fetch:
-  Remote Repo → Local Repo (remote-tracking refs only)
-  Working directory: UNCHANGED
+**Short answer (say this):**
+"`cherry-pick` copies one specific commit from another branch onto your current branch, without merging the whole branch. You use it to grab a single fix — for example, applying a bug fix to a release branch without bringing along everything else from main."
 
-git pull:
-  Remote Repo → Local Repo → Working Directory (fetch + merge)
-```
+**Let's understand it fully:**
 
-**When to prefer `git fetch`:**
-- When you want to inspect what changed remotely before merging: `git fetch origin` then `git log HEAD..origin/main`
-- When you want more control: fetch first, then rebase instead of merge: `git fetch origin` then `git rebase origin/main`
+**Step 1 — A real-life picture: picking one cherry.**
+Instead of taking the whole tree (a full merge), you pick exactly one cherry (one commit) you want.
 
-**Example:**
+**Step 2 — How to use it.**
+
 ```bash
-# Fetch only — see what's new without affecting your work
-git fetch origin
-git log HEAD..origin/main --oneline  # Preview incoming commits
-
-# Then merge manually
-git merge origin/main
-
-# vs. pull (fetch + merge in one shot)
-git pull origin main
-```
-
-**Why it matters:** Understanding this distinction shows you're deliberate about how changes enter your working state. Blindly using `git pull` can cause surprise merges — `git fetch` first gives you visibility.
-
-**Common mistake:** Saying they're the same thing. Or saying `git fetch` is "just a safer pull" without explaining that it doesn't modify your working directory at all.
-
----
-
-**Q:** What does `git stash` do, and how do you apply stashed changes?
-
-**A:**
-`git stash` temporarily shelves your uncommitted changes (both staged and unstaged) so your working directory is clean. This is useful when you need to quickly switch branches without committing half-done work.
-
-Think of it as a clipboard for your in-progress changes.
-
-**Common stash commands:**
-
-| Command | What it does |
-|---|---|
-| `git stash` | Stash current changes |
-| `git stash push -m "message"` | Stash with a label |
-| `git stash list` | Show all stashes |
-| `git stash pop` | Apply latest stash and remove it from the stash list |
-| `git stash apply stash@{1}` | Apply a specific stash but keep it in the list |
-| `git stash drop stash@{0}` | Delete a specific stash |
-| `git stash clear` | Delete all stashes |
-
-**Example:**
-```bash
-# Mid-feature work, urgent bug comes in on main
-git stash push -m "WIP: onboarding UI"
-
-# Switch to main, fix the bug
-git switch main
-git switch -c hotfix/crash-on-startup
-# ... fix, commit, merge ...
-
-# Come back to your feature
-git switch feature/onboarding
-git stash pop   # Restore your WIP changes
-```
-
-**Why it matters:** Shows you can manage context-switching efficiently without polluting your history with "WIP" commits.
-
-**Common mistake:** Forgetting stashes exist and wondering where changes went after `git stash`. Always `git stash list` before panicking about missing work.
-
----
-
-**Q:** What is `git cherry-pick`? When would you use it?
-
-**A:**
-`git cherry-pick <commit-hash>` takes a specific commit from any branch and applies it to your current branch. It creates a **new commit** with the same changes but a different SHA.
-
-```
-main:    A──B──C
-              ↑ cherry-pick C onto hotfix
-
-hotfix:  A──B──C'  (C' has same changes as C, new hash)
-```
-
-**Common use cases:**
-1. A bug fix was committed to `develop` but needs to go to the current `release` branch immediately.
-2. A colleague's commit on their branch has a fix you need now, without merging their entire branch.
-3. Recovering a useful commit that was accidentally removed from a branch.
-
-**Example:**
-```bash
-# Find the commit hash
-git log develop --oneline
-# abc1234 fix: null crash on empty user profile
-
-# Apply just that commit to release branch
 git switch release/1.2
-git cherry-pick abc1234
-
-# Cherry-pick a range of commits
-git cherry-pick abc1234^..def5678
+git cherry-pick a1b2c3d   # copy that one commit's changes onto this branch
 ```
 
-**Why it matters:** Cherry-pick is a surgical tool for selective change propagation. The interviewer is checking that you know it exists and when it's the right choice versus a full merge.
+It creates a *new* commit on your branch with the same changes (a new ID).
 
-**Common mistake:** Overusing cherry-pick. If you find yourself cherry-picking the same commit multiple times across many branches, it's a signal that your branching strategy needs rethinking.
+**Step 3 — The common use: backport a fix.**
+A critical bug fix was merged to `main`, but you also need it on an older `release` branch that isn't ready to take all of main. Cherry-pick just that fix commit onto the release branch.
+
+**Step 4 — Watch out.**
+Cherry-picking the same change onto branches that later merge can create duplicate commits or conflicts. Use it deliberately, for isolated fixes.
+
+**Why interviewers ask:** It tests whether you can move a single change precisely — a real release-management need.
+
+**Common mistake:** Cherry-picking lots of commits instead of merging — that's error-prone; merge/rebase is better for many commits.
+
+**Follow-ups they may ask:**
+- *"Cherry-pick vs merge?"* → Cherry-pick grabs one commit; merge brings a whole branch.
+
+**Related:** [Q19 — hotfix](#q19) · [Q4 — merge vs rebase](#q4)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the difference between `git reset --soft`, `--mixed`, and `--hard`?
+# C. Undoing & fixing
 
-**A:**
-`git reset` moves the `HEAD` pointer (and current branch) backwards to a previous commit. The three modes differ in what happens to your staged changes and working directory files.
+---
 
-```
-Commit History:   A──B──C  (HEAD is at C)
-After reset to B: A──B      (C is undone, but WHERE did C's changes go?)
+<a id="q7"></a>
+## 7. What is the difference between `git reset --soft`, `--mixed`, and `--hard`?
 
---soft:   C's changes → Staging Area  (committed → staged)
---mixed:  C's changes → Working Dir   (committed → unstaged) [DEFAULT]
---hard:   C's changes → DELETED       (committed → gone)
-```
+> Very common · Medium
 
-| Mode | Staged Area | Working Directory | Use case |
+**Short answer (say this):**
+"All three move the branch pointer back to an earlier commit; they differ in what they do to your changes. `--soft` keeps changes staged, `--mixed` (the default) keeps them unstaged, and `--hard` throws the changes away entirely. `--hard` is the dangerous one — it deletes work."
+
+**Let's understand it fully:**
+
+**Step 1 — They all rewind history; the difference is your files.**
+
+| Mode | Moves branch back? | Staging area | Working files |
 |---|---|---|---|
-| `--soft` | Changes kept staged | Unchanged | Undo commit, keep changes ready to re-commit |
-| `--mixed` | Changes unstaged | Unchanged | Undo commit + unstage, keep files as-is |
-| `--hard` | Cleared | Reverted to target commit | Completely discard changes |
+| `--soft` | yes | keeps changes **staged** | kept |
+| `--mixed` (default) | yes | changes become **unstaged** | kept |
+| `--hard` | yes | cleared | **discarded (gone)** |
 
-**Example:**
+**Step 2 — Examples.**
+
 ```bash
-# Undo last commit but keep changes staged (ready to recommit)
-git reset --soft HEAD~1
-
-# Undo last commit and unstage changes (files still modified)
-git reset --mixed HEAD~1   # same as: git reset HEAD~1
-
-# Completely wipe the last commit AND all its changes — DANGEROUS
-git reset --hard HEAD~1
-
-# Go back 3 commits, discard everything
-git reset --hard HEAD~3
-
-# Reset to a specific commit
-git reset --hard abc1234
+git reset --soft HEAD~1    # undo last commit, keep changes staged (re-commit easily)
+git reset --mixed HEAD~1   # undo last commit, changes back to unstaged
+git reset --hard HEAD~1    # undo last commit AND delete the changes — careful!
 ```
 
-**Why it matters:** A high-stakes command — `--hard` deletes work permanently. The interviewer is testing that you understand the consequences before you run it.
+**Step 3 — The safe mental model.**
+- `--soft` / `--mixed` → "undo the commit, keep my work."
+- `--hard` → "undo the commit and erase my work." Only use when you're sure.
 
-**Common mistake:** Using `--hard` when `--soft` or `--mixed` was intended. Also, resetting commits that have already been pushed to a shared remote — this rewrites public history and breaks other developers' branches.
+**Step 4 — Reset rewrites history.**
+Like rebase, `reset` changes history — don't reset commits you've already pushed to a shared branch. For shared branches, use `revert` ([Q8](#q8)).
+
+**Why interviewers ask:** It tests precise undo knowledge and awareness that `--hard` destroys work.
+
+**Common mistake:** Running `git reset --hard` and losing uncommitted work. (Sometimes recoverable via `git reflog`, but don't rely on it.)
+
+**Follow-ups they may ask:**
+- *"How to recover after a bad reset?"* → `git reflog` shows where HEAD has been; you can reset back to the lost commit.
+
+**Related:** [Q8 — revert vs reset](#q8) · [Q9 — undo last commit](#q9)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is `git revert` and how does it differ from `git reset`?
+<a id="q8"></a>
+## 8. What is `git revert`, and how does it differ from `git reset`?
 
-**A:**
-`git revert <commit>` creates a **new commit** that undoes the changes introduced by the specified commit. It does not touch commit history — it adds to it.
+> Common · Medium
 
-`git reset` moves `HEAD` backwards, effectively erasing commits from history.
+**Short answer (say this):**
+"`revert` creates a *new* commit that undoes a previous commit's changes, leaving history intact. `reset` moves the branch pointer backward and rewrites history. So `revert` is the safe choice for shared/public branches, and `reset` is for local cleanup before you've pushed."
 
+**Let's understand it fully:**
+
+**Step 1 — `revert` — undo by adding a new commit.**
+
+```bash
+git revert a1b2c3d   # makes a new commit that reverses a1b2c3d's changes
 ```
-git reset:
-  A──B──C──D    →    A──B──C     (D is removed from history)
 
-git revert D:
-  A──B──C──D──D'  (D' is a new commit that reverses D's changes)
+History keeps both the original commit and the revert — honest and safe for shared branches.
+
+**Step 2 — `reset` — undo by rewinding history.**
+
+```bash
+git reset --hard a1b2c3d   # moves the branch back; later commits vanish from history
 ```
 
-| | `git reset` | `git revert` |
+This rewrites history, so it's unsafe once others have those commits.
+
+**Step 3 — The rule.**
+
+| | `revert` | `reset` |
 |---|---|---|
-| Modifies history | Yes | No |
-| Safe for shared branches | No | Yes |
-| Creates new commit | No | Yes |
-| Use when | Local-only commits | Already pushed commits |
+| History | preserved (adds a commit) | rewritten (moves pointer) |
+| Safe on shared branches? | **yes** | no |
+| Use for | undoing a pushed/public commit | local cleanup before pushing |
 
-**When to prefer `git revert`:**
-- The bad commit has already been pushed to `main` or a shared branch.
-- You need an audit trail showing that a change was undone.
-- You are working in a regulated environment where history must be preserved.
+**Step 4 — A picture.**
+`revert` says "I'll add a new step that cancels the old one." `reset` says "let's pretend the old step never happened." On a team branch, you want the honest, additive `revert`.
 
-**Example:**
-```bash
-# Revert a specific commit (creates undo commit)
-git revert abc1234
+**Why interviewers ask:** It tests whether you pick the safe undo for shared history.
 
-# Revert the last commit
-git revert HEAD
+**Common mistake:** Using `reset --hard` on a pushed branch and force-pushing, which breaks teammates. Use `revert` there.
 
-# Revert without auto-committing (lets you edit the revert message)
-git revert --no-commit abc1234
-git commit -m "revert: undo broken payment integration"
-```
+**Follow-ups they may ask:**
+- *"Revert a merge commit?"* → `git revert -m 1 <merge>` to specify which parent to keep.
 
-**Why it matters:** This is a safety question. Using `git reset` on a shared branch is a common way to cause chaos for teammates. Interviewers want to know you use `git revert` in collaborative contexts.
+**Related:** [Q7 — reset modes](#q7) · [Q19 — hotfix](#q19)
 
-**Common mistake:** Using `git reset --hard` to undo a pushed commit, then force-pushing. This rewrites public history and forces all teammates to reset their local branches.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** How do you use `git log` and `git blame` for debugging and understanding history?
+<a id="q9"></a>
+## 9. How do you undo the last commit without losing your changes?
 
-**A:**
+> Common · Easy–Medium
 
-**`git log`** shows commit history. Its real power is in its filtering options:
+**Short answer (say this):**
+"Use `git reset --soft HEAD~1`. It removes the last commit but keeps all your changes staged, so you can fix the message or add more and commit again. If you only want to fix the message or add a forgotten file, `git commit --amend` is even simpler."
 
-```bash
-git log                          # Full history
-git log --oneline                # Compact: one line per commit
-git log --oneline --graph        # ASCII graph of branch/merge history
-git log --author="Karim"        # Commits by a specific author
-git log --since="2 weeks ago"   # Commits in a time range
-git log -- lib/auth/login.dart  # Commits that touched a specific file
-git log -p lib/auth/login.dart  # Show the actual diff per commit for a file
-git log --grep="fix: null"      # Search commit messages
-git log main..feature/login     # Commits in feature not in main
-```
+**Let's understand it fully:**
 
-**`git blame <file>`** shows who last modified each line of a file, and in which commit. This is the tool you use when you find a suspicious line and want to know who wrote it and why.
+**Step 1 — Undo the commit, keep the work.**
 
 ```bash
-git blame lib/auth/login_page.dart
-# Output:
-# abc1234 (Karim Ahmed 2024-01-15) final title = 'Login';
-# def5678 (Sara Noor  2024-01-18) final subtitle = 'Welcome back';
+git reset --soft HEAD~1   # last commit undone; changes stay staged
+# edit/add more, then:
+git commit -m "feat: better message"
 ```
 
-**Example — finding when a bug was introduced:**
+`HEAD~1` means "one commit before the current one."
+
+**Step 2 — Just fixing the last commit? Use `--amend`.**
+
 ```bash
-# Find commits that touched the broken file
-git log --oneline -- lib/services/auth_service.dart
-
-# See exact changes in a suspicious commit
-git show abc1234
-
-# Find who changed a specific line
-git blame lib/services/auth_service.dart | grep "refreshToken"
+git commit --amend -m "fix: correct typo in message"   # rewrite the last commit
+git add forgotten.dart && git commit --amend --no-edit  # add a forgotten file
 ```
 
-**Why it matters:** These are debugging tools. Interviewers want to know you can navigate project history efficiently — not just write new code, but understand existing code and trace problems back to their origin.
+**Step 3 — The caution.**
+Both rewrite history. If you already pushed the commit, amending/resetting means you'd need a force-push — only do that on your own branch, never a shared one ([Q8](#q8)).
 
-**Common mistake:** Only knowing `git log` without its filter flags, or never having used `git blame`. In real investigations, `git log --` on a file and `git blame` are far more useful than scrolling through raw history.
+**Why interviewers ask:** It's an everyday task; they check you know the safe, change-preserving way.
+
+**Common mistake:** Using `git reset --hard HEAD~1` (deletes the changes) when you wanted to keep them — use `--soft`.
+
+**Follow-ups they may ask:**
+- *"Amend vs reset?"* → Amend edits the last commit in place; reset removes it and restages the work.
+
+**Related:** [Q7 — reset modes](#q7) · [Q17 — squash](#q17)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is `.gitignore`, and what are common Flutter-specific entries?
+<a id="q10"></a>
+## 10. What does `git stash` do, and how do you apply stashed changes?
 
-**A:**
-`.gitignore` is a plain text file at the root of your repo that tells Git which files and directories to **never track**. Files listed here won't appear in `git status` and won't be committed.
+> Common · Easy
 
-**Why it matters for Flutter:**
-Flutter projects generate a large number of files that are either machine-generated, platform-specific build artifacts, or local developer settings. Committing these pollutes the repo, causes unnecessary conflicts, and exposes secrets.
+**Short answer (say this):**
+"`stash` temporarily shelves your uncommitted changes so you have a clean working directory — useful when you need to switch branches quickly without committing half-done work. You bring the changes back with `stash pop`."
 
-**Common Flutter `.gitignore` entries:**
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a drawer for unfinished work.**
+You're mid-feature when an urgent bug comes in. You can't commit half-done code, so you put it in a drawer (stash), fix the bug, then take it back out.
+
+**Step 2 — The commands.**
+
+```bash
+git stash             # shelve current changes; working dir is now clean
+git switch main       # go fix something
+git switch feature
+git stash pop         # bring the changes back AND remove them from the stash
+```
+
+**Step 3 — Useful variants.**
+
+```bash
+git stash list        # see all stashes
+git stash apply       # bring back changes but KEEP them in the stash
+git stash -u          # also stash untracked (new) files
+git stash drop        # delete a stash
+```
+
+**Step 4 — When to use it.**
+For short interruptions. For longer pauses, a quick commit (even WIP) on a branch is safer than a forgotten stash.
+
+**Why interviewers ask:** It's a common everyday tool; they check you can context-switch cleanly.
+
+**Common mistake:** Forgetting about stashed work (`git stash list` reveals it), or stashing across branches and getting confused about where it applies.
+
+**Follow-ups they may ask:**
+- *"pop vs apply?"* → `pop` applies and removes the stash; `apply` keeps it in the stash list.
+
+**Related:** [Q5 — conflicts](#q5) · [Q2 — branching](#q2)
+
+[↑ Back to top](#toc)
+
+---
+
+# D. History & debugging
+
+---
+
+<a id="q11"></a>
+## 11. How do you use `git log` and `git blame`?
+
+> Common · Easy
+
+**Short answer (say this):**
+"`git log` shows the commit history — who changed what and when. `git blame` shows, line by line, which commit last changed each line of a file. Together they help you understand history and find when and why a line was introduced."
+
+**Let's understand it fully:**
+
+**Step 1 — `git log` — the history.**
+
+```bash
+git log --oneline --graph --all   # compact, visual history of all branches
+git log -p file.dart              # history with the actual diffs for a file
+git log --author="srana"          # commits by a person
+```
+
+`--oneline --graph` is the most useful day-to-day view.
+
+**Step 2 — `git blame` — who last touched each line.**
+
+```bash
+git blame lib/login.dart          # each line annotated with its last commit + author
+```
+
+This is for *understanding*, not blaming people — you use it to find the commit that introduced a line so you can read its message and context.
+
+**Step 3 — A common workflow.**
+See a confusing line → `git blame` to find its commit → `git show <commit>` to read why it was added (the message and the full change).
+
+**Why interviewers ask:** Reading history is a core debugging and onboarding skill.
+
+**Common mistake:** Treating `blame` as assigning fault. It's a tool to find *context*, not to point fingers.
+
+**Follow-ups they may ask:**
+- *"How do you find when a bug was introduced?"* → `git bisect` ([Q12](#q12)).
+
+**Related:** [Q12 — bisect](#q12) · [Q1 — core commands](#q1)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q12"></a>
+## 12. How do you find which commit introduced a bug using `git bisect`?
+
+> Deeper · Medium
+
+**Short answer (say this):**
+"`git bisect` does a binary search through your history to find the commit that introduced a bug. You mark a known-good commit and a known-bad one, and Git checks out the middle commit for you to test, repeatedly halving the range until it pinpoints the exact bad commit."
+
+**Let's understand it fully:**
+
+**Step 1 — The idea: binary search on commits.**
+If the bug appeared somewhere in the last 100 commits, bisect finds it in about 7 steps (log₂ 100), not 100 — by halving each time ([binary search](section11_data_structure_and_algorithm.md#q11)).
+
+**Step 2 — The workflow.**
+
+```bash
+git bisect start
+git bisect bad                # the current commit is broken
+git bisect good v1.0          # this older commit/tag worked
+
+# Git checks out a commit in the middle. Test it, then tell Git:
+git bisect good   # if this commit works
+git bisect bad    # if it's broken
+
+# Repeat. Git narrows down until it names the first bad commit.
+git bisect reset  # when done, return to your branch
+```
+
+**Step 3 — Automate it.**
+If you have a test script, `git bisect run ./test.sh` runs it on each step automatically — Git finds the bad commit with no manual testing.
+
+**Why interviewers ask:** It tests advanced debugging — and that you can apply binary search to real problems.
+
+**Common mistake:** Hunting commit-by-commit manually when bisect would find it in a handful of steps.
+
+**Follow-ups they may ask:**
+- *"Why is it fast?"* → It halves the search range each step — O(log n).
+
+**Related:** [Q11 — log & blame](#q11) · [Q11 (DSA) — binary search](section11_data_structure_and_algorithm.md#q11)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q13"></a>
+## 13. What is a detached HEAD state? How does it happen, and how do you recover?
+
+> Deeper · Medium
+
+**Short answer (say this):**
+"Normally HEAD points to a branch. A 'detached HEAD' means HEAD points directly at a specific commit instead of a branch — usually because you checked out a commit hash or a tag. Any commits you make there aren't on a branch and can be lost. To recover, create a branch from where you are before switching away."
+
+**Let's understand it fully:**
+
+**Step 1 — What 'detached HEAD' means.**
+HEAD is "where you are now." Usually it follows a branch (`main`). If you check out a raw commit, HEAD points straight at that commit — there's no branch to save new commits to.
+
+```bash
+git checkout a1b2c3d   # now in detached HEAD — HEAD points at the commit, not a branch
+```
+
+**Step 2 — Why it's risky.**
+If you make commits here and then `switch` to another branch, those commits aren't attached to anything and become hard to find (eligible for cleanup).
+
+**Step 3 — How to recover / use it safely.**
+
+```bash
+# If you made commits you want to keep, create a branch right here:
+git switch -c my-fix
+# Now your commits are safely on the 'my-fix' branch.
+```
+
+If you made no commits, just `git switch main` to leave safely.
+
+**Step 4 — When it's intentional.**
+It's fine for *looking* at an old commit or tag (read-only). Just don't do important work there without first making a branch.
+
+**Why interviewers ask:** It tests deeper understanding of HEAD, branches, and how commits get "lost."
+
+**Common mistake:** Making commits in detached HEAD, switching away, and losing them. Always branch first.
+
+**Follow-ups they may ask:**
+- *"Lost a commit — can you get it back?"* → `git reflog` shows recent HEAD positions; you can branch from the lost commit.
+
+**Related:** [Q2 — branching](#q2) · [Q7 — reset (reflog recovery)](#q7)
+
+[↑ Back to top](#toc)
+
+---
+
+# E. Workflows & team
+
+---
+
+<a id="q14"></a>
+## 14. What is `.gitignore`, and what are common Flutter entries?
+
+> Common · Easy
+
+**Short answer (say this):**
+"`.gitignore` lists files and folders Git should not track — build outputs, secrets, and machine-specific files. For Flutter, you ignore `build/`, `.dart_tool/`, IDE files, and anything with secrets like `.env` or signing keys. The goal is to keep the repo clean and never commit generated or sensitive files."
+
+**Let's understand it fully:**
+
+**Step 1 — Why ignore files.**
+- **Generated** files (build output) just bloat the repo and cause conflicts.
+- **Secrets** (API keys, keystores) must never be committed.
+- **Machine-specific** files (IDE config) differ per developer.
+
+**Step 2 — A typical Flutter `.gitignore`.**
 
 ```gitignore
-# Build outputs — regenerated by `flutter build`
+# Dart/Flutter
 build/
-
-# Dart tool cache — local package resolution
 .dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock        # (apps usually commit this; packages often don't)
 
-# Flutter generated files — regenerated by `flutter pub run build_runner`
-*.g.dart
-*.freezed.dart
-*.gr.dart
-
-# IntelliJ / Android Studio local settings
+# IDE
 .idea/
 *.iml
-
-# VS Code local settings
 .vscode/
 
-# Android local files
-android/local.properties
-android/.gradle/
-android/key.properties        # ⚠️ IMPORTANT: signing keys — never commit
-
-# iOS local files
-ios/Pods/
-ios/.symlinks/
-
-# macOS
-.DS_Store
-
-# Environment / secrets
+# Secrets — never commit these
 .env
-*.env.local
-google-services.json          # ⚠️ IMPORTANT: Firebase config — handle carefully
-GoogleService-Info.plist      # ⚠️ IMPORTANT: Firebase iOS config
-
-# Flutter/Dart pubspec lock (some teams commit this, some don't)
-# pubspec.lock  — usually committed for apps, gitignored for packages
+*.keystore
+*.jks
+ios/Runner/GoogleService-Info.plist  # if it holds secrets
+android/key.properties
 ```
 
-**Example:**
-```bash
-# Check if a file is being ignored
-git check-ignore -v android/local.properties
+**Step 3 — If you already committed a secret.**
+Adding it to `.gitignore` doesn't remove it from history. You must remove it from history (e.g. `git filter-repo`) **and** rotate the leaked key, because it's still in past commits.
 
-# After adding .gitignore, stop tracking an already-committed file
-git rm --cached android/local.properties
-git commit -m "chore: untrack local.properties"
-```
+**Why interviewers ask:** It tests basic repo hygiene and security awareness (not committing secrets).
 
-**Why it matters:** Security (secrets), repo cleanliness, and avoiding meaningless merge conflicts in generated files. The interviewer is checking that you understand what belongs in version control and what doesn't.
+**Common mistake:** Committing `build/` or secrets, then thinking `.gitignore` removes them — it only ignores *untracked* files going forward.
 
-**Common mistake:** Committing `android/key.properties` (signing keys) or `.env` files with API keys. Also forgetting to `git rm --cached` files that were already committed before being added to `.gitignore`.
+**Follow-ups they may ask:**
+- *"Ignore an already-tracked file?"* → `git rm --cached file` to untrack it, then it respects `.gitignore`.
+
+**Related:** [Q20 (Security) — secrets](section_20_mobile_app_security.md#q1) · [Q1 — core commands](#q1)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Compare Git Flow, GitHub Flow, and Trunk-Based Development as branching strategies.
+<a id="q15"></a>
+## 15. Compare Git Flow, GitHub Flow, and Trunk-Based Development.
 
-**A:**
-These are team agreements on how branches are named, created, and merged. The right one depends on team size, deployment frequency, and release model.
+> Common · Medium
 
-```
-GIT FLOW:
-main ─────────────────────────────────────────► (production)
-         ↑ release               ↑ hotfix
-develop ──────────────────────────────────────► (integration)
-     feature/A ─────►
-              feature/B ──────────►
+**Short answer (say this):**
+"They're branching strategies with different amounts of structure. Git Flow has many long-lived branches (main, develop, feature, release, hotfix) — powerful but heavy. GitHub Flow is simple: branch off main, PR, merge, deploy. Trunk-Based keeps everyone committing to main behind feature flags, with tiny short-lived branches — best for continuous delivery."
 
-GITHUB FLOW:
-main ──────────────────────────────────────────► (always deployable)
-   feature/A ──────► PR → merge → deploy
-   feature/B ──────────────► PR → merge → deploy
+**Let's understand it fully:**
 
-TRUNK-BASED:
-main ─────────────────────────────────────────► (continuous deploy)
-  short-lived branch (hours/1-2 days max) → PR → merge
-```
+**Step 1 — Git Flow — structured, many branches.**
+- Branches: `main` (releases), `develop` (integration), plus `feature/`, `release/`, `hotfix/`.
+- Good for scheduled releases and versioned software.
+- Downside: complex, lots of merging, slower.
 
-| | Git Flow | GitHub Flow | Trunk-Based |
-|---|---|---|---|
-| Branches | main, develop, feature, release, hotfix | main + short-lived features | main + very short-lived branches (or direct commits) |
-| Release model | Scheduled / versioned releases | Continuous deployment | Continuous deployment |
-| Complexity | High | Low | Low-Medium |
-| Team size | Medium-Large | Any | Any (requires CI/CD maturity) |
-| Best for | Mobile apps with versioned releases (Flutter apps in app stores) | Web services, frequent deploys | High-velocity teams, microservices |
+**Step 2 — GitHub Flow — simple, PR-based.**
+- One main branch; create a short feature branch, open a Pull Request, review, merge, deploy.
+- Good for web apps and continuous deployment.
+- Simple and fast; the most common team flow.
 
-**Flutter context:** Git Flow is popular for Flutter app teams because App Store / Play Store releases have versioned numbers and review cycles. GitHub Flow suits teams with fast CI/CD pipelines. Trunk-Based requires feature flags to merge unfinished features safely.
+**Step 3 — Trunk-Based — everyone on main.**
+- Very short-lived branches (hours), merged to `main` constantly; unfinished work hidden behind **feature flags**.
+- Enables true continuous integration/delivery.
+- Needs strong automated tests and feature-flag discipline.
 
-**Example — Git Flow in practice:**
-```bash
-# New feature
-git switch -c feature/dark-mode develop
+**Step 4 — How to choose.**
 
-# Release prep
-git switch -c release/1.2.0 develop
-# bump version, final fixes
-git merge release/1.2.0 --into main
-git merge release/1.2.0 --into develop
+| Strategy | Best for | Complexity |
+|---|---|---|
+| Git Flow | versioned/scheduled releases | high |
+| GitHub Flow | most apps, continuous deploy | low |
+| Trunk-Based | fast CI/CD, mature teams | medium |
 
-# Hotfix
-git switch -c hotfix/crash-fix main
-git merge hotfix/crash-fix --into main
-git merge hotfix/crash-fix --into develop
-```
+**Why interviewers ask:** It tests team/process awareness for senior roles.
 
-**Why it matters:** The interviewer wants to know you've worked on a team with a defined branching strategy and can articulate trade-offs — not just know what branches are.
+**Common mistake:** Defaulting to heavy Git Flow for a small team that ships continuously, where GitHub Flow is simpler and better.
 
-**Common mistake:** Saying "we just used Git Flow" without being able to explain the purpose of `develop` vs `main` or how hotfixes are handled. Another mistake: recommending Git Flow for a fast-moving startup where it would add unnecessary overhead.
+**Follow-ups they may ask:**
+- *"What enables trunk-based?"* → Feature flags + strong automated tests, so incomplete code can live on main safely.
+
+**Related:** [Q2 — branching](#q2) · [Q18 — pull requests](#q18)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are Conventional Commits? What format do they use and why do teams adopt them?
+<a id="q16"></a>
+## 16. What are Conventional Commits, and why do teams adopt them?
 
-**A:**
-Conventional Commits is a specification for writing structured, machine-readable commit messages. It creates an explicit, standardised commit history that tools can parse automatically.
+> Common · Easy
 
-**Format:**
+**Short answer (say this):**
+"Conventional Commits is a standard format for commit messages: a type, an optional scope, and a description — like `feat(auth): add Google login`. Teams adopt it because the consistent format makes history readable and lets tools auto-generate changelogs and version numbers."
+
+**Let's understand it fully:**
+
+**Step 1 — The format.**
+
 ```
-<type>[optional scope]: <short description>
+<type>(<optional scope>): <description>
 
-[optional body]
-
-[optional footer(s)]
+feat(auth): add Google sign-in
+fix(cart): correct total when quantity is zero
+docs(readme): update setup steps
+refactor(home): extract header widget
 ```
 
-**Common types:**
+**Step 2 — The common types.**
+- `feat` — a new feature.
+- `fix` — a bug fix.
+- `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`.
 
-| Type | Meaning |
+**Step 3 — Why teams adopt it.**
+- **Readable history** — you can scan what each commit did.
+- **Automated versioning** — tools bump the version: `fix` → patch, `feat` → minor, a `BREAKING CHANGE` → major (semantic versioning).
+- **Auto changelogs** — generated from the commit types.
+
+**Step 4 — Keep messages meaningful.**
+The description should say *what changed and why* in the imperative ("add", "fix"), not "stuff" or "wip".
+
+**Why interviewers ask:** It signals you care about clean, tool-friendly history — a team-maturity indicator.
+
+**Common mistake:** Vague messages ("update", "fix bug", "asdf") that tell the next reader nothing.
+
+**Follow-ups they may ask:**
+- *"How does it link to versioning?"* → Tools map `feat`/`fix`/`BREAKING CHANGE` to minor/patch/major version bumps.
+
+**Related:** [Q18 — pull requests](#q18) · [Q1 — commits](#q1)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q17"></a>
+## 17. What does it mean to "squash" commits, and when would you do it?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Squashing combines several commits into one. You do it to turn a messy work-in-progress history (`wip`, `fix typo`, `try again`) into one clean, meaningful commit before merging. Many teams 'Squash and merge' a Pull Request so each feature becomes a single tidy commit on main."
+
+**Let's understand it fully:**
+
+**Step 1 — Why squash.**
+While developing, you make many small messy commits. The rest of the team doesn't need that noise — they want one clear commit that says what the feature did.
+
+**Step 2 — How (interactive rebase).**
+
+```bash
+git rebase -i HEAD~3   # edit the last 3 commits
+# In the editor, keep the first as 'pick', mark the others as 'squash' (or 's')
+# Save → write one combined commit message.
+```
+
+**Step 3 — The easy way: Squash and merge.**
+On GitHub/GitLab, the "Squash and merge" button on a PR combines all the branch's commits into one when merging — no manual rebase needed. This is the most common approach.
+
+**Step 4 — The caution.**
+Squashing rewrites history. Do it on your own feature branch *before* it's merged, not on shared history.
+
+**Why interviewers ask:** It tests whether you keep `main`'s history clean and understand interactive rebase.
+
+**Common mistake:** Squashing already-shared commits, or squashing away useful separation (sometimes a few logical commits are better than one giant one).
+
+**Follow-ups they may ask:**
+- *"Squash vs merge commit?"* → Squash = one tidy commit per feature; merge commit = full branch history preserved.
+
+**Related:** [Q4 — rebase](#q4) · [Q18 — pull requests](#q18)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q18"></a>
+## 18. What are best practices for Pull Requests and code review (as author and reviewer)?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"As the author: keep PRs small and focused, write a clear description of what and why, and make sure tests pass. As the reviewer: be timely, kind, and specific — ask questions instead of giving orders, focus on correctness and design over style (let the formatter handle style), and approve once it's good enough, not perfect."
+
+**Let's understand it fully:**
+
+**Step 1 — As the author.**
+- **Small and focused** — one concern per PR; big PRs get shallow reviews.
+- **Clear description** — what changed, why, and how to test it.
+- **Green checks** — tests, lints, and format pass before asking for review.
+- **Self-review first** — read your own diff; catch obvious issues.
+
+**Step 2 — As the reviewer.**
+- **Be timely** — a blocked teammate is expensive; review promptly.
+- **Be kind and specific** — "What happens if the list is empty?" beats "This is wrong."
+- **Prioritize** — correctness and design first; don't nitpick style a linter handles.
+- **Approve when good enough** — not when perfect; suggest follow-ups for minor things.
+
+**Step 3 — Why small PRs matter.**
+A 50-line PR gets a careful review; a 2,000-line PR gets a rubber-stamp "LGTM". Small PRs catch more bugs and merge faster.
+
+**Step 4 — Tone is everything.**
+Reviews are about the code, not the person. Questions and suggestions keep it collaborative; commands and "why did you…" feel like attacks.
+
+**Why interviewers ask:** Code review is a daily senior responsibility; they assess your collaboration and judgment.
+
+**Common mistake:** Giant PRs (unreviewable), or reviews that nitpick formatting while missing real design/correctness issues.
+
+**Follow-ups they may ask:**
+- *"How big should a PR be?"* → Small enough to review carefully in one sitting — often a few hundred lines or less.
+
+**Related:** [Q16 — conventional commits](#q16) · [Q14 (Clean Code) — enforcing](section_16_clean_code.md#q14)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q19"></a>
+## 19. How do you handle a hotfix on production while feature branches are in progress?
+
+> Common · Medium
+
+**Short answer (say this):**
+"I branch the hotfix directly off the production branch (or the latest release tag), not off in-progress feature work, so the fix contains only the fix. I fix, test, and deploy it, then merge it back into main so the fix isn't lost — or cherry-pick it where needed. Feature branches later pull main to get the fix."
+
+**Let's understand it fully:**
+
+**Step 1 — Branch off production, not off your feature.**
+The production code may be different from your half-done feature. Start clean from what's actually live.
+
+```bash
+git switch main          # or the release branch/tag that's in production
+git switch -c hotfix/login-crash
+# fix, commit, test
+```
+
+**Step 2 — Deploy the fix fast, then merge it back.**
+Ship the hotfix, then make sure it lands in `main` so future releases include it:
+
+```bash
+git switch main
+git merge hotfix/login-crash   # main now has the fix
+git push
+```
+
+If an older release branch also needs it, **cherry-pick** the fix commit there ([Q6](#q6)).
+
+**Step 3 — Feature branches catch up.**
+In-progress feature branches then `merge main` (or rebase) to pick up the hotfix, so they don't reintroduce the bug.
+
+**Step 4 — Why keep the hotfix isolated.**
+A hotfix must be tiny and low-risk. Mixing it with unfinished features makes it risky and slow to deploy — exactly what you can't afford during an incident.
+
+**Why interviewers ask:** It tests real release management under pressure — a senior responsibility.
+
+**Common mistake:** Fixing the bug on a feature branch full of unfinished work, so you can't deploy the fix alone, or forgetting to merge the hotfix back into main (the bug returns next release).
+
+**Follow-ups they may ask:**
+- *"How does Git Flow handle this?"* → It has a dedicated `hotfix/` branch off `main`, merged back into both `main` and `develop`.
+
+**Related:** [Q6 — cherry-pick](#q6) · [Q15 — branching strategies](#q15)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="cheatsheet"></a>
+
+# Cheat Sheet (last-night review)
+
+Read this the morning of your interview. Tables first, then one-line reminders.
+
+## Everyday commands
+
+| Command | Does |
 |---|---|
-| `feat` | A new feature (triggers MINOR version bump in SemVer) |
-| `fix` | A bug fix (triggers PATCH version bump) |
-| `chore` | Maintenance, dependency updates, no production code change |
-| `docs` | Documentation only |
-| `style` | Formatting, whitespace, no logic change |
-| `refactor` | Code restructure, no feature or fix |
-| `test` | Adding or fixing tests |
-| `perf` | Performance improvement |
-| `ci` | CI/CD configuration changes |
-| `build` | Changes to build system or dependencies |
-| `BREAKING CHANGE` | In footer or `!` after type — triggers MAJOR version bump |
+| `git add` / `commit` | stage / save to history |
+| `git push` / `pull` | upload / download+merge |
+| `git switch -c name` | create + switch branch |
+| `git stash` / `stash pop` | shelve / restore changes |
 
-**Example:**
-```bash
-# Feature commit
-git commit -m "feat(auth): add biometric login support"
+## Undo tools
 
-# Bug fix with scope
-git commit -m "fix(cart): prevent duplicate item on rapid tap"
+| Want to... | Use |
+|---|---|
+| Undo last commit, keep changes | `git reset --soft HEAD~1` |
+| Undo a pushed commit safely | `git revert <commit>` |
+| Discard all local changes | `git reset --hard` (careful) |
+| Fix the last commit | `git commit --amend` |
 
-# Breaking change
-git commit -m "feat!: remove deprecated v1 API endpoints
+## merge vs rebase vs reset vs revert
 
-BREAKING CHANGE: /api/v1/* routes no longer exist. Migrate to /api/v2/*."
+| | Keeps history? | Safe on shared branch? |
+|---|---|---|
+| merge | yes (merge commit) | yes |
+| rebase | no (rewrites) | no |
+| reset | no (rewrites) | no |
+| revert | yes (new commit) | yes |
 
-# Chore
-git commit -m "chore: upgrade flutter to 3.19.0"
+## One-line reminders
 
-# With body
-git commit -m "fix(profile): handle null avatar URL
+- Flow: edit → `add` → `commit` → `push`. ([Q1](#q1))
+- **`pull` = `fetch` + `merge`**; `fetch` is safe (no file changes). ([Q3](#q3))
+- **merge** keeps history; **rebase** makes it linear but rewrites — never rebase shared commits. ([Q4](#q4))
+- **Conflict** = same lines changed two ways; resolve, remove markers, `add`, commit. ([Q5](#q5))
+- **`reset --hard` deletes work**; `--soft`/`--mixed` keep it. ([Q7](#q7))
+- **`revert`** is the safe undo for pushed commits (adds a commit). ([Q8](#q8))
+- **Undo last commit, keep work** → `git reset --soft HEAD~1`. ([Q9](#q9))
+- **`cherry-pick`** copies one commit (backport a fix). ([Q6](#q6))
+- **`bisect`** = binary search for the bad commit. ([Q12](#q12))
+- **Detached HEAD** = on a commit, not a branch — `git switch -c` to save work. ([Q13](#q13))
+- **GitHub Flow** (branch→PR→merge) suits most teams; Git Flow is heavier. ([Q15](#q15))
+- **Conventional Commits** (`feat:`, `fix:`) → readable history + auto versioning. ([Q16](#q16))
+- **Small PRs + kind, specific reviews** catch more bugs. ([Q18](#q18))
+- **Hotfix** off production, merge back to main. ([Q19](#q19))
 
-Users with no profile photo were crashing on the profile screen.
-Resolves #248"
-```
-
-**Why teams adopt it:**
-1. Auto-generate `CHANGELOG.md` from commit history.
-2. Trigger automatic semantic version bumps (tools: `semantic-release`, `standard-version`).
-3. Consistent, readable history at a glance.
-4. Easier code reviews — type immediately signals intent.
-
-**Why it matters:** Shows professionalism and familiarity with mature engineering team practices. Interviewers from larger teams will specifically ask about this.
-
-**Common mistake:** Writing `fix: fixed the bug` — too vague. Or misusing `chore` for actual bug fixes to avoid a version bump. The description should complete the sentence: "If applied, this commit will... `fix(cart): prevent duplicate item on rapid tap`."
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What are best practices for Pull Requests and Code Reviews — both as the author and the reviewer?
+# Practice: how interviewers go deeper
 
-**A:**
-Pull Requests (PRs) / Merge Requests are the main quality gate in team development. Done well, they improve code quality and spread knowledge. Done poorly, they become rubber-stamping bottlenecks.
+Interviewers probe judgment, not just syntax. Practice out loud:
 
-**As the PR Author:**
+1. *"merge or rebase here?"* → rebase local cleanup; merge shared branches; never rebase pushed commits.
+2. *"You committed a secret — now what?"* → remove from history AND rotate the key; .gitignore alone isn't enough.
+3. *"Production is down and your feature is half-done — fix it."* → branch the hotfix off production, deploy, merge back to main.
+4. *"Find which commit broke it."* → `git bisect` (binary search), automate with `bisect run`.
+5. *"Your PR is 1,500 lines — comfortable reviewing it?"* → no; split into small, focused PRs.
 
-1. **Keep PRs small and focused** — one concern per PR. Large PRs don't get reviewed properly.
-2. **Write a clear description** — what changed, why, how to test it, and screenshots for UI changes.
-3. **Link to the issue/ticket** — e.g., `Closes #248`.
-4. **Self-review before requesting review** — read your own diff first.
-5. **Respond to every comment** — either fix it, or explain why you disagree (professionally).
-6. **Don't merge your own PR** — unless explicitly allowed by your team's process.
-7. **Rebase or update your branch** before final merge to reduce conflicts.
+Explaining *what each command does to history* and *which is safe on shared branches* is the senior signal — in both remote and BD interviews.
 
-**As the Reviewer:**
-
-1. **Review the intent first** — does the PR solve the right problem?
-2. **Check for correctness** — edge cases, null safety, error handling.
-3. **Look for readability and maintainability** — can a newcomer understand this?
-4. **Be kind and specific** — suggest, don't demand. Say "consider extracting this to a method" not "this is bad."
-5. **Use comment labels when your team agrees on them:**
-   - `nit:` minor style preference, non-blocking
-   - `suggestion:` take or leave
-   - `blocker:` must fix before merging
-6. **Don't nitpick style manually** — let linters/formatters handle it (dart format, flutter analyze).
-7. **Approve promptly** — unreviewed PRs block teammates.
-
-**Example PR description template:**
-```markdown
-## What
-Adds biometric (Face ID / Fingerprint) login as an alternative to password.
-
-## Why
-Reduces login friction for returning users. Addresses #187.
-
-## How to test
-1. Install on a device with biometrics enabled
-2. Log in once with password
-3. On next launch, biometric prompt should appear
-
-## Screenshots
-[Before] [After]
-
-## Checklist
-- [x] Unit tests added
-- [x] No new lint warnings
-- [x] Tested on iOS and Android
-```
-
-**Why it matters:** Code reviews are a daily activity on real teams. The interviewer is checking your collaboration maturity — whether you give and receive feedback professionally.
-
-**Common mistake:** Writing PRs that are 2,000+ lines of diff with a description of "various improvements." Or as a reviewer, approving everything without reading — known as "LGTM culture."
-
----
-
-**Q:** How do you handle a hotfix on production while feature branches are in progress?
-
-**A:**
-This is a standard Git Flow scenario. Production has a critical bug, but your `develop` branch has half-finished features that aren't release-ready. You must fix production without taking those features along.
-
-**Step-by-step:**
-
-```
-main (production) ──●──────────────────────►
-                     \                ↑
-hotfix/crash-fix      ●──fix commit──►  (merged to main AND develop)
-                     
-develop ──────────────────────────────────►
-         feature/A ────────►
-                  feature/B ──────►
-```
-
-1. Branch `hotfix/` directly from `main` (not `develop`).
-2. Apply the minimal fix — only what's needed to resolve the production issue.
-3. Merge the hotfix into **both** `main` AND `develop` so the fix isn't lost in the next release.
-4. Tag `main` with the new patch version.
-5. Deploy from `main`.
-
-**Example:**
-```bash
-# 1. Branch from production
-git switch main
-git switch -c hotfix/null-crash-on-checkout
-
-# 2. Fix the bug, commit
-git commit -m "fix(checkout): guard against null user session"
-
-# 3. Merge into main
-git switch main
-git merge hotfix/null-crash-on-checkout
-git tag -a v1.2.1 -m "Hotfix: null crash on checkout"
-git push origin main --tags
-
-# 4. ALSO merge into develop to carry the fix forward
-git switch develop
-git merge hotfix/null-crash-on-checkout
-git push origin develop
-
-# 5. Delete hotfix branch
-git branch -d hotfix/null-crash-on-checkout
-git push origin --delete hotfix/null-crash-on-checkout
-```
-
-**Why it matters:** This tests real-world branching discipline. Many candidates freeze at this question because they only think linearly. The key insight is: **always branch hotfixes from `main`, never from `develop`.**
-
-**Common mistake:** Branching the hotfix from `develop` — this risks deploying unfinished features from active feature branches. Or forgetting to back-merge the fix into `develop`, so it disappears in the next release.
-
----
-
-**Q:** What is a detached HEAD state? How does it happen and how do you recover from it?
-
-**A:**
-Normally, `HEAD` points to a branch name (e.g., `main`), which in turn points to the latest commit on that branch. In **detached HEAD** state, `HEAD` points directly to a commit SHA instead of a branch. This means any new commits you make are not on any branch and can be lost by garbage collection.
-
-```
-Normal:   HEAD → main → commit C
-Detached: HEAD → commit B  (not attached to any branch)
-```
-
-**How it happens:**
-- `git checkout <commit-hash>` — checking out a specific commit
-- `git checkout <tag>` — checking out a tag
-- `git rebase` operations internally create a detached HEAD temporarily
-
-**How to recover:**
-
-```bash
-# Git warns you:
-# HEAD detached at abc1234
-
-# Option 1: If you made commits you want to keep — create a branch
-git switch -c feature/my-experiment
-
-# Option 2: If you just want to get back to main without keeping changes
-git switch main
-# (any commits made in detached HEAD are now orphaned — recoverable via git reflog for ~30 days)
-
-# If you made commits in detached HEAD and then switched away, use reflog to find them:
-git reflog
-# HEAD@{1}: commit: important work I did
-git switch -c recovered-work abc1234  # abc1234 = the orphaned commit
-```
-
-**Example:**
-```bash
-# You accidentally ended up here
-git log --oneline
-# abc1234 (HEAD) some old commit
-# def5678 main was here
-
-git status
-# HEAD detached at abc1234
-
-# Save your work if you made commits
-git switch -c temp/exploration
-
-# Or just return to main
-git switch main
-```
-
-**Why it matters:** It's easy to panic when Git says "detached HEAD." The interviewer is checking whether you understand Git's pointer model well enough to navigate this calmly.
-
-**Common mistake:** Making important commits in detached HEAD state and then switching branches — believing the commits are lost forever. They're in `git reflog` for ~30 days. Another mistake: not knowing what detached HEAD means at all.
-
----
-
-**Q:** What does it mean to "squash" commits? When and why would you do it?
-
-**A:**
-Squashing means combining multiple commits into a single commit. It's used to clean up messy "work-in-progress" commit history before merging into a main branch.
-
-```
-Before squash:
-feature/login:  A──WIP──fix typo──add test──fix test──more tweaks──B(done)
-
-After squash:
-feature/login:  A──────────────────────────────────────────────────B(done)
-```
-
-**How to squash:**
-
-**Method 1 — Interactive rebase (manual control):**
-```bash
-# Squash last 4 commits
-git rebase -i HEAD~4
-
-# In the editor that opens:
-# pick abc1234 feat: initial login form
-# squash def5678 WIP: half done
-# squash ghi9012 fix typo
-# squash jkl3456 finally working
-
-# 'squash' (or 's') folds a commit into the one above it
-# You then write one clean commit message for the result
-```
-
-**Method 2 — Squash merge via GitHub/GitLab:**
-When merging a PR, select "Squash and Merge." All commits from the feature branch become one commit on `main`. Simple and requires no terminal work.
-
-**Method 3 — Reset and recommit:**
-```bash
-git reset --soft HEAD~4    # Unstage all 4 commits, keep changes staged
-git commit -m "feat(auth): complete login screen with validation"
-```
-
-**When to squash:**
-- Before merging a feature branch to keep `main`'s history clean and meaningful.
-- When you have commits like "fix", "fix fix", "please work", "ok now it works".
-
-**When NOT to squash:**
-- When each commit is meaningful on its own (atomic, well-described commits don't need squashing).
-- On `main` or `develop` directly — squash before merging, not after.
-
-**Why it matters:** History hygiene. The interviewer is checking that you care about `git log` being a useful tool, not just a commit dumping ground.
-
-**Common mistake:** Squashing commits that have already been pushed and shared with others — this rewrites history and causes conflicts. Squash only local/feature branch commits before they merge.
-
----
-
-**Q:** How do you undo the last commit without losing your changes?
-
-**A:**
-Use `git reset --soft HEAD~1` or `git reset --mixed HEAD~1`. Both undo the commit but keep your file changes — the difference is where the changes land.
-
-```
-git reset --soft HEAD~1
-→ Changes go back to STAGING AREA (still staged, ready to re-commit)
-
-git reset --mixed HEAD~1  (default, same as git reset HEAD~1)
-→ Changes go back to WORKING DIRECTORY (unstaged, files still modified)
-```
-
-**Example:**
-```bash
-# You committed too soon — wrong message or missed a file
-
-# Option 1: Keep changes staged (just re-commit with a better message)
-git reset --soft HEAD~1
-git add lib/missing_file.dart   # add the file you forgot
-git commit -m "feat: correct commit message"
-
-# Option 2: Unstage changes (review before re-staging)
-git reset HEAD~1
-# Same as: git reset --mixed HEAD~1
-git status   # shows all changes as unstaged
-
-# Option 3: Amend (if you just want to fix the commit message or add a file)
-git commit --amend -m "fix: corrected commit message"
-# or
-git add lib/forgot_this.dart
-git commit --amend --no-edit   # adds the file to the last commit
-```
-
-**⚠️ Important:** If you've already pushed the commit, `git reset` rewrites local history. You'd need `git push --force-with-lease` to update remote — which is dangerous on shared branches.
-
-**Why it matters:** A practical daily-use scenario. Interviewers want to know you can handle common mistakes without panicking or using `--hard` unnecessarily.
-
-**Common mistake:** Using `git reset --hard HEAD~1` when the intent was just to fix a commit message — this permanently deletes all changes from that commit. Always default to `--soft` or `--mixed` unless you explicitly want to discard changes.
-
----
-
-**Q:** How do you find which commit introduced a bug using `git bisect`?
-
-**A:**
-`git bisect` performs a **binary search** through commit history to find the exact commit that introduced a bug. Instead of manually checking hundreds of commits, Git narrows it down in O(log n) steps.
-
-```
-History: A──B──C──D──E──F──G──H  (HEAD, bug present)
-         ↑
-         known good
-
-git bisect:
-Step 1: Test D (middle) → bug present → go left
-Step 2: Test B (middle of A-D) → no bug → go right  
-Step 3: Test C → bug present → C is the first bad commit!
-```
-
-**Step-by-step:**
-
-```bash
-# 1. Start bisect mode
-git bisect start
-
-# 2. Mark the current state as bad (bug exists)
-git bisect bad HEAD
-
-# 3. Mark a known-good commit (before the bug)
-git bisect good v1.1.0
-# Or a specific commit hash:
-git bisect good abc1234
-
-# Git now checks out a commit in the middle.
-# 4. Test the app — does the bug exist?
-#    If YES:
-git bisect bad
-#    If NO:
-git bisect good
-
-# Git checks out the next midpoint. Repeat until:
-# "abc1234 is the first bad commit"
-
-# 5. Inspect the culprit
-git show abc1234
-
-# 6. Exit bisect mode (returns to HEAD)
-git bisect reset
-```
-
-**Automated bisect (if you have a test script):**
-```bash
-git bisect start
-git bisect bad HEAD
-git bisect good v1.1.0
-git bisect run flutter test test/auth_test.dart
-# Git runs the test script automatically at each step
-# Exit code 0 = good, non-zero = bad
-```
-
-**Why it matters:** This is a senior-level debugging skill. On a project with hundreds of commits, manually checking each one is impractical. Bisect finds the culprit in ~7 steps for 100 commits, ~10 steps for 1,000.
-
-**Common mistake:** Not knowing this command exists and saying "I'd just go through the commits manually." Or forgetting to run `git bisect reset` at the end, leaving the repo in bisect mode.
-
----
+[↑ Back to top](#toc)

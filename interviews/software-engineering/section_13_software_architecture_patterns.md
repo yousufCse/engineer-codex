@@ -1,1130 +1,946 @@
-# Section 13: Software Architecture Patterns
+# Section 13 — Software Architecture Patterns
+
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually.
 
 ---
 
-**Q:** What is Layered Architecture and what are the typical layers in a mobile app?
+## How to use this section
 
-**A:** Layered Architecture organizes code into horizontal layers where each layer has a specific responsibility and can only communicate with the layer directly below it. It enforces separation of concerns by forbidding upper layers from reaching past their immediate neighbor.
+Each question has the same shape:
 
-In a typical Flutter mobile app, the layers look like this:
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — a detailed, step-by-step explanation with real-life examples, diagrams, and code.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected questions · **Back to top** — return to the index.
 
-```
-┌──────────────────────────────────┐
-│         Presentation Layer       │  ← UI widgets, screens, state management
-├──────────────────────────────────┤
-│         Application Layer        │  ← Use cases, orchestration logic
-├──────────────────────────────────┤
-│           Domain Layer           │  ← Entities, business rules, interfaces
-├──────────────────────────────────┤
-│            Data Layer            │  ← API calls, local DB, repositories
-├──────────────────────────────────┤
-│         Infrastructure Layer     │  ← Network, device, platform services
-└──────────────────────────────────┘
-```
+Each question is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
 
-Each layer only imports from the layer immediately beneath it. The Presentation layer never talks directly to the Data layer. This makes each layer independently testable and replaceable.
-
-**Example:**
-```dart
-// ❌ BAD - Presentation reaching past domain directly into data
-class UserScreen extends StatelessWidget {
-  final ApiService apiService; // UI depending on data layer directly
-  ...
-}
-
-// ✅ GOOD - Presentation depends only on domain interface
-class UserScreen extends StatelessWidget {
-  final GetUserUseCase getUserUseCase; // depends on domain
-  ...
-}
-```
-
-**Why it matters:** The interviewer is checking whether you understand structural discipline — not just "what layers exist" but *why* the strict directional dependency matters for maintainability and testability.
-
-**Common mistake:** Candidates list the layers correctly but then describe them talking to each other freely ("oh the UI can call the API directly if it's a simple screen"). That immediately signals they don't practice what they preach.
+> **Interview tip:** For architecture, draw the layers (even with words) and explain the **direction of dependencies**. Senior interviews are won by explaining *why* a structure exists, not just naming it.
 
 ---
 
-**Q:** Explain Clean Architecture in Flutter — what are the 3 layers, and why must the domain layer not depend on data or presentation?
+<a id="toc"></a>
 
-**A:** Clean Architecture (popularized by Robert C. Martin) organizes an app into 3 concentric layers. The key rule is the **Dependency Rule**: dependencies always point *inward*, never outward. Inner layers know nothing about outer layers.
+## Table of Contents
+
+**A. Layers & separation**
+1. [Layered Architecture](#q1) · *Very common*
+2. [Clean Architecture — 3 layers & the dependency rule](#q2) · *Very common*
+3. [Separation of Concerns](#q3) · *Very common*
+
+**B. UI architecture patterns (MVx)**
+4. [MVC — Model-View-Controller](#q4) · *Common*
+5. [MVVM — and how BLoC/Cubit map to it](#q5) · *Very common*
+6. [MVP — and how it differs from MVVM](#q6) · *Common*
+
+**C. Core building blocks**
+7. [Repository Pattern](#q7) · *Very common*
+8. [Use Case / Interactor](#q8) · *Common*
+9. [Dependency Injection (`get_it`)](#q9) · *Very common*
+10. [Service Locator vs Dependency Injection](#q10) · *Common*
+11. [Event-driven architecture & BLoC](#q11) · *Common*
+
+**D. Scaling & choosing**
+12. [Monorepo vs Multi-repo](#q12) · *Common*
+13. [Modular architecture (feature packages)](#q13) · *Common*
+14. [How to choose an architecture](#q14) · *Very common*
+
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
+
+---
+
+<a id="study-plan"></a>
+
+## How to prepare gradually (study plan)
+
+Follow these stages in order. Tick a stage off only when you can give the **short answer** and draw the layers, without looking.
+
+**Stage 1 — The foundation (start here).**
+→ [Q1 Layered](#q1) · [Q2 Clean Architecture](#q2) · [Q3 Separation of concerns](#q3)
+
+**Stage 2 — UI patterns interviewers love.**
+→ [Q5 MVVM](#q5) · [Q4 MVC](#q4) · [Q6 MVP](#q6)
+
+**Stage 3 — The building blocks.**
+→ [Q7 Repository](#q7) · [Q9 Dependency injection](#q9) · [Q8 Use case](#q8) · [Q11 Event-driven](#q11)
+
+**Stage 4 — Trade-offs & scale.**
+→ [Q10 Service locator vs DI](#q10) · [Q12 Monorepo](#q12) · [Q13 Modular](#q13) · [Q14 Choosing](#q14)
+
+**Short on time (1 hour before the interview)?** Review these six:
+[Q1](#q1) · [Q2](#q2) · [Q5](#q5) · [Q7](#q7) · [Q9](#q9) · [Q14](#q14), then read the [Cheat Sheet](#cheatsheet).
+
+---
+
+# A. Layers & separation
+
+---
+
+<a id="q1"></a>
+## 1. What is Layered Architecture, and what are the typical layers in a mobile app?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Layered architecture splits the app into horizontal layers, each with one job, where a layer only talks to the layer directly below it. In a mobile app the layers are usually Presentation (UI), Domain/Application (business logic), and Data (APIs, database). It keeps concerns separate so each layer can change and be tested independently."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: floors of a building.**
+A building has floors. Each floor does its own thing and only connects to the floor right below it through fixed stairs — not by drilling random holes. Layers work the same way.
+
+**Step 2 — The typical layers.**
 
 ```
-          ┌─────────────────────────────┐
-          │       Presentation          │  Widgets, BLoC, Cubit, ViewModel
-          │   ┌─────────────────────┐   │
-          │   │       Domain        │   │  Entities, Use Cases, Repo Interfaces
-          │   │  ┌─────────────┐   │   │
-          │   │  │    Data     │   │   │  ← NO. Data is OUTER, not inner.
-          │   │  └─────────────┘   │   │
-          │   └─────────────────────┘   │
-          └─────────────────────────────┘
-
-Correct diagram (dependency arrows point INWARD):
-
-  Presentation ──depends on──► Domain ◄──depends on── Data
-                                  │
-                      (Domain knows nothing about
-                       Presentation or Data)
++----------------------------------+
+|       Presentation Layer         |  UI: widgets, screens, state management
++----------------------------------+
+|     Domain / Application Layer   |  business rules, use cases
++----------------------------------+
+|           Data Layer             |  APIs, database, cache
++----------------------------------+
 ```
 
-**The 3 Layers:**
+The rule: upper layers depend on lower ones, never the reverse. The UI calls business logic, which calls data — not the other way around.
 
-- **Domain (innermost):** Pure Dart. Entities (plain data classes), Use Cases (business logic), and abstract Repository interfaces. Zero Flutter imports. Zero third-party imports.
-- **Data (outer):** Implements the repository interfaces defined in Domain. Calls APIs, databases, caches. Maps raw responses to domain entities.
-- **Presentation (outer):** Flutter widgets, BLoC/Cubit. Calls use cases. Renders state.
+**Step 3 — Why split into layers.**
+- **Separation** — UI code doesn't mix with database code.
+- **Testability** — you can test business logic without the UI.
+- **Replaceability** — swap the data source (REST → GraphQL) without touching the UI.
 
-**Why domain must not depend on data or presentation:**
-- Domain is your business logic — the most valuable and most stable part of the app
-- If Domain depends on Data, swapping your API or database forces changes to your business logic, which is wrong
-- If Domain depends on Presentation, your business logic breaks when you change the UI framework
-- By keeping Domain pure, you can test all business rules without Flutter, without a network, without a database
+**Step 4 — A small example of the flow.**
+A button tap (Presentation) → calls a use case (Domain) → which asks a repository (Data) → returns up through the layers to update the UI.
 
-**Example:**
+**Why interviewers ask:** It's the base idea behind Clean Architecture and most app structures. They want to see you keep UI, logic, and data apart.
+
+**Common mistake:** Letting the UI talk directly to the database or API (skipping layers), which tangles everything together.
+
+**Follow-ups they may ask:**
+- *"How is this different from Clean Architecture?"* → Clean Architecture is a stricter layered design with a specific dependency rule ([Q2](#q2)).
+
+**Related:** [Q2 — Clean Architecture](#q2) · [Q3 — separation of concerns](#q3)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q2"></a>
+## 2. Explain Clean Architecture in Flutter — the 3 layers and the dependency rule.
+
+> Very common · Medium–Hard
+
+**Short answer (say this):**
+"Clean Architecture splits the app into Presentation, Domain, and Data layers, with one strict rule: dependencies point inward, toward the Domain. The Domain is the center — pure business logic with no Flutter or package imports. Presentation and Data both depend on Domain, but Domain depends on nothing. This makes the core logic stable and easy to test."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: an onion with the rules in the center.**
+The most important, most stable thing (your business rules) sits in the center. Outer layers (UI, database) can change often, but they can't force the center to change. Everything points inward.
+
+**Step 2 — The three layers.**
+
+```
+        +-------------------------+
+        |   Presentation (UI)     |  widgets, BLoC/Cubit  ─┐
+        +-------------------------+                         │ depend on
+        |        Domain           |  entities, use cases,   │ (inward)
+        |     (the center)        |  repository interfaces ←┘
+        +-------------------------+                         │
+        |         Data            |  repository impls,      │ depend on
+        |                         |  API, database         ─┘ (inward)
+        +-------------------------+
+```
+
+- **Domain** — entities, use cases, and repository *interfaces*. Pure Dart, no Flutter, no packages.
+- **Data** — concrete repository *implementations*, API clients, database, models (`fromJson`).
+- **Presentation** — widgets and state management (BLoC, Riverpod).
+
+**Step 3 — The dependency rule: point inward.**
+The key trick is that the Domain defines a repository *interface*, and the Data layer *implements* it. So the Domain never imports the Data layer — it only knows the interface.
+
 ```dart
-// domain/entities/user.dart
-class User {
-  final String id;
-  final String name;
-  User({required this.id, required this.name});
+// DOMAIN layer — pure, no Flutter, no API code
+abstract class UserRepository {        // interface lives in Domain
+  Future<User> getUser(String id);
 }
 
-// domain/repositories/user_repository.dart  (INTERFACE, not implementation)
-abstract class UserRepository {
-  Future<User> getUserById(String id);
+class GetUser {                        // a use case
+  final UserRepository repo;
+  GetUser(this.repo);
+  Future<User> call(String id) => repo.getUser(id);
 }
 
-// domain/usecases/get_user.dart
-class GetUserUseCase {
-  final UserRepository repository; // depends on INTERFACE, not concrete class
-
-  GetUserUseCase(this.repository);
-
-  Future<User> call(String id) => repository.getUserById(id);
-}
-
-// data/repositories/user_repository_impl.dart  (IMPLEMENTATION)
+// DATA layer — implements the Domain's interface (points inward)
 class UserRepositoryImpl implements UserRepository {
-  final ApiService api;
+  final ApiClient api;
   UserRepositoryImpl(this.api);
-
   @override
-  Future<User> getUserById(String id) async {
-    final json = await api.get('/users/$id');
-    return User(id: json['id'], name: json['name']);
-  }
-}
-
-// presentation/cubit/user_cubit.dart
-class UserCubit extends Cubit<UserState> {
-  final GetUserUseCase getUser;
-  UserCubit(this.getUser) : super(UserInitial());
-
-  Future<void> load(String id) async {
-    emit(UserLoading());
-    final user = await getUser(id);
-    emit(UserLoaded(user));
-  }
+  Future<User> getUser(String id) async => /* call api, map to User */ User(id);
 }
 ```
 
-**Why it matters:** Clean Architecture is the most commonly evaluated architecture pattern in senior Flutter interviews. Interviewers want to see you understand *why* the dependency rule exists, not just that you can draw the diagram.
+**Step 4 — Why the Domain must not depend on Data or Presentation.**
+The Domain is your business rules — the most valuable, longest-living code. If it depended on Flutter or a specific database, every UI or database change could break it. By keeping it pure, you can test it with plain Dart and reuse it anywhere.
 
-**Common mistake:** Candidates say "Domain is in the middle" without explaining that the dependency arrows point inward. Then they show domain importing from data ("to get the model class") — which violates the entire principle.
+**Step 5 — The trade-off.**
+Clean Architecture adds boilerplate (interfaces, use cases, models vs entities). It shines on large, long-lived apps; for a tiny app it can be overkill ([Q14](#q14)).
+
+**Why interviewers ask:** It's the standard "serious" Flutter architecture. They want to hear the *dependency rule* (inward) and *why* the Domain is pure.
+
+**Common mistake:** Importing Flutter or API/database code in the Domain layer — that breaks the whole point. Also, applying it to a trivial app where it's just overhead.
+
+**Follow-ups they may ask:**
+- *"Entity vs Model?"* → Entity = pure Domain object. Model = Data-layer object with `fromJson`/`toJson` that maps to/from the entity.
+- *"Where do use cases go?"* → In the Domain layer ([Q8](#q8)).
+
+**Related:** [Q1 — layered](#q1) · [Q7 — repository](#q7) · [Q8 — use case](#q8) · [Q14 — choosing](#q14)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is MVC (Model-View-Controller) and how does it apply to mobile development?
+<a id="q3"></a>
+## 3. What is "Separation of Concerns"? Give a Flutter example of a violation and the fix.
 
-**A:** MVC splits an application into 3 components:
+> Very common · Medium
+
+**Short answer (say this):**
+"Separation of concerns means each part of the code handles one concern — UI, business logic, or data — and they don't mix. A common violation is calling the network and parsing JSON directly inside a widget's `build` method. The fix is to move that work into a repository and keep the widget focused on showing UI."
+
+**Let's understand it fully:**
+
+**Step 1 — The idea.**
+A "concern" is one responsibility: drawing UI, deciding business rules, or fetching data. Mixing them makes code hard to read, test, and change.
+
+**Step 2 — A violation: everything in the widget.**
+
+```dart
+// Bad: the widget fetches, parses, AND displays — three concerns mixed
+class UserScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: http.get(Uri.parse('https://api/user')), // networking in UI
+      builder: (context, snapshot) {
+        final json = jsonDecode(snapshot.data!.body);   // parsing in UI
+        return Text(json['name']);                       // display
+      },
+    );
+  }
+}
+```
+
+This is impossible to test without a real network, and the UI is tangled with data logic.
+
+**Step 3 — The fix: each concern in its own place.**
+
+```dart
+// Data concern — a repository
+class UserRepository {
+  final ApiClient api;
+  UserRepository(this.api);
+  Future<User> getUser() async => User.fromJson(await api.get('/user'));
+}
+
+// Logic/state concern — a Cubit
+class UserCubit extends Cubit<UserState> {
+  final UserRepository repo;
+  UserCubit(this.repo) : super(UserLoading());
+  Future<void> load() async => emit(UserLoaded(await repo.getUser()));
+}
+
+// UI concern — only displays
+class UserScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) =>
+      BlocBuilder<UserCubit, UserState>(builder: (c, s) => /* show s */ Text('...'));
+}
+```
+
+**Step 4 — Why it matters.**
+Now the data layer is testable on its own, the logic is testable on its own, and the UI just renders. A change in one concern doesn't ripple into the others.
+
+**Why interviewers ask:** It's the practical heart of every architecture pattern. They want to see you keep UI free of networking/parsing.
+
+**Common mistake:** Putting business logic and network calls inside widgets, making them untestable and bloated.
+
+**Follow-ups they may ask:**
+- *"How does this relate to SRP?"* → Separation of concerns is SRP applied across the whole app, not just one class.
+
+**Related:** [Q1 — layered](#q1) · [Q2 — Clean Architecture](#q2) · [Q7 — repository](#q7)
+
+[↑ Back to top](#toc)
+
+---
+
+# B. UI architecture patterns (MVx)
+
+---
+
+<a id="q4"></a>
+## 4. What is MVC (Model-View-Controller)?
+
+> Common · Medium
+
+**Short answer (say this):**
+"MVC splits an app into three parts: the Model holds data and rules, the View shows the UI, and the Controller handles input and updates the Model and View. The goal is to keep the UI separate from the data. In Flutter, pure MVC is less common because Flutter's reactive widgets blur the View/Controller line."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a restaurant.**
+- **Model** = the kitchen (food and recipes — the data and rules).
+- **View** = the dining area (what the customer sees).
+- **Controller** = the waiter (takes your order, tells the kitchen, brings the food).
+
+**Step 2 — The three parts and how they talk.**
 
 ```
-┌────────┐  user action   ┌────────────┐  updates  ┌───────┐
-│  View  │ ─────────────► │ Controller │ ─────────► │ Model │
-│  (UI)  │ ◄────────────  └────────────┘            └───────┘
-└────────┘   re-renders         │                       │
-                                └───────────────────────┘
-                                     reads/writes data
+   input        updates
+View  ───────►  Controller  ───────►  Model
+  ▲                                     │
+  └──────────── reads data ─────────────┘
 ```
 
-- **Model:** Data and business logic (user, product, order)
-- **View:** What the user sees — renders the model
-- **Controller:** Handles user input, coordinates model updates, tells view to refresh
+The Controller takes user input, updates the Model, and the View shows the Model's data.
 
-In classic MVC the View and Model can communicate directly, which is a weakness — it creates tight coupling.
+**Step 3 — Why MVC is less natural in Flutter.**
+Flutter widgets are reactive — they rebuild from state. So the "View" and "Controller" roles often merge, and most Flutter teams use MVVM or BLoC instead ([Q5](#q5)). MVC is still very common on the web and in older mobile frameworks, so interviewers may ask it.
 
-**In Flutter context:**
-Flutter doesn't have a built-in MVC, but you can apply the pattern manually:
+**Why interviewers ask:** It's the classic UI pattern; they check you know the three roles and can compare it to MVVM.
+
+**Common mistake:** Putting business logic in the View (UI). In MVC, logic belongs in the Model/Controller.
+
+**Follow-ups they may ask:**
+- *"MVC vs MVVM?"* → MVVM adds a ViewModel that exposes ready-to-show state and removes the View's need to know the Model directly ([Q5](#q5)).
+
+**Related:** [Q5 — MVVM](#q5) · [Q6 — MVP](#q6)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q5"></a>
+## 5. What is MVVM, and how do Cubit/BLoC map to it?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"MVVM is Model-View-ViewModel. The ViewModel sits between the UI and the data: it holds the screen's state and exposes it in a ready-to-display form, and the View just binds to it. In Flutter, a Cubit or BLoC acts as the ViewModel — it holds state, the widget rebuilds when the state changes."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a personal translator.**
+The ViewModel is a translator between the raw data (Model) and the screen (View). The View doesn't talk to the messy data directly; it asks the translator for the clean, ready answer.
+
+**Step 2 — The three parts.**
+
+```
+View (widget)  ◄── binds to ──  ViewModel (Cubit/BLoC)  ──► Model (repository)
+   rebuilds on state change       holds & exposes state      data & rules
+```
+
+- **Model** — data and business rules (repositories, entities).
+- **View** — the widget; it only displays state and sends user actions.
+- **ViewModel** — holds the screen's state, talks to the Model, exposes clean state to the View.
+
+**Step 3 — Cubit as a ViewModel (Flutter example).**
+
 ```dart
 // Model
-class CounterModel {
-  int count = 0;
-  void increment() => count++;
+class CounterRepository { int load() => 0; }
+
+// ViewModel
+class CounterCubit extends Cubit<int> {
+  CounterCubit() : super(0);
+  void increment() => emit(state + 1); // updates state; UI rebuilds
 }
 
-// Controller
-class CounterController {
-  final CounterModel model = CounterModel();
-
-  void onIncrementTapped() {
-    model.increment();
-    // notify view to rebuild — typically via setState or ChangeNotifier
-  }
-
-  int get currentCount => model.count;
-}
-
-// View
-class CounterScreen extends StatefulWidget {
-  @override
-  _CounterScreenState createState() => _CounterScreenState();
-}
-
-class _CounterScreenState extends State<CounterScreen> {
-  final controller = CounterController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text('${controller.currentCount}'),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          controller.onIncrementTapped();
-          setState(() {}); // crude but valid for simple MVC
-        },
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}
+// View — just binds to the ViewModel
+BlocBuilder<CounterCubit, int>(
+  builder: (context, count) => Text('$count'),
+);
 ```
 
-MVC is less popular in Flutter compared to MVVM or BLoC because the View–Controller coupling is often too tight for reactive UI frameworks.
+The widget never holds the logic; it only shows `state` and calls `increment()`. That's MVVM.
 
-**Why it matters:** Interviewers use MVC as a baseline to see if you understand the evolution of architecture patterns and why the Flutter community moved toward MVVM and BLoC.
+**Step 4 — Why MVVM fits Flutter so well.**
+Flutter is reactive: the UI rebuilds from state. A ViewModel (Cubit/BLoC/Riverpod notifier) holding that state is a perfect match. This is why MVVM-style architectures dominate Flutter.
 
-**Common mistake:** Confusing MVC with MVVM. In MVC, the Controller is aware of the View. In MVVM, the ViewModel has no reference to the View at all.
+**Why interviewers ask:** MVVM is the most common Flutter architecture pattern. They want to hear that BLoC/Cubit/Riverpod play the ViewModel role.
+
+**Common mistake:** Putting business logic in the widget instead of the ViewModel, or letting the View read the Model directly.
+
+**Follow-ups they may ask:**
+- *"MVVM vs MVP?"* → In MVVM the View binds to state (reactive); in MVP the Presenter pushes updates to the View through an interface ([Q6](#q6)).
+
+**Related:** [Q4 — MVC](#q4) · [Q6 — MVP](#q6) · [Q11 — event-driven BLoC](#q11)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is MVVM and how does Cubit or BLoC map to it?
+<a id="q6"></a>
+## 6. What is MVP (Model-View-Presenter), and how is it different from MVVM?
 
-**A:** MVVM separates the UI from business logic using a ViewModel that exposes state to the View through an observable stream or notifier. The critical difference from MVC: the **ViewModel has no reference to the View**.
+> Common · Medium
+
+**Short answer (say this):**
+"MVP has a Presenter that does all the logic and tells a 'dumb' View exactly what to show, usually through a View interface. The main difference from MVVM: in MVP the Presenter pushes updates to the View directly; in MVVM the View binds to observable state and updates itself. MVVM is more reactive, which fits Flutter better."
+
+**Let's understand it fully:**
+
+**Step 1 — The three parts.**
+- **Model** — data and rules.
+- **View** — passive; just shows what it's told (often via an interface like `showLoading()`, `showUser()`).
+- **Presenter** — holds all the logic; it talks to the Model and commands the View.
+
+**Step 2 — How MVP works.**
 
 ```
-┌────────┐  observes state   ┌───────────┐  calls   ┌────────┐
-│  View  │ ◄──────────────── │ ViewModel │ ────────► │ Model  │
-│(Widget)│  sends events     └───────────┘           │(Domain)│
-└────────┘ ─────────────────►                        └────────┘
+View interface  ◄── commands (showUser) ──  Presenter  ──► Model
+   (passive)                                  (logic)
 ```
 
-- **View:** Flutter widgets. Observes ViewModel state. Sends user events.
-- **ViewModel:** Holds and manages UI state. Calls domain/model. Exposes a stream of states.
-- **Model:** Domain entities, use cases, repositories.
+The Presenter holds a reference to a View interface and calls methods on it.
 
-**How Cubit maps to MVVM:**
 ```dart
-// ViewModel = Cubit
-class UserCubit extends Cubit<UserState> {
-  final GetUserUseCase getUser;
-
-  UserCubit(this.getUser) : super(UserInitial());
-
-  // Called by View — like a ViewModel method
-  Future<void> loadUser(String id) async {
-    emit(UserLoading());
-    try {
-      final user = await getUser(id);
-      emit(UserLoaded(user)); // exposes state — View observes this
-    } catch (e) {
-      emit(UserError(e.toString()));
-    }
-  }
-}
-
-// View = Widget
-class UserScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<UserCubit, UserState>(
-      builder: (context, state) {
-        if (state is UserLoading) return CircularProgressIndicator();
-        if (state is UserLoaded) return Text(state.user.name);
-        if (state is UserError) return Text(state.message);
-        return ElevatedButton(
-          onPressed: () => context.read<UserCubit>().loadUser('123'),
-          child: Text('Load'),
-        );
-      },
-    );
-  }
-}
-```
-
-**How BLoC maps to MVVM:**
-BLoC is stricter MVVM — the ViewModel (Bloc) only reacts to *Events* (not direct method calls), making the input/output contract explicit:
-- Input: Events (user actions)
-- Output: States (UI state stream)
-- The View emits events and observes states — it never touches the Model directly
-
-**Why it matters:** This question tests whether you see the pattern beneath the framework. Many candidates use BLoC without realizing it's an opinionated implementation of MVVM.
-
-**Common mistake:** Saying "MVVM is when you use Provider." Provider is a state management mechanism — MVVM is a structural pattern. You can implement MVVM with Provider, Cubit, BLoC, Riverpod, or plain ChangeNotifier.
-
----
-
-**Q:** What is MVP (Model-View-Presenter) and how is it different from MVVM?
-
-**A:** MVP is similar to MVC but with one key change: the Presenter handles all UI logic and the View becomes purely passive (a "dumb" view). The Presenter *does* hold a reference to the View interface — which is the main difference from MVVM.
-
-```
-MVP:
-┌────────┐  calls interface  ┌───────────┐  calls   ┌────────┐
-│  View  │ ◄──────────────── │ Presenter │ ────────► │ Model  │
-│(Widget)│ ─────────────────►│           │           │        │
-└────────┘  delegates events └───────────┘           └────────┘
-  (passive)        Presenter knows about View via interface
-
-MVVM:
-┌────────┐  observes stream  ┌───────────┐  calls   ┌────────┐
-│  View  │ ◄──────────────── │ ViewModel │ ────────► │ Model  │
-│(Widget)│ ─────────────────►│           │           │        │
-└────────┘  sends events     └───────────┘           └────────┘
-  (reactive)    ViewModel does NOT know about View
-```
-
-**Key differences:**
-
-| | MVP | MVVM |
-|---|---|---|
-| Presenter/VM knows View? | Yes (via interface) | No |
-| View is... | Passive, delegates everything | Reactive, observes state |
-| Testing | Mock the View interface | No View needed at all |
-| Coupling | Moderate | Lower |
-
-**Example in Flutter (MVP style):**
-```dart
-// View interface (contract)
-abstract class LoginView {
+abstract class UserView {
   void showLoading();
-  void showError(String message);
-  void navigateToHome();
+  void showUser(User user);
 }
 
-// Presenter
-class LoginPresenter {
-  final LoginView view;
-  final AuthRepository auth;
+class UserPresenter {
+  final UserView view;
+  final UserRepository repo;
+  UserPresenter(this.view, this.repo);
 
-  LoginPresenter(this.view, this.auth);
-
-  Future<void> login(String email, String password) async {
+  Future<void> load() async {
     view.showLoading();
-    try {
-      await auth.login(email, password);
-      view.navigateToHome();
-    } catch (e) {
-      view.showError(e.toString());
-    }
+    view.showUser(await repo.getUser()); // Presenter pushes to the View
   }
-}
-
-// View (Widget implements the interface)
-class LoginScreen extends StatefulWidget implements LoginView {
-  @override
-  void showLoading() { /* show spinner */ }
-
-  @override
-  void showError(String message) { /* show snackbar */ }
-
-  @override
-  void navigateToHome() { /* push route */ }
 }
 ```
 
-MVP was popular in Android (Java) development. In Flutter, MVVM with BLoC/Cubit is preferred because Flutter's reactive widget system aligns naturally with state streams.
+**Step 3 — The key difference from MVVM.**
+- **MVP** — the Presenter *pushes* updates to the View by calling its methods. The View is passive.
+- **MVVM** — the View *pulls/binds* to observable state; when state changes, the framework rebuilds the View. No direct calls.
 
-**Why it matters:** This question is asked to see if you can articulate *why* the Flutter community converged on MVVM/BLoC rather than MVP — the answer is Flutter's reactive rebuild model.
+**Step 4 — Why Flutter prefers MVVM.**
+Flutter's whole model is "rebuild from state," which is MVVM's binding style. MVP's manual `view.showX()` calls feel unnatural in a reactive framework, so MVP is more common in older Android (Java) apps.
 
-**Common mistake:** Saying MVP and MVVM are "basically the same thing." The Presenter's direct reference to the View is the critical distinction — it creates tighter coupling and makes testing slightly harder.
+**Why interviewers ask:** To check you understand the difference between *pushing* to the View (MVP) and *binding* to state (MVVM).
+
+**Common mistake:** Saying MVP and MVVM are the same. The update direction (push vs bind) is the real difference.
+
+**Follow-ups they may ask:**
+- *"Which would you use in Flutter?"* → MVVM (BLoC/Cubit/Riverpod), because it matches Flutter's reactive rebuild model.
+
+**Related:** [Q5 — MVVM](#q5) · [Q4 — MVC](#q4)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the Repository Pattern, what problem does it solve, and how is it structured in Clean Architecture?
-
-**A:** The Repository Pattern creates an abstraction layer between your business logic (domain) and your data sources (API, database, cache). Instead of your use cases knowing *where* data comes from, they ask a repository interface and the implementation handles the details.
-
-**Problem it solves:**
-- Without it: business logic directly calls `http.get(...)` or `db.query(...)` — you can't test it without a real network or database
-- With it: business logic calls `repository.getUser(id)` — you can inject a fake repository in tests
-
-```
-  Domain Layer                    Data Layer
-┌─────────────────┐            ┌──────────────────────────┐
-│ UserRepository  │◄implements─│ UserRepositoryImpl        │
-│ (abstract)      │            │                           │
-│ + getUser(id)   │            │ + RemoteDataSource (API)  │
-│ + saveUser(u)   │            │ + LocalDataSource (DB)    │
-└─────────────────┘            └──────────────────────────┘
-         ▲
-   Use Cases depend
-   on this interface
-   (not the impl)
-```
-
-**Example:**
-```dart
-// domain/repositories/product_repository.dart
-abstract class ProductRepository {
-  Future<List<Product>> getProducts();
-  Future<Product> getProductById(String id);
-  Future<void> saveProduct(Product product);
-}
-
-// data/repositories/product_repository_impl.dart
-class ProductRepositoryImpl implements ProductRepository {
-  final ProductApiService remoteSource;
-  final ProductDao localSource; // local database
-
-  ProductRepositoryImpl({
-    required this.remoteSource,
-    required this.localSource,
-  });
-
-  @override
-  Future<List<Product>> getProducts() async {
-    try {
-      // Try remote first
-      final products = await remoteSource.fetchProducts();
-      await localSource.cacheProducts(products); // cache locally
-      return products;
-    } catch (_) {
-      // Fallback to cache
-      return localSource.getCachedProducts();
-    }
-  }
-
-  @override
-  Future<Product> getProductById(String id) async {
-    final json = await remoteSource.fetchProduct(id);
-    return ProductMapper.fromJson(json); // maps DTO to domain entity
-  }
-
-  @override
-  Future<void> saveProduct(Product product) async {
-    await remoteSource.postProduct(ProductMapper.toJson(product));
-  }
-}
-
-// In tests — use a fake implementation
-class FakeProductRepository implements ProductRepository {
-  @override
-  Future<List<Product>> getProducts() async => [
-    Product(id: '1', name: 'Test Product'),
-  ];
-  // ...
-}
-```
-
-**Why it matters:** The Repository Pattern is foundational to testable Flutter apps. Interviewers want to see that you place the *interface* in the domain layer and the *implementation* in the data layer — not both in the same place.
-
-**Common mistake:** Putting the repository interface in the data layer. This forces domain to import from data, violating the dependency rule. The interface belongs in domain — it's a *contract* the domain defines, which data fulfills.
+# C. Core building blocks
 
 ---
 
-**Q:** What is the Use Case (Interactor) pattern? When should you use it and when is it overkill?
+<a id="q7"></a>
+## 7. What is the Repository Pattern, what problem does it solve, and how does it fit Clean Architecture?
 
-**A:** A Use Case (sometimes called an Interactor) is a class that encapsulates a single piece of business logic. It sits in the domain layer and orchestrates entities and repositories to accomplish one specific task. Each use case does one thing only — this is single-responsibility applied at the business logic level.
+> Very common · Medium
 
-```
-Presentation Layer          Domain Layer             Data Layer
-┌──────────────┐         ┌──────────────────┐      ┌──────────┐
-│   Cubit/BLoC │────────►│  GetOrderUseCase │─────►│ OrderRepo│
-└──────────────┘         │                  │      └──────────┘
-                         │  PlaceOrderUse   │
-                         │  Case            │
-                         │                  │
-                         │  CancelOrderUse  │
-                         │  Case            │
-                         └──────────────────┘
-```
+**Short answer (say this):**
+"A repository is a class that hides where data comes from. The rest of the app asks the repository for data and doesn't care if it came from the network, a database, or a cache. It solves the problem of UI and logic being tied to a specific data source. In Clean Architecture, the Domain defines the repository interface and the Data layer implements it."
 
-**Example:**
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a librarian.**
+You ask the librarian for a book. You don't know or care whether they got it from the shelf, the back room, or another branch. The repository is that librarian for your data.
+
+**Step 2 — The problem it solves.**
+Without a repository, your Cubit/BLoC would call the API directly and parse JSON — so it's glued to that API. If you add caching or switch APIs, you'd rewrite the logic. A repository hides all that behind one clean method.
+
+**Step 3 — The structure (interface + implementation).**
+
 ```dart
-// Each use case = one file, one class, one public method (call)
-class GetOrdersUseCase {
-  final OrderRepository repository;
-
-  GetOrdersUseCase(this.repository);
-
-  // Dart convention: make it callable
-  Future<List<Order>> call(String userId) async {
-    final orders = await repository.getOrdersByUser(userId);
-    // Business logic lives here — not in the repository, not in the Cubit
-    return orders.where((o) => o.isActive).toList();
-  }
+// Domain layer: the interface (what, not how)
+abstract class UserRepository {
+  Future<User> getUser(String id);
 }
 
-class PlaceOrderUseCase {
-  final OrderRepository orderRepository;
-  final InventoryRepository inventoryRepository;
-  final NotificationService notificationService;
+// Data layer: the implementation (decides the source)
+class UserRepositoryImpl implements UserRepository {
+  final ApiClient api;
+  final LocalCache cache;
+  UserRepositoryImpl(this.api, this.cache);
 
-  PlaceOrderUseCase({
-    required this.orderRepository,
-    required this.inventoryRepository,
-    required this.notificationService,
-  });
-
-  Future<Order> call(OrderRequest request) async {
-    // Validate stock
-    final inStock = await inventoryRepository.checkStock(request.productId);
-    if (!inStock) throw InsufficientStockException();
-
-    // Place order
-    final order = await orderRepository.create(request);
-
-    // Notify user
-    await notificationService.sendConfirmation(order);
-
-    return order;
-  }
-}
-
-// Usage in Cubit
-class OrderCubit extends Cubit<OrderState> {
-  final GetOrdersUseCase getOrders;
-  final PlaceOrderUseCase placeOrder;
-
-  OrderCubit({required this.getOrders, required this.placeOrder})
-      : super(OrderInitial());
-
-  Future<void> loadOrders(String userId) async {
-    final orders = await getOrders(userId); // callable
-    emit(OrdersLoaded(orders));
+  @override
+  Future<User> getUser(String id) async {
+    final cached = cache.get(id);
+    if (cached != null) return cached;        // from cache
+    final user = await api.fetchUser(id);     // or from network
+    cache.save(id, user);
+    return user;
   }
 }
 ```
 
-**When to use:**
-- Complex business logic that involves multiple repositories or services
-- Logic that needs to be reused across multiple ViewModels/Cubits
-- Any logic you want to unit test in isolation from UI and data
+The caller just does `repo.getUser(id)` — the cache-then-network decision is hidden.
 
-**When it's overkill:**
-- Simple CRUD with no business rules (a `GetUsersUseCase` that just calls `repository.getAll()` adds ceremony with zero value)
-- Rapid prototypes or internal tooling apps
-- Single-developer projects where the architecture overhead slows you down
+**Step 4 — Why it fits Clean Architecture.**
+The Domain owns the *interface* (so the Domain stays pure), and the Data layer provides the *implementation*. The Presentation layer depends only on the interface, so you can swap the implementation or inject a fake for tests.
 
-**Why it matters:** Use Cases are the heart of Clean Architecture. Interviewers want to see you understand what belongs in a use case vs. a repository vs. a Cubit, and that you can recognize when the pattern adds value vs. noise.
+**Why interviewers ask:** The repository is the most-used pattern in real Flutter apps. They want to see you separate "what data" from "where it comes from."
 
-**Common mistake:** Putting every piece of logic in the repository ("the repo applies filters and sorts") or in the Cubit ("the Cubit orchestrates multiple repos"). Both are violations — repositories fetch and persist, Cubits manage UI state. Business logic belongs in Use Cases.
+**Common mistake:** Putting API calls and JSON parsing directly in the Cubit/BLoC, skipping the repository — that couples your logic to one data source.
+
+**Follow-ups they may ask:**
+- *"How does it help testing?"* → You inject a fake repository, so you test logic without a real network.
+- *"Single source of truth?"* → A repository can combine network + local DB and present one consistent view (offline-first).
+
+**Related:** [Q2 — Clean Architecture](#q2) · [Q9 — DI](#q9) · [Q8 — use case](#q8)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is Dependency Injection? Why do we use it, and how does `get_it` implement it in Flutter?
+<a id="q8"></a>
+## 8. What is the Use Case (Interactor) pattern? When is it useful, and when is it overkill?
 
-**A:** Dependency Injection (DI) is a technique where an object's dependencies are *provided to it from outside* rather than the object creating them internally. The object declares what it needs; something else is responsible for supplying those dependencies.
+> Common · Medium
 
-**Without DI (tight coupling):**
-```dart
-class UserCubit extends Cubit<UserState> {
-  // Creates its own dependency internally — can't test without real API
-  final repository = UserRepositoryImpl(ApiService()); // ❌ hardcoded
-  ...
-}
-```
+**Short answer (say this):**
+"A use case is a class that does exactly one business action — like 'get user profile' or 'place order'. It sits in the Domain layer between the state management and the repository. It's useful for complex apps with real business rules, but on a simple CRUD app it can be just an extra layer that forwards a call, which is overkill."
 
-**With DI (loose coupling):**
-```dart
-class UserCubit extends Cubit<UserState> {
-  final UserRepository repository; // ✅ injected from outside
+**Let's understand it fully:**
 
-  UserCubit(this.repository); // accepts any implementation
-  ...
-}
-```
+**Step 1 — A real-life picture: one recipe.**
+A use case is one specific recipe: "make a cappuccino." It knows the exact steps for that one action. Each business action gets its own use case.
 
-Now you can inject `FakeUserRepository` in tests and `UserRepositoryImpl` in production.
-
-**How `get_it` implements it:**
-
-`get_it` is a service locator (discussed separately) that acts as a DI container. You register dependencies once, then resolve them anywhere.
+**Step 2 — What it looks like.**
+Often a class with a single `call` method, so it can be used like a function.
 
 ```dart
-// di/injection.dart
-import 'package:get_it/get_it.dart';
+class GetUserProfile {
+  final UserRepository repo;
+  GetUserProfile(this.repo);
 
-final sl = GetIt.instance; // service locator singleton
-
-void setupDependencies() {
-  // Infrastructure
-  sl.registerLazySingleton<ApiService>(() => ApiService());
-  sl.registerLazySingleton<DatabaseService>(() => DatabaseService());
-
-  // Data layer
-  sl.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(sl<ApiService>()),
-  );
-
-  // Domain layer
-  sl.registerFactory<GetUserUseCase>(
-    () => GetUserUseCase(sl<UserRepository>()),
-  );
-
-  // Presentation layer
-  sl.registerFactory<UserCubit>(
-    () => UserCubit(sl<GetUserUseCase>()),
-  );
+  Future<User> call(String id) {
+    // could add business rules here: validation, combining sources, etc.
+    return repo.getUser(id);
+  }
 }
 
-// main.dart
-void main() {
-  setupDependencies();
-  runApp(MyApp());
-}
-
-// Anywhere in the app
-final cubit = sl<UserCubit>(); // resolved with all deps wired
+// Used in the Cubit:
+final user = await getUserProfile('123');
 ```
 
-**Registration types in get_it:**
+**Step 3 — When it's useful.**
+- The action has real **business rules** (validation, combining several repositories, calculations).
+- You want the logic **reusable** across screens.
+- You want each action **testable** on its own.
 
-| Type | Behavior |
-|---|---|
-| `registerSingleton` | Creates once immediately, same instance always |
-| `registerLazySingleton` | Creates once on first access, same instance always |
-| `registerFactory` | Creates a new instance on every call |
+**Step 4 — When it's overkill.**
+If the use case just calls `repo.getUser(id)` and nothing else, it's an empty middle layer. For a simple app, the Cubit can call the repository directly. Don't add use cases just to follow a diagram (that's a YAGNI issue).
 
-**Why it matters:** DI is fundamental to testable, maintainable code. Interviewers evaluate whether you understand *why* you inject dependencies, not just that `get_it` is the popular package.
+**Why interviewers ask:** It tests judgment — do you add structure for a reason, or blindly follow a template?
 
-**Common mistake:** Calling `sl<X>()` directly inside constructors or methods ("resolving inside the class"), which defeats the purpose. DI means you receive dependencies from outside — resolving inside is just a hidden dependency, not injection.
+**Common mistake:** Adding a use case for every single repository call even when it does nothing, doubling the boilerplate for no benefit.
+
+**Follow-ups they may ask:**
+- *"Where does it live?"* → In the Domain layer, depending only on the repository interface.
+- *"Why the `call` method?"* → It lets you invoke the object like a function: `getUser('123')`.
+
+**Related:** [Q2 — Clean Architecture](#q2) · [Q7 — repository](#q7) · [Q14 — choosing](#q14)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the difference between Service Locator and Dependency Injection? What are the trade-offs?
+<a id="q9"></a>
+## 9. What is Dependency Injection, why do we use it, and how does `get_it` implement it?
 
-**A:** These are two different strategies for managing dependencies. They're often confused because tools like `get_it` can be used for both.
+> Very common · Medium
 
-**Dependency Injection (DI):** Dependencies are *pushed into* a class from outside — typically via constructor. The class doesn't know how to obtain them; it just declares what it needs.
+**Short answer (say this):**
+"Dependency Injection (DI) means a class receives the things it needs from outside, instead of creating them itself. We use it for low coupling and testability — you can swap a real dependency for a fake. `get_it` is a service locator that registers dependencies once at startup and hands them out wherever you need them."
 
-**Service Locator:** Dependencies are *pulled by* the class itself by calling a central registry. The class knows about the locator and asks for what it needs.
+**Let's understand it fully:**
 
-```
-Dependency Injection (push):
-┌──────────────┐  provides dep  ┌──────────┐
-│  DI Container│ ──────────────►│  Class A │
-└──────────────┘                └──────────┘
-  Class A has no reference to the container
+**Step 1 — A real-life picture: plugging into a socket.**
+A lamp doesn't build its own power plant; it plugs into a socket and receives power. A class shouldn't build its own database; it should receive one.
 
-Service Locator (pull):
-┌──────────────┐               ┌──────────┐
-│  Service     │◄──sl.get()────│  Class A │
-│  Locator     │               └──────────┘
-└──────────────┘
-  Class A knows about and calls the locator
-```
+**Step 2 — Without DI vs with DI.**
 
-**Code comparison:**
 ```dart
-// Service Locator pattern — class pulls its own dependencies
-class OrderCubit extends Cubit<OrderState> {
-  OrderCubit() : super(OrderInitial()) {
-    _repo = sl<OrderRepository>(); // class is aware of sl
-    _useCase = sl<PlaceOrderUseCase>();
-  }
-
-  late final OrderRepository _repo;
-  late final PlaceOrderUseCase _useCase;
+// Without DI — the class builds its own dependency (hard-wired, hard to test)
+class OrderService {
+  final api = HttpApiClient();
 }
 
-// Pure DI pattern — dependencies pushed in via constructor
-class OrderCubit extends Cubit<OrderState> {
-  final OrderRepository _repo;
-  final PlaceOrderUseCase _useCase;
-
-  OrderCubit(this._repo, this._useCase) : super(OrderInitial());
-  // Class has zero knowledge of how it got its deps
+// With DI — the dependency is passed in (swappable, testable)
+class OrderService {
+  final ApiClient api;
+  OrderService(this.api); // injected
 }
 ```
 
-**Trade-offs:**
+**Step 3 — How `get_it` works.**
+`get_it` is a shared "toolbox": you register each dependency once at startup, then ask for it anywhere — no need to pass it through many constructors.
 
-| Aspect | Service Locator | Pure DI |
+```dart
+final sl = GetIt.instance;
+
+void setup() {
+  sl.registerLazySingleton<ApiClient>(() => HttpApiClient());
+  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(sl()));
+  sl.registerFactory(() => UserCubit(sl())); // new instance each time
+}
+
+// Use it anywhere:
+final cubit = sl<UserCubit>();
+```
+
+- `registerLazySingleton` → one shared instance, created on first use.
+- `registerFactory` → a new instance every time you ask.
+
+**Step 4 — Why DI matters.**
+- **Testability** — inject a fake `ApiClient` in tests; no real network.
+- **Low coupling** — classes depend on interfaces, not concrete classes ([DIP](#q10)).
+- **One place to wire** — change a dependency in the setup, not in 50 files.
+
+**Why interviewers ask:** DI is essential for testable, layered apps. They want to see you don't hard-wire dependencies with `new` inside classes.
+
+**Common mistake:** Calling `sl<X>()` deep inside business logic everywhere (hidden dependencies). Prefer injecting through constructors; use the locator at the edges.
+
+**Follow-ups they may ask:**
+- *"get_it vs Provider/Riverpod for DI?"* → `get_it` is a plain service locator (no `BuildContext`). Provider/Riverpod tie DI to the widget tree.
+- *"Singleton vs factory registration?"* → Singleton = one shared instance; factory = fresh each call.
+
+**Related:** [Q10 — service locator vs DI](#q10) · [Q7 — repository](#q7) · [Q2 — Clean Architecture](#q2)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q10"></a>
+## 10. What is the difference between a Service Locator and Dependency Injection? What are the trade-offs?
+
+> Common · Medium–Hard
+
+**Short answer (say this):**
+"Both provide dependencies, but in opposite directions. With Dependency Injection, dependencies are *pushed in* through the constructor, so they're visible in the class's signature. With a Service Locator, the class *pulls* dependencies by asking a global registry. DI is more explicit and testable; a service locator is convenient but hides dependencies."
+
+**Let's understand it fully:**
+
+**Step 1 — The two styles.**
+
+```dart
+// Dependency Injection — dependency is visible in the constructor
+class OrderService {
+  final ApiClient api;
+  OrderService(this.api); // you can SEE what it needs
+}
+
+// Service Locator — dependency is fetched from a global registry
+class OrderService {
+  final api = sl<ApiClient>(); // hidden need; you must read the body to know
+}
+```
+
+**Step 2 — The trade-offs.**
+
+| | Dependency Injection | Service Locator |
 |---|---|---|
-| Explicitness | Implicit — hard to see what a class needs | Explicit — constructor shows all dependencies |
-| Testability | Harder — must set up the locator in tests | Easier — just pass mock in constructor |
-| Coupling to container | Yes — class depends on `sl` | None |
-| Simplicity | Simple to use anywhere | Slightly more setup |
-| Discoverability | Hidden dependencies | Self-documenting via constructor |
+| Dependencies are | visible in the constructor | hidden inside the class |
+| Testability | easy (pass a fake in) | harder (must set up the global registry) |
+| Convenience | more wiring | very convenient |
+| Coupling | low, explicit | couples to the locator |
 
-In Flutter practice, most teams use `get_it` as a **composition root** (registering and wiring in `main.dart` or `injection.dart`) but inject via constructor everywhere else. This gives the best of both worlds.
+**Step 3 — `get_it` is technically a service locator.**
+Even though we call it "DI", `get_it` is a service locator — you pull from `sl<X>()`. Many teams get the best of both: register in `get_it`, but **inject** the resolved objects through constructors (so the classes themselves use DI, and only the setup uses the locator).
 
-**Why it matters:** This is a senior-level question. Interviewers want to see you know the difference and can articulate *why* pure DI is generally more testable than service locator — while acknowledging that pure service locator is pragmatic and widely used.
+**Step 4 — The practical advice.**
+Prefer constructor injection inside your classes (visible, testable). Use the service locator only at the "edges" (app setup, where you build the object graph). That keeps business classes clean while staying convenient.
 
-**Common mistake:** Saying "Service Locator IS Dependency Injection." They solve the same problem (managing dependencies) but in opposite directions (push vs. pull). Using `get_it` everywhere inside classes is Service Locator, not DI.
+**Why interviewers ask:** It's a senior judgment question — do you understand *why* explicit dependencies are better, even while using a locator?
+
+**Common mistake:** Calling `sl<X>()` everywhere inside business logic, hiding what each class depends on and making tests painful.
+
+**Follow-ups they may ask:**
+- *"Is a service locator an anti-pattern?"* → Not inherently. It becomes one when used deep inside logic, hiding dependencies. At the composition root it's fine.
+
+**Related:** [Q9 — DI / get_it](#q9) · [Q3 — separation of concerns](#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is event-driven architecture and how does BLoC use this concept?
+<a id="q11"></a>
+## 11. What is event-driven architecture, and how does BLoC use this concept?
 
-**A:** Event-driven architecture is a pattern where components communicate by producing and consuming **events** rather than calling each other directly. A producer emits an event; interested consumers react to it. The producer doesn't know who's listening or how they'll respond.
+> Common · Medium
+
+**Short answer (say this):**
+"Event-driven means parts of the system communicate by sending and reacting to events, instead of calling each other directly. BLoC uses this: the UI sends events in, the BLoC processes them and emits states out. This one-way flow makes the logic predictable and easy to test."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: a notice board.**
+Instead of person A directly ordering person B, A pins a note (event) on a board. Whoever cares reacts to it. Parts stay loosely connected through events.
+
+**Step 2 — BLoC's flow: events in, states out.**
 
 ```
-Event-Driven Flow:
-
-[User taps button] ──► [Event: LoginRequested] ──► [BLoC]
-                                                       │
-                                               handles event
-                                                       │
-                                                       ▼
-                                          [State: LoginLoading]
-                                          [State: LoginSuccess]
-                                          [State: LoginFailure]
-                                                       │
-                                              [Widget rebuilds]
+UI  ──(add Event)──►  BLoC  ──(emit State)──►  UI rebuilds
 ```
 
-**How BLoC implements event-driven architecture:**
-
-BLoC has a strict one-directional flow:
-- **Input:** Events (produced by the View, external triggers, other BLoCs)
-- **Output:** States (consumed by the View)
-- The BLoC reacts to events using `on<EventType>(handler)` — pure event handling
+The UI never changes state directly; it sends an event. The BLoC decides what new state to emit. The UI just rebuilds from the new state.
 
 ```dart
-// Events (what can happen)
-abstract class AuthEvent {}
-class LoginRequested extends AuthEvent {
-  final String email;
-  final String password;
-  LoginRequested(this.email, this.password);
-}
-class LogoutRequested extends AuthEvent {}
+// Events (things that happen)
+sealed class CounterEvent {}
+class Increment extends CounterEvent {}
 
-// States (what UI renders)
-abstract class AuthState {}
-class AuthInitial extends AuthState {}
-class AuthLoading extends AuthState {}
-class AuthAuthenticated extends AuthState {
-  final User user;
-  AuthAuthenticated(this.user);
-}
-class AuthError extends AuthState {
-  final String message;
-  AuthError(this.message);
-}
-
-// BLoC — pure event handler, no UI references
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final LoginUseCase login;
-  final LogoutUseCase logout;
-
-  AuthBloc({required this.login, required this.logout})
-      : super(AuthInitial()) {
-    on<LoginRequested>(_onLoginRequested);
-    on<LogoutRequested>(_onLogoutRequested);
-  }
-
-  Future<void> _onLoginRequested(
-    LoginRequested event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(AuthLoading());
-    try {
-      final user = await login(event.email, event.password);
-      emit(AuthAuthenticated(user));
-    } catch (e) {
-      emit(AuthError(e.toString()));
-    }
-  }
-
-  Future<void> _onLogoutRequested(
-    LogoutRequested event,
-    Emitter<AuthState> emit,
-  ) async {
-    await logout();
-    emit(AuthInitial());
+// BLoC: events in -> states out
+class CounterBloc extends Bloc<CounterEvent, int> {
+  CounterBloc() : super(0) {
+    on<Increment>((event, emit) => emit(state + 1));
   }
 }
 
-// View fires events — doesn't call methods directly
-ElevatedButton(
-  onPressed: () => context.read<AuthBloc>().add(
-    LoginRequested(email: emailController.text, password: passController.text),
-  ),
-  child: Text('Login'),
-)
+// UI sends an event:
+context.read<CounterBloc>().add(Increment());
 ```
 
-BLoC is also event-driven at a higher level — BLoCs can listen to other BLoCs' state streams, reacting to changes without direct coupling between them.
+**Step 3 — Why one-way flow helps.**
+- **Predictable** — every state change starts from a clear event.
+- **Testable** — give events, check the emitted states (no UI needed).
+- **Traceable** — you can log every event and state for debugging.
+- **Decoupled** — the UI doesn't know *how* state is produced.
 
-**Why it matters:** The interviewer is evaluating whether you understand BLoC not just as "a state management library" but as a principled event-driven system — and whether you can explain the architectural reasoning behind the Event → State pipeline.
+**Step 4 — Cubit is the simpler cousin.**
+Cubit drops the explicit events and exposes methods directly (`increment()`). Use Cubit for simple flows, full BLoC when you want the traceable event log.
 
-**Common mistake:** Treating BLoC like a service and calling methods on it directly (`bloc.login(email, pass)`). In proper BLoC, the View can only add events — not call logic methods — which enforces the unidirectional data flow.
+**Why interviewers ask:** Event-driven, one-way data flow is the core idea behind BLoC, Redux, and Riverpod. They want to see you understand "events in, states out."
+
+**Common mistake:** Mutating state directly from the UI instead of sending an event/calling a method, breaking the one-way flow.
+
+**Follow-ups they may ask:**
+- *"BLoC vs Cubit?"* → BLoC uses explicit events (more traceable); Cubit uses direct methods (simpler).
+
+**Related:** [Q5 — MVVM](#q5) · [Q3 — separation of concerns](#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is "separation of concerns"? Give a real Flutter example of a violation and how to fix it.
-
-**A:** Separation of Concerns (SoC) is the principle that each unit of code should have one clear responsibility and should not know about or handle responsibilities that belong elsewhere. When concerns mix, changing one thing breaks another — and testing becomes painful.
-
-**Classic violation — everything in a Widget:**
-```dart
-// ❌ BAD — Widget handles UI, network, state, and business logic all at once
-class ProductScreen extends StatefulWidget {
-  @override
-  _ProductScreenState createState() => _ProductScreenState();
-}
-
-class _ProductScreenState extends State<ProductScreen> {
-  List<Product> products = [];
-  bool isLoading = false;
-  String? error;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadProducts();
-  }
-
-  // ❌ Network call directly in widget
-  Future<void> _loadProducts() async {
-    setState(() => isLoading = true);
-    try {
-      final response = await http.get(Uri.parse('https://api.example.com/products'));
-      final json = jsonDecode(response.body) as List;
-
-      // ❌ JSON parsing in widget
-      final parsed = json.map((item) => Product(
-        id: item['id'],
-        name: item['name'],
-        price: (item['price'] as num).toDouble(),
-        // ❌ Business logic in widget
-        discountedPrice: item['price'] * (1 - item['discount'] / 100),
-      )).toList();
-
-      setState(() {
-        products = parsed;
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        error = e.toString();
-        isLoading = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (isLoading) return CircularProgressIndicator();
-    if (error != null) return Text(error!);
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (_, i) => ListTile(title: Text(products[i].name)),
-    );
-  }
-}
-```
-
-Problems: Widget cannot be tested without a real HTTP call. Changing the discount formula requires touching the widget. Changing the API URL requires opening the widget file.
-
-**Fixed — each concern in the right layer:**
-```dart
-// ✅ domain/entities/product.dart — pure data + business rule
-class Product {
-  final String id;
-  final String name;
-  final double price;
-  final double discountPercent;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.discountPercent,
-  });
-
-  // Business logic belongs with the entity
-  double get discountedPrice => price * (1 - discountPercent / 100);
-}
-
-// ✅ domain/repositories/product_repository.dart — interface only
-abstract class ProductRepository {
-  Future<List<Product>> getProducts();
-}
-
-// ✅ data/repositories/product_repository_impl.dart — data concern
-class ProductRepositoryImpl implements ProductRepository {
-  final http.Client client;
-  ProductRepositoryImpl(this.client);
-
-  @override
-  Future<List<Product>> getProducts() async {
-    final response = await client.get(Uri.parse('https://api.example.com/products'));
-    final json = jsonDecode(response.body) as List;
-    return json.map((item) => Product(
-      id: item['id'],
-      name: item['name'],
-      price: (item['price'] as num).toDouble(),
-      discountPercent: (item['discount'] as num).toDouble(),
-    )).toList();
-  }
-}
-
-// ✅ presentation/cubit/product_cubit.dart — state management concern
-class ProductCubit extends Cubit<ProductState> {
-  final ProductRepository repository;
-  ProductCubit(this.repository) : super(ProductInitial());
-
-  Future<void> loadProducts() async {
-    emit(ProductLoading());
-    try {
-      final products = await repository.getProducts();
-      emit(ProductLoaded(products));
-    } catch (e) {
-      emit(ProductError(e.toString()));
-    }
-  }
-}
-
-// ✅ presentation/screens/product_screen.dart — UI concern only
-class ProductScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, ProductState>(
-      builder: (context, state) {
-        if (state is ProductLoading) return CircularProgressIndicator();
-        if (state is ProductError) return Text(state.message);
-        if (state is ProductLoaded) {
-          return ListView.builder(
-            itemCount: state.products.length,
-            itemBuilder: (_, i) => ListTile(
-              title: Text(state.products[i].name),
-              subtitle: Text('\$${state.products[i].discountedPrice}'),
-            ),
-          );
-        }
-        return const SizedBox();
-      },
-    );
-  }
-}
-```
-
-Now each layer can be tested independently. Changing the discount formula only touches `Product`. Changing the API only touches `ProductRepositoryImpl`. Changing the UI only touches `ProductScreen`.
-
-**Why it matters:** SoC is not theoretical — it directly affects how long bug fixes take and how painful onboarding new team members is. Interviewers want concrete examples that show you've felt the pain of mixing concerns in production code.
-
-**Common mistake:** Thinking SoC means "put things in separate files." You can have separate files that still mix concerns. The test is: can each unit be changed independently without touching other units?
+# D. Scaling & choosing
 
 ---
 
-**Q:** What are the trade-offs between Monorepo and Multi-repo for mobile teams?
+<a id="q12"></a>
+## 12. What are the trade-offs between Monorepo and Multi-repo for mobile teams?
 
-**A:** These are strategies for organizing code across multiple packages, apps, or services.
+> Common · Medium
 
-```
-Monorepo (single repository):          Multi-repo (many repositories):
-┌────────────────────────────┐         ┌──────────┐  ┌──────────┐
-│  my-company/app            │         │ core-pkg │  │ feature-a│
-│  ├── apps/                 │         └──────────┘  └──────────┘
-│  │   ├── mobile/           │              ↑              ↑
-│  │   └── web/              │         ┌──────────┐  ┌──────────┐
-│  ├── packages/             │         │ feature-b│  │ main-app │
-│  │   ├── core/             │         └──────────┘  └──────────┘
-│  │   ├── design_system/    │         All separate repos, linked
-│  │   └── auth/             │         via pub.dev or git refs
-│  └── services/             │
-│      └── api/              │
-└────────────────────────────┘
-```
+**Short answer (say this):**
+"A monorepo keeps all code in one repository; a multi-repo splits it across many. A monorepo makes sharing code and making cross-cutting changes easy, with one source of truth — but it can get big and needs good tooling. Multi-repo gives strong separation and independent releases, but sharing code and coordinating changes is harder."
 
-**Monorepo advantages:**
-- Atomic changes — update a shared package and the app in one commit
-- Easier cross-package refactoring (one search/replace across the whole codebase)
-- Shared CI/CD configuration and tooling
-- Simpler dependency management — no versioning hell between internal packages
-- Easy to see the full impact of a change
+**Let's understand it fully:**
 
-**Monorepo disadvantages:**
-- Slower CI if not configured with affected-build detection (every PR rebuilds everything)
-- Repository access control is coarser — harder to give contractors access to only one module
-- Git operations can become slow as history grows
-- Requires tooling discipline (Melos for Flutter is standard)
+**Step 1 — A real-life picture.**
+- **Monorepo** = one big house where every room (project) shares the same address. Easy to move things between rooms.
+- **Multi-repo** = separate houses. Strong boundaries, but moving things between them takes effort.
 
-**Multi-repo advantages:**
-- Independent versioning and release cycles for each package
-- Fine-grained access control — teams own their repos
-- CI/CD is isolated — a broken service doesn't block the mobile build
-- Conceptually simpler for small teams with clear ownership boundaries
+**Step 2 — The trade-offs.**
 
-**Multi-repo disadvantages:**
-- Cross-package changes require multiple PRs, coordinated merges
-- Dependency versioning between internal packages ("which version of `core` does `feature-a` use?")
-- Onboarding requires setting up many repos
-- Harder to see the full picture
+| | Monorepo | Multi-repo |
+|---|---|---|
+| Code sharing | easy (one place) | harder (publish packages) |
+| Cross-cutting change | one commit/PR | many coordinated PRs |
+| Boundaries | softer | strong, enforced |
+| Independent release | harder | easy per repo |
+| Tooling needed | more (e.g. `melos`) | simpler per repo |
 
-**Flutter-specific tools for Monorepo:**
-```yaml
-# melos.yaml — Flutter monorepo tooling
-name: my_company
-packages:
-  - apps/**
-  - packages/**
+**Step 3 — Monorepo in Flutter (`melos`).**
+Flutter teams often use a monorepo with `melos` to manage multiple packages (a core package, feature packages, the app) in one repo — linking local packages and running scripts across all of them.
 
-scripts:
-  test:all:
-    run: melos exec -- flutter test
-    description: Run tests in all packages
-  build:affected:
-    run: melos exec --diff=origin/main -- flutter build apk
-```
+**Step 4 — How to choose.**
+- **Monorepo** — one team or tightly related projects that share a lot of code.
+- **Multi-repo** — separate teams that release independently and want hard boundaries.
 
-**In practice:** Large Flutter teams (e.g., Verygood.ventures, Very Large FinTech apps) tend toward Monorepo with Melos. Smaller teams or platform teams sharing packages across mobile, web, and backend lean toward multi-repo.
+**Why interviewers ask:** It's a scaling/team-structure question for senior roles. They want to hear the trade-offs, not a blanket "X is better."
 
-**Why it matters:** This tests your experience managing real team-scale Flutter projects. Interviewers at companies with multiple engineers want to know you've thought about developer experience, not just code quality.
+**Common mistake:** Claiming one is always better. It depends on team size, release cadence, and how much code is shared.
 
-**Common mistake:** Saying "Monorepo is better" or "Multi-repo is better" without trade-offs. The answer always depends on team size, ownership structure, and release cadence requirements.
+**Follow-ups they may ask:**
+- *"What is `melos`?"* → A tool to manage a Flutter monorepo: links local packages and runs commands across all of them.
+
+**Related:** [Q13 — modular architecture](#q13) · [Q14 — choosing](#q14)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is modular/micro-frontend architecture in Flutter? Why do large teams adopt it?
+<a id="q13"></a>
+## 13. What is modular architecture (feature packages) in Flutter, and why do large teams adopt it?
 
-**A:** Modular architecture in Flutter means splitting the app into self-contained **feature modules** — each a separate Dart package with its own UI, business logic, and tests. These modules are composed into the final app at the top level. The term "micro-frontend" comes from the web world but maps to the same idea: independently developed, independently testable UI features.
+> Common · Medium
+
+**Short answer (say this):**
+"Modular architecture splits the app into separate packages — usually one per feature, plus shared core packages — instead of one big lib folder. Large teams adopt it because it gives clear boundaries, lets teams work in parallel without stepping on each other, enforces dependency rules, and speeds up builds and tests for a single feature."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: Lego blocks.**
+Instead of one giant glued statue, you build with separate blocks (features). Each block is self-contained and snaps into the app. You can change one block without touching the others.
+
+**Step 2 — A typical structure.**
 
 ```
-Traditional ("Big Ball of Mud"):        Modular Architecture:
-┌──────────────────────────┐          ┌──────────────────────────┐
-│          app/            │          │       app/ (shell)        │
-│  lib/                    │          │  imports feature packages │
-│  ├── screens/            │          └──────────────────────────┘
-│  │   ├── home_screen.dart│                      │
-│  │   ├── auth_screen.dart│          ┌───────────┼───────────┐
-│  │   ├── cart_screen.dart│          ▼           ▼           ▼
-│  │   └── order_screen... │   ┌────────────┐ ┌────────┐ ┌────────┐
-│  ├── widgets/            │   │feature_auth│ │feat_   │ │feat_   │
-│  ├── blocs/              │   │            │ │cart    │ │orders  │
-│  └── repositories/       │   │ - screens  │ │        │ │        │
-└──────────────────────────┘   │ - blocs    │ │-screens│ │-screens│
-  One giant app package         │ - repos    │ │-blocs  │ │-blocs  │
-                                 └────────────┘ └────────┘ └────────┘
-                                 Packages that can be developed
-                                 and tested in isolation
-```
-
-**Why large teams adopt this:**
-
-1. **Build times:** Flutter only rebuilds changed packages. With a monolithic app, every change triggers a full rebuild.
-2. **Team autonomy:** Team A owns `feature_checkout`, Team B owns `feature_catalog`. They merge independently with no conflicts.
-3. **Enforced boundaries:** A package cannot accidentally import another feature's internals — the compiler enforces it.
-4. **Testability:** Each feature package can be run and tested standalone (feature-level integration tests without the full app).
-5. **Onboarding:** New developers understand their feature scope without drowning in the full codebase.
-
-**How it's structured:**
-```
+app/                  (the shell that wires features together)
 packages/
-  core/                    # shared utilities, base classes
-  design_system/           # shared UI components, theme
-  feature_auth/            # login, register, forgot password
-  feature_product_catalog/ # product listing, search
-  feature_cart/            # cart, checkout flow
-  feature_orders/          # order history, tracking
-
-apps/
-  mobile/                  # shell app that composes the features
-    pubspec.yaml:
-      dependencies:
-        feature_auth:
-          path: ../../packages/feature_auth
-        feature_cart:
-          path: ../../packages/feature_cart
-        ...
+  core/               (shared: networking, theming, utilities)
+  domain/             (shared entities, repository interfaces)
+  feature_auth/       (login feature — its own UI + logic)
+  feature_profile/    (profile feature)
+  feature_orders/     (orders feature)
 ```
 
-**Navigation between modules:**
+A rule is usually enforced: feature packages may depend on `core`/`domain`, but **not on each other** — keeping features independent.
 
-Modules must not import each other directly (that creates coupling). Instead, use a routing contract:
+**Step 3 — Why large teams adopt it.**
+- **Parallel work** — team A owns `feature_auth`, team B owns `feature_orders`, no conflicts.
+- **Enforced boundaries** — the package system blocks a feature from importing another feature's internals.
+- **Faster builds/tests** — test or build one feature without the whole app.
+- **Reusability** — a feature package can be reused in another app.
 
-```dart
-// packages/core/lib/routing/app_routes.dart
-abstract class AppRoutes {
-  static const String home = '/home';
-  static const String cart = '/cart';
-  static const String productDetail = '/product/:id';
-}
+**Step 4 — The cost.**
+More setup and tooling (often a monorepo with `melos`). For a small app it's overhead; for a large multi-team app it's a big win.
 
-// Each feature registers its own routes but navigates using route names
-// The shell app wires them together
-class CartFeature {
-  static Map<String, WidgetBuilder> get routes => {
-    AppRoutes.cart: (_) => CartScreen(),
-  };
-}
-```
+**Why interviewers ask:** It's a senior/lead scaling topic. They want to hear about boundaries and parallel team work.
 
-**Why it matters:** This is a senior/lead-level architecture question. Interviewers at companies with 10+ Flutter engineers want evidence you've worked at this scale and understand *why* the modular approach exists — not just that you've heard the term.
+**Common mistake:** Letting feature packages depend on each other, which recreates the tangle you were trying to avoid.
 
-**Common mistake:** Confusing "modular" with "I put files in folders." Modules are Dart packages with their own `pubspec.yaml` — they have compiler-enforced isolation. Folders inside a single package offer zero enforcement.
+**Follow-ups they may ask:**
+- *"How do features communicate?"* → Through shared abstractions in `core`/`domain`, or a navigation/event layer in the app shell — not by importing each other directly.
+
+**Related:** [Q12 — monorepo](#q12) · [Q2 — Clean Architecture](#q2) · [Q14 — choosing](#q14)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** How do you decide which architecture to use for a new Flutter project?
+<a id="q14"></a>
+## 14. How do you decide which architecture to use for a new Flutter project?
 
-**A:** There's no single correct answer — the right architecture depends on several dimensions. Here's a decision framework with the questions to ask:
+> Very common · Medium
 
-```
-START HERE
-     │
-     ▼
-How big will this project get?
-     │
-     ├── Small (1-2 devs, short lifecycle, few features)
-     │        │
-     │        ▼
-     │   Use simple layered arch: folders + Cubit/Provider
-     │   → Avoid over-engineering
-     │
-     └── Medium to Large (3+ devs, long lifecycle, many features)
-              │
-              ▼
-         Will multiple teams work on this?
-              │
-              ├── Yes → Modular architecture (feature packages)
-              │         + Clean Architecture within each module
-              │
-              └── No  → Clean Architecture (3 layers)
-                        + BLoC or Cubit for state management
-```
+**Short answer (say this):**
+"I match the architecture to the project's size and lifespan. A tiny app gets a simple structure — Cubit plus a repository. A medium app gets layered MVVM with repositories and DI. A large, long-lived, multi-team app gets full Clean Architecture with modular feature packages. The rule is: enough structure to stay maintainable, but not so much that it slows you down."
 
-**Key questions to ask:**
+**Let's understand it fully:**
 
-1. **Team size and seniority:** A junior team with Clean Architecture without good tooling/templates will produce inconsistent, over-engineered code. A senior team with no architecture will produce a mess. Match complexity to capability.
+**Step 1 — There is no single 'best' architecture.**
+The right choice depends on size, team, and how long the app will live. Over-architecting a small app wastes time; under-architecting a big app creates chaos.
 
-2. **Domain complexity:** Is this a CRUD app or does it have complex business rules (pricing engines, scheduling, multi-step workflows)? Simple CRUD → simple architecture. Complex domain → Clean Architecture with Use Cases.
+**Step 2 — A simple decision guide.**
 
-3. **Long-term maintenance vs. speed-to-market:** Startups validating an MVP need to ship fast — Clean Architecture slows initial development. Established products with daily ongoing development need the investment.
+| Project | Suggested approach |
+|---|---|
+| Prototype / tiny app | `setState` or a simple Cubit + a repository |
+| Medium app | Layered MVVM: UI → Cubit/BLoC → repository, with DI ([Q9](#q9)) |
+| Large / long-lived | Clean Architecture ([Q2](#q2)) + use cases + DI |
+| Large multi-team | Clean Architecture + modular feature packages ([Q13](#q13)) |
 
-4. **Testability requirements:** If you need high test coverage (fintech, healthcare), Clean Architecture pays for itself. If testing isn't prioritized, the overhead may not be worth it.
+**Step 3 — Questions I ask before choosing.**
+- How big and long-lived is the app?
+- How many people/teams will work on it?
+- How complex are the business rules?
+- How important is testability and offline support?
 
-5. **State management needs:** Lots of complex async states, side effects, or inter-screen communication → BLoC. Simple reactive UI → Cubit or Riverpod. Very simple → Provider or setState.
+**Step 4 — Start simple, evolve.**
+You can begin with a simple structure and add layers (use cases, modular packages) as the app grows. Adding structure later is fine; ripping out over-engineering is painful. This is YAGNI applied to architecture.
 
-**Practical recommendation by project type:**
+**Why interviewers ask:** It tests real-world judgment — the senior skill of fitting the solution to the problem rather than cargo-culting a pattern.
 
-| Project Type | Architecture | State Management |
+**Common mistake:** Applying full Clean Architecture to a 3-screen app (boilerplate overload), or having no structure on a large app (spaghetti).
+
+**Follow-ups they may ask:**
+- *"When is Clean Architecture overkill?"* → Small, short-lived apps with simple logic — the extra interfaces and use cases add cost with little benefit.
+- *"Can you change architecture mid-project?"* → Yes, incrementally — introduce repositories first, then DI, then use cases as complexity grows.
+
+**Related:** [Q2 — Clean Architecture](#q2) · [Q13 — modular](#q13) · [Q8 — use case (overkill?)](#q8)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="cheatsheet"></a>
+
+# Cheat Sheet (last-night review)
+
+Read this the morning of your interview. Tables first, then one-line reminders.
+
+## Clean Architecture layers
+
+| Layer | Holds | Depends on |
 |---|---|---|
-| MVP / prototype | Simple layered | Cubit or Provider |
-| Medium app (1 team) | Clean Architecture | Cubit or BLoC |
-| Large app (multi-team) | Modular + Clean Arch | BLoC |
-| SDK / package | Clean Architecture | None (pure Dart) |
+| Presentation | widgets, BLoC/Cubit | Domain |
+| Domain (center) | entities, use cases, repo interfaces | nothing (pure Dart) |
+| Data | repo impls, API, DB, models | Domain |
 
-**Example reasoning for a real scenario:**
-> "We're building an e-commerce app, 5 Flutter devs, expected 2+ years of development. I'd go with modular Clean Architecture — feature packages for auth, catalog, cart, orders — each following Clean Architecture internally (Presentation/Domain/Data). BLoC for state management because we'll have complex async flows, cart sync, and optimistic UI that Cubit doesn't handle as elegantly. We'd use Melos for monorepo management and get_it for DI wiring at the app level."
+Rule: **dependencies point inward, toward the Domain.**
 
-**Why it matters:** This is the ultimate senior Flutter question. The interviewer isn't looking for the "right" architecture — they're evaluating whether you can reason about trade-offs and make a decision appropriate to context, rather than dogmatically applying the same pattern to every problem.
+## UI patterns compared
 
-**Common mistake:** Saying "I always use Clean Architecture with BLoC for everything." This signals you apply patterns without thinking. The best engineers can explain *why* they'd use a lighter approach for a small project and a heavier one for a large one.
+| Pattern | Update style | Flutter fit |
+|---|---|---|
+| MVC | Controller updates Model & View | weak (roles blur) |
+| MVP | Presenter pushes to a passive View | older Android |
+| MVVM | View binds to observable state | strong (BLoC/Cubit/Riverpod) |
+
+## Service Locator vs DI
+
+| | DI (constructor) | Service Locator |
+|---|---|---|
+| Dependencies | visible | hidden |
+| Testability | easy | harder |
+| Best used | inside classes | at app setup only |
+
+## One-line reminders
+
+- **Layered**: UI → Domain → Data; a layer only talks to the one below. ([Q1](#q1))
+- **Clean Architecture**: Domain is pure and central; dependencies point inward. ([Q2](#q2))
+- **Separation of concerns**: no networking/parsing inside widgets. ([Q3](#q3))
+- **MVVM** = ViewModel (Cubit/BLoC) holds state; the View binds to it. ([Q5](#q5))
+- **MVP pushes** to the View; **MVVM binds** to state. ([Q6](#q6))
+- **Repository** hides where data comes from (network/cache/db). ([Q7](#q7))
+- **Use case** = one business action; skip it when it just forwards a call. ([Q8](#q8))
+- **DI** = pass dependencies in (testable); **get_it** is a service locator. ([Q9](#q9), [Q10](#q10))
+- **BLoC** = events in, states out (one-way, testable flow). ([Q11](#q11))
+- **Monorepo** = easy sharing, needs tooling; **multi-repo** = strong boundaries, independent release. ([Q12](#q12))
+- **Modular packages** = clear boundaries + parallel team work for large apps. ([Q13](#q13))
+- **Choose by size**: simple app → Cubit+repo; large app → Clean + modular. Don't over-engineer. ([Q14](#q14))
+
+[↑ Back to top](#toc)
 
 ---
-*End of Section 13: Software Architecture Patterns*
+
+# Practice: how interviewers go deeper
+
+Interviewers push from "name a pattern" to "design a real app." Practice out loud:
+
+1. *"How would you structure a medium Flutter app?"* → layered MVVM: UI → Cubit → repository, with DI.
+2. *"Where does the API call go?"* → in the repository (Data layer), never the widget.
+3. *"How do you test the logic?"* → inject a fake repository into the Cubit; no real network.
+4. *"The app grows to 5 teams — now what?"* → split into feature packages (modular), enforce boundaries, use a monorepo with melos.
+5. *"Isn't Clean Architecture overkill for a small app?"* → yes; match the structure to size — start simple, add layers as it grows.
+
+Explaining the *direction of dependencies* and *why* each layer exists is what separates a senior answer from a memorized one — in both remote and BD interviews.
+
+[↑ Back to top](#toc)

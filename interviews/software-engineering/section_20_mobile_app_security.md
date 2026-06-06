@@ -1,1768 +1,867 @@
-# Section 20: Mobile & App Security
+# Section 20 — Mobile & App Security
+
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually. Code/config shown where it helps.
 
 ---
 
-**Q:** What is the OWASP Mobile Top 10 and what does each item mean?
+## How to use this section
 
-**A:** The OWASP Mobile Top 10 is the industry-standard list of the most critical security risks in mobile applications. Every mobile security conversation starts here.
+Each question has the same shape:
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    OWASP MOBILE TOP 10                          │
-├────┬────────────────────────────────┬───────────────────────────┤
-│ M1 │ Improper Credential Usage      │ Hardcoded credentials,    │
-│    │                                │ weak passwords, tokens in │
-│    │                                │ source code               │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M2 │ Inadequate Supply Chain        │ Using vulnerable 3rd-     │
-│    │ Security                       │ party SDKs/packages       │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M3 │ Insecure Authentication /      │ Weak login, missing MFA,  │
-│    │ Authorization                  │ broken session management │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M4 │ Insufficient Input/Output      │ No validation, trusting   │
-│    │ Validation                     │ user input blindly        │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M5 │ Insecure Communication         │ No TLS, self-signed certs,│
-│    │                                │ no certificate pinning    │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M6 │ Inadequate Privacy Controls    │ Collecting more data than │
-│    │                                │ needed, leaking PII       │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M7 │ Insufficient Binary            │ No obfuscation, easy to   │
-│    │ Protections                    │ reverse-engineer the app  │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M8 │ Security Misconfiguration      │ Debug mode in prod,       │
-│    │                                │ overly permissive configs │
-├────┼────────────────────────────────┼───────────────────────────┤
-│ M9 │ Insecure Data Storage          │ Tokens/PII stored in      │
-│    │                                │ plaintext, SharedPrefs    │
-├────┼────────────────────────────────┼───────────────────────────┤
-│M10 │ Insufficient Cryptography      │ Weak algorithms (MD5),    │
-│    │                                │ hardcoded keys, bad IV    │
-└────┴────────────────────────────────┴───────────────────────────┘
-```
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — a step-by-step explanation with real examples and code.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected questions · **Back to top** — return to the index.
 
-**Quick breakdown of each:**
+Each question is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
 
-- **M1 – Improper Credential Usage:** Hardcoding API keys, passwords, or tokens in source code. They get extracted via reverse engineering instantly.
-- **M2 – Inadequate Supply Chain Security:** Using a pub.dev package that hasn't been audited. A malicious or outdated dependency can compromise your whole app.
-- **M3 – Insecure Authentication/Authorization:** Weak login flows, no token expiry, missing role checks on the backend.
-- **M4 – Insufficient Input/Output Validation:** Trusting data from the user or server without sanitizing it — leads to injection attacks or crashes.
-- **M5 – Insecure Communication:** Sending data over HTTP instead of HTTPS, or not validating the server's certificate.
-- **M6 – Inadequate Privacy Controls:** Collecting device IDs, location, or contacts unnecessarily. Logging PII to analytics.
-- **M7 – Insufficient Binary Protections:** No obfuscation means an attacker can decompile the app, read logic, extract keys, and find vulnerabilities.
-- **M8 – Security Misconfiguration:** Leaving debug flags on, exposing internal endpoints, overly broad Android permissions in the manifest.
-- **M9 – Insecure Data Storage:** Storing auth tokens in SharedPreferences (unencrypted). Anyone with ADB access or root can read it.
-- **M10 – Insufficient Cryptography:** Using outdated algorithms like MD5 or DES, hardcoding encryption keys in code, using predictable IVs.
-
-**Example:**
-```dart
-// M1 example — NEVER do this:
-const apiKey = 'sk-abc123secretkey'; // Hardcoded in source = extractable
-
-// M9 example — NEVER do this:
-final prefs = await SharedPreferences.getInstance();
-await prefs.setString('auth_token', token); // Stored in plaintext XML on disk
-```
-
-**Why it matters:** Interviewers use this to gauge whether you have a security mindset. They want to know you understand *why* each risk exists, not just that you've memorized the list.
-
-**Common mistake:** Candidates memorize the names but can't explain the real-world impact or how it applies to Flutter specifically. Always tie each item back to a concrete Flutter/mobile example.
+> **Interview tip:** For security, name the *threat* first, then the *defense*. "An attacker could read the token from SharedPreferences, so I use secure storage" beats just naming a tool.
 
 ---
 
-**Q:** Why is SharedPreferences NOT secure for storing tokens? How do you use Flutter Secure Storage instead?
+<a id="toc"></a>
 
-**A:** `SharedPreferences` stores data as a plain XML file (Android) or plist file (iOS) on the device's filesystem. On a rooted/jailbroken device — or even via ADB on a debug build — this file can be read by anyone without any encryption. Tokens stored here are fully exposed.
+## Table of Contents
 
-```
-ANDROID — SharedPreferences storage path:
-/data/data/com.your.app/shared_prefs/FlutterSharedPreferences.xml
+**A. Foundations**
+1. [OWASP Mobile Top 10](#q1) · *Common*
+2. [Encryption at rest vs in transit](#q2) · *Common*
 
-Contents look like this (plaintext, fully readable):
-<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
-<map>
-    <string name="auth_token">eyJhbGciOiJIUzI1NiJ9...</string>
-</map>
-```
+**B. Storing secrets safely**
+3. [SharedPreferences vs Secure Storage](#q3) · *Very common*
+4. [Never hardcode API keys](#q4) · *Very common*
+5. [Don't log sensitive data](#q5) · *Common*
 
-`flutter_secure_storage` solves this by using platform-native secure storage:
-- **Android:** Android Keystore system (hardware-backed encryption)
-- **iOS:** Keychain Services (hardware-backed secure enclave on modern devices)
+**C. Network security**
+6. [Certificate pinning](#q6) · *Common*
+7. [Man-in-the-Middle (MITM) attacks](#q7) · *Common*
+8. [SQL injection (mobile)](#q8) · *Common*
 
-```dart
-// pubspec.yaml
-// flutter_secure_storage: ^9.0.0
+**D. Authentication**
+9. [Access tokens vs refresh tokens](#q9) · *Very common*
+10. [OAuth 2.0 + PKCE](#q10) · *Common*
+11. [JWT — structure & verification](#q11) · *Very common*
+12. [Biometric authentication](#q12) · *Common*
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+**E. App hardening**
+13. [Code obfuscation](#q13) · *Common*
+14. [Root / jailbreak detection](#q14) · *Common*
+15. [Deep link hijacking](#q15) · *Common*
 
-class TokenStorage {
-  static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true, // Uses EncryptedSharedPreferences
-    ),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock_this_device,
-      // Only accessible after first unlock — blocks extraction if device is off
-    ),
-  );
-
-  static const _keyAccessToken = 'access_token';
-  static const _keyRefreshToken = 'refresh_token';
-
-  // WRITE
-  static Future<void> saveTokens({
-    required String accessToken,
-    required String refreshToken,
-  }) async {
-    await _storage.write(key: _keyAccessToken, value: accessToken);
-    await _storage.write(key: _keyRefreshToken, value: refreshToken);
-  }
-
-  // READ
-  static Future<String?> getAccessToken() async {
-    return await _storage.read(key: _keyAccessToken);
-  }
-
-  static Future<String?> getRefreshToken() async {
-    return await _storage.read(key: _keyRefreshToken);
-  }
-
-  // DELETE (on logout — always do this!)
-  static Future<void> clearTokens() async {
-    await _storage.delete(key: _keyAccessToken);
-    await _storage.delete(key: _keyRefreshToken);
-    // Or nuke everything:
-    // await _storage.deleteAll();
-  }
-}
-```
-
-```
-STORAGE COMPARISON:
-┌──────────────────────┬─────────────────┬─────────────────────────┐
-│                      │ SharedPrefs     │ Flutter Secure Storage  │
-├──────────────────────┼─────────────────┼─────────────────────────┤
-│ Encryption           │ None            │ AES-256 / Keychain      │
-│ Root accessible      │ YES             │ Much harder             │
-│ ADB readable (debug) │ YES             │ NO                      │
-│ Backup included      │ YES (dangerous) │ Excluded from backups   │
-│ Use for tokens       │ NEVER           │ YES                     │
-│ Use for UI prefs     │ YES             │ Overkill                │
-└──────────────────────┴─────────────────┴─────────────────────────┘
-```
-
-**Why it matters:** Token theft is the most common mobile attack vector. Storing tokens insecurely is OWASP M9. Interviewers expect you to know this is a non-negotiable.
-
-**Common mistake:** Saying "but it's fine if the device isn't rooted." The security posture of your users' devices is not in your control. Always assume the worst-case device environment.
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
 
 ---
 
-**Q:** What is certificate pinning, why does it matter, and how do you implement it in Flutter with Dio?
+<a id="study-plan"></a>
 
-**A:** Certificate pinning is the practice of hardcoding (or "pinning") the expected server certificate — or its public key hash — inside your app. Even if an attacker installs a rogue certificate on the device (as in a MITM attack), the app will reject any TLS connection that doesn't match the pinned value.
+## How to prepare gradually (study plan)
 
-```
-WITHOUT PINNING — MITM is possible:
-┌──────────┐    ┌──────────────────┐    ┌──────────┐
-│  App     │───▶│ Attacker's Proxy │───▶│  Server  │
-│          │◀───│ (Fake Cert OK!)  │◀───│          │
-└──────────┘    └──────────────────┘    └──────────┘
-  App trusts any cert signed by a trusted CA → MITM succeeds
+**Stage 1 — The foundations (start here).**
+→ [Q1 OWASP Top 10](#q1) · [Q2 At rest vs in transit](#q2)
 
-WITH CERTIFICATE PINNING:
-┌──────────┐    ┌──────────────────┐    ┌──────────┐
-│  App     │───▶│ Attacker's Proxy │    │  Server  │
-│ [PIN:    │◀───│ (Wrong cert hash)│    │          │
-│ abc123]  │    └──────────────────┘    └──────────┘
-  App rejects connection — hash doesn't match pin → MITM fails
-```
+**Stage 2 — Secrets (most-asked).**
+→ [Q3 Secure storage](#q3) · [Q4 API keys](#q4) · [Q5 Logging](#q5)
 
-**How to implement with Dio:**
+**Stage 3 — Authentication.**
+→ [Q9 Tokens](#q9) · [Q11 JWT](#q11) · [Q10 OAuth/PKCE](#q10) · [Q12 Biometrics](#q12)
 
-**Step 1: Get your certificate's SHA-256 public key hash**
-```bash
-# From terminal:
-openssl s_client -connect api.yourserver.com:443 | \
-  openssl x509 -pubkey -noout | \
-  openssl pkey -pubin -outform der | \
-  openssl dgst -sha256 -binary | \
-  base64
-# Output: something like "ABC123.../xyz=="  ← this is your pin
-```
+**Stage 4 — Network defense.**
+→ [Q6 Cert pinning](#q6) · [Q7 MITM](#q7) · [Q8 SQL injection](#q8)
 
-**Step 2: Implement pinning in Flutter with Dio**
-```dart
-import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
+**Stage 5 — App hardening.**
+→ [Q13 Obfuscation](#q13) · [Q14 Root detection](#q14) · [Q15 Deep links](#q15)
 
-class SecureApiClient {
-  static Dio createPinnedClient() {
-    final dio = Dio(BaseOptions(baseUrl: 'https://api.yourserver.com'));
-
-    // Override the HttpClient with our custom security callback
-    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
-      final client = HttpClient();
-
-      client.badCertificateCallback = (cert, host, port) => false;
-      // ↑ Reject ALL bad certs by default
-
-      return client;
-    };
-
-    (dio.httpClientAdapter as IOHttpClientAdapter).validateCertificate =
-        (cert, host, port) {
-      if (cert == null) return false;
-
-      // The SHA-256 hash of the server's public key (get this from openssl)
-      const pinnedSha256 = 'AAAAAABBBBBBCCCCCC1234567890abcdef==';
-
-      // Convert cert's DER-encoded public key to SHA-256 hash
-      final certPublicKeyHash = _getSha256Hash(cert.der);
-
-      return certPublicKeyHash == pinnedSha256;
-    };
-
-    return dio;
-  }
-
-  static String _getSha256Hash(List<int> derBytes) {
-    // Use crypto package
-    // import 'package:crypto/crypto.dart';
-    // final digest = sha256.convert(derBytes);
-    // return base64Encode(digest.bytes);
-    throw UnimplementedError('Implement with crypto package');
-  }
-}
-```
-
-**Alternative — using a bundled .cer file (simpler approach):**
-```dart
-import 'package:flutter/services.dart';
-
-Future<Dio> createPinnedDio() async {
-  // Add your server's .cer file to assets/certs/server.cer
-  final sslCert = await rootBundle.load('assets/certs/server.cer');
-
-  final securityContext = SecurityContext(withTrustedRoots: false);
-  // withTrustedRoots: false means we ONLY trust our pinned cert
-  securityContext.setTrustedCertificatesBytes(sslCert.buffer.asUint8List());
-
-  final httpClient = HttpClient(context: securityContext);
-
-  final dio = Dio();
-  (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient =
-      () => httpClient;
-
-  return dio;
-}
-```
-
-**Important caveats:**
-- Pins can expire with certificate rotation — always pin 2+ certs (current + backup)
-- Dynamic pinning (fetching pins from a trusted CDN) is more maintainable
-- Certificate pinning is bypassable with tools like Frida on rooted devices — it raises the bar, not an absolute guarantee
-
-**Why it matters:** This is a mid-to-senior level security topic. Interviewers use it to distinguish developers who understand transport security beyond just "use HTTPS."
-
-**Common mistake:** Confusing certificate pinning with certificate validation. All HTTPS already validates certs against trusted CAs. Pinning goes further by refusing to accept *any* CA-signed cert that isn't specifically the one you've pinned.
+**Short on time?** Review [Q1](#q1) · [Q3](#q3) · [Q4](#q4) · [Q9](#q9) · [Q11](#q11), then the [Cheat Sheet](#cheatsheet).
 
 ---
 
-**Q:** What is the difference between access tokens and refresh tokens? Where should you store them and how do you handle expiry?
-
-**A:** These are two separate tokens that work together to balance security and user experience.
-
-```
-TOKEN LIFECYCLE:
-┌─────────────────────────────────────────────────────────────────┐
-│                                                                 │
-│  ACCESS TOKEN                    REFRESH TOKEN                  │
-│  ─────────────                   ──────────────                 │
-│  Short-lived (15 min – 1 hour)   Long-lived (7–30 days)         │
-│  Sent with every API request      Used only to get new          │
-│  Stateless (JWT) — no DB lookup   access tokens                 │
-│  If leaked → short exposure       Stored server-side (DB)       │
-│  window                           If leaked → DANGER (longer    │
-│                                   exposure window)              │
-└─────────────────────────────────────────────────────────────────┘
-
-TOKEN REFRESH FLOW:
-                        ┌───────────────────────────────────┐
-     App                │           Auth Server             │
-      │                 │                                   │
-      │──── Login ─────▶│                                   │
-      │◀─ access_token ─│                                   │
-      │◀─ refresh_token─│                                   │
-      │                 │                                   │
-      │ [15 min later]  │                                   │
-      │                 │                                   │
-      │── API request ─▶│ ← 401 Unauthorized                │
-      │                 │   (access token expired)          │
-      │                 │                                   │
-      │── POST /refresh ────── refresh_token ──────────────▶│
-      │◀────────────── new access_token ────────────────────│
-      │                 │                                   │
-      │── Retry API ───▶│ ← 200 OK                          │
-```
-
-**Where to store each:**
-```
-┌───────────────────┬─────────────────────────┬───────────────────┐
-│ Token             │ Storage                 │ Reason            │
-├───────────────────┼─────────────────────────┼───────────────────┤
-│ Access Token      │ Memory (app state)      │ Short-lived, no   │
-│                   │ OR Secure Storage       │ need to persist   │
-├───────────────────┼─────────────────────────┼───────────────────┤
-│ Refresh Token     │ Flutter Secure Storage  │ Long-lived, MUST  │
-│                   │ (Keychain / Keystore)   │ be encrypted      │
-├───────────────────┼─────────────────────────┼───────────────────┤
-│ NEVER store in    │ SharedPreferences       │ Unencrypted disk  │
-│                   │ Hardcoded in code       │ Source exposure   │
-│                   │ URL params / logs       │ Log exposure      │
-└───────────────────┴─────────────────────────┴───────────────────┘
-```
-
-**Implementing auto-refresh with Dio Interceptors:**
-```dart
-import 'package:dio/dio.dart';
-
-class AuthInterceptor extends Interceptor {
-  final Dio _dio;
-  final TokenStorage _storage;
-
-  AuthInterceptor(this._dio, this._storage);
-
-  @override
-  void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
-    final token = await _storage.getAccessToken();
-    if (token != null) {
-      options.headers['Authorization'] = 'Bearer $token';
-    }
-    handler.next(options);
-  }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401) {
-      // Access token expired — try to refresh
-      final refreshed = await _tryRefreshToken();
-      if (refreshed) {
-        // Retry the original request with the new token
-        final newToken = await _storage.getAccessToken();
-        err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
-
-        final retryResponse = await _dio.fetch(err.requestOptions);
-        return handler.resolve(retryResponse);
-      } else {
-        // Refresh token also invalid → force logout
-        await _storage.clearTokens();
-        // Navigate to login screen
-      }
-    }
-    handler.next(err);
-  }
-
-  Future<bool> _tryRefreshToken() async {
-    try {
-      final refreshToken = await _storage.getRefreshToken();
-      if (refreshToken == null) return false;
-
-      final response = await _dio.post('/auth/refresh', data: {
-        'refresh_token': refreshToken,
-      });
-
-      final newAccessToken = response.data['access_token'];
-      final newRefreshToken = response.data['refresh_token'];
-
-      await _storage.saveTokens(
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-      );
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-}
-```
-
-**Why it matters:** Token handling is the backbone of mobile auth. This question tests whether you understand both the security model and the practical implementation of seamless token refresh without spamming the user with login prompts.
-
-**Common mistake:** Storing the access token in SharedPreferences "because it expires quickly anyway." Even 15-minute tokens are valuable for an attacker. More importantly, the *refresh* token is the real crown jewel — many candidates forget to highlight that it needs the most protection.
+# A. Foundations
 
 ---
 
-**Q:** Explain the OAuth 2.0 Authorization Code + PKCE flow for mobile apps.
+<a id="q1"></a>
+## 1. What is the OWASP Mobile Top 10?
 
-**A:** OAuth 2.0 is an authorization framework that lets users grant your app access to their data on another service (e.g., "Sign in with Google") without sharing their password with your app. For mobile, the Authorization Code flow with **PKCE** (Proof Key for Code Exchange) is the correct and secure variant.
+> Common · Medium
 
-**Why PKCE?** The original Authorization Code flow was designed for server-side apps that can keep a `client_secret` confidential. Mobile apps can't keep secrets (they can be decompiled). PKCE replaces the `client_secret` with a cryptographic challenge that can't be intercepted.
+**Short answer (say this):**
+"OWASP Mobile Top 10 is the industry-standard list of the most critical security risks in mobile apps. It covers things like insecure data storage, weak authentication, insecure communication, and poor code protection. It's the checklist every mobile security review starts from."
 
-```
-AUTHORIZATION CODE + PKCE FLOW:
+**Let's understand it fully:**
 
-App                   Browser/OS            Auth Server         Your Backend
- │                        │                      │                    │
- │ 1. Generate            │                      │                    │
- │    code_verifier       │                      │                    │
- │    (random 43-128      │                      │                    │
- │    char string)        │                      │                    │
- │                        │                      │                    │
- │ 2. Hash it:            │                      │                    │
- │  code_challenge =      │                      │                    │
- │  BASE64URL(SHA256       │                      │                    │
- │  (code_verifier))      │                      │                    │
- │                        │                      │                    │
- │ 3. Open browser ──────▶│                      │                    │
- │    with:               │──── GET /authorize ─▶│                    │
- │    client_id           │     code_challenge    │                    │
- │    redirect_uri        │     code_challenge_   │                    │
- │    code_challenge      │     method=S256       │                    │
- │    scope               │                      │                    │
- │                        │   User logs in ───▶  │                    │
- │                        │   User consents ───▶ │                    │
- │                        │                      │                    │
- │ 4. Redirect back ◀─────│◀─── redirect_uri ────│                    │
- │    with: code          │     ?code=AUTH_CODE   │                    │
- │                        │                      │                    │
- │ 5. Exchange code ───────────────────────────────── POST /token ───▶│
- │    + code_verifier     │                      │    code            │
- │    (plain text —       │                      │    code_verifier   │
- │    server verifies     │                      │    ← server hashes │
- │    against challenge)  │                      │    verifier and    │
- │                        │                      │    checks against  │
- │                        │                      │    saved challenge │
- │◀── access_token ────────────────────────────────────────────────────
- │    refresh_token       │                      │                    │
-```
+**Step 1 — What it is.**
+OWASP (Open Worldwide Application Security Project) publishes a ranked list of the most common, dangerous mobile risks, so teams know what to defend against.
 
-**Flutter implementation using `flutter_appauth`:**
-```dart
-import 'package:flutter_appauth/flutter_appauth.dart';
+**Step 2 — The main categories (current themes).**
 
-class OAuthService {
-  static const _appAuth = FlutterAppAuth();
+| Risk | In plain words |
+|---|---|
+| Improper credential usage | hardcoded keys, weak token handling ([Q4](#q4)) |
+| Insecure data storage | secrets in plain storage ([Q3](#q3)) |
+| Insecure communication | no HTTPS / no pinning ([Q6](#q6), [Q7](#q7)) |
+| Insufficient authentication | weak login, no MFA ([Q9](#q9)) |
+| Insufficient cryptography | weak or misused encryption ([Q2](#q2)) |
+| Insecure authorization | client trusts itself for access checks |
+| Poor code quality / tampering | no obfuscation/integrity checks ([Q13](#q13)) |
+| Reverse engineering | easy to decompile and read ([Q13](#q13)) |
+| Extraneous functionality | leftover debug/test backdoors |
 
-  static const _clientId = 'your_client_id';
-  static const _redirectUrl = 'com.yourapp://callback';
-  static const _discoveryUrl =
-      'https://accounts.google.com/.well-known/openid-configuration';
-  static const _scopes = ['openid', 'profile', 'email'];
+**Step 3 — The recurring lesson.**
+Most mobile risks come down to: **don't trust the device**, **protect data at rest and in transit**, and **never put secrets in the app**. The app runs on a device an attacker fully controls.
 
-  static Future<AuthorizationTokenResponse?> signIn() async {
-    try {
-      // flutter_appauth handles PKCE automatically
-      final result = await _appAuth.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(
-          _clientId,
-          _redirectUrl,
-          discoveryUrl: _discoveryUrl,
-          scopes: _scopes,
-          // PKCE is enabled by default in flutter_appauth
-          preferEphemeralSession: true, // No shared browser cookies
-        ),
-      );
+**Why interviewers ask:** It shows you have a structured view of mobile security, not just random tips.
 
-      if (result != null) {
-        // Securely store tokens
-        await TokenStorage.saveTokens(
-          accessToken: result.accessToken!,
-          refreshToken: result.refreshToken!,
-        );
-      }
+**Common mistake:** Treating the client as trusted. Anything in the app can be inspected; real security checks must also live on the server.
 
-      return result;
-    } catch (e) {
-      // Handle cancellation or error
-      return null;
-    }
-  }
+**Follow-ups they may ask:**
+- *"Which is most common in Flutter apps?"* → Insecure data storage and hardcoded secrets — both easy to get wrong.
 
-  static Future<TokenResponse?> refreshToken(String refreshToken) async {
-    return await _appAuth.token(
-      TokenRequest(
-        _clientId,
-        _redirectUrl,
-        discoveryUrl: _discoveryUrl,
-        refreshToken: refreshToken,
-        scopes: _scopes,
-      ),
-    );
-  }
-}
-```
+**Related:** [Q2 — encryption](#q2) · [Q3 — secure storage](#q3) · [Q4 — API keys](#q4)
 
-**Key PKCE concepts:**
-```
-code_verifier  = cryptographically random string (43-128 chars)
-code_challenge = BASE64URL(SHA256(code_verifier))
-
-Why it's secure:
-- Attacker intercepts the auth code from the redirect URI
-- They try to exchange it for tokens
-- But they don't have the code_verifier (it was only in the app's memory)
-- Auth server verifies: SHA256(submitted_verifier) == saved_challenge
-- If it doesn't match → exchange REJECTED
-```
-
-**Why it matters:** OAuth + PKCE is the correct pattern for mobile auth. An interviewer asking this is probing whether you know *why* PKCE exists (no client secret in mobile) and whether you'd implement it correctly vs naively implementing just the code flow.
-
-**Common mistake:** Saying mobile apps should use the Implicit Flow (now deprecated) or not knowing why PKCE replaces the `client_secret`. Also, forgetting to use `preferEphemeralSession: true` which prevents session leakage between users on shared devices.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is a JWT? Explain its structure, how to verify it, and what NOT to store in the payload.
+<a id="q2"></a>
+## 2. What is the difference between encryption at rest and encryption in transit?
 
-**A:** A JWT (JSON Web Token) is a compact, self-contained token used to represent claims between two parties. It allows stateless authentication — the server doesn't need a database lookup to validate it (the signature proves authenticity).
+> Common · Easy–Medium
 
-```
-JWT STRUCTURE:
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-.eyJzdWIiOiJ1c2VyXzEyMyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcwMDAwMDAwMH0
-.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+**Short answer (say this):**
+"Encryption in transit protects data while it moves over the network — that's HTTPS/TLS. Encryption at rest protects data while it's stored on the device or server — like encrypted databases or secure storage. You need both: TLS stops eavesdropping on the wire, and at-rest encryption stops a stolen device leaking data."
 
-    │                          │                    │
-  HEADER                   PAYLOAD             SIGNATURE
-(Base64URL)              (Base64URL)           (Base64URL)
+**Let's understand it fully:**
 
-HEADER (decoded):
-{
-  "alg": "HS256",   ← signing algorithm
-  "typ": "JWT"
-}
+**Step 1 — Two different moments to protect.**
+- **In transit** — data traveling between app and server (the armored truck on the road).
+- **At rest** — data sitting in storage (the locked safe in the building).
 
-PAYLOAD (decoded):
-{
-  "sub": "user_123",         ← subject (user ID)
-  "role": "admin",
-  "exp": 1700000000,         ← expiration timestamp
-  "iat": 1699990000          ← issued at
-}
+**Step 2 — In transit = HTTPS/TLS.**
+All network calls must use `https://`. TLS encrypts the data so anyone intercepting the connection sees scrambled bytes, not your tokens or user data.
 
-SIGNATURE:
-HMAC-SHA256(
-  base64url(header) + "." + base64url(payload),
-  secret_key
-)
-```
-
-**CRITICAL: JWTs are encoded, NOT encrypted.**
-```
-Base64URL is trivially reversible:
-
-eyJzdWIiOiJ1c2VyXzEyMyIsInJvbGUiOiJhZG1pbiJ9
-                    ↓
-            base64 decode
-                    ↓
-{"sub":"user_123","role":"admin"}   ← ANYONE CAN READ THIS
-```
-
-**What NOT to store in JWT payload:**
-```
-❌ Passwords or password hashes
-❌ Credit card numbers
-❌ Social Security numbers
-❌ PII (email, phone) — unless explicitly necessary
-❌ Private keys or secrets
-❌ Medical records
-
-✅ Safe to store:
-✅ User ID (sub)
-✅ Roles / permissions
-✅ Expiration time (exp)
-✅ Non-sensitive preference flags
-```
-
-**How to verify a JWT in Flutter (client-side — for expiry only):**
 ```dart
-import 'dart:convert';
-
-class JwtUtils {
-  /// Decodes the payload — does NOT verify signature
-  /// Client-side JWT inspection is for UX only (e.g., checking expiry)
-  /// NEVER trust client-side JWT validation for security decisions
-  static Map<String, dynamic>? decodePayload(String token) {
-    try {
-      final parts = token.split('.');
-      if (parts.length != 3) return null;
-
-      // JWT uses Base64URL — standard Base64 decoder needs padding
-      String payload = parts[1];
-      // Add padding if necessary
-      switch (payload.length % 4) {
-        case 2:
-          payload += '==';
-          break;
-        case 3:
-          payload += '=';
-          break;
-      }
-
-      final decoded = utf8.decode(base64Url.decode(payload));
-      return jsonDecode(decoded) as Map<String, dynamic>;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /// Check if token is expired (client-side — for UX only)
-  static bool isExpired(String token) {
-    final payload = decodePayload(token);
-    if (payload == null) return true;
-
-    final exp = payload['exp'] as int?;
-    if (exp == null) return false;
-
-    final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
-    return DateTime.now().isAfter(expiryDate);
-  }
-}
-
-// Usage — to proactively refresh before a request:
-Future<void> makeApiCall() async {
-  final token = await TokenStorage.getAccessToken();
-
-  if (token != null && JwtUtils.isExpired(token)) {
-    await refreshTokens(); // Refresh proactively
-  }
-
-  // Proceed with API call...
-}
+// Always HTTPS; never plain http for real data
+final res = await dio.get('https://api.example.com/user');
 ```
 
-**Real signature verification happens ONLY on the server:**
-```
-Server-side verification:
-1. Split token → header.payload.signature
-2. Recalculate: HMAC-SHA256(header.payload, secret_key)
-3. Compare with provided signature
-4. If match → token is authentic and untampered
-5. Check exp, iss, aud claims
-```
+**Step 3 — At rest = encrypted storage.**
+On the device, sensitive data must be encrypted so a stolen/rooted phone doesn't leak it:
+- Tokens/passwords → `flutter_secure_storage` (OS keychain/keystore) ([Q3](#q3)).
+- Local databases → encrypt them (e.g. SQLCipher).
 
-**Why it matters:** JWTs are everywhere. The interviewer is checking whether you understand the difference between encoded and encrypted, and whether you know that client-side JWT reading is for convenience only — never for security decisions.
+**Step 4 — You need BOTH.**
+TLS alone doesn't help if the token is then saved in plain text on disk. At-rest encryption alone doesn't help if it's sent over plain HTTP. Defense in depth covers both moments.
 
-**Common mistake:** Saying "the payload is secure because it's encoded in Base64." Base64 is not encryption — it's trivially reversible. The security of JWT comes entirely from the signature, not the encoding of the payload.
+**Why interviewers ask:** It tests whether you protect data through its whole lifecycle, not just one part.
+
+**Common mistake:** Using HTTPS but storing the token in plain SharedPreferences — secure on the wire, exposed on the disk.
+
+**Follow-ups they may ask:**
+- *"What is TLS?"* → The protocol behind HTTPS that encrypts and authenticates the connection.
+
+**Related:** [Q3 — secure storage](#q3) · [Q6 — certificate pinning](#q6) · [Q7 — MITM](#q7)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is a Man-in-the-Middle (MITM) attack and how do you prevent it in a Flutter app?
-
-**A:** A MITM attack occurs when an attacker secretly intercepts and potentially alters communication between two parties (your app and your server) without either party knowing.
-
-```
-MITM ATTACK SCENARIO:
-
-NORMAL:
-┌──────────┐  HTTPS  ┌──────────┐
-│  Flutter │────────▶│  Server  │
-│   App    │◀────────│          │
-└──────────┘         └──────────┘
-   Encrypted, direct connection
-
-MITM:
-┌──────────┐  HTTP/  ┌──────────────┐  HTTPS  ┌──────────┐
-│  Flutter │ HTTPS  ▶│   Attacker   │────────▶│  Server  │
-│   App    │◀────────│  (Proxy)     │◀────────│          │
-└──────────┘         └──────────────┘         └──────────┘
-  App thinks it's talking to server,
-  attacker sees and can modify ALL traffic
-
-HOW ATTACKER SETS IT UP:
-1. Victim connects to attacker's WiFi hotspot
-2. Attacker installs their CA certificate on victim's device
-   (common in corporate MDM, or social engineering)
-3. Attacker's proxy intercepts TLS traffic using their cert
-4. Normal TLS validation passes (attacker's CA is trusted!)
-5. All traffic is visible to attacker in plaintext
-```
-
-**Prevention layers in Flutter:**
-
-```dart
-// LAYER 1: Use HTTPS everywhere (non-negotiable baseline)
-final dio = Dio(BaseOptions(
-  baseUrl: 'https://api.yourserver.com', // NEVER http://
-));
-
-// LAYER 2: Certificate Pinning (see previous question)
-// Rejects any certificate that doesn't match your pin
-
-// LAYER 3: Reject HTTP in debug builds (Network Security Config - Android)
-// android/app/src/main/res/xml/network_security_config.xml:
-/*
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-    <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">api.yourserver.com</domain>
-    </domain-config>
-    <!-- Optionally add certificate pinning here too -->
-</network-security-config>
-*/
-
-// LAYER 4: Validate server responses — don't blindly trust response data
-// LAYER 5: Add request signing (HMAC) for critical endpoints
-String signRequest(String body, String secretKey) {
-  // import 'package:crypto/crypto.dart';
-  final hmac = Hmac(sha256, utf8.encode(secretKey));
-  final digest = hmac.convert(utf8.encode(body));
-  return digest.toString();
-}
-```
-
-**On iOS — App Transport Security (ATS):**
-```xml
-<!-- ios/Runner/Info.plist -->
-<!-- ATS is enabled by default — NEVER add this unless absolutely necessary: -->
-<!-- <key>NSAllowsArbitraryLoads</key><true/> -->
-<!-- If you need an exception, be specific: -->
-<key>NSAppTransportSecurity</key>
-<dict>
-  <key>NSAllowsArbitraryLoads</key>
-  <false/>
-</dict>
-```
-
-**MITM Prevention Checklist:**
-```
-✅ HTTPS for all network calls
-✅ Certificate pinning for sensitive endpoints
-✅ Network Security Config (Android) — cleartext blocked
-✅ App Transport Security (iOS) — defaults to HTTPS
-✅ Never log request bodies or auth headers
-✅ Token stored securely (not in memory logs)
-✅ Short-lived access tokens (reduces window of exposure)
-```
-
-**Why it matters:** This is a practical security question. Interviewers want to hear defense-in-depth thinking — not just "use HTTPS" but the multiple layers that work together.
-
-**Common mistake:** Stopping at "use HTTPS." HTTPS can be bypassed on devices where attackers have installed their own CA certificate. Certificate pinning is the defense against that specific attack vector.
+# B. Storing secrets safely
 
 ---
 
-**Q:** What is app obfuscation and how do you enable it in Flutter?
+<a id="q3"></a>
+## 3. Why is SharedPreferences not secure for tokens? How do you use Flutter Secure Storage?
 
-**A:** Obfuscation is the process of transforming your compiled code so that it's difficult to read and understand when reverse-engineered. It renames classes, methods, and variables to meaningless identifiers, making it much harder for an attacker to understand your app's logic or extract hardcoded values.
+> Very common · Medium
 
+**Short answer (say this):**
+"SharedPreferences stores data in plain text — on a rooted Android device or via backups, anyone can read it. So it must never hold tokens, passwords, or personal data. For secrets I use `flutter_secure_storage`, which saves them in the iOS Keychain and Android Keystore/EncryptedSharedPreferences, backed by OS-level encryption."
+
+**Let's understand it fully:**
+
+**Step 1 — Why SharedPreferences is unsafe for secrets.**
+It writes to a plain XML/plist file. On a rooted/jailbroken device, or through device backups, that file can be read directly. Fine for a theme setting; never for a token.
+
+**Step 2 — The safe option: flutter_secure_storage.**
+
+```dart
+final storage = FlutterSecureStorage();
+
+// Save a token securely
+await storage.write(key: 'auth_token', value: token);
+
+// Read it back
+final token = await storage.read(key: 'auth_token');
+
+// Delete on logout
+await storage.delete(key: 'auth_token');
 ```
-WITHOUT OBFUSCATION (decompiled):
-class AuthService {
-  String refreshToken = "stored_token";
-  
-  Future<User> loginWithCredentials(String email, String password) {
-    // Attacker can read your entire authentication logic
-    final apiKey = "sk-prod-abc123secret"; // Fully readable!
-  }
-}
 
-WITH OBFUSCATION (decompiled):
-class a {
-  String b = "stored_token";
-  
-  Future<c> d(String e, String f) {
-    final g = "sk-prod-abc123secret"; // Key still visible but logic is opaque
-  }
-}
+Under the hood it uses the **iOS Keychain** and **Android Keystore** (or EncryptedSharedPreferences) — hardware-backed encryption the OS manages.
+
+**Step 3 — What goes where.**
+
+| Data | Storage |
+|---|---|
+| Tokens, passwords, PII | `flutter_secure_storage` |
+| Theme, language, flags | `SharedPreferences` (fine) |
+| Large structured data | encrypted database ([Q2](#q2)) |
+
+**Step 4 — Even secure storage isn't magic.**
+A fully compromised (rooted) device can sometimes still be attacked. Combine secure storage with short-lived tokens ([Q9](#q9)) so a leaked token expires fast.
+
+**Why interviewers ask:** Insecure storage is one of the most common mobile vulnerabilities; they check you know where secrets belong.
+
+**Common mistake:** Storing the auth token in SharedPreferences "because it's easy." That's a classic, serious leak.
+
+**Follow-ups they may ask:**
+- *"Is secure storage 100% safe?"* → No — it's much stronger, but pair it with short token lifetimes and server-side checks.
+
+**Related:** [Q2 — at rest](#q2) · [Q9 — tokens](#q9) · [Q14 — root detection](#q14)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q4"></a>
+## 4. Why should you never hardcode API keys in Flutter, and what are the secure alternatives?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Anything compiled into the app can be extracted by decompiling it — a hardcoded key is effectively public. So never put secrets in Dart source or commit them to git. Safer options: pass build-time values with `--dart-define`, keep real secrets on a backend that the app calls, and for truly sensitive keys, never let them touch the client at all."
+
+**Let's understand it fully:**
+
+**Step 1 — Why hardcoding is unsafe.**
+A shipped app can be unzipped and decompiled. Strings inside it — including `const apiKey = 'sk_live_...'` — can be read out. It's like writing your password on a public wall.
+
+```dart
+// NEVER do this:
+const apiKey = 'sk_live_123secret'; // shipped inside the app, extractable
 ```
 
-**How to enable in Flutter:**
+**Step 2 — Better: build-time injection with --dart-define.**
+Keep keys out of source; pass them at build time (and store them in CI secrets):
 
 ```bash
-# Android release build with obfuscation:
-flutter build apk --release \
-  --obfuscate \
-  --split-debug-info=build/debug_info/android
-
-# Android App Bundle (recommended for Play Store):
-flutter build appbundle --release \
-  --obfuscate \
-  --split-debug-info=build/debug_info/android
-
-# iOS release build with obfuscation:
-flutter build ipa --release \
-  --obfuscate \
-  --split-debug-info=build/debug_info/ios
+flutter build apk --dart-define=API_KEY=$API_KEY
 ```
 
-**What `--split-debug-info` does:**
-```
-Without it: Debug symbols stay in the binary → easier to decompile
-With it:    Debug symbols are written to a separate file you keep privately
-            Binary is stripped → harder to reverse-engineer
-
-The debug info folder is critical — keep it safe!
-You need it to de-obfuscate crash stack traces from Firebase Crashlytics.
+```dart
+const apiKey = String.fromEnvironment('API_KEY'); // injected at build
 ```
 
-**Re-symbolicating crash reports:**
+This keeps keys out of git, but note: the value is still in the built binary, so it only suits low-sensitivity keys.
+
+**Step 3 — Best: keep real secrets on the server.**
+For anything truly sensitive (payment secrets, admin keys), the app should call *your* backend, and the backend holds the secret and talks to the third party. The secret never ships to the device.
+
+```
+App → your backend (holds the secret) → third-party API
+```
+
+**Step 4 — Also: restrict the keys.**
+For keys that must be in the app (e.g. some map/analytics keys), lock them down on the provider side — restrict by app bundle ID, platform, and API scope — so a leaked key is far less useful.
+
+**Why interviewers ask:** Hardcoded secrets are a frequent, serious leak; they want to see you understand the client can't keep secrets.
+
+**Common mistake:** Thinking `--dart-define` or `.env` *hides* the key. It keeps it out of source control, but it's still in the binary — truly sensitive secrets belong on the server.
+
+**Follow-ups they may ask:**
+- *"You committed a key — now what?"* → Rotate it immediately (assume it's compromised) and remove it from git history ([Q14 Git](Section_17_Git_Version_Control.md#q14)).
+
+**Related:** [Q1 — OWASP](#q1) · [Q3 — secure storage](#q3) · [Q14 (Git) — .gitignore/secrets](Section_17_Git_Version_Control.md#q14)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q5"></a>
+## 5. Why is logging sensitive data dangerous, and how do you prevent it?
+
+> Common · Easy–Medium
+
+**Short answer (say this):**
+"Logs are often readable on the device, captured by crash tools, or shipped to third-party services — so logging a token, password, or personal data leaks it. The fix: never log secrets, scrub sensitive fields before logging, and disable verbose logging in release builds."
+
+**Let's understand it fully:**
+
+**Step 1 — Why logs leak.**
+- Android logcat can be read by other tools on a rooted device.
+- Crash reporters (Crashlytics/Sentry) capture logs and send them off-device.
+- Logs end up in dashboards many people can see.
+
+```dart
+// Dangerous: the token now sits in logs and crash reports
+print('Logging in with token: $token');
+```
+
+**Step 2 — Prevent it.**
+- **Never log** tokens, passwords, full card numbers, or PII.
+- **Mask/scrub** sensitive fields before logging:
+
+```dart
+String mask(String s) => s.length <= 4 ? '****' : '****${s.substring(s.length - 4)}';
+log('Card ending ${mask(cardNumber)}'); // logs ****1234, not the full number
+```
+
+**Step 3 — Turn down logging in release.**
+Use log levels and disable debug logging in production builds, so verbose logs don't ship.
+
+```dart
+if (kDebugMode) log(detailedInfo); // only in debug builds
+```
+
+**Step 4 — Configure crash tools to scrub.**
+Set up Crashlytics/Sentry to strip sensitive keys before sending, so even accidental logs don't leave the device with secrets.
+
+**Why interviewers ask:** Accidental logging is an easy, common leak; they check you treat logs as a real attack surface.
+
+**Common mistake:** `print`-ing request/response bodies (which contain tokens or PII) during debugging and leaving it in, or shipping verbose logs to production.
+
+**Follow-ups they may ask:**
+- *"Where do logs go in production?"* → Crash reporters and analytics — so anything logged can leave the device.
+
+**Related:** [Q3 — secure storage](#q3) · [Q1 — OWASP](#q1)
+
+[↑ Back to top](#toc)
+
+---
+
+# C. Network security
+
+---
+
+<a id="q6"></a>
+## 6. What is certificate pinning, why does it matter, and how do you implement it with Dio?
+
+> Common · Medium–Hard
+
+**Short answer (say this):**
+"Certificate pinning means the app only trusts a specific, known server certificate (or its public key), instead of any certificate a device trusts. It matters because it defeats man-in-the-middle attacks where an attacker installs a fake trusted certificate. In Flutter with Dio, you check the server's certificate fingerprint against a value baked into the app."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+Normally, an app trusts any certificate signed by a trusted authority. But on a compromised device or network, an attacker can install a fake trusted certificate and silently read your "HTTPS" traffic ([MITM](#q7)). Pinning says "I only trust *this exact* certificate," so the fake one is rejected.
+
+**Step 2 — A real-life picture.**
+HTTPS checks "is this a valid ID card?" Pinning checks "is this *the specific person* I expect?" — much stronger.
+
+**Step 3 — Implementing it with Dio.**
+
+```dart
+final dio = Dio();
+(dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+  final client = HttpClient();
+  client.badCertificateCallback = (cert, host, port) {
+    // Compare the server cert's fingerprint to the pinned one
+    final fingerprint = sha256.convert(cert.der).toString();
+    return fingerprint == expectedFingerprint; // only trust the known cert
+  };
+  return client;
+};
+```
+
+(There are also dedicated packages and the `certificate_pinning` approach; the idea is the same — verify against a known value.)
+
+**Step 4 — The trade-off: pin rotation.**
+Certificates expire and rotate. If you pin one and it changes, the app breaks until updated. Mitigate by pinning the **public key** (more stable than the cert), pinning a backup key, and having an update path.
+
+**Why interviewers ask:** Pinning is the main defense against MITM and shows network-security depth.
+
+**Common mistake:** Forgetting certificate rotation — the app suddenly can't connect when the server renews its cert. Pin keys and include a backup.
+
+**Follow-ups they may ask:**
+- *"Pin the cert or the public key?"* → The public key is usually better — it survives certificate renewals.
+
+**Related:** [Q7 — MITM](#q7) · [Q2 — in transit](#q2)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q7"></a>
+## 7. What is a Man-in-the-Middle (MITM) attack, and how do you prevent it?
+
+> Common · Medium
+
+**Short answer (say this):**
+"A MITM attack is when an attacker secretly sits between the app and the server, reading or changing the traffic — for example on a fake public Wi-Fi. You prevent it with HTTPS everywhere (so traffic is encrypted), certificate pinning (so a fake certificate is rejected), and never trusting user-installed certificates in release."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: intercepted mail.**
+Imagine someone secretly opening, reading, and resealing your letters before they reach you. A MITM attacker does that to your network traffic — you think you're talking to the server, but they're in the middle.
+
+**Step 2 — How it happens.**
+- Public/fake Wi-Fi the attacker controls.
+- A malicious or fake trusted certificate installed on the device.
+- Plain HTTP traffic (no encryption at all).
+
+**Step 3 — The defenses.**
+1. **HTTPS everywhere** — encrypt all traffic; never plain HTTP ([Q2](#q2)).
+2. **Certificate pinning** — only trust your known certificate, so a fake one fails ([Q6](#q6)).
+3. **Don't trust user-added certificates** in release (configure network security to ignore them).
+4. **Validate everything server-side** — never rely on the client alone.
+
+**Step 4 — Test it.**
+Tools like Charles Proxy or mitmproxy simulate a MITM. A pinned app should *fail* to connect through them — that's how you confirm pinning works.
+
+**Why interviewers ask:** MITM is the classic network attack; they check you know the layered defenses.
+
+**Common mistake:** Assuming HTTPS alone is enough. HTTPS stops casual eavesdropping, but a fake trusted certificate defeats it — pinning is what stops that.
+
+**Follow-ups they may ask:**
+- *"How do you test for MITM resistance?"* → Try to proxy the app's traffic; with pinning it should refuse to connect.
+
+**Related:** [Q6 — cert pinning](#q6) · [Q2 — in transit](#q2)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q8"></a>
+## 8. What is SQL injection in a mobile context, and how do you prevent it?
+
+> Common · Medium
+
+**Short answer (say this):**
+"SQL injection is when untrusted input is concatenated into a SQL query, letting an attacker change what the query does — read or delete data they shouldn't. In a mobile app it can hit a local SQLite database or the backend. You prevent it by always using parameterized queries (placeholders), never building SQL by string concatenation."
+
+**Let's understand it fully:**
+
+**Step 1 — The vulnerability.**
+If you paste user input straight into a query, the input can break out and inject its own SQL.
+
+```dart
+// DANGEROUS — input is concatenated into the SQL
+final name = userInput; // e.g.  ' OR '1'='1
+db.rawQuery("SELECT * FROM users WHERE name = '$name'");
+// becomes: ... WHERE name = '' OR '1'='1'  → returns everyone
+```
+
+**Step 2 — The fix: parameterized queries.**
+Use placeholders (`?`) and pass values separately, so input is always treated as data, never as code.
+
+```dart
+// SAFE — the value is bound, not concatenated
+db.rawQuery('SELECT * FROM users WHERE name = ?', [userInput]);
+```
+
+With `sqflite`, the query methods take an `whereArgs` list for exactly this reason:
+
+```dart
+db.query('users', where: 'name = ?', whereArgs: [userInput]); // safe
+```
+
+**Step 3 — Defense in depth.**
+- **Always parameterize** (the main fix).
+- **Validate input** (type, length, allowed characters).
+- **Least privilege** — the DB user/role can only do what it needs.
+
+**Step 4 — It applies on the backend too.**
+The same rule holds for your server's database. Most ORMs parameterize by default — just don't drop down to raw concatenated SQL.
+
+**Why interviewers ask:** It tests a fundamental input-handling habit that applies on device and server.
+
+**Common mistake:** Building SQL with string interpolation (`'$input'`). Always use placeholders.
+
+**Follow-ups they may ask:**
+- *"Does this apply to NoSQL?"* → Yes — "NoSQL injection" exists too; never trust raw input in any query.
+
+**Related:** [Q8 (DSA) — none] · [Q12 (Networking) — sqflite/drift](../flutter/section7_networking_local_storage.md#q12)
+
+[↑ Back to top](#toc)
+
+---
+
+# D. Authentication
+
+---
+
+<a id="q9"></a>
+## 9. What is the difference between access tokens and refresh tokens? Where do you store them?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"An access token is a short-lived key that proves who you are on each API call; a refresh token is a longer-lived key used only to get a new access token when it expires. Short access-token lifetimes limit the damage if one leaks. Both should be stored in secure storage, and when the access token expires, you silently refresh it."
+
+**Let's understand it fully:**
+
+**Step 1 — Two tokens, two jobs.**
+- **Access token** — sent with every API request to prove identity. Short-lived (minutes to an hour).
+- **Refresh token** — used *only* to obtain a new access token. Longer-lived (days/weeks).
+
+**Step 2 — Why split them.**
+If a short-lived access token leaks, it expires fast — limited damage. The longer-lived refresh token is used rarely and only against the auth server, so it's exposed far less.
+
+**Step 3 — Where to store them.**
+Both are sensitive → **secure storage** ([Q3](#q3)):
+
+```dart
+await storage.write(key: 'access_token', value: access);
+await storage.write(key: 'refresh_token', value: refresh);
+```
+
+**Step 4 — Handling expiry (silent refresh).**
+When an API call returns 401 (token expired), use the refresh token to get a new access token, then retry the original request. A Dio interceptor does this transparently:
+
+```
+request → 401 → use refresh token → get new access token → retry original request
+```
+
+If the refresh token itself is invalid/expired, force the user to log in again.
+
+**Why interviewers ask:** Token handling is core to every authenticated app; they check you understand the short/long-lived split and secure storage.
+
+**Common mistake:** Using one long-lived token forever (huge blast radius if leaked), or storing tokens in SharedPreferences.
+
+**Follow-ups they may ask:**
+- *"Refresh token rotation?"* → Issue a new refresh token each refresh and invalidate the old one, so a stolen refresh token is quickly useless.
+
+**Related:** [Q3 — secure storage](#q3) · [Q11 — JWT](#q11) · [Q3 (Networking) — interceptor/refresh](../flutter/section7_networking_local_storage.md#q3)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q10"></a>
+## 10. Explain the OAuth 2.0 Authorization Code + PKCE flow for mobile.
+
+> Common · Hard
+
+**Short answer (say this):**
+"OAuth 2.0 lets a user log in via a provider (Google, Facebook) without giving the app their password. For mobile, the secure version is Authorization Code with PKCE. PKCE adds a one-time secret the app generates, so even if the authorization code is intercepted, an attacker can't exchange it for tokens without that secret."
+
+**Let's understand it fully:**
+
+**Step 1 — Why PKCE for mobile.**
+Mobile apps can't keep a client secret (anyone can decompile the app, [Q4](#q4)). PKCE (Proof Key for Code Exchange) replaces that secret with a fresh, one-time proof generated per login — safe even without a stored secret.
+
+**Step 2 — The flow, step by step.**
+
+```
+1. App makes a random 'code_verifier', and a 'code_challenge' = hash(verifier).
+2. App opens the provider's login page, sending the code_challenge.
+3. User logs in; provider redirects back with an authorization CODE.
+4. App exchanges CODE + the original code_verifier for tokens.
+5. Provider checks hash(verifier) == challenge → returns access + refresh tokens.
+```
+
+**Step 3 — Why interception fails.**
+If an attacker steals the authorization code in step 3, they still can't complete step 4 — they don't have the `code_verifier` (it never left the app). The hash binds the code to that one login.
+
+**Step 4 — In Flutter.**
+Use a well-tested package (e.g. `flutter_appauth` or the provider's SDK) and the device's secure browser tab — don't hand-roll OAuth or use an embedded webview (which can leak credentials).
+
+**Why interviewers ask:** OAuth/PKCE is the standard secure login for mobile; it tests deeper auth understanding.
+
+**Common mistake:** Using an embedded WebView for the login (insecure, can capture the password) instead of the system browser / a vetted SDK; or trying to store a client secret in the app.
+
+**Follow-ups they may ask:**
+- *"Why not the Implicit flow?"* → It returns tokens directly in the redirect (less secure) and is deprecated for mobile; Authorization Code + PKCE is the recommendation.
+
+**Related:** [Q9 — tokens](#q9) · [Q11 — JWT](#q11) · [Q4 — no client secrets](#q4)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q11"></a>
+## 11. What is a JWT? Explain its structure, how to verify it, and what NOT to store in it.
+
+> Very common · Medium
+
+**Short answer (say this):**
+"A JWT (JSON Web Token) is a signed token with three parts: header, payload, and signature, separated by dots. The signature lets the server verify the token wasn't tampered with. Crucially, the payload is only encoded, not encrypted — anyone can read it — so never put secrets or sensitive data in it."
+
+**Let's understand it fully:**
+
+**Step 1 — The three parts.**
+
+```
+header.payload.signature
+
+eyJhbGc...  .  eyJzdWIi...  .  SflKxwRJ...
+(algorithm)    (claims/data)   (signature)
+```
+
+- **Header** — the signing algorithm (e.g. HS256, RS256).
+- **Payload** — the claims: user id, roles, expiry (`exp`).
+- **Signature** — proves the token is authentic and unchanged.
+
+**Step 2 — How verification works.**
+The server re-computes the signature using its secret (or public key) over the header+payload. If it matches the token's signature, the token is genuine and untampered. The server also checks `exp` (not expired).
+
+**Step 3 — The critical point: payload is readable.**
+The payload is just Base64-encoded JSON, not encrypted. Anyone can decode it (paste it into jwt.io). So:
+- **Never** put passwords, secrets, or sensitive PII in the payload.
+- Only put non-secret identity info (user id, roles, expiry).
+
+```
+// Decoded payload — anyone can read this:
+{ "sub": "user_123", "role": "user", "exp": 1735689600 }   // no secrets!
+```
+
+**Step 4 — Practical rules.**
+- Keep them **short-lived** (use refresh tokens for longevity, [Q9](#q9)).
+- Verify them **server-side** — the app shouldn't trust a JWT it can't verify.
+- Store them in **secure storage** ([Q3](#q3)).
+
+**Why interviewers ask:** JWTs are everywhere in auth; the "payload is readable" point is a favourite gotcha.
+
+**Common mistake:** Putting sensitive data in the payload thinking it's hidden — it's only encoded, fully readable. Also, trusting a JWT without verifying its signature.
+
+**Follow-ups they may ask:**
+- *"HS256 vs RS256?"* → HS256 uses one shared secret (symmetric); RS256 uses a private/public key pair (the server signs with private, others verify with public).
+
+**Related:** [Q9 — tokens](#q9) · [Q10 — OAuth](#q10) · [Q3 — secure storage](#q3)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q12"></a>
+## 12. How do you handle biometric authentication in Flutter?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Biometrics (fingerprint, Face ID) authenticate the user via the device's secure hardware. In Flutter you use the `local_auth` package, which asks the OS to verify the user. Important: biometrics unlock *local* access — the actual check happens on-device, and you still need server-side auth (tokens) for real security."
+
+**Let's understand it fully:**
+
+**Step 1 — What biometrics do (and don't).**
+They confirm "the right person is holding the phone," using the OS's secure enclave. They do **not** replace server authentication — they're a convenient local gate (e.g. to unlock the app or release a stored token).
+
+**Step 2 — Using local_auth.**
+
+```dart
+final auth = LocalAuthentication();
+
+final canCheck = await auth.canCheckBiometrics; // is hardware available?
+
+final didAuth = await auth.authenticate(
+  localizedReason: 'Authenticate to access your account',
+  options: const AuthenticationOptions(biometricOnly: true, stickyAuth: true),
+);
+
+if (didAuth) {
+  // unlock the app / read the token from secure storage
+}
+```
+
+**Step 3 — The secure pattern.**
+A common, safe design: the user logs in once (server auth → tokens in secure storage), then biometrics gate *access to that stored token* on later opens. The biometric result itself is just a local yes/no.
+
+**Step 4 — Handle the edge cases.**
+- No biometrics enrolled → fall back to a PIN/password.
+- Biometric check can be bypassed on a rooted device → biometrics alone aren't enough; keep server-side checks.
+
+**Why interviewers ask:** It tests practical mobile auth and the understanding that biometrics are a *local* convenience, not full security.
+
+**Common mistake:** Treating a successful biometric check as full authentication, with no real server-side token/identity behind it.
+
+**Follow-ups they may ask:**
+- *"Where is the fingerprint stored?"* → In the device's secure hardware; your app never sees it — it only gets a yes/no.
+
+**Related:** [Q9 — tokens](#q9) · [Q3 — secure storage](#q3)
+
+[↑ Back to top](#toc)
+
+---
+
+# E. App hardening
+
+---
+
+<a id="q13"></a>
+## 13. What is code obfuscation, and how do you enable it in Flutter?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Obfuscation scrambles your compiled code — renaming classes and methods to meaningless symbols — so it's much harder for someone to decompile and understand your app. In Flutter you enable it with `--obfuscate --split-debug-info` when building release. It raises the bar for reverse engineering, but it's not a substitute for real security."
+
+**Let's understand it fully:**
+
+**Step 1 — What it does.**
+A release app can be decompiled. Obfuscation replaces readable names (`AuthService.refreshToken`) with gibberish (`a.b`), so the decompiled code is hard to follow — like shredding the labels on a blueprint.
+
+**Step 2 — Enable it in Flutter.**
+
 ```bash
-# When you get an obfuscated stack trace from Crashlytics:
-flutter symbolize \
-  --input=obfuscated_stack_trace.txt \
-  --debug-info=build/debug_info/android/app.android-arm64.symbols
-
-# This translates: a.b(a.dart:1) → AuthService.login(auth_service.dart:42)
+flutter build apk --obfuscate --split-debug-info=build/symbols
+flutter build ipa --obfuscate --split-debug-info=build/symbols
 ```
 
-**ProGuard/R8 for Android (additional Java/Kotlin obfuscation):**
-```
-# android/app/build.gradle
-buildTypes {
-    release {
-        minifyEnabled true           // Enable R8/ProGuard
-        shrinkResources true         // Remove unused resources
-        proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                      'proguard-rules.pro'
-    }
-}
-```
+- `--obfuscate` scrambles the Dart code.
+- `--split-debug-info` saves a symbol map so you can still de-obfuscate crash reports. **Keep these symbol files** (privately) for debugging.
 
-**What obfuscation does NOT do:**
-```
-❌ Does NOT encrypt your code
-❌ Does NOT prevent reverse engineering (determined attackers can still do it)
-❌ Does NOT hide hardcoded strings/secrets (use --dart-define or backend proxy)
-❌ Does NOT protect against runtime attacks (Frida, etc.)
+**Step 3 — What obfuscation is NOT.**
+It makes reverse engineering *harder*, not impossible, and it does **not** hide secrets in the binary ([Q4](#q4)). A determined attacker can still analyze the app. It's one layer, not the whole defense.
 
-✅ DOES raise the effort bar significantly
-✅ DOES make automated scanning tools less effective
-✅ DOES hide proprietary business logic from casual inspection
-✅ DOES make it harder to clone your app
-```
+**Step 4 — Combine with other layers.**
+Pair it with no-hardcoded-secrets, server-side checks, and optionally integrity/root checks ([Q14](#q14)). Defense in depth.
 
-**Why it matters:** Obfuscation is a basic hygiene requirement (OWASP M7). An interviewer asking this wants to confirm you know both *how* to enable it and *what its limitations are* — not just that it's a magic security fix.
+**Why interviewers ask:** It tests practical release hardening and the realistic view that it's a deterrent, not a guarantee.
 
-**Common mistake:** Thinking obfuscation makes the app secure. It's a deterrent, not a lock. Secrets hardcoded in the binary are still extractable with tools like `strings` regardless of obfuscation.
+**Common mistake:** Believing obfuscation hides secrets or makes the app "secure." It raises the effort to reverse engineer; it doesn't protect data the app must contain.
+
+**Follow-ups they may ask:**
+- *"Why keep the symbol files?"* → To de-obfuscate (symbolicate) crash reports so stack traces are readable.
+
+**Related:** [Q4 — API keys](#q4) · [Q14 — root detection](#q14)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is root detection and jailbreak detection? How would you implement basic detection in Flutter?
+<a id="q14"></a>
+## 14. What is root / jailbreak detection, and how would you implement basic detection?
 
-**A:** Root detection (Android) and jailbreak detection (iOS) are techniques to identify whether the device running your app has been modified to bypass the operating system's security sandbox. On rooted/jailbroken devices, many security controls (file system isolation, app sandboxing, certificate pinning) can be bypassed.
+> Common · Medium
 
-```
-WHY ROOTED/JAILBROKEN DEVICES ARE HIGHER RISK:
-┌─────────────────────────────────────────────────────────────────┐
-│ Normal Device                  │ Rooted/Jailbroken Device       │
-├────────────────────────────────┼────────────────────────────────┤
-│ App sandboxed → can't read     │ Root shell → read ANY file     │
-│ other apps' data               │ including Keychain (iOS)       │
-│                                │                                │
-│ Can't hook/modify running apps │ Frida can hook your app,       │
-│                                │ bypass certificate pinning,    │
-│                                │ extract tokens from memory     │
-│                                │                                │
-│ Play Protect / App Store       │ Can install unsigned apps,     │
-│ vetting applies                │ malware runs with root access  │
-└────────────────────────────────┴────────────────────────────────┘
-```
+**Short answer (say this):**
+"Root (Android) or jailbreak (iOS) means the device's security controls have been removed, so the OS protections you rely on (like the keystore) are weaker. Detection tries to spot such devices and react — warn the user, limit features, or block sensitive actions. In Flutter you can use packages like `flutter_jailbreak_detection`, but detection can be bypassed, so treat it as one signal, not a guarantee."
 
-**Basic detection using `flutter_jailbreak_detection` package:**
+**Let's understand it fully:**
+
+**Step 1 — Why it matters.**
+On a rooted/jailbroken device, an attacker has deep access — they can read app storage, hook into the app, and bypass some OS protections. For high-security apps (banking, payments) you may want to detect this and reduce risk.
+
+**Step 2 — How basic detection works.**
+It looks for tell-tale signs: known root/jailbreak files or apps, the ability to write to protected paths, or suspicious system properties.
+
 ```dart
-import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
-
-class DeviceSecurityChecker {
-  static Future<bool> isDeviceCompromised() async {
-    try {
-      // Returns true if jailbroken (iOS) or rooted (Android)
-      final isJailbroken = await FlutterJailbreakDetection.jailbroken;
-      
-      // Returns true if developer mode is enabled (Android)
-      final isDeveloperMode = await FlutterJailbreakDetection.developerMode;
-
-      return isJailbroken || isDeveloperMode;
-    } catch (e) {
-      // If detection itself fails, assume compromised
-      return true;
-    }
-  }
-}
-
-// In your app startup (e.g., SplashScreen or main.dart):
-Future<void> _checkDeviceSecurity() async {
-  final isCompromised = await DeviceSecurityChecker.isDeviceCompromised();
-  if (isCompromised) {
-    // Option 1: Block completely
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: const Text('Security Alert'),
-        content: const Text(
-          'This app cannot run on rooted or jailbroken devices.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => SystemNavigator.pop(),
-            child: const Text('Exit'),
-          ),
-        ],
-      ),
-    );
-
-    // Option 2: Restrict sensitive features only (less aggressive)
-    // _enableRestrictedMode();
-  }
+final isCompromised = await FlutterJailbreakDetection.jailbroken;
+if (isCompromised) {
+  // react: warn, limit features, or block sensitive operations
 }
 ```
 
-**Manual detection signals (Android):**
-```dart
-import 'dart:io';
+**Step 3 — How to react (proportionately).**
+- **Banking/payments** — may block or restrict sensitive actions.
+- **Most apps** — warn the user and continue with reduced trust.
+Decide based on your app's risk level; don't lock out every power user unnecessarily.
 
-class AndroidRootDetector {
-  static Future<bool> hasRootIndicators() async {
-    if (!Platform.isAndroid) return false;
+**Step 4 — The honest caveat.**
+Detection is a **cat-and-mouse game** — a determined attacker can hide root or patch out your check (since the check runs on the device they control). It raises the bar but isn't foolproof. Always keep critical security on the server.
 
-    // Check 1: Common su binary locations
-    const suPaths = [
-      '/system/bin/su',
-      '/system/xbin/su',
-      '/sbin/su',
-      '/su/bin/su',
-      '/data/local/xbin/su',
-      '/data/local/bin/su',
-    ];
+**Why interviewers ask:** It tests realistic threat modeling — knowing both the value and the limits of client-side detection.
 
-    for (final path in suPaths) {
-      if (await File(path).exists()) return true;
-    }
+**Common mistake:** Trusting root detection as a hard security boundary. It's a signal that can be bypassed; the server must still enforce real security.
 
-    // Check 2: Known root management apps
-    const rootApps = [
-      'com.topjohnwu.magisk',
-      'com.koushikdutta.superuser',
-      'com.noshufou.android.su',
-    ];
+**Follow-ups they may ask:**
+- *"Can it be bypassed?"* → Yes — the check runs on a device the attacker controls, so they can defeat it; never rely on it alone.
 
-    // Use platform channel to check installed packages
-    // (requires native Android code — beyond this example's scope)
+**Related:** [Q3 — secure storage](#q3) · [Q13 — obfuscation](#q13)
 
-    return false;
-  }
-}
-```
-
-**Important caveats:**
-```
-Detection is never 100% reliable:
-- Magisk (popular rooting tool) specifically hides itself from detection
-- Root detection can be bypassed with Frida hooks
-- Some legitimate apps (enterprise MDM) may trigger false positives
-
-Best practice:
-- Use detection as one layer of defense, not the only layer
-- Google Play Integrity API (replaces SafetyNet) is more reliable than manual detection
-- Consider what action to take carefully — blocking entirely can frustrate legitimate users
-  (some security researchers, pen testers may have valid reasons)
-```
-
-**Why it matters:** This topic shows security depth and pragmatism. Interviewers want to hear that you know detection exists, how to implement it, *and* that you understand its limitations.
-
-**Common mistake:** Claiming root detection is a complete security solution, or not knowing that tools like Magisk can bypass most detection methods. The goal is to raise the effort required for an attack, not to make it impossible.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** Why is logging sensitive data dangerous and how do you prevent it in Flutter?
+<a id="q15"></a>
+## 15. What is deep link hijacking, and how do you secure deep links in Flutter?
 
-**A:** Logs from mobile apps are more accessible than most developers assume. On Android, any app with `READ_LOGS` permission (or ADB access on debug builds) can read all system logs. On iOS, device logs are accessible via Xcode or device syslog. Crash analytics tools (Firebase Crashlytics, Sentry) also send logs to third-party servers.
+> Common · Medium–Hard
 
-```
-HOW LOGS LEAK SENSITIVE DATA:
+**Short answer (say this):**
+"Deep link hijacking is when a malicious app registers the same custom URL scheme as yours, so it can intercept links meant for your app — potentially stealing data like an OAuth code. You secure it by using verified App Links (Android) and Universal Links (iOS), which are tied to your domain and can't be claimed by another app, and by never trusting deep-link data without validation."
 
-Developer writes:
-  debugPrint('Login response: ${response.data}');
-  // response.data contains: {"access_token": "eyJhbG...", "email": "user@company.com"}
+**Let's understand it fully:**
 
-Where this ends up:
-┌─────────────────────────────────────────────────────────────┐
-│ 1. Android Logcat (adb logcat) — visible to any ADB session │
-│ 2. Firebase Crashlytics — uploaded to Google servers        │
-│ 3. Sentry / Datadog — uploaded to third-party servers       │
-│ 4. Device bugreports — shareable by users (e.g., to support)│
-│ 5. On rooted device — readable by malicious apps            │
-└─────────────────────────────────────────────────────────────┘
-```
+**Step 1 — The vulnerability with custom schemes.**
+Custom schemes like `myapp://` are first-come, first-served — any app can declare it. A malicious app declaring `myapp://` might receive a link (e.g. an OAuth redirect with a code) intended for you.
 
-**Flutter-specific logging pitfalls:**
-```dart
-// ❌ DANGEROUS — ALL of these log sensitive data:
-print('Token: $accessToken');
-debugPrint('User: ${user.email}, Password: ${user.password}');
-developer.log('API Key: $apiKey');
+**Step 2 — The fix: verified links tied to your domain.**
+- **Android App Links** and **iOS Universal Links** use real `https://yourdomain.com/...` URLs, verified against a file you host on your domain (`assetlinks.json` / `apple-app-site-association`).
+- Because they're tied to a domain you own, another app **can't** claim them.
 
-// These also leak data indirectly:
-dio.interceptors.add(LogInterceptor(responseBody: true)); // ❌ Logs full response!
-```
+**Step 3 — Validate the incoming data.**
+Treat deep-link parameters as untrusted input:
+- Validate and sanitize everything ([Q8](#q8)).
+- For OAuth, PKCE ([Q10](#q10)) protects the code even if a link is intercepted.
+- Require auth before acting on sensitive deep links (don't perform a money transfer just because a link said so).
 
-**Safe logging pattern:**
-```dart
-import 'package:flutter/foundation.dart';
+**Step 4 — In Flutter.**
+Use a router like `go_router` for deep links, configure App Links/Universal Links properly, and add a guard/redirect that checks auth before opening protected destinations.
 
-class AppLogger {
-  // Only log in debug mode — never in release
-  static void debug(String message) {
-    if (kDebugMode) {
-      // ignore: avoid_print
-      print('[DEBUG] $message');
-    }
-  }
+**Why interviewers ask:** Deep links are a real mobile attack surface; it tests platform-specific security knowledge.
 
-  // Structured logging with automatic redaction
-  static void apiCall({
-    required String endpoint,
-    required int statusCode,
-    Map<String, dynamic>? headers,
-  }) {
-    if (!kDebugMode) return;
+**Common mistake:** Relying on custom URL schemes for sensitive flows (hijackable), or trusting deep-link parameters without validation.
 
-    // Redact sensitive headers before logging
-    final safeHeaders = _redactHeaders(headers ?? {});
-    debugPrint('[API] $endpoint → $statusCode | headers: $safeHeaders');
-  }
+**Follow-ups they may ask:**
+- *"App Links vs custom scheme?"* → App/Universal Links are domain-verified (can't be hijacked); custom schemes can be claimed by any app.
 
-  static Map<String, dynamic> _redactHeaders(Map<String, dynamic> headers) {
-    const sensitiveKeys = {'authorization', 'x-api-key', 'cookie', 'set-cookie'};
-    return {
-      for (final entry in headers.entries)
-        entry.key: sensitiveKeys.contains(entry.key.toLowerCase())
-            ? '[REDACTED]'
-            : entry.value,
-    };
-  }
+**Related:** [Q10 — OAuth/PKCE](#q10) · [Q8 — input validation](#q8) · [Q4 (Navigation) — deep linking](../flutter/section4_navigation_and_routing.md#q1)
 
-  // Safe Dio logger configuration:
-  static LogInterceptor safeDioLogger() {
-    return LogInterceptor(
-      request: kDebugMode,
-      requestBody: false,     // Never log request bodies (may contain passwords)
-      responseBody: false,    // Never log response bodies (may contain tokens)
-      requestHeader: false,   // Never log headers (auth tokens)
-      responseHeader: false,
-      error: true,            // OK to log error status codes
-    );
-  }
-}
-```
-
-**Using `kReleaseMode` / `kDebugMode` guards:**
-```dart
-import 'package:flutter/foundation.dart';
-
-// kDebugMode: true in debug builds only
-// kReleaseMode: true in release builds only
-// kProfileMode: true in profile builds only
-
-void setupCrashlytics() {
-  if (kReleaseMode) {
-    // Only enable crash reporting in production
-    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  } else {
-    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  }
-}
-
-// Configure Crashlytics to NOT log sensitive keys:
-void logSafeError(dynamic error, StackTrace stack) {
-  FirebaseCrashlytics.instance.recordError(
-    error,
-    stack,
-    // Do NOT include sensitive custom keys:
-    // information: ['token=$token'],  ← NEVER do this
-    information: ['screen=checkout', 'action=payment_submit'],
-  );
-}
-```
-
-**Why it matters:** Log-based data leakage is OWASP M6 (Inadequate Privacy Controls). It's one of the most common ways PII and tokens end up in the wrong hands — and it's entirely preventable with discipline.
-
-**Common mistake:** Using `debugPrint` thinking it's safe because it "only shows in debug mode." In Flutter, `debugPrint` outputs to stdout, which ends up in device logs that are NOT limited to debug builds by default. Always wrap it in `if (kDebugMode)`.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is SQL injection in a mobile context and how do you prevent it?
+<a id="cheatsheet"></a>
 
-**A:** SQL injection in mobile typically occurs when your app queries a **local SQLite database** (via `sqflite` or `drift`) by building query strings through string concatenation with user input. The attacker crafts input that modifies the SQL statement's logic.
+# Cheat Sheet (last-night review)
 
-```
-VULNERABLE QUERY:
+Read this the morning of your interview. Tables first, then one-line reminders.
 
-User types into search field: ' OR '1'='1
+## Threat → defense
 
-Your code:
-  String query = "SELECT * FROM users WHERE email = '$userInput'";
+| Threat | Defense |
+|---|---|
+| Stolen device reads token | secure storage ([Q3](#q3)) |
+| Extracted hardcoded key | keep secrets on server ([Q4](#q4)) |
+| Eavesdropping on network | HTTPS + cert pinning ([Q6](#q6)) |
+| Fake certificate (MITM) | certificate pinning ([Q6](#q6), [Q7](#q7)) |
+| Leaked long-lived token | short access + refresh tokens ([Q9](#q9)) |
+| Reverse engineering | obfuscation ([Q13](#q13)) |
+| Hijacked deep link | App/Universal Links ([Q15](#q15)) |
+| SQL injection | parameterized queries ([Q8](#q8)) |
 
-Actual SQL executed:
-  SELECT * FROM users WHERE email = '' OR '1'='1'
-                                        └─────────┘
-                                     Always true!
-                                 Returns ALL user records
+## At rest vs in transit
 
-More destructive input: '; DROP TABLE users; --
-  SELECT * FROM users WHERE email = ''; DROP TABLE users; --'
-  → Deletes your entire users table!
-```
+| | In transit | At rest |
+|---|---|---|
+| Protects | data moving over network | data stored on device |
+| How | HTTPS/TLS | secure storage / encrypted DB |
 
-**Prevention in Flutter with sqflite — use parameterized queries:**
-```dart
-import 'package:sqflite/sqflite.dart';
+## One-line reminders
 
-class UserRepository {
-  final Database _db;
+- **Don't trust the client** — anything in the app can be inspected; enforce on the server. ([Q1](#q1))
+- **Encrypt in transit (HTTPS) AND at rest (secure storage)** — need both. ([Q2](#q2))
+- **SharedPreferences = plain text**; use `flutter_secure_storage` for secrets. ([Q3](#q3))
+- **Never hardcode secrets** — they ship in the binary; keep real ones on the server. ([Q4](#q4))
+- **Never log tokens/PII**; scrub and disable verbose logs in release. ([Q5](#q5))
+- **Certificate pinning** defeats MITM by trusting only your known cert/key. ([Q6](#q6), [Q7](#q7))
+- **Always parameterize SQL** (`?` + args); never concatenate input. ([Q8](#q8))
+- **Short access token + refresh token**; both in secure storage; silent refresh on 401. ([Q9](#q9))
+- **OAuth + PKCE** for mobile login; use the system browser, not a webview. ([Q10](#q10))
+- **JWT payload is readable** (only encoded) — no secrets inside; verify server-side. ([Q11](#q11))
+- **Biometrics = local gate**, not full auth; keep server-side tokens. ([Q12](#q12))
+- **Obfuscation** raises the bar but doesn't hide secrets. ([Q13](#q13))
+- **Root detection** is a signal, not a guarantee — it can be bypassed. ([Q14](#q14))
+- **Use App/Universal Links** (domain-verified) so deep links can't be hijacked. ([Q15](#q15))
 
-  UserRepository(this._db);
-
-  // ❌ VULNERABLE — Never do this:
-  Future<List<Map<String, dynamic>>> searchUsersUnsafe(String email) async {
-    // String interpolation = SQL injection risk!
-    return await _db.rawQuery(
-      "SELECT * FROM users WHERE email = '$email'",
-    );
-  }
-
-  // ✅ SAFE — Use parameterized queries (? placeholders):
-  Future<List<Map<String, dynamic>>> searchUsersSafe(String email) async {
-    // The ? placeholder is safely escaped by sqflite
-    return await _db.rawQuery(
-      'SELECT * FROM users WHERE email = ?',
-      [email], // ← Input is passed separately, never interpolated into SQL
-    );
-  }
-
-  // ✅ Even better — use sqflite's helper methods:
-  Future<List<Map<String, dynamic>>> getUserByEmail(String email) async {
-    return await _db.query(
-      'users',               // table
-      where: 'email = ?',    // parameterized where clause
-      whereArgs: [email],    // safely bound values
-    );
-  }
-
-  // ✅ INSERT with parameters:
-  Future<int> insertUser(String email, String name) async {
-    return await _db.insert(
-      'users',
-      {'email': email, 'name': name}, // Map form — auto-escaped
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  // ✅ UPDATE with parameters:
-  Future<int> updateUserName(int userId, String newName) async {
-    return await _db.update(
-      'users',
-      {'name': newName},
-      where: 'id = ?',
-      whereArgs: [userId],
-    );
-  }
-}
-```
-
-**Input validation as additional defense:**
-```dart
-class InputValidator {
-  // Validate before even hitting the database
-  static bool isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
-  }
-
-  static String sanitizeSearchQuery(String input) {
-    // Remove characters that have no place in search
-    return input.replaceAll(RegExp(r"[';\"\\]"), '').trim();
-  }
-
-  static bool isValidId(String id) {
-    // IDs should be numeric only
-    return RegExp(r'^\d+$').hasMatch(id);
-  }
-}
-```
-
-**Why injection risks exist beyond local SQLite:**
-```
-Mobile injection attack surfaces:
-┌──────────────────────────────────────────────────────────────┐
-│ LOCAL DB (sqflite/drift) → SQL injection via raw queries     │
-│ Remote API → Injection if backend doesn't parameterize       │
-│ Deep links → Parameter injection via crafted URLs            │
-│ File paths → Path traversal via "../../../etc/passwd"        │
-│ WebViews → JavaScript injection if evaluating user input     │
-└──────────────────────────────────────────────────────────────┘
-```
-
-**Why it matters:** OWASP M4 (Insufficient Input/Output Validation). Even if your backend is secure, a local database is an attack surface. This question tests whether you understand that parameterized queries aren't just a server-side concern.
-
-**Common mistake:** Saying "I just use an ORM so I'm safe." ORMs like `drift` are safe by default for standard queries, but if you ever drop down to raw SQL queries, you're back to manual parameterization. Blanket ORM safety is a false assumption.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is deep link hijacking and how do you secure deep links in Flutter?
+# Practice: how interviewers go deeper
 
-**A:** Deep link hijacking occurs when a malicious app on the same device registers the same URL scheme or domain association that your app uses, intercepting navigation that was intended for your app — potentially capturing auth codes, reset tokens, or sensitive parameters.
+Security interviews probe the threat behind the tool. Practice out loud:
 
-```
-DEEP LINK HIJACKING ATTACK:
+1. *"Where do you store the auth token?"* → secure storage (Keychain/Keystore), never SharedPreferences, with short token lifetimes.
+2. *"You're using HTTPS — is that enough?"* → no; a fake trusted cert defeats it. Add certificate pinning.
+3. *"Can you hide an API key in the app?"* → no; the binary can be read. Keep real secrets on the server.
+4. *"A JWT carries the user's role — safe to trust on the client?"* → verify server-side; the payload is readable and the client is untrusted.
+5. *"How do you secure your OAuth redirect on mobile?"* → Authorization Code + PKCE + App/Universal Links so an intercepted code is useless.
 
-Normal deep link flow:
-  User clicks: myapp://reset?token=abc123
-  OS routes → Your app opens → Handles token
+Naming the *threat* and then the *layered defense* — and stressing "don't trust the client" — is exactly the senior signal, in both remote and BD interviews.
 
-Hijacking:
-  Malicious app ALSO registers: myapp://reset
-  User clicks link → OS shows "Open with..." dialog
-                              ┌─────────────────┐
-                              │ Your App        │
-                              │ Malicious App ← │ User accidentally picks this
-                              └─────────────────┘
-  Malicious app captures: token=abc123 → account takeover!
-
-More dangerous scenario:
-  OAuth redirect: myapp://callback?code=AUTH_CODE
-  Malicious app registers same scheme → captures auth code
-  → exchanges it for tokens → full account access
-```
-
-**Types of deep links and their security:**
-```
-┌─────────────────┬──────────────────────────────────────────────┐
-│ Custom URI      │ myapp://path                                  │
-│ Scheme          │ LOW SECURITY — any app can register any       │
-│                 │ scheme. Easy to hijack.                       │
-├─────────────────┼──────────────────────────────────────────────┤
-│ App Links       │ https://yourapp.com/path                      │
-│ (Android) /     │ HIGH SECURITY — requires a                    │
-│ Universal Links │ .well-known/assetlinks.json (Android) or      │
-│ (iOS)           │ apple-app-site-association (iOS) file hosted  │
-│                 │ on YOUR domain. Malicious app cannot register │
-│                 │ your domain.                                  │
-└─────────────────┴──────────────────────────────────────────────┘
-```
-
-**Secure deep links with App Links (Android):**
-
-**Step 1: Host a verification file**
-```json
-// https://yourapp.com/.well-known/assetlinks.json
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.yourcompany.yourapp",
-    "sha256_cert_fingerprints": [
-      "AA:BB:CC:DD:..."  // Your app's signing certificate fingerprint
-    ]
-  }
-}]
-```
-
-**Step 2: Declare in AndroidManifest.xml**
-```xml
-<intent-filter android:autoVerify="true">
-  <action android:name="android.intent.action.VIEW" />
-  <category android:name="android.intent.category.DEFAULT" />
-  <category android:name="android.intent.category.BROWSABLE" />
-  <!-- Use HTTPS + your domain, not a custom scheme -->
-  <data android:scheme="https"
-        android:host="yourapp.com"
-        android:pathPrefix="/reset" />
-</intent-filter>
-```
-
-**Flutter implementation with `go_router` and `app_links`:**
-```dart
-import 'package:app_links/app_links.dart';
-import 'package:go_router/go_router.dart';
-
-class DeepLinkHandler {
-  final AppLinks _appLinks = AppLinks();
-
-  void initialize(BuildContext context) {
-    // Handle deep links when app is already running
-    _appLinks.uriLinkStream.listen((uri) {
-      _handleDeepLink(uri, context);
-    });
-  }
-
-  void _handleDeepLink(Uri uri, BuildContext context) {
-    // ALWAYS validate the incoming deep link:
-
-    // 1. Verify the host is what you expect
-    if (uri.host != 'yourapp.com') {
-      debugPrint('Rejected unexpected host: ${uri.host}');
-      return;
-    }
-
-    // 2. Only handle known paths
-    final allowedPaths = ['/reset', '/verify', '/callback'];
-    if (!allowedPaths.contains(uri.path)) {
-      debugPrint('Rejected unknown path: ${uri.path}');
-      return;
-    }
-
-    // 3. Validate parameters — don't trust deep link params blindly
-    switch (uri.path) {
-      case '/callback':
-        final code = uri.queryParameters['code'];
-        final state = uri.queryParameters['state'];
-        if (code == null || state == null) return;
-        // Verify 'state' matches what YOU generated (CSRF protection)
-        if (!_isValidOAuthState(state)) return;
-        _handleOAuthCallback(code, context);
-        break;
-
-      case '/reset':
-        final token = uri.queryParameters['token'];
-        if (token == null || token.length < 32) return; // Basic validation
-        context.go('/password-reset', extra: {'token': token});
-        break;
-    }
-  }
-
-  bool _isValidOAuthState(String state) {
-    // Retrieve the state you stored before initiating the OAuth flow
-    // Compare against stored state to prevent CSRF
-    final storedState = _getStoredOAuthState();
-    return state == storedState;
-  }
-}
-```
-
-**Why it matters:** Deep link hijacking is especially dangerous during OAuth flows — an intercepted auth code leads to complete account takeover. This tests whether you understand that secure deep linking requires verification at the OS level, not just application logic.
-
-**Common mistake:** Using custom URL schemes (`myapp://`) for OAuth redirects. This is explicitly unsafe — PKCE + App Links/Universal Links is the correct approach. Also, not validating the `state` parameter in OAuth callbacks, which opens the door to CSRF attacks via crafted deep links.
-
----
-
-**Q:** How do you handle biometric authentication in Flutter?
-
-**A:** Biometric authentication (Face ID, Touch ID, fingerprint) is handled in Flutter via the `local_auth` package, which uses the device's built-in biometric hardware and the OS-level secure enclave. Critically, Flutter never has access to the biometric data itself — it only receives a pass/fail result from the OS.
-
-```
-BIOMETRIC AUTH FLOW:
-┌─────────────────────────────────────────────────────────────────┐
-│                                                                 │
-│  Flutter App                                                    │
-│      │                                                          │
-│      │ 1. Request biometric auth                               │
-│      ▼                                                          │
-│  local_auth plugin                                              │
-│      │                                                          │
-│      │ 2. Platform channel call                                 │
-│      ▼                                                          │
-│  OS Biometric Framework                                         │
-│  (BiometricPrompt / LocalAuthentication)                        │
-│      │                                                          │
-│      │ 3. Secure hardware verification                          │
-│      ▼                                                          │
-│  Secure Enclave / TEE                                           │
-│  (Fingerprint/Face data never leaves this boundary)             │
-│      │                                                          │
-│      │ 4. Returns: success / failure / error                    │
-│      ▼                                                          │
-│  Flutter App receives boolean result only                       │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-**Full implementation:**
-```dart
-import 'package:local_auth/local_auth.dart';
-import 'package:local_auth/error_codes.dart' as auth_error;
-import 'package:flutter/services.dart';
-
-class BiometricAuthService {
-  static final _localAuth = LocalAuthentication();
-
-  /// Check if biometrics are available and enrolled
-  static Future<BiometricStatus> checkBiometricStatus() async {
-    try {
-      // Check if hardware is available
-      final isAvailable = await _localAuth.canCheckBiometrics;
-      final isDeviceSupported = await _localAuth.isDeviceSupported();
-
-      if (!isAvailable || !isDeviceSupported) {
-        return BiometricStatus.notAvailable;
-      }
-
-      // Check what biometrics are enrolled
-      final availableBiometrics = await _localAuth.getAvailableBiometrics();
-
-      if (availableBiometrics.isEmpty) {
-        return BiometricStatus.notEnrolled;
-      }
-
-      return BiometricStatus.available;
-    } catch (_) {
-      return BiometricStatus.notAvailable;
-    }
-  }
-
-  /// Perform biometric authentication
-  static Future<AuthResult> authenticate({
-    String reason = 'Authenticate to access your account',
-  }) async {
-    try {
-      final authenticated = await _localAuth.authenticate(
-        localizedReason: reason,
-        options: const AuthenticationOptions(
-          biometricOnly: false,   // false = allow PIN fallback if biometric fails
-          stickyAuth: true,       // Keep prompt open if user switches apps briefly
-          sensitiveTransaction: true, // Shows stronger messaging on Android
-          useErrorDialogs: true,  // Show built-in error dialogs
-        ),
-      );
-
-      return authenticated ? AuthResult.success : AuthResult.failed;
-    } on PlatformException catch (e) {
-      switch (e.code) {
-        case auth_error.notAvailable:
-          return AuthResult.notAvailable;
-        case auth_error.notEnrolled:
-          return AuthResult.notEnrolled;
-        case auth_error.lockedOut:
-          return AuthResult.lockedOut;
-        case auth_error.permanentlyLockedOut:
-          return AuthResult.permanentlyLockedOut;
-        case auth_error.passcodeNotSet:
-          return AuthResult.passcodeNotSet;
-        default:
-          return AuthResult.error;
-      }
-    }
-  }
-
-  /// Stop any ongoing authentication (e.g., on screen dismiss)
-  static Future<void> cancelAuthentication() async {
-    await _localAuth.stopAuthentication();
-  }
-}
-
-enum BiometricStatus { available, notAvailable, notEnrolled }
-
-enum AuthResult {
-  success,
-  failed,
-  notAvailable,
-  notEnrolled,
-  lockedOut,
-  permanentlyLockedOut,
-  passcodeNotSet,
-  error,
-}
-
-// Usage in a screen:
-Future<void> _handleBiometricLogin() async {
-  final status = await BiometricAuthService.checkBiometricStatus();
-
-  if (status != BiometricStatus.available) {
-    // Fall back to PIN/password login
-    _showPinLoginDialog();
-    return;
-  }
-
-  final result = await BiometricAuthService.authenticate(
-    reason: 'Login to MyApp',
-  );
-
-  switch (result) {
-    case AuthResult.success:
-      // Biometric verified — now retrieve stored token and log in
-      final token = await TokenStorage.getAccessToken();
-      await _loginWithToken(token!);
-      break;
-    case AuthResult.lockedOut:
-      _showMessage('Too many attempts. Try again in 30 seconds.');
-      break;
-    case AuthResult.permanentlyLockedOut:
-      _showMessage('Biometrics locked. Please use your PIN.');
-      _showPinLoginDialog();
-      break;
-    default:
-      _showMessage('Authentication failed. Please try again.');
-  }
-}
-```
-
-**Required platform setup:**
-
-```xml
-<!-- android/app/src/main/AndroidManifest.xml -->
-<uses-permission android:name="android.permission.USE_BIOMETRIC"/>
-<!-- Legacy (API < 28): -->
-<uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-```
-
-```xml
-<!-- ios/Runner/Info.plist -->
-<key>NSFaceIDUsageDescription</key>
-<string>Use Face ID to securely log in to MyApp</string>
-```
-
-**Security consideration:**
-```
-Biometrics as UX, not authentication:
-- Biometrics don't replace your auth token
-- They protect ACCESS to a stored token
-- Flow: Biometric success → retrieve token from Keychain → use token
-
-This is correct — the token is the credential, biometrics is the gate.
-```
-
-**Why it matters:** Biometric auth is a user expectation in modern apps. Interviewers check whether you understand that biometrics gate access to credentials (tokens), rather than replacing them — and whether you handle the full set of error states gracefully.
-
-**Common mistake:** Treating biometric success as the authentication itself, bypassing token-based auth. If someone disables biometrics on the OS level, they should NOT gain access. The token is the real credential; biometrics just protect access to it.
-
----
-
-**Q:** Why should you never hardcode API keys in Flutter? What are the secure alternatives?
-
-**A:** Hardcoded API keys in Flutter source code end up compiled into the application binary. Any determined attacker can extract them using tools like `strings`, decompilers, or by inspecting the compiled binary. This is true even with obfuscation — string values are often still readable.
-
-```
-HOW EASY IT IS TO EXTRACT HARDCODED KEYS:
-
-Your code:
-  const apiKey = 'sk-live-abc123secretproductionkey';
-
-In the compiled APK:
-  $ strings app.apk | grep 'sk-live'
-  sk-live-abc123secretproductionkey    ← Found in seconds
-
-Even with obfuscation:
-  $ grep -r "sk-live" /extracted_apk/
-  → Still findable because the string VALUE isn't obfuscated,
-    only the variable name is
-```
-
-**Option 1: `--dart-define` (Build-time injection)**
-```dart
-// In your code — value comes from build environment:
-const apiKey = String.fromEnvironment('API_KEY', defaultValue: '');
-
-// At build time:
-flutter build apk --dart-define=API_KEY=your_actual_key
-
-// In CI/CD (GitHub Actions example):
-// - run: flutter build apk --dart-define=API_KEY=${{ secrets.API_KEY }}
-
-// For local development — create a Makefile or script:
-// flutter run --dart-define=API_KEY=dev_key_here
-```
-
-**But `--dart-define` has a limitation:**
-```
-The value IS still in the binary — just not visible in source code.
-A determined attacker with binary analysis tools can still find it.
-
-Rule of thumb:
-  --dart-define is fine for:
-    ✅ Environment-specific config (staging vs prod endpoints)
-    ✅ Non-critical keys with limited blast radius
-    ✅ Keys where rate-limiting and monitoring exist
-
-  NOT sufficient for:
-    ❌ Payment processor keys (Stripe secret key)
-    ❌ Database credentials
-    ❌ Keys with no rate limiting or monitoring
-```
-
-**Option 2: Backend Proxy (Most Secure)**
-```
-ARCHITECTURE — Backend Proxy:
-
-┌──────────┐        ┌─────────────────┐        ┌──────────────┐
-│  Flutter │ ──────▶│  Your Backend   │ ──────▶│  Third-Party │
-│   App    │ HTTP   │  (API Proxy)    │ HTTP + │  API (OpenAI,│
-│          │ (auth  │                 │  Key   │  Stripe, etc)│
-│          │  token)│  Key never      │        │              │
-└──────────┘        │  leaves server  │        └──────────────┘
-                    └─────────────────┘
-
-Flutter app never sees the API key.
-Your backend authenticates the user's request first,
-then calls the third-party API on their behalf.
-```
-
-```dart
-// Flutter app calls YOUR backend (authenticated):
-class AiService {
-  final Dio _dio;
-
-  AiService(this._dio);
-
-  Future<String> generateText(String prompt) async {
-    // Call your own backend — NOT OpenAI directly
-    final response = await _dio.post(
-      '/api/ai/generate',      // Your backend endpoint
-      data: {'prompt': prompt},
-      // Auth token included via interceptor — user is authenticated
-    );
-    return response.data['text'];
-  }
-}
-
-// Your backend (Node.js/Python/etc) — key lives here:
-// app.post('/api/ai/generate', authenticate, async (req, res) => {
-//   const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY }); // Env var!
-//   const result = await openai.chat.completions.create({...});
-//   res.json({ text: result.choices[0].message.content });
-// });
-```
-
-**Option 3: Remote Config (for non-sensitive config)**
-```dart
-// Firebase Remote Config — useful for feature flags and non-sensitive config
-// NOT for secret API keys (they travel over the network and can be intercepted)
-import 'package:firebase_remote_config/firebase_remote_config.dart';
-
-final remoteConfig = FirebaseRemoteConfig.instance;
-await remoteConfig.fetchAndActivate();
-final featureEnabled = remoteConfig.getBool('new_feature_enabled');
-```
-
-**Decision tree:**
-```
-Is the key sensitive (payment, high-privilege)?
-  └─ YES → Backend proxy. No exceptions.
-  └─ NO → Is it acceptable if the key leaks?
-            └─ YES (rate-limited, low risk) → --dart-define is acceptable
-            └─ NO → Still use backend proxy
-```
-
-**Why it matters:** API key exposure is OWASP M1 (Improper Credential Usage). Interviewers ask this to separate developers who've thought about production security from those who haven't.
-
-**Common mistake:** Thinking `.env` files solve this. In Flutter, `.env` files still get bundled into the build unless you use them as input to `--dart-define`. They're NOT automatically excluded from the binary just because they're in a separate file.
-
----
-
-**Q:** What is the difference between encryption at rest and encryption in transit?
-
-**A:** These are two distinct attack surfaces that require separate encryption strategies. A complete security posture requires both.
-
-```
-ENCRYPTION IN TRANSIT vs AT REST:
-
-IN TRANSIT — Data moving over a network:
-┌──────────┐ ──── Internet ──── ┌──────────┐
-│  Device  │ ════ TLS/HTTPS ═══ │  Server  │
-│          │ (encrypted pipe)   │          │
-└──────────┘                    └──────────┘
-  Protects against: MITM attacks, network sniffing
-  Even if someone intercepts the packets, they see ciphertext
-
-AT REST — Data stored somewhere:
-┌──────────────────────────────────────────────────────────────┐
-│ Device Storage      │ Server Database   │ Backup / S3        │
-│ ─────────────       │ ───────────────   │ ─────────────      │
-│ Keychain (iOS)      │ Encrypted columns │ S3 SSE-S3          │
-│ Android Keystore    │ Full-disk encrypt │ AES-256 at rest    │
-│ SQLCipher (SQLite)  │ (RDS encryption)  │                    │
-│                     │                   │                    │
-│ Protects if device  │ Protects if       │ Protects if        │
-│ is stolen or        │ DB backup is      │ storage is         │
-│ accessed via ADB    │ stolen            │ compromised        │
-└──────────────────────────────────────────────────────────────┘
-
-BOTH are needed:
-  Only in transit → Data on stolen device is exposed
-  Only at rest   → Data is intercepted during transmission
-```
-
-**Flutter implementation — Encryption in Transit:**
-```dart
-// 1. Use HTTPS always (Dio + HTTPS base URL)
-final dio = Dio(BaseOptions(baseUrl: 'https://api.yourserver.com'));
-
-// 2. Certificate pinning (prevents MITM even on compromised networks)
-// (See certificate pinning question above)
-
-// 3. Block cleartext traffic (Android)
-// android/app/src/main/AndroidManifest.xml:
-// android:usesCleartextTraffic="false"
-// OR via Network Security Config
-```
-
-**Flutter implementation — Encryption at Rest:**
-```dart
-// 1. Tokens / credentials → Flutter Secure Storage (Keychain/Keystore)
-await FlutterSecureStorage().write(key: 'token', value: accessToken);
-
-// 2. Sensitive local database → SQLCipher (encrypted SQLite)
-// Use drift with SQLCipher:
-import 'package:drift/drift.dart';
-import 'package:drift_sqflite/drift_sqflite.dart';
-
-LazyDatabase _openDatabase() {
-  return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(path.join(dbFolder.path, 'app.db'));
-
-    return SqfliteQueryExecutor.inDatabaseFolder(
-      path: 'encrypted_app.db',
-      // Use sqlcipher_flutter_libs for encryption:
-      // encrypt: true,
-      // password: await _getDatabaseKey(), // From Keychain/Keystore
-    );
-  });
-}
-
-// 3. Files / documents → Encrypt before saving
-import 'package:encrypt/encrypt.dart';
-
-class FileEncryptionService {
-  static Future<void> saveEncryptedFile(
-    String filePath,
-    Uint8List data,
-  ) async {
-    // Retrieve key from secure storage
-    final keyStr = await FlutterSecureStorage().read(key: 'file_encryption_key');
-    final key = Key.fromBase64(keyStr!);
-    final iv = IV.fromSecureRandom(16);
-
-    final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
-    final encrypted = encrypter.encryptBytes(data, iv: iv);
-
-    // Save IV + encrypted data together
-    final fileContent = Uint8List.fromList([...iv.bytes, ...encrypted.bytes]);
-    await File(filePath).writeAsBytes(fileContent);
-  }
-}
-```
-
-**Summary table:**
-```
-┌──────────────────┬────────────────────────────────┬─────────────────────────┐
-│                  │ Encryption In Transit           │ Encryption At Rest      │
-├──────────────────┼────────────────────────────────┼─────────────────────────┤
-│ Protects from    │ Network eavesdropping, MITM     │ Device theft, data      │
-│                  │                                 │ breach, ADB access      │
-├──────────────────┼────────────────────────────────┼─────────────────────────┤
-│ Technology       │ TLS 1.2/1.3, HTTPS             │ AES-256, Keychain,      │
-│                  │ Certificate pinning             │ Keystore, SQLCipher     │
-├──────────────────┼────────────────────────────────┼─────────────────────────┤
-│ Flutter tools    │ Dio + HTTPS, pinning,           │ flutter_secure_storage, │
-│                  │ ATS/Network Security Config     │ SQLCipher, encrypt pkg  │
-├──────────────────┼────────────────────────────────┼─────────────────────────┤
-│ When it matters  │ Data being sent/received        │ Data sitting on device  │
-│                  │                                 │ or server storage       │
-└──────────────────┴────────────────────────────────┴─────────────────────────┘
-```
-
-**Why it matters:** This is a foundational security concept. Interviewers use it to check whether you think about security holistically across the full data lifecycle — not just "we use HTTPS" but also what happens to data once it arrives and is stored.
-
-**Common mistake:** Only addressing transit encryption and assuming "that's enough." A company that uses HTTPS but stores all tokens in plaintext SharedPreferences has solved half the problem and left the other half wide open. Defense-in-depth means securing data everywhere it lives.
-
----
-
-*End of Section 20: Mobile & App Security*
-
----
-
-> **Study tip:** For every security topic in this section, be prepared to explain the *threat model* (what attack does this defend against?), the *Flutter-specific implementation*, and the *limitations* of each defense. Interviewers at senior level don't just want to know what you do — they want to know why, and what its failure modes are.
+[↑ Back to top](#toc)

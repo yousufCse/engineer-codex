@@ -1,2094 +1,931 @@
-# Section 14: Design Patterns (Gang of Four)
+# Section 14 — Design Patterns (Gang of Four)
 
-> **Flutter Senior Engineer Interview Prep**
-> All examples in Dart · Real-world Flutter usage · GoF patterns applied to modern mobile development
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually. All examples in Dart with a real Flutter use case.
 
 ---
+
+## How to use this section
+
+Each pattern has the same shape:
+
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — the problem it solves, how it works (with Dart code), and a real Flutter use case.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected patterns · **Back to top** — return to the index.
+
+Each pattern is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
+
+> **Interview tip:** For each pattern, say the *problem it solves* first, then a one-line real example. Naming a pattern is easy; explaining *when* to use it is the senior signal.
+
+---
+
+<a id="toc"></a>
 
 ## Table of Contents
 
-### Creational Patterns
-1. [Singleton](#1-singleton)
-2. [Factory Method](#2-factory-method)
-3. [Abstract Factory](#3-abstract-factory)
-4. [Builder](#4-builder)
+**A. Creational patterns** (how objects are made)
+1. [Singleton](#q1) · *Very common*
+2. [Factory Method](#q2) · *Very common*
+3. [Abstract Factory](#q3) · *Common*
+4. [Builder](#q4) · *Common*
 
-### Structural Patterns
-5. [Adapter](#5-adapter)
-6. [Decorator](#6-decorator)
-7. [Facade](#7-facade)
-8. [Proxy](#8-proxy)
-9. [Composite](#9-composite)
+**B. Structural patterns** (how objects are composed)
+5. [Adapter](#q5) · *Common*
+6. [Decorator](#q6) · *Common*
+7. [Facade](#q7) · *Common*
+8. [Proxy](#q8) · *Deeper*
+9. [Composite](#q9) · *Common*
 
-### Behavioral Patterns
-10. [Observer](#10-observer)
-11. [Strategy](#11-strategy)
-12. [Command](#12-command)
-13. [State Pattern](#13-state-pattern)
-14. [Template Method](#14-template-method)
-15. [Iterator](#15-iterator)
+**C. Behavioral patterns** (how objects talk and behave)
+10. [Observer](#q10) · *Very common*
+11. [Strategy](#q11) · *Very common*
+12. [Command](#q12) · *Common*
+13. [State](#q13) · *Common*
+14. [Template Method](#q14) · *Common*
+15. [Iterator](#q15) · *Common*
 
----
-
-## CREATIONAL PATTERNS
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
 
 ---
 
-### 1. Singleton
+<a id="study-plan"></a>
+
+## How to prepare gradually (study plan)
+
+Follow these stages. Tick a stage off only when you can give the **short answer** and a real Flutter example, without looking.
+
+**Stage 1 — The must-knows (start here).** Asked most often.
+→ [Q1 Singleton](#q1) · [Q2 Factory Method](#q2) · [Q10 Observer](#q10) · [Q11 Strategy](#q11)
+
+**Stage 2 — The other creational & structural.**
+→ [Q4 Builder](#q4) · [Q5 Adapter](#q5) · [Q6 Decorator](#q6) · [Q7 Facade](#q7)
+
+**Stage 3 — The rest of behavioral.**
+→ [Q12 Command](#q12) · [Q13 State](#q13) · [Q14 Template Method](#q14) · [Q15 Iterator](#q15)
+
+**Stage 4 — The deeper ones.**
+→ [Q3 Abstract Factory](#q3) · [Q8 Proxy](#q8) · [Q9 Composite](#q9)
+
+**Short on time (1 hour before the interview)?** Review these six:
+[Q1](#q1) · [Q2](#q2) · [Q6](#q6) · [Q10](#q10) · [Q11](#q11) · [Q13](#q13), then read the [Cheat Sheet](#cheatsheet).
 
 ---
 
-**Q:** What is the Singleton pattern, how do you implement it in Dart, and what is the thread-safety concern? Give a real Flutter example.
+# A. Creational patterns
 
-**A:** Singleton ensures that **only one instance of a class ever exists** across the entire app lifetime. Every caller gets the same object. It's useful when you need a single, shared point of access — like a service locator, a config store, or a database connection.
+---
 
-In Dart, the standard implementation uses a **factory constructor** that always returns the same private instance:
+<a id="q1"></a>
+## 1. Singleton
+
+> Very common · Easy–Medium
+
+**Short answer (say this):**
+"Singleton makes sure a class has only one instance for the whole app, and gives a single point of access to it. In Dart you use a factory constructor that always returns the same private instance. It's good for shared services like a config store or a service locator."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+Some things should exist only once — one app config, one database connection, one logger. Singleton guarantees that, and lets any code reach the same instance.
+
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Basic Singleton in Dart
 class AppConfig {
-  // 1. Private static instance — lives at the class level
-  static final AppConfig _instance = AppConfig._internal();
+  static final AppConfig _instance = AppConfig._internal(); // the one instance
+  AppConfig._internal();                  // private constructor
+  factory AppConfig() => _instance;       // always returns the same one
 
-  // 2. Private named constructor — prevents external instantiation
-  AppConfig._internal();
-
-  // 3. Factory constructor — always returns the same instance
-  factory AppConfig() => _instance;
-
-  // Actual fields / methods
-  String apiBaseUrl = 'https://api.example.com';
-  bool isDarkMode = false;
+  String baseUrl = 'https://api.example.com';
 }
 
 void main() {
-  final a = AppConfig();
-  final b = AppConfig();
-  print(identical(a, b)); // true — same instance
+  print(identical(AppConfig(), AppConfig())); // true — same object
 }
 ```
 
-**Thread-safety concern:**
+**Step 3 — Real Flutter use case.**
+`GetIt` (service locator) is itself a singleton, and `SharedPreferences.getInstance()` returns one shared instance. You also see it for an app-wide logger or analytics service.
 
-Dart is **single-threaded within an isolate**. The event loop processes one task at a time, so there is no classic race condition when creating the singleton — `static final` fields are initialized lazily and safely.
+**A caution on Dart isolates:** a singleton is one-per-isolate. If you spawn another isolate, it gets its own instance (no shared memory).
 
-However, if you spawn **multiple Isolates**, each gets its own memory heap and its own singleton instance. There is no shared memory between isolates, so a singleton is not truly global across isolates. Communicate between isolates via `SendPort`/`ReceivePort` instead.
+**Why interviewers ask:** It's the most famous pattern and a quick test of Dart's factory constructor.
 
-```
-Single Isolate (safe):
-┌──────────────────────────────────┐
-│  Event Loop (single-threaded)    │
-│  ┌──────────┐                    │
-│  │ Singleton│ ← all callers      │
-│  │ instance │   get this one     │
-│  └──────────┘                    │
-└──────────────────────────────────┘
+**Common mistake:** Overusing singletons for everything (global state), which makes code hard to test and creates hidden dependencies. Prefer injecting dependencies ([DI](#q2)).
 
-Multiple Isolates (not shared):
-┌────────────┐    ┌────────────┐
-│ Isolate A  │    │ Isolate B  │
-│ Singleton1 │    │ Singleton2 │  ← DIFFERENT objects!
-└────────────┘    └────────────┘
-```
+**Follow-ups they may ask:**
+- *"Is it thread-safe in Dart?"* → Within one isolate, yes — Dart is single-threaded, so `static final` init is safe. Across isolates, each has its own copy.
+- *"Why is a global singleton bad for testing?"* → It's hard to replace with a fake; injected dependencies are easier to mock.
 
-**Flutter Real-World Example — GetIt Service Locator:**
+**Related:** [Q2 — Factory Method](#q2) · [Q7 — Facade](#q7)
 
-`GetIt` is the most popular service locator in Flutter. It is itself a singleton that registers and resolves other singletons (and factories).
+[↑ Back to top](#toc)
+
+---
+
+<a id="q2"></a>
+## 2. Factory Method
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Factory Method gives a method that decides which object to create and returns it, so the caller doesn't use a constructor directly. It lets you return different subtypes based on input, without the caller knowing the concrete class. In Dart, `factory` constructors and `fromJson` are everyday examples."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+Sometimes the exact class to create depends on input or conditions. You don't want callers writing `if/else` to pick a class — you hide that decision behind one method.
+
+**Step 2 — How it works in Dart.**
 
 ```dart
-// pubspec.yaml: get_it: ^7.6.0
-import 'package:get_it/get_it.dart';
-
-final GetIt sl = GetIt.instance; // The one global GetIt singleton
-
-// setup.dart — run once at app startup
-void setupLocator() {
-  // Register ApiService as a lazy singleton
-  // (created only when first requested)
-  sl.registerLazySingleton<ApiService>(() => ApiService());
-
-  // Register AuthRepository as a singleton
-  sl.registerSingleton<AuthRepository>(AuthRepository(sl<ApiService>()));
+abstract class Button {
+  void render();
+}
+class AndroidButton extends Button {
+  @override void render() => print('Material button');
+}
+class IosButton extends Button {
+  @override void render() => print('Cupertino button');
 }
 
-// Usage anywhere in the app — no BuildContext needed
-class LoginCubit extends Cubit<LoginState> {
-  final AuthRepository _auth = sl<AuthRepository>(); // same instance every time
-  LoginCubit() : super(LoginInitial());
+class ButtonFactory {
+  static Button create(String platform) {
+    return platform == 'ios' ? IosButton() : AndroidButton(); // decision hidden
+  }
 }
 
-// main.dart
-void main() {
-  setupLocator();
-  runApp(const MyApp());
-}
+ButtonFactory.create('ios').render(); // caller doesn't know the concrete class
 ```
 
-**When to USE it:**
-- Service locators / dependency injection containers
-- App-wide configuration or settings
-- Database or network client wrappers that are expensive to create
-- Logger instances
+**Step 3 — Real Flutter use case.**
+`User.fromJson(...)` is a factory method — it decides how to build the object from data and could return a subtype. Returning platform-specific widgets (Material vs Cupertino) is another.
 
-**When NOT to use it:**
-- As a replacement for proper state management (it becomes global mutable state)
-- When you need separate instances per test — singletons make unit testing painful unless you reset them
-- When multiple isolates genuinely need independent state
+**Why interviewers ask:** It's everywhere in Dart (`factory`, `fromJson`) and tests whether you can hide object creation.
 
-**Why it matters:** The interviewer is checking whether you understand memory models, Dart's concurrency model (isolates vs threads), and that you know the pitfalls of global state in large apps.
+**Common mistake:** Confusing it with Abstract Factory. Factory Method makes *one* product; Abstract Factory makes *families* of related products ([Q3](#q3)).
 
-**Common mistake:** Candidates say "Dart is thread-safe so singleton is always fine." That ignores isolates entirely. Also, many confuse `registerLazySingleton` with `registerFactory` in GetIt — one creates one instance, the other creates a new one each time.
+**Follow-ups they may ask:**
+- *"Factory method vs constructor?"* → A constructor always makes that class; a factory method can return a subtype, a cached object, or decide at runtime.
+
+**Related:** [Q3 — Abstract Factory](#q3) · [Q1 — Singleton](#q1) · [Q4 — Builder](#q4)
+
+[↑ Back to top](#toc)
 
 ---
 
-### 2. Factory Method
+<a id="q3"></a>
+## 3. Abstract Factory
 
----
+> Common · Medium–Hard
 
-**Q:** What is the Factory Method pattern and when would you use it in a Dart/Flutter codebase?
+**Short answer (say this):**
+"Abstract Factory creates whole *families* of related objects that are meant to be used together, without naming their concrete classes. A classic example is a UI kit: a light-theme factory makes light buttons and light text fields, while a dark-theme factory makes the dark versions — and they always match."
 
-**A:** Factory Method defines an **interface for creating an object, but lets subclasses decide which class to instantiate**. The creator class delegates the "which type to create" decision to its subclasses. This decouples client code from concrete implementations.
+**Let's understand it fully:**
 
-Think of it this way: the parent class says *"I need a Logger — go make me one"* but doesn't care if it's a `FileLogger` or `ConsoleLogger`. The subclass makes that decision.
+**Step 1 — The problem it solves.**
+When you have several related products that must match (all light-themed, or all iOS-styled), you don't want to pick each one separately and risk mixing them. One factory produces a matching set.
 
-```
-Creator (abstract)
-    │
-    ├── factoryMethod() → Product   ← abstract method
-    │
-    ├── ConcreteCreatorA
-    │       └── factoryMethod() → ConcreteProductA
-    │
-    └── ConcreteCreatorB
-            └── factoryMethod() → ConcreteProductB
-```
-
-**Example:**
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Abstract product
-abstract class Logger {
-  void log(String message);
+abstract class Button {}
+abstract class Checkbox {}
+
+abstract class UIFactory {            // the abstract factory
+  Button createButton();
+  Checkbox createCheckbox();
 }
 
-// Concrete products
-class ConsoleLogger implements Logger {
-  @override
-  void log(String message) => print('[CONSOLE] $message');
+class LightFactory implements UIFactory {
+  @override Button createButton() => LightButton();
+  @override Checkbox createCheckbox() => LightCheckbox();
+}
+class DarkFactory implements UIFactory {
+  @override Button createButton() => DarkButton();
+  @override Checkbox createCheckbox() => DarkCheckbox();
 }
 
-class FileLogger implements Logger {
-  @override
-  void log(String message) => print('[FILE] Writing: $message');
-}
+class LightButton implements Button {}
+class LightCheckbox implements Checkbox {}
+class DarkButton implements Button {}
+class DarkCheckbox implements Checkbox {}
 
-class RemoteLogger implements Logger {
-  @override
-  void log(String message) => print('[REMOTE] Sending: $message');
-}
-
-// Abstract creator with the factory method
-abstract class LoggerFactory {
-  // This IS the factory method
-  Logger createLogger();
-
-  // The creator uses its own factory method internally
-  void logEvent(String event) {
-    final logger = createLogger(); // delegates creation to subclass
-    logger.log(event);
-  }
-}
-
-// Concrete creators
-class DebugLoggerFactory extends LoggerFactory {
-  @override
-  Logger createLogger() => ConsoleLogger();
-}
-
-class ProductionLoggerFactory extends LoggerFactory {
-  @override
-  Logger createLogger() => RemoteLogger();
-}
-
-void main() {
-  // Swap this one line to change the entire logging strategy
-  final LoggerFactory factory = const bool.fromEnvironment('dart.vm.product')
-      ? ProductionLoggerFactory()
-      : DebugLoggerFactory();
-
-  factory.logEvent('App started');
+void buildUI(UIFactory factory) {
+  factory.createButton();   // always matches...
+  factory.createCheckbox(); // ...the same theme
 }
 ```
 
-**Flutter Real-World Usage — `PageRoute` factories:**
+**Step 3 — Real Flutter use case.**
+Theming systems and adaptive UI kits: one factory per theme/platform produces a coordinated set of widgets, so you never mix a light button with a dark checkbox.
+
+**Why interviewers ask:** It tests the difference between making one object (Factory Method) and a coordinated family (Abstract Factory).
+
+**Common mistake:** Using it when a simple Factory Method would do. Abstract Factory is for *families* of products; don't add the complexity for a single product.
+
+**Follow-ups they may ask:**
+- *"Factory Method vs Abstract Factory?"* → Factory Method = one product via a method; Abstract Factory = a set of related products via an object with several methods.
+
+**Related:** [Q2 — Factory Method](#q2) · [Q4 — Builder](#q4)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q4"></a>
+## 4. Builder
+
+> Common · Medium
+
+**Short answer (say this):**
+"Builder constructs a complex object step by step, instead of one huge constructor with many parameters. You set the parts you want, then call build. It's great when an object has many optional fields. Dart's cascade operator and named parameters often replace the classic Builder."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+A constructor with 10 parameters (many optional) is hard to read and error-prone. Builder lets you set only the parts you need, in a readable way, then produce the final object.
+
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Flutter's Navigator uses factory method internally.
-// You define WHICH route to create, Flutter calls the factory.
-MaterialPageRoute(builder: (context) => const HomeScreen())
-CupertinoPageRoute(builder: (context) => const HomeScreen())
-
-// You can create your own:
-abstract class AppRoute {
-  Route<dynamic> createRoute(RouteSettings settings);
+class Pizza {
+  final String size;
+  final List<String> toppings;
+  Pizza(this.size, this.toppings);
 }
 
-class FadeRoute extends AppRoute {
-  @override
-  Route<dynamic> createRoute(RouteSettings settings) {
-    return PageRouteBuilder(
-      settings: settings,
-      pageBuilder: (_, __, ___) => settings.arguments as Widget,
-      transitionsBuilder: (_, animation, __, child) =>
-          FadeTransition(opacity: animation, child: child),
-    );
-  }
-}
-```
+class PizzaBuilder {
+  String _size = 'medium';
+  final List<String> _toppings = [];
 
-**When to USE it:**
-- When the exact type of object to create isn't known until runtime
-- When you want subclasses to control what gets created
-- When you need to swap implementations without changing client code (debug vs prod, platform-specific)
-
-**When NOT to use it:**
-- When there's only one possible product type — overkill
-- When a simple `if/switch` or constructor call solves the problem cleanly
-
-**Why it matters:** Tests whether you understand the open/closed principle — open for extension (add a new factory subclass), closed for modification (existing client code doesn't change).
-
-**Common mistake:** Confusing Factory Method (class-based, uses inheritance) with the simpler "static factory" pattern (just a static method that returns an instance). They are different patterns.
-
----
-
-### 3. Abstract Factory
-
----
-
-**Q:** What is the Abstract Factory pattern and how does it differ from Factory Method?
-
-**A:** Abstract Factory provides an **interface for creating families of related objects** without specifying their concrete classes. Where Factory Method creates *one* product via subclassing, Abstract Factory creates *multiple related products* through *composition* — you hand a factory object to clients, and the factory knows how to create a coordinated set of things.
-
-```
-                    AbstractFactory (interface)
-                   /                           \
-        LightThemeFactory               DarkThemeFactory
-        ├── createButton() → LightBtn   ├── createButton() → DarkBtn
-        └── createCard()   → LightCard  └── createCard()   → DarkCard
-```
-
-The key difference:
-
-| | Factory Method | Abstract Factory |
-|---|---|---|
-| Mechanism | Inheritance (subclass overrides) | Composition (inject a factory object) |
-| Creates | ONE product type | A FAMILY of related products |
-| Extensibility | Add new creator subclass | Add new factory class |
-
-**Example — UI Theme Factory:**
-
-```dart
-// Abstract products
-abstract class AppButton {
-  Widget build(String label, VoidCallback onTap);
+  PizzaBuilder setSize(String s) { _size = s; return this; }  // returns this → chainable
+  PizzaBuilder addTopping(String t) { _toppings.add(t); return this; }
+  Pizza build() => Pizza(_size, _toppings);
 }
 
-abstract class AppCard {
-  Widget build(Widget child);
-}
-
-// Concrete products — Light theme
-class LightButton implements AppButton {
-  @override
-  Widget build(String label, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-      onPressed: onTap,
-      child: Text(label, style: const TextStyle(color: Colors.black)),
-    );
-  }
-}
-
-class LightCard implements AppCard {
-  @override
-  Widget build(Widget child) {
-    return Card(color: Colors.white, elevation: 2, child: child);
-  }
-}
-
-// Concrete products — Dark theme
-class DarkButton implements AppButton {
-  @override
-  Widget build(String label, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[900]),
-      onPressed: onTap,
-      child: Text(label, style: const TextStyle(color: Colors.white)),
-    );
-  }
-}
-
-class DarkCard implements AppCard {
-  @override
-  Widget build(Widget child) {
-    return Card(color: Colors.grey[850], elevation: 4, child: child);
-  }
-}
-
-// Abstract Factory interface
-abstract class UIFactory {
-  AppButton createButton();
-  AppCard createCard();
-}
-
-// Concrete factories
-class LightUIFactory implements UIFactory {
-  @override AppButton createButton() => LightButton();
-  @override AppCard createCard() => LightCard();
-}
-
-class DarkUIFactory implements UIFactory {
-  @override AppButton createButton() => DarkButton();
-  @override AppCard createCard() => DarkCard();
-}
-
-// Client — only knows UIFactory, not the concrete classes
-class ProductScreen extends StatelessWidget {
-  final UIFactory factory;
-  const ProductScreen({required this.factory, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return factory.createCard().build(
-      factory.createButton().build('Buy Now', () {}),
-    );
-  }
-}
-
-// At app root — swap one line to change the whole family
-final UIFactory uiFactory = isDarkMode ? DarkUIFactory() : LightUIFactory();
-```
-
-**When to USE it:**
-- When you need to ensure a set of products work together (a "family")
-- Cross-platform UI (Material vs Cupertino widgets)
-- Theme systems where multiple components must be coordinated
-
-**When NOT to use it:**
-- When products don't have meaningful relationships to each other
-- When you only have one product type (use Factory Method instead)
-- When the number of product families is small and unlikely to grow
-
-**Why it matters:** Tests understanding of abstraction boundaries and the difference between creating objects via inheritance vs via injected factory objects. Common in platform-abstraction layers.
-
-**Common mistake:** Candidates describe Abstract Factory as "just a factory with more methods." The key insight is the *family* guarantee — all products from one factory are designed to work together.
-
----
-
-### 4. Builder
-
----
-
-**Q:** What is the Builder pattern and where does it appear in Flutter?
-
-**A:** Builder separates the **construction of a complex object from its representation**. Instead of a constructor with 15 parameters (some optional, some interdependent), you use a builder object that lets you set properties step by step and then call `build()` to get the final object.
-
-```
-Director
-   │
-   └── uses ──► Builder (interface)
-                    │
-                    ├── setPartA()
-                    ├── setPartB()
-                    ├── setPartC()
-                    └── build() → Product
-```
-
-**Example — HTTP Request Builder:**
-
-```dart
-class HttpRequest {
-  final String url;
-  final String method;
-  final Map<String, String> headers;
-  final String? body;
-  final Duration timeout;
-
-  const HttpRequest._({
-    required this.url,
-    required this.method,
-    required this.headers,
-    this.body,
-    required this.timeout,
-  });
-}
-
-class HttpRequestBuilder {
-  String? _url;
-  String _method = 'GET';
-  final Map<String, String> _headers = {};
-  String? _body;
-  Duration _timeout = const Duration(seconds: 30);
-
-  HttpRequestBuilder url(String url) {
-    _url = url;
-    return this; // returns self for chaining
-  }
-
-  HttpRequestBuilder method(String method) {
-    _method = method;
-    return this;
-  }
-
-  HttpRequestBuilder header(String key, String value) {
-    _headers[key] = value;
-    return this;
-  }
-
-  HttpRequestBuilder body(String body) {
-    _body = body;
-    return this;
-  }
-
-  HttpRequestBuilder timeout(Duration timeout) {
-    _timeout = timeout;
-    return this;
-  }
-
-  HttpRequest build() {
-    assert(_url != null, 'URL must be set before building');
-    return HttpRequest._(
-      url: _url!,
-      method: _method,
-      headers: Map.unmodifiable(_headers),
-      body: _body,
-      timeout: _timeout,
-    );
-  }
-}
-
-// Usage — reads like a sentence, impossible to get parameter order wrong
-final request = HttpRequestBuilder()
-    .url('https://api.example.com/users')
-    .method('POST')
-    .header('Authorization', 'Bearer token123')
-    .header('Content-Type', 'application/json')
-    .body('{"name": "Alice"}')
-    .timeout(const Duration(seconds: 10))
+final pizza = PizzaBuilder()
+    .setSize('large')
+    .addTopping('cheese')
+    .addTopping('mushroom')
     .build();
 ```
 
-**Flutter Real-World — `ThemeData.copyWith`:**
+**Step 3 — Real Flutter use case.**
+Flutter's named parameters already give a builder-like experience (`Container(padding: ..., color: ...)`). The cascade `..` also builds objects step by step (`Paint()..color = ...`). Classic builders appear in query builders and notification builders.
 
-`ThemeData` is immutable and has 50+ fields. `copyWith` is the Builder pattern applied to immutable objects — create a modified copy without touching unrelated fields:
+**Why interviewers ask:** It tests how you handle objects with many optional parts, and whether you know Dart's idiomatic alternatives.
 
-```dart
-// Without Builder — fragile, must remember all parameters
-final theme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: Colors.blue,
-  // ... 50 more fields you must repeat
-);
+**Common mistake:** Writing a verbose Builder class when Dart's named/optional parameters or cascades already solve it more simply.
 
-// With copyWith (Builder variant on immutable objects)
-final darkTheme = Theme.of(context).copyWith(
-  brightness: Brightness.dark,
-  primaryColor: Colors.indigo,
-  // Only specify what changes — everything else stays the same
-);
-```
+**Follow-ups they may ask:**
+- *"How does Dart replace Builder?"* → Named parameters for optional config, and cascades (`..`) for step-by-step setup.
 
-**Flutter Real-World — Dio `BaseOptions`:**
+**Related:** [Q2 — Factory Method](#q2) · [Q3 — Abstract Factory](#q3)
 
-```dart
-final dio = Dio(
-  BaseOptions(
-    baseUrl: 'https://api.example.com',
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 10),
-    headers: {'Authorization': 'Bearer $token'},
-  ),
-);
-```
-
-**When to USE it:**
-- Objects with many optional or interdependent fields
-- When construction logic needs to be reusable and testable in isolation
-- Immutable objects that need many variants (use `copyWith`)
-
-**When NOT to use it:**
-- Simple objects with 2–3 fields — just use a constructor
-- When all fields are always required — Builder adds no value over a normal constructor
-
-**Why it matters:** Tests awareness of API design and immutability. Interviewers want to see you recognize that Flutter itself uses this pattern heavily.
-
-**Common mistake:** Thinking `copyWith` is not Builder. It absolutely is — it's Builder applied to immutable value objects.
+[↑ Back to top](#toc)
 
 ---
 
-## STRUCTURAL PATTERNS
+# B. Structural patterns
 
 ---
 
-### 5. Adapter
+<a id="q5"></a>
+## 5. Adapter
 
----
+> Common · Medium
 
-**Q:** What is the Adapter pattern, when would you use it, and can you show a Dart example?
+**Short answer (say this):**
+"Adapter lets two incompatible interfaces work together by wrapping one so it looks like the other. It's like a travel plug adapter. You use it to fit a third-party library or legacy class into the interface your app expects, without changing either side."
 
-**A:** Adapter is a **structural bridge between two incompatible interfaces**. It wraps an existing class (the Adaptee) and exposes a different interface that the client expects — without modifying the original class.
+**Let's understand it fully:**
 
-Think of it like a power plug adapter: your laptop expects a round socket, the wall has a flat socket, the adapter converts one to the other.
+**Step 1 — The problem it solves.**
+Your app expects a certain interface, but a library gives a different one. Instead of rewriting your code or the library, you put an adapter in between that translates.
 
-```
-Client ──► Target Interface
-                │
-           Adapter (wraps)
-                │
-           Adaptee (existing, incompatible class)
-```
-
-**Example — Adapting a legacy payment SDK:**
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Your app's expected interface (Target)
-abstract class PaymentGateway {
-  Future<bool> charge({required String userId, required double amount});
-  Future<bool> refund({required String transactionId});
+// What your app expects:
+abstract class PaymentProcessor {
+  void pay(double amount);
 }
 
-// A third-party SDK you have no control over (Adaptee)
-class StripeSDK {
-  Future<Map<String, dynamic>> createCharge(
-      String customerId, int amountInCents, String currency) async {
-    // Stripe-specific implementation
-    return {'id': 'ch_123', 'status': 'succeeded'};
-  }
-
-  Future<void> issueRefund(String chargeId) async {
-    // Stripe refund logic
-  }
+// A third-party class with a different method name:
+class StripeApi {
+  void makePayment(int cents) => print('Stripe charged $cents cents');
 }
 
-// Adapter — wraps StripeSDK, exposes PaymentGateway interface
-class StripeAdapter implements PaymentGateway {
-  final StripeSDK _stripe;
-  StripeAdapter(this._stripe);
-
+// The adapter translates between them:
+class StripeAdapter implements PaymentProcessor {
+  final StripeApi stripe;
+  StripeAdapter(this.stripe);
   @override
-  Future<bool> charge({required String userId, required double amount}) async {
-    final result = await _stripe.createCharge(
-      userId,
-      (amount * 100).toInt(), // dollars → cents
-      'usd',
-    );
-    return result['status'] == 'succeeded';
-  }
-
-  @override
-  Future<bool> refund({required String transactionId}) async {
-    try {
-      await _stripe.issueRefund(transactionId);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
+  void pay(double amount) => stripe.makePayment((amount * 100).round());
 }
 
-// Client code — only knows PaymentGateway, not Stripe
-class CheckoutService {
-  final PaymentGateway _gateway;
-  CheckoutService(this._gateway);
-
-  Future<void> processOrder(String userId, double total) async {
-    final success = await _gateway.charge(userId: userId, amount: total);
-    if (!success) throw Exception('Payment failed');
-  }
-}
-
-// Wiring
-void main() {
-  final gateway = StripeAdapter(StripeSDK());
-  // Swap to PayPalAdapter() tomorrow — CheckoutService doesn't change
-  final service = CheckoutService(gateway);
-}
+void checkout(PaymentProcessor p) => p.pay(9.99); // app code stays clean
+checkout(StripeAdapter(StripeApi()));
 ```
 
-**Flutter Real-World Usage:**
-- Wrapping `SharedPreferences` or `Hive` behind a `LocalStorage` interface
-- Adapting Firebase Auth to your own `AuthService` interface
-- Wrapping platform channels behind a clean Dart API
+**Step 3 — Real Flutter use case.**
+Wrapping a third-party SDK (payments, analytics, a database) behind your own interface, so you can swap providers later without touching app code. This is also how you keep the Data layer's external types out of your Domain.
 
-**When to USE it:**
-- When integrating a third-party library whose interface doesn't match yours
-- When you want to swap providers without modifying client code
-- When migrating from one library to another incrementally
+**Why interviewers ask:** It's the practical pattern for integrating external code cleanly and keeping your app decoupled from vendors.
 
-**When NOT to use it:**
-- When you control both sides — just design the interface correctly from the start
-- When the API differences are so large that the adapter becomes a full rewrite — consider a Facade instead
+**Common mistake:** Confusing Adapter with Facade. Adapter *changes* an interface to match what you need; Facade *simplifies* a complex set of classes ([Q7](#q7)).
 
-**Why it matters:** Tests understanding of dependency inversion and interface segregation — key for making codebases testable and swappable.
+**Follow-ups they may ask:**
+- *"How does this help if you switch vendors?"* → Only the adapter changes; the rest of the app, which depends on your interface, stays the same.
 
-**Common mistake:** Confusing Adapter with Facade. Adapter converts an existing interface to a *different* one. Facade creates a *simplified* interface over something complex. The intent is different.
+**Related:** [Q7 — Facade](#q7) · [Q6 — Decorator](#q6)
+
+[↑ Back to top](#toc)
 
 ---
 
-### 6. Decorator
+<a id="q6"></a>
+## 6. Decorator
 
----
+> Common · Medium
 
-**Q:** What is the Decorator pattern and how does Flutter use it?
+**Short answer (say this):**
+"Decorator adds behaviour to an object by wrapping it in another object with the same interface, instead of subclassing. Think of adding toppings to a coffee. Flutter is built on this idea — you wrap a widget in Padding, then Center, then a GestureDetector, each adding a feature."
 
-**A:** Decorator **attaches additional responsibilities to an object dynamically** by wrapping it in another object with the same interface. You stack decorators like Russian dolls — each adds behavior while delegating the core work to the object inside.
+**Let's understand it fully:**
 
-It's an alternative to subclassing for extending behavior. Instead of `TextFieldWithBorder extends TextField`, you wrap the TextField in a Container that adds a border.
+**Step 1 — The problem it solves.**
+You want to add features to objects flexibly, in different combinations, without creating a subclass for every combination. Wrapping lets you stack features.
 
-```
-Component (interface)
-    │
-ConcreteComponent          ← real object
-    │
-DecoratorA (wraps Component, adds behavior A)
-    │
-DecoratorB (wraps DecoratorA, adds behavior B)
-```
-
-**Example — Logging and caching HTTP client decorator:**
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Component interface
-abstract class HttpClient {
-  Future<String> get(String url);
+abstract class Coffee {
+  double cost();
+  String description();
+}
+class PlainCoffee implements Coffee {
+  @override double cost() => 2.0;
+  @override String description() => 'coffee';
 }
 
-// Concrete component
-class RealHttpClient implements HttpClient {
-  @override
-  Future<String> get(String url) async {
-    // actual network call
-    return 'response from $url';
-  }
+// A decorator wraps a Coffee and adds to it
+class MilkDecorator implements Coffee {
+  final Coffee inner;
+  MilkDecorator(this.inner);
+  @override double cost() => inner.cost() + 0.5;
+  @override String description() => '${inner.description()} + milk';
 }
 
-// Decorator 1: Logging
-class LoggingHttpClient implements HttpClient {
-  final HttpClient _inner;
-  LoggingHttpClient(this._inner);
-
-  @override
-  Future<String> get(String url) async {
-    print('→ GET $url');
-    final result = await _inner.get(url);
-    print('← Response received');
-    return result;
-  }
-}
-
-// Decorator 2: Caching
-class CachingHttpClient implements HttpClient {
-  final HttpClient _inner;
-  final Map<String, String> _cache = {};
-  CachingHttpClient(this._inner);
-
-  @override
-  Future<String> get(String url) async {
-    if (_cache.containsKey(url)) {
-      print('Cache hit: $url');
-      return _cache[url]!;
-    }
-    final result = await _inner.get(url);
-    _cache[url] = result;
-    return result;
-  }
-}
-
-// Stack decorators — order matters!
-final HttpClient client = CachingHttpClient(
-  LoggingHttpClient(
-    RealHttpClient(),
-  ),
-);
-// Request flows: Caching → Logging → Real → Logging → Caching
+Coffee order = MilkDecorator(MilkDecorator(PlainCoffee()));
+print(order.description()); // coffee + milk + milk
+print(order.cost());        // 3.0
 ```
 
-**Flutter Real-World — Widget Composition IS Decorator:**
+**Step 3 — Real Flutter use case.**
+The entire widget tree is decorator-style: `GestureDetector(child: Padding(child: Center(child: Text('Hi'))))`. Each wrapper adds one feature (tap handling, spacing, alignment) without subclassing `Text`.
 
-In Flutter, widgets decorating other widgets IS the Decorator pattern in action:
+**Why interviewers ask:** It's the pattern that explains Flutter's "everything wraps everything" composition model.
 
-```dart
-// Padding decorates its child — adds padding behavior
-Padding(
-  padding: const EdgeInsets.all(16),
-  child: // ← the decorated widget
+**Common mistake:** Confusing it with inheritance. Decorator wraps at runtime (flexible combinations); subclassing fixes behaviour at compile time.
 
-  // GestureDetector decorates with tap behavior
-  GestureDetector(
-    onTap: () => print('tapped'),
-    child:
+**Follow-ups they may ask:**
+- *"How is Flutter a decorator example?"* → Wrapping widgets (Padding, Center, Opacity) adds behaviour without subclassing the inner widget.
 
-    // Opacity decorates with transparency
-    Opacity(
-      opacity: 0.8,
-      child:
+**Related:** [Q9 — Composite](#q9) · [Q5 — Adapter](#q5)
 
-      // The actual "real component"
-      const Text('Hello'),
-    ),
-  ),
-),
-
-// InputDecoration decorates TextField with label, hint, suffix, border
-TextField(
-  decoration: InputDecoration(
-    labelText: 'Email',
-    hintText: 'you@example.com',
-    prefixIcon: const Icon(Icons.email),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
-    suffixIcon: IconButton(
-      icon: const Icon(Icons.clear),
-      onPressed: () {},
-    ),
-  ),
-),
-```
-
-**When to USE it:**
-- When you want to add behavior without modifying the original class
-- When subclassing would create an explosion of combinations (LoggingCachingRetryClient vs CachingClient vs LoggingClient...)
-- Flutter widget composition — wrapping widgets to add padding, gestures, opacity
-
-**When NOT to use it:**
-- When only one extra behavior is needed — just subclass or extend
-- When the stacking order would confuse teammates — document clearly
-
-**Why it matters:** In Flutter, the entire widget system is built on this pattern. Understanding it deeply means understanding how widget composition works.
-
-**Common mistake:** Candidates confuse Decorator with Proxy. Decorator **adds** new behavior; Proxy **controls access** to the same behavior. Intent is the key differentiator.
+[↑ Back to top](#toc)
 
 ---
 
-### 7. Facade
+<a id="q7"></a>
+## 7. Facade
 
----
+> Common · Easy–Medium
 
-**Q:** What is the Facade pattern and how does a Repository in Flutter act as a Facade?
+**Short answer (say this):**
+"Facade gives one simple interface in front of a complex set of classes, so callers don't deal with the messy details. It's like a hotel reception desk that handles everything for you. You use it to wrap several subsystems behind one easy method."
 
-**A:** Facade provides a **simple, unified interface to a complex subsystem**. The subsystem might have many classes, many steps, many interactions — the Facade hides all that and gives the client a clean, easy-to-use API.
+**Let's understand it fully:**
 
-```
-Client
-  │
-  └──► Facade (simple API)
-           │
-           ├──► SubsystemA (Database)
-           ├──► SubsystemB (Network)
-           ├──► SubsystemC (Cache)
-           └──► SubsystemD (Event Bus)
-```
+**Step 1 — The problem it solves.**
+A task might need several classes working together (auth, network, cache, parsing). Forcing every caller to wire them up is error-prone. A facade hides that behind one clean call.
 
-**Example — Repository as a Facade:**
-
-A `UserRepository` hides the complexity of choosing between cache, local DB, and remote API:
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Subsystems — each complex on its own
-class UserApiService {
-  Future<Map<String, dynamic>> fetchUser(String id) async {
-    // HTTP call, token refresh, retry logic, error mapping...
-    return {'id': id, 'name': 'Alice'};
+// Complex subsystems
+class AuthService { String token() => 'abc'; }
+class ApiService { String fetch(String token) => 'data'; }
+class CacheService { void save(String data) {} }
+
+// Facade — one simple entry point
+class UserFacade {
+  final _auth = AuthService();
+  final _api = ApiService();
+  final _cache = CacheService();
+
+  String getUserData() {                 // one easy method
+    final token = _auth.token();
+    final data = _api.fetch(token);
+    _cache.save(data);
+    return data;
   }
 }
 
-class UserDao {
-  Future<Map<String, dynamic>?> findUser(String id) async {
-    // SQL query, cursor management, migration handling...
-    return null;
-  }
-
-  Future<void> saveUser(Map<String, dynamic> user) async {
-    // Insert/upsert logic, transaction handling...
-  }
-}
-
-class UserCache {
-  final Map<String, dynamic> _store = {};
-  dynamic get(String key) => _store[key];
-  void set(String key, dynamic value) => _store[key] = value;
-  void invalidate(String key) => _store.remove(key);
-}
-
-// Model
-class User {
-  final String id;
-  final String name;
-  const User({required this.id, required this.name});
-
-  factory User.fromMap(Map<String, dynamic> map) =>
-      User(id: map['id'], name: map['name']);
-}
-
-// FACADE — the Repository
-class UserRepository {
-  final UserApiService _api;
-  final UserDao _dao;
-  final UserCache _cache;
-
-  UserRepository({
-    required UserApiService api,
-    required UserDao dao,
-    required UserCache cache,
-  })  : _api = api,
-        _dao = dao,
-        _cache = cache;
-
-  // Client calls this one simple method
-  Future<User> getUser(String id) async {
-    // 1. Check memory cache
-    final cached = _cache.get(id);
-    if (cached != null) return User.fromMap(cached);
-
-    // 2. Check local database
-    final local = await _dao.findUser(id);
-    if (local != null) {
-      _cache.set(id, local);
-      return User.fromMap(local);
-    }
-
-    // 3. Fetch from network
-    final remote = await _api.fetchUser(id);
-    await _dao.saveUser(remote); // persist locally
-    _cache.set(id, remote);     // warm the cache
-    return User.fromMap(remote);
-  }
-
-  Future<void> invalidateUser(String id) async {
-    _cache.invalidate(id);
-    // Could also delete from DB or mark as stale
-  }
-}
-
-// Client (Cubit) — only sees the Facade
-class ProfileCubit extends Cubit<ProfileState> {
-  final UserRepository _repo; // clean, simple
-  ProfileCubit(this._repo) : super(ProfileInitial());
-
-  Future<void> loadProfile(String userId) async {
-    emit(ProfileLoading());
-    try {
-      final user = await _repo.getUser(userId); // one call, all complexity hidden
-      emit(ProfileLoaded(user));
-    } catch (e) {
-      emit(ProfileError(e.toString()));
-    }
-  }
-}
+UserFacade().getUserData(); // caller ignores all the inner steps
 ```
 
-**When to USE it:**
-- Any time a client needs to interact with a complex subsystem (network + DB + cache)
-- Repositories in clean architecture
-- Platform wrappers (hiding method channels behind a clean Dart API)
-- SDK wrappers (Firebase, Stripe, Analytics)
+**Step 3 — Real Flutter use case.**
+A repository is often a facade over several data sources (API + cache + database), exposing one `getUser()`. A "service" class wrapping multiple plugins (location + permissions + maps) is another.
 
-**When NOT to use it:**
-- When the subsystem is simple — Facade adds a layer of indirection for no benefit
-- When clients need fine-grained control over subsystem behavior — Facade hides too much
+**Why interviewers ask:** It tests whether you can hide complexity behind a simple, stable interface.
 
-**Why it matters:** Tests understanding of layered architecture. In clean architecture (used in most Flutter apps), the Repository IS the Facade between domain and data layers.
+**Common mistake:** Confusing it with Adapter. Facade *simplifies* many classes into one interface; Adapter *converts* one interface to another ([Q5](#q5)).
 
-**Common mistake:** Thinking Repository is just "where you put API calls." The Facade intent — hiding complexity, providing a simple API, coordinating multiple sources — is the real architectural value.
+**Follow-ups they may ask:**
+- *"Facade vs Repository?"* → A repository is a facade specialized for data access, also hiding the data source.
+
+**Related:** [Q5 — Adapter](#q5) · [Q1 — Singleton](#q1)
+
+[↑ Back to top](#toc)
 
 ---
 
-### 8. Proxy
+<a id="q8"></a>
+## 8. Proxy
 
----
+> Deeper · Medium–Hard
 
-**Q:** What is the Proxy pattern and what are common Flutter use cases?
+**Short answer (say this):**
+"A proxy is a stand-in object that controls access to a real object — same interface, but it adds something before or after, like caching, lazy loading, or access checks. Think of a receptionist who decides whether to let you reach the manager. A lazy-loading image placeholder is a common proxy."
 
-**A:** Proxy provides a **surrogate or placeholder for another object to control access to it**. The proxy implements the same interface as the real object but intercepts calls to add behavior: authorization checks, lazy loading, caching, logging, or rate limiting — all transparently.
+**Let's understand it fully:**
 
-```
-Client ──► Proxy (same interface as RealSubject)
-               │
-               └──► RealSubject (actual work)
-```
+**Step 1 — The problem it solves.**
+Sometimes you don't want to use the real object directly — maybe it's expensive to create, needs caching, or needs permission checks. A proxy wraps it and adds that control while looking identical to the real thing.
 
-**Types of Proxy:**
-
-| Type | Purpose |
-|---|---|
-| **Virtual (Lazy)** | Defers expensive creation until needed |
-| **Protection** | Checks permissions before delegating |
-| **Caching** | Returns cached result, skips real call |
-| **Remote** | Hides that the real object is on another machine |
-| **Logging** | Records access transparently |
-
-**Example — Caching Proxy:**
+**Step 2 — How it works in Dart.**
 
 ```dart
-abstract class ImageLoader {
-  Future<Uint8List> loadImage(String url);
+abstract class Image {
+  void display();
+}
+class RealImage implements Image {
+  final String file;
+  RealImage(this.file) { print('loading $file from disk'); } // expensive
+  @override void display() => print('showing $file');
 }
 
-class NetworkImageLoader implements ImageLoader {
+// Proxy delays the expensive load until it's actually needed (lazy loading)
+class ImageProxy implements Image {
+  final String file;
+  RealImage? _real;
+  ImageProxy(this.file);
   @override
-  Future<Uint8List> loadImage(String url) async {
-    print('Downloading: $url');
-    // Expensive network download
-    return Uint8List(0);
+  void display() {
+    _real ??= RealImage(file); // create the real one only on first display
+    _real!.display();
   }
 }
 
-// Caching Proxy — same interface, adds caching transparently
-class CachedImageLoader implements ImageLoader {
-  final ImageLoader _real;
-  final Map<String, Uint8List> _cache = {};
-
-  CachedImageLoader(this._real);
-
-  @override
-  Future<Uint8List> loadImage(String url) async {
-    if (_cache.containsKey(url)) {
-      print('Cache hit: $url');
-      return _cache[url]!;
-    }
-    final bytes = await _real.loadImage(url);
-    _cache[url] = bytes;
-    return bytes;
-  }
-}
+final img = ImageProxy('photo.png'); // not loaded yet
+img.display();                        // now it loads, then shows
 ```
 
-**Example — Protection Proxy (Auth Guard):**
+**Step 3 — Real Flutter use case.**
+Lazy-loading images (load only when scrolled into view), a caching proxy that returns cached data before hitting the network, or an access-control proxy that checks auth before a call.
 
-```dart
-abstract class ApiService {
-  Future<String> getSensitiveData();
-}
+**Why interviewers ask:** It's a deeper structural pattern that tests whether you can add cross-cutting control (caching, lazy load) transparently.
 
-class RealApiService implements ApiService {
-  @override
-  Future<String> getSensitiveData() async => 'secret data';
-}
+**Common mistake:** Confusing it with Decorator. Both wrap and share the interface, but Proxy *controls access* to the real object; Decorator *adds behaviour/features*.
 
-class AuthApiProxy implements ApiService {
-  final ApiService _real;
-  final AuthService _auth;
+**Follow-ups they may ask:**
+- *"Types of proxy?"* → Virtual (lazy load), caching, protection (access control), remote (stands in for a remote object).
 
-  AuthApiProxy(this._real, this._auth);
+**Related:** [Q6 — Decorator](#q6) · [Q7 — Facade](#q7)
 
-  @override
-  Future<String> getSensitiveData() async {
-    if (!_auth.isLoggedIn) {
-      throw UnauthorizedException('Please log in first');
-    }
-    if (_auth.currentUser?.role != 'admin') {
-      throw ForbiddenException('Admin access required');
-    }
-    return _real.getSensitiveData();
-  }
-}
-```
-
-**Flutter Real-World Usage:**
-
-- `CachedNetworkImage` package is a **Caching Proxy** for `Image.network`
-- Dio interceptors act as **Logging/Auth Proxies** around HTTP calls
-- `flutter_secure_storage` wraps platform keychain APIs as a **Protection Proxy**
-
-```dart
-// Dio interceptor = Auth Proxy pattern
-dio.interceptors.add(
-  InterceptorsWrapper(
-    onRequest: (options, handler) {
-      // Auth check before every request
-      options.headers['Authorization'] = 'Bearer ${authService.token}';
-      handler.next(options);
-    },
-    onError: (error, handler) async {
-      if (error.response?.statusCode == 401) {
-        // Token refresh — transparent to calling code
-        await authService.refreshToken();
-        handler.resolve(await dio.fetch(error.requestOptions));
-      }
-    },
-  ),
-);
-```
-
-**When to USE it:**
-- Adding cross-cutting concerns (auth, logging, caching) without modifying the real object
-- Lazy initialization of expensive objects
-- Intercepting/throttling access to rate-limited services
-
-**When NOT to use it:**
-- When the extra indirection makes code harder to trace and debug
-- When Decorator better fits (you're adding behavior vs controlling access)
-
-**Why it matters:** Tests understanding of transparent interception — a key concept behind interceptors, middleware, and aspect-oriented design.
-
-**Common mistake:** Conflating Proxy with Decorator. Both wrap an object. Proxy controls *access* (auth, caching). Decorator *adds* new behavior. The intent is different even if implementation looks similar.
+[↑ Back to top](#toc)
 
 ---
 
-### 9. Composite
+<a id="q9"></a>
+## 9. Composite
 
----
+> Common · Medium
 
-**Q:** What is the Composite pattern and why is Flutter's widget tree a classic example of it?
+**Short answer (say this):**
+"Composite lets you treat a single object and a group of objects the same way, by giving them a common interface. Think of folders that can hold files *and* other folders. Flutter's widget tree is exactly this — a widget can be a leaf or contain other widgets, and you treat them uniformly."
 
-**A:** Composite lets you **treat individual objects and compositions of objects uniformly**. You build tree structures where both leaf nodes (single items) and branch nodes (containers of items) implement the same interface. Client code doesn't need to know if it's dealing with one item or a whole subtree.
+**Let's understand it fully:**
 
-```
-Component (interface)
-├── Leaf (no children)      — e.g. Text, Icon, Image
-└── Composite (has children) — e.g. Column, Row, Stack
-        ├── Leaf
-        ├── Leaf
-        └── Composite
-                └── Leaf
-```
+**Step 1 — The problem it solves.**
+When you have a tree of objects (a part-whole hierarchy), you don't want different code for "single item" vs "group." Composite gives both the same interface, so client code is simple.
 
-**Flutter Widget Tree IS Composite:**
-
-Every Flutter `Widget` is a `Component`. `StatelessWidget` / `StatefulWidget` that contain children are `Composites`. `Text`, `Icon`, `Image` are `Leaves`. The `build()` method is the uniform operation applied to the whole tree.
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Dart example — file system as Composite
 abstract class FileSystemItem {
-  String get name;
-  int get size;
-  void display(int depth);
+  int size();
+}
+class FileItem implements FileSystemItem {       // leaf
+  final int bytes;
+  FileItem(this.bytes);
+  @override int size() => bytes;
+}
+class Folder implements FileSystemItem {          // composite
+  final List<FileSystemItem> children = [];
+  @override int size() => children.fold(0, (sum, c) => sum + c.size());
 }
 
-// Leaf — no children
-class File implements FileSystemItem {
-  @override
-  final String name;
-  @override
-  final int size;
-
-  File(this.name, this.size);
-
-  @override
-  void display(int depth) {
-    print('${'  ' * depth}📄 $name ($size bytes)');
-  }
-}
-
-// Composite — has children (both Files and Directories)
-class Directory implements FileSystemItem {
-  @override
-  final String name;
-  final List<FileSystemItem> _children = [];
-
-  Directory(this.name);
-
-  void add(FileSystemItem item) => _children.add(item);
-  void remove(FileSystemItem item) => _children.remove(item);
-
-  @override
-  int get size => _children.fold(0, (sum, item) => sum + item.size);
-
-  @override
-  void display(int depth) {
-    print('${'  ' * depth}📁 $name (${size} bytes)');
-    for (final child in _children) {
-      child.display(depth + 1); // uniform call — doesn't matter if leaf or composite
-    }
-  }
-}
-
-void main() {
-  final root = Directory('root')
-    ..add(File('readme.txt', 1024))
-    ..add(
-      Directory('src')
-        ..add(File('main.dart', 2048))
-        ..add(File('app.dart', 4096)),
-    )
-    ..add(File('pubspec.yaml', 512));
-
-  root.display(0);
-  print('Total size: ${root.size} bytes');
-}
+final root = Folder()
+  ..children.add(FileItem(100))
+  ..children.add(Folder()..children.add(FileItem(50)));
+print(root.size()); // 150 — same size() call works for files and folders
 ```
 
-**Flutter Widget Tree:**
+**Step 3 — Real Flutter use case.**
+The widget tree: a `Column` (composite) holds children that may be leaves (`Text`) or more composites (`Row`, `Column`). You build and traverse them uniformly. Menus and nested comment threads are other examples.
 
-```dart
-// Flutter uses Composite — every widget handles itself recursively
-Column(               // Composite — has children
-  children: [
-    Text('Title'),    // Leaf
-    Row(              // Composite
-      children: [
-        Icon(Icons.star),   // Leaf
-        Text('Rating'),     // Leaf
-      ],
-    ),
-    Image.network('...'),   // Leaf
-  ],
-)
+**Why interviewers ask:** It explains tree structures like the widget tree and tests uniform handling of part and whole.
 
-// Flutter's rendering engine walks this tree uniformly:
-// widget.build() is the uniform "display" operation
-// It doesn't care if a widget is a leaf or composite
-```
+**Common mistake:** Writing separate logic for single items vs groups instead of giving them one shared interface.
 
-**When to USE it:**
-- Tree structures where you want to treat nodes and leaves the same way
-- File systems, organization charts, UI widget trees, expression parsers
-- Menu systems (MenuItem vs SubMenu with children MenuItems)
+**Follow-ups they may ask:**
+- *"How is Flutter's widget tree composite?"* → A parent widget treats each child the same, whether it's a single widget or a subtree.
 
-**When NOT to use it:**
-- Flat lists — the pattern adds complexity without benefit
-- When leaf and composite behaviors are too different to share an interface meaningfully
+**Related:** [Q6 — Decorator](#q6) · [Q15 — Iterator (traversing trees)](#q15)
 
-**Why it matters:** Directly tests whether you understand WHY Flutter's widget system is designed the way it is. The Composite pattern is the foundation of the entire widget tree model.
-
-**Common mistake:** Candidates know Flutter has a widget tree but can't name the pattern or explain why it works this way. The Composite pattern explains both the design choice and the recursive `build()` mechanism.
+[↑ Back to top](#toc)
 
 ---
 
-## BEHAVIORAL PATTERNS
+# C. Behavioral patterns
 
 ---
 
-### 10. Observer
+<a id="q10"></a>
+## 10. Observer
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Observer lets many objects subscribe to a subject and get notified automatically when it changes. It's like a newspaper subscription — publish once, all subscribers get it. Flutter uses this everywhere: `ChangeNotifier`/`Listenable`, `ValueNotifier`, and Streams are all Observer."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+When one object changes, several others need to react — but you don't want the subject to know each one directly. Observers subscribe; the subject just notifies "something changed."
+
+**Step 2 — How it works in Dart.**
+
+```dart
+class Subject {
+  final List<void Function(int)> _listeners = [];
+  int _value = 0;
+
+  void subscribe(void Function(int) listener) => _listeners.add(listener);
+
+  set value(int v) {
+    _value = v;
+    for (final l in _listeners) l(v); // notify everyone
+  }
+}
+
+final s = Subject();
+s.subscribe((v) => print('A saw $v'));
+s.subscribe((v) => print('B saw $v'));
+s.value = 5; // both A and B are notified
+```
+
+**Step 3 — Real Flutter use case.**
+`ChangeNotifier` + `notifyListeners()` (used by Provider) is Observer. `ValueNotifier`/`ValueListenableBuilder`, and Dart `Stream`s with `listen`, are all Observer — widgets subscribe and rebuild when data changes.
+
+**Why interviewers ask:** It's the backbone of Flutter's reactive state management. Knowing it explains how `setState`-free rebuilds work.
+
+**Common mistake:** Forgetting to unsubscribe (remove listeners / cancel stream subscriptions) in `dispose()`, causing memory leaks.
+
+**Follow-ups they may ask:**
+- *"Where is Observer in Flutter?"* → ChangeNotifier, ValueNotifier, Streams, and any `Listenable`.
+- *"Push vs pull?"* → Observer usually pushes the change to subscribers.
+
+**Related:** [Q11 — Strategy](#q11) · [Q13 — State](#q13)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the Observer pattern and how do Dart Streams and BLoC implement it?
+<a id="q11"></a>
+## 11. Strategy
 
-**A:** Observer defines a **one-to-many dependency**: when one object (Subject/Observable) changes state, all its dependents (Observers) are notified and updated automatically. Observers subscribe; they don't poll.
+> Very common · Medium
 
-```
-Subject (Observable)
-    │
-    ├── subscribe(observer)
-    ├── unsubscribe(observer)
-    └── notify()
-            │
-            ├── Observer A → update()
-            ├── Observer B → update()
-            └── Observer C → update()
-```
+**Short answer (say this):**
+"Strategy lets you swap an algorithm at runtime by putting each option behind a common interface. Instead of a big if/else choosing behaviour, you inject the strategy you want. Examples: different sorting methods, validation rules, or payment options."
 
-**Dart Streams — Built-in Observer:**
+**Let's understand it fully:**
 
-`Stream` is Dart's native Observer implementation. The stream is the Subject; `StreamSubscription`s are the Observers.
+**Step 1 — The problem it solves.**
+You have several ways to do one thing (sort, validate, pay) and want to pick or change at runtime — without a giant conditional and without editing the class each time you add a new option.
+
+**Step 2 — How it works in Dart.**
 
 ```dart
-// StreamController = Subject
-final StreamController<int> _controller = StreamController<int>.broadcast();
+abstract class PaymentStrategy {
+  void pay(double amount);
+}
+class CardPayment implements PaymentStrategy {
+  @override void pay(double a) => print('paid \$a by card');
+}
+class BkashPayment implements PaymentStrategy {
+  @override void pay(double a) => print('paid \$a by bKash');
+}
 
-// Observers subscribe (listen)
-final sub1 = _controller.stream.listen(
-  (value) => print('Observer 1: $value'),
-);
-final sub2 = _controller.stream.listen(
-  (value) => print('Observer 2: $value'),
-);
+class Checkout {
+  PaymentStrategy strategy;
+  Checkout(this.strategy);
+  void process(double amount) => strategy.pay(amount); // delegates to the strategy
+}
 
-// Subject notifies all observers
-_controller.add(1); // Observer 1: 1, Observer 2: 1
-_controller.add(2); // Observer 1: 2, Observer 2: 2
-
-// Observer unsubscribes
-await sub1.cancel();
-_controller.add(3); // Only Observer 2: 3
-
-await _controller.close();
+Checkout(BkashPayment()).process(9.99); // swap strategies freely
 ```
 
-**BLoC Pattern — Observer via Streams:**
+**Step 3 — Real Flutter use case.**
+Swappable repositories (real vs fake), different validation strategies for forms, sorting options in a list, or pluggable pricing rules. It pairs perfectly with dependency injection.
 
-```dart
-// BLoC events flow:
-// UI (Observer of state) ← BLoC (Subject of state)
-// BLoC (Observer of events) ← UI (Subject of events)
+**Why interviewers ask:** It's the clean alternative to growing if/else chains and a favourite for showing open/closed design.
 
-// State is emitted (Subject notifies)
-// UI rebuilds via BlocBuilder (Observer reacts)
+**Common mistake:** Confusing it with State. Strategy is chosen by the *caller* to do a job differently; State changes the object's behaviour as its *internal state* changes ([Q13](#q13)).
 
-class CounterBloc extends Bloc<CounterEvent, int> {
-  CounterBloc() : super(0) {
-    on<IncrementEvent>((event, emit) => emit(state + 1));
-  }
-  // Internally, Bloc uses StreamController for both events and states
-}
+**Follow-ups they may ask:**
+- *"Strategy vs simple if/else?"* → Strategy lets you add a new option by adding a class (open/closed), no editing of existing code.
 
-// BlocBuilder is the Observer — it subscribes to state changes
-BlocBuilder<CounterBloc, int>(
-  builder: (context, count) {
-    // Called every time BLoC emits a new state
-    return Text('Count: $count');
-  },
-)
+**Related:** [Q13 — State](#q13) · [Q2 — Factory Method](#q2) · [Q10 — Observer](#q10)
 
-// BlocListener is another Observer — for side effects
-BlocListener<CounterBloc, int>(
-  listener: (context, count) {
-    if (count == 10) ScaffoldMessenger.of(context).showSnackBar(...);
-  },
-  child: const SizedBox.shrink(),
-)
-```
-
-**Manual Observer pattern in Dart:**
-
-```dart
-// Custom Observer without streams
-abstract class StockObserver {
-  void onPriceChanged(String ticker, double price);
-}
-
-class StockMarket {
-  final Map<String, List<StockObserver>> _observers = {};
-
-  void subscribe(String ticker, StockObserver observer) {
-    _observers.putIfAbsent(ticker, () => []).add(observer);
-  }
-
-  void unsubscribe(String ticker, StockObserver observer) {
-    _observers[ticker]?.remove(observer);
-  }
-
-  void updatePrice(String ticker, double price) {
-    _observers[ticker]?.forEach((o) => o.onPriceChanged(ticker, price));
-  }
-}
-
-class PriceAlert implements StockObserver {
-  final double threshold;
-  PriceAlert(this.threshold);
-
-  @override
-  void onPriceChanged(String ticker, double price) {
-    if (price > threshold) print('ALERT: $ticker hit \$${price}!');
-  }
-}
-```
-
-**When to USE it:**
-- Any time changes in one part of the app must propagate to others: stock prices, chat messages, form validation, state management
-- Reactive systems, event buses, pub/sub architectures
-
-**When NOT to use it:**
-- When you have a simple one-time callback — just pass a `Function`
-- When observer chains become too deep — debugging becomes a nightmare ("who emitted this?")
-- Memory leaks are a risk — always cancel subscriptions
-
-**Why it matters:** This pattern underpins ALL of Flutter's reactive state management. Understanding it means understanding why BLoC, Riverpod, and Provider work the way they do.
-
-**Common mistake:** Forgetting to cancel `StreamSubscription` in `dispose()` — a very common memory leak in Flutter:
-
-```dart
-// ❌ Memory leak — subscription never cancelled
-class _MyWidgetState extends State<MyWidget> {
-  @override
-  void initState() {
-    super.initState();
-    someStream.listen((event) { /* ... */ }); // leaked!
-  }
-}
-
-// ✅ Correct — cancel in dispose
-class _MyWidgetState extends State<MyWidget> {
-  late StreamSubscription _sub;
-
-  @override
-  void initState() {
-    super.initState();
-    _sub = someStream.listen((event) { /* ... */ });
-  }
-
-  @override
-  void dispose() {
-    _sub.cancel(); // always cancel
-    super.dispose();
-  }
-}
-```
+[↑ Back to top](#toc)
 
 ---
 
-### 11. Strategy
+<a id="q12"></a>
+## 12. Command
 
----
+> Common · Medium
 
-**Q:** What is the Strategy pattern and can you show a Dart example with sorting?
+**Short answer (say this):**
+"Command turns a request into an object that holds everything needed to perform it. Because the action is now an object, you can queue it, log it, or undo it. It's like a written order ticket. The classic use is undo/redo."
 
-**A:** Strategy defines a **family of algorithms, encapsulates each one, and makes them interchangeable**. The context object holds a reference to a strategy and delegates algorithm execution to it. You can swap strategies at runtime without changing the context.
+**Let's understand it fully:**
 
-```
-Context
-  │
-  └── strategy: SortStrategy ← can be swapped at runtime
-                    │
-                    ├── BubbleSort
-                    ├── QuickSort
-                    └── MergeSort
-```
+**Step 1 — The problem it solves.**
+You want to treat actions as data — to store, queue, schedule, or undo them. Calling a method directly can't do that; wrapping the action in an object can.
 
-**Example — Sorting Strategies:**
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Strategy interface
-abstract class SortStrategy<T> {
-  List<T> sort(List<T> items, Comparator<T> comparator);
-}
-
-// Concrete strategies
-class BubbleSortStrategy<T> implements SortStrategy<T> {
-  @override
-  List<T> sort(List<T> items, Comparator<T> comparator) {
-    final list = List<T>.from(items);
-    for (int i = 0; i < list.length - 1; i++) {
-      for (int j = 0; j < list.length - i - 1; j++) {
-        if (comparator(list[j], list[j + 1]) > 0) {
-          final temp = list[j];
-          list[j] = list[j + 1];
-          list[j + 1] = temp;
-        }
-      }
-    }
-    return list;
-  }
-}
-
-class DartNativeSortStrategy<T> implements SortStrategy<T> {
-  @override
-  List<T> sort(List<T> items, Comparator<T> comparator) {
-    return List<T>.from(items)..sort(comparator);
-  }
-}
-
-// Context — holds and uses a strategy
-class ProductList {
-  final List<Product> _products;
-  SortStrategy<Product> _strategy;
-
-  ProductList(this._products, {SortStrategy<Product>? strategy})
-      : _strategy = strategy ?? DartNativeSortStrategy();
-
-  // Swap strategy at runtime
-  void setStrategy(SortStrategy<Product> strategy) {
-    _strategy = strategy;
-  }
-
-  List<Product> sortByPrice() {
-    return _strategy.sort(_products, (a, b) => a.price.compareTo(b.price));
-  }
-
-  List<Product> sortByName() {
-    return _strategy.sort(_products, (a, b) => a.name.compareTo(b.name));
-  }
-}
-
-class Product {
-  final String name;
-  final double price;
-  const Product(this.name, this.price);
-}
-
-void main() {
-  final list = ProductList([
-    const Product('Banana', 0.5),
-    const Product('Apple', 1.2),
-    const Product('Cherry', 3.0),
-  ]);
-
-  // Runtime swap
-  list.setStrategy(DartNativeSortStrategy());
-  print(list.sortByPrice().map((p) => p.name).toList());
-  // [Banana, Apple, Cherry]
-}
-```
-
-**Flutter Real-World — Validation Strategies:**
-
-```dart
-abstract class ValidationStrategy {
-  String? validate(String value);
-}
-
-class RequiredValidation implements ValidationStrategy {
-  @override
-  String? validate(String value) =>
-      value.isEmpty ? 'This field is required' : null;
-}
-
-class EmailValidation implements ValidationStrategy {
-  @override
-  String? validate(String value) {
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    return emailRegex.hasMatch(value) ? null : 'Enter a valid email';
-  }
-}
-
-class CompositeValidation implements ValidationStrategy {
-  final List<ValidationStrategy> _validators;
-  CompositeValidation(this._validators);
-
-  @override
-  String? validate(String value) {
-    for (final v in _validators) {
-      final error = v.validate(value);
-      if (error != null) return error;
-    }
-    return null;
-  }
-}
-
-// Usage in TextFormField
-TextFormField(
-  validator: CompositeValidation([
-    RequiredValidation(),
-    EmailValidation(),
-  ]).validate,
-)
-```
-
-**When to USE it:**
-- Multiple algorithms that do the same job differently (sort, validate, compress, encrypt)
-- When you want to swap behavior at runtime (user picks sort order)
-- When `if/switch` chains switching between algorithm variants is getting large
-
-**When NOT to use it:**
-- Only one algorithm exists or will ever exist
-- The strategy interface is so generic it adds no real abstraction
-- Simple cases where passing a function (`Comparator`, `VoidCallback`) is cleaner
-
-**Why it matters:** Tests knowledge of composition over inheritance and the open/closed principle. Common in form validation, analytics, payment processing.
-
-**Common mistake:** Using inheritance instead ("SortedProductList extends ProductList"). Strategy via composition is more flexible — you can combine and swap at runtime, not just at compile time.
-
----
-
-### 12. Command
-
----
-
-**Q:** What is the Command pattern and how is it useful for undo/redo in Flutter?
-
-**A:** Command **encapsulates a request as an object**, letting you parameterize actions, queue them, log them, and support undoable operations. Instead of directly calling `receiver.doSomething()`, you create a `Command` object that knows both the action and how to reverse it.
-
-```
-Invoker (button, gesture)
-   │
-   └──► Command (encapsulates request)
-              │
-              ├── execute() → calls Receiver.action()
-              └── undo()    → reverses Receiver.action()
-```
-
-**Example — Text Editor with Undo/Redo:**
-
-```dart
-// Command interface
-abstract class EditorCommand {
+abstract class Command {
   void execute();
   void undo();
 }
 
-// Receiver — the actual state
-class TextDocument {
-  String _text = '';
-  String get text => _text;
-
-  void insert(int position, String content) {
-    _text = _text.substring(0, position) + content + _text.substring(position);
-  }
-
-  void delete(int position, int length) {
-    _text = _text.substring(0, position) + _text.substring(position + length);
-  }
+class AddTextCommand implements Command {
+  final StringBuffer doc;
+  final String text;
+  AddTextCommand(this.doc, this.text);
+  @override void execute() => doc.write(text);
+  @override void undo() => print('remove "$text"'); // reverse the action
 }
 
-// Concrete Commands
-class InsertCommand implements EditorCommand {
-  final TextDocument _doc;
-  final int _position;
-  final String _text;
-
-  InsertCommand(this._doc, this._position, this._text);
-
-  @override
-  void execute() => _doc.insert(_position, _text);
-
-  @override
-  void undo() => _doc.delete(_position, _text.length);
-}
-
-class DeleteCommand implements EditorCommand {
-  final TextDocument _doc;
-  final int _position;
-  final int _length;
-  late String _deletedText; // store for undo
-
-  DeleteCommand(this._doc, this._position, this._length);
-
-  @override
-  void execute() {
-    _deletedText = _doc.text.substring(_position, _position + _length);
-    _doc.delete(_position, _length);
-  }
-
-  @override
-  void undo() => _doc.insert(_position, _deletedText);
-}
-
-// Invoker — manages the command history
-class EditorHistory {
-  final _undoStack = <EditorCommand>[];
-  final _redoStack = <EditorCommand>[];
-
-  void execute(EditorCommand command) {
-    command.execute();
-    _undoStack.add(command);
-    _redoStack.clear(); // new action clears redo history
-  }
-
-  void undo() {
-    if (_undoStack.isEmpty) return;
-    final command = _undoStack.removeLast();
-    command.undo();
-    _redoStack.add(command);
-  }
-
-  void redo() {
-    if (_redoStack.isEmpty) return;
-    final command = _redoStack.removeLast();
-    command.execute();
-    _undoStack.add(command);
-  }
-}
-
-void main() {
-  final doc = TextDocument();
-  final history = EditorHistory();
-
-  history.execute(InsertCommand(doc, 0, 'Hello'));
-  print(doc.text); // Hello
-
-  history.execute(InsertCommand(doc, 5, ' World'));
-  print(doc.text); // Hello World
-
-  history.undo();
-  print(doc.text); // Hello
-
-  history.redo();
-  print(doc.text); // Hello World
-}
+// An invoker can keep a history for undo/redo
+final history = <Command>[];
+void run(Command c) { c.execute(); history.add(c); }
+void undoLast() => history.removeLast().undo();
 ```
 
-**Flutter Real-World — Form Actions:**
+**Step 3 — Real Flutter use case.**
+Undo/redo in editors, action queues (e.g. offline actions replayed later), and Flutter's own `Intent`/`Action` system for keyboard shortcuts — each shortcut maps to a command-like action object.
 
-```dart
-// Each user action in a form is a Command
-abstract class FormCommand {
-  void execute();
-  void undo();
-}
+**Why interviewers ask:** It's the standard way to implement undo/redo and action history.
 
-class SetFieldValueCommand implements FormCommand {
-  final Map<String, String> formState;
-  final String field;
-  final String newValue;
-  late String _previousValue;
+**Common mistake:** Implementing undo with ad-hoc flags instead of command objects, which gets messy fast.
 
-  SetFieldValueCommand(this.formState, this.field, this.newValue);
+**Follow-ups they may ask:**
+- *"How does Command enable undo?"* → Each command knows how to reverse itself; keep a stack of executed commands.
 
-  @override
-  void execute() {
-    _previousValue = formState[field] ?? '';
-    formState[field] = newValue;
-  }
+**Related:** [Q11 — Strategy](#q11) · [Q5 — Stack (undo history)](section11_data_structure_and_algorithm.md#q5)
 
-  @override
-  void undo() => formState[field] = _previousValue;
-}
-
-// Shopping cart operations as Commands:
-// AddToCartCommand, RemoveFromCartCommand, ApplyCouponCommand
-// all with undo() support
-```
-
-**When to USE it:**
-- Undo/redo functionality (text editors, drawing apps, form wizards)
-- Macro recording (a sequence of commands to replay)
-- Queuing operations for later execution or async processing
-- Transaction rollback
-
-**When NOT to use it:**
-- Simple one-time actions with no need for undo, logging, or queuing
-- When the overhead of creating Command objects for every tiny action outweighs the benefit
-
-**Why it matters:** Tests understanding of encapsulating behavior as data — fundamental to transactional systems and user-friendly UX patterns.
-
-**Common mistake:** Not storing enough state in the command for `undo()` to work. The command must capture the full context at `execute()` time to be reversible.
+[↑ Back to top](#toc)
 
 ---
 
-### 13. State Pattern
+<a id="q13"></a>
+## 13. State
+
+> Common · Medium
+
+**Short answer (say this):**
+"The State pattern lets an object change its behaviour when its internal state changes, as if it became a different class. Instead of big if/else on a status field, each state is its own object that knows how to behave and what state comes next. A traffic light is the classic example."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+An object behaves differently in different modes (a media player: playing, paused, stopped). Coding this as one class full of `if (status == ...)` gets tangled. The State pattern puts each mode in its own class.
+
+**Step 2 — How it works in Dart.**
+
+```dart
+abstract class PlayerState {
+  void press(MediaPlayer player);
+}
+class PlayingState implements PlayerState {
+  @override void press(MediaPlayer p) { print('pause'); p.state = PausedState(); }
+}
+class PausedState implements PlayerState {
+  @override void press(MediaPlayer p) { print('play'); p.state = PlayingState(); }
+}
+
+class MediaPlayer {
+  PlayerState state = PausedState();
+  void pressPlayPause() => state.press(this); // behaviour depends on current state
+}
+
+final player = MediaPlayer();
+player.pressPlayPause(); // play
+player.pressPlayPause(); // pause
+```
+
+**Step 3 — Real Flutter use case.**
+Modeling screen status (loading / loaded / error) — often done with sealed classes and BLoC states, which is the State pattern in spirit. Form wizards and onboarding flows also use it.
+
+**Why interviewers ask:** It tests handling of state machines cleanly, and overlaps with how BLoC/sealed states work.
+
+**Common mistake:** Confusing it with Strategy. State changes behaviour based on the object's *internal* state (and states can switch themselves); Strategy is picked by the *outside* caller ([Q11](#q11)).
+
+**Follow-ups they may ask:**
+- *"How does this relate to BLoC?"* → BLoC's sealed states (Loading/Loaded/Error) are a State-pattern-style state machine.
+
+**Related:** [Q11 — Strategy](#q11) · [Q10 — Observer](#q10)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the State pattern (GoF) and how does it differ from managing state with Cubit?
+<a id="q14"></a>
+## 14. Template Method
 
-**A:** The GoF State pattern allows an object to **alter its behavior when its internal state changes**. The object appears to change its class. Instead of giant `if/switch` chains checking a state variable, you extract each state into its own class and delegate behavior to the current state object.
+> Common · Medium
 
-```
-Context
-  │
-  └── currentState: State (reference, changes at runtime)
-                        │
-                        ├── StateA → handles() → transitions to StateB
-                        ├── StateB → handles() → transitions to StateC
-                        └── StateC → handles() → stays or goes back
-```
+**Short answer (say this):**
+"Template Method defines the fixed skeleton of an algorithm in a base class, but lets subclasses fill in specific steps. The overall order is locked; only the customizable parts change. It's like a recipe where the steps are fixed but you choose the ingredients."
 
-**GoF State Pattern in Dart:**
+**Let's understand it fully:**
 
-```dart
-// Abstract State — defines the interface for all states
-abstract class TrafficLightState {
-  void handle(TrafficLight light);
-  String get displayColor;
-}
+**Step 1 — The problem it solves.**
+Several processes share the same overall steps but differ in a few. You want to write the shared skeleton once and let each variant override only the bits that differ.
 
-// The Context
-class TrafficLight {
-  TrafficLightState _state;
-
-  TrafficLight() : _state = RedState();
-
-  void setState(TrafficLightState state) => _state = state;
-  void change() => _state.handle(this);
-  String get color => _state.displayColor;
-}
-
-// Concrete States — each knows what comes next
-class RedState implements TrafficLightState {
-  @override
-  void handle(TrafficLight light) => light.setState(GreenState());
-
-  @override
-  String get displayColor => '🔴 RED — Stop';
-}
-
-class GreenState implements TrafficLightState {
-  @override
-  void handle(TrafficLight light) => light.setState(YellowState());
-
-  @override
-  String get displayColor => '🟢 GREEN — Go';
-}
-
-class YellowState implements TrafficLightState {
-  @override
-  void handle(TrafficLight light) => light.setState(RedState());
-
-  @override
-  String get displayColor => '🟡 YELLOW — Caution';
-}
-
-void main() {
-  final light = TrafficLight();
-  print(light.color); // 🔴 RED — Stop
-  light.change();
-  print(light.color); // 🟢 GREEN — Go
-  light.change();
-  print(light.color); // 🟡 YELLOW — Caution
-  light.change();
-  print(light.color); // 🔴 RED — Stop
-}
-```
-
-**Difference from Cubit:**
-
-| | GoF State Pattern | Cubit/BLoC State |
-|---|---|---|
-| **Where logic lives** | In the state object itself | In the Cubit (central) |
-| **State knows transitions** | Yes — state calls `context.setState(Next())` | No — Cubit decides next state |
-| **State is** | A behavior-containing object | Typically a data class (immutable) |
-| **Transitions from** | The current state object | The Cubit method |
-| **Use case** | Complex state-specific behavior | UI state management, simpler transitions |
+**Step 2 — How it works in Dart.**
 
 ```dart
-// Cubit approach — state is data, Cubit owns logic
-class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(const AuthInitial());
-
-  Future<void> login(String email, String password) async {
-    emit(const AuthLoading()); // Cubit decides next state
-    try {
-      final user = await _authService.login(email, password);
-      emit(AuthAuthenticated(user)); // Cubit decides
-    } catch (e) {
-      emit(AuthError(e.toString())); // Cubit decides
-    }
+abstract class DataProcessor {
+  // The template method — fixed order, calls overridable steps
+  void process() {
+    final raw = readData();      // step varies
+    final clean = transform(raw); // step varies
+    save(clean);                  // shared
   }
+  String readData();            // subclass fills this in
+  String transform(String raw); // subclass fills this in
+  void save(String data) => print('saved: $data'); // shared default
 }
 
-// GoF State — each state object decides what comes next
-// (better for complex, state-specific behavior — e.g., a game character
-//  that can only Attack from CombatState, only Rest from IdleState)
+class CsvProcessor extends DataProcessor {
+  @override String readData() => 'a,b,c';
+  @override String transform(String raw) => raw.toUpperCase();
+}
+
+CsvProcessor().process(); // runs the fixed skeleton with CSV-specific steps
 ```
 
-**When to USE GoF State pattern:**
-- State-specific behavior that's complex enough to warrant its own class
-- State machines where each state has meaningfully different behavior
-- When `if (state == X) doA() else if (state == Y) doB()` is getting large
+**Step 3 — Real Flutter use case.**
+`StatelessWidget`/`StatefulWidget` use a template: the framework controls the lifecycle and calls your `build()` (the step you fill in). Abstract base classes with a fixed flow and overridable hooks are everywhere.
 
-**When NOT to use it:**
-- Simple UI state (loading/success/error) — Cubit/sealed classes are cleaner
-- Few states with little behavioral difference — overkill
-- When states don't have meaningfully different behavior, just different data
+**Why interviewers ask:** It explains how frameworks (including Flutter) give you hook methods while controlling the overall flow.
 
-**Why it matters:** Tests whether you can distinguish between the GoF design pattern (behavior delegation) and Flutter's state management (data emission). Many candidates conflate these.
+**Common mistake:** Confusing it with Strategy. Template Method uses *inheritance* (override steps); Strategy uses *composition* (inject a whole algorithm).
 
-**Common mistake:** Describing Cubit as "the State pattern." They're related in name only. GoF State is about delegating behavior to state objects. Cubit is about emitting state values to the UI.
+**Follow-ups they may ask:**
+- *"How is `build()` a template method?"* → The framework runs the render pipeline (fixed) and calls your `build()` at the right moment (your step).
+
+**Related:** [Q11 — Strategy](#q11) · [Q3 — Abstract Factory](#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-### 14. Template Method
+<a id="q15"></a>
+## 15. Iterator
+
+> Common · Easy–Medium
+
+**Short answer (say this):**
+"Iterator gives a standard way to go through the items of a collection one by one, without exposing how the collection stores them. Dart builds this in: anything that is `Iterable` works with `for-in`, `map`, `where`, etc. You can also make your own iterator."
+
+**Let's understand it fully:**
+
+**Step 1 — The problem it solves.**
+Different collections (list, set, tree) store data differently. Iterator gives one common way to walk through them, so your loop code doesn't depend on the internal storage.
+
+**Step 2 — How it works in Dart (built in).**
+
+```dart
+final items = [1, 2, 3];
+for (final x in items) print(x); // the iterator is used under the hood
+
+// Custom iterable using a generator (sync*)
+Iterable<int> evens(int max) sync* {
+  for (var i = 0; i <= max; i += 2) yield i; // produces values on demand
+}
+for (final e in evens(6)) print(e); // 0, 2, 4, 6
+```
+
+Any class can become iterable by implementing `Iterable` (or, more easily, by exposing a `sync*` generator).
+
+**Step 3 — Real Flutter use case.**
+Every `for-in` loop, `ListView.builder`'s item access, and chained collection methods (`.map().where().toList()`) rely on Dart's Iterator. You rarely write one by hand because Dart's `Iterable` and generators cover it.
+
+**Why interviewers ask:** It tests whether you understand how Dart's collections and `for-in` actually work.
+
+**Common mistake:** Hand-writing an iterator when a `sync*` generator or Dart's built-in `Iterable` would be far simpler.
+
+**Follow-ups they may ask:**
+- *"How do you make a class iterable?"* → Implement `Iterable<T>` (provide an `iterator`), or expose a `sync*` generator method.
+
+**Related:** [Q9 — Composite (traversing)](#q9) · [Q3 (DSA) — Lists](section11_data_structure_and_algorithm.md#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the Template Method pattern and can you show a Dart example?
+<a id="cheatsheet"></a>
 
-**A:** Template Method defines the **skeleton of an algorithm in a base class, deferring specific steps to subclasses**. The base class says "here's the overall flow — step 1, step 2, step 3" but lets subclasses override individual steps without changing the sequence.
+# Cheat Sheet (last-night review)
 
-```
-AbstractClass
-  │
-  └── templateMethod() ← final — defines the algorithm skeleton
-          │
-          ├── step1()   ← concrete — same for all subclasses
-          ├── step2()   ← abstract — must be overridden
-          ├── step3()   ← abstract — must be overridden
-          └── hook()    ← optional — subclass can override if needed
-```
+Read this the morning of your interview. Table first, then one-line reminders.
 
-**Example — Data Export Pipeline:**
+## All 15 patterns, one line each
 
-```dart
-abstract class DataExporter {
-  // Template method — the skeleton. 'final' prevents override.
-  Future<void> export(List<Map<String, dynamic>> data) async {
-    final validated = validate(data);
-    final transformed = transform(validated);
-    final formatted = format(transformed);
-    await writeOutput(formatted);
-    onExportComplete(); // hook — optional
-  }
-
-  // Step 1: common validation for all exporters
-  List<Map<String, dynamic>> validate(List<Map<String, dynamic>> data) {
-    return data.where((row) => row.isNotEmpty).toList();
-  }
-
-  // Step 2: subclasses define transformation
-  List<Map<String, dynamic>> transform(List<Map<String, dynamic>> data);
-
-  // Step 3: subclasses define formatting
-  String format(List<Map<String, dynamic>> data);
-
-  // Step 4: subclasses define output
-  Future<void> writeOutput(String content);
-
-  // Hook — default is no-op; subclass may override
-  void onExportComplete() {}
-}
-
-// CSV Exporter
-class CsvExporter extends DataExporter {
-  @override
-  List<Map<String, dynamic>> transform(List<Map<String, dynamic>> data) {
-    return data.map((row) => row.map(
-      (k, v) => MapEntry(k, v.toString().replaceAll(',', ';'))
-    )).toList();
-  }
-
-  @override
-  String format(List<Map<String, dynamic>> data) {
-    if (data.isEmpty) return '';
-    final headers = data.first.keys.join(',');
-    final rows = data.map((row) => row.values.join(',')).join('\n');
-    return '$headers\n$rows';
-  }
-
-  @override
-  Future<void> writeOutput(String content) async {
-    // write to file system
-    print('Writing CSV:\n$content');
-  }
-
-  @override
-  void onExportComplete() => print('CSV export done ✓');
-}
-
-// JSON Exporter — same skeleton, different steps
-class JsonExporter extends DataExporter {
-  @override
-  List<Map<String, dynamic>> transform(List<Map<String, dynamic>> data) {
-    return data; // no transformation needed for JSON
-  }
-
-  @override
-  String format(List<Map<String, dynamic>> data) {
-    // Convert to JSON string
-    return data.toString(); // simplified
-  }
-
-  @override
-  Future<void> writeOutput(String content) async {
-    print('Writing JSON:\n$content');
-  }
-}
-
-void main() async {
-  final data = [
-    {'name': 'Alice', 'score': 95},
-    {'name': 'Bob', 'score': 87},
-  ];
-
-  await CsvExporter().export(data);
-  await JsonExporter().export(data);
-}
-```
-
-**Flutter Real-World Usage:**
-
-Flutter's `StatefulWidget` lifecycle IS Template Method:
-
-```dart
-// Flutter defines the lifecycle skeleton:
-// createState() → initState() → didChangeDependencies() →
-// build() → didUpdateWidget() → dispose()
-
-// You override specific steps:
-class _MyWidgetState extends State<MyWidget> {
-  // Template method steps you can override:
-  @override
-  void initState() { /* your init logic */ }
-
-  @override
-  Widget build(BuildContext context) { /* required */ }
-
-  @override
-  void dispose() { /* your cleanup */ }
-  // Flutter's framework calls them in the right order — you don't control that
-}
-```
-
-**When to USE it:**
-- When multiple classes share the same algorithm structure but differ in specific steps
-- When you want to enforce an invariant sequence of steps (the algorithm order can't be changed by subclasses)
-- Data processing pipelines, lifecycle hooks, report generators
-
-**When NOT to use it:**
-- When subclasses need to change the *order* of steps, not just their implementation — use Strategy instead
-- Deep inheritance hierarchies are fragile — prefer composition when possible
-- When there's only one variant (no need to abstract)
-
-**Why it matters:** Tests understanding of inversion of control — the framework calls you, you don't call the framework (Hollywood Principle). Flutter's own widget lifecycle is the best real-world example.
-
-**Common mistake:** Confusing Template Method with Strategy. Template Method uses **inheritance** (fixed skeleton, override steps). Strategy uses **composition** (inject a whole algorithm object). If you can swap the algorithm entirely at runtime, it's Strategy.
-
----
-
-### 15. Iterator
-
----
-
-**Q:** What is the Iterator pattern and how does Dart implement it with `Iterable` and `Iterator`?
-
-**A:** Iterator provides a way to **sequentially access elements of a collection without exposing its underlying representation**. Whether the collection is an array, a tree, a graph, or a lazy stream — the iterator gives you a uniform `moveNext()` / `current` interface.
-
-```
-Client
-  │
-  └──► Iterator (interface)
-            │
-            ├── moveNext() → bool
-            └── current    → T
-
-  IterableCollection
-            │
-            └── iterator  → returns an Iterator
-```
-
-**Dart's Built-in `Iterator` Interface:**
-
-```dart
-abstract class Iterator<E> {
-  bool moveNext();  // advance cursor, returns false when done
-  E get current;   // the element at the current cursor
-}
-
-abstract class Iterable<E> {
-  Iterator<E> get iterator;
-  // + all the derived goodies: map, where, fold, toList, etc.
-}
-```
-
-**Custom Iterator — Fibonacci sequence:**
-
-```dart
-// Custom Iterator — generates Fibonacci numbers lazily
-class FibonacciIterator implements Iterator<int> {
-  int _a = 0, _b = 1;
-  int _current = 0;
-  final int _limit;
-
-  FibonacciIterator(this._limit);
-
-  @override
-  bool moveNext() {
-    if (_a >= _limit) return false; // stop condition
-    _current = _a;
-    final next = _a + _b;
-    _a = _b;
-    _b = next;
-    return true;
-  }
-
-  @override
-  int get current => _current;
-}
-
-// Custom Iterable wrapping the Iterator
-class FibonacciSequence extends Iterable<int> {
-  final int limit;
-  FibonacciSequence(this.limit);
-
-  @override
-  Iterator<int> get iterator => FibonacciIterator(limit);
-}
-
-void main() {
-  final fibs = FibonacciSequence(100);
-
-  // for-in loop uses the Iterator protocol automatically
-  for (final n in fibs) {
-    print(n); // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
-  }
-
-  // All Iterable methods work for free
-  print(fibs.where((n) => n.isEven).toList()); // [0, 2, 8, 34]
-  print(fibs.reduce((a, b) => a + b));         // 232
-}
-```
-
-**Custom Tree Iterator — breadth-first traversal:**
-
-```dart
-class TreeNode<T> {
-  T value;
-  List<TreeNode<T>> children;
-  TreeNode(this.value, [this.children = const []]);
-}
-
-class BreadthFirstIterator<T> implements Iterator<T> {
-  final Queue<TreeNode<T>> _queue;
-  TreeNode<T>? _current;
-
-  BreadthFirstIterator(TreeNode<T> root)
-      : _queue = Queue()..add(root);
-
-  @override
-  bool moveNext() {
-    if (_queue.isEmpty) return false;
-    _current = _queue.removeFirst();
-    _queue.addAll(_current!.children);
-    return true;
-  }
-
-  @override
-  T get current => _current!.value;
-}
-
-class TreeIterable<T> extends Iterable<T> {
-  final TreeNode<T> _root;
-  TreeIterable(this._root);
-
-  @override
-  Iterator<T> get iterator => BreadthFirstIterator(_root);
-}
-
-void main() {
-  final tree = TreeNode(1, [
-    TreeNode(2, [TreeNode(4), TreeNode(5)]),
-    TreeNode(3, [TreeNode(6)]),
-  ]);
-
-  print(TreeIterable(tree).toList()); // [1, 2, 3, 4, 5, 6] — breadth-first
-}
-```
-
-**Flutter Real-World — Lazy loading with Iterator:**
-
-```dart
-// Dart generators are sugar over Iterator — perfect for lazy sequences
-Iterable<Widget> buildProductTiles(List<Product> products) sync* {
-  for (final product in products) {
-    yield ProductTile(product: product); // lazy — only built when iterated
-    yield const Divider();
-  }
-}
-
-// Usage in Column
-Column(
-  children: buildProductTiles(products).toList(),
-)
-```
-
-**When to USE it:**
-- When you want to traverse a complex data structure (tree, graph, lazy sequence) without exposing internals
-- When you need multiple traversal strategies for the same collection
-- Custom lazy sequences (pagination, infinite scroll data sources)
-- When you want Dart's full `Iterable` API (map, where, fold) on your custom collection
-
-**When NOT to use it:**
-- Simple `List` or `Map` — Dart's built-in iterables handle everything already
-- When random access is needed — Iterator is sequential only
-- When the collection is so simple that `for` with an index is clearer
-
-**Why it matters:** Tests understanding of Dart's collection protocol and lazy evaluation. Demonstrates you can build memory-efficient data sources (important for pagination and large datasets in Flutter).
-
-**Common mistake:** Candidates forget that `for-in` loops, `map()`, `where()`, `fold()` — ALL of these use the `Iterator` protocol under the hood. Implementing `Iterable` unlocks the entire Dart collection API for free.
-
----
-
-## Quick Reference Summary
-
-| Pattern | Category | Core Intent | Flutter Example |
+| Pattern | Family | One line | Flutter example |
 |---|---|---|---|
-| **Singleton** | Creational | One instance globally | GetIt service locator |
-| **Factory Method** | Creational | Subclass decides what to create | `PageRoute` subclasses |
-| **Abstract Factory** | Creational | Family of related objects | Material vs Cupertino widget families |
-| **Builder** | Creational | Step-by-step complex construction | `ThemeData.copyWith`, Dio options |
-| **Adapter** | Structural | Convert one interface to another | Third-party SDK wrappers |
-| **Decorator** | Structural | Add behavior by wrapping | `Padding`, `GestureDetector`, `Opacity` |
-| **Facade** | Structural | Simplified interface to subsystem | `Repository` class |
-| **Proxy** | Structural | Control access to an object | `CachedNetworkImage`, Dio interceptors |
-| **Composite** | Structural | Treat leaf and tree uniformly | Widget tree (`Column`, `Row`, `Text`) |
-| **Observer** | Behavioral | Notify dependents of changes | `Stream`, BLoC, `ChangeNotifier` |
-| **Strategy** | Behavioral | Swap algorithms at runtime | Form validators, sort comparators |
-| **Command** | Behavioral | Encapsulate request as object | Undo/redo, queued user actions |
-| **State** | Behavioral | Delegate behavior to state object | Traffic light, game state machine |
-| **Template Method** | Behavioral | Skeleton with overridable steps | Widget lifecycle (`initState`, `build`) |
-| **Iterator** | Behavioral | Sequential access to collection | `Iterable<T>`, `sync*` generators |
+| Singleton | Creational | only one instance | GetIt, SharedPreferences |
+| Factory Method | Creational | a method decides which object to make | `fromJson`, platform widgets |
+| Abstract Factory | Creational | makes a matching family of objects | theme/UI kits |
+| Builder | Creational | build a complex object step by step | named params, cascades |
+| Adapter | Structural | make two interfaces fit | wrap a 3rd-party SDK |
+| Decorator | Structural | wrap to add features | Padding/Center around a widget |
+| Facade | Structural | one simple front for many classes | repository over API+cache |
+| Proxy | Structural | stand-in that controls access | lazy image, caching |
+| Composite | Structural | treat one and many the same | the widget tree |
+| Observer | Behavioral | subscribers notified on change | ChangeNotifier, Streams |
+| Strategy | Behavioral | swap an algorithm at runtime | swappable repos/validators |
+| Command | Behavioral | action as an object (undo) | undo/redo, action queue |
+| State | Behavioral | behaviour changes with internal state | BLoC states, media player |
+| Template Method | Behavioral | fixed skeleton, overridable steps | `build()` hook |
+| Iterator | Behavioral | walk a collection uniformly | `for-in`, Iterable |
+
+## Patterns people confuse
+
+- **Factory Method vs Abstract Factory** → one product vs a matching family. ([Q2](#q2), [Q3](#q3))
+- **Adapter vs Facade** → convert an interface vs simplify many classes. ([Q5](#q5), [Q7](#q7))
+- **Decorator vs Proxy** → add features vs control access. ([Q6](#q6), [Q8](#q8))
+- **Strategy vs State** → caller picks the algorithm vs behaviour changes with internal state. ([Q11](#q11), [Q13](#q13))
+- **Strategy vs Template Method** → inject an algorithm (composition) vs override steps (inheritance). ([Q11](#q11), [Q14](#q14))
+
+## One-line reminders
+
+- **Creational** = how objects are made (Singleton, Factory, Abstract Factory, Builder).
+- **Structural** = how objects are composed (Adapter, Decorator, Facade, Proxy, Composite).
+- **Behavioral** = how objects talk and behave (Observer, Strategy, Command, State, Template Method, Iterator).
+- **Flutter is decorator + composite** — widgets wrap widgets and form a tree. ([Q6](#q6), [Q9](#q9))
+- **Flutter state management is Observer** — ChangeNotifier, ValueNotifier, Streams. ([Q10](#q10))
+- Say the **problem each pattern solves** before naming it. That's the senior signal.
+
+[↑ Back to top](#toc)
 
 ---
 
-*End of Section 14: Design Patterns*
+# Practice: how interviewers go deeper
+
+Interviewers push from "define it" to "where have you used it." Practice out loud:
+
+1. *"Name a pattern you use in Flutter daily."* → Observer (ChangeNotifier/Streams) and Decorator (wrapping widgets).
+2. *"Show Strategy in a real case."* → swappable repositories injected via DI; add a new one without editing existing code.
+3. *"Difference between Strategy and State?"* → caller picks Strategy; State switches itself based on internal state.
+4. *"How would you build undo/redo?"* → Command objects on a stack, each knowing how to undo itself.
+5. *"Isn't this over-engineering?"* → yes if forced; use a pattern only when it solves a real problem (judgment, not memorization).
+
+Explaining *when* and *why* — not just *what* — is exactly what earns a senior signal, in both remote and BD interviews.
+
+[↑ Back to top](#toc)

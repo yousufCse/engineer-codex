@@ -1,1057 +1,932 @@
-# Section 18: Agile, Scrum & Methodology
+# Section 18 — Agile, Scrum & Methodology
+
+> **Senior Flutter / Mobile Engineer — Interview Prep**
+> For **remote** and **Bangladesh (BD)** company interviews.
+> Every answer is in **simple English**, **fully explained step by step**, and **linked** so you can jump around and prepare gradually. This is a process topic — examples are real scenarios, not code.
 
 ---
 
-**Q:** What is the Agile Manifesto? Summarise its 4 values and 12 principles.
+## How to use this section
 
-**A:**
-The Agile Manifesto (2001) is a set of guiding values and principles for software development that prioritises flexibility, collaboration, and delivering working software over rigid processes.
+Each question has the same shape:
 
-### The 4 Core Values
+- **Short answer (say this)** — the 2–3 sentence reply to say first in the interview.
+- **Let's understand it fully** — a step-by-step explanation with real examples.
+- **Why interviewers ask** · **Common mistake** · **Follow-ups they may ask**
+- **Related** — jump to connected questions · **Back to top** — return to the index.
 
-| We value MORE               | Over                          |
-|-----------------------------|-------------------------------|
-| Individuals and interactions | Processes and tools           |
-| Working software            | Comprehensive documentation   |
-| Customer collaboration      | Contract negotiation          |
-| Responding to change        | Following a plan              |
+Each question is tagged with how often it is asked (**Very common / Common / Deeper**) and its difficulty (**Easy / Medium / Hard**).
 
-> Both sides have value — Agile simply prioritises the left side.
-
-### The 12 Principles (summarised)
-
-1. **Customer satisfaction** — Deliver valuable software early and continuously.
-2. **Welcome change** — Even late in development; change gives competitive advantage.
-3. **Frequent delivery** — Ship working software in short cycles (weeks, not months).
-4. **Collaboration** — Business and developers must work together daily.
-5. **Motivated individuals** — Give teams what they need and trust them.
-6. **Face-to-face communication** — The most efficient way to convey information.
-7. **Working software** — The primary measure of progress.
-8. **Sustainable pace** — Teams should maintain a constant, indefinite pace.
-9. **Technical excellence** — Good design and craftsmanship enhance agility.
-10. **Simplicity** — Maximise the amount of work NOT done.
-11. **Self-organising teams** — Best architectures and designs emerge from them.
-12. **Regular reflection** — Teams regularly reflect and adjust their behaviour.
-
-**Example:**
-> A Flutter team ships a new feature every two weeks to real users (Principle 3), collects feedback, and adjusts the backlog (Value: Responding to Change). They don't wait six months to release a "perfect" version.
-
-**Why it matters:** Interviewers want to see that you understand *why* your team works the way it does — not just the mechanics of standups and sprints.
-
-**Common mistake:** Candidates memorise the values as a list but can't explain what "Individuals over processes" means in practice (e.g., a developer raising a concern directly with a designer instead of filing a formal change request).
+> **Interview tip:** For Agile, interviewers want *real experience*, not textbook definitions. Tie each answer to "on my team we did X" — that's far more convincing than reciting the manifesto.
 
 ---
 
-**Q:** What is the difference between Waterfall and Agile? When is each appropriate?
+<a id="toc"></a>
 
-**A:**
-Both are software development methodologies but with fundamentally different philosophies.
+## Table of Contents
 
-```
-WATERFALL (Sequential)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Requirements → Design → Implementation → Testing → Deployment → Maintenance
-     ↓              ↓            ↓             ↓           ↓
-  (done)         (done)       (done)        (done)      (done)
+**A. Agile foundations**
+1. [The Agile Manifesto](#q1) · *Very common*
+2. [Waterfall vs Agile](#q2) · *Very common*
 
-Each phase is COMPLETE before the next begins.
-No going back without significant cost.
+**B. Scrum roles & artifacts**
+3. [The Scrum framework (overview)](#q3) · *Very common*
+4. [The 3 Scrum roles](#q4) · *Very common*
+5. [Scrum artifacts](#q5) · *Common*
 
+**C. Sprint & ceremonies**
+6. [What is a Sprint?](#q6) · *Very common*
+7. [Sprint Planning](#q7) · *Common*
+8. [Daily Standup](#q8) · *Very common*
+9. [Sprint Review vs Retrospective](#q9) · *Common*
+10. [Backlog refinement](#q10) · *Common*
 
-AGILE (Iterative)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**D. Estimation & tracking**
+11. [User stories (format, AC, DoD)](#q11) · *Very common*
+12. [Story points & planning poker](#q12) · *Very common*
+13. [Velocity](#q13) · *Common*
+14. [Burndown chart](#q14) · *Common*
 
-Sprint 1        Sprint 2        Sprint 3
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│Plan      │   │Plan      │   │Plan      │
-│Build     │ → │Build     │ → │Build     │ → ...
-│Test      │   │Test      │   │Test      │
-│Review    │   │Review    │   │Review    │
-└──────────┘   └──────────┘   └──────────┘
-Each sprint delivers WORKING SOFTWARE.
-Requirements can change between sprints.
-```
+**E. Practice & tools**
+15. [Kanban vs Scrum (WIP limits)](#q15) · *Common*
+16. [Handling changing requirements mid-sprint](#q16) · *Common*
+17. [Technical debt in a sprint team](#q17) · *Common*
+18. [Jira (epics, stories, tasks)](#q18) · *Common*
 
-### Key Differences
-
-| Aspect           | Waterfall                      | Agile                              |
-|------------------|--------------------------------|------------------------------------|
-| Structure        | Linear, sequential             | Iterative, incremental             |
-| Flexibility      | Low — changes are expensive    | High — change is expected          |
-| Customer role    | Involved at start and end      | Involved throughout                |
-| Testing          | At the end                     | Continuous                         |
-| Delivery         | Once at the end                | Every sprint                       |
-| Documentation    | Heavy upfront                  | Lightweight, just enough           |
-| Best for         | Fixed, known requirements      | Evolving, unclear requirements     |
-| Risk             | Risk is discovered late        | Risk is discovered early           |
-
-### When to use Waterfall
-- Requirements are **fully known and fixed** (e.g., building a bridge control system)
-- Regulatory or compliance-heavy projects (aerospace, medical devices)
-- Short projects with clear scope and no expected changes
-- Projects where client availability is limited after sign-off
-
-### When to use Agile
-- Requirements are **uncertain or evolving** (most mobile apps)
-- Startups building MVPs and iterating on user feedback
-- Products that need frequent releases (e.g., a Flutter app on the Play Store)
-- Teams co-located or in continuous contact with the customer
-
-**Example:**
-> A Flutter e-commerce app uses Agile — the client constantly changes priorities based on user analytics. Waterfall would be appropriate for building the ATM firmware that connects to the app, where requirements are fixed and regulated.
-
-**Why it matters:** Shows you understand methodology trade-offs, not just "Agile is always better."
-
-**Common mistake:** Saying "Waterfall is bad, Agile is always better." In reality, hybrid models (e.g., Wagile) exist, and some domains genuinely need Waterfall's predictability.
+**Quick links:** [How to prepare gradually](#study-plan) · [Cheat Sheet (last-night review)](#cheatsheet)
 
 ---
 
-**Q:** Explain the Scrum framework — roles, artifacts, and ceremonies.
+<a id="study-plan"></a>
 
-**A:**
-Scrum is an Agile framework for delivering complex products in short, fixed cycles called **sprints**.
+## How to prepare gradually (study plan)
 
-```
-SCRUM FRAMEWORK OVERVIEW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Stage 1 — The foundations (start here).**
+→ [Q1 Agile Manifesto](#q1) · [Q2 Waterfall vs Agile](#q2) · [Q3 Scrum overview](#q3)
 
-  ROLES                  ARTIFACTS               CEREMONIES
-  ─────                  ─────────               ──────────
-  Product Owner   ──→    Product Backlog    ──→   Sprint Planning
-  Scrum Master    ──→    Sprint Backlog     ──→   Daily Standup
-  Dev Team        ──→    Increment          ──→   Sprint Review
-                                            ──→   Sprint Retrospective
+**Stage 2 — The Scrum machinery.**
+→ [Q4 Roles](#q4) · [Q5 Artifacts](#q5) · [Q6 Sprint](#q6)
 
+**Stage 3 — The ceremonies.**
+→ [Q7 Planning](#q7) · [Q8 Standup](#q8) · [Q9 Review vs Retro](#q9) · [Q10 Refinement](#q10)
 
-  SPRINT CYCLE (2 weeks example)
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Day 1                                           Day 14
-  │                                                    │
-  ▼                                                    ▼
-  [Sprint Planning] ──→ [Daily Standups x13] ──→ [Review] ──→ [Retro]
-        ↑                                               │
-        └──────────── Next Sprint ◄────────────────────┘
-```
+**Stage 4 — Estimation & tracking.**
+→ [Q11 User stories](#q11) · [Q12 Story points](#q12) · [Q13 Velocity](#q13) · [Q14 Burndown](#q14)
+
+**Stage 5 — Real-world practice.**
+→ [Q15 Kanban](#q15) · [Q16 Changing requirements](#q16) · [Q17 Tech debt](#q17) · [Q18 Jira](#q18)
+
+**Short on time?** Review [Q1](#q1) · [Q2](#q2) · [Q3](#q3) · [Q8](#q8) · [Q11](#q11) · [Q12](#q12), then the [Cheat Sheet](#cheatsheet).
 
 ---
 
-### ROLES
-
-#### 1. Product Owner (PO)
-- Owns the **Product Backlog** — decides what gets built and in what priority
-- Represents the **customer/business** to the team
-- Writes and clarifies user stories
-- Accepts or rejects completed work
-- **One person** — not a committee
-
-#### 2. Scrum Master (SM)
-- **Servant-leader** — not a manager or project manager
-- Removes impediments blocking the team
-- Coaches the team on Scrum practices
-- Protects the team from external interference
-- Facilitates Scrum ceremonies
-
-#### 3. Development Team
-- Cross-functional — designers, developers, QA (all roles needed to ship)
-- **Self-organising** — decides HOW to do the work
-- Typically 3–9 people
-- Collectively responsible for delivering the sprint goal
+# A. Agile foundations
 
 ---
 
-### ARTIFACTS
+<a id="q1"></a>
+## 1. What is the Agile Manifesto?
 
-#### 1. Product Backlog
-- A prioritised list of **everything** the product might need
-- Owned and managed by the Product Owner
-- Items at the top are refined, detailed, and ready to pick up
-- Items at the bottom are vague and high-level (epics)
-- Never "done" — evolves throughout the product's life
+> Very common · Easy
 
-```
-PRODUCT BACKLOG (priority order)
-┌─────────────────────────────────────────────────┐
-│ 1. [Story] As a user, I want to log in with     │  ← Refined, ready
-│    Google so that I don't need a password       │
-│ 2. [Story] Push notifications for order status  │  ← Refined
-│ 3. [Epic]  Offline mode support                 │  ← Needs breakdown
-│ 4. [Idea]  AI-powered product recommendations  │  ← Vague, future
-└─────────────────────────────────────────────────┘
-```
+**Short answer (say this):**
+"The Agile Manifesto (2001) is a set of values for building software in a flexible, customer-focused way. Its heart is four value statements — like 'individuals and interactions over processes and tools' and 'responding to change over following a plan'. It doesn't say the right side is worthless; it says the left side matters more."
 
-#### 2. Sprint Backlog
-- Subset of the Product Backlog **selected for this sprint**
-- Includes the sprint goal and the tasks needed to achieve it
-- **Owned by the Dev Team** — they can add/remove tasks during the sprint
-- Visible on the sprint board (To Do → In Progress → Done)
+**Let's understand it fully:**
 
-#### 3. Increment
-- The sum of **all completed backlog items** during a sprint
-- Must be in a **potentially shippable state** at the end of every sprint
-- Must meet the team's **Definition of Done**
-- You don't have to release it, but it must be releasable
+**Step 1 — A real-life picture: cooking by taste.**
+A rigid recipe (Waterfall) is followed exactly even if the dish tastes wrong. Agile means you taste as you cook and adjust — you respond to feedback instead of blindly following the plan.
 
----
+**Step 2 — The 4 values (each is "X over Y").**
 
-### CEREMONIES
+| We value... | over... |
+|---|---|
+| Individuals and interactions | processes and tools |
+| Working software | comprehensive documentation |
+| Customer collaboration | contract negotiation |
+| Responding to change | following a plan |
 
-#### 1. Sprint Planning
-- **When:** Start of each sprint
-- **Who:** Entire Scrum team
-- **What:** PO presents top backlog items → team selects what they can commit to → team breaks items into tasks
-- **Output:** Sprint Goal + Sprint Backlog
+The key phrase: "while there is value in the items on the right, we value the items on the left more."
 
-#### 2. Daily Standup (Daily Scrum)
-- **When:** Every day, same time, 15 minutes max
-- **Who:** Dev team (SM optional, PO optional)
-- **What:** Each person answers 3 questions:
-  1. What did I do yesterday?
-  2. What will I do today?
-  3. Any blockers?
-- **Output:** Shared awareness + flagged impediments
+**Step 3 — The 12 principles (the gist).**
+They expand the values: deliver working software frequently, welcome changing requirements, work closely with the business, build around motivated people, reflect and improve regularly, and keep a sustainable pace.
 
-#### 3. Sprint Review
-- **When:** End of sprint
-- **Who:** Scrum team + stakeholders
-- **What:** Team **demos** the completed increment to stakeholders
-- **Output:** Feedback, updated backlog, stakeholder alignment
+**Step 4 — What Agile is NOT.**
+Agile isn't "no planning" or "no documentation." It's *less upfront rigidity* and *more frequent feedback and adjustment*.
 
-#### 4. Sprint Retrospective
-- **When:** After Sprint Review, before next Sprint Planning
-- **Who:** Scrum team only (no stakeholders)
-- **What:** Team reflects on their **process**:
-  - What went well?
-  - What didn't go well?
-  - What will we improve?
-- **Output:** Action items for process improvement
+**Why interviewers ask:** It checks you understand Agile's *spirit* (feedback and flexibility), not just buzzwords.
 
-**Example:**
-> In a Flutter team, the Sprint Review demo shows the new "Track Order" screen to the client. The client says the map is confusing — this feedback becomes a new backlog item. In the Retrospective, the team notes that QA always starts too late; they agree to write test cases during development, not after.
+**Common mistake:** Saying Agile means "no documentation" or "no plan." It means valuing working software and adaptability *more*, not throwing the others away.
 
-**Why it matters:** Scrum is the most widely used Agile framework. Interviewers expect you to know all roles, artifacts, and ceremonies — and understand their purpose, not just their names.
+**Follow-ups they may ask:**
+- *"Agile vs Scrum?"* → Agile is the mindset (values); Scrum is one specific framework that implements it ([Q3](#q3)).
 
-**Common mistake:** Confusing Sprint Review (showing *what* was built) with Sprint Retrospective (improving *how* the team works). These serve completely different purposes.
+**Related:** [Q2 — Waterfall vs Agile](#q2) · [Q3 — Scrum](#q3)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is a Sprint? What is its typical duration? What happens when the sprint goal is not met?
+<a id="q2"></a>
+## 2. What is the difference between Waterfall and Agile? When is each appropriate?
 
-**A:**
-A **Sprint** is a fixed-length, time-boxed iteration (typically 1–4 weeks) during which the Scrum team creates a potentially shippable product Increment.
+> Very common · Medium
+
+**Short answer (say this):**
+"Waterfall is sequential — you finish all requirements, then design, then build, then test, in fixed phases. Agile is iterative — you build and release in small cycles, getting feedback constantly. Waterfall suits projects with fixed, well-understood requirements (like regulated or hardware projects); Agile suits projects where requirements evolve, which is most software."
+
+**Let's understand it fully:**
+
+**Step 1 — Waterfall — one big sequence.**
 
 ```
-SPRINT STRUCTURE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
- ┌─────────────────────────────────────────────┐
- │              SPRINT (2 weeks)               │
- │                                             │
- │  Day 1       Days 2–13         Day 14       │
- │  ┌──────┐   ┌──────────┐   ┌──────────┐    │
- │  │Sprint│   │  Daily   │   │ Review + │    │
- │  │Plann-│   │Standups  │   │  Retro   │    │
- │  │ ing  │   │+ Dev work│   │          │    │
- │  └──────┘   └──────────┘   └──────────┘    │
- │                                             │
- │  Sprint Goal: "Complete user auth flow"     │
- └─────────────────────────────────────────────┘
+Requirements → Design → Build → Test → Release
+   (each phase finishes before the next starts; change is expensive)
 ```
 
-### Key Sprint Rules
-- **Fixed duration** — sprints don't extend to finish incomplete work
-- **Sprint goal** — a short objective that gives the sprint focus and direction
-- **No changes** that would endanger the sprint goal once it's started (PO can clarify, not add scope)
-- Sprints are **consecutive** — no gaps between them
+**Step 2 — Agile — small repeating cycles.**
 
-### Typical Duration
-| Duration | Best for                                              |
-|----------|-------------------------------------------------------|
-| 1 week   | Fast feedback cycles, unstable requirements           |
-| 2 weeks  | **Most common** — good balance of speed and planning  |
-| 3 weeks  | Moderate complexity, larger teams                     |
-| 4 weeks  | Complex features requiring longer development cycles  |
+```
+[plan → build → test → release → feedback] → repeat every 1–4 weeks
+   (you adjust each cycle based on real feedback)
+```
 
-### What happens when the sprint goal is NOT met?
+**Step 3 — The trade-offs.**
 
-The sprint **ends on time regardless** — the time-box is never extended. Here's what happens:
+| | Waterfall | Agile |
+|---|---|---|
+| Requirements | fixed upfront | evolve over time |
+| Feedback | late (after release) | continuous |
+| Change | expensive, discouraged | expected, welcomed |
+| Risk | found late | found early |
 
-1. **Incomplete items** are returned to the Product Backlog (not automatically carried forward)
-2. The **Sprint Review** still happens — team demos what *was* completed
-3. The **Sprint Retrospective** is especially important — the team identifies why the goal wasn't met
-4. The PO **re-prioritises** returned items for the next sprint
-5. Velocity data is updated — this sprint's velocity reflects what was actually completed
+**Step 4 — When to use each.**
+- **Waterfall** — requirements are fixed and clear, change is costly (medical devices, construction, fixed-scope contracts).
+- **Agile** — requirements will change and you want early feedback (most apps and products).
 
-> **A sprint is NOT cancelled** because the goal wasn't met. Cancellation is rare and only done by the PO when the sprint goal becomes obsolete (e.g., market changes, company pivot).
+**Why interviewers ask:** It tests that you can match the process to the project, not dogmatically push one.
 
-**Example:**
-> The sprint goal was "implement push notifications." By Day 14, the team completed 6 of 8 stories. The 2 incomplete stories (deep-link handling, notification settings screen) are returned to the backlog. The retro reveals the team underestimated the APNs certificate setup. In the next sprint planning, those 2 stories are re-estimated with the new knowledge.
+**Common mistake:** Claiming Agile is always better. For truly fixed-scope, safety-critical projects, Waterfall's upfront rigor can be the right choice.
 
-**Why it matters:** Interviewers want to see you understand that Scrum is about **discipline and learning**, not just hitting targets. Handling failure gracefully is a sign of a mature team.
+**Follow-ups they may ask:**
+- *"Can you mix them?"* → Yes — "hybrid" approaches use upfront planning for fixed parts and Agile cycles for evolving parts.
 
-**Common mistake:** Saying "we just carry the stories over to the next sprint automatically." This bypasses re-prioritisation — the PO may decide something else is now more important.
+**Related:** [Q1 — Agile Manifesto](#q1) · [Q19 (SDLC) — models](section_19_sdlc_interview_prep.md#q1)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is Kanban? How does it differ from Scrum? What are WIP limits? When should you use Kanban?
-
-**A:**
-**Kanban** is a visual workflow management method focused on continuous delivery, not time-boxed sprints. It comes from Toyota's manufacturing system and means "visual card" in Japanese.
-
-```
-KANBAN BOARD
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-┌───────────┬────────────────┬────────────────┬─────────┐
-│  BACKLOG  │   IN PROGRESS  │   IN REVIEW    │  DONE   │
-│           │   (WIP: max 3) │   (WIP: max 2) │         │
-├───────────┼────────────────┼────────────────┼─────────┤
-│ [Story A] │ [Story C] 👤   │ [Story E] 👤   │[StoryG] │
-│ [Story B] │ [Story D] 👤   │ [Story F] 👤   │[StoryH] │
-│ [Story I] │ [Story J] 👤   │                │[StoryK] │
-│ [Story L] │                │                │         │
-└───────────┴────────────────┴────────────────┴─────────┘
-                ↑ WIP LIMIT REACHED (3/3) — no new work
-                  until a card moves to In Review
-```
-
-### WIP (Work In Progress) Limits
-- A **maximum number of items** allowed in a column at any time
-- Forces the team to **finish before starting** something new
-- Surfaces bottlenecks — if "In Review" is always at capacity, QA is the bottleneck
-- Reduces context switching and multitasking
-
-### Scrum vs Kanban
-
-| Aspect             | Scrum                          | Kanban                          |
-|--------------------|--------------------------------|---------------------------------|
-| Cadence            | Fixed sprints (1–4 weeks)      | Continuous flow, no sprints     |
-| Roles              | PO, SM, Dev Team (mandatory)   | No prescribed roles             |
-| Ceremonies         | Sprint planning, standups, etc.| No mandatory ceremonies         |
-| WIP limits         | Implicit (sprint capacity)     | Explicit per-column limits      |
-| Commitment         | Sprint commitment               | No formal commitment            |
-| Change             | No change mid-sprint           | Change any time                 |
-| Planning           | Sprint planning session         | Continuous, pull-based          |
-| Metrics            | Velocity, burndown              | Cycle time, throughput, CFD     |
-| Releases           | End of sprint                   | Any time a card is done         |
-| Best for           | Feature development teams       | Support, maintenance, ops teams |
-
-### When to use Kanban
-- **Support/maintenance teams** with unpredictable incoming work (bug fixes, hotfixes)
-- **Ops or DevOps teams** where work arrives continuously and urgently
-- Teams with no fixed release cycle
-- Small teams who find Scrum ceremonies too heavyweight
-- As a **visualisation layer** on top of Scrum (Scrumban)
-
-**Example:**
-> A Flutter team uses Scrum for feature development (new screens, new APIs). Separately, the bug-fix and support team uses Kanban — bugs arrive unpredictably, and a sprint model would mean waiting until the next sprint to fix a production crash.
-
-**Why it matters:** Shows you understand there's no single "best" methodology — the right choice depends on the type of work.
-
-**Common mistake:** Treating Kanban and Scrum as competitors. Many mature teams use **Scrumban** — sprint structure from Scrum with WIP limits and continuous flow from Kanban.
+# B. Scrum roles & artifacts
 
 ---
 
-**Q:** What are story points? Why do teams prefer them over hours?
+<a id="q3"></a>
+## 3. Explain the Scrum framework (overview).
 
-**A:**
-**Story points** are a unit of measure for the **relative effort, complexity, and uncertainty** of a user story — not the time it will take.
+> Very common · Medium
 
-They are abstract, relative numbers — typically using the **Fibonacci sequence** (1, 2, 3, 5, 8, 13, 21) because the gaps between numbers reflect increasing uncertainty as complexity grows.
+**Short answer (say this):**
+"Scrum is the most popular Agile framework. Work is done in fixed-length Sprints (usually 1–4 weeks). It has three roles (Product Owner, Scrum Master, Developers), three artifacts (Product Backlog, Sprint Backlog, Increment), and a set of events (Sprint Planning, Daily Standup, Sprint Review, Retrospective). The goal is to deliver a working increment every Sprint."
+
+**Let's understand it fully:**
+
+**Step 1 — The big picture.**
 
 ```
-STORY POINTS vs HOURS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Story A: "Add a logout button"           → 1 point
-  Story B: "Implement JWT auth flow"        → 5 points
-  Story C: "Build offline sync for orders" → 13 points
-
-  Story B is NOT 5x the HOURS of Story A.
-  It is 5x MORE COMPLEX/UNCERTAIN/EFFORTFUL.
-
-  Hours estimate:                          Point estimate:
-  Dev 1: "That's 3 hours"                  "That's a 5"
-  Dev 2: "No way, 8 hours"                 (Team agrees via Planning Poker)
-  Dev 3: "Depends — 2–10 hours"
-  → Argument about time                    → Conversation about complexity
+Product Backlog → [Sprint Planning] → Sprint Backlog
+   → daily work + [Daily Standup] (1–4 weeks)
+   → working Increment → [Sprint Review] + [Retrospective] → repeat
 ```
 
-### Why teams prefer story points over hours
+**Step 2 — The three parts.**
+- **Roles** — Product Owner (the "what"), Scrum Master (the process coach), Developers (the "how"). See [Q4](#q4).
+- **Artifacts** — Product Backlog, Sprint Backlog, Increment. See [Q5](#q5).
+- **Events** — Planning, Daily Standup, Review, Retrospective (plus the Sprint itself). See [Q7](#q7)–[Q9](#q9).
 
-| Reason                         | Explanation                                                                          |
-|--------------------------------|--------------------------------------------------------------------------------------|
-| **Avoids false precision**     | Hours imply certainty that doesn't exist in software                                 |
-| **Team-relative, not personal**| A 5-point story takes the same "effort" regardless of who does it (at team scale)    |
-| **Accounts for uncertainty**   | Points capture complexity + risk, not just time                                      |
-| **Removes pressure**           | Hours become commitments; points are estimates that enable learning                  |
-| **Enables velocity tracking**  | Teams measure how many points they complete per sprint, enabling future planning     |
-| **Faster to estimate**         | Planning Poker with points converges faster than estimating in hours                 |
+**Step 3 — The rhythm.**
+Each Sprint is a complete mini-cycle: plan it, build it, show it (Review), improve how you work (Retrospective), repeat. Every Sprint should end with something potentially shippable.
 
-### Planning Poker
-A common estimation technique where each team member simultaneously reveals a card with their point estimate. Outliers discuss their reasoning, and the team re-votes until there's consensus.
+**Why interviewers ask:** It's the baseline Scrum question; they confirm you know the roles, artifacts, and events fit together.
 
-**Example:**
-> Story: "Implement biometric login in Flutter using local_auth"
-> - Dev 1 plays 5 (knows the plugin well)
-> - Dev 2 plays 13 (hasn't used biometrics on iOS before, thinks it's risky)
-> - After discussion: team agrees on 8 — moderate complexity + iOS uncertainty
+**Common mistake:** Calling the Scrum Master a "boss" or "project manager." The Scrum Master is a facilitator/coach, not a manager ([Q4](#q4)).
 
-**Why it matters:** Story points reflect team maturity. Interviewers want to see you understand the *purpose* of estimation — building shared understanding and enabling planning, not generating hour-by-hour schedules.
+**Follow-ups they may ask:**
+- *"How long is a Sprint?"* → Usually 1–4 weeks, most commonly 2 ([Q6](#q6)).
 
-**Common mistake:** Saying "story points are just hours in disguise" or trying to convert them (e.g., "1 point = 4 hours"). The moment you do that, you lose all the benefits.
+**Related:** [Q4 — roles](#q4) · [Q5 — artifacts](#q5) · [Q6 — sprint](#q6)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is a user story? Explain the format, acceptance criteria, and Definition of Done.
+<a id="q4"></a>
+## 4. What are the three Scrum roles?
 
-**A:**
-A **user story** is a short, simple description of a feature told from the perspective of the person who wants it. It captures **who wants it, what they want, and why**.
+> Very common · Medium
 
-### User Story Format
-```
-"As a [type of user],
- I want [some goal]
- so that [some reason/benefit]."
-```
+**Short answer (say this):**
+"There are three: the Product Owner owns the 'what' — the backlog and priorities, representing the customer. The Scrum Master owns the 'how we work' — coaching the team and removing obstacles, not bossing people. The Developers own the 'how' — they build the increment and decide how much they can commit to."
 
-### Real Examples
-```
-As a shopper,
-I want to filter products by price range
-so that I only see items I can afford.
+**Let's understand it fully:**
 
-As a logged-in user,
-I want to receive a push notification when my order ships
-so that I know when to expect my delivery.
+**Step 1 — Product Owner (PO) — the voice of the customer.**
+- Owns and prioritizes the **Product Backlog**.
+- Decides *what* gets built and in what order (maximizes value).
+- Says yes/no to scope; the single decision-maker on priorities.
 
-As an admin,
-I want to export order data as a CSV
-so that I can analyse sales in Excel.
-```
+**Step 2 — Scrum Master (SM) — the coach.**
+- Facilitates the events and protects the team's process.
+- **Removes blockers** (impediments) so developers can work.
+- Coaches the team on Scrum; serves the team, does **not** assign tasks or manage people.
 
-### Acceptance Criteria (AC)
-Acceptance Criteria are the **specific conditions** that must be met for the story to be considered complete. They are written by the PO (with team input) and define the boundaries of the story.
+**Step 3 — Developers — the builders.**
+- Do the actual work (design, code, test).
+- **Self-organizing**: they decide how to do the work and how much to commit to each Sprint.
+- Cross-functional: together they have all skills needed to deliver.
 
-```
-Story: "As a user, I want to log in with my Google account"
+**Step 4 — The clear line.**
+PO = *what* and *why*. Developers = *how* and *how much*. SM = *helps the process work*. Mixing these (e.g. SM dictating tasks, or PO promising dates to clients without the team) breaks Scrum.
 
-Acceptance Criteria:
-  ✅ Given I am on the login screen,
-     When I tap "Sign in with Google",
-     Then the Google OAuth flow should open
+**Why interviewers ask:** Confusing the roles (especially SM as a manager) is the most common Scrum mistake; they check you understand the boundaries.
 
-  ✅ Given I successfully authenticate with Google,
-     When I return to the app,
-     Then I should be logged in and see the home screen
+**Common mistake:** Treating the Scrum Master as a traditional project manager who assigns work. The SM facilitates and unblocks; the team self-organizes.
 
-  ✅ Given Google sign-in fails or is cancelled,
-     When I return to the app,
-     Then I should remain on the login screen with an error message
+**Follow-ups they may ask:**
+- *"Who decides the sprint scope?"* → The PO sets priority order; the **Developers** decide how much they can take on.
 
-  ✅ The user's name and profile picture should appear in the app header
-```
+**Related:** [Q3 — Scrum overview](#q3) · [Q5 — artifacts](#q5)
 
-> ACs often use **Given/When/Then** format (Gherkin syntax) to make them testable.
-
-### Definition of Done (DoD)
-The DoD is a **team-wide checklist** that every story must satisfy before it can be marked "Done." It applies to ALL stories, unlike ACs which are story-specific.
-
-```
-DEFINITION OF DONE (example Flutter team)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ☐ Code is written and peer-reviewed (PR approved)
-  ☐ Unit tests written and passing (≥80% coverage)
-  ☐ Widget tests written for new UI components
-  ☐ No lint errors (flutter analyze passes)
-  ☐ Feature works on both iOS and Android
-  ☐ Accessibility labels added (semantics)
-  ☐ No hardcoded strings (i18n keys used)
-  ☐ Code merged to main branch
-  ☐ Product Owner has accepted the story
-  ☐ No known bugs introduced
-```
-
-**Example:**
-> A story passes all its Acceptance Criteria (the Google login works) but the code has no tests and wasn't reviewed. According to the DoD, it is **not Done**. The team cannot count it in the sprint velocity.
-
-**Why it matters:** ACs and DoD are quality gates. Interviewers check whether you ship working, tested, maintainable code — not just "it works on my machine."
-
-**Common mistake:** Confusing Acceptance Criteria (story-specific, written by PO) with Definition of Done (team-wide, applies to every story). They serve different purposes.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is backlog refinement (grooming)? What happens and who is involved?
+<a id="q5"></a>
+## 5. What are the Scrum artifacts?
 
-**A:**
-**Backlog refinement** (formerly called grooming) is an ongoing activity where the Scrum team reviews, clarifies, estimates, and prioritises items in the Product Backlog to ensure they are ready for future sprints.
+> Common · Easy–Medium
 
-It is **not a formal Scrum ceremony** — it's a continuous process, though many teams schedule a regular refinement session (typically mid-sprint).
+**Short answer (say this):**
+"There are three: the Product Backlog is the full, prioritized list of everything the product might need. The Sprint Backlog is the subset the team commits to for the current Sprint, plus the plan to do it. The Increment is the working, potentially shippable result at the end of the Sprint."
+
+**Let's understand it fully:**
+
+**Step 1 — Product Backlog — the master to-do list.**
+- Owned by the Product Owner.
+- Everything that *might* be built, ordered by priority/value.
+- Living — items are added, removed, and re-ordered continuously.
+
+**Step 2 — Sprint Backlog — this Sprint's plan.**
+- The items pulled from the Product Backlog for *this* Sprint, plus the Sprint Goal.
+- Owned by the Developers; they decide what's realistic.
+- Doesn't change much mid-Sprint (the goal is protected — see [Q16](#q16)).
+
+**Step 3 — Increment — the working result.**
+- The sum of all completed work this Sprint, meeting the **Definition of Done** ([Q11](#q11)).
+- Must be *potentially shippable* — actually working, not half-done.
+
+**Step 4 — The flow.**
 
 ```
-BACKLOG REFINEMENT FLOW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Product Backlog (before refinement):
-  ┌─────────────────────────────────────────┐
-  │ [Vague Epic] Improve app performance    │
-  │ [Vague Story] Add notifications         │
-  │ [No AC] User profile editing            │
-  └─────────────────────────────────────────┘
-           │
-           ▼  (Refinement session)
-  ┌─────────────────────────────────────────────────────┐
-  │ [Story 3pt] As a user, I want to edit my display    │
-  │ name — AC: name updates immediately in header,      │
-  │ validated max 50 chars, error shown on API failure  │
-  │                                                     │
-  │ [Story 5pt] As a user, I want push notifications    │
-  │ for order status — AC: iOS + Android, opt-in flow,  │
-  │ deep link to order screen                           │
-  │                                                     │
-  │ [Epic → split into 4 stories] App performance       │
-  └─────────────────────────────────────────────────────┘
-  Stories are now clear, estimated, and READY.
+Product Backlog (everything) → Sprint Backlog (this sprint) → Increment (done & working)
 ```
 
-### What happens in refinement
+**Why interviewers ask:** It tests whether you understand what the team commits to and what "done" means each Sprint.
 
-1. **Clarification** — Team asks questions about vague stories; PO answers
-2. **Splitting** — Large stories (epics) are broken into smaller, sprint-sized stories
-3. **Estimation** — Team estimates stories using story points (Planning Poker)
-4. **Acceptance Criteria written** — PO adds or refines ACs with team input
-5. **Prioritisation** — PO re-orders the backlog based on business value
-6. **Definition of Ready check** — Is this story ready to be pulled into a sprint?
+**Common mistake:** Confusing Product Backlog (everything, PO-owned) with Sprint Backlog (this Sprint, team-owned).
 
-### Who is involved
-- **Product Owner** — leads the session, clarifies requirements, updates priorities
-- **Development Team** — estimates effort, raises technical concerns, suggests splits
-- **Scrum Master** — facilitates, timekeeps, ensures the process runs smoothly
-- (Optional) Designers, architects, or stakeholders for specific stories
+**Follow-ups they may ask:**
+- *"Who owns each?"* → Product Backlog = PO; Sprint Backlog = Developers.
 
-### Recommended time investment
-Scrum Guide suggests no more than **10% of the team's capacity** per sprint. For a 2-week sprint, that's roughly **4–8 hours** of refinement total.
+**Related:** [Q4 — roles](#q4) · [Q10 — refinement](#q10) · [Q11 — Definition of Done](#q11)
 
-**Example:**
-> Mid-sprint (Day 7 of a 2-week sprint), the team holds a 90-minute refinement session. The PO presents 8 backlog items for the next sprint. The team points out that "implement Stripe payments" is too large — it gets split into: (1) add payment method screen, (2) Stripe SDK integration, (3) payment confirmation + error handling. Each is estimated separately.
-
-**Why it matters:** Refinement is what makes Sprint Planning fast and effective. Without it, Sprint Planning becomes a long, painful discovery session. Interviewers want to see you understand that good sprints start with a well-refined backlog.
-
-**Common mistake:** Thinking refinement only happens in one big session before each sprint. In practice, it should be a **continuous, lightweight activity** — the PO and tech lead might refine items informally throughout the sprint.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is sprint velocity? How is it used for planning?
-
-**A:**
-**Sprint velocity** is the total number of story points a team completes in a single sprint. It is measured after each sprint and used to predict future capacity.
-
-```
-VELOCITY OVER SPRINTS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Sprint:   S1    S2    S3    S4    S5    S6
-Points:   24    28    22    30    26    28
-
-          ↑                       ↑
-      (New team,              (All points
-      learning Scrum)          completed)
-
-Average velocity = (24+28+22+30+26+28) / 6 = 26.3 ≈ 26 points/sprint
-```
-
-### How velocity is used
-
-**1. Sprint Planning Capacity**
-> If the team's average velocity is 26 points, the team should pull approximately 26 points of work into the next sprint — no more.
-
-**2. Release Forecasting**
-```
-Product Backlog remaining: 120 story points
-Average velocity:           26 points/sprint
-
-Estimated sprints to completion: 120 / 26 ≈ 5 sprints
-At 2 weeks/sprint = ~10 weeks to release
-```
-
-**3. Spotting trends**
-- Velocity dropping? Possible causes: tech debt, team changes, unclear requirements
-- Velocity spiking? Possible causes: inflation of estimates, overwork (unsustainable)
-- Consistent velocity? Healthy, predictable team
-
-### Important caveats
-- Velocity is **team-specific** — never compare velocity across different teams
-- Don't use velocity as a performance metric — it leads to inflated estimates
-- Velocity fluctuates; use a **rolling average** (last 3–5 sprints) for planning
-- Velocity only counts **Done** stories (meeting DoD) — partial work = 0 points
-
-**Example:**
-> The PO asks: "Can we launch the Flutter app in 3 months?" The SM pulls up the last 5 sprints: average velocity is 30 points. The remaining backlog is 180 points. 180 / 30 = 6 sprints × 2 weeks = 12 weeks ≈ 3 months. With buffer for unknowns, the realistic answer is "3–4 months."
-
-**Why it matters:** Velocity enables data-driven planning. Interviewers want to see you understand it as a forecasting tool — not a target to hit or a way to rank developer productivity.
-
-**Common mistake:** Saying "we need to increase velocity every sprint." A team gaming velocity (over-pointing stories) doesn't deliver more — they just have misleading numbers.
+# C. Sprint & ceremonies
 
 ---
 
-**Q:** What is the Daily Standup? What is its purpose, and what do you say?
+<a id="q6"></a>
+## 6. What is a Sprint, how long is it, and what happens if the goal isn't met?
 
-**A:**
-The **Daily Standup** (Daily Scrum) is a 15-minute, time-boxed event held every day at the same time. Its purpose is to **synchronise the team**, surface blockers, and create a shared plan for the next 24 hours.
+> Very common · Medium
 
-It is for the **development team** — not a status report to managers.
+**Short answer (say this):**
+"A Sprint is a fixed time-box, usually 2 weeks, in which the team builds a working increment toward a Sprint Goal. The length is fixed and doesn't get extended. If the goal isn't met, you don't extend the Sprint — unfinished work goes back to the backlog and is re-planned, and the Retrospective looks at why."
 
-### The 3 Questions
-Each team member answers:
-1. **What did I do yesterday** that helped the team move toward the sprint goal?
-2. **What will I do today** to help the team move toward the sprint goal?
-3. **Do I have any blockers** or impediments?
+**Let's understand it fully:**
 
-```
-GOOD vs BAD STANDUP ANSWERS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Step 1 — A fixed time-box.**
+A Sprint has a set length (commonly 2 weeks; 1–4 is normal). The length stays consistent so the team builds a steady rhythm and predictable velocity.
 
-❌ BAD (vague, no sprint goal reference):
-"Yesterday I worked on the app. Today I'll keep working on it.
- No blockers."
+**Step 2 — Key rules.**
+- No changes that endanger the **Sprint Goal**.
+- Scope can be clarified, but the goal is protected.
+- It ends on the planned date — never extended.
 
-✅ GOOD (specific, goal-oriented, actionable):
-"Yesterday I finished the product detail screen widget tests —
- PROD-47 is now in review. Today I'm starting the cart
- screen UI (PROD-52). I'm blocked on the cart API schema —
- I need 30 minutes with Sarah after standup to clarify
- the discount field structure."
-```
+**Step 3 — What if the goal isn't met?**
+- The Sprint still **ends on time** — you don't extend it.
+- Unfinished items go **back to the Product Backlog** to be re-estimated and re-prioritized.
+- The **Retrospective** ([Q9](#q9)) examines *why* (over-commitment? blockers? unclear stories?) and the team adjusts.
 
-### Common Standup Anti-patterns
+**Step 4 — Why fixed length matters.**
+A consistent Sprint length makes velocity meaningful ([Q13](#q13)) and creates a reliable delivery cadence. Extending Sprints hides problems instead of surfacing them.
 
-| Anti-pattern                | Problem                                               |
-|-----------------------------|-------------------------------------------------------|
-| Deep problem-solving        | Kills the 15-minute limit; take it offline            |
-| Status report to the SM/PO  | It's a team sync, not a reporting session             |
-| Skipping blockers           | Pride or fear — blockers fester and slow the team     |
-| Repeating the Jira board    | "I'm working on PROD-47" with no context adds nothing |
-| Absent team members         | Breaks synchronisation; join remotely if needed       |
+**Why interviewers ask:** It tests the core Scrum discipline — fixed time-boxes and honest handling of unfinished work.
 
-### Format tips
-- **Stand up** (if in-person) — keeps it short
-- Talk to **each other**, not to the Scrum Master
-- If discussion is needed: "Let's take that offline" — schedule a follow-up
-- The SM removes blockers **after** standup, not during
+**Common mistake:** Saying "we extend the Sprint a few days to finish." That breaks the time-box; re-plan instead.
 
-**Example:**
-> "Yesterday I completed the Firebase Auth integration for Google Sign-In on Android — it's merged. Today I'm working on iOS Sign-In and the edge case where the user denies permissions. No blockers from my side, but I noticed the loading state on the auth screen is missing — I'll sync with the designer at 10am."
+**Follow-ups they may ask:**
+- *"Can you cancel a Sprint?"* → Only the PO can, and only if the Sprint Goal becomes obsolete — it's rare.
 
-**Why it matters:** Interviewers check that you understand standup as a **team coordination tool**, not a management check-in. Teams that do standups poorly waste 15 minutes a day with no benefit.
+**Related:** [Q3 — Scrum overview](#q3) · [Q13 — velocity](#q13) · [Q16 — changing requirements](#q16)
 
-**Common mistake:** Treating standup as "tell the manager what you did." The Scrum Master is not your boss — they're there to help, not judge. Transparency about blockers is a strength, not a weakness.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the difference between a Sprint Review and a Sprint Retrospective?
+<a id="q7"></a>
+## 7. What happens in Sprint Planning?
 
-**A:**
-These are two separate ceremonies that happen at the end of every sprint. They serve completely different purposes.
+> Common · Easy–Medium
 
-```
-END OF SPRINT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Short answer (say this):**
+"Sprint Planning kicks off the Sprint. The whole team agrees on a Sprint Goal, the Product Owner presents the top-priority backlog items, and the Developers pull in as much as they can realistically finish — based on their velocity. The output is the Sprint Backlog and a shared plan."
 
-Sprint ends
-     │
-     ├──→ SPRINT REVIEW (inspect the PRODUCT)
-     │         Who: Scrum Team + Stakeholders
-     │         What: Demo working software
-     │         Focus: "Did we build the RIGHT thing?"
-     │         Output: Updated backlog, stakeholder feedback
-     │
-     └──→ SPRINT RETROSPECTIVE (inspect the PROCESS)
-               Who: Scrum Team only
-               What: Reflect on how you worked
-               Focus: "Did we build the thing RIGHT?"
-               Output: Process improvements for next sprint
-```
+**Let's understand it fully:**
 
-### Sprint Review
+**Step 1 — The two questions it answers.**
+1. **What** can we deliver this Sprint? (the Sprint Goal + selected items)
+2. **How** will we do it? (breaking items into tasks)
 
-| Aspect      | Detail                                                    |
-|-------------|-----------------------------------------------------------|
-| Purpose     | Inspect the Increment and get stakeholder feedback        |
-| Who attends | Scrum Team + stakeholders, customers, management          |
-| Focus       | The **product** — what was built, what works, what's next |
-| Duration    | Up to 4 hours for a 4-week sprint (1–2hr for 2-week)      |
-| Output      | Feedback, backlog updates, adapted roadmap                |
-| Tone        | Collaborative, demo-driven, forward-looking               |
+**Step 2 — Who does what.**
+- **PO** — presents the highest-priority, refined items and clarifies them.
+- **Developers** — estimate, decide how much they can commit to, and break items into tasks.
+- **SM** — facilitates and keeps it time-boxed.
 
-The PO explains what's done and what's not. The Dev Team demos the work. Stakeholders give feedback. The PO updates the backlog accordingly.
+**Step 3 — Use velocity to stay realistic.**
+The team uses its average velocity ([Q13](#q13)) to avoid over-committing. Pulling in 40 points when you average 25 sets the Sprint up to fail.
 
-### Sprint Retrospective
+**Step 4 — The output.**
+A clear **Sprint Goal** and a **Sprint Backlog** everyone agrees is achievable.
 
-| Aspect      | Detail                                                    |
-|-------------|-----------------------------------------------------------|
-| Purpose     | Improve the team's **process**, tools, and relationships  |
-| Who attends | Scrum Team only (no stakeholders, no managers ideally)    |
-| Focus       | **How** the team works — communication, workflow, tooling |
-| Duration    | Up to 3 hours for a 4-week sprint (45–90min for 2-week)   |
-| Output      | 1–3 concrete, actionable improvement items                |
-| Tone        | Honest, safe, blame-free                                  |
+**Why interviewers ask:** It tests whether you plan realistically and understand who decides scope (the team, guided by the PO's priorities).
 
-Common retro formats:
-- **Start / Stop / Continue** — What should we start doing, stop doing, keep doing?
-- **4Ls** — Liked, Learned, Lacked, Longed for
-- **Mad / Sad / Glad**
+**Common mistake:** The PO or a manager *pushing* more work onto the team than its velocity supports. Commitment is the team's call.
 
-**Example:**
-> **Sprint Review:** The Flutter team demos the new checkout screen to the Product team and client. The client notices the "Apply Coupon" field is missing — the PO adds it to the backlog.
->
-> **Sprint Retrospective (next day, team only):** The team discusses why testing always happens last-minute. They agree to pair each developer with a QA engineer from Day 1 of each story. This becomes the retro action item.
+**Follow-ups they may ask:**
+- *"How long is planning?"* → Time-boxed, roughly 2 hours per week of Sprint (so ~4 hours for a 2-week Sprint).
 
-**Why it matters:** The distinction is fundamental. One is about the product (external), one is about the people and process (internal). Mixing them up signals you haven't worked in a real Scrum team.
+**Related:** [Q6 — sprint](#q6) · [Q12 — story points](#q12) · [Q13 — velocity](#q13)
 
-**Common mistake:** Saying the retro is "where we complain about the sprint." It should produce **specific, actionable improvements** — not a venting session. Retros without action items are wasted time.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is technical debt? How do you manage it in a sprint-based team?
+<a id="q8"></a>
+## 8. What is the Daily Standup, and what do you say in it?
 
-**A:**
-**Technical debt** is the accumulated cost of shortcuts, workarounds, poor design decisions, and deferred improvements in a codebase. Like financial debt, it accrues "interest" — the longer you leave it, the harder and more expensive it becomes to fix.
+> Very common · Easy
 
-```
-TECHNICAL DEBT TYPES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Short answer (say this):**
+"The Daily Standup (Daily Scrum) is a short, 15-minute meeting where the team syncs on progress toward the Sprint Goal. Classically each person answers three things: what I did yesterday, what I'll do today, and any blockers. It's for coordination, not status reporting to a manager."
 
-Deliberate + Reckless:   "We don't have time for design."
-Deliberate + Prudent:    "Ship now, refactor after launch."  ← Manageable
-Inadvertent + Reckless:  "What's layered architecture?"
-Inadvertent + Prudent:   "Now we know better — let's fix it." ← Healthy learning
+**Let's understand it fully:**
 
-(Ward Cunningham's debt quadrant)
-```
+**Step 1 — The three questions.**
+1. What did I do yesterday (toward the goal)?
+2. What will I do today?
+3. What's blocking me?
 
-### Common sources in Flutter projects
-- Hardcoded values instead of constants or environment configs
-- Business logic in widgets instead of ViewModels/BLoCs
-- No unit tests written under deadline pressure
-- Deprecated packages never updated
-- Copy-pasted code instead of shared widgets
-- No error handling (bare `catch` blocks)
-- Magic numbers with no explanation
+**Step 2 — Keep it short and focused.**
+- Time-boxed to **15 minutes**.
+- It's a sync between *developers*, not a report to the boss.
+- Detailed discussions are taken "offline" after standup, with only the people involved.
 
-### How to manage technical debt in a sprint-based team
+**Step 3 — Common anti-patterns to avoid.**
+- Turning it into a status report *to* the Scrum Master or manager.
+- Long problem-solving in the meeting (take it offline).
+- People only listening for their turn instead of the goal.
 
-**1. Make it visible — create debt stories in the backlog**
-```
-[Tech Debt] Refactor authentication flow to use BLoC pattern
-[Tech Debt] Update firebase_auth to v5 and fix breaking changes
-[Tech Debt] Add widget tests for checkout flow (0% coverage)
-```
+**Step 4 — The real purpose.**
+It surfaces blockers early and keeps everyone aligned on the Sprint Goal. The format matters less than the outcome: a coordinated team with blockers visible.
 
-**2. Allocate a percentage of each sprint to tech debt**
-> A common rule: **20% of sprint capacity** (roughly 1 day per week) is reserved for debt reduction.
-```
-Sprint capacity: 30 points
-Feature stories: 24 points (80%)
-Tech debt stories: 6 points (20%)
-```
+**Why interviewers ask:** Standups are daily; they check you treat it as team coordination, not a micro-management status meeting.
 
-**3. The Boy Scout Rule — leave code cleaner than you found it**
-> When working on a feature, do small refactors in scope. Don't create a mountain of debt by always taking shortcuts.
+**Common mistake:** Treating it as a status meeting *for the manager*, or letting it run long with deep technical debates.
 
-**4. Definition of Done as a debt prevention tool**
-> Requiring tests, code review, and lint checks in the DoD prevents new debt from entering the codebase.
+**Follow-ups they may ask:**
+- *"Remote standup tips?"* → Keep it on time, camera on, and post written updates async if time zones don't overlap.
 
-**5. Dedicated "hardening sprints" for severe debt**
-> Occasionally, after a major release, a team spends an entire sprint purely on refactoring, upgrading dependencies, and improving test coverage.
+**Related:** [Q3 — Scrum overview](#q3) · [Q14 — burndown](#q14)
 
-**Example:**
-> A Flutter team shipped an MVP under pressure. All state was in StatefulWidgets, no tests existed, and Firebase calls were made directly from the UI. After launch, they allocated 1 story per sprint to introduce BLoC gradually — starting with the auth flow, then the cart, then the product listing. Within 3 months, the codebase was maintainable without a full rewrite.
-
-**Why it matters:** Every experienced engineer deals with tech debt. Interviewers want to see you have a pragmatic, structured approach — not "we never write bad code" or "we ignore it."
-
-**Common mistake:** Treating tech debt as purely negative. Deliberate, prudent debt (shipping faster to hit a market window, with a plan to fix it) is a valid business decision. The mistake is accumulating debt without acknowledging or planning to repay it.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** How do you handle changing requirements mid-sprint?
+<a id="q9"></a>
+## 9. What is the difference between a Sprint Review and a Sprint Retrospective?
 
-**A:**
-Changing requirements mid-sprint is a common real-world challenge. Scrum has a clear stance: **protect the sprint** — but be practical about genuine business emergencies.
+> Common · Medium
 
-```
-DECISION TREE: Change request arrives mid-sprint
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Short answer (say this):**
+"The Sprint Review is about the *product* — the team demos the working increment to stakeholders and gets feedback on what to build next. The Retrospective is about the *process* — the team privately reflects on how they worked and picks improvements. Review = the what; Retrospective = the how."
 
-Change request arrives
-        │
-        ▼
-Is it a production-breaking bug or critical security issue?
-        │
-   YES ──┤──→ Handle immediately outside normal sprint flow
-        │
-       NO
-        │
-        ▼
-Does it affect the current sprint goal?
-        │
-   NO ──┤──→ Add to Product Backlog → prioritise for next sprint
-        │     (PO owns this decision)
-       YES
-        │
-        ▼
-How significant is the change?
-        │
-  SMALL ┤──→ PO discusses with SM + team → swap for an item
-        │     of equal size (remove something, add the change)
-        │
-  LARGE ┤──→ PO considers cancelling the sprint
-              (rare! Only if the sprint goal is now obsolete)
-```
+**Let's understand it fully:**
 
-### Scrum's position
-- The **sprint goal is sacred** — work inside the sprint should serve the goal
-- The **PO cannot add new scope mid-sprint** without negotiating with the team
-- The **team can push back** and explain the impact on committed work
-- New items go to the backlog and are prioritised for the **next sprint**
+**Step 1 — Sprint Review — show the work, get feedback.**
+- Held at the end of the Sprint.
+- The team **demos the increment** to the PO and stakeholders.
+- Goal: get feedback and adjust the Product Backlog. It's about the *product*.
 
-### Practical approaches
+**Step 2 — Sprint Retrospective — improve how we work.**
+- Held after the Review, **team-only** (a safe space).
+- The team reflects: what went well, what didn't, what to improve.
+- Goal: pick 1–2 concrete improvements for the next Sprint. It's about the *process*.
 
-**1. Swap, don't add**
-> If something urgent comes in, the PO works with the team to remove an equal-sized item from the sprint backlog to make room. No sprint overloading.
+**Step 3 — The easy way to remember.**
 
-**2. Keep a small buffer**
-> Some teams deliberately under-commit (e.g., plan for 80% of velocity) to absorb small changes without disrupting the sprint goal.
+| | Sprint Review | Retrospective |
+|---|---|---|
+| Focus | the product (what we built) | the process (how we worked) |
+| Audience | team + stakeholders | team only |
+| Output | feedback, backlog updates | process improvements |
 
-**3. Kanban for emergencies**
-> Hotfixes and critical bugs often bypass the sprint process and go on a fast-lane lane on the board.
+**Step 4 — Why the Retro is private.**
+Honest reflection needs psychological safety. With stakeholders present, people hide problems. Team-only keeps it candid.
 
-**4. Communicate transparently**
-> If a change mid-sprint will delay delivery, the team communicates this in the Sprint Review — not silently adds scope and misses the goal.
+**Why interviewers ask:** People often confuse the two; explaining the product/process split shows real Scrum understanding.
 
-**Example (real Flutter scenario):**
-> Mid-sprint, the PO asks to add Apple Sign-In because Google Play Store threatened to reject the app update. The team evaluates: it's ~5 points of work. The SM facilitates a conversation. The team agrees to drop the "Profile Photo Upload" story (3 points) and de-scope the optional "remember me" checkbox (2 points) to make room. The sprint goal ("complete auth flows") still holds.
+**Common mistake:** Mixing them — demoing in the Retro, or doing process improvement in front of stakeholders.
 
-**Why it matters:** This tests your maturity. Interviewers want to see you can balance process discipline with business pragmatism — neither "we never change mid-sprint" (rigid) nor "sure, add anything" (chaotic).
+**Follow-ups they may ask:**
+- *"A retro format you've used?"* → "Start / Stop / Continue", or "What went well / what didn't / actions."
 
-**Common mistake:** Just saying "add it to the backlog" for every change. Sometimes changes are genuinely urgent and the team needs a structured way to accommodate them without blowing up the sprint.
+**Related:** [Q8 — standup](#q8) · [Q17 — tech debt](#q17)
+
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** How do you use Jira? Explain epics, stories, tasks, subtasks, and the board.
+<a id="q10"></a>
+## 10. What is Backlog Refinement (grooming)?
 
-**A:**
-**Jira** is the most widely used project management tool in Agile teams. It maps directly to Scrum and Kanban concepts.
+> Common · Medium
 
-```
-JIRA HIERARCHY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Short answer (say this):**
+"Backlog refinement is the ongoing activity of getting backlog items ready for future Sprints — clarifying them, splitting big ones, adding acceptance criteria, and estimating. The PO and Developers do it together, usually a small slice of time each week, so Sprint Planning is fast and items are 'ready'."
 
-  INITIATIVE (optional, strategic goal)
-       │
-       ▼
-  EPIC  (large feature or theme — spans multiple sprints)
-  e.g. "User Authentication"
-       │
-       ├──→ STORY (user-facing feature — fits in a sprint)
-       │    e.g. "As a user, I want to log in with Google"
-       │         │
-       │         ├──→ TASK (technical work item)
-       │         │    e.g. "Integrate google_sign_in package"
-       │         │
-       │         └──→ SUBTASK (breakdown of a task)
-       │              e.g. "Handle sign-in error states"
-       │
-       └──→ BUG  (defect — same level as a story)
-            e.g. "Login button not responding on iOS 17"
-```
+**Let's understand it fully:**
 
-### Jira Issue Types in Practice
+**Step 1 — The goal: a 'ready' backlog.**
+Refinement makes the top of the backlog clear, small enough, and estimated — so when Planning comes, the team can pick items without long discussion.
 
-| Type     | Who creates it | Size             | Example                                         |
-|----------|---------------|------------------|-------------------------------------------------|
-| Epic     | PO            | Many sprints     | "Checkout & Payment Flow"                       |
-| Story    | PO            | 1–5 days         | "As a user, I want to pay with Apple Pay"       |
-| Task     | Dev Team      | Half day–2 days  | "Integrate Stripe Apple Pay SDK"                |
-| Subtask  | Dev Team      | Hours            | "Write unit tests for payment validation"       |
-| Bug      | Anyone        | Varies           | "Total price doesn't update when coupon applied"|
+**Step 2 — What happens in it.**
+- **Clarify** vague items (the PO answers questions).
+- **Split** big items (epics/large stories) into smaller ones.
+- **Add acceptance criteria** (what "done" means).
+- **Estimate** with story points ([Q12](#q12)).
 
-### Jira Board (Scrum Board)
+**Step 3 — Who and how often.**
+- The **PO** and **Developers** together (SM facilitates).
+- Ongoing — often ~1 short session per week, kept to about 10% of the team's time.
 
-```
-SPRINT BOARD VIEW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Step 4 — Definition of Ready.**
+A "ready" item is clear, small, estimated, and has acceptance criteria — so it can be safely pulled into a Sprint. Refinement produces ready items.
 
-TO DO          │  IN PROGRESS   │  IN REVIEW     │  DONE
-───────────────┼────────────────┼────────────────┼────────────
-PROJ-42        │  PROJ-38       │  PROJ-35       │  PROJ-31
-Apple Pay      │  Cart UI       │  Login Screen  │  Splash Screen
-5 pts          │  3 pts 👤Ali   │  2 pts 👤Sara  │  2 pts
-               │                │                │
-PROJ-43        │  PROJ-39       │                │  PROJ-32
-Order History  │  API Service   │                │  Onboarding
-8 pts          │  5 pts 👤Omar  │                │  5 pts
-```
+**Why interviewers ask:** It tests whether you keep the backlog healthy, which makes Sprints predictable.
 
-### Key Jira features used in daily work
-- **Backlog view** — prioritised list of all stories; drag to re-order
-- **Sprint board** — Kanban-style board for current sprint
-- **Burndown chart** — visualises remaining work vs time remaining in sprint
-- **Roadmap** — timeline view of epics across sprints
-- **Filters / JQL** — query issues (e.g., `project = APP AND sprint = "Sprint 5" AND assignee = currentUser()`)
-- **Labels and components** — tag issues (e.g., "ios-only", "performance", "accessibility")
-- **Linking issues** — "PROJ-43 is blocked by PROJ-38"
+**Common mistake:** Skipping refinement, so Sprint Planning turns into a long, chaotic meeting of half-understood items.
 
-**Example:**
-> A Flutter team's Epic is "Push Notifications." It contains 4 stories: (1) notification permissions flow, (2) Firebase Messaging integration, (3) deep-link handling, (4) notification settings screen. Each story has tasks and subtasks. The SM uses the burndown chart in sprint planning to confirm the team is on track to deliver stories 1 and 2 this sprint.
+**Follow-ups they may ask:**
+- *"Definition of Ready vs Done?"* → Ready = the item is good enough to start; Done = the work is complete and shippable ([Q11](#q11)).
 
-**Why it matters:** Jira is a tool you'll use every day. Interviewers want to see you can work efficiently with it — not just that you've heard of it.
+**Related:** [Q5 — backlog](#q5) · [Q11 — acceptance criteria](#q11) · [Q12 — estimation](#q12)
 
-**Common mistake:** Creating tasks or subtasks without linking them to a parent story or epic. This creates "orphaned" work that doesn't appear in burndown charts and makes sprint progress invisible.
+[↑ Back to top](#toc)
 
 ---
 
-**Q:** What is the Definition of Ready vs Definition of Done? What does each mean?
-
-**A:**
-These are two quality gates that bracket the lifecycle of a user story — one before it enters a sprint, one before it leaves.
-
-```
-USER STORY LIFECYCLE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
- Product       [DEFINITION         Sprint         [DEFINITION
- Backlog  ──→  OF READY]    ──→   Backlog   ──→  OF DONE]    ──→  Released
-              "Can we start         Dev
-               this story?"        work          "Can we ship
-                                                 this story?"
-```
-
-### Definition of Ready (DoR)
-
-The DoR is a checklist that a backlog item must satisfy **before** the team pulls it into a sprint. It ensures the team has everything they need to start work without being blocked from Day 1.
-
-```
-DEFINITION OF READY (example)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ☐ User story is written in "As a / I want / So that" format
-  ☐ Acceptance criteria are written and agreed upon
-  ☐ Story is estimated (story points assigned)
-  ☐ Dependencies are identified and resolved (or planned)
-  ☐ UI/UX designs are available (Figma link attached)
-  ☐ API contract is defined (endpoints, payloads documented)
-  ☐ Story fits within one sprint (not too large)
-  ☐ PO has confirmed the story is correctly prioritised
-```
-
-### Definition of Done (DoD)
-
-The DoD is a checklist that a story must satisfy **before** it is marked Done and counted in the sprint velocity. It ensures consistent quality across all delivered work.
-
-```
-DEFINITION OF DONE (example Flutter team)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ☐ Code written and peer-reviewed (PR approved by ≥1 dev)
-  ☐ Acceptance criteria verified and accepted by PO
-  ☐ Unit and widget tests written and passing
-  ☐ flutter analyze reports zero issues
-  ☐ Feature tested on physical iOS and Android devices
-  ☐ No regressions in existing tests
-  ☐ Code merged to main/develop branch
-  ☐ Jira ticket updated and moved to Done column
-  ☐ Relevant documentation updated (if applicable)
-```
-
-### Side-by-side comparison
-
-| Aspect        | Definition of Ready                     | Definition of Done                       |
-|---------------|-----------------------------------------|------------------------------------------|
-| When applied  | Before a story enters the sprint        | Before a story is marked complete        |
-| Purpose       | Ensures work can START without blockers | Ensures work is truly FINISHED           |
-| Owned by      | Product Owner + team collaboratively    | Development team (agreed in retro)       |
-| Focus         | Clarity, dependencies, estimates        | Quality, testing, review, acceptance     |
-| Consequence   | Story is NOT pulled into sprint         | Story is NOT counted as Done (no points) |
-
-**Example:**
-> A story "Integrate Apple Pay" arrives at Sprint Planning. It fails the DoR check — no Figma designs exist and the payment API contract isn't finalised. The SM flags it: "This isn't ready." The PO moves it back to the backlog for refinement. A story that *was* ready goes into the sprint instead. → This prevents a blocked story from wasting sprint capacity.
-
-**Why it matters:** DoR and DoD are signs of a disciplined, quality-focused team. Interviewers want to see you prevent both "starting things before you're ready" and "shipping things before they're really done."
-
-**Common mistake:** Having a DoD but no DoR. Teams often define "done" carefully but pull poorly-defined stories into sprints and then discover blockers on Day 1. Both gates are necessary.
+# D. Estimation & tracking
 
 ---
 
-**Q:** How do you estimate tasks when requirements are unclear?
+<a id="q11"></a>
+## 11. What is a user story? Explain the format, acceptance criteria, and Definition of Done.
 
-**A:**
-Unclear requirements are the norm in product development — not the exception. The goal is to make a **useful enough estimate** to enable planning, while making the uncertainty visible, not pretending it doesn't exist.
+> Very common · Medium
+
+**Short answer (say this):**
+"A user story describes a feature from the user's point of view, in the format 'As a [user], I want [goal], so that [benefit].' Acceptance criteria are the specific conditions that make it correct. The Definition of Done is the team-wide checklist (tested, reviewed, documented) that applies to *every* story before it counts as complete."
+
+**Let's understand it fully:**
+
+**Step 1 — The user story format.**
 
 ```
-ESTIMATION UNDER UNCERTAINTY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+As a [type of user], I want [some goal], so that [some benefit].
 
-Clear requirements        Unclear requirements
-      │                         │
-      ▼                         ▼
- Precise estimate          Range estimate
-  e.g. "3 points"          e.g. "8–13 points"
-                           or "spike needed"
-
-CONE OF UNCERTAINTY:
-Early in project:  estimate could be 4x off in either direction
-                   ████████████████████
-After design:       ██████████
-After refinement:    ████████
-After spike:          ██████
-During development:    ████
+Example:
+As a shopper, I want to save items to a wishlist,
+so that I can buy them later.
 ```
 
-### Techniques for estimating unclear work
+It focuses on the *who* and *why*, not the technical *how*.
 
-**1. Spike (Research Story)**
-When a story is too uncertain to estimate, create a **spike** — a time-boxed investigation story with a fixed duration (e.g., 1 day, 4 hours) to explore the unknown.
-```
-[Spike] Investigate biometric authentication options on Flutter
-  Time-box: 1 day
-  Goal: Determine feasibility of local_auth on older Android devices,
-        document API surface, recommend approach
-  Output: Technical findings → enables accurate estimation of real story
-```
+**Step 2 — Acceptance Criteria (AC) — when is THIS story correct?**
+Specific, testable conditions for this one story. A common format is Given/When/Then:
 
-**2. Estimate the range, not a point**
-Use T-shirt sizing (S/M/L/XL) or explicitly give a range: "This is somewhere between 5 and 13 points — we need to clarify the offline sync requirement before we can narrow it down."
-
-**3. Break it down until something is estimable**
-A story that's hard to estimate is often too large or too vague. Split it:
 ```
-Vague: "Improve app performance"  → impossible to estimate
-Better: 
-  [Story] Profile and fix slow rendering on product list screen
-  [Story] Implement pagination to reduce initial data load
-  [Story] Add image caching with cached_network_image
-  Each is now independently estimable.
+Given I am logged in,
+When I tap the heart icon on a product,
+Then the product appears in my wishlist.
 ```
 
-**4. Use analogies to past work**
-> "This login flow is similar to the registration flow we built in Sprint 3. That was 8 points. This is slightly simpler — I'd say 5 points."
+**Step 3 — Definition of Done (DoD) — applies to EVERY story.**
+A shared checklist the team agrees on, e.g.:
+- Code written and peer-reviewed.
+- Tests written and passing.
+- Meets acceptance criteria.
+- Merged and deployable.
 
-**5. Assume and document**
-Explicitly state your assumptions:
-> "I'm estimating this as 5 points *assuming* the API already supports filtering. If we need to add filtering on the backend too, this becomes 13 points."
+**Step 4 — AC vs DoD (the key distinction).**
+- **Acceptance Criteria** = specific to *one* story (what makes this feature right).
+- **Definition of Done** = global, applies to *all* stories (the quality bar).
 
-**6. Three-point estimation (for higher-stakes items)**
-```
-Optimistic estimate (O):   2 points (everything goes well)
-Pessimistic estimate (P):  13 points (API changes, tricky edge cases)
-Most likely estimate (M):  5 points
+**Why interviewers ask:** Stories, AC, and DoD are the daily language of Agile teams; they check you write clear, testable work items.
 
-PERT formula: (O + 4M + P) / 6 = (2 + 20 + 13) / 6 = 5.8 ≈ 6 points
-```
+**Common mistake:** Confusing AC (per-story) with DoD (team-wide). Or writing stories that describe technical tasks instead of user value.
 
-**Example (Flutter context):**
-> The story is "Integrate third-party video player with DRM support." No one on the team has done DRM before. Instead of guessing, the team creates a spike: "Investigate DRM options in Flutter (Widevine + FairPlay) — 2-day time-box." After the spike, the engineer has enough information to estimate the real story accurately at 13 points with documented risks.
+**Follow-ups they may ask:**
+- *"What makes a good story?"* → INVEST: Independent, Negotiable, Valuable, Estimable, Small, Testable.
 
-**Why it matters:** Estimation under uncertainty is a daily reality. Interviewers want to see that you don't either refuse to estimate ("it's too unclear") or pretend certainty you don't have ("it's 5 points, easy"). The mature answer is structured, transparent, and iterative.
+**Related:** [Q10 — refinement](#q10) · [Q12 — story points](#q12) · [Q5 — increment & DoD](#q5)
 
-**Common mistake:** Padding estimates wildly "just in case." This inflates sprint plans and erodes trust in the estimation process. The right approach is to surface uncertainty explicitly — through spikes, assumptions, or ranges — rather than hiding it inside a big number.
+[↑ Back to top](#toc)
 
 ---
 
-*End of Section 18: Agile, Scrum & Methodology*
+<a id="q12"></a>
+## 12. What are story points, why use them over hours, and what is planning poker?
+
+> Very common · Medium
+
+**Short answer (say this):**
+"Story points estimate the *relative size* of work — its effort, complexity, and uncertainty — instead of exact hours. Teams prefer them because people are bad at estimating hours but decent at comparing sizes, and points don't pretend to be a precise promise. Planning poker is how the team estimates them together to surface different views."
+
+**Let's understand it fully:**
+
+**Step 1 — Points are relative size, not time.**
+Like T-shirt sizes (S, M, L) or a Fibonacci scale (1, 2, 3, 5, 8, 13). A 2-point story is "about twice the size" of a 1-point story — not "2 hours."
+
+**Step 2 — Why points over hours.**
+- People estimate *relative* size better than absolute hours.
+- Points cover effort + complexity + uncertainty, not just typing time.
+- Hours feel like a precise promise (and create blame when wrong); points are honest about uncertainty.
+- The team's velocity ([Q13](#q13)) turns points into predictable planning over time.
+
+**Step 3 — Planning Poker.**
+1. The PO reads a story.
+2. Each developer privately picks a card (1, 2, 3, 5, 8...).
+3. Everyone reveals at once.
+4. If estimates differ a lot, the high and low explain their thinking, then re-vote.
+
+The discussion is the real value — it surfaces hidden complexity and shared understanding.
+
+**Step 4 — Why hide-then-reveal.**
+Voting privately first stops the loudest or most senior person from anchoring everyone. Differences spark useful discussion.
+
+**Why interviewers ask:** Estimation is a constant source of pain; they check you understand relative estimation and team-based estimating.
+
+**Common mistake:** Converting points directly to hours ("a point = 4 hours"), which throws away the whole benefit and reintroduces false precision.
+
+**Follow-ups they may ask:**
+- *"Why Fibonacci numbers?"* → The growing gaps reflect that bigger items are far more uncertain — you can't meaningfully say "21 vs 22".
+
+**Related:** [Q11 — user stories](#q11) · [Q13 — velocity](#q13) · [Q7 — planning](#q7)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q13"></a>
+## 13. What is sprint velocity, and how is it used for planning?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Velocity is the average number of story points a team completes per Sprint. You use it to plan realistically — if a team averages 25 points, they shouldn't commit to 40. It's a planning tool for the team, not a productivity score to compare teams or pressure people."
+
+**Let's understand it fully:**
+
+**Step 1 — How it's measured.**
+Add up the points of all *completed* stories each Sprint. Average the last few Sprints to get velocity.
+
+```
+Sprint 1: 22 done   Sprint 2: 26 done   Sprint 3: 24 done
+Velocity ≈ 24 points per sprint
+```
+
+**Step 2 — How it's used.**
+At Planning, the team pulls in roughly its velocity worth of work — not more. Over several Sprints, velocity also lets you forecast roughly when a backlog of N points will be finished.
+
+**Step 3 — Important caveats.**
+- Velocity is **team-specific** — never compare two teams' velocity (their points mean different things).
+- It's a **planning aid**, not a target. Pushing for "higher velocity" makes teams inflate estimates, which destroys its value.
+- It stabilizes only after a few Sprints with a steady team.
+
+**Why interviewers ask:** It tests realistic planning and whether you'd misuse velocity as a performance metric (a classic anti-pattern).
+
+**Common mistake:** Using velocity to compare teams or as a KPI to pressure the team — both corrupt the estimates and the metric.
+
+**Follow-ups they may ask:**
+- *"What lowers velocity unfairly?"* → Holidays, team changes, lots of unplanned bug work — context matters.
+
+**Related:** [Q12 — story points](#q12) · [Q7 — planning](#q7) · [Q14 — burndown](#q14)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q14"></a>
+## 14. What is a burndown chart?
+
+> Common · Easy
+
+**Short answer (say this):**
+"A burndown chart shows how much work is left over time — the remaining work 'burns down' toward zero as the Sprint progresses. It gives a quick visual of whether the team is on track to finish the Sprint, and helps spot problems early."
+
+**Let's understand it fully:**
+
+**Step 1 — What it shows.**
+- X-axis: days of the Sprint.
+- Y-axis: remaining work (story points or tasks).
+- A line that should slope down to zero by the last day.
+
+```
+points
+ 25 | \
+ 20 |  \___        actual line above the ideal = behind schedule
+ 15 |      \  .    (the dotted line is the "ideal" steady burn)
+ 10 |       \ .
+  5 |        \.
+  0 |_________\_____ days
+    1  2  3  4  5
+```
+
+**Step 2 — How to read it.**
+- **Above** the ideal line → behind schedule (work isn't finishing fast enough).
+- **Below** → ahead.
+- A **flat** line → work is stuck (a blocker, or nothing being completed).
+
+**Step 3 — Why it helps.**
+It surfaces trouble early — a flat or rising line tells the team to investigate now, not on the last day. It's a conversation starter at standup, not a judgment.
+
+**Step 4 — Burndown vs burnup.**
+A **burnup** chart shows work *completed* rising toward the total, and can also show scope changes (the total line moving) — useful when scope shifts.
+
+**Why interviewers ask:** It tests whether you track progress and act on early warnings.
+
+**Common mistake:** Treating a perfect burndown as the goal. The chart is a signal to start conversations, not a target to game.
+
+**Follow-ups they may ask:**
+- *"Burndown vs burnup?"* → Burndown shows work remaining; burnup shows work done plus total scope (reveals scope creep).
+
+**Related:** [Q13 — velocity](#q13) · [Q8 — standup](#q8)
+
+[↑ Back to top](#toc)
+
+---
+
+# E. Practice & tools
+
+---
+
+<a id="q15"></a>
+## 15. What is Kanban, how does it differ from Scrum, and what are WIP limits?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Kanban is a flow-based Agile method: work items move across a board (To Do → In Progress → Done) continuously, with no fixed Sprints. WIP (Work In Progress) limits cap how many items can be in each column at once, which forces the team to finish work before starting new work. Kanban suits continuous, unpredictable work like support; Scrum suits planned feature delivery."
+
+**Let's understand it fully:**
+
+**Step 1 — Kanban = continuous flow.**
+There are no Sprints. Items flow across the board as capacity frees up. You release whenever something's done, not on a Sprint boundary.
+
+**Step 2 — WIP limits — the key idea.**
+Each column has a maximum (e.g. "In Progress: max 3"). If it's full, you can't start new work — you must finish or unblock something first.
+
+```
+To Do        In Progress (max 3)     Done
+[a][b][c]    [d][e][f]   ← full!     [g][h]
+             (can't pull a new item until one moves to Done)
+```
+
+This stops everyone starting everything and finishing nothing, and exposes bottlenecks.
+
+**Step 3 — Kanban vs Scrum.**
+
+| | Scrum | Kanban |
+|---|---|---|
+| Cadence | fixed Sprints | continuous flow |
+| Roles | PO, SM, Developers | no required roles |
+| Change | not mid-Sprint | anytime |
+| Best for | planned feature work | support, ops, steady streams |
+
+**Step 4 — When to use Kanban.**
+For interrupt-driven or continuous work (bug fixing, support, ops) where fixed Sprint commitments don't fit. Some teams blend them ("Scrumban").
+
+**Why interviewers ask:** It tests whether you can pick the right Agile flavour for the work, and the powerful idea of limiting WIP.
+
+**Common mistake:** Thinking Kanban means "no process." It has strong discipline — especially WIP limits and measuring flow.
+
+**Follow-ups they may ask:**
+- *"Why limit WIP?"* → Too much parallel work slows everything (context switching) and hides bottlenecks; limiting it speeds delivery.
+
+**Related:** [Q3 — Scrum overview](#q3) · [Q6 — sprint](#q6)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q16"></a>
+## 16. How do you handle changing requirements mid-sprint?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Agile welcomes change, but mid-Sprint the Sprint Goal is protected. For a small, urgent change I'd discuss with the PO and team — if something must come in, something of equal size usually comes out. Anything non-urgent goes to the backlog for the next Sprint. The point is to protect focus, not to refuse change."
+
+**Let's understand it fully:**
+
+**Step 1 — The principle vs the practice.**
+Agile *welcomes* changing requirements — but Scrum *protects the Sprint Goal* so the team can focus. These aren't a contradiction: you welcome change at the backlog level, but don't thrash the current Sprint.
+
+**Step 2 — The practical options.**
+- **Non-urgent change** → add it to the Product Backlog; prioritize for a future Sprint.
+- **Small urgent change** → the PO and team agree to swap it in, taking out work of similar size (a trade, not an addition).
+- **Critical/emergency** (production down, security) → the PO may cancel or re-plan the Sprint; rare, but it happens.
+
+**Step 3 — Who decides.**
+The **Product Owner** decides priorities, but the **team** must agree the change is feasible without breaking the goal. It's a conversation, not a command.
+
+**Step 4 — Why protect the Sprint.**
+Constant mid-Sprint changes mean nothing ever finishes (everything is 80% done). The short Sprint length already limits how long any change has to wait — usually days.
+
+**Why interviewers ask:** It tests the balance between flexibility and focus — a real tension every team faces.
+
+**Common mistake:** Either rigidly refusing all change ("not in this Sprint, period") or accepting every interruption (so the team thrashes and finishes nothing).
+
+**Follow-ups they may ask:**
+- *"What if the change makes the Sprint Goal pointless?"* → The PO can cancel the Sprint and re-plan; it's the one clean way to fully change direction.
+
+**Related:** [Q6 — sprint goal](#q6) · [Q4 — PO role](#q4) · [Q1 — welcoming change](#q1)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q17"></a>
+## 17. What is technical debt, and how do you manage it in a sprint-based team?
+
+> Common · Medium
+
+**Short answer (say this):**
+"Technical debt is the cost of shortcuts — code written quickly that will slow you down later, like borrowing time now and paying interest in future bugs and slow changes. You manage it by making it visible (tracking it), and budgeting a slice of each Sprint (say 10–20%) to pay it down steadily, while preventing new debt with reviews and a strong Definition of Done."
+
+**Let's understand it fully:**
+
+**Step 1 — A real-life picture: borrowing money.**
+A shortcut delivers faster today (borrowing), but you pay interest later — every future change in that messy area takes longer and risks bugs. A little debt can be a smart trade; too much cripples the team.
+
+**Step 2 — Common sources in Flutter projects.**
+- Skipping tests to hit a deadline.
+- Copy-pasted widgets/logic instead of reusable ones.
+- Outdated packages, no architecture, business logic in widgets.
+
+**Step 3 — How to manage it in Sprints.**
+- **Make it visible** — track debt items in the backlog, don't keep them in your head.
+- **Budget for it** — reserve ~10–20% of each Sprint for paying down debt, so it doesn't pile up.
+- **Pay as you go** — the boy scout rule: improve the code near what you're already touching ([Q12 Clean Code](section_16_clean_code.md#q12)).
+- **Prevent new debt** — code reviews and a strong Definition of Done.
+
+**Step 4 — Frame it to the business.**
+Don't say "we want to clean code." Say "this messy module causes most of our bugs and slows new features; fixing it will speed delivery." Tie debt to business cost.
+
+**Why interviewers ask:** Senior engineers balance speed with sustainability; they want to see you manage debt deliberately, not ignore it or obsess over it.
+
+**Common mistake:** Either ignoring debt until the codebase is unworkable, or demanding a big "stop everything and refactor" sprint (risky and usually rejected).
+
+**Follow-ups they may ask:**
+- *"How do you convince the PO to allocate time?"* → Show the cost in bug rates and slower delivery; propose a small, steady budget ([Q3 Refactoring](section_15_code_smells_refactoring.md#q3)).
+
+**Related:** [Q3 (Refactoring) — convince a team](section_15_code_smells_refactoring.md#q3) · [Q12 (Clean Code) — boy scout rule](section_16_clean_code.md#q12)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="q18"></a>
+## 18. How do you use Jira? Explain epics, stories, tasks, and the board.
+
+> Common · Easy–Medium
+
+**Short answer (say this):**
+"Jira is the most common tool for tracking Agile work. Work is organized in a hierarchy: an Epic is a large body of work, broken into Stories (user-facing features), which can be broken into Tasks/Subtasks. The board visualizes items moving across columns (To Do → In Progress → Done) so the whole team sees status."
+
+**Let's understand it fully:**
+
+**Step 1 — The hierarchy.**
+
+```
+Epic         "User authentication"          (large, spans many sprints)
+ └─ Story    "As a user, I can log in"       (one feature, fits in a sprint)
+     └─ Task        "Build the login form"   (a piece of work)
+         └─ Subtask "Add email validation"   (a small step)
+```
+
+**Step 2 — Issue types.**
+- **Epic** — a big theme, delivered over many Sprints.
+- **Story** — a user-facing feature with acceptance criteria ([Q11](#q11)).
+- **Task** — a technical piece of work (not always user-facing).
+- **Bug** — something broken to fix.
+
+**Step 3 — The board.**
+A Scrum/Kanban board with columns (To Do, In Progress, In Review, Done). Each card is an issue; you drag it across as work progresses. The team reads status at a glance during standup.
+
+**Step 4 — Keep it useful, not bureaucratic.**
+The tool serves the team, not the other way around. Update tickets honestly, but don't drown in process — the goal is visibility, not paperwork.
+
+**Why interviewers ask:** Most teams use Jira (or similar); they confirm you can work within a tracked Agile workflow.
+
+**Common mistake:** Treating Jira as the goal — over-detailed tickets and status theatre — instead of as a simple visibility tool.
+
+**Follow-ups they may ask:**
+- *"Epic vs Story?"* → Epic = large, many Sprints; Story = one feature that fits in a Sprint.
+
+**Related:** [Q11 — user stories](#q11) · [Q5 — backlog](#q5) · [Q15 — boards](#q15)
+
+[↑ Back to top](#toc)
+
+---
+
+<a id="cheatsheet"></a>
+
+# Cheat Sheet (last-night review)
+
+Read this the morning of your interview. Tables first, then one-line reminders.
+
+## Scrum at a glance
+
+| Roles | Artifacts | Events |
+|---|---|---|
+| Product Owner (what) | Product Backlog | Sprint Planning |
+| Scrum Master (process) | Sprint Backlog | Daily Standup |
+| Developers (how) | Increment | Review + Retrospective |
+
+## Easy-to-confuse pairs
+
+| | A | B |
+|---|---|---|
+| Review vs Retro | product (demo) | process (improve) |
+| Acceptance Criteria vs DoD | per-story | team-wide |
+| Product vs Sprint Backlog | everything (PO) | this sprint (team) |
+| Scrum vs Kanban | fixed sprints | continuous flow |
+| Burndown vs Burnup | work remaining | work done + scope |
+
+## One-line reminders
+
+- **Agile** = working software + responding to change; not "no docs/plan". ([Q1](#q1))
+- **Waterfall** = sequential, fixed scope; **Agile** = iterative, feedback-driven. ([Q2](#q2))
+- **Scrum Master = coach/facilitator**, not a manager. ([Q4](#q4))
+- **PO decides priority; the team decides how much** to commit. ([Q4](#q4), [Q7](#q7))
+- **Sprint length is fixed** — don't extend; re-plan unfinished work. ([Q6](#q6))
+- **Standup** = 15-min team sync (3 questions), not a status report to a boss. ([Q8](#q8))
+- **Review = demo the product; Retro = improve the process** (team-only). ([Q9](#q9))
+- **Story points = relative size, not hours**; estimate with planning poker. ([Q12](#q12))
+- **Velocity** = avg points/sprint; a planning aid, never a cross-team KPI. ([Q13](#q13))
+- **WIP limits** force finishing before starting — the heart of Kanban. ([Q15](#q15))
+- **Protect the Sprint Goal** mid-sprint; swap, don't pile on. ([Q16](#q16))
+- **Technical debt** = make it visible, budget ~10–20% per sprint. ([Q17](#q17))
+
+[↑ Back to top](#toc)
+
+---
+
+# Practice: how interviewers go deeper
+
+Agile interviews probe real experience. Practice out loud:
+
+1. *"Walk me through a Sprint you ran."* → planning → goal → daily standups → review/retro, with a real example.
+2. *"A stakeholder demands a change on day 3 — what do you do?"* → protect the goal; swap with the PO if urgent, else backlog it.
+3. *"Your velocity dropped — is the team slacking?"* → no; check holidays, blockers, scope; velocity isn't a performance score.
+4. *"How do you stop tech debt piling up?"* → make it visible, budget a slice each sprint, strong DoD.
+5. *"Scrum or Kanban for a support team?"* → Kanban — continuous flow with WIP limits fits interrupt-driven work.
+
+Tying answers to "on my team we did X" — real, specific experience — beats textbook definitions every time, in both remote and BD interviews.
+
+[↑ Back to top](#toc)
