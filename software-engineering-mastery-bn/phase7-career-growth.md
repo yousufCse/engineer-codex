@@ -166,6 +166,11 @@ Strategy/Vision     │ █░░░░░  │ ██░░░░  │ ██�
 ### T-Shaped Skill Map (Mermaid Mindmap)
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'cScale0':'#1A5276', 'cScaleLabel0':'#FFFFFF',
+  'cScale1':'#117A65', 'cScaleLabel1':'#FFFFFF',
+  'cScale2':'#6C3483', 'cScaleLabel2':'#FFFFFF'
+}}}%%
 mindmap
   root((T-Shaped\nProfessional))
     DEPTH - Core Expertise

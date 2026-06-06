@@ -21,6 +21,9 @@
 ---
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'cScale1':'#117A65', 'cScaleLabel1':'#FFFFFF'
+}}}%%
 mindmap
   root((অধ্যায় ৯\nAd-hoc & Implementation))
     চিন্তার কৌশল

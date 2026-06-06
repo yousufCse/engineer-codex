@@ -20,6 +20,9 @@
 ---
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'cScale1':'#117A65', 'cScaleLabel1':'#FFFFFF'
+}}}%%
 mindmap
   root((Big O Notation))
     Time Complexity
