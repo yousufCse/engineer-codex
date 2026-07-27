@@ -75,6 +75,8 @@ Flutter app বন্ধ হলে কিছু যায় আসে না।
 
 ---
 
+<a id="toc" name="toc"></a>
+
 ## 📚 সূচিপত্র
 
 ### পর্ব ১ — ভিত্তি
@@ -221,7 +223,7 @@ GET    /health                সার্ভার বেঁচে আছে �
 ---
 ---
 
-<a name="lesson-01"></a>
+<a id="lesson-01" name="lesson-01"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📦 Lesson 01 — Project তৈরি
@@ -487,10 +489,12 @@ ls -a
 মনে রাখার নিয়ম: **`package.json` হলো রেসিপি, `node_modules` হলো রান্না করা খাবার।** রেসিপি থাকলে খাবার আবার বানানো যায়, উল্টোটা নয়।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-02"></a>
+<a id="lesson-02" name="lesson-02"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📥 Lesson 02 — Dependencies ইনস্টল
@@ -750,10 +754,12 @@ note-app-backend@1.0.0
 বাস্তবে বেশিরভাগ প্রজেক্ট `^` রাখে, আর নিশ্চয়তার জন্য `package-lock.json` এর উপর ভরসা করে।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-03"></a>
+<a id="lesson-03" name="lesson-03"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🚀 Lesson 03 — Express Server চালু
@@ -1133,10 +1139,12 @@ ERR_CONNECTION_REFUSED
 এটাই Node এর asynchronous (অ্যাসিনক্রোনাস) স্বভাব — "কাজটা শুরু করে দাও, শেষ হলে callback ডাকব"। Lesson 05 এ এটা নিয়ে বিস্তারিত হবে, কারণ database এর সাথে কথা বলতে গেলে এই ধারণাটা লাগবেই।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-04"></a>
+<a id="lesson-04" name="lesson-04"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🎯 Lesson 04 — প্রথম API
@@ -1511,10 +1519,12 @@ Flutter এ পার্থক্য বড় — যদি তুমি `if (r
 শিক্ষা: status code শুধু সাজসজ্জা নয় — ক্লায়েন্টের কোড ওটার উপর সিদ্ধান্ত নেয়।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-05"></a>
+<a id="lesson-05" name="lesson-05"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🐘 Lesson 05 — PostgreSQL Connect
@@ -2123,10 +2133,12 @@ URL    : http://localhost:5000/api/db-test
 ঠিক সেই কাজটাই পরের lesson এ।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-06"></a>
+<a id="lesson-06" name="lesson-06"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🗃️ Lesson 06 — users টেবিল তৈরি
@@ -2554,10 +2566,12 @@ SQL টা ফাইলে রাখলাম কেন, সরাসরি psql
 Lesson 14 এ প্রথম পদ্ধতিটা দেখবে।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-07"></a>
+<a id="lesson-07" name="lesson-07"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ✍️ Lesson 07 — Register API
@@ -3121,10 +3135,12 @@ URL হবে `http://localhost:5000/api/v1/auth/register`। Router ফাই�
 শিক্ষা: `INSERT` নিজে থেকে কোনো সারি ফেরত দেয় না — `RETURNING` লিখলে তবেই দেয়।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-08"></a>
+<a id="lesson-08" name="lesson-08"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🔐 Lesson 08 — Password Hashing (bcrypt)
@@ -3503,10 +3519,12 @@ SELECT email, password_hash FROM users;
 তাই স্তরে স্তরে প্রতিরক্ষা: bcrypt + শক্তিশালী পাসওয়ার্ডের নিয়ম + rate limiting (Lesson 22) + ফাঁস হলে সবার পাসওয়ার্ড বদলানোর ব্যবস্থা।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-09"></a>
+<a id="lesson-09" name="lesson-09"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🔑 Lesson 09 — Login API
@@ -3950,10 +3968,12 @@ bcrypt ধীর হওয়ায় সার্ভার নিজেই হ
 সমাধান: **rate limiting** — একই IP থেকে ১৫ মিনিটে সর্বোচ্চ ৫ বার login চেষ্টা। Lesson 22 এ করব।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-10"></a>
+<a id="lesson-10" name="lesson-10"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🎫 Lesson 10 — JWT তৈরি
@@ -4374,10 +4394,12 @@ JWT ঠিক তাই — **"এই তথ্যগুলো আমিই দ�
 3. **নিরাপদ সংরক্ষণ** — Flutter এ `SharedPreferences` নয়, `flutter_secure_storage` (iOS Keychain / Android Keystore)
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-11"></a>
+<a id="lesson-11" name="lesson-11"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🛡️ Lesson 11 — Auth Middleware
@@ -4899,10 +4921,12 @@ router.delete('/:id', deleteNote);
 Lesson 12 এ notes route এ ঠিক এটাই করব। **নিরাপত্তায় ডিফল্ট সবসময় "বন্ধ" হওয়া উচিত, "খোলা" নয়।**
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-12"></a>
+<a id="lesson-12" name="lesson-12"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📝 Lesson 12 — Create Note
@@ -5321,10 +5345,12 @@ Foreign Key হলো database এর নিজের হাতে ধরা ন
 শিক্ষা: **অতিরিক্ত index শুধু জায়গা নেয় না, প্রতিটা INSERT/UPDATE কেও ধীর করে।** কোন index সত্যি কাজে লাগছে তা `EXPLAIN ANALYZE` দিয়ে দেখা যায়।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-13"></a>
+<a id="lesson-13" name="lesson-13"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📖 Lesson 13 — Read Notes
@@ -5726,10 +5752,12 @@ if (notes.isEmpty) showEmptyState();     // সরল
 নিয়ম: **এখন যা দরকার তাই পাঠাও।** কম ডেটা = দ্রুত response + কম ফাঁসের ঝুঁকি।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-14"></a>
+<a id="lesson-14" name="lesson-14"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ✏️ Lesson 14 — Update Note
@@ -6053,10 +6081,12 @@ Authorization: Bearer <token>
 শেখার প্রজেক্টে দরকার নেই, কিন্তু সহযোগিতামূলক (collaborative) অ্যাপে অপরিহার্য।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-15"></a>
+<a id="lesson-15" name="lesson-15"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🗑️ Lesson 15 — Delete Note
@@ -6300,10 +6330,12 @@ DELETE FROM users WHERE id = 2;
 `RETURNING` রাখলাম কারণ response এ id টা ফেরত দিলে Flutter এর কাজ সহজ হয় (কোন নোটটা তালিকা থেকে সরাবে, নিশ্চিত হওয়া যায়) — বিশেষত যখন একসাথে কয়েকটা delete চলছে।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-16"></a>
+<a id="lesson-16" name="lesson-16"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🔎 Lesson 16 — Search Notes
@@ -6590,10 +6622,12 @@ B-tree index অভিধানের মতো — শুরুর অক্ষ
 বাস্তব অ্যাপে প্রায়ই দুটো আলাদা করা হয় — ডিফল্টে শিরোনামে খোঁজা, `?deep=true` দিলে লেখার ভিতরেও।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-17"></a>
+<a id="lesson-17" name="lesson-17"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📄 Lesson 17 — Pagination
@@ -6991,10 +7025,12 @@ LIMIT 10
 - Cursor pagination — মোট সংখ্যা লাগেই না
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-18"></a>
+<a id="lesson-18" name="lesson-18"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🔄 Lesson 18 — Refresh Token
@@ -7507,10 +7543,12 @@ SELECT id, user_id, revoked_at FROM refresh_tokens ORDER BY id;
 নিরাপত্তায় এই নীতিটাই ঠিক: **সন্দেহ হলে বন্ধ করে দাও, খোলা রেখো না।**
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-19"></a>
+<a id="lesson-19" name="lesson-19"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🚪 Lesson 19 — Logout
@@ -7805,10 +7843,12 @@ JWT এর মূল সুবিধাটাই হলো সার্ভার
 ৪ নম্বর ধাপটাই সবচেয়ে বেশি বাদ পড়ে।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-20"></a>
+<a id="lesson-20" name="lesson-20"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🧯 Lesson 20 — Error Handling
@@ -8301,10 +8341,12 @@ isOperational নেই → PostgreSQL code ও নয়
 আরও ভালো করতে চাইলে `503 Service Unavailable` দেওয়া যেত — "সাময়িক সমস্যা, একটু পরে চেষ্টা করুন"। তাতে Flutter নিজে থেকে retry করতে পারত।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-21"></a>
+<a id="lesson-21" name="lesson-21"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🏗️ Lesson 21 — Project Structure
@@ -8840,10 +8882,12 @@ Controller, service, route, middleware — কিচ্ছু ছোঁয়া
 **শিক্ষা: স্থাপত্যের নিয়ম হলো দিকনির্দেশ, ধর্মগ্রন্থ নয়।** কখন নিয়ম ভাঙলে লাভ বেশি — সেটা বোঝাই অভিজ্ঞতা।
 </details>
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="lesson-22"></a>
+<a id="lesson-22" name="lesson-22"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🚢 Lesson 22 — Production Checklist
@@ -9325,10 +9369,12 @@ WHERE expires_at < NOW() - INTERVAL '30 days';
 
 এই সাতটা করতে পারলে তুমি পূর্ণ full-stack ডেভেলপার।
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 ---
 
-<a name="ref-flows"></a>
+<a id="ref-flows" name="ref-flows"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📎 Reference 1 — সব Flow Diagram
@@ -9504,9 +9550,11 @@ err.isOperational ?
 JSON response → Postman / Flutter
 ```
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 
-<a name="ref-sql"></a>
+<a id="ref-sql" name="ref-sql"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📎 Reference 2 — এই প্রজেক্টের সব SQL
@@ -9661,9 +9709,11 @@ SELECT * FROM notes WHERE user_id = 2 ORDER BY created_at DESC LIMIT 10;
 | `JSONB` | কাঠামোহীন ডেটা | index করা যায় |
 | `UUID` | অনুমান-অযোগ্য id | বড় সিস্টেমে |
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 
-<a name="ref-postman"></a>
+<a id="ref-postman" name="ref-postman"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📎 Reference 3 — Postman Guide
@@ -9811,9 +9861,11 @@ DELETE {{baseUrl}}/api/notes/1
 | 500 | Internal Error | সার্ভারের বাগ |
 | 503 | Unavailable | DB ডাউন |
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 
-<a name="ref-trouble"></a>
+<a id="ref-trouble" name="ref-trouble"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📎 Reference 4 — Troubleshooting
@@ -9899,9 +9951,11 @@ psql -d noteapp -c "SELECT id, user_id, title FROM notes ORDER BY id DESC LIMIT 
 psql -d noteapp -c "SELECT id, user_id, revoked_at FROM refresh_tokens;"
 ```
 
+[⬆ সূচিপত্রে ফিরে যাও](#toc)
+
 ---
 
-<a name="ref-glossary"></a>
+<a id="ref-glossary" name="ref-glossary"></a>
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 📎 Reference 5 — শব্দকোষ
@@ -10013,5 +10067,5 @@ Postman ─── Express ─── PostgreSQL
 এখন এই backend টা চালু রেখে তোমার Flutter অ্যাপ থেকে কল করো।
 যে জিনিসটা এতদিন "রহস্যময় API" ছিল, সেটা এখন তোমার নিজের লেখা কোড।
 
-**[⬆ সূচিপত্রে ফিরে যাও](#-সূচিপত্র)**
+**[⬆ সূচিপত্রে ফিরে যাও](#toc)**
 
