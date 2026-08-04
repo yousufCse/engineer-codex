@@ -1,10 +1,10 @@
 # Section 5 — Performance Optimization
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা সহ**, আর **link করা** — যাতে আপনি ঘুরে ঘুরে পড়তে পারেন এবং ধীরে ধীরে প্রস্তুতি নিতে পারেন।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-05-performance-bn.md](../software-engineer-flutter/section-05-performance.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-05-performance.md](../software-engineer-flutter/section-05-performance.md)
 
 ---
 
@@ -13,13 +13,13 @@
 প্রতিটা প্রশ্নের গঠন একই:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code সহ বিস্তারিত, ধাপে ধাপে ব্যাখ্যা।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
 - **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে ট্যাগ দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলা নিজেই একটা senior skill — আর এটা remote আর BD দুই ধরনের কোম্পানিতেই একইভাবে কাজ করে। Performance-এর জন্য আরও একটা নিয়ম: কোনো কিছু "faster" বলবেন না যদি না বলেন *আপনি কীভাবে মেপেছেন*। "আমি DevTools-এ profile করেছি" বলাটা শক্ত senior signal।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে। Performance-এর জন্য আরও একটা নিয়ম: কোনো কিছু "faster" বলবেন না যদি না বলেন *আপনি কীভাবে মেপেছেন*। "আমি DevTools-এ profile করেছি" বলাটা শক্ত senior signal।
 
 ---
 
@@ -38,7 +38,7 @@
 7. [Tree-এর উপরের দিকে `setState` call করবেন না কেন?](#q7) · *Very common*
 8. [`Selector` বনাম `Consumer` (Provider)](#q8) · *Common*
 9. [`BlocBuilder`-এ `buildWhen`](#q9) · *Common*
-10. [ব্যয়বহুল কাজে debounce আর throttle](#q10) · *Common*
+10. [ভারী কাজে debounce আর throttle](#q10) · *Common*
 
 **C. লম্বা list আর scrolling**
 11. [`ListView` বনাম `.builder` বনাম `.separated` বনাম `.custom`](#q11) · *Very common*
@@ -62,7 +62,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৯টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ায়। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** দিতে পারবেন।
+১৯টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ায়। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** দিতে পারবেন।
 
 **পর্যায় ১ — মানসিকতা: আগে মাপুন (এখান থেকে শুরু করুন)।** এটা ছাড়া বাকি সব উত্তর অনুমানের মতো শোনায়।
 → [Q1 Jank কী](#q1) · [Q2 DevTools](#q2) · [Q3 Debug বনাম profile/release](#q3)
@@ -119,7 +119,7 @@ Build   →   Layout   →   Paint   →   Composite (raster)
 
 **ধাপ ৪ — Raster thread কীসে ধীর হয়।**
 এই thread আঁকা জিনিসটাকে GPU-তে pixel-এ পরিণত করে। এটা ধীর হয় যখন:
-- আপনি অনেক `Opacity`, `ClipRRect`, বা shadow ব্যবহার করেন, যেগুলো `saveLayer` চালাতে বাধ্য করে (একটা ব্যয়বহুল "offscreen buffer-এ আঁকা" ধাপ)।
+- আপনি অনেক `Opacity`, `ClipRRect`, বা shadow ব্যবহার করেন, যেগুলো `saveLayer` চালাতে বাধ্য করে (একটা ভারী "offscreen buffer-এ আঁকা" ধাপ)।
 - আপনি বিশাল image দেখান, যেগুলো resize করা হয়নি ([Q15](#q15) দেখুন)।
 - আপনার অনেকগুলো overlapping layer আছে, যেগুলো GPU-কে জোড়া লাগাতে হয়।
 
@@ -251,14 +251,14 @@ Debug mode গতি ছেড়ে developer-এর সুবিধা নে�
 - **Assertions** — বাড়তি নিরাপত্তা check (যেমন সেই বিখ্যাত "is this widget tree valid?") যা সময় খরচ করে।
 - **Service hooks** — যেগুলো hot reload আর inspector চালু রাখে।
 
-Code লেখার সময়ে এগুলো দারুণ, কিন্তু এগুলো timing-এর সংখ্যাগুলোকে অর্থহীন করে দেয়।
+Code লেখার সময়ে এগুলো দারুণ, কিন্তু এগুলো timing-এর সংখ্যাগুলোকে মানে নেই এমন করে দেয়।
 
 **ধাপ ৩ — মাপার জন্য profile mode ব্যবহার করুন।**
 Profile mode release-এর মতোই native code-এ compile করে। কিন্তু DevTools-এর দরকারি tracing hook গুলো রেখে দেয়। মাপার জন্য এটাই সেরা জায়গা।
 
 ```bash
 flutter run --profile      # DevTools দিয়ে আসল performance মাপুন
-flutter run --release      # চূড়ান্ত, সবচেয়ে দ্রুত build, কোনো debug tool নেই
+flutter run --release      # final, সবচেয়ে দ্রুত build, কোনো debug tool নেই
 ```
 
 **ধাপ ৪ — সবসময় আসল device-এ test করুন।**
@@ -269,7 +269,7 @@ Emulator আর simulator-এ আসল phone-এর GPU আর CPU-র সী�
 **সাধারণ ভুল:** Debug build দেখে "app-টা janky" রিপোর্ট করা, অথবা শুধু high-end emulator-এ মাপা। দুটোই ভুল ফল দেয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Profile mode কী রাখে যা release ফেলে দেয়?"* → DevTools-এর দরকারি tracing আর timeline hook। সর্বোচ্চ গতির জন্য release এগুলো ছেঁটে ফেলে।
+- *"Profile mode কী রাখে যা release ফেলে দেয়?"* → DevTools-এর দরকারি tracing আর timeline hook। সবচেয়ে বেশি গতির জন্য release এগুলো ছেঁটে ফেলে।
 - *"Hot reload শুধু debug-এ কাজ করে কেন?"* → কারণ debug JIT ব্যবহার করে, যা চলার সময়েই নতুন code বসাতে পারে। Release আগে থেকে compile করা native, তাই এটা hot reload করতে পারে না।
 
 **সম্পর্কিত:** [Q1 — jank খুঁজে বের করা](#q1) · [Q2 — DevTools](#q2)
@@ -282,7 +282,7 @@ Emulator আর simulator-এ আসল phone-এর GPU আর CPU-র সী�
 
 ---
 
-## <a id="q4"></a>4. `const` widget কীভাবে অপ্রয়োজনীয় rebuild ঠেকায়?
+## <a id="q4"></a>4. `const` widget কীভাবে দরকার নেই এমন rebuild ঠেকায়?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q4)
 
@@ -291,7 +291,7 @@ Emulator আর simulator-এ আসল phone-এর GPU আর CPU-র সী�
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — `const` মানে "একবার বানানো, চিরকাল পুনরায় ব্যবহার।"**
+**ধাপ ১ — `const` মানে "একবার বানানো, চিরকাল আবার ব্যবহার।"**
 সাধারণ widget constructor প্রতিবার `build()` চললে নতুন object বানায়। `const` constructor Dart-কে app চালু হওয়ার আগেই object বানাতে দেয়। তারপর যেখানে যেখানে সেটা আছে, সব জায়গায় ওই একটা object-ই শেয়ার হয়। এই শেয়ার করাকে বলে **canonicalization** — বড় শব্দ, মানে শুধু "একই জিনিস আবার ব্যবহার করা।"
 
 ```dart
@@ -440,10 +440,10 @@ Column(
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি Element tree আর rebuild boundary বোঝেন কি না। শুধু মুখস্থ করা "best practices" নয়।
 
-**সাধারণ ভুল:** বলা যে "method খারাপ কারণ এটা নতুন object বানায়।" এটা অর্ধেক গল্প মাত্র। আসল কারণ হলো method **কোনো Element boundary** বানায় না, তাই ওই অংশটা বাদ দেওয়ার কোনো উপায় Flutter-এর থাকে না। বাকি অর্ধেক: কেউ কেউ আবার বেশি extract করে ফেলেন — এক line-এর প্রতিটা widget-কে class-এ মুড়ে দিলে শুধু জঞ্জাল বাড়ে, লাভ হয় না। সেখানেই extract করুন যেখানে একটা boundary, একটা `const`, বা পুনরায় ব্যবহার পাওয়া যায়।
+**সাধারণ ভুল:** বলা যে "method খারাপ কারণ এটা নতুন object বানায়।" এটা অর্ধেক গল্প মাত্র। আসল কারণ হলো method **কোনো Element boundary** বানায় না, তাই ওই অংশটা বাদ দেওয়ার কোনো উপায় Flutter-এর থাকে না। বাকি অর্ধেক: কেউ কেউ আবার বেশি extract করে ফেলেন — এক line-এর প্রতিটা widget-কে class-এ মুড়ে দিলে শুধু জঞ্জাল বাড়ে, লাভ হয় না। সেখানেই extract করুন যেখানে একটা boundary, একটা `const`, বা আবার ব্যবহার পাওয়া যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"তাহলে কি build helper method কখনোই ব্যবহার করব না?"* → ছোট, সস্তা অংশের জন্য এগুলো ঠিক আছে। শুধু জেনে রাখুন এগুলো rebuild boundary দেয় না। তাই অংশটা ব্যয়বহুল বা স্থির হলে class-ই ভালো।
+- *"তাহলে কি build helper method কখনোই ব্যবহার করব না?"* → ছোট, সস্তা অংশের জন্য এগুলো ঠিক আছে। শুধু জেনে রাখুন এগুলো rebuild boundary দেয় না। তাই অংশটা ভারী বা স্থির হলে class-ই ভালো।
 - *"আলাদা করা widget-এ কি `const` লাগবেই?"* → `const` হলো উপরের সাজসজ্জা — এটা Flutter-কে identity-equal check পর্যন্ত বাদ দিতে দেয়। `const` ছাড়াও input মিলে গেলে আলাদা Element-টা সাহায্য করে।
 
 **সম্পর্কিত:** [Q4 — const widget](#q4) · [Q6 — build() golden rule](#q6) · [Q7 — setState-এর scope](#q7)
@@ -640,7 +640,7 @@ ValueListenableBuilder<bool>(
 
 **Interviewer কেন জিজ্ঞেস করে:** মাঝারি স্তরের developer-দের লেখা app-এ এটাই সবচেয়ে সাধারণ performance সমস্যা। এটা যাচাই করে আপনি rebuild-এর *scope* আর ভালো widget decomposition বোঝেন কি না।
 
-**সাধারণ ভুল:** Child-গুলোতে `const` দিলেই সমস্যা পুরোপুরি ঠিক হয়ে যায় — এটা ভাবা। `const` child-গুলোকে skip করতে দেয়। কিন্তু parent-এর `build()` তবুও উপর থেকে নিচ পর্যন্ত চলে, আর প্রতিটা non-const child rebuild করে। কাঠামোগত সমাধান হলো state নিচে নামানো, যাতে rebuild আরও নিচ থেকে শুরু হয়।
+**সাধারণ ভুল:** Child-গুলোতে `const` দিলেই সমস্যা পুরোপুরি ঠিক হয়ে যায় — এটা ভাবা। `const` child-গুলোকে skip করতে দেয়। কিন্তু parent-এর `build()` তবুও উপর থেকে নিচ পর্যন্ত চলে, আর প্রতিটা non-const child rebuild করে। structure-গত সমাধান হলো state নিচে নামানো, যাতে rebuild আরও নিচ থেকে শুরু হয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`ValueNotifier` না কি পুরো state-management package?"* → একটা বা দুটো সহজ local value-র জন্য `ValueNotifier` একদম ঠিক। State যখন অনেক widget বা screen-এ shared, তখন Provider/Riverpod/Bloc নিন।
@@ -657,7 +657,7 @@ ValueListenableBuilder<bool>(
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q8)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"provide করা object যখনই `notifyListeners()` call করে, `Consumer` তখনই rebuild হয় — তাই যেকোনো field-এর যেকোনো পরিবর্তনে এটা rebuild হয়। `Selector` আগে একটা নির্দিষ্ট value বেছে নেয়। শুধু *সেই* value বদলালেই rebuild হয়। তাই কোনো widget-এর যদি শুধু cart count লাগে, `Selector` promo code-এর মতো সম্পর্কহীন পরিবর্তন উপেক্ষা করে।"
+"provide করা object যখনই `notifyListeners()` call করে, `Consumer` তখনই rebuild হয় — তাই যেকোনো field-এর যেকোনো পরিবর্তনে এটা rebuild হয়। `Selector` আগে একটা নির্দিষ্ট value বেছে নেয়। শুধু *সেই* value বদলালেই rebuild হয়। তাই কোনো widget-এর যদি শুধু cart count লাগে, `Selector` promo code-এর মতো সম্পর্ক নেই এমন পরিবর্তন বাদ দেয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -707,7 +707,7 @@ Selector<CartModel, int>(
 `setPromoCode('SAVE10')`-এর পরে `Selector` দেখে `itemCount` এখনো একই সংখ্যা। তাই এটা badge-টা rebuild করে **না**। `Consumer` হলে অকারণেই rebuild করত।
 
 **ধাপ ৪ — `child` কৌশল (দুটোতেই কাজ করে)।**
-builder-এর ভেতরে `child:` parameter আর `child!` খেয়াল করুন। `child` হিসেবে পাঠানো widget একবার build হয় আর প্রতিটা rebuild-এ পুনরায় ব্যবহার হয় — ছোট একটা built-in `const`-এর মতো। builder-এর ভেতরের যে অংশ কখনো বদলায় না, তার জন্য এটা ব্যবহার করুন।
+builder-এর ভেতরে `child:` parameter আর `child!` খেয়াল করুন। `child` হিসেবে পাঠানো widget একবার build হয় আর প্রতিটা rebuild-এ আবার ব্যবহার হয় — ছোট একটা built-in `const`-এর মতো। builder-এর ভেতরের যে অংশ কখনো বদলায় না, তার জন্য এটা ব্যবহার করুন।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি state management-কে basic-এর বাইরে গিয়ে tune করতে পারেন কি না। shared state-ওয়ালা বড় app-এ `Selector` প্রতিটা interaction-এ কয়েক ডজন rebuild বাঁচাতে পারে।
 
@@ -723,7 +723,7 @@ builder-এর ভেতরে `child:` parameter আর `child!` খেয়�
 
 ---
 
-## <a id="q9"></a>9. `BlocBuilder`-এ `buildWhen` কীভাবে অপ্রয়োজনীয় rebuild কমায়?
+## <a id="q9"></a>9. `BlocBuilder`-এ `buildWhen` কীভাবে দরকার নেই এমন rebuild কমায়?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q9)
 
@@ -780,7 +780,7 @@ BlocListener<DashboardBloc, DashboardState>(
 **ধাপ ৪ — এটা সঠিক equality-র উপর নির্ভর করে।**
 `buildWhen` state-গুলো `!=` দিয়ে তুলনা করে। তাই আপনার state class-এ ঠিকঠাক value equality থাকতে হবে (সাধারণত `Equatable` বা `freezed` দিয়ে)। এটা না থাকলে একই data-র দুটো state আলাদা মনে হয়। আর `buildWhen` সবসময় true return করে।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি Bloc *বড় পরিসরে* ব্যবহার করতে পারেন কি না — শুধু state emit করা নয়, কোন widget কোন পরিবর্তনে react করবে সেটাও নিয়ন্ত্রণ করা। বড় app-এ `buildWhen` না থাকলে পুরো screen জুড়ে rebuild cascade হয়।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি Bloc *বড় পরিসরে* ব্যবহার করতে পারেন কি না — শুধু state emit করা নয়, কোন widget কোন পরিবর্তনে react করবে সেটাও control করা। বড় app-এ `buildWhen` না থাকলে পুরো screen জুড়ে rebuild cascade হয়।
 
 **সাধারণ ভুল:** list-টা জায়গাতেই mutate করা আর একই list reference নিয়ে state emit করা। তখন `prev.orders != curr.orders` হয় `false` (একই reference) আর UI কখনোই update হয় না। সবসময় নতুন list emit করুন, যেমন `copyWith(orders: [...state.orders, newOrder])`।
 
@@ -794,12 +794,12 @@ BlocListener<DashboardBloc, DashboardState>(
 
 ---
 
-## <a id="q10"></a>10. search-as-you-type-এর মতো ব্যয়বহুল কাজ আপনি কীভাবে debounce বা throttle করেন?
+## <a id="q10"></a>10. search-as-you-type-এর মতো ভারী কাজ আপনি কীভাবে debounce বা throttle করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q10)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Debounce মানে 'user কাজটা থামানো পর্যন্ত অপেক্ষা করো, তারপর একবার চালাও।' Throttle মানে 'যত ঘন ঘনই ঘটুক, প্রতি X millisecond-এ সর্বোচ্চ একবার চালাও।' search box-এর জন্য আমি API call debounce করি, যাতে প্রতিটা keystroke-এ request না যায় — টাইপ থামা পর্যন্ত অপেক্ষা করি।"
+"Debounce মানে 'user কাজটা থামানো পর্যন্ত অপেক্ষা করো, তারপর একবার চালাও।' Throttle মানে 'যত ঘন ঘনই ঘটুক, প্রতি X millisecond-এ বড়জোর একবার চালাও।' search box-এর জন্য আমি API call debounce করি, যাতে প্রতিটা keystroke-এ request না যায় — টাইপ থামা পর্যন্ত অপেক্ষা করি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -840,11 +840,11 @@ class _SearchState extends State<SearchBar> {
 // RxDart
 queryStream
     .debounceTime(const Duration(milliseconds: 400))
-    .distinct() // একই text বারবার এলে উপেক্ষা করো
+    .distinct() // একই text বারবার এলে বাদ দাও
     .listen(_runSearch);
 ```
 
-**ধাপ ৫ — Throttle (একটা স্থির সর্বোচ্চ হারে চালানো)।**
+**ধাপ ৫ — Throttle (একটা স্থির একটা নির্দিষ্ট হারে চালানো, তার বেশি নয়)।**
 যেসব জিনিস অনবরত ঘটে, তাদের জন্য throttle ব্যবহার করুন। যেমন একটা scroll handler, যেটা "scroll progress" bar update করে:
 
 ```dart
@@ -854,7 +854,7 @@ void _onScroll() {
   final now = DateTime.now();
   if (now.difference(_last) < const Duration(milliseconds: 100)) return;
   _last = now;
-  _updateProgressBar(); // প্রতি 100ms-এ সর্বোচ্চ একবার
+  _updateProgressBar(); // প্রতি 100ms-এ বড়জোর একবার
 }
 ```
 
@@ -881,7 +881,7 @@ void _onScroll() {
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q11)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"মূল পার্থক্য হলো eager বনাম lazy building। ডিফল্ট `ListView` সব child আগেই build করে ফেলে — ছোট list-এর জন্য ঠিক আছে। `ListView.builder` child-গুলো lazily build করে, শুধু যখন সেগুলো screen-এ আসে। তাই এটা হাজার হাজার item পর্যন্ত scale করে। `.separated` হলো সেই lazy builder, সাথে item-এর মাঝে একটা separator। `.custom` দেয় পুরো নিয়ন্ত্রণ — child কীভাবে তৈরি আর recycle হবে তার উপর।"
+"মূল পার্থক্য হলো eager বনাম lazy building। ডিফল্ট `ListView` সব child আগেই build করে ফেলে — ছোট list-এর জন্য ঠিক আছে। `ListView.builder` child-গুলো lazily build করে, শুধু যখন সেগুলো screen-এ আসে। তাই এটা হাজার হাজার item পর্যন্ত scale করে। `.separated` হলো সেই lazy builder, সাথে item-এর মাঝে একটা separator। `.custom` দেয় পুরো control — child কীভাবে তৈরি আর recycle হবে তার উপর।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -894,17 +894,17 @@ void _onScroll() {
 **ধাপ ২ — চারটা constructor।**
 
 - **`ListView(children: [...])`** — **সব** child একসাথে build করে। শুধু ছোট, নির্দিষ্ট list-এর জন্য ব্যবহার করুন (মোটামুটি 20 item-এর নিচে)। এর বেশি হলে সময় আর memory দুটোই নষ্ট হয়।
-- **`ListView.builder`** — শুধু দৃশ্যমান item-এর জন্য `itemBuilder` call করে। খরচ O(visible), O(total) নয়। যেকোনো লম্বা বা dynamic list-এ ব্যবহার করুন।
+- **`ListView.builder`** — শুধু দেখা যায় এমন item-এর জন্য `itemBuilder` call করে। খরচ O(visible), O(total) নয়। যেকোনো লম্বা বা dynamic list-এ ব্যবহার করুন।
 - **`ListView.separated`** — একই lazy আচরণ, সাথে divider/spacing-এর জন্য একটা `separatorBuilder`। এতে আপনার item builder পরিষ্কার থাকে আর index সহজ থাকে।
-- **`ListView.custom`** — সরাসরি একটা `SliverChildDelegate` নেয়। তাই child কীভাবে build হবে, size পাবে, আর alive থাকবে — সব আপনি নিয়ন্ত্রণ করেন। উন্নত ক্ষেত্রে ব্যবহার করুন (আলাদা আলাদা ধরনের source, custom keep-alive)।
+- **`ListView.custom`** — সরাসরি একটা `SliverChildDelegate` নেয়। তাই child কীভাবে build হবে, size পাবে, আর alive থাকবে — সব আপনি control করেন। উন্নত ক্ষেত্রে ব্যবহার করুন (আলাদা আলাদা ধরনের source, custom keep-alive)।
 
 **ধাপ ৩ — একটা তুলনার তালিকা।**
 
 | Constructor | Build cost | Memory | কখন ব্যবহার করবেন |
 |---|---|---|---|
 | `ListView(children:)` | O(n) — সব আগেই | সবই memory-তে | ছোট, নির্দিষ্ট list (<~20) |
-| `ListView.builder` | O(visible) | শুধু দৃশ্যমানগুলো | লম্বা / dynamic list |
-| `ListView.separated` | O(visible) | শুধু দৃশ্যমানগুলো | item-এর মাঝে divider লাগলে |
+| `ListView.builder` | O(visible) | শুধু যেগুলো দেখা যায় | লম্বা / dynamic list |
+| `ListView.separated` | O(visible) | শুধু যেগুলো দেখা যায় | item-এর মাঝে divider লাগলে |
 | `ListView.custom` | O(visible)* | নিজের মতো সাজানো যায় | custom child management |
 
 \* আপনার delegate-এর উপর নির্ভর করে
@@ -917,7 +917,7 @@ ListView(
   children: List.generate(10000, (i) => ListTile(title: Text('Item $i'))),
 );
 
-// ভালো — শুধু যা দৃশ্যমান তাই build করে
+// ভালো — শুধু যা দেখা যায় তাই build করে
 ListView.builder(
   itemCount: 10000,
   itemBuilder: (context, index) => ListTile(title: Text('Item $index')),
@@ -930,7 +930,7 @@ ListView.separated(
   separatorBuilder: (context, index) => const Divider(height: 1),
 );
 
-// উন্নত — delegate দিয়ে পুরো নিয়ন্ত্রণ
+// উন্নত — delegate দিয়ে পুরো control
 ListView.custom(
   childrenDelegate: SliverChildBuilderDelegate(
     (context, index) => MyItem(index: index),
@@ -966,7 +966,7 @@ ListView.custom(
 তিনটা উপকরণ:
 1. Scroll position দেখার জন্য একটা **`ScrollController`**।
 2. একটা **loading flag**, যাতে দুটো fetch একসাথে না চলে।
-3. একটা **`ListView.builder`**, যাতে শুধু দৃশ্যমান item build হয় ([Q11](#q11))।
+3. একটা **`ListView.builder`**, যাতে শুধু দেখা যায় এমন item build হয় ([Q11](#q11))।
 
 **ধাপ ২ — Trigger।**
 Scroll position শুনুন। User একটা সীমা পার করলে (ধরুন 80% নিচে নামলে) পরের page load করুন — তবে যদি আগের একটা load চলতে না থাকে এবং আর data বাকি থাকে।
@@ -1070,7 +1070,7 @@ class _InfiniteListState extends State<InfiniteList> {
 
 **ধাপ ১ — ডিফল্টে screen-এর বাইরে কী হয়।**
 `ListView.builder`-এ যেসব item দৃশ্যের বাইরে চলে যায়, memory খালি করতে তাদের State ফেলে দেওয়া হয়। ফিরে এলে সেগুলো নতুন করে build হয়। সাধারণত এটা ঠিকই আছে, কিন্তু এতে দুটো সমস্যা হয়:
-1. যেসব item-এর setup ব্যয়বহুল (network image, জটিল layout), সেগুলো ফিরে আসার সময় **flicker** করে।
+1. যেসব item-এর setup ভারী (network image, জটিল layout), সেগুলো ফিরে আসার সময় **flicker** করে।
 2. যেসব item-এ user state থাকে (text field, checkbox), সেগুলো নিজের মান **হারায়**।
 
 **ধাপ ২ — Key: ঠিক item-কে ঠিক state-এর সাথে মেলানো।**
@@ -1098,7 +1098,7 @@ class _ChatMessageState extends State<ChatMessage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // বাধ্যতামূলক — keep-alive সংকেত পাঠায়
+    super.build(context); // এটা দিতেই হবে — keep-alive সংকেত পাঠায়
     return Card(child: CachedNetworkImage(imageUrl: widget.message.imageUrl));
   }
 }
@@ -1113,11 +1113,11 @@ off-screen → State DESTROYED     off-screen → State KEPT in memory
            (rebuilt on return)              (snaps back instantly)
 ```
 
-Keep-alive **memory** দিয়ে **scroll-এর মসৃণতা** কেনে। শুধু সেখানেই ব্যবহার করুন, যেখানে state হারানো ব্যয়বহুল — প্রতিটা item-এ নয়।
+Keep-alive **memory** দিয়ে **scroll-এর মসৃণতা** কেনে। শুধু সেখানেই ব্যবহার করুন, যেখানে state হারানোর খরচ অনেক — প্রতিটা item-এ নয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি memory আর rebuild খরচের মধ্যে trade-off বোঝেন কি না। সাথে widget reconciliation কীভাবে key ব্যবহার করে, সেটাও। Production-মানের list বানাতে দুটোই দরকার।
 
-**সাধারণ ভুল:** keep-alive widget-এর `build`-এ `super.build(context)` call করতে ভুলে যাওয়া — এটা ছাড়া keep-alive সংকেত কখনো যায় না, আর item আগের মতোই ধ্বংস হয়। আর 10,000 item-এর list-এ প্রতিটা item-এ keep-alive ব্যবহার করা, যা lazy building-কে অর্থহীন করে দেয় এবং memory শেষ করে ফেলতে পারে। বেছে বেছে ব্যবহার করুন।
+**সাধারণ ভুল:** keep-alive widget-এর `build`-এ `super.build(context)` call করতে ভুলে যাওয়া — এটা ছাড়া keep-alive সংকেত কখনো যায় না, আর item আগের মতোই ধ্বংস হয়। আর 10,000 item-এর list-এ প্রতিটা item-এ keep-alive ব্যবহার করা, যা lazy building-কে মানে নেই এমন করে দেয় এবং memory শেষ করে ফেলতে পারে। বেছে বেছে ব্যবহার করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`ValueKey` vs `ObjectKey` vs `GlobalKey`?"* → `ValueKey` একটা মান (একটা id) দেখে মেলায়। `ObjectKey` object identity দেখে মেলায়। `GlobalKey` ভারী — এটা যেকোনো জায়গা থেকে widget-এর state-এ ঢোকার সুযোগ দেয়; কম ব্যবহার করুন।
@@ -1146,7 +1146,7 @@ Keep-alive **memory** দিয়ে **scroll-এর মসৃণতা** ক�
 Flutter যখন paint করে, তখন widget-গুলোকে **layer**-এ ভাগ করে (স্বচ্ছ কাগজের পাতার মতো)। একটা পাতার কোনো widget বদলালে Flutter পুরো পাতাটাই আবার আঁকে। ডিফল্টে parent আর তার children একই পাতা ভাগ করে নেয়।
 
 **ধাপ ২ — `RepaintBoundary` কী করে।**
-এটা তার child-কে নিজস্ব একটা পাতা দেয়। ফলে:
+এটা তার child-কে নিজের একটা পাতা দেয়। ফলে:
 - শুধু child বদলালে (একটা animation), শুধু child-এর পাতাটাই আবার আঁকা হয় — parent-এরটা যেমন ছিল তেমনই থাকে।
 - শুধু parent বদলালে, child-এর পাতাটা cache থেকে আবার ব্যবহার হয়।
 
@@ -1161,7 +1161,7 @@ one shared layer                  separate layers
 ```
 
 **ধাপ ৩ — কখন যোগ করবেন।**
-যে widget বারবার repaint হয় কিন্তু তার পাশে static content থাকে, সেটাকে wrap করুন — একটা animation, চলমান ঘড়ি, video player, বা বারবার আপডেট হওয়া custom painter।
+যে widget বারবার repaint হয় কিন্তু তার পাশে static content থাকে, সেটাকে wrap করুন — একটা animation, চলতে থাকা ঘড়ি, video player, বা বারবার আপডেট হওয়া custom painter।
 
 ```dart
 Column(
@@ -1183,13 +1183,13 @@ DevTools-এ **"Show Repaint Rainbow"** চালু করুন ([Q2](#q2))।
 
 খেয়াল রাখুন: Flutter কিছু জায়গায় **নিজেই** `RepaintBoundary` বসিয়ে দেয় — প্রতিটা list item, প্রতিটা route, আর app root-এর চারপাশে। তাই ওগুলো আবার wrap করার দরকার নেই।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা দেখে আপনি compositing layer system বোঝেন কি না। আর অন্ধভাবে optimization না বসিয়ে *সূক্ষ্ম* সিদ্ধান্ত নিতে পারেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা দেখে আপনি compositing layer system বোঝেন কি না। আর অন্ধভাবে optimization না বসিয়ে *চোখে পড়ে না এমন* সিদ্ধান্ত নিতে পারেন কি না।
 
 **সাধারণ ভুল:** প্রতিটা widget-কে `RepaintBoundary`-তে wrap করা। এতে জিনিস আরও ধীর হতে পারে। কারণ প্রতিটা boundary GPU memory খায় আর জোড়া লাগানোর layer বাড়ায়। নিয়ম: আগে repaint rainbow দিয়ে মাপুন। তারপর শুধু সেখানেই boundary দিন যেখানে repaint এলাকা স্পষ্টভাবে ছোট হয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"এটা `const`-এর থেকে কীভাবে আলাদা?"* → `const` *build* ধাপ বাদ দেয় ([Q4](#q4))। `RepaintBoundary` *paint* ধাপ সীমিত করে। pipeline-এর আলাদা পর্যায়।
-- *"`saveLayer` কী আর এটা ব্যয়বহুল কেন?"* → এটা একটা অস্থায়ী offscreen buffer-এ আঁকে (`Opacity`, clip, blur এটা ব্যবহার করে)। এটা ব্যয়বহুল। তাই পারলে সস্তা বিকল্প নিন (যেমন `Image`-এর নিজস্ব opacity, বা দরকার হলেই `AnimatedOpacity`)।
+- *"`saveLayer` কী আর এটা ভারী কেন?"* → এটা একটা অস্থায়ী offscreen buffer-এ আঁকে (`Opacity`, clip, blur এটা ব্যবহার করে)। এটা খরচ বেশি। তাই পারলে সস্তা বিকল্প নিন (যেমন `Image`-এর নিজের opacity, বা দরকার হলেই `AnimatedOpacity`)।
 
 **সম্পর্কিত:** [Q1 — raster thread jank](#q1) · [Q15 — images](#q15)
 
@@ -1202,14 +1202,14 @@ DevTools-এ **"Show Repaint Rainbow"** চালু করুন ([Q2](#q2))।
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q15)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Image সাধারণত memory bloat আর jank-এর সবচেয়ে বড় উৎস। আমি চার দিক থেকে optimize করি: download করা image disk-এ cache করি, display size-এ decode করি (original size-এ নয়), file size কমাতে WebP দিই, আর যে image একটু পরেই দেখা যাবে সেটা precache করি। সবচেয়ে বড় প্রভাব ফেলে decode-এর সময় resize করা। কারণ বিশাল bitmap বিশাল memory খায়।"
+"Image সাধারণত memory bloat আর jank-এর সবচেয়ে বড় source। আমি চার দিক থেকে optimize করি: download করা image disk-এ cache করি, display size-এ decode করি (original size-এ নয়), file size কমাতে WebP দিই, আর যে image একটু পরেই দেখা যাবে সেটা precache করি। সবচেয়ে বড় প্রভাব ফেলে decode-এর সময় resize করা। কারণ বিশাল bitmap বিশাল memory খায়।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Image কেন বিপজ্জনক।**
 একটা ছবির file size ছোট। কিন্তু memory-তে bitmap হিসেবে decode হওয়ার পরে সেটা হয় `width × height × 4 bytes`। একটা 4000×3000 ছবি memory-তে প্রায় **45MB**। এমনকি আপনি সেটা ছোট 200×150 thumbnail-এ দেখালেও। এমন কয়েকটা হলেই app-এর memory শেষ হয়, বা decode করার সময় jank হয়।
 
-**ধাপ ২ — স্তম্ভ ১: caching।**
+**ধাপ ২ — খুঁটি ১: caching।**
 `cached_network_image` ব্যবহার করুন। এতে image একবার download হয়, তারপর disk থেকে পড়া হয়। সাথে বিনামূল্যে placeholder আর error widget-ও পাওয়া যায়।
 
 ```dart
@@ -1220,7 +1220,7 @@ CachedNetworkImage(
 );
 ```
 
-**ধাপ ৩ — স্তম্ভ ২: decode-এর সময় resize (সবচেয়ে বড়টা)।**
+**ধাপ ৩ — খুঁটি ২: decode-এর সময় resize (সবচেয়ে বড়টা)।**
 Flutter-কে বলুন আপনি আসলে যে size-এ দেখাবেন সেই size-এ decode করতে। তাহলে বিশাল bitmap কখনো memory-তেই আসে না। `cacheWidth`/`cacheHeight` ব্যবহার করুন।
 
 ```dart
@@ -1238,10 +1238,10 @@ CachedNetworkImage(
 );
 ```
 
-**ধাপ ৪ — স্তম্ভ ৩: WebP format।**
+**ধাপ ৪ — খুঁটি ৩: WebP format।**
 একই quality-তে WebP file JPEG-এর চেয়ে প্রায় 25–35% ছোট। তাই download দ্রুত হয় আর disk cache-ও ছোট থাকে। Flutter WebP নিজে থেকেই support করে — শুধু backend বা CDN থেকে `.webp` দিন। ধীর mobile network-এর user-দের জন্য এটা সত্যিকারের লাভ (BD-তে খুব সাধারণ ব্যাপার)।
 
-**ধাপ ৫ — স্তম্ভ ৪: precache।**
+**ধাপ ৫ — খুঁটি ৪: precache।**
 Image দেখানোর *আগেই* সেটা cache-এ load করে রাখুন। তাহলে widget build হওয়ার সাথে সাথেই সেটা দেখা যায় — পরের screen বা fold-এর নিচের image-এর জন্য দারুণ।
 
 ```dart
@@ -1282,10 +1282,10 @@ void didChangeDependencies() {
 পুরোনো Skia engine-এ shader প্রায়ই **প্রথমবার** দরকার হওয়ার সময় compile হতো — frame-এর মাঝখানেই। ওই compilation অনেক millisecond নিতে পারে, যা 16ms budget ভেঙে দেয়। তাই animation-এর প্রথম চালানোতে আটকে যায়। এরপর compile হওয়া shader cache-এ থাকে আর সব মসৃণ হয়। তাই চেনার লক্ষণ হলো: "এই screen প্রথমবার খুললে / এই animation প্রথমবার চললে jank হয়, তারপর ঠিক থাকে।"
 
 **ধাপ ৩ — সমাধান ১: Impeller engine ব্যবহার করুন (আধুনিক উত্তর)।**
-Flutter-এর নতুন rendering engine **Impeller** app build করার সময়েই shader precompile করে। ফলে runtime-এ compilation-এর আটকে যাওয়া থাকে না। iOS-এ Impeller ডিফল্ট, আর সাম্প্রতিক Flutter version-গুলোতে Android-এও ছড়িয়ে পড়ছে। "আমি আগে দেখব Impeller চালু আছে কি না" — এটাই হালনাগাদ senior উত্তর।
+Flutter-এর নতুন rendering engine **Impeller** app build করার সময়েই shader precompile করে। ফলে runtime-এ compilation-এর আটকে যাওয়া থাকে না। iOS-এ Impeller ডিফল্ট, আর সাম্প্রতিক Flutter version-গুলোতে Android-এও ছড়িয়ে পড়ছে। "আমি আগে দেখব Impeller চালু আছে কি না" — এটাই up-to-date senior উত্তর।
 
-**ধাপ ৪ — সমাধান ২: shader warm up করুন (পুরোনো Skia পদ্ধতি)।**
-Skia ব্যবহার করতেই হলে, আপনার মূল animation-গুলোতে ব্যবহৃত shader record করে bundle করতে পারেন। তখন সেগুলো animation-এর মাঝে নয়, startup-এ compile হবে:
+**ধাপ ৪ — সমাধান ২: shader warm up করুন (পুরোনো Skia উপায়)।**
+Skia ব্যবহার করতেই হলে, আপনার মূল animation-গুলোতে ব্যবহার করা shader record করে bundle করতে পারেন। তখন সেগুলো animation-এর মাঝে নয়, startup-এ compile হবে:
 
 ```bash
 # চালানোর সময় app কোন shader ব্যবহার করে তা record করুন:
@@ -1302,7 +1302,7 @@ DevTools-এর Performance view-তে একটা ধীর প্রথম f
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা একটা গভীর, senior-level বিষয়। এটা জানা (আর বিশেষ করে Impeller-ই আধুনিক সমাধান — এটা জানা) বোঝায় আপনি Flutter engine-এর খোঁজ রাখেন, শুধু widget layer নয়।
 
-**সাধারণ ভুল:** প্রথমবারের shader jank (GPU/raster সমস্যা) আর ধীর `build()` (UI-thread সমস্যা) গুলিয়ে ফেলা। দেখতে এক লাগে, কিন্তু ধরার পদ্ধতি আলাদা — shader jank একবারই হয় আর raster thread-এ হয়।
+**সাধারণ ভুল:** প্রথমবারের shader jank (GPU/raster সমস্যা) আর ধীর `build()` (UI-thread সমস্যা) গুলিয়ে ফেলা। দেখতে এক লাগে, কিন্তু ধরার উপায় আলাদা — shader jank একবারই হয় আর raster thread-এ হয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Skia বনাম Impeller — এক লাইনে?"* → Skia দরকার হলে তখন shader compile করত (প্রথম ব্যবহারে jank হতে পারত)। Impeller আগেই precompile করে, ওই আটকে যাওয়া সরিয়ে দেয়।
@@ -1323,7 +1323,7 @@ DevTools-এর Performance view-তে একটা ধীর প্রথম f
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q17)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Dart আমার সব code — `build()` আর event handler সহ — একটাই UI thread-এ চালায়। ওই thread-এ ভারী synchronous কাজ করলে screen জমে যায়। Isolate হলো আলাদা একটা worker, যার নিজস্ব memory আছে। Isolate-রা memory ভাগ করে না, তারা message পাঠায়। `compute()` হলো একটা শর্টকাট — এটা একটা function নতুন isolate-এ চালায় আর result ফেরত দেয়। ফলে ভারী কাজ UI-এর বাইরে থাকে।"
+"Dart আমার সব code — `build()` আর event handler সহ — একটাই UI thread-এ চালায়। ওই thread-এ ভারী synchronous কাজ করলে screen জমে যায়। Isolate হলো আলাদা একটা worker, যার নিজের memory আছে। Isolate-রা memory ভাগ করে না, তারা message পাঠায়। `compute()` হলো একটা শর্টকাট — এটা একটা function নতুন isolate-এ চালায় আর result ফেরত দেয়। ফলে ভারী কাজ UI-এর বাইরে থাকে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1343,7 +1343,7 @@ Future<int> bad() async {
 ```
 
 **ধাপ ৩ — Isolate = আলাদা রান্নাঘর সহ দ্বিতীয় রাঁধুনি রাখা।**
-Isolate হলো আলাদা একটা worker, যার **নিজস্ব memory** আছে। দুই রান্নাঘর কোনো উপকরণ ভাগ করে না — তারা চিরকুট (message) পাঠায়। কিছুই ভাগ হয় না বলে কোনো lock নেই, কোনো race condition নেই। খরচ: input আর result দুই isolate-এর মধ্যে **copy** হয়।
+Isolate হলো আলাদা একটা worker, যার **নিজের memory** আছে। দুই রান্নাঘর কোনো উপকরণ ভাগ করে না — তারা চিরকুট (message) পাঠায়। কিছুই ভাগ হয় না বলে কোনো lock নেই, কোনো race condition নেই। খরচ: input আর result দুই isolate-এর মধ্যে **copy** হয়।
 
 **ধাপ ৪ — এটা ব্যবহারের সহজ উপায়।**
 
@@ -1537,7 +1537,7 @@ class _AppShellState extends State<AppShell> {
 ```
 
 **ধাপ ৫ — কমান: deferred loading আর ছোট build।**
-- **Deferred import** একটা বড় ও কম ব্যবহৃত feature শুধু তখনই download করে, যখন সেটা খোলা হয়:
+- **Deferred import** একটা বড় ও কম ব্যবহার করা feature শুধু তখনই download করে, যখন সেটা খোলা হয়:
   ```dart
   import 'package:myapp/admin_panel.dart' deferred as admin;
   Future<void> open() async {
@@ -1632,7 +1632,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 - **`setState` পুরো subtree rebuild করে** — state-টা নিচে নামিয়ে সবচেয়ে ছোট widget-এ নিন, যার এটা দরকার। ([Q7](#q7))
 - **`Selector`** শুধু select করা value বদলালে rebuild করে; **`Consumer`** যেকোনো পরিবর্তনে rebuild করে। ([Q8](#q8))
 - **`buildWhen`** ঠিক করে কোন Bloc state পরিবর্তনে widget rebuild হবে; এর জন্য সঠিক value equality দরকার। ([Q9](#q9))
-- **Debounce** = চুপ হওয়া পর্যন্ত অপেক্ষা করে একবার চালানো; **throttle** = একটা নির্দিষ্ট সর্বোচ্চ হারে চালানো। ([Q10](#q10))
+- **Debounce** = চুপ হওয়া পর্যন্ত অপেক্ষা করে একবার চালানো; **throttle** = একটা নির্দিষ্ট একটা নির্দিষ্ট হারে চালানো, তার বেশি নয়। ([Q10](#q10))
 - **`ListView.builder`** লম্বা list-এর জন্য (lazy); সাধারণ `ListView` শুধু ছোট fixed list-এর জন্য। ([Q11](#q11))
 - **Pagination**: ScrollController + একটা loading guard + `ListView.builder`; "আর data নেই" অবস্থাটাও handle করুন। ([Q12](#q12))
 - **Key** reorder-এর সময় item-কে সঠিক state-এর সাথে মেলায়; **keep-alive** screen-এর বাইরের state ধরে রাখে (memory খরচ হয়)। ([Q13](#q13))
@@ -1654,7 +1654,7 @@ Interviewer সাধারণত একটা প্রশ্নে থাম�
 1. *"আমার list খারাপভাবে scroll করছে। আপনি প্রথমে কী check করবেন?"* → Profile mode-এ চালিয়ে DevTools খুলুন; UI thread লাল না raster thread লাল? ([Q1](#q1), [Q3](#q3))
 2. *"এটা UI thread। এখন কী?"* → Rebuild inspector ব্যবহার করুন; widget-গুলো কি আসল পরিবর্তনের চেয়ে অনেক বেশি rebuild হচ্ছে? ([Q2](#q2))
 3. *"হ্যাঁ, ছোট একটা পরিবর্তনে পুরো list rebuild হচ্ছে।"* → `setState` নিচে নামান, `const` যোগ করুন, আর স্থির row-গুলো আলাদা widget-এ বের করুন। ([Q4](#q4), [Q5](#q5), [Q7](#q7))
-4. *"তবুও সব item একসাথে build হচ্ছে।"* → `ListView(children:)` থেকে `ListView.builder`-এ যান, যাতে শুধু দৃশ্যমান item build হয়। ([Q11](#q11))
+4. *"তবুও সব item একসাথে build হচ্ছে।"* → `ListView(children:)` থেকে `ListView.builder`-এ যান, যাতে শুধু দেখা যায় এমন item build হয়। ([Q11](#q11))
 5. *"এখন image load হওয়ার সময় raster thread লাল।"* → `cacheWidth` দিয়ে display size-এ image decode করুন, cache করুন, আর WebP দিন। ([Q15](#q15))
 6. *"একটা animation প্রথমবার চললে এখনও আটকে যায়।"* → এটা সম্ভবত shader compilation jank; Impeller চালু আছে কি না দেখুন। ([Q16](#q16))
 

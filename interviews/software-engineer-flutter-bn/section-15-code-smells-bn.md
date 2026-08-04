@@ -1,10 +1,10 @@
 # Section 15 — Code Smells & Refactoring
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা** করা, আর **link করা** — তাই আপনি এদিক-ওদিক লাফিয়ে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। প্রতিটা সমাধানে before/after Dart code দেওয়া আছে।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। প্রতিটা সমাধানে before/after Dart code দেওয়া আছে।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-15-code-smells-bn.md](../software-engineer-flutter/section-15-code-smells.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-15-code-smells.md](../software-engineer-flutter/section-15-code-smells.md)
 
 ---
 
@@ -12,7 +12,7 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের জবাব।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
 - **এবার পুরোটা বুঝি** — ধাপে ধাপে ব্যাখ্যা, সাথে before/after code।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
 - **সম্পর্কিত** — যুক্ত প্রশ্নগুলোতে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
@@ -101,7 +101,7 @@
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q1)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Code smell হলো একটা ইঙ্গিত যে code-এর কোনো অংশের গঠন খারাপ, আর পরে ঝামেলা হতে পারে — কিন্তু এখনো এটা ঠিকভাবেই কাজ করে। Bug মানে code আসলেই ভেঙে গেছে। তাই smell হলো *design* নিয়ে একটা সতর্কবার্তা, আর bug হলো *behaviour*-এর ব্যর্থতা।"
+"Code smell হলো একটা ইশারা যে code-এর কোনো অংশের গঠন খারাপ, আর পরে ঝামেলা হতে পারে — কিন্তু এখনো এটা ঠিকভাবেই কাজ করে। Bug মানে code আসলেই ভেঙে গেছে। তাই smell হলো *design* নিয়ে একটা সতর্কবার্তা, আর bug হলো *behaviour*-এর ব্যর্থতা।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -110,7 +110,7 @@
 
 **ধাপ ২ — পার্থক্য।**
 - **Bug** → program ভুল ফল দেয় বা crash করে। এখনই ঠিক করতে হবে।
-- **Smell** → program কাজ করে, কিন্তু code এলোমেলো (৩০০ line-এর একটা method, copy-paste করা logic)। ভবিষ্যতের কষ্ট ঠেকাতে এটা ঠিক করুন।
+- **Smell** → program কাজ করে, কিন্তু code এলোমেলো (৩০০ line-এর একটা method, copy-paste করা logic)। পরের কষ্ট ঠেকাতে এটা ঠিক করুন।
 
 ```dart
 // একটা smell (কাজ করে, কিন্তু একটা 'God' method অনেক বেশি কাজ করছে):
@@ -121,7 +121,7 @@ double total(double price, int qty) => price - qty; // price * qty হওয়�
 ```
 
 **ধাপ ৩ — Smell কেন গুরুত্বপূর্ণ।**
-Smell team-এর গতি কমিয়ে দেয়: এলোমেলো code পড়া, test করা আর বদলানো কঠিন। সময়ের সাথে এটা আসল bug তৈরি করে। Smell খুঁজে বের করা আর তার নাম বলতে পারা একটা senior দক্ষতা।
+Smell team-এর গতি কমিয়ে দেয়: এলোমেলো code পড়া, test করা আর বদলানো কঠিন। সময়ের সাথে এটা আসল bug তৈরি করে। Smell খুঁজে বের করা আর তার নাম বলতে পারা একটা senior skill।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি code-এর *quality* বিচার করতে পারেন কি না, শুধু ঠিক-ভুল নয়।
 
@@ -148,7 +148,7 @@ Smell team-এর গতি কমিয়ে দেয়: এলোমেল�
 **ধাপ ১ — সোনার নিয়ম: behaviour বদলানো যাবে না।**
 Refactoring শুধু code-এর *আকার* বদলায়। Input আর output হুবহু একই থাকে। Behaviour বদলে গেলে সেটা feature change বা bug, refactor নয়।
 
-**ধাপ ২ — নিরাপদ প্রক্রিয়া।**
+**ধাপ ২ — নিরাপদ process।**
 1. **Test রাখুন** — এটাই আপনার safety net যে behaviour বদলায়নি।
 2. **ছোট ধাপ** — আগে rename, তারপর extract, তারপর move — একবারে একটাই ছোট বদল।
 3. **প্রতি ধাপের পরে test চালান** — ভুল সাথে সাথে ধরা পড়বে, যখন undo করা সহজ।
@@ -178,7 +178,7 @@ Refactoring শুধু code-এর *আকার* বদলায়। Input 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q3)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"আমি refactoring-কে business value-র সাথে যুক্ত করি, 'clean code শুধু clean code-এর জন্য' বলি না। আমি দেখাই এলোমেলো অংশটা কীভাবে delivery ধীর করে বা bug তৈরি করে। তারপর feature-এর কাজের পাশাপাশি ছোট ও নিরাপদ ধাপে refactor করি — 'boy scout rule', code-টা যেমন পেয়েছেন তার চেয়ে একটু পরিষ্কার রেখে যান — বড় ঝুঁকিপূর্ণ rewrite চাওয়ার বদলে।"
+"আমি refactoring-কে business value-র সাথে যুক্ত করি, 'clean code শুধু clean code-এর জন্য' বলি না। আমি দেখাই এলোমেলো অংশটা কীভাবে delivery ধীর করে বা bug তৈরি করে। তারপর feature-এর কাজের পাশাপাশি ছোট ও নিরাপদ ধাপে refactor করি — 'boy scout rule', code-টা যেমন পেয়েছেন তার চেয়ে একটু পরিষ্কার রেখে যান — বড় ঝুঁকির rewrite চাওয়ার বদলে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -189,9 +189,9 @@ Manager-রা delivery-র গতি, bug আর ঝুঁকি নিয়�
 বাস্তব সংকেত দেখান: ওই file-এ কতগুলো bug হয়েছে, সাম্প্রতিক বদল গুলোতে কত সময় লেগেছে, কতবার hotfix দিতে হয়েছে। মতামতের চেয়ে data বেশি কাজ করে।
 
 **ধাপ ৩ — ধাপে ধাপে refactor করুন, big-bang rewrite নয়।**
-বড় rewrite ঝুঁকিপূর্ণ আর প্রায়ই ব্যর্থ হয়। বরং যে feature-এ হাত দেবেন সেখানেই একটু করে উন্নত করুন (**boy scout rule**: "code-টা যেমন পেয়েছেন তার চেয়ে পরিষ্কার রেখে যান")। এতে খরচ ভাগ হয়ে যায় আর ঝুঁকি কমে।
+বড় rewrite ঝুঁকির আর প্রায়ই ব্যর্থ হয়। বরং যে feature-এ হাত দেবেন সেখানেই একটু করে উন্নত করুন (**boy scout rule**: "code-টা যেমন পেয়েছেন তার চেয়ে পরিষ্কার রেখে যান")। এতে খরচ ভাগ হয়ে যায় আর ঝুঁকি কমে।
 
-**ধাপ ৪ — কাজটা নিরাপদ আর দৃশ্যমান করুন।**
+**ধাপ ৪ — কাজটা নিরাপদ করুন আর সবাইকে দেখান।**
 Test-এর আড়ালে কাজটা করুন, ছোট PR-এ করুন, আর before/after উন্নতিটা দেখান। ছোট ছোট জয় আস্থা তৈরি করে — পরে বড় পরিষ্কারের কাজ সহজ হয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** Senior engineer-রা team-কে প্রভাবিত করেন। এটা যোগাযোগ আর বাস্তববুদ্ধি যাচাই করে, শুধু coding নয়।
@@ -221,7 +221,7 @@ Test-এর আড়ালে কাজটা করুন, ছোট PR-এ �
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Smell-টা কী।**
-যে method কয়েক screen ধরে scroll করে, আর ভেতরে `// now validate`, `// now save` মতো comment দিয়ে অংশ ভাগ করা থাকে — প্রতিটা comment একটা ইঙ্গিত যে ভেতরে একটা method লুকিয়ে আছে।
+যে method কয়েক screen ধরে scroll করে, আর ভেতরে `// now validate`, `// now save` মতো comment দিয়ে অংশ ভাগ করা থাকে — প্রতিটা comment একটা ইশারা যে ভেতরে একটা method লুকিয়ে আছে।
 
 **ধাপ ২ — আগে: একটা লম্বা method।**
 
@@ -273,7 +273,7 @@ double _applyDiscount(double total) => total > 100 ? total * 0.9 : total;
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q5)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Large Class, বা God Object, অনেক বেশি জানে আর অনেক বেশি কাজ করে — এতে অনেক সম্পর্কহীন field আর method থাকে। এটা Single Responsibility Principle ভাঙে। সমাধান হলো Extract Class: এটাকে ছোট ছোট class-এ ভাগ করুন, প্রতিটার একটা স্পষ্ট কাজ থাকবে।"
+"Large Class, বা God Object, অনেক বেশি জানে আর অনেক বেশি কাজ করে — এতে অনেক সম্পর্ক নেই এমন field আর method থাকে। এটা Single Responsibility Principle ভাঙে। সমাধান হলো Extract Class: এটাকে ছোট ছোট class-এ ভাগ করুন, প্রতিটার একটা স্পষ্ট কাজ থাকবে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -301,7 +301,7 @@ class EmailService { void sendWelcome(User u) {/* email */} }
 
 এখন প্রতিটা class-এর বদলানোর একটাই কারণ (high cohesion, [SRP](section-12-oop-principles-bn.md#q10))।
 
-**Interviewer কেন জিজ্ঞেস করে:** God object হলো unmaintainable code-এর অন্যতম বড় কারণ। তাঁরা দেখেন আপনি SRP প্রয়োগ করতে পারেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** God object হলো unmaintainable code-এর অন্যতম বড় কারণ। তাঁরা দেখেন আপনি SRP কাজে লাগাতে পারেন কি না।
 
 **সাধারণ ভুল:** ছোট একটা app-এ কয়েক ডজন ক্ষুদ্র class বানিয়ে বেশি ভাগ করে ফেলা। ভাগ করুন *দায়িত্ব* অনুযায়ী, line সংখ্যা অনুযায়ী নয়।
 
@@ -350,7 +350,7 @@ void createUser({required String first, required String last, required Address a
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা পড়ার উপযোগী API design যাচাই করে। আর কোন data একসাথে থাকা উচিত, সেটা আপনি বুঝতে পারেন কি না তাও দেখে।
 
-**সাধারণ ভুল:** শুধু তালিকা ছোট করার জন্য সম্পর্কহীন parameter একসাথে এক object-এ ঢুকিয়ে দেওয়া — শুধু সেগুলোই একসাথে রাখুন যেগুলো সত্যিই একসাথে থাকে (দেখুন [Data Clumps](#q7))।
+**সাধারণ ভুল:** শুধু তালিকা ছোট করার জন্য সম্পর্ক নেই এমন parameter একসাথে এক object-এ ঢুকিয়ে দেওয়া — শুধু সেগুলোই একসাথে রাখুন যেগুলো সত্যিই একসাথে থাকে (দেখুন [Data Clumps](#q7))।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"কখন parameter object বানানো লাভজনক?"* → যখন একই parameter group কয়েকটা method-এ একসাথে ঘুরে বেড়ায়।
@@ -366,7 +366,7 @@ void createUser({required String first, required String last, required Address a
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q7)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Data Clumps হলো একই group-এর variable যেগুলো বারবার একসাথে আসে — যেমন `startDate` আর `endDate`, বা সব জায়গায় `x` আর `y`। এটা ইঙ্গিত দেয় যে এগুলো একটা object হওয়া উচিত। সমাধান হলো clump-টাকে একটা ছোট class-এ মুড়ে দেওয়া। এতে সম্পর্কিত behaviour-এরও একটা ঘর হয়।"
+"Data Clumps হলো একই group-এর variable যেগুলো বারবার একসাথে আসে — যেমন `startDate` আর `endDate`, বা সব জায়গায় `x` আর `y`। এটা ইশারা দেয় যে এগুলো একটা object হওয়া উচিত। সমাধান হলো clump-টাকে একটা ছোট class-এ মুড়ে দেওয়া। এতে সম্পর্কিত behaviour-এরও একটা ঘর হয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -393,7 +393,7 @@ void book(DateRange range) {}
 এখন জোড়াটা একটাই concept। আর `overlaps`-এর মতো behaviour ঠিক জায়গায় থাকে।
 
 **ধাপ ৩ — এটা কেন কাজে লাগে।**
-এটা পুনরাবৃত্তি সরিয়ে দেয়, signature ছোট করে, আর সম্পর্কিত logic-এর একটা জায়গা দেয় — ছড়ানো data-কে অর্থবহ object-এ পরিণত করে।
+এটা বারবার একই জিনিস সরিয়ে দেয়, signature ছোট করে, আর সম্পর্কিত logic-এর একটা জায়গা দেয় — ছড়ানো data-কে অর্থবহ object-এ পরিণত করে।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি আলগা variable-এর ভেতরে লুকিয়ে থাকা concept (একটা `DateRange`, একটা `Money`) খেয়াল করেন কি না।
 
@@ -413,7 +413,7 @@ void book(DateRange range) {}
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q8)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Primitive Obsession মানে এমন concept-এর জন্য raw primitive (String, int) ব্যবহার করা, যার নিজের একটা type প্রাপ্য — যেমন email-এর জন্য `String`, বা টাকার জন্য `int`। সমাধান হলো value object: একটা ছোট class, যেটা primitive-টাকে মুড়ে রাখে আর তার নিয়ম প্রয়োগ করে। ফলে ভুল value থাকতেই পারে না।"
+"Primitive Obsession মানে এমন concept-এর জন্য raw primitive (String, int) ব্যবহার করা, যার নিজের একটা type প্রাপ্য — যেমন email-এর জন্য `String`, বা টাকার জন্য `int`। সমাধান হলো value object: একটা ছোট class, যেটা primitive-টাকে মুড়ে রাখে আর তার নিয়ম কাজে লাগায়। ফলে ভুল value থাকতেই পারে না।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -490,7 +490,7 @@ double applyDiscount(double price, double rate) => price - (price * rate);
 
 **Interviewer কেন জিজ্ঞেস করে:** Duplication সবচেয়ে সাধারণ, সবচেয়ে ক্ষতিকর smell। তাঁরা দেখেন আপনি এটা সঠিক উপায়ে ঠিক করেন কি না।
 
-**সাধারণ ভুল:** বেশি DRY করা — সম্পর্কহীন code একসাথে করে অনেক flag-ওয়ালা একটা জট পাকানো function বানানো।
+**সাধারণ ভুল:** বেশি DRY করা — সম্পর্ক নেই এমন code একসাথে করে অনেক flag-ওয়ালা একটা জট পাকানো function বানানো।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"DRY-এর খারাপ দিক?"* → খুব আগে merge করলে এমন জিনিস coupled হয়ে যায় যেগুলোর আলাদা করে বেড়ে ওঠা উচিত; সামান্য duplication কখনো কখনো বেশি স্বাস্থ্যকর।
@@ -533,7 +533,7 @@ if (user.role == Role.admin) {}
 - Value একটাই জায়গায় বদলান।
 - একটা typo চুপচাপ bug না হয়ে compile error হয়ে যায় (enum হলে)।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা readability-র একটা মৌলিক অভ্যাস, যা তাঁরা প্রতিটা engineer-এর কাছে আশা করেন।
+**Interviewer কেন জিজ্ঞেস করে:** এটা readability-র একটা গোড়ার অভ্যাস, যা তাঁরা প্রতিটা engineer-এর কাছে আশা করেন।
 
 **সাধারণ ভুল:** সত্যিই স্পষ্ট value-রও নাম দেওয়া (দ্বিগুণ করার জন্য `* 2`) — এতে noise বাড়ে। যে value *অর্থ* বহন করে, তার নাম দিন।
 
@@ -601,7 +601,7 @@ if (false) { doThing(); }   // এখানে পৌঁছানো যায�
 
 ```dart
 // user প্রাপ্তবয়স্ক কি না check করি
-if (u.a >= 18) {} // comment-টা আছে কারণ code-টা দুর্বোধ্য
+if (u.a >= 18) {} // comment-টা আছে কারণ code-টা বোঝা কঠিন
 ```
 
 **ধাপ ২ — সমাধান: code-কেই নিজে-ব্যাখ্যাকারী বানান।**
@@ -763,12 +763,12 @@ double _calculateTotal(List<Order> orders) =>
 **ধাপ ৩ — নিরাপদে করুন।**
 Extract করুন, test চালান, আবার করুন। আধুনিক IDE "Extract Method" নিজে থেকেই নিরাপদে করে দেয় — সেটাই ব্যবহার করুন।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটাই সবচেয়ে বেশি ব্যবহৃত refactoring, আর লম্বা method-এর ওষুধ।
+**Interviewer কেন জিজ্ঞেস করে:** এটাই সবচেয়ে বেশি ব্যবহার করা refactoring, আর লম্বা method-এর ওষুধ।
 
 **সাধারণ ভুল:** extract করা method-কে অস্পষ্ট নাম দেওয়া (`_doStuff`)। নামটা ঠিক কী কাজ করে সেটাই বলা উচিত।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Extract Method-এর উল্টোটা কী?"* → Inline Method ([Q17](#q17)) — যে method শুধু অর্থহীন indirection, সেটা সরিয়ে দেওয়া।
+- *"Extract Method-এর উল্টোটা কী?"* → Inline Method ([Q17](#q17)) — যে method শুধু মানে নেই এমন indirection, সেটা সরিয়ে দেওয়া।
 
 **সম্পর্কিত:** [Q4 — Long Method](#q4) · [Q17 — Inline Method](#q17)
 
@@ -814,7 +814,7 @@ class Phone {
 **ধাপ ৩ — ধীরে ধীরে করুন।**
 নতুন class বানান, একবারে একটা field/method সরান, test চালান, আবার করুন — ছোট নিরাপদ ধাপে।
 
-**Interviewer কেন জিজ্ঞেস করে:** ফুলে যাওয়া class-এ SRP প্রয়োগ করার বাস্তব হাতিয়ার এটাই।
+**Interviewer কেন জিজ্ঞেস করে:** ফুলে যাওয়া class-এ SRP কাজে লাগানোর বাস্তব হাতিয়ার এটাই।
 
 **সাধারণ ভুল:** এমনভাবে ভাগ করা যে নতুন class-গুলো এখনো একে অন্যের উপর অনেক নির্ভর করে। এমন একটা পরিষ্কার জোড়া খুঁজুন, যেখানে নতুন class মোটামুটি স্বাধীন থাকে।
 
@@ -827,12 +827,12 @@ class Phone {
 
 ---
 
-## <a id="q17"></a>17. Inline Method — একটা method কখন অপ্রয়োজনীয় indirection?
+## <a id="q17"></a>17. Inline Method — একটা method কখন দরকার নেই এমন indirection?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q17)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Inline Method হলো Extract Method-এর উল্টো: যখন একটা method-এর body তার নামের মতোই পরিষ্কার আর কোনো মূল্য যোগ করে না, তখন call-গুলোর জায়গায় body বসিয়ে method-টা মুছে দিন। এটা করবেন অর্থহীন indirection সরাতে, যেটা code বুঝতে কঠিন করে তোলে।"
+"Inline Method হলো Extract Method-এর উল্টো: যখন একটা method-এর body তার নামের মতোই পরিষ্কার আর কোনো মূল্য যোগ করে না, তখন call-গুলোর জায়গায় body বসিয়ে method-টা মুছে দিন। এটা করবেন মানে নেই এমন indirection সরাতে, যেটা code বুঝতে কঠিন করে তোলে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -853,9 +853,9 @@ int getRating(Driver d) => d.lateDeliveries > 5 ? 2 : 1;
 বাড়তি method-টা কিছুই পরিষ্কার করেনি। তাই সেটা সরালে code সহজ হয়।
 
 **ধাপ ৩ — কখন inline করবেন না।**
-Method-এর নাম যদি অর্থ যোগ করে, অনেক জায়গায় ব্যবহার হয়, বা override করা যেতে পারে — তাহলে সেটা রেখে দিন। indirection সত্যিই অর্থহীন হলে তবেই inline করুন।
+Method-এর নাম যদি অর্থ যোগ করে, অনেক জায়গায় ব্যবহার হয়, বা override করা যেতে পারে — তাহলে সেটা রেখে দিন। indirection সত্যিই মানে নেই এমন হলে তবেই inline করুন।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় আপনি "পরিষ্কার করতে extract" আর "বেশি টুকরো করবেন না" — দুটোর মাঝে ভারসাম্য রাখেন। দুই দিকই গুরুত্বপূর্ণ।
+**Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় আপনি "পরিষ্কার করতে extract" আর "বেশি টুকরো করবেন না" — দুটোর মাঝে balance রাখেন। দুই দিকই গুরুত্বপূর্ণ।
 
 **সাধারণ ভুল:** এমন method inline করা যেটা অনেক জায়গায় ব্যবহার হয় বা উদ্দেশ্য বুঝিয়ে দেয় — এতে পড়ার সুবিধা নষ্ট হয়।
 
@@ -916,7 +916,7 @@ Method-টা target class-এ copy করুন, reference ঠিক করু�
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q19)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Rename করা সবচেয়ে সহজ, আর সবচেয়ে বেশি লাভের refactoring — একটা পরিষ্কার নাম comment-এর দরকারই মুছে দেয়। নিরাপদে করতে IDE-র Rename refactoring ব্যবহার করি, যাতে সব reference একসাথে update হয়। তারপর test চালাই। কখনোই find-and-replace text দিয়ে rename করি না, কারণ সেটা সম্পর্কহীন জায়গাতেও লেগে যেতে পারে।"
+"Rename করা সবচেয়ে সহজ, আর সবচেয়ে বেশি লাভের refactoring — একটা পরিষ্কার নাম comment-এর দরকারই মুছে দেয়। নিরাপদে করতে IDE-র Rename refactoring ব্যবহার করি, যাতে সব reference একসাথে update হয়। তারপর test চালাই। কখনোই find-and-replace text দিয়ে rename করি না, কারণ সেটা সম্পর্ক নেই এমন জায়গাতেও লেগে যেতে পারে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -924,7 +924,7 @@ Method-টা target class-এ copy করুন, reference ঠিক করু�
 অস্পষ্ট নাম (`data`, `temp`, `flag`, `process()`) পাঠককে খুঁড়তে বাধ্য করে। পরিষ্কার নাম (`unpaidInvoices`, `isExpired`, `sendReceipt()`) নিজেই নিজেকে ব্যাখ্যা করে। ভালো নাম হলো সবচেয়ে সস্তা documentation।
 
 **ধাপ ২ — নিরাপদ পথ: IDE rename।**
-IDE-র "Rename" code বোঝে। তাই এটা প্রতিটা আসল reference update করে (আর শুধু সেগুলোই)। সম্পর্কহীন text-এ হাত দেয় না।
+IDE-র "Rename" code বোঝে। তাই এটা প্রতিটা আসল reference update করে (আর শুধু সেগুলোই)। সম্পর্ক নেই এমন text-এ হাত দেয় না।
 
 ```dart
 // আগে
@@ -938,7 +938,7 @@ var activeUsers = users.where((u) => u.active).toList();
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি পরিষ্কার নামকে মূল্য দেন কি না, আর নিরাপদ tooling ব্যবহার করেন কি না।
 
-**সাধারণ ভুল:** কাঁচা find-and-replace দিয়ে rename করা, আর ভুল করে সম্পর্কহীন code বা string বদলে ফেলা।
+**সাধারণ ভুল:** কাঁচা find-and-replace দিয়ে rename করা, আর ভুল করে সম্পর্ক নেই এমন code বা string বদলে ফেলা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"ভালো নাম কেমন হয়?"* → যেটা উদ্দেশ্য বলে দেয়: জিনিসটা কী বা কী করে, কোনো সংক্ষিপ্ত রূপ নেই, কোনো comment-এর দরকার নেই।
@@ -959,7 +959,7 @@ var activeUsers = users.where((u) => u.active).toList();
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — কখন ব্যবহার করবেন।**
-একই parameter-এর সেট একাধিক method signature-এ দেখা যায়। অথবা একটা method খুব বেশি argument নেয়।
+একই parameter-এর সেট একের বেশি method signature-এ দেখা যায়। অথবা একটা method খুব বেশি argument নেয়।
 
 **ধাপ ২ — কীভাবে (আগে/পরে)।**
 
@@ -983,7 +983,7 @@ Parameter-গুলো একবার object হয়ে গেলে, সম�
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি লুকানো object চিনতে পারেন কি না, আর method signature পরিষ্কার করতে পারেন কি না।
 
-**সাধারণ ভুল:** শুধু list ছোট করার জন্য সম্পর্কহীন parameter একসাথে বেঁধে ফেলা। শুধু সেই parameter-গুলোই জড়ো করুন, যেগুলো সত্যিই একসাথে যায়।
+**সাধারণ ভুল:** শুধু list ছোট করার জন্য সম্পর্ক নেই এমন parameter একসাথে বেঁধে ফেলা। শুধু সেই parameter-গুলোই জড়ো করুন, যেগুলো সত্যিই একসাথে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Data Clumps-এর সাথে সম্পর্ক কী?"* → Parameter-এ দেখা দেওয়া data clump-এর সমাধানই হলো parameter object।
@@ -999,7 +999,7 @@ Parameter-গুলো একবার object হয়ে গেলে, সম�
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q21)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Replace Temp with Query একটা হিসাব ধরে রাখা temporary variable-কে ছোট একটা method-এ (একটা 'query') বদলে দেয়, যেটা হিসাবটা করে। এতে একই temp variable বারবার লেখা বন্ধ হয়। হিসাবটা পুনরায় ব্যবহারযোগ্য হয়। আর প্রায়ই বড় method আলাদা করে বের করা সহজ হয়ে যায়।"
+"Replace Temp with Query একটা হিসাব ধরে রাখা temporary variable-কে ছোট একটা method-এ (একটা 'query') বদলে দেয়, যেটা হিসাবটা করে। এতে একই temp variable বারবার লেখা বন্ধ হয়। হিসাবটা আবার ব্যবহার করা যায় এমন হয়। আর প্রায়ই বড় method আলাদা করে বের করা সহজ হয়ে যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1028,11 +1028,11 @@ double price() {
 - আশপাশের method ভাগ করা (Extract Method) সহজ হয়ে যায়, কারণ টেনে নেওয়ার মতো কোনো shared temp থাকে না।
 
 **ধাপ ৪ — Trade-off।**
-Query প্রতিবার call করলে আবার হিসাব করে। সস্তা হিসাবের জন্য এটা ঠিক আছে। ব্যয়বহুল হিসাবের জন্য temp রাখুন, বা cache করুন।
+Query প্রতিবার call করলে আবার হিসাব করে। সস্তা হিসাবের জন্য এটা ঠিক আছে। ভারী হিসাবের জন্য temp রাখুন, বা cache করুন।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা Fowler-এর একটা গভীর refactoring। এটা যাচাই করে আপনি local variable-এর জঞ্জাল পরিষ্কার করতে পারেন কি না।
 
-**সাধারণ ভুল:** একটা ব্যয়বহুল হিসাবকে query দিয়ে বদলানো, যেটা অনেকবার call হয় — এতে performance খারাপ হতে পারে।
+**সাধারণ ভুল:** একটা ভারী হিসাবকে query দিয়ে বদলানো, যেটা অনেকবার call হয় — এতে performance খারাপ হতে পারে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"এটা কেন Extract Method সহজ করে?"* → একই temp ভাগ করা method-গুলো ভাগ করা কঠিন; query সেই shared dependency সরিয়ে দেয়।
@@ -1073,12 +1073,12 @@ double area(double r) => pi * r * r;
 if (attempts > maxLoginAttempts) lockAccount();
 ```
 
-**ধাপ ৩ — Dart-এর নিজস্ব দিক।**
+**ধাপ ৩ — Dart-এর নিজের দিক।**
 - `const` — compile-time constant; নির্দিষ্ট মানের জন্য এটাই বেছে নিন।
 - class-এর ভেতরে `static const` — একসাথে রাখা constant-এর জন্য (`AppColors.primary`)।
 - Enum — magic int বা string-এর বদলে নির্দিষ্ট কিছু option-এর জন্য।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা একটা মৌলিক, প্রত্যাশিত readability অভ্যাস। আর তাঁরা দেখেন আপনি Dart-এর `const`/`static const`/enum বাছাই জানেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা একদম গোড়ার একটা readability অভ্যাস, সবাই এটা আশা করে। আর তাঁরা দেখেন আপনি Dart-এর `const`/`static const`/enum বাছাই জানেন কি না।
 
 **সাধারণ ভুল:** যে মান কখনো বদলায় না, তার জন্য non-const variable ব্যবহার করা। অথবা সত্যিই স্পষ্ট literal-কেও নাম দেওয়া (বাড়তি জঞ্জাল তৈরি করা)।
 
@@ -1137,7 +1137,7 @@ double pay(Employee e) => e.pay(); // conditional আর নেই
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা সেই ক্লাসিক OOP চাল, যেটা refactoring-কে Open/Closed Principle-এর সাথে জুড়ে দেয় ([Q11 OCP](section-12-oop-principles-bn.md#q11))।
 
-**সাধারণ ভুল:** ছোট আর স্থিতিশীল একটা conditional-এ এটা প্রয়োগ করা — এটা over-engineering। বিচারবুদ্ধি খাটান।
+**সাধারণ ভুল:** ছোট আর স্থিতিশীল একটা conditional-এ এটা কাজে লাগানো — এটা over-engineering। বুদ্ধি খাটান।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"sealed class + switch কি ঠিক নয়?"* → হ্যাঁ ঠিক — এটা compile-time exhaustiveness দেয়; set নির্দিষ্ট হলে আর missing case compiler দিয়ে ধরাতে চাইলে এটাই বেছে নিন।
@@ -1184,7 +1184,7 @@ double _summerCharge(int qty) => qty * summerRate;
 এখন `if`-টা প্রায় English-এর মতো পড়া যায়।
 
 **ধাপ ৩ — কেন এটা কাজে লাগে।**
-*উদ্দেশ্য* (winter নাকি summer pricing) স্পষ্ট হয়ে যায়, আর প্রতিটা অংশ আলাদা করে test করা যায়। এটা conditional-এর উপর Extract Method প্রয়োগ করা।
+*উদ্দেশ্য* (winter নাকি summer pricing) স্পষ্ট হয়ে যায়, আর প্রতিটা অংশ আলাদা করে test করা যায়। এটা conditional-এর উপর Extract Method কাজে লাগানো।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি জটিল logic পড়ার উপযোগী করতে পারেন কি না — এটা প্রতিদিনের একটা মূল দক্ষতা।
 
@@ -1204,7 +1204,7 @@ double _summerCharge(int qty) => qty * summerRate;
 > Deeper · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q25)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Consolidate Conditional Expression কয়েকটা আলাদা check-কে এক condition-এ আনে, যেগুলোর ফলাফল *একই*, তারপর সেটার নাম দেয়। এটা পুনরাবৃত্তি সরায় আর common ফলাফলটা পরিষ্কার করে।"
+"Consolidate Conditional Expression কয়েকটা আলাদা check-কে এক condition-এ আনে, যেগুলোর ফলাফল *একই*, তারপর সেটার নাম দেয়। এটা বারবার একই জিনিস সরায় আর common ফলাফলটা পরিষ্কার করে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1220,7 +1220,7 @@ double disabilityAmount(Employee e) {
 }
 ```
 
-তিনটা আলাদা `if` সবই 0 return করে — পুনরাবৃত্তি।
+তিনটা আলাদা `if` সবই 0 return করে — বারবার একই জিনিস।
 
 **ধাপ ২ — পরে: একসাথে করুন আর নাম দিন।**
 
@@ -1261,12 +1261,12 @@ check-গুলো যদি সত্যিই আলাদা হয় (আ�
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q26)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Strangler Fig pattern পুরোনো system-কে ধীরে ধীরে, টুকরো টুকরো করে বদলায়। এক ধাক্কায় ঝুঁকিপূর্ণ big-bang rewrite করে নয়। আপনি পুরোনোটার চারপাশে নতুন code বানান, একটু একটু করে traffic নতুনটায় পাঠান, আর ধীরে ধীরে পুরোনো system-কে 'strangle' করেন যতক্ষণ না সেটা মুছে ফেলা যায়। বড় legacy migration-এ এটা ব্যবহার করি।"
+"Strangler Fig pattern পুরোনো system-কে ধীরে ধীরে, টুকরো টুকরো করে বদলায়। এক ধাক্কায় ঝুঁকির big-bang rewrite করে নয়। আপনি পুরোনোটার চারপাশে নতুন code বানান, একটু একটু করে traffic নতুনটায় পাঠান, আর ধীরে ধীরে পুরোনো system-কে 'strangle' করেন যতক্ষণ না সেটা মুছে ফেলা যায়। বড় legacy migration-এ এটা ব্যবহার করি।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের ছবি: strangler fig গাছ।**
-একটা strangler fig গাছ host গাছের চারপাশে বাড়ে আর ধীরে ধীরে দখল নেয়। শেষে আসল গাছটা আর থাকে না, কিন্তু কাঠামোটা থেকে যায়। এই pattern ঠিক একইভাবে legacy system বদলায় — ধীরে ধীরে।
+একটা strangler fig গাছ host গাছের চারপাশে বাড়ে আর ধীরে ধীরে দখল নেয়। শেষে আসল গাছটা আর থাকে না, কিন্তু structure-টা থেকে যায়। এই pattern ঠিক একইভাবে legacy system বদলায় — ধীরে ধীরে।
 
 **ধাপ ২ — এটা কীভাবে কাজ করে।**
 1. পুরোনো system-এর সামনে একটা layer (facade বা router) বসান।
@@ -1324,7 +1324,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 - **Shotgun Surgery vs Divergent Change** → ছড়িয়ে আছে (জড়ো করুন) বনাম ভিড় হয়ে গেছে (ভাগ করুন)। ([Q14](#q14))
 - **Data Clumps vs Primitive Obsession** → একটা *group* একসাথে থাকার কথা বনাম একটা *একক* primitive-এর একটা type দরকার। ([Q7](#q7), [Q8](#q8))
-- **Extract vs Inline Method** → একটা block-কে নাম দেওয়া বনাম অর্থহীন indirection সরানো। ([Q15](#q15), [Q17](#q17))
+- **Extract vs Inline Method** → একটা block-কে নাম দেওয়া বনাম মানে নেই এমন indirection সরানো। ([Q15](#q15), [Q17](#q17))
 - **Decompose vs Consolidate Conditional** → একটা condition ভাগ করা বনাম একই result দেওয়া অনেকগুলোকে মেলানো। ([Q24](#q24), [Q25](#q25))
 
 ## এক লাইনের মনে রাখার কথা
@@ -1332,7 +1332,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 - **Code smell** = design-এর একটা সতর্কবার্তা; code এখনো কাজ করে (bug-এর তুলনায়)। ([Q1](#q1))
 - **Refactoring** = structure ভালো করা, **behaviour একই থাকে**; আগে tests, ছোট ছোট ধাপ। ([Q2](#q2))
 - **Long Method** → Extract Method; **Large Class** → Extract Class। ([Q4](#q4), [Q5](#q5))
-- **Duplicate Code** → একটাই সত্যের উৎস (DRY) — কিন্তু একই *knowledge* হলেই মেলান। ([Q9](#q9))
+- **Duplicate Code** → একটাই সত্যের source (DRY) — কিন্তু একই *knowledge* হলেই মেলান। ([Q9](#q9))
 - **Magic Numbers** → named constant / enum। ([Q10](#q10), [Q22](#q22))
 - **Feature Envy** → behaviour-কে তার data-র পাশে রাখুন (Move Method)। ([Q13](#q13), [Q18](#q18))
 - **বড় type-switch** → polymorphism (Open/Closed)। ([Q23](#q23))

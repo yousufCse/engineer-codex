@@ -1,10 +1,10 @@
 # Section 7 — Networking & Local Storage
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** এবং **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা সহ**, আর **link করা** — তাই আপনি এদিক-সেদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-07-networking-storage-bn.md](../software-engineer-flutter/section-07-networking-storage.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-07-networking-storage.md](../software-engineer-flutter/section-07-networking-storage.md)
 
 ---
 
@@ -12,14 +12,14 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার জন্য ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code সহ ধাপে ধাপে বিস্তারিত ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংযুক্ত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারেন?" সহজ আর পরিষ্কারভাবে কথা বলা নিজেই একটা senior skill — আর এটা remote আর BD দুই ধরনের কোম্পানিতেই সমানভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 এই section-এ **দুটো এলাকা** আছে: **Networking** (server-এর সাথে কথা বলা) আর **Local Storage** (phone-এ data জমা রাখা)। এই দুটো একসাথে চলে, কারণ ভালো app network থেকে data আনে *এবং* সেটা locally জমা রাখে, যাতে offline-এও কাজ করে।
 
@@ -67,7 +67,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৬টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়িয়ে আছে। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+১৬টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়িয়ে আছে। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — মূল networking (এখান থেকেই শুরু করুন)।** এগুলো প্রায় প্রতিটা interview-এ আসে।
 → [Q1 http বনাম Dio](#q1) · [Q3 Interceptor আর token refresh](#q3) · [Q4 Error handling](#q4) · [Q7 JSON parsing](#q7)
@@ -445,7 +445,7 @@ dio.interceptors.add(LogInterceptor()); // auth token যোগ করার প
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — কেন error এক জায়গায় আনবেন।**
-কেন্দ্রীয় জায়গা না থাকলে প্রতিটা screen নিজের try/catch আর নিজের "কিছু একটা ভুল হয়েছে" message লেখে। এটা বারবার একই কাজ, আর অসামঞ্জস্যপূর্ণ। একটা interceptor পুরো app-এর জন্য কাঁচা network error-কে পরিষ্কার app error-এ বদলে দেয়।
+কেন্দ্রীয় জায়গা না থাকলে প্রতিটা screen নিজের try/catch আর নিজের "কিছু একটা ভুল হয়েছে" message লেখে। এটা বারবার একই কাজ, আর একেক জায়গায় একেক রকম। একটা interceptor পুরো app-এর জন্য কাঁচা network error-কে পরিষ্কার app error-এ বদলে দেয়।
 
 **ধাপ ২ — `DioException`-এর type-গুলো (এগুলো মুখস্থ রাখুন)।**
 
@@ -690,7 +690,7 @@ class UserRepository {
       final response = await _dio.get('/users/$id');
       return Right(User.fromJson(response.data)); // সফল
     } on DioException catch (e) {
-      return Left(_mapError(e));                   // প্রত্যাশিত failure
+      return Left(_mapError(e));                   // expected failure
     } catch (e) {
       return Left(AppFailure.unexpected(e.toString()));
     }
@@ -703,7 +703,7 @@ class UserRepository {
 }
 ```
 
-**ধাপ ৪ — Caller failure-টা উপেক্ষা করতে পারে না।**
+**ধাপ ৪ — Caller failure-টা বাদ দিতে পারে না।**
 
 ```dart
 class UserCubit extends Cubit<UserState> {
@@ -723,14 +723,14 @@ class UserCubit extends Cubit<UserState> {
 ```
 
 **ধাপ ৫ — কখন ব্যবহার করবেন (আর কখন নয়)।**
-সত্যিই ব্যতিক্রমী আর অপ্রত্যাশিত জিনিসের জন্য exception রাখুন, আর boundary layer-এর জন্যও তাই। *প্রত্যাশিত* ফলাফলের জন্য Either ব্যবহার করুন, যেমন "user not found" বা "no internet"। ছোট ছোট internal helper function-কে Either-এ মুড়বেন না — ওখানে সাধারণ throw-ই ঠিক আছে।
+সত্যিই খুব বিরল আর হঠাৎ আসা জিনিসের জন্য exception রাখুন, আর boundary layer-এর জন্যও তাই। *expected* ফলাফলের জন্য Either ব্যবহার করুন, যেমন "user not found" বা "no internet"। ছোট ছোট internal helper function-কে Either-এ মুড়বেন না — ওখানে সাধারণ throw-ই ঠিক আছে।
 
 **ধাপ ৬ — Production-এ পরীক্ষিত package ব্যবহার করুন।**
 বেশিরভাগ team নিজে হাতে বানানোর বদলে `fpdart` (বা পুরোনো `dartz`) ব্যবহার করে। এতে পরীক্ষিত `Either` পাওয়া যায়, সাথে `map` আর `flatMap`-এর মতো helper।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় আপনি API boundary ইচ্ছে করে design করেন — অপ্রত্যাশিতের জন্য exception, প্রত্যাশিত failure-এর জন্য typed value। এটাই clean-architecture-এর চিন্তা।
+**Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় আপনি API boundary ইচ্ছে করে design করেন — যা হঠাৎ ঘটে তার জন্য exception, expected failure-এর জন্য typed value। এটাই clean-architecture-এর চিন্তা।
 
-**সাধারণ ভুল:** `Either` ব্যবহার করা, কিন্তু শুধু success দিকটা সামলানো আর failure দিকটা উপেক্ষা করা। আরেকটা ভুল — *সবকিছু* Either-এ মুড়ে ফেলা, এমনকি যেখানে সাধারণ throw বেশি পরিষ্কার।
+**সাধারণ ভুল:** `Either` ব্যবহার করা, কিন্তু শুধু success দিকটা সামলানো আর failure দিকটা বাদ দেওয়া। আরেকটা ভুল — *সবকিছু* Either-এ মুড়ে ফেলা, এমনকি যেখানে সাধারণ throw বেশি পরিষ্কার।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Failure-এর জন্য `Left` কেন?"* → এটা functional programming-এর একটা নিয়ম মাত্র: `Right` মানে "right/সঠিক" value, `Left` হলো অন্য ক্ষেত্রটা।
@@ -851,7 +851,7 @@ final tags = (json['tags'] as List<dynamic>)
 | `copyWith` | হাতে | না | generate করা |
 | কার জন্য ভালো | 1–2টা ছোট model | বেশিরভাগ DTO / API model | state ও domain model |
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি বড় model-এর জন্য ভঙ্গুর parsing হাতে লেখেন না। আর আপনি জানেন `freezed` immutability আর value equality দেয় (যা state management-এর rebuild-এর জন্য গুরুত্বপূর্ণ)।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি বড় model-এর জন্য ঠুনকো parsing হাতে লেখেন না। আর আপনি জানেন `freezed` immutability আর value equality দেয় (যা state management-এর rebuild-এর জন্য গুরুত্বপূর্ণ)।
 
 **সাধারণ ভুল:** প্রতিটা item `fromJson` দিয়ে map না করে পুরো list-কে `as List<User>` দিয়ে cast করা। আর annotation দেওয়া model বদলানোর পরে `build_runner` চালাতে ভুলে যাওয়া।
 
@@ -1061,7 +1061,7 @@ BlocBuilder<ConnectivityCubit, ConnectivityStatus>(
 **সাধারণ ভুল:** "আমি online কি না" জানতে শুধু `connectivity_plus`-এর উপর ভরসা করা। এটা শুধু interface-এর ধরন জানায়। আপনি wifi-তে থেকেও আসল internet না পেতে পারেন — সবসময় DNS lookup বা ping দিয়ে confirm করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Response-গুলো কীভাবে cache করেন?"* → Hive, অথবা URL দিয়ে key করা একটা সাধারণ map। কিংবা `dio_cache_interceptor` ব্যবহার করুন, যেটা আপনার হয়ে HTTP-style caching করে।
+- *"Response-গুলো কীভাবে cache করেন?"* → Hive, অথবা URL দিয়ে key করা একটা সাধারণ map। বা `dio_cache_interceptor` ব্যবহার করুন, যেটা আপনার হয়ে HTTP-style caching করে।
 - *"Offline থাকা অবস্থায় write হলে?"* → সেগুলো locally queue করুন, আর online ফিরলে sync করুন — এটাই offline-first (দেখুন [Q15](#q15))।
 
 **সম্পর্কিত:** [Q4 — connectionError](#q4) · [Q15 — offline-first](#q15) · [Q11 — Hive cache](#q11)
@@ -1117,7 +1117,7 @@ await prefs.remove('locale');
 ```
 
 **ধাপ ৪ — Thread safety।**
-`getInstance()`-এ plugin পুরো file memory-তে পড়ে নেয়; write disk-এ যায় asynchronously। একটা isolate-এর ভেতরে এটা নিরাপদ। একাধিক isolate-এ, বা native code একই file লিখলে, race condition হতে পারে।
+`getInstance()`-এ plugin পুরো file memory-তে পড়ে নেয়; write disk-এ যায় asynchronously। একটা isolate-এর ভেতরে এটা নিরাপদ। একের বেশি isolate-এ, বা native code একই file লিখলে, race condition হতে পারে।
 
 **ধাপ ৫ — যে সীমাগুলো মুখে বলবেন।**
 কোনো encryption নেই (disk-এ plain text), শুধু primitive, পুরো file memory-তে load হয় (বড় হলে খারাপ), কোনো query নেই, বড় dataset-এর জন্য বানানো নয়। এটা setting store, database নয়।
@@ -1237,13 +1237,13 @@ await Hive.openBox<Task>(
 **ধাপ ৭ — কখন SharedPreferences-এর বদলে Hive বেছে নেবেন।**
 Custom object লাগলে, encryption লাগলে, ~20টির বেশি value হলে, বড় dataset-এ lazy loading (`LazyBox`) লাগলে, অথবা platform-channel-এর বাড়তি খরচ এড়াতে চাইলে।
 
-**Interviewer কেন জিজ্ঞেস করে:** দেখতে যে আপনি প্রয়োজন দেখে storage বাছেন। "সাধারণ setting" (SharedPreferences) আর "relational data" (SQLite/Drift) — এই দুইয়ের মাঝের ফাঁকটা Hive পূরণ করে।
+**Interviewer কেন জিজ্ঞেস করে:** দেখতে যে আপনি দরকার দেখে storage বাছেন। "সাধারণ setting" (SharedPreferences) আর "relational data" (SQLite/Drift) — এই দুইয়ের মাঝের ফাঁকটা Hive পূরণ করে।
 
 **সাধারণ ভুল:** অন্য একটা class-এর জন্য পুরোনো `typeId` আবার ব্যবহার করা, বা release-এর পরে `@HiveField` index বদলানো — দুটোই জমা data নষ্ট করে। আরেকটা ভুল — typed box খোলার আগে `Hive.registerAdapter(...)` ভুলে যাওয়া।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Box বনাম LazyBox?"* → একটা `Box` সব value memory-তে রাখে; একটা `LazyBox` প্রতিটা value disk থেকে পড়ে শুধু পড়ার সময়ে — বড় data-র জন্য ভালো।
-- *"Hive বনাম Isar?"* → Isar একই লেখকের নতুন database, এতে query আর index আছে; এটা বললে বোঝা যায় আপনি হালনাগাদ আছেন। (Hive এখনও ব্যাপকভাবে ব্যবহার হয় আর key-value-র জন্য সবচেয়ে সহজ।)
+- *"Hive বনাম Isar?"* → Isar একই লেখকের নতুন database, এতে query আর index আছে; এটা বললে বোঝা যায় আপনি up-to-date আছেন। (Hive এখনও ব্যাপকভাবে ব্যবহার হয় আর key-value-র জন্য সবচেয়ে সহজ।)
 
 **সম্পর্কিত:** [Q10 — SharedPreferences](#q10) · [Q12 — SQLite/Drift](#q12) · [Q14 — encryption](#q14)
 
@@ -1438,7 +1438,7 @@ class SecureTokenStorage {
 **সাধারণ ভুল:** সব কিছুর জন্য `flutter_secure_storage` ব্যবহার করা (এটা ধীর)। আর Android-এ `encryptedSharedPreferences: true` দিতে ভুলে যাওয়া, যার ফলে পুরোনো device-এ দুর্বল implementation-এ নেমে যেতে পারে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"`KeychainAccessibility.first_unlock` কী?"* → এটা ঠিক করে value কখন পড়া যাবে — এখানে, boot-এর পর device একবার unlock হওয়ার পরেই (security আর ব্যবহারযোগ্যতার ভালো ভারসাম্য)।
+- *"`KeychainAccessibility.first_unlock` কী?"* → এটা ঠিক করে value কখন পড়া যাবে — এখানে, boot-এর পর device একবার unlock হওয়ার পরেই (security আর ব্যবহারের সুবিধার ভালো balance)।
 - *"Hive/SQLCipher-এর key কোথায় রাখেন?"* → এখানেই, secure storage-এ — কখনোই source-এ hardcode করে নয় ([Q14](#q14) দেখুন)।
 
 **সম্পর্কিত:** [Q3 — auth-এর জন্য token](#q3) · [Q10 — SharedPreferences](#q10) · [Q14 — encryption](#q14)
@@ -1457,7 +1457,7 @@ class SecureTokenStorage {
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — আসল খেলাটা key নিয়ে (তালা-চাবির উপমা)।**
-Data encrypt করা মানে একটা বাক্সে তালা দেওয়া। কিন্তু চাবিটা যদি ঢাকনার গায়ে টেপ দিয়ে লাগিয়ে রাখেন (code-এ hardcode করা, বা SharedPreferences-এ রাখা), তাহলে তালাটা অকেজো। পুরো security নির্ভর করে চাবি কোথায় থাকে তার উপর — আর সেই জায়গাটা হলো OS keychain/keystore, `flutter_secure_storage`-এর মাধ্যমে।
+Data encrypt করা মানে একটা বাক্সে তালা দেওয়া। কিন্তু চাবিটা যদি ঢাকনার গায়ে টেপ দিয়ে লাগিয়ে রাখেন (code-এ hardcode করা, বা SharedPreferences-এ রাখা), তাহলে তালাটা অকেজো। পুরো security নির্ভর করে চাবি কোথায় থাকে তার উপর — আর সেই জায়গাটা হলো OS keychain/keystore, `flutter_secure_storage` দিয়ে।
 
 **ধাপ ২ — Data-র ধরন অনুযায়ী layer বাছুন।**
 
@@ -1624,7 +1624,7 @@ class TaskRepository {
       syncStatus: SyncStatus.pending,
       updatedAt: DateTime.now(),
     );
-    await _local.insert(task);      // stream-এর মাধ্যমে UI সাথে সাথে update
+    await _local.insert(task);      // stream দিয়ে UI সাথে সাথে update
 
     try {
       await _remote.create(task);
@@ -1673,7 +1673,7 @@ class SyncManager {
 }
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** আধুনিক mobile app-এ offline-first এখন প্রত্যাশিত। তাঁরা দেখতে চান আপনি local-DB-as-source-of-truth pattern design করতে পারেন কি না। আর sync state সামলাতে পারেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** আধুনিক mobile app-এ offline-first এখন expected। তাঁরা দেখতে চান আপনি local-DB-as-source-of-truth pattern design করতে পারেন কি না। আর sync state সামলাতে পারেন কি না।
 
 **সাধারণ ভুল:** network call-কে source of truth বানানো, আর cache-কে শুধু fallback হিসেবে রাখা। সেটা "offline-capable", "offline-first" নয়। সত্যিকারের offline-first মানে data দেখানোর জন্য UI কখনোই network-এর অপেক্ষা করে না।
 
@@ -1714,7 +1714,7 @@ class SyncManager {
 ```
 
 **ধাপ ২ — Delta sync কেন সাধারণত বেছে নেওয়া হয়।**
-এটা "শেষবার দেখার পর কী কী বদলেছে?" ধরনের পদ্ধতি। প্রতিবার সবকিছু download করার বদলে (যেটা অপচয়), client বলে "দুপুর ২টার পর থেকে পরিবর্তনগুলো দাও"। Server তখন একটা ছোট তালিকা পাঠায়। Data আর battery — দুটোতেই সস্তা।
+এটা "শেষবার দেখার পর কী কী বদলেছে?" ধরনের উপায়। প্রতিবার সবকিছু download করার বদলে (যেটা অপচয়), client বলে "দুপুর ২টার পর থেকে পরিবর্তনগুলো দাও"। Server তখন একটা ছোট তালিকা পাঠায়। Data আর battery — দুটোতেই সস্তা।
 
 **ধাপ ৩ — দুই ধাপের sync: আগে push, তারপর pull।**
 
@@ -1775,7 +1775,7 @@ Response:
 **ধাপ ৪ — Conflict resolution-এর পছন্দগুলো।**
 একই item দুই জায়গায় বদলে গেলে:
 - *Last-write-wins:* সবচেয়ে নতুন `updatedAt` জেতে (সহজ, প্রচলিত)।
-- *Server-wins:* server সবসময় ঠিক (নিরাপদ, অনুমানযোগ্য)।
+- *Server-wins:* server সবসময় ঠিক (নিরাপদ, আগে থেকেই বোঝা যায়)।
 - *Client-wins:* বিপজ্জনক, খুব কমই ব্যবহার হয়।
 - *Manual merge:* user-কে দুটো version-ই দেখান (গুরুত্বপূর্ণ data-র জন্য)।
 
@@ -1788,7 +1788,7 @@ Response:
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Device-এর ঘড়ি ভুল থাকলে কী হবে?"* → watermark-এর জন্য device clock-এর বদলে server-assigned timestamp বা version number ব্যবহার করুন।
-- *"একাধিক device জুড়ে delete কীভাবে করবেন?"* → "soft delete" ব্যবহার করুন (একটা `deletedAt` flag)। তাহলে delete নিজেই একটা পরিবর্তন হয়ে sync হয়, row-টা শুধু হাওয়া হয়ে যায় না।
+- *"একের বেশি device জুড়ে delete কীভাবে করবেন?"* → "soft delete" ব্যবহার করুন (একটা `deletedAt` flag)। তাহলে delete নিজেই একটা পরিবর্তন হয়ে sync হয়, row-টা শুধু হাওয়া হয়ে যায় না।
 
 **সম্পর্কিত:** [Q15 — offline-first](#q15) · [Q9 — connectivity trigger](#q9) · [Q12 — local DB](#q12)
 
@@ -1810,7 +1810,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 | Setup | প্রতিটা call-এ হাতে করতে হয় | একবার configure করলেই হয় (`BaseOptions`) |
 | Interceptors | নেই | আছে (auth, logging, retry) |
 | Cancel / progress | নেই | আছে |
-| JSON parsing | হাতে করা `jsonDecode` | স্বয়ংক্রিয় (`response.data`) |
+| JSON parsing | হাতে করা `jsonDecode` | automatic (`response.data`) |
 | কোন কাজে ভালো | ছোট app, script | production app |
 
 **SharedPreferences vs Hive vs SQLite/Drift vs secure_storage**
@@ -1838,7 +1838,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 | Pull-to-refresh | বেশি পড়া হয়, পরিবর্তন কম |
 | Timestamp delta sync | মাঝারি data, server-এর কর্তৃত্ব (সবচেয়ে প্রচলিত) |
 | Event queue / changelog | offline-নির্ভর app |
-| CRDT / OT | real-time collaborative editing (একসাথে একই জিনিস সম্পাদনা) |
+| CRDT / OT | real-time collaborative editing (একসাথে একই জিনিস edit) |
 
 ## এক লাইনের মনে করিয়ে দেওয়া
 
@@ -1856,7 +1856,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 - **SQLite / Drift** = relation, join, transaction আর reactive `watch()` stream; migration-এর কথা মনে রাখুন। ([Q12](#q12))
 - **`flutter_secure_storage`** = token আর key রাখার সিন্দুক (Keychain/Keystore); ধীর, তাই শুধু secret-এর জন্য। ([Q13](#q13))
 - **Encryption** ততটাই শক্ত, key যেখানে থাকে সেটা যতটা শক্ত — key generate করুন, secure storage-এ রাখুন, প্রতিবার নতুন IV ব্যবহার করুন। ([Q14](#q14))
-- **Offline-first** = local DB-ই সত্যের উৎস; আগে locally save করুন (pending), UI সাথে সাথে update হয়, sync চলে background-এ। ([Q15](#q15))
+- **Offline-first** = local DB-ই সত্যের source; আগে locally save করুন (pending), UI সাথে সাথে update হয়, sync চলে background-এ। ([Q15](#q15))
 - **Delta sync** `lastSyncedAt` পাঠায় আর শুধু পরিবর্তনগুলো নেয়; `updatedAt` ব্যবহার করুন, conflict মেটান, push-কে idempotent করুন। ([Q16](#q16))
 
 [↑ উপরে ফিরুন](#toc)
@@ -1865,7 +1865,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 
 # অনুশীলন: Interviewer কীভাবে আরও গভীরে যান
 
-Interviewer সাধারণত একটা প্রশ্নে থামেন না। আপনার গভীরতা পরীক্ষা করতে তাঁরা খুঁড়তেই থাকেন। এই ধারাবাহিক প্রশ্নগুলোর উত্তর মুখে বলে অনুশীলন করুন — শান্তভাবে, ধাপে ধাপে:
+Interviewer সাধারণত একটা প্রশ্নে থামেন না। আপনার গভীরতা পরীক্ষা করতে তাঁরা খুঁড়তেই থাকেন। এই পরপর প্রশ্নগুলোর উত্তর মুখে বলে অনুশীলন করুন — শান্তভাবে, ধাপে ধাপে:
 
 1. *"প্রতিটা request-এ auth token কীভাবে জোড়েন?"* → একটা interceptor-এর `onRequest` `Authorization` header যোগ করে।
 2. *"Token মেয়াদ শেষ হলে কী হয়?"* → server 401 ফেরত দেয়; `onError` hook token refresh করে আবার চেষ্টা করে।

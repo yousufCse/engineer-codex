@@ -2,9 +2,9 @@
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
 > **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা** সহ, আর **link করা** — যাতে আপনি এদিক-ওদিক লাফিয়ে ধীরে ধীরে প্রস্তুতি নিতে পারেন।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-08-platform-channel-bn.md](../software-engineer-flutter/section-08-platform-channel.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-08-platform-channel.md](../software-engineer-flutter/section-08-platform-channel.md)
 
 ---
 
@@ -13,13 +13,13 @@
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বিস্তারিত, ধাপে ধাপে ব্যাখ্যা, বাস্তব জীবনের উদাহরণ আর code সহ।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — যুক্ত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় **সংক্ষিপ্ত উত্তরটা আগে** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারেন?" সহজ আর পরিষ্কার করে বলা নিজেই একটা senior skill — আর remote ও BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -57,7 +57,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৪টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+১৪টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — মূল ভিত্তি (এখান থেকে শুরু)।** এগুলো প্রায় প্রতিটা interview-তে আসে।
 → [Q1 Platform Channel কী](#q1) · [Q3 MethodChannel](#q3) · [Q4 তিন ধরনের channel](#q4) · [Q5 EventChannel](#q5)
@@ -88,7 +88,7 @@
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q1)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Platform Channel হলো আমার Dart code আর native code-এর মাঝে একটা নাম দেওয়া টেলিফোন লাইন (Android-এ Kotlin/Java, iOS-এ Swift/Objective-C)। Flutter নিজের screen নিজে আঁকে আর Dart চালায় নিজের engine-এ। তাই এটা camera, Bluetooth বা battery-র মতো native জিনিস সরাসরি ছুঁতে পারে না। Channel-এর মাধ্যমে Dart native দিকে একটা message পাঠায়, native দিক কাজটা করে, আর উত্তর ফিরে আসে — পুরোটাই asynchronously।"
+"Platform Channel হলো আমার Dart code আর native code-এর মাঝে একটা নাম দেওয়া টেলিফোন লাইন (Android-এ Kotlin/Java, iOS-এ Swift/Objective-C)। Flutter নিজের screen নিজে আঁকে আর Dart চালায় নিজের engine-এ। তাই এটা camera, Bluetooth বা battery-র মতো native জিনিস সরাসরি ছুঁতে পারে না। Channel দিয়ে Dart native দিকে একটা message পাঠায়, native দিক কাজটা করে, আর উত্তর ফিরে আসে — পুরোটাই asynchronously।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -116,7 +116,7 @@ Platform Channel-কে ভাবুন একটা টেলিফোন ল�
 **ধাপ ৩ — তিন ধরনের channel।**
 তিন ধরনের channel আছে, প্রতিটা আলাদা ধরনের কথা বলার জন্য:
 
-- **MethodChannel** — এক প্রশ্ন, এক উত্তর (request/reply)। সবচেয়ে বেশি ব্যবহৃত। দেখুন [Q3](#q3)।
+- **MethodChannel** — এক প্রশ্ন, এক উত্তর (request/reply)। সবচেয়ে বেশি ব্যবহার করা। দেখুন [Q3](#q3)।
 - **EventChannel** — native থেকে Dart-এ একটানা broadcast (যেমন sensor data)। দেখুন [Q5](#q5)।
 - **BasicMessageChannel** — দুই দিকেই যেকোনো ধরনের message, "method"-এর ধারণা নেই। দেখুন [Q6](#q6)।
 
@@ -132,7 +132,7 @@ final int level = await channel.invokeMethod('getBatteryLevel');
 **ধাপ ৫ — সাধারণত কখন আপনি নিজে channel লেখেন না।**
 বেশিরভাগ সাধারণ দরকারের (camera, location, shared preferences) জন্য pub.dev-এ আগে থেকেই plugin আছে। সেই plugin-গুলো ভেতরে Platform Channel-ই ব্যবহার করে। নিজে channel তখনই লেখেন, যখন কোনো plugin নেই, বা আপনি নিজের plugin বানাচ্ছেন।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা নিশ্চিত হতে চান আপনি Flutter-এর architecture-এর দেয়ালটা বোঝেন। আপনি যদি ভাবেন Flutter সরাসরি Android/iOS API call করতে পারে, তাহলে senior-এর জন্য সেটা একটা মৌলিক ভুল ধারণা।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা নিশ্চিত হতে চান আপনি Flutter-এর architecture-এর দেয়ালটা বোঝেন। আপনি যদি ভাবেন Flutter সরাসরি Android/iOS API call করতে পারে, তাহলে senior-এর জন্য সেটা একটা গোড়ার ভুল ধারণা।
 
 **সাধারণ ভুল:** বলা যে Platform Channel synchronous, বা এগুলো HTTP ব্যবহার করে। এগুলো asynchronous আর device-এর ভেতরেই — engine-এর মধ্য দিয়ে binary message, কোনো network নেই।
 
@@ -233,7 +233,7 @@ func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
 > Very common · Medium — channel নিয়ে সবচেয়ে বেশি আসা প্রশ্ন। · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q3)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"MethodChannel হলো একটা request/reply call। Dart একটা method name আর ঐচ্ছিক argument দিয়ে `invokeMethod` call করে। Native দিকে একটা handler register করা থাকে, যেটা method name মিলিয়ে কাজটা করে। তারপর `result.success(value)` বা `result.error(...)` দিয়ে উত্তর দেয়। দুই দিকেই channel name string হুবহু এক হতে হবে।"
+"MethodChannel হলো একটা request/reply call। Dart একটা method name আর optional argument দিয়ে `invokeMethod` call করে। Native দিকে একটা handler register করা থাকে, যেটা method name মিলিয়ে কাজটা করে। তারপর `result.success(value)` বা `result.error(...)` দিয়ে উত্তর দেয়। দুই দিকেই channel name string হুবহু এক হতে হবে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -367,7 +367,7 @@ await _channel.invokeMethod('setBrightness', {'value': 0.8});
 }
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা channel-এর সবচেয়ে মৌলিক দক্ষতা। তাঁরা দেখেন আপনি তিনটা layer ঠিকভাবে জোড়া লাগাতে পারেন কি না, error handle করেন কি না, আর channel name হুবহু মেলাতে হয় সেটা মনে রাখেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা channel-এর সবচেয়ে গোড়ার দক্ষতা। তাঁরা দেখেন আপনি তিনটা layer ঠিকভাবে জোড়া লাগাতে পারেন কি না, error handle করেন কি না, আর channel name হুবহু মেলাতে হয় সেটা মনে রাখেন কি না।
 
 **সাধারণ ভুল:** অজানা method-এর জন্য `notImplemented()` ভুলে যাওয়া, দুই দিকে আলাদা channel name ব্যবহার করা, অথবা Dart call-টা `PlatformException`-এর জন্য `try/catch` দিয়ে না মোড়া।
 
@@ -414,7 +414,7 @@ await _channel.invokeMethod('setBrightness', {'value': 0.8});
 - Native আমাকে একটানা stream পাঠাচ্ছে → **EventChannel**।
 - আমার নিজের format-এ দুই দিকে message যাচ্ছে → **BasicMessageChannel**।
 
-**ধাপ ৪ — তিনটার নিচের কাঠামো একই।**
+**ধাপ ৪ — তিনটার নিচের structure একই।**
 ভেতরে তিনটাই একই binary messaging আর একই codec পরিবার ব্যবহার করে। EventChannel আর MethodChannel আসলে সেই basic messaging-এর উপরে বসানো সুবিধাজনক wrapper। BasicMessageChannel সেই basic messaging সরাসরি খুলে দেয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** অনেক candidate শুধু MethodChannel জানেন। তিনটাই জানা — আর কখন কোনটা লাগবে ঠিকভাবে বলতে পারা — channel নিয়ে সত্যিকারের গভীরতা দেখায়।
@@ -564,7 +564,7 @@ class AccelerometerStreamHandler: NSObject, FlutterStreamHandler {
 **সাধারণ ভুল:** EventChannel ব্যবহার না করে MethodChannel দিয়ে polling করা। অথবা `onCancel`-এ native listener unregister করতে ভুলে যাওয়া, যা battery শেষ করে দেয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Single-subscription না broadcast?"* → `receiveBroadcastStream()` একটা broadcast stream দেয়। তাই একাধিক Dart listener যুক্ত হতে পারে।
+- *"Single-subscription না broadcast?"* → `receiveBroadcastStream()` একটা broadcast stream দেয়। তাই একের বেশি Dart listener যুক্ত হতে পারে।
 - *"Error event কীভাবে পাঠাবেন?"* → Android-এ `eventSink.error(code, message, details)`; iOS-এ একটা `FlutterError` return বা pass করুন।
 
 **সম্পর্কিত:** [Q4 — তিন ধরনের channel](#q4) · [Q3 — MethodChannel](#q3)
@@ -661,7 +661,7 @@ BasicMessageChannel ব্যবহার করুন যখন:
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q7)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"একটা codec Dart-এর value-গুলোকে byte-এ বদলায়, আবার ফিরিয়ে আনে। Standard codec সমর্থন করে `null`, `bool`, `int`, `double`, `String`, `Uint8List`, `List`, আর `Map` — আপনার নিজের custom class নয়। তাই আমি ওগুলোকে আগে map-এ রূপান্তর করি। Error-এর জন্য native side `result.error(code, message, details)` দিয়ে জবাব দেয়। Dart সেটা `PlatformException` হিসেবে পায়, আর আমি `try/catch` দিয়ে ধরি।"
+"একটা codec Dart-এর value-গুলোকে byte-এ বদলায়, আবার ফিরিয়ে আনে। Standard codec সমর্থন করে `null`, `bool`, `int`, `double`, `String`, `Uint8List`, `List`, আর `Map` — আপনার নিজের custom class নয়। তাই আমি ওগুলোকে আগে map-এ বদলে ফেলি। Error-এর জন্য native side `result.error(code, message, details)` দিয়ে জবাব দেয়। Dart সেটা `PlatformException` হিসেবে পায়, আর আমি `try/catch` দিয়ে ধরি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -698,8 +698,8 @@ await _channel.invokeMethod('saveUser', {
 
 এই typing-এর কাজটা নিজে থেকে হয়ে যাক চাইলে Pigeon ব্যবহার করুন ([Q10](#q10))।
 
-**ধাপ ৪ — Error: native side একটা কাঠামোবদ্ধ failure পাঠায়।**
-Crash না করে native একটা error দিয়ে জবাব দেয়, যার তিনটা অংশ থাকে: একটা `code` (ছোট string), একটা `message` (মানুষের পড়ার মতো লেখা), আর ঐচ্ছিক `details`।
+**ধাপ ৪ — Error: native side একটা গোছানো failure পাঠায়।**
+Crash না করে native একটা error দিয়ে জবাব দেয়, যার তিনটা অংশ থাকে: একটা `code` (ছোট string), একটা `message` (মানুষের পড়ার মতো লেখা), আর optional `details`।
 
 ```kotlin
 // Android
@@ -732,12 +732,12 @@ try {
 ```
 
 **ধাপ ৬ — যে দুটো error type জানা দরকার।**
-- **`PlatformException`** → native `result.error(...)` দিয়ে জবাব দিয়েছে। এটা প্রত্যাশিত, handle করা failure।
+- **`PlatformException`** → native `result.error(...)` দিয়ে জবাব দিয়েছে। এটা expected, handle করা failure।
 - **`MissingPluginException`** → ওই method name-এর জন্য native-এ কোনো handler ছিল না (ভুল নাম, বা `notImplemented()`)।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি type-এর সীমা জানেন কি না (custom class চলবে না)। আর app crash করতে না দিয়ে কাঠামোবদ্ধ `PlatformException` দিয়ে failure সামলান কি না।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি type-এর সীমা জানেন কি না (custom class চলবে না)। আর app crash করতে না দিয়ে গোছানো `PlatformException` দিয়ে failure সামলান কি না।
 
-**সাধারণ ভুল:** একটা Dart object সরাসরি channel দিয়ে পাঠানোর চেষ্টা করা। অথবা `PlatformException` উপেক্ষা করা, ফলে একটা native error unhandled crash হয়ে যায়।
+**সাধারণ ভুল:** একটা Dart object সরাসরি channel দিয়ে পাঠানোর চেষ্টা করা। অথবা `PlatformException` বাদ দেওয়া, ফলে একটা native error unhandled crash হয়ে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`int` কখনো কখনো `Long` হয়ে আসে কেন?"* → বড় int Android-এ `Long`-এ map হয়। নিরাপদ থাকতে Dart side-এ `as num` দিয়ে পড়ুন।
@@ -1037,7 +1037,7 @@ Public API সরাসরি channel-এর সাথে কথা বলে �
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Pigeon কোন সমস্যা সমাধান করে।**
-কাঁচা channel পুরোটাই string-নির্ভর। আপনি লিখলেন `invokeMethod('getUsr', {'id': 42})`। `'getUsr'`-এ typo হলে সেটা ধরা পড়বে শুধু runtime-এ। Reply আসে `dynamic` হিসেবে। তাই হাতে cast করে আশা করতে হয় সব ঠিক আছে। বড় API-তে এটা খুব ভঙ্গুর।
+কাঁচা channel পুরোটাই string-নির্ভর। আপনি লিখলেন `invokeMethod('getUsr', {'id': 42})`। `'getUsr'`-এ typo হলে সেটা ধরা পড়বে শুধু runtime-এ। Reply আসে `dynamic` হিসেবে। তাই হাতে cast করে আশা করতে হয় সব ঠিক আছে। বড় API-তে এটা খুব ঠুনকো।
 
 ```
   Without Pigeon                       With Pigeon
@@ -1137,12 +1137,12 @@ print(response.name); // "Alice" — typed, cast নেই, magic string নে�
 
 ---
 
-## <a id="q11"></a>11. একটা বিদ্যমান native Android বা iOS app-এ Flutter module কীভাবে যোগ করবেন (add-to-app)?
+## <a id="q11"></a>11. একটা আগে থেকে থাকা native Android বা iOS app-এ Flutter module কীভাবে যোগ করবেন (add-to-app)?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q11)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"একে বলে 'add-to-app'। পুরো একটা Flutter app-এর বদলে আমি একটা Flutter module বানাই। তারপর সেটাকে বিদ্যমান native project-এ dependency হিসেবে embed করি। এরপর native app একটা `FlutterActivity` (Android) বা `FlutterViewController` (iOS) চালু করে Flutter screen দেখায়। app-এর বাকি অংশ native-ই থাকে।"
+"একে বলে 'add-to-app'। পুরো একটা Flutter app-এর বদলে আমি একটা Flutter module বানাই। তারপর সেটাকে আগে থেকে থাকা native project-এ dependency হিসেবে embed করি। এরপর native app একটা `FlutterActivity` (Android) বা `FlutterViewController` (iOS) চালু করে Flutter screen দেখায়। app-এর বাকি অংশ native-ই থাকে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1237,7 +1237,7 @@ present(flutterVC, animated: true)
 **ধাপ ৫ — গতির জন্য engine আগেভাগে গরম করুন।**
 ঠান্ডা অবস্থা থেকে একটা `FlutterEngine` চালু হতে একটু সময় লাগে। Flutter screen-টা যদি বারবার খোলা হয়, তাহলে app startup-এ একবারই engine বানিয়ে `run()` করুন (cache করে রাখুন)। তারপর সেটাই বারবার ব্যবহার করুন। এতে screen প্রথমবার দেখানোর সময় চোখে পড়া দেরিটা চলে যায়।
 
-**Interviewer কেন জিজ্ঞেস করে:** অনেক কোম্পানি ধাপে ধাপে Flutter নেয়। তাঁরা জানতে চান আপনি একটা brownfield (বিদ্যমান) app-এ integrate করতে পারেন কি না। শুধু নতুন greenfield app বানাতে পারা যথেষ্ট নয়।
+**Interviewer কেন জিজ্ঞেস করে:** অনেক কোম্পানি ধাপে ধাপে Flutter নেয়। তাঁরা জানতে চান আপনি একটা brownfield (আগে থেকে থাকা) app-এ integrate করতে পারেন কি না। শুধু নতুন greenfield app বানাতে পারা যথেষ্ট নয়।
 
 **সাধারণ ভুল:** `--template module` আর `--template app` গুলিয়ে ফেলা। একটা module-এ লুকানো `.android/` আর `.ios/` wrapper থাকে, পুরো native folder নয়। আরেকটা ভুল — engine আগে গরম না করা, ফলে প্রথমবার খোলার সময় চোখে পড়া দেরি হয়।
 
@@ -1414,7 +1414,7 @@ Widget build(BuildContext context) {
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"PlatformView-এর খরচ কত?"* → native view embed করা সাধারণ Flutter widget-এর চেয়ে ভারী। তাই SDK-র সত্যিই নিজের view দরকার হলে তবেই ব্যবহার করুন।
-- *"এটাকে বারবার ব্যবহারযোগ্য কীভাবে বানাবেন?"* → platform-interface pattern দিয়ে একটা plugin-এ মুড়ে দিন। দেখুন [Q9](#q9)।
+- *"এটাকে বারবার ব্যবহার করা যায় এমন কীভাবে বানাবেন?"* → platform-interface pattern দিয়ে একটা plugin-এ মুড়ে দিন। দেখুন [Q9](#q9)।
 
 **সম্পর্কিত:** [Q9 — plugin package](#q9) · [Q2 — threading](#q2) · [Q3 — MethodChannel](#q3)
 
@@ -1628,7 +1628,7 @@ App চালু হওয়ার সময়েই সব permission এক�
 
 **Interviewer কেন জিজ্ঞেস করে:** প্রতিটা production app-এ permission লাগে। তাঁরা দেখেন আপনি সব state handle করেন কি না (বিশেষ করে `permanentlyDenied`), আর platform setup-এর পার্থক্য জানেন কি না (iOS usage string বনাম Android manifest)।
 
-**সাধারণ ভুল:** শুধু `granted`/`denied` handle করা আর `permanentlyDenied` উপেক্ষা করা — Android-এ দ্বিতীয়বার deny করার পর dialog আর কখনোই দেখায় না, তাই আপনাকে settings খুলতে হবে। আরেকটা ভুল হলো iOS Info.plist string ভুলে যাওয়া, যেটা সুন্দরভাবে fail না হয়ে app crash করায়।
+**সাধারণ ভুল:** শুধু `granted`/`denied` handle করা আর `permanentlyDenied` বাদ দেওয়া — Android-এ দ্বিতীয়বার deny করার পর dialog আর কখনোই দেখায় না, তাই আপনাকে settings খুলতে হবে। আরেকটা ভুল হলো iOS Info.plist string ভুলে যাওয়া, যেটা সুন্দরভাবে fail না হয়ে app crash করায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Permanently denied permission কীভাবে handle করেন?"* → `permanentlyDenied` ধরুন আর একটা পরিষ্কার message দিয়ে `openAppSettings()` call করুন।
@@ -1680,7 +1680,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 | `PlatformException` | `MissingPluginException` |
 |---|---|
 | native `result.error(...)` পাঠিয়েছে | ওই method name-এর জন্য কোনো handler নেই |
-| প্রত্যাশিত, handle করুন | নাম ভুল, বা `notImplemented` দিতে ভুলে গেছেন |
+| expected, handle করুন | নাম ভুল, বা `notImplemented` দিতে ভুলে গেছেন |
 
 ## এক লাইনের মনে করিয়ে দেওয়া
 

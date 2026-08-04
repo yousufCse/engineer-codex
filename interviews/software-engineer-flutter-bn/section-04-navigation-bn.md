@@ -2,9 +2,9 @@
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
 > **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা সহ**, আর **link করা** — যাতে আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারেন।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-04-navigation-bn.md](../software-engineer-flutter/section-04-navigation.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-04-navigation.md](../software-engineer-flutter/section-04-navigation.md)
 
 ---
 
@@ -13,13 +13,13 @@
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব জীবনের উদাহরণ আর code সহ ধাপে ধাপে বিস্তারিত ব্যাখ্যা।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংযুক্ত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন আসে (**Very common / Common / Deeper**) আর তার difficulty কত (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কারভাবে বলাটা নিজেই একটা senior skill — আর এটা remote আর BD দুই ধরনের কোম্পানিতেই সমানভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -58,7 +58,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৭টা প্রশ্ন একসাথে পড়তে হবে না। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+১৭টা প্রশ্ন একসাথে পড়তে হবে না। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — Stack-এর বেসিক (এখান থেকে শুরু করুন)।** প্রায় প্রতিটা interview এখান থেকেই শুরু হয়।
 → [Q1 Navigator 1.0 stack](#q1) · [Q2 pop দিয়ে data ফেরত](#q2) · [Q3 Named routes](#q3)
@@ -119,7 +119,7 @@ Navigator.push(
 ```
 
 **ধাপ ৩ — `pop`: উপরের থালা সরানো।**
-উপরের screen-টা সরে যায়, আর তার নিচেরটা আবার দৃশ্যমান হয়।
+উপরের screen-টা সরে যায়, আর তার নিচেরটা আবার দেখা যায়।
 
 ```dart
 Navigator.pop(context); // এক screen পেছনে যান
@@ -136,7 +136,7 @@ Navigator.pushReplacement(
 ```
 
 **ধাপ ৫ — `pushAndRemoveUntil`: push করুন, তারপর নিচের থালাগুলো ফেলে দিন।**
-এটা নতুন একটা screen push করে, আর একটা test "থামো" না বলা পর্যন্ত নিচের screen-গুলো সরিয়ে দেয়। নিচের *সবকিছু* সরাতে `(route) => false` পাঠান — "home-এ যাও আর পুরো stack পরিষ্কার করো" এর জন্য একদম উপযুক্ত (যেমন logout-এর পরে)।
+এটা নতুন একটা screen push করে, আর একটা test "থামো" না বলা পর্যন্ত নিচের screen-গুলো সরিয়ে দেয়। নিচের *সবকিছু* সরাতে `(route) => false` পাঠান — "home-এ যাও আর পুরো stack পরিষ্কার করো" এর জন্য একদম মানানসই (যেমন logout-এর পরে)।
 
 ```dart
 Navigator.pushAndRemoveUntil(
@@ -312,7 +312,7 @@ if (args is String) {
 return MaterialPageRoute(builder: (_) => const NotFoundScreen());
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** পুরোনো codebase আর ছোট app-এ named routes এখনো খুব চলে। তাঁরা দেখতে চান আপনি সহজ `routes` map আর বেশি নমনীয় `onGenerateRoute` — দুটোই জানেন কি না। আর type-safety-র দুর্বলতাটা বোঝেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** পুরোনো codebase আর ছোট app-এ named routes এখনো খুব চলে। তাঁরা দেখতে চান আপনি সহজ `routes` map আর বেশি flexible `onGenerateRoute` — দুটোই জানেন কি না। আর type-safety-র দুর্বলতাটা বোঝেন কি না।
 
 **সাধারণ ভুল:** `routes` map-এ argument পড়ার logic রাখা (এটা argument-এ পরিষ্কারভাবে পৌঁছাতে পারে না)। Argument আছে এমন যেকোনো কিছুর জন্য `onGenerateRoute` ব্যবহার করুন। আরেকটা ভুল — `settings.arguments`-কে চোখ বন্ধ করে cast করা আর type ভুল হলে crash করা।
 
@@ -354,13 +354,13 @@ Navigator 2.0 (declarative):
 ```
 
 **ধাপ ২ — সমস্যা ১: deep linking।**
-কোনো user যদি `myapp.com/products/42` খোলে, Navigator 1.0-এর কাছে পুরো path (Home → Products → Product 42) আবার বানানোর পরিষ্কার উপায় নেই। ঠিক order-এ কয়েকটা screen push করতে ভঙ্গুর manual code লিখতে হতো। Declarative routing URL থেকে পুরো stack নিজেই আবার বানায়।
+কোনো user যদি `myapp.com/products/42` খোলে, Navigator 1.0-এর কাছে পুরো path (Home → Products → Product 42) আবার বানানোর পরিষ্কার উপায় নেই। ঠিক order-এ কয়েকটা screen push করতে ঠুনকো manual code লিখতে হতো। Declarative routing URL থেকে পুরো stack নিজেই আবার বানায়।
 
 **ধাপ ৩ — সমস্যা ২: web URL মিলিয়ে রাখা।**
 Flutter web-এ browser-এর address bar বর্তমান screen-এর সাথে মিলতে হবে। আর URL edit করলে screen বদলাতে হবে। Navigator 1.0-এ stack আর URL-এর মধ্যে কোনো built-in যোগসূত্র নেই। তাই দুটো আলাদা হয়ে যায়। Navigator 2.0 URL আর stack-কে দুই দিক থেকেই জুড়ে দেয়।
 
-**ধাপ ৪ — সমস্যা ৩: অনুমানযোগ্য back navigation।**
-Android-এর back button আর browser-এর back button সবসময় সঠিক কাজটাই করা উচিত। Navigator 1.0-এ "পুরো stack এটাই" বলে ঘোষণা করা একটাও জায়গা নেই, যেখানে ফিরে যাওয়া যায়। Navigator 2.0 সবসময় পুরো intended stack জানে। তাই back অনুমানযোগ্যভাবে কাজ করে।
+**ধাপ ৪ — সমস্যা ৩: আগে থেকে বোঝা যায় এমন back navigation।**
+Android-এর back button আর browser-এর back button সবসময় সঠিক কাজটাই করা উচিত। Navigator 1.0-এ "পুরো stack এটাই" বলে ঘোষণা করা একটাও জায়গা নেই, যেখানে ফিরে যাওয়া যায়। Navigator 2.0 সবসময় পুরো intended stack জানে। তাই back যেমন কাজ করার কথা, ঠিক তেমনই কাজ করে।
 
 ```dart
 // Navigator 2.0 — declarative (ধারণাগত)
@@ -580,8 +580,8 @@ context.go('/products/42'); // 42 বসে :productId slot-এ
 final id = state.pathParameters['productId']!; // '42'
 ```
 
-**ধাপ ৪ — Query parameter (`?key=value`): বাড়তি ঐচ্ছিক জিনিস।**
-Query parameter আসে `?`-এর পরে। এগুলো declare করতে হয় না, আর সাধারণত ঐচ্ছিক — যেমন filter বা sorting। এগুলো পড়ুন `state.uri.queryParameters` থেকে।
+**ধাপ ৪ — Query parameter (`?key=value`): বাড়তি optional জিনিস।**
+Query parameter আসে `?`-এর পরে। এগুলো declare করতে হয় না, আর সাধারণত optional — যেমন filter বা sorting। এগুলো পড়ুন `state.uri.queryParameters` থেকে।
 
 ```dart
 context.go('/products?sort=price&category=phones');
@@ -616,7 +616,7 @@ final category = state.uri.queryParameters['category']; // 'phones'
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — `go()`: URL থেকে পুরো stack ঠিক করে দেয়।**
-`go('/products/42')` go_router-কে বলে — "stack এখন এই URL-এর সাথে মিলবে।" go_router সেটা আবার বানায় Home → Products → Product 42 হিসেবে। এটাই declarative, URL-first পদ্ধতি। এটাই web-এ browser bar ঠিক রাখে।
+`go('/products/42')` go_router-কে বলে — "stack এখন এই URL-এর সাথে মিলবে।" go_router সেটা আবার বানায় Home → Products → Product 42 হিসেবে। এটাই declarative, URL-first উপায়। এটাই web-এ browser bar ঠিক রাখে।
 
 ```dart
 context.go('/products/42'); // stack হয়ে যায় Home → Products → Product 42
@@ -882,7 +882,7 @@ StatefulShellRoute.indexedStack(
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Named routes: string name দিয়ে navigate করা।**
-প্রতিটা `GoRoute`-কে একটা `name` দিন। তারপর `goNamed` দিয়ে navigate করুন। কাঁচা path-এর চেয়ে এটা কম ভঙ্গুর (path বদলালেও caller ভাঙে না), কিন্তু এটা এখনো string-নির্ভর।
+প্রতিটা `GoRoute`-কে একটা `name` দিন। তারপর `goNamed` দিয়ে navigate করুন। কাঁচা path-এর চেয়ে এটা কম ঠুনকো (path বদলালেও caller ভাঙে না), কিন্তু এটা এখনো string-নির্ভর।
 
 ```dart
 GoRoute(
@@ -926,12 +926,12 @@ class ProductRoute extends GoRouteData with _$ProductRoute {
 // Step 2: code generate করুন
 //   dart run build_runner build
 
-// Step 3: navigate — পুরো type-safe, compiler 'id' বাধ্যতামূলক করে
+// Step 3: navigate — পুরো type-safe, compiler 'id' দিতে বাধ্য করে
 const ProductRoute(id: '42').go(context);
 ```
 
 **ধাপ ৪ — Trade-off (এটাই senior উত্তর)।**
-Typed routes-এর জন্য `build_runner` setup লাগে, একটা generated file থাকে, আর প্রতি route-এ বেশি boilerplate লাগে। ছোট app-এর জন্য এটা বাড়াবাড়ি। বড় team-এ যেখানে route প্রায়ই বদলায় আর একটা typo ব্যয়বহুল, সেখানে compile-time safety লাভজনক।
+Typed routes-এর জন্য `build_runner` setup লাগে, একটা generated file থাকে, আর প্রতি route-এ বেশি boilerplate লাগে। ছোট app-এর জন্য এটা বাড়াবাড়ি। বড় team-এ যেখানে route প্রায়ই বদলায় আর একটা typo-র খরচ অনেক, সেখানে compile-time safety লাভজনক।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি type safety আর maintainability নিয়ে ভাবেন কি না। আর আপনি একটা approach-কে "সবসময় সেরা" না বলে trade-off ওজন করতে পারেন কি না।
 
@@ -952,12 +952,12 @@ Typed routes-এর জন্য `build_runner` setup লাগে, একটা
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q11)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"নিরাপদ উপায় হলো path আর query parameter, কারণ সেগুলো URL-এ থাকে — web refresh-এও টিকে যায় আর deep link-এ কাজ করে। অনিরাপদ উপায় হলো go_router-এর `extra`। এটা যেকোনো object বহন করতে পারে, কিন্তু শুধু memory-তে থাকে। তাই web refresh-এ হারিয়ে যায় আর deep link ভেঙে যায়। সবচেয়ে নিরাপদ হলো typed routes, যেখানে compiler argument বাধ্যতামূলক করে।"
+"নিরাপদ উপায় হলো path আর query parameter, কারণ সেগুলো URL-এ থাকে — web refresh-এও টিকে যায় আর deep link-এ কাজ করে। অনিরাপদ উপায় হলো go_router-এর `extra`। এটা যেকোনো object বহন করতে পারে, কিন্তু শুধু memory-তে থাকে। তাই web refresh-এ হারিয়ে যায় আর deep link ভেঙে যায়। সবচেয়ে নিরাপদ হলো typed routes, যেখানে compiler argument দিতে বাধ্য করে।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — অনিরাপদ উপায়: `extra`।**
-`state.extra`-র type হলো `Object?`। তাই আপনি যেকোনো object পাঠাতে পারেন। শুনতে সুবিধাজনক, কিন্তু ৩টি সমস্যা আছে: একটা ঝুঁকিপূর্ণ cast লাগে, এটা URL-এ থাকে না, আর এটা শুধু memory-তে ধরা থাকে।
+`state.extra`-র type হলো `Object?`। তাই আপনি যেকোনো object পাঠাতে পারেন। শুনতে সুবিধাজনক, কিন্তু ৩টি সমস্যা আছে: একটা ঝুঁকির cast লাগে, এটা URL-এ থাকে না, আর এটা শুধু memory-তে ধরা থাকে।
 
 ```dart
 // যেকোনো object পাঠানো
@@ -1009,7 +1009,7 @@ class ProductRoute extends GoRouteData with _$ProductRoute {
       ProductScreen(id: id, name: name);
 }
 
-// compiler required 'id' বাধ্যতামূলক করে
+// compiler required 'id' দিতে বাধ্য করে
 const ProductRoute(id: '42', name: 'Widget').go(context);
 ```
 
@@ -1270,7 +1270,7 @@ class _EditFormScreenState extends State<EditFormScreen> {
 
 **Interviewer কেন জিজ্ঞেস করে:** Form, checkout flow আর editor-এ এটা খুবই সাধারণ। তাঁরা দেখেন আপনি আধুনিক API জানেন কি না (`PopScope`, `WillPopScope` নয়) আর `didPop` ঠিকভাবে পড়েন কি না।
 
-**সাধারণ ভুল:** এখনো `WillPopScope` ব্যবহার করা (deprecated)। আর একটা সূক্ষ্ম ভুল: `didPop` উল্টো বোঝা। `canPop` যখন `false`, তখন callback-এ `didPop` হয় `false` — ঠিক তখনই আপনি dialog দেখাবেন। `didPop` `true` হলে pop আগেই হয়ে গেছে, তাই আবার pop করবেন না।
+**সাধারণ ভুল:** এখনো `WillPopScope` ব্যবহার করা (deprecated)। আর একটা চোখে পড়ে না এমন ভুল: `didPop` উল্টো বোঝা। `canPop` যখন `false`, তখন callback-এ `didPop` হয় `false` — ঠিক তখনই আপনি dialog দেখাবেন। `didPop` `true` হলে pop আগেই হয়ে গেছে, তাই আবার pop করবেন না।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"সবসময় `canPop: false` দিলে সমস্যা কী?"* → তাহলে screen-টা gesture দিয়ে আর কখনোই বন্ধ হবে না, ফলে predictive back ভেঙে যায়। `canPop`-কে আসল state অনুযায়ী রাখুন (যেমন `!hasUnsavedChanges`)।
@@ -1567,7 +1567,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 | | Navigator 1.0 | Navigator 2.0 |
 |---|---|---|
 | ধরন | imperative (push/pop) | declarative (পুরো stack বর্ণনা করুন) |
-| Deep link | হাতে করতে হয়, ভঙ্গুর | URL থেকে নিজে থেকেই তৈরি হয় |
+| Deep link | হাতে করতে হয়, ঠুনকো | URL থেকে নিজে থেকেই তৈরি হয় |
 | Web URL sync | built in নেই | URL ↔ stack দুই দিকেই |
 | বাস্তবে | সহজ mobile app-এর জন্য ঠিক আছে | এর উপরে go_router ব্যবহার করুন |
 
@@ -1594,7 +1594,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 | URL-এ থাকে? | হ্যাঁ | না (শুধু memory-তে) |
 | Web refresh-এ টিকে? | হ্যাঁ | না |
 | Deep-link friendly? | হ্যাঁ | না |
-| Type | সবসময় String | যেকোনো object (ঝুঁকিপূর্ণ cast) |
+| Type | সবসময় String | যেকোনো object (ঝুঁকির cast) |
 
 **`PopScope` vs `WillPopScope`**
 

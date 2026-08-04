@@ -1,10 +1,10 @@
 # Section 3 — State Management
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link করা** — যাতে আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারেন।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-03-state-management-bn.md](../software-engineer-flutter/section-03-state-management.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-03-state-management.md](../software-engineer-flutter/section-03-state-management.md)
 
 ---
 
@@ -12,14 +12,14 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার জন্য ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব জীবনের উদাহরণ আর code সহ বিস্তারিত, ধাপে ধাপে ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংশ্লিষ্ট প্রশ্নে যান · **উপরে ফিরুন** — সূচিতে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় **আগে সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কারভাবে কথা বলাটাই একটা senior দক্ষতা — আর এটা remote আর BD দুই ধরনের কোম্পানিতেই সমানভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -50,7 +50,7 @@
 
 **E. Architecture আর senior সিদ্ধান্ত**
 15. [Sealed union দিয়ে state model করা (loading / success / error)](#q15) · *Very common*
-16. [সম্পর্কহীন দুটো screen-এর মধ্যে state শেয়ার করা](#q16) · *Common*
+16. [সম্পর্ক নেই এমন দুটো screen-এর মধ্যে state শেয়ার করা](#q16) · *Common*
 17. [State management solution কীভাবে বাছবেন](#q17) · *Very common*
 18. [BLoC / Cubit logic-এর testing](#q18) · *Common*
 
@@ -61,7 +61,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৮টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই শেষ ধরবেন যখন না দেখে **সংক্ষিপ্ত উত্তরটা** দিতে পারবেন।
+১৮টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই শেষ ধরবেন যখন না দেখে **সংক্ষিপ্ত উত্তরটা** দিতে পারবেন।
 
 **পর্যায় ১ — মূল ভিত্তি (এখান থেকে শুরু করুন)।** প্রায় প্রতিটা interview এখান থেকেই শুরু হয়।
 → [Q1 State কী](#q1) · [Q2 setState](#q2) · [Q3 Lifecycle](#q3) · [Q4 State উপরে তোলা](#q4)
@@ -69,7 +69,7 @@
 **পর্যায় ২ — ভিত্তি (ভেতরে সবকিছু কীভাবে কাজ করে)।**
 → [Q5 InheritedWidget](#q5) · [Q6 Provider](#q6) · [Q7 watch/read/select](#q7)
 
-**পর্যায় ৩ — BLoC পরিবার (BD চাকরিতে সবচেয়ে বেশি ব্যবহৃত production pattern)।**
+**পর্যায় ৩ — BLoC পরিবার (BD চাকরিতে সবচেয়ে বেশি ব্যবহার করা production pattern)।**
 → [Q8 BLoC pattern](#q8) · [Q9 Cubit vs BLoC](#q9) · [Q10 Builder/Listener/Consumer](#q10) · [Q12 emit vs setState](#q12)
 
 **পর্যায় ৪ — আধুনিক tool আর পরিষ্কার state।**
@@ -160,7 +160,7 @@ class _FaqTileState extends State<FaqTile> {
 **ধাপ ১ — "হাত তোলার" ধারণা।**
 `setState`-কে ভাবুন এক ছাত্রের হাত তোলার মতো, যে বলছে "আমাকে আবার আঁকতে হবে।" শিক্ষক (Flutter) সাথে সাথে আঁকেন না — তিনি হাতটা খেয়াল করেন, চলতি মুহূর্তটা শেষ করেন, তারপর পরের frame-এ যারা যারা হাত তুলেছিল সবাইকে আবার আঁকেন। তাই `setState` একটা rebuild-এর সময় ঠিক করে দেয়; সাথে সাথে আঁকে না।
 
-**ধাপ ২ — ভেতরের ঠিক ধারাবাহিকতা।**
+**ধাপ ২ — ভেতরে ঠিক কোনটার পর কোনটা হয়।**
 আপনি যখন `setState(fn)` call করেন:
 
 1. আপনার function `fn` **সাথে সাথে** চলে (synchronously) — এখানেই আপনি variable বদলান।
@@ -251,7 +251,7 @@ Future<void> _load() async {
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — State কেন আলাদা object-এ থাকে।**
-Widget শুধু একটা হালকা বর্ণনা, আর এটা অনবরত rebuild হয়। আপনার data যদি widget-এর ভেতরে থাকত, প্রতিটা rebuild-এ তা মুছে যেত। তাই Flutter জিনিসটা ভাগ করে দেয়: `StatefulWidget` হলো ফেলে দেওয়ার recipe, আর `State` object হলো দীর্ঘজীবী রান্নাঘর যেটা সত্যিকারের data ধরে রাখে। Widget rebuild হলেও Flutter একই `State` object বাঁচিয়ে রাখে।
+Widget শুধু একটা হালকা বর্ণনা, আর এটা অনবরত rebuild হয়। আপনার data যদি widget-এর ভেতরে থাকত, প্রতিটা rebuild-এ তা মুছে যেত। তাই Flutter জিনিসটা ভাগ করে দেয়: `StatefulWidget` হলো ফেলে দেওয়ার recipe, আর `State` object হলো অনেকক্ষণ টিকে থাকা রান্নাঘর যেটা সত্যিকারের data ধরে রাখে। Widget rebuild হলেও Flutter একই `State` object বাঁচিয়ে রাখে।
 
 **ধাপ ২ — Lifecycle ক্রম অনুযায়ী।**
 
@@ -269,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // initState-এর পরে চলে, আর নির্ভরশীল InheritedWidget বদলালে আবার চলে
+    // initState-এর পরে চলে, আর নির্ভর করে এমন InheritedWidget বদলালে আবার চলে
   }
 
   @override
@@ -302,9 +302,9 @@ class _ProfilePageState extends State<ProfilePage> {
 লোকে এই দুটো গুলিয়ে ফেলে। `build` প্রতিটা rebuild-এ চলে, তাই এটা সস্তা হওয়া দরকার। `didUpdateWidget` শুধু তখনই চলে যখন parent এই widget-কে **নতুন input value** দেয় — বদলানো input-এ সাড়া দিতে এটা ব্যবহার করুন, যেমন `userId` বদলালে আবার load করা।
 
 **ধাপ ৫ — `widget` field কেন গুরুত্বপূর্ণ।**
-`State`-এর ভেতরে আপনি widget-এর input পড়েন `widget.something` দিয়ে (যেমন `widget.userId`)। `State` অনেক widget instance-এর চেয়ে বেশি দিন বাঁচে। তাই `widget` সবসময় সবচেয়ে নতুনটাকে দেখায় — এভাবেই দীর্ঘজীবী State তাজা input দেখতে পায়।
+`State`-এর ভেতরে আপনি widget-এর input পড়েন `widget.something` দিয়ে (যেমন `widget.userId`)। `State` অনেক widget instance-এর চেয়ে বেশি দিন বাঁচে। তাই `widget` সবসময় সবচেয়ে নতুনটাকে দেখায় — এভাবেই অনেকক্ষণ টিকে থাকা State তাজা input দেখতে পায়।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা প্রমাণ করে আপনি widget/element/state-এর ভাগটা বোঝেন। আর আপনি resource ঠিকমতো পরিষ্কার করেন কি না তাও বোঝা যায় — এটা production bug-এর একটা বড় উৎস।
+**Interviewer কেন জিজ্ঞেস করে:** এটা প্রমাণ করে আপনি widget/element/state-এর ভাগটা বোঝেন। আর আপনি resource ঠিকমতো পরিষ্কার করেন কি না তাও বোঝা যায় — এটা production bug-এর একটা বড় source।
 
 **সাধারণ ভুল:** `build`-এ setup code বা network call রাখা (এটা খুব বেশিবার চলে), অথবা controller ও subscription `dispose` করতে ভুলে যাওয়া। আরেকটা ভুল — `super.dispose()` শেষে না দিয়ে প্রথমে call করা।
 
@@ -359,7 +359,7 @@ Section(user: user)        // Section user ব্যবহার করে ন�
     -> ProfileRow(user: user) // ...শুধু এই leaf-এর সত্যিই এটা দরকার
 ```
 
-নতুন কোনো ভাগ করা data এলেই প্রতিটা layer আবার edit করতে হয়। এটা ভঙ্গুর আর গোলমেলে।
+নতুন কোনো ভাগ করা data এলেই প্রতিটা layer আবার edit করতে হয়। এটা ঠুনকো আর গোলমেলে।
 
 **ধাপ ৪ — সমাধান: state উপরে provide করুন, সরাসরি পড়ুন।**
 State manager prop drilling সমাধান করে এভাবে — যেকোনো descendant ভাগ করা state সরাসরি পড়তে পারে, মাঝের widget-কে সেটা বইতে হয় না। `Provider`/`Riverpod`/`BLoC` সবাই আপনাকে এই "যেখানে দরকার সেখানেই পড়ুন" ক্ষমতা দেয়। এদের থাকার কারণ এটাই — tree গভীর হয়ে গেলে এরা হাতে করা lifting-এর জায়গা নিয়ে নেয়।
@@ -369,7 +369,7 @@ State manager prop drilling সমাধান করে এভাবে — য
 **সাধারণ ভুল:** হয় কখনোই state না তোলা (বদলে global ব্যবহার করা), অথবা সবকিছু একদম উপরে তুলে দেওয়া, ফলে বিশাল rebuild হয়। শুধু **সবচেয়ে কাছের** common parent পর্যন্ত তুলুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"কখন lifting থামিয়ে state manager আনবেন?"* → যখন এমন widget-এর ভেতর দিয়ে data পাঠাতে হয় যারা সেটা ব্যবহার করে না (prop drilling), অথবা যখন সম্পর্কহীন screen-এরও সেটা দরকার হয়।
+- *"কখন lifting থামিয়ে state manager আনবেন?"* → যখন এমন widget-এর ভেতর দিয়ে data পাঠাতে হয় যারা সেটা ব্যবহার করে না (prop drilling), অথবা যখন সম্পর্ক নেই এমন screen-এরও সেটা দরকার হয়।
 - *"খুব উপরে তুললে খরচ কী?"* → উপরে একটা পরিবর্তন হলে বড় একটা subtree rebuild হয়। State যত নিচে রাখা যায় তত ভালো।
 
 **সম্পর্কিত:** [Q5 — InheritedWidget](#q5) · [Q16 — screen-এর মধ্যে ভাগ করা](#q16) · [Q1 — state কী](#q1)
@@ -387,7 +387,7 @@ State manager prop drilling সমাধান করে এভাবে — য
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q5)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`InheritedWidget` হলো Flutter-এর নিজস্ব উপায় data-কে tree-এর নিচে ঠেলে দেওয়ার, যাতে যেকোনো descendant সরাসরি পড়তে পারে, প্রতিটা constructor দিয়ে পাঠাতে না হয়। Descendant এটা পড়ে `dependOnInheritedWidgetOfExactType` দিয়ে, আর এটা ওই widget-কে পরিবর্তনের জন্য subscribe-ও করে দেয়। Data বদলালে Flutter `updateShouldNotify` call করে; এটা true দিলে শুধু নির্ভরশীল widget-গুলোই rebuild হয়। `Theme.of(context)` আর Provider-এর নিচের engine এটাই।"
+"`InheritedWidget` হলো Flutter-এর নিজের উপায় data-কে tree-এর নিচে ঠেলে দেওয়ার, যাতে যেকোনো descendant সরাসরি পড়তে পারে, প্রতিটা constructor দিয়ে পাঠাতে না হয়। Descendant এটা পড়ে `dependOnInheritedWidgetOfExactType` দিয়ে, আর এটা ওই widget-কে পরিবর্তনের জন্য subscribe-ও করে দেয়। Data বদলালে Flutter `updateShouldNotify` call করে; এটা true দিলে শুধু নির্ভর করে এমন widget-গুলোই rebuild হয়। `Theme.of(context)` আর Provider-এর নিচের engine এটাই।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -442,7 +442,7 @@ final theme = ThemeInherited.of(context);
 ```
 
 **ধাপ ৫ — Subscribe না করে পড়া।**
-দুই ধরনের lookup আছে। `dependOnInheritedWidgetOfExactType` subscribe করে (পরিবর্তনে rebuild হয়)। `getInheritedWidgetOfExactType` শুধু পড়ে, কোনো subscription নেই (পরিবর্তনে rebuild হয় না)। ভুলটা বেছে নিলে হয় update হাতছাড়া হয়, নয়তো অপ্রয়োজনীয় rebuild হয়।
+দুই ধরনের lookup আছে। `dependOnInheritedWidgetOfExactType` subscribe করে (পরিবর্তনে rebuild হয়)। `getInheritedWidgetOfExactType` শুধু পড়ে, কোনো subscription নেই (পরিবর্তনে rebuild হয় না)। ভুলটা বেছে নিলে হয় update হাতছাড়া হয়, নয়তো দরকার নেই এমন rebuild হয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** `InheritedWidget` হলো `Theme.of`, `MediaQuery.of` আর Provider-এর নিচের ভিত্তি। এটা বুঝলে আপনি বুঝে যাবেন উপরের সব state management ভেতরে কীভাবে কাজ করে।
 
@@ -509,10 +509,10 @@ Consumer<CartModel>(
 `child` parameter-টা একটা বাড়তি সুবিধা: এমন একটা widget পাঠান যেটা model-এর উপর নির্ভর করে **না**। Provider সেটাকে rebuild না করে আবার ব্যবহার করে।
 
 **ধাপ ৪ — `Selector` = শুধু একটা field বদলালেই rebuild।**
-যেকোনো `notifyListeners()`-এ `Consumer` rebuild হয়। `Selector` আরও সূক্ষ্ম: আপনি একটা value বেছে নেন, আর সেটা বদলালে তবেই rebuild হয় (`==` দিয়ে তুলনা করে)।
+যেকোনো `notifyListeners()`-এ `Consumer` rebuild হয়। `Selector` আরও খুঁটিয়ে বেছে নেয়: আপনি একটা value বেছে নেন, আর সেটা বদলালে তবেই rebuild হয় (`==` দিয়ে তুলনা করে)।
 
 ```dart
-// শুধু totalPrice বদলালে rebuild হয়, model-এর বাকি সব উপেক্ষা করে
+// শুধু totalPrice বদলালে rebuild হয়, model-এর বাকি সব বাদ দেয়
 final price = context.select<CartModel, double>((cart) => cart.totalPrice);
 Text('Total: \$${price.toStringAsFixed(2)}');
 ```
@@ -559,7 +559,7 @@ MultiProvider(
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — "subscription"-এর ধারণা।**
-এই তিনটাকে খবর পড়ার তিনটা উপায় ভাবুন। `watch` মানে "প্রতিটা update-এ আমাকে জানাও।" `select` মানে "শুধু এই একটা শিরোনাম বদলালে আমাকে জানাও।" `read` মানে "আজকের খবরটা একবার বলে দাও, আমাকে অনুসরণ কোরো না।"
+এই তিনটাকে খবর পড়ার তিনটা উপায় ভাবুন। `watch` মানে "প্রতিটা update-এ আমাকে জানাও।" `select` মানে "শুধু এই একটা শিরোনাম বদলালে আমাকে জানাও।" `read` মানে "আজকের খবরটা একবার বলে দাও, আমার পিছু নিও না।"
 
 **ধাপ ২ — `context.watch<T>()` — যেকোনো পরিবর্তনে rebuild।**
 এটা `build`-এর ভেতরে ব্যবহার করুন। `T` যখনই `notifyListeners()` call করে, widget rebuild হয়।
@@ -583,7 +583,7 @@ FloatingActionButton(
 ```
 
 **ধাপ ৪ — `context.select<T, R>(...)` — একটা derived value দেখে।**
-সবচেয়ে সূক্ষ্ম option। বেছে নেওয়া value `R` বদলালেই শুধু rebuild হয়, `T`-র অন্য অংশ বদলালেও নয়।
+সবচেয়ে খুঁটিয়ে বেছে নেওয়ার option। বেছে নেওয়া value `R` বদলালেই শুধু rebuild হয়, `T`-র অন্য অংশ বদলালেও নয়।
 
 ```dart
 // শুধু totalPrice বদলালে rebuild হয়, item-এর নাম বদলালে নয়
@@ -624,7 +624,7 @@ context.read<T>()       -> read once, NO subscription        (use in callbacks)
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q8)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"BLoC মানে Business Logic Component। UI ভেতরে event পাঠায় — যেমন 'login pressed'। BLoC ফেরত পাঠায় state-এর একটা stream — যেমন loading, তারপর success বা failure। UI শুধু যে state পায় সেটা থেকে rebuild করে। এতে business logic widget-এর বাইরে থাকে। ফলে সেটা অনুমানযোগ্য হয় আর test করা সহজ হয়। আধুনিক bloc v8+-এ আমি `on<Event>()` দিয়ে handler register করি, আর `Emitter` দিয়ে নতুন state emit করি।"
+"BLoC মানে Business Logic Component। UI ভেতরে event পাঠায় — যেমন 'login pressed'। BLoC ফেরত পাঠায় state-এর একটা stream — যেমন loading, তারপর success বা failure। UI শুধু যে state পায় সেটা থেকে rebuild করে। এতে business logic widget-এর বাইরে থাকে। ফলে সেটা আগে থেকে বোঝা যায় এমন হয় আর test করা সহজ হয়। আধুনিক bloc v8+-এ আমি `on<Event>()` দিয়ে handler register করি, আর `Emitter` দিয়ে নতুন state emit করি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -712,15 +712,15 @@ bloc v8-এর আগে আপনি একটা বড় `mapEventToState` m
 ```
 
 **ধাপ ৫ — এই design কেন এত পছন্দের।**
-সবকিছু এক দিকে বয়ে যায় (event in → state out)। তাই logic অনুমানযোগ্য আর test করা সহজ: একটা event দিন, state-গুলো assert করুন। আর প্রতিটা event একটা object বলে, যা যা ঘটেছে সব event log করা যায় — debugging-এর জন্য দারুণ।
+সবকিছু এক দিকে বয়ে যায় (event in → state out)। তাই logic আগে থেকে বোঝা যায় এমন আর test করা সহজ: একটা event দিন, state-গুলো assert করুন। আর প্রতিটা event একটা object বলে, যা যা ঘটেছে সব event log করা যায় — debugging-এর জন্য দারুণ।
 
-**Interviewer কেন জিজ্ঞেস করে:** Flutter-এ production-এ সবচেয়ে বেশি ব্যবহৃত pattern-গুলোর একটা হলো BLoC, বিশেষ করে BD আর agency team-এ। তাঁরা শুনতে চান আপনি একমুখী, stream-ভিত্তিক flow বোঝেন। আর event থেকে state আলাদা রাখলে code কেন testable হয়, সেটাও বোঝেন।
+**Interviewer কেন জিজ্ঞেস করে:** Flutter-এ production-এ সবচেয়ে বেশি ব্যবহার করা pattern-গুলোর একটা হলো BLoC, বিশেষ করে BD আর agency team-এ। তাঁরা শুনতে চান আপনি একমুখী, stream-ভিত্তিক flow বোঝেন। আর event থেকে state আলাদা রাখলে code কেন testable হয়, সেটাও বোঝেন।
 
 **সাধারণ ভুল:** পুরোনো `mapEventToState`-এর সাথে নতুন `on<Event>` API মিশিয়ে ফেলা। আরেকটা ভুল: bloc বন্ধ হয়ে যেতে পারে এমন অবস্থায় `await`-এর পরে `emit()` call করা (দেখুন [Q12](#q12))। আর feature অনুযায়ী ভাগ না করে একটা বিশাল bloc বানানো।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Event আর state আলাদা কেন?"* → এতে একমুখী flow পাওয়া যায় আর input-এর একটা log থাকে, যা behavior-কে অনুমানযোগ্য ও testable করে।
-- *"`EventTransformer` কী?"* → event কীভাবে process হবে সেটা নিয়ন্ত্রণ করার উপায় — যেমন search-as-you-type-এ debounce বা throttle করা।
+- *"Event আর state আলাদা কেন?"* → এতে একমুখী flow পাওয়া যায় আর input-এর একটা log থাকে, যা behavior-কে আগে থেকে বোঝা যায় এমন ও testable করে।
+- *"`EventTransformer` কী?"* → event কীভাবে process হবে সেটা control করার উপায় — যেমন search-as-you-type-এ debounce বা throttle করা।
 
 **সম্পর্কিত:** [Q9 — Cubit vs BLoC](#q9) · [Q10 — Builder/Listener/Consumer](#q10) · [Q15 — sealed states](#q15)
 
@@ -843,7 +843,7 @@ BlocBuilder<AuthBloc, AuthState>(
 ```
 
 **ধাপ ৩ — `BlocListener` একবার side-effect চালায়।**
-এর `child` rebuild হয় **না**। প্রতিটা state বদলে listener একবার চলে — যেসব কাজ বারবার হওয়া চলবে না, তার জন্য একদম উপযুক্ত।
+এর `child` rebuild হয় **না**। প্রতিটা state বদলে listener একবার চলে — যেসব কাজ বারবার হওয়া চলবে না, তার জন্য একদম মানানসই।
 
 ```dart
 BlocListener<AuthBloc, AuthState>(
@@ -890,7 +890,7 @@ Pixel বদলালে → `BlocBuilder`। এককালীন action হ�
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Builder-এ navigate করলে সমস্যা কী?"* → Builder অনেকবার চলতে পারে; তাহলে navigation বারবার চলবে। প্রতিটা বদলে listener একবারই চলে।
-- *"অপ্রয়োজনীয় rebuild কীভাবে এড়াবেন?"* → `buildWhen`/`listenWhen` ব্যবহার করুন (দেখুন [Q11](#q11))।
+- *"দরকার নেই এমন rebuild কীভাবে এড়াবেন?"* → `buildWhen`/`listenWhen` ব্যবহার করুন (দেখুন [Q11](#q11))।
 
 **সম্পর্কিত:** [Q8 — BLoC pattern](#q8) · [Q11 — buildWhen/listenWhen](#q11) · [Q15 — sealed states](#q15)
 
@@ -1064,7 +1064,7 @@ Bloc-এর `on<Event>` handler-এর ভেতরে framework সাহায
 
 | Provider-এর সমস্যা | Riverpod কীভাবে ঠিক করে |
 |---|---|
-| Widget tree (`BuildContext`) লাগে | provider-গুলো global, tree-র উপর নির্ভরশীল নয় |
+| Widget tree (`BuildContext`) লাগে | provider-গুলো global, tree-র উপর নির্ভর করে এমন নয় |
 | "Provider not found" runtime-এ crash করে | compile time-এই ধরা পড়ে |
 | একই type-এর দুটো provider রাখা যায় না | প্রতিটা provider নিজেই একটা আলাদা variable |
 | Provider একসাথে মেলানো কঠিন | `ref` দিয়ে built-in dependency |
@@ -1160,7 +1160,7 @@ return userAsync.when(
 
 **Interviewer কেন জিজ্ঞেস করে:** নতুন Flutter project-এ Riverpod ক্রমেই default হয়ে উঠছে। তাঁরা দেখতে চান আপনি বোঝেন এটা Provider-এর চেয়ে কেন ভালো, আর সঠিক provider ধরন ও ref method ব্যবহার করতে পারেন কি না।
 
-**সাধারণ ভুল:** `build`-এ `ref.read` ব্যবহার করা (পরিবর্তনে widget rebuild হবে না) বা callback-এ `ref.watch` ব্যবহার করা (অপ্রয়োজনীয় subscription তৈরি করে)। আরেকটা ভুল হলো `.autoDispose` ভুলে যাওয়া, আর resource ধরে রাখা provider leak করা।
+**সাধারণ ভুল:** `build`-এ `ref.read` ব্যবহার করা (পরিবর্তনে widget rebuild হবে না) বা callback-এ `ref.watch` ব্যবহার করা (দরকার নেই এমন subscription তৈরি করে)। আরেকটা ভুল হলো `.autoDispose` ভুলে যাওয়া, আর resource ধরে রাখা provider leak করা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"'provider not found' error কেন নেই?"* → Provider হলো global variable, compile time-এ resolve হয়, tree-তে type দিয়ে খোঁজা হয় না।
@@ -1249,7 +1249,7 @@ GetX ভালো কাজ করে একা কাজ করা developer, p
 **সাধারণ ভুল:** কোনো nuance ছাড়া "GetX খারাপ" বা "GetX সেরা" বলে দেওয়া। শক্ত উত্তর ছোট app-এ এর গতির প্রশংসা করে। সাথে বড় team-এর জন্য নির্দিষ্ট খরচগুলো বলে (global state, implicit `Get.find`, mock করা কঠিন)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"`Obx` vs `GetBuilder`?"* → `Obx` স্বয়ংক্রিয় আর reactive; `GetBuilder` হাতে `update()` দিয়ে চলে আর হালকা।
+- *"`Obx` vs `GetBuilder`?"* → `Obx` automatic আর reactive; `GetBuilder` হাতে `update()` দিয়ে চলে আর হালকা।
 - *"Testing কেন কঠিন?"* → `Get.find` দিয়ে আসা global singleton-কে mock দিয়ে বদলানো কঠিন। Constructor দিয়ে inject করা dependency বদলানো সহজ।
 
 **সম্পর্কিত:** [Q6 — Provider](#q6) · [Q13 — Riverpod](#q13) · [Q17 — কোন solution বাছবেন](#q17)
@@ -1283,10 +1283,10 @@ class BadState {
 }
 ```
 
-এখন প্রতিটা widget-কে আন্দাজ করতে হয় কোন flag-টা জেতে। আর ভুল করে অর্থহীন state বানিয়ে ফেলাও সম্ভব।
+এখন প্রতিটা widget-কে আন্দাজ করতে হয় কোন flag-টা জেতে। আর ভুল করে মানে নেই এমন state বানিয়ে ফেলাও সম্ভব।
 
 **ধাপ ২ — Sealed union: প্রতি case-এ একটা type।**
-একটা `sealed` class এক file-এ সম্ভাব্য সব state-এর তালিকা রাখে। প্রতিটা state ঠিক যতটুকু data দরকার ততটুকুই বহন করে — এর বেশি কিছু নয়।
+একটা `sealed` class এক file-এ হতে পারে এমন সব state-এর তালিকা রাখে। প্রতিটা state ঠিক যতটুকু data দরকার ততটুকুই বহন করে — এর বেশি কিছু নয়।
 
 ```dart
 sealed class ResultState<T> {
@@ -1387,12 +1387,12 @@ class AsyncStateWidget<T> extends StatelessWidget {
 
 ---
 
-## <a id="q16"></a>16. সম্পূর্ণ সম্পর্কহীন দুটি screen-এর মধ্যে state কীভাবে share করবেন?
+## <a id="q16"></a>16. সম্পূর্ণ সম্পর্ক নেই এমন দুটি screen-এর মধ্যে state কীভাবে share করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q16)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"'সম্পর্কহীন' মানে কোনো screen-ই অন্যটির ancestor নয়। তাই আমাকে state দুটোরই উপরে রাখতে হবে, অথবা tree-র একদম বাইরে রাখতে হবে। সবচেয়ে পরিষ্কার উপায় হলো `MaterialApp`-এর মতো common ancestor-এ একটা Provider/BLoC রাখা, অথবা একটা Riverpod provider ব্যবহার করা। Riverpod provider global আর tree-নিরপেক্ষ, তাই দুই screen একই instance পড়ে। আমি global mutable variable এড়িয়ে চলি, কারণ data বদলায় কিন্তু UI কখনো update হয় না।"
+"'সম্পর্ক নেই এমন' মানে কোনো screen-ই অন্যটির ancestor নয়। তাই আমাকে state দুটোরই উপরে রাখতে হবে, অথবা tree-র একদম বাইরে রাখতে হবে। সবচেয়ে পরিষ্কার উপায় হলো `MaterialApp`-এর মতো common ancestor-এ একটা Provider/BLoC রাখা, অথবা একটা Riverpod provider ব্যবহার করা। Riverpod provider global আর tree-নিরপেক্ষ, তাই দুই screen একই instance পড়ে। আমি global mutable variable এড়িয়ে চলি, কারণ data বদলায় কিন্তু UI কখনো update হয় না।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1432,7 +1432,7 @@ class OrdersScreen extends ConsumerWidget {
   }
 }
 
-// Screen B — tab 2-এর গভীরে, সম্পূর্ণ সম্পর্কহীন
+// Screen B — tab 2-এর গভীরে, সম্পূর্ণ সম্পর্ক নেই এমন
 class CatalogScreen extends ConsumerWidget {
   const CatalogScreen({super.key});
   @override
@@ -1521,7 +1521,7 @@ final cartProvider = NotifierProvider<CartNotifier, CartState>(CartNotifier.new)
 ```
 
 **ধাপ ৪ — সমস্যার আকারের সাথে tool মিলিয়ে নিন।**
-একটা toggle-এর জন্য BLoC আনবেন না, আর app-wide auth `setState` দিয়ে সামলাবেন না। Over-engineering আর under-engineering দুটোই red flag; সঠিক মাপ বিচারবুদ্ধি দেখায়।
+একটা toggle-এর জন্য BLoC আনবেন না, আর app-wide auth `setState` দিয়ে সামলাবেন না। Over-engineering আর under-engineering দুটোই red flag; সঠিক মাপ বুদ্ধি দেখায়।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা senior-level প্রশ্ন। তাঁরা কোনো পক্ষপাতী উত্তর চান না — তাঁরা প্রমাণ চান যে আপনি trade-off বিচার করতে পারেন, team-এর অবস্থা ভাবতে পারেন, আর বাস্তবভাবে সিদ্ধান্ত নিতে পারেন।
 
@@ -1542,7 +1542,7 @@ final cartProvider = NotifierProvider<CartNotifier, CartState>(CartNotifier.new)
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q18)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"আমি `bloc_test` package আর তার `blocTest` helper ব্যবহার করি। Pattern-টা এমন: `build` mock করা dependency দিয়ে bloc তৈরি করে, `act` একটা action চালায় — Bloc-এর জন্য একটা event add করা, Cubit-এর জন্য একটা method call করা — আর `expect` emit হওয়া state-গুলোর সঠিক ধারাবাহিকতা assert করে। Dependency আছে এমন Bloc-এর ক্ষেত্রে আমি repository mock করি আর সেটা call হয়েছে কি না verify করি। মূল ফাঁদ হলো `blocTest` initial state বাদ দেয়, তাই আমি শুধু action-এর পরে emit হওয়া state-গুলো লিখি।"
+"আমি `bloc_test` package আর তার `blocTest` helper ব্যবহার করি। Pattern-টা এমন: `build` mock করা dependency দিয়ে bloc তৈরি করে, `act` একটা action চালায় — Bloc-এর জন্য একটা event add করা, Cubit-এর জন্য একটা method call করা — আর `expect` emit হওয়া state-গুলো ঠিক পরপর আসছে কি না assert করে। Dependency আছে এমন Bloc-এর ক্ষেত্রে আমি repository mock করি আর সেটা call হয়েছে কি না verify করি। মূল ফাঁদ হলো `blocTest` initial state বাদ দেয়, তাই আমি শুধু action-এর পরে emit হওয়া state-গুলো লিখি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1587,7 +1587,7 @@ void main() {
 ```
 
 **ধাপ ৪ — mock করা dependency সহ একটা Bloc test করা।**
-Repository mock করুন, একটা event চালান, তারপর state-এর ধারাবাহিকতা আর repo call হয়েছে কি না — দুটোই assert করুন।
+Repository mock করুন, একটা event চালান, তারপর state পরপর ঠিক আসছে কি না, আর repo call হয়েছে কি না — দুটোই assert করুন।
 
 ```dart
 group('AuthBloc', () {
@@ -1627,9 +1627,9 @@ group('AuthBloc', () {
 **ধাপ ৫ — অসুখী path-গুলোও test করুন।**
 শুধু success test করবেন না। Failure test করুন, edge case test করুন (যেমন `close()`-এর পরে একটা method call করা), আর mock setup ভাগ করে নিতে `setUp`/`tearDown` ব্যবহার করুন। ভালো candidate-রা error-state-এর test দেখান, শুধু happy path নয়।
 
-**Interviewer কেন জিজ্ঞেস করে:** Team-রা BLoC/Cubit বেছে নেওয়ার প্রধান কারণ testability। তাঁরা আশা করেন আপনি `blocTest`, mocking, আর state-এর ধারাবাহিকতা assert করা জানেন।
+**Interviewer কেন জিজ্ঞেস করে:** Team-রা BLoC/Cubit বেছে নেওয়ার প্রধান কারণ testability। তাঁরা আশা করেন আপনি `blocTest`, mocking, আর state পরপর ঠিক আসছে কি না assert করা জানেন।
 
-**সাধারণ ভুল:** `expect`-এ initial state রেখে দেওয়া। `blocTest` নিজে থেকেই এটা বাদ দেয়। তাই 0 থেকে শুরু হওয়া একটা counter-এর জন্য `expect: () => [0, 1]` লিখলে fail করবে — এটা হওয়া উচিত `[1]`। আরেকটা: শুধু happy path test করা আর error state উপেক্ষা করা।
+**সাধারণ ভুল:** `expect`-এ initial state রেখে দেওয়া। `blocTest` নিজে থেকেই এটা বাদ দেয়। তাই 0 থেকে শুরু হওয়া একটা counter-এর জন্য `expect: () => [0, 1]` লিখলে fail করবে — এটা হওয়া উচিত `[1]`। আরেকটা: শুধু happy path test করা আর error state বাদ দেওয়া।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Initial state `expect`-এ থাকে না কেন?"* → `blocTest` শুধু action-এর **পরে** emit হওয়া state record করে; initial state তো `super(...)` দিয়ে আগেই set হয়ে গেছে।
@@ -1654,7 +1654,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 |---|---|---|---|---|
 | কীসের জন্য ভালো | একটা widget-এর state | ছোট/মাঝারি app | নতুন app, সব আকারের | কড়া architecture, জটিল event |
 | Boilerplate | নেই | কম | কম–মাঝারি | মাঝারি (BLoC), কম (Cubit) |
-| Tree-এর উপর নির্ভরশীল? | হ্যাঁ | হ্যাঁ (`BuildContext`) | না (global) | হ্যাঁ (`BlocProvider`) |
+| Tree-এর উপর নির্ভর করে এমন? | হ্যাঁ | হ্যাঁ (`BuildContext`) | না (global) | হ্যাঁ (`BlocProvider`) |
 | Testability | দুর্বল | ভালো | শক্তিশালী | শক্তিশালী |
 | build-এ পড়া | widget-টি rebuild হয় | `context.watch` | `ref.watch` | `BlocBuilder` |
 | একবারের জন্য পড়া | সরাসরি field | `context.read` | `ref.read` | `context.read<Bloc>()` |
@@ -1709,7 +1709,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 - **Riverpod** provider global (tree নেই, "not found" crash নেই)। `ref.watch/read/listen`; `AsyncValue.when`; `autoDispose`। ([Q13](#q13))
 - **GetX**: `.obs` + `Obx` নিজে থেকে rebuild করে, `GetBuilder` + `update()` হাতে করতে হয়। Boilerplate কম, কিন্তু global magic testing-এ ঝামেলা করে। ([Q14](#q14))
 - **Sealed union state** অসম্ভব state-কে প্রকাশই করতে দেয় না আর exhaustive `switch` বাধ্য করে — `default` লাগে না। ([Q15](#q15))
-- **সম্পর্কহীন screen-এর মধ্যে ভাগ করতে** দুটোরই উপরে তুলুন (common ancestor বা global Riverpod)। সাধারণ global variable কখনোই না। ([Q16](#q16))
+- **সম্পর্ক নেই এমন screen-এর মধ্যে ভাগ করতে** দুটোরই উপরে তুলুন (common ancestor বা global Riverpod)। সাধারণ global variable কখনোই না। ([Q16](#q16))
 - **Tool বাছাই** = team, testability, জটিলতা মিলিয়ে দেখা। Tool মেশানো ঠিক আছে। কখনোই গোঁড়া হবেন না। ([Q17](#q17))
 - **`blocTest` দিয়ে test করুন**: `build` → `act` → `expect`। এটা initial state বাদ দেয়, তাই ওটা তালিকায় লিখবেন না। ([Q18](#q18))
 

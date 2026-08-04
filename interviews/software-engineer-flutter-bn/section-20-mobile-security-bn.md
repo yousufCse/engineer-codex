@@ -1,10 +1,10 @@
 # Section 20 — Mobile & App Security
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা** সহ, আর **link করা** — যাতে আপনি এদিক-ওদিক লাফ দিয়ে ধীরে ধীরে প্রস্তুতি নিতে পারেন। যেখানে দরকার সেখানে code/config দেওয়া আছে।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। যেখানে দরকার সেখানে code/config দেওয়া আছে।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-20-mobile-security-bn.md](../software-engineer-flutter/section-20-mobile-security.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-20-mobile-security.md](../software-engineer-flutter/section-20-mobile-security.md)
 
 ---
 
@@ -13,7 +13,7 @@
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code সহ ধাপে ধাপে ব্যাখ্যা।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
 - **সম্পর্কিত** — যুক্ত প্রশ্নগুলোতে যান · **উপরে ফিরুন** — index-এ ফিরে যান।
 
@@ -108,7 +108,7 @@ OWASP (Open Worldwide Application Security Project) সবচেয়ে সা
 | Extraneous functionality | পড়ে থাকা debug/test backdoor |
 
 **ধাপ ৩ — বারবার আসা শিক্ষা।**
-বেশিরভাগ mobile ঝুঁকি শেষমেশ তিনটা কথায় দাঁড়ায়: **device-কে বিশ্বাস করবেন না**, **at rest আর in transit দুই অবস্থাতেই data রক্ষা করুন**, আর **app-এর ভেতরে কখনোই secret রাখবেন না**। App চলে এমন একটা device-এ, যেটা attacker-এর পুরো নিয়ন্ত্রণে থাকতে পারে।
+বেশিরভাগ mobile ঝুঁকি শেষমেশ তিনটা কথায় দাঁড়ায়: **device-কে বিশ্বাস করবেন না**, **at rest আর in transit দুই অবস্থাতেই data রক্ষা করুন**, আর **app-এর ভেতরে কখনোই secret রাখবেন না**। App চলে এমন একটা device-এ, যেটা attacker-এর পুরো control-এ থাকতে পারে।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় mobile security নিয়ে আপনার একটা গোছানো ধারণা আছে, শুধু এলোমেলো টিপস নয়।
 
@@ -174,12 +174,12 @@ Device-এ sensitive data অবশ্যই encrypt করা থাকতে �
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q3)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"SharedPreferences data রাখে plain text-এ — rooted Android device-এ বা backup-এর মাধ্যমে যে কেউ সেটা পড়তে পারে। তাই এতে কখনোই token, password বা ব্যক্তিগত data রাখা যাবে না। Secret-এর জন্য আমি `flutter_secure_storage` ব্যবহার করি। এটা সেগুলো রাখে iOS Keychain আর Android Keystore/EncryptedSharedPreferences-এ, যার পেছনে থাকে OS-level encryption।"
+"SharedPreferences data রাখে plain text-এ — rooted Android device-এ বা backup দিয়ে যে কেউ সেটা পড়তে পারে। তাই এতে কখনোই token, password বা ব্যক্তিগত data রাখা যাবে না। Secret-এর জন্য আমি `flutter_secure_storage` ব্যবহার করি। এটা সেগুলো রাখে iOS Keychain আর Android Keystore/EncryptedSharedPreferences-এ, যার পেছনে থাকে OS-level encryption।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Secret-এর জন্য SharedPreferences কেন অনিরাপদ।**
-এটা লেখে একটা সাধারণ XML/plist file-এ। Rooted বা jailbroken device-এ, অথবা device backup-এর মাধ্যমে সেই file সরাসরি পড়া যায়। Theme setting-এর জন্য ঠিক আছে; token-এর জন্য কখনোই নয়।
+এটা লেখে একটা সাধারণ XML/plist file-এ। Rooted বা jailbroken device-এ, অথবা device backup দিয়ে সেই file সরাসরি পড়া যায়। Theme setting-এর জন্য ঠিক আছে; token-এর জন্য কখনোই নয়।
 
 **ধাপ ২ — নিরাপদ উপায়: flutter_secure_storage।**
 
@@ -250,7 +250,7 @@ flutter build apk --dart-define=API_KEY=$API_KEY
 const apiKey = String.fromEnvironment('API_KEY'); // build-এর সময় inject হয়
 ```
 
-এতে key git-এর বাইরে থাকে। কিন্তু খেয়াল রাখুন: value কিন্তু build হওয়া binary-তেই থাকে। তাই এটা শুধু কম sensitive key-এর জন্য উপযুক্ত।
+এতে key git-এর বাইরে থাকে। কিন্তু খেয়াল রাখুন: value কিন্তু build হওয়া binary-তেই থাকে। তাই এটা শুধু কম sensitive key-এর জন্য মানানসই।
 
 **ধাপ ৩ — সবচেয়ে ভালো: আসল secret server-এ রাখুন।**
 সত্যিই sensitive কিছুর জন্য (payment secret, admin key), app-এর *আপনার নিজের* backend-কে call করা উচিত। Backend-ই secret ধরে রাখে আর third party-র সাথে কথা বলে। Secret কখনোই device-এ ship হয় না।
@@ -360,12 +360,12 @@ final dio = Dio();
 };
 ```
 
-(এর জন্য আলাদা package আর `certificate_pinning` পদ্ধতিও আছে; ধারণাটা একই — একটা পরিচিত value-র সাথে মিলিয়ে যাচাই করা।)
+(এর জন্য আলাদা package আর `certificate_pinning` উপায়ও আছে; ধারণাটা একই — একটা পরিচিত value-র সাথে মিলিয়ে যাচাই করা।)
 
 **ধাপ ৪ — Trade-off: pin rotation।**
 Certificate-এর মেয়াদ শেষ হয় আর সেগুলো বদলায়। আপনি একটা pin করলেন, সেটা বদলে গেলে app কাজ করবে না — update না করা পর্যন্ত। এটা কমাতে **public key** pin করুন (cert-এর চেয়ে বেশি স্থিতিশীল), একটা backup key-ও pin করুন, আর update করার একটা পথ রাখুন।
 
-**Interviewer কেন জিজ্ঞেস করে:** MITM-এর বিরুদ্ধে pinning-ই মূল প্রতিরক্ষা, আর এটা network security-তে আপনার গভীরতা দেখায়।
+**Interviewer কেন জিজ্ঞেস করে:** MITM-এর বিরুদ্ধে pinning-ই মূল সুরক্ষা, আর এটা network security-তে আপনার গভীরতা দেখায়।
 
 **সাধারণ ভুল:** Certificate rotation-এর কথা ভুলে যাওয়া — server cert renew করলে app হঠাৎ connect করতে পারে না। Key pin করুন আর একটা backup রাখুন।
 
@@ -391,20 +391,20 @@ Certificate-এর মেয়াদ শেষ হয় আর সেগুল
 ভাবুন, কেউ আপনার চিঠি আপনার কাছে পৌঁছানোর আগে চুপচাপ খুলে পড়ে আবার সিল করে দিচ্ছে। MITM attacker আপনার network traffic-এর সাথে ঠিক এটাই করে। আপনি ভাবছেন server-এর সাথে কথা বলছেন, কিন্তু মাঝখানে সে বসে আছে।
 
 **ধাপ ২ — এটা কীভাবে ঘটে।**
-- Attacker-এর নিয়ন্ত্রণে থাকা public বা নকল Wi-Fi।
+- Attacker-এর control-এ থাকা public বা নকল Wi-Fi।
 - Device-এ বসানো ক্ষতিকর বা নকল trusted certificate।
 - সাধারণ HTTP traffic (কোনো encryption নেই)।
 
-**ধাপ ৩ — প্রতিরক্ষাগুলো।**
+**ধাপ ৩ — সুরক্ষাগুলো।**
 1. **সব জায়গায় HTTPS** — সব traffic encrypt করুন; কখনোই সাধারণ HTTP নয় ([Q2](#q2))।
 2. **Certificate pinning** — শুধু নিজের পরিচিত certificate বিশ্বাস করুন, তাহলে নকলটা fail করবে ([Q6](#q6))।
-3. Release-এ **user-এর যোগ করা certificate বিশ্বাস করবেন না** (network security এমনভাবে configure করুন যেন সেগুলো উপেক্ষা করে)।
+3. Release-এ **user-এর যোগ করা certificate বিশ্বাস করবেন না** (network security এমনভাবে configure করুন যেন সেগুলো বাদ দেয়)।
 4. **সবকিছু server-side-এ validate করুন** — কখনোই শুধু client-এর উপর ভরসা করবেন না।
 
 **ধাপ ৪ — এটা test করুন।**
 Charles Proxy বা mitmproxy-র মতো tool একটা MITM নকল করে দেখায়। Pin করা app-এর ওগুলোর মধ্য দিয়ে connect করতে *ব্যর্থ* হওয়া উচিত — এভাবেই pinning কাজ করছে কি না নিশ্চিত হবেন।
 
-**Interviewer কেন জিজ্ঞেস করে:** MITM হলো ক্লাসিক network আক্রমণ; তাঁরা দেখেন আপনি স্তরে স্তরে প্রতিরক্ষা জানেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** MITM হলো ক্লাসিক network আক্রমণ; তাঁরা দেখেন আপনি স্তরে স্তরে সুরক্ষা জানেন কি না।
 
 **সাধারণ ভুল:** ভাবা যে শুধু HTTPS-ই যথেষ্ট। HTTPS সাধারণ আড়ি পাতা থামায়, কিন্তু নকল trusted certificate সেটা হারিয়ে দেয় — ওটা থামায় pinning।
 
@@ -455,15 +455,15 @@ db.query('users', where: 'name = ?', whereArgs: [userInput]); // নিরাপ
 - **Input validate করুন** (type, length, অনুমোদিত character)।
 - **Least privilege** — DB user/role শুধু যতটুকু দরকার ততটুকুই করতে পারবে।
 
-**ধাপ ৪ — এটা backend-এও প্রযোজ্য।**
+**ধাপ ৪ — এটা backend-এও খাটে।**
 আপনার server-এর database-এও একই নিয়ম খাটে। বেশিরভাগ ORM default-ভাবেই parameterize করে — শুধু raw concatenated SQL-এ নেমে যাবেন না।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা input handling-এর একটা মৌলিক অভ্যাস যাচাই করে, যা device আর server দুই জায়গাতেই লাগে।
+**Interviewer কেন জিজ্ঞেস করে:** এটা input handling-এর একটা গোড়ার অভ্যাস যাচাই করে, যা device আর server দুই জায়গাতেই লাগে।
 
 **সাধারণ ভুল:** String interpolation (`'$input'`) দিয়ে SQL বানানো। সবসময় placeholder ব্যবহার করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"এটা কি NoSQL-এও প্রযোজ্য?"* → হ্যাঁ — "NoSQL injection"-ও আছে; কোনো query-তেই raw input বিশ্বাস করবেন না।
+- *"এটা কি NoSQL-এও খাটে?"* → হ্যাঁ — "NoSQL injection"-ও আছে; কোনো query-তেই raw input বিশ্বাস করবেন না।
 
 **সম্পর্কিত:** [Q8 (DSA) — none] · [Q12 (Networking) — sqflite/drift](section-07-networking-storage-bn.md#q12)
 
@@ -510,7 +510,7 @@ Refresh token নিজেই invalid/expired হলে user-কে আবার
 
 **Interviewer কেন জিজ্ঞেস করে:** প্রতিটা authenticated app-এ token handling মূল জিনিস। তাঁরা দেখেন আপনি short/long-lived ভাগটা আর secure storage বোঝেন কি না।
 
-**সাধারণ ভুল:** চিরকালের জন্য একটাই long-lived token ব্যবহার করা (leak হলে ক্ষতির পরিধি বিশাল), অথবা token SharedPreferences-এ রাখা।
+**সাধারণ ভুল:** চিরকালের জন্য একটাই long-lived token ব্যবহার করা (leak হলে ক্ষতির সীমা বিশাল), অথবা token SharedPreferences-এ রাখা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Refresh token rotation?"* → প্রতিবার refresh-এ নতুন refresh token দিন আর পুরোনোটা invalid করে দিন। ফলে চুরি হওয়া refresh token দ্রুত অকেজো হয়ে যায়।
@@ -673,12 +673,12 @@ if (didAuth) {
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q13)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Obfuscation আমার compiled code-কে এলোমেলো করে দেয় — class আর method-এর নাম বদলে অর্থহীন symbol বানায়। ফলে কারও জন্য app decompile করে বোঝা অনেক কঠিন হয়ে যায়। Flutter-এ release build-এর সময় `--obfuscate --split-debug-info` দিয়ে এটা enable করি। এটা reverse engineering-এর কষ্ট বাড়ায়, কিন্তু আসল security-র বিকল্প নয়।"
+"Obfuscation আমার compiled code-কে এলোমেলো করে দেয় — class আর method-এর নাম বদলে মানে নেই এমন symbol বানায়। ফলে কারও জন্য app decompile করে বোঝা অনেক কঠিন হয়ে যায়। Flutter-এ release build-এর সময় `--obfuscate --split-debug-info` দিয়ে এটা enable করি। এটা reverse engineering-এর কষ্ট বাড়ায়, কিন্তু আসল security-র বিকল্প নয়।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — এটা কী করে।**
-একটা release app decompile করা যায়। Obfuscation পড়ার মতো নামগুলো (`AuthService.refreshToken`) বদলে অর্থহীন করে দেয় (`a.b`)। ফলে decompiled code অনুসরণ করা কঠিন — যেন blueprint-এর সব label ছিঁড়ে ফেলা হয়েছে।
+একটা release app decompile করা যায়। Obfuscation পড়ার মতো নামগুলো (`AuthService.refreshToken`) বদলে মানে নেই এমন করে দেয় (`a.b`)। ফলে decompiled code পড়া কঠিন — যেন blueprint-এর সব label ছিঁড়ে ফেলা হয়েছে।
 
 **ধাপ ২ — Flutter-এ enable করুন।**
 
@@ -691,7 +691,7 @@ flutter build ipa --obfuscate --split-debug-info=build/symbols
 - `--split-debug-info` একটা symbol map সেভ করে রাখে। ফলে crash report আবার de-obfuscate করা যায়। **এই symbol file-গুলো রেখে দিন** (নিজের কাছে, গোপনে) debugging-এর জন্য।
 
 **ধাপ ৩ — Obfuscation যা নয়।**
-এটা reverse engineering *কঠিন* করে, অসম্ভব করে না। আর এটা binary-র ভেতরের secret লুকায় **না** ([Q4](#q4))। একজন নাছোড় attacker এখনও app বিশ্লেষণ করতে পারে। এটা একটা স্তর, পুরো প্রতিরক্ষা নয়।
+এটা reverse engineering *কঠিন* করে, অসম্ভব করে না। আর এটা binary-র ভেতরের secret লুকায় **না** ([Q4](#q4))। একজন নাছোড় attacker এখনও app খুঁটিয়ে দেখতে পারে। এটা একটা স্তর, পুরো সুরক্ষা নয়।
 
 **ধাপ ৪ — অন্য স্তরের সাথে মিলিয়ে ব্যবহার করুন।**
 এর সাথে রাখুন — কোনো hardcoded secret নয়, server-side check, আর দরকার হলে integrity/root check ([Q14](#q14))। Defense in depth।
@@ -737,14 +737,14 @@ if (isCompromised) {
 আপনার app-এর ঝুঁকির মাত্রা দেখে সিদ্ধান্ত নিন। অকারণে প্রতিটা power user-কে আটকে দেবেন না।
 
 **ধাপ ৪ — সৎ সতর্কতা।**
-Detection একটা **ইঁদুর-বিড়ালের খেলা** — নাছোড় attacker root লুকাতে পারে বা আপনার check patch করে সরিয়ে দিতে পারে (কারণ check চলে তাদেরই নিয়ন্ত্রণে থাকা device-এ)। এটা বাধা বাড়ায়, কিন্তু নিখুঁত নয়। জরুরি security সবসময় server-এ রাখুন।
+Detection একটা **ইঁদুর-বিড়ালের খেলা** — নাছোড় attacker root লুকাতে পারে বা আপনার check patch করে সরিয়ে দিতে পারে (কারণ check চলে তাদেরই control-এ থাকা device-এ)। এটা বাধা বাড়ায়, কিন্তু নিখুঁত নয়। জরুরি security সবসময় server-এ রাখুন।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা বাস্তব threat modeling যাচাই করে — client-side detection-এর মূল্য আর সীমা দুটোই জানা আছে কি না।
 
-**সাধারণ ভুল:** Root detection-কে শক্ত security সীমানা হিসেবে বিশ্বাস করা। এটা এমন একটা signal যা bypass করা যায়। আসল security server-কেই প্রয়োগ করতে হবে।
+**সাধারণ ভুল:** Root detection-কে শক্ত security সীমানা হিসেবে বিশ্বাস করা। এটা এমন একটা signal যা bypass করা যায়। আসল security server-কেই কাজে লাগাতে হবে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"এটা কি bypass করা যায়?"* → হ্যাঁ — check চলে attacker-এর নিয়ন্ত্রণে থাকা device-এ, তাই তারা এটা হারাতে পারে; কখনোই শুধু এর উপর ভরসা করবেন না।
+- *"এটা কি bypass করা যায়?"* → হ্যাঁ — check চলে attacker-এর control-এ থাকা device-এ, তাই তারা এটা হারাতে পারে; কখনোই শুধু এর উপর ভরসা করবেন না।
 
 **সম্পর্কিত:** [Q3 — secure storage](#q3) · [Q13 — obfuscation](#q13)
 
@@ -772,7 +772,7 @@ Detection একটা **ইঁদুর-বিড়ালের খেলা**
 Deep-link parameter-কে অবিশ্বস্ত input হিসেবে ধরুন:
 - সব কিছু validate আর sanitize করুন ([Q8](#q8))।
 - OAuth-এর ক্ষেত্রে PKCE ([Q10](#q10)) code-কে রক্ষা করে, link ধরা পড়লেও।
-- Sensitive deep link-এ কাজ করার আগে auth বাধ্যতামূলক করুন (link বলেছে বলেই টাকা transfer করে ফেলবেন না)।
+- Sensitive deep link-এ কাজ করার আগে auth অবশ্যই চালু করুন (link বলেছে বলেই টাকা transfer করে ফেলবেন না)।
 
 **ধাপ ৪ — Flutter-এ।**
 Deep link-এর জন্য `go_router`-এর মতো router ব্যবহার করুন, App Links/Universal Links ঠিকমতো configure করুন, আর একটা guard/redirect যোগ করুন যেটা protected destination খোলার আগে auth check করে।
@@ -817,7 +817,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 ## এক-লাইনের মনে করিয়ে দেওয়া কথা
 
-- **Client-কে বিশ্বাস করবেন না** — app-এর ভেতরের সব কিছু দেখে ফেলা যায়; server-এ প্রয়োগ করুন। ([Q1](#q1))
+- **Client-কে বিশ্বাস করবেন না** — app-এর ভেতরের সব কিছু দেখে ফেলা যায়; server-এ কাজে লাগান। ([Q1](#q1))
 - **In transit (HTTPS) আর at rest (secure storage) — দুই জায়গাতেই encrypt করুন** — দুটোই দরকার। ([Q2](#q2))
 - **SharedPreferences = plain text**; secret-এর জন্য `flutter_secure_storage` ব্যবহার করুন। ([Q3](#q3))
 - **কখনোই secret hardcode করবেন না** — সেগুলো binary-তে চলে যায়; আসলগুলো server-এ রাখুন। ([Q4](#q4))
@@ -846,6 +846,6 @@ Security interview-এ tool-এর পেছনের threat নিয়ে খ
 4. *"একটা JWT user-এর role বহন করছে — client-এ এটা বিশ্বাস করা কি নিরাপদ?"* → server-side verify করুন; payload পড়া যায় আর client অবিশ্বস্ত।
 5. *"Mobile-এ OAuth redirect কীভাবে নিরাপদ করেন?"* → Authorization Code + PKCE + App/Universal Links, যাতে ধরা পড়া code কোনো কাজে না লাগে।
 
-আগে *threat*-এর নাম বলা, তারপর *স্তরে স্তরে প্রতিরক্ষা* বলা — আর "client-কে বিশ্বাস করবেন না" কথাটায় জোর দেওয়া — এটাই ঠিক senior signal, remote আর BD দুই ধরনের interview-তেই।
+আগে *threat*-এর নাম বলা, তারপর *স্তরে স্তরে সুরক্ষা* বলা — আর "client-কে বিশ্বাস করবেন না" কথাটায় জোর দেওয়া — এটাই ঠিক senior signal, remote আর BD দুই ধরনের interview-তেই।
 
 [↑ উপরে ফিরুন](#toc)

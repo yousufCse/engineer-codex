@@ -1,10 +1,10 @@
 # Section 21 — Mobile-এর জন্য System Design
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link করা** — যাতে আপনি এদিক-সেদিক ঘুরে ধাপে ধাপে প্রস্তুতি নিতে পারেন। Design-গুলোতে সরল diagram আর মূল সিদ্ধান্ত আছে, code-এর পাহাড় নয়।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। Design-গুলোতে সরল diagram আর মূল সিদ্ধান্ত আছে, code-এর পাহাড় নয়।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-21-system-design-bn.md](../software-engineer-flutter/section-21-system-design.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-21-system-design.md](../software-engineer-flutter/section-21-system-design.md)
 
 ---
 
@@ -15,7 +15,7 @@
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
 - **এবার পুরোটা বুঝি** — ধাপে ধাপে design, সাথে একটা diagram আর মূল সিদ্ধান্তগুলো।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — index-এ ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে ট্যাগ দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
@@ -54,7 +54,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-**পর্যায় ১ — পদ্ধতি (এখান থেকে শুরু করুন)।**
+**পর্যায় ১ — উপায় (এখান থেকে শুরু করুন)।**
 → [Q1 মূল Framework](#q1) · [Q2 REST vs WebSocket](#q2)
 
 **পর্যায় ২ — ক্লাসিক design-গুলো।**
@@ -105,12 +105,12 @@ Mobile system design মানে শুধু backend-এর box আঁকা �
 **ধাপ ৪ — সারাক্ষণ কথা বলতে থাকুন।**
 জোরে জোরে ভাবুন, box আঁকুন, ধরে নেওয়া কথাগুলো বলুন। সাথে trade-off-এর নাম বলুন ("WebSocket latency কমায়, কিন্তু একটা persistent connection খরচ করে")। Interviewer আপনার যুক্তি আর যোগাযোগ দেখে নম্বর দেন।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা মূল দক্ষতা — তাঁরা দেখতে চান আপনি গোছানো, requirement-আগে পদ্ধতিতে চলেন কি না, মুখস্থ diagram আঁকেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা মূল দক্ষতা — তাঁরা দেখতে চান আপনি গোছানো, requirement-আগে উপায়ে চলেন কি না, মুখস্থ diagram আঁকেন কি না।
 
-**সাধারণ ভুল:** Requirement পরিষ্কার না করেই সরাসরি সমাধানে চলে যাওয়া। অথবা mobile-এর নিজস্ব বিষয় (offline, দুর্বল network) বাদ দিয়ে এটাকে শুধু backend প্রশ্নের মতো ভাবা।
+**সাধারণ ভুল:** Requirement পরিষ্কার না করেই সরাসরি সমাধানে চলে যাওয়া। অথবা mobile-এর নিজের বিষয় (offline, দুর্বল network) বাদ দিয়ে এটাকে শুধু backend প্রশ্নের মতো ভাবা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Mobile আর web design-এ পার্থক্য কী?"* → Offline support, অনির্ভরযোগ্য network, সীমিত battery/data, local storage, আর app lifecycle।
+- *"Mobile আর web design-এ পার্থক্য কী?"* → Offline support, ভরসা নেই এমন network, সীমিত battery/data, local storage, আর app lifecycle।
 
 **সম্পর্কিত:** [Q2 — REST vs WebSocket](#q2) · [Q3 (SDLC) — HLD vs LLD](section-19-sdlc-bn.md#q3)
 
@@ -151,7 +151,7 @@ Mobile system design মানে শুধু backend-এর box আঁকা �
 
 **Interviewer কেন জিজ্ঞেস করে:** অনেক design-এ সঠিক transport বেছে নেওয়াই প্রথম সিদ্ধান্ত (chat, live feed)।
 
-**সাধারণ ভুল:** সবকিছুতে WebSocket ব্যবহার করা (অতিরিক্ত জটিল)। অথবা সত্যিকারের real-time দরকারে polling ব্যবহার করা (দেরি হয়, battery খায়)।
+**সাধারণ ভুল:** সবকিছুতে WebSocket ব্যবহার করা (বাড়তি জটিল)। অথবা সত্যিকারের real-time দরকারে polling ব্যবহার করা (দেরি হয়, battery খায়)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"WebSocket ছুটে গেলে কী করবেন?"* → Backoff দিয়ে auto-reconnect, drop ধরার জন্য heartbeat, আর reconnect-এর পরে বাদ পড়া message আবার sync করা।
@@ -200,7 +200,7 @@ Flutter app  ── WebSocket ──►  Chat server  ──►  Message DB
 - **Notification** — user offline থাকলে server একটা **push** পাঠায় ([Q7](#q7))।
 
 **ধাপ ৫ — Trade-off।**
-WebSocket সাথে সাথে delivery দেয়, কিন্তু reconnection/heartbeat logic লাগে। আর অনেক খোলা connection-এর জন্য server resource-ও লাগে। Local DB জটিলতা বাড়ায়, কিন্তু offline আর সাথে সাথে load-এর জন্য এটা অপরিহার্য।
+WebSocket সাথে সাথে delivery দেয়, কিন্তু reconnection/heartbeat logic লাগে। আর অনেক খোলা connection-এর জন্য server resource-ও লাগে। Local DB জটিলতা বাড়ায়, কিন্তু offline আর সাথে সাথে load-এর জন্য এটা অবশ্যই লাগে এমন।
 
 **Interviewer কেন জিজ্ঞেস করে:** Chat mobile-এর প্রতিটা কঠিন বিষয় ছুঁয়ে যায় — real-time, offline, state, storage, ordering।
 
@@ -374,7 +374,7 @@ Upload ধীর হতে পারে। একটা background upload ব্
 **ধাপ ৫ — Trade-off।**
 Chunking + retry জটিলতা বাড়ায়। কিন্তু দুর্বল mobile network-এ বড় file-এর জন্য এটা জরুরি। ছোট ছবির জন্য একটা single multipart upload-ই সহজ আর যথেষ্ট।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি অনির্ভরযোগ্য network-এ বড় data কীভাবে সামলান — এটা mobile-এর একটা বাস্তব চ্যালেঞ্জ।
+**Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি ভরসা নেই এমন network-এ বড় data কীভাবে সামলান — এটা mobile-এর একটা বাস্তব চ্যালেঞ্জ।
 
 **সাধারণ ভুল:** বিশাল uncompressed file একবারে upload করা, কোনো progress বা retry ছাড়া। ফলে এক মুহূর্তের network drop-এ পুরো upload নষ্ট হয়।
 
@@ -409,7 +409,7 @@ User taps → app opens / deep-links to the right screen
 ```
 
 **ধাপ ৩ — App-এর তিনটা অবস্থা সামলান।**
-- **Foreground** — আপনার code একটা in-app banner দেখায় (নিয়ন্ত্রণ আপনার হাতে)।
+- **Foreground** — আপনার code একটা in-app banner দেখায় (control আপনার হাতে)।
 - **Background** — OS notification দেখায়; tap করলে app খোলে।
 - **Terminated** — OS-ই দেখায়; tap করলে app cold-start হয়; সঠিক route-এ যেতে launch payload পড়ুন।
 
@@ -430,7 +430,7 @@ final initial = await FirebaseMessaging.instance.getInitialMessage(); // termina
 **সাধারণ ভুল:** শুধু foreground অবস্থাটা সামলানো আর background/terminated ভুলে যাওয়া। অথবা device token refresh হলে backend update না করা (ফলে notification চুপচাপ বন্ধ হয়ে যায়)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"এক user-এর একাধিক device থাকলে কীভাবে পাঠাবেন?"* → প্রতি user-এর জন্য একাধিক token রাখুন; সবগুলোতে পাঠান (অথবা FCM topic/user-based fan-out ব্যবহার করুন)।
+- *"এক user-এর একের বেশি device থাকলে কীভাবে পাঠাবেন?"* → প্রতি user-এর জন্য একের বেশি token রাখুন; সবগুলোতে পাঠান (অথবা FCM topic/user-based fan-out ব্যবহার করুন)।
 
 **সম্পর্কিত:** [Q3 — chat (offline push)](#q3) · [Q15 (Security) — deep links](section-20-mobile-security-bn.md#q15)
 
@@ -568,7 +568,7 @@ Clean Architecture (presentation → domain → data) আর DI ([Q2 Architectur
 **ধাপ ৫ — Trade-off।**
 Modularization শুরুতে setup আর tooling-এর জটিলতা বাড়ায়। ছোট app-এ এটা বাড়াবাড়ি। কিন্তু 50+ screen আর 10+ dev-এর ক্ষেত্রে এটাই ঠিক করে দেয় — আপনি মসৃণভাবে বাড়বেন, নাকি conflict-এ ডুবে যাবেন।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা senior/lead প্রশ্ন — team আর codebase scale করা নিয়ে, বিচারবুদ্ধি আর গঠন দেখার জন্য।
+**Interviewer কেন জিজ্ঞেস করে:** এটা senior/lead প্রশ্ন — team আর codebase scale করা নিয়ে, বুদ্ধি আর গঠন দেখার জন্য।
 
 **সাধারণ ভুল:** একটাই বিশাল module (সবার conflict হয়), অথবা feature গুলো একে অন্যের internal import করে (আবার সেই জট)। আরেকটা ভুল — অসংগত pattern, ফলে প্রতিটা feature আলাদা ভাবে লেখা হয়।
 
@@ -610,7 +610,7 @@ class PaymentSdk {
 - **সুন্দরভাবে error handle** — typed result/exception ফেরত দিন, host app কখনোই crash করবেন না।
 - **Null safety** আর বর্তমান Flutter/Dart version-এর support।
 - **Platform support** — platform channel/Pigeon দিয়ে Android/iOS (আর দরকার হলে web) পরিষ্কারভাবে সামলান।
-- **অপ্রত্যাশিত side effect নয়** — global state দখল করবেন না, host-এর setup নিয়ে ধরে নেবেন না।
+- **হঠাৎ আসা side effect নয়** — global state দখল করবেন না, host-এর setup নিয়ে ধরে নেবেন না।
 
 **ধাপ ৪ — Documentation, versioning, testing।**
 - **Docs + example** — একটা example app আর পরিষ্কার README; SDK বাঁচে বা মরে docs-এর উপর।
@@ -658,7 +658,7 @@ New app  → /v2/orders  (new fields/behaviour)
 ```
 
 **ধাপ ৩ — যেখানে পারেন, পরিবর্তনগুলো backward-compatible রাখুন।**
-- একটা field **যোগ করা** সাধারণত নিরাপদ (পুরোনো app সেটা উপেক্ষা করে)।
+- একটা field **যোগ করা** সাধারণত নিরাপদ (পুরোনো app সেটা বাদ দেয়)।
 - **সরানো/নাম বদলানো/type বদলানো** breaking — এর জন্য নতুন version লাগবে।
 - Response এমনভাবে design করুন যেন client অচেনা field সহ্য করতে পারে।
 
@@ -697,7 +697,7 @@ API/DB error → Data layer (catch, wrap) → domain Failure
 প্রতিটা layer error-টাকে পরের layer-এর জন্য সঠিক রূপে অনুবাদ করে।
 
 **ধাপ ২ — Data layer: exception-কে typed failure-এ বদলান।**
-Raw error (DioException, FormatException) ধরুন আর সেগুলোকে অর্থপূর্ণ domain result-এ রূপান্তর করুন — একটা sealed `Result`/`Either` অথবা নির্দিষ্ট failure type ([Q8 Clean Code](section-16-clean-code-bn.md#q8))।
+Raw error (DioException, FormatException) ধরুন আর সেগুলোকে অর্থপূর্ণ domain result-এ বদলে ফেলুন — একটা sealed `Result`/`Either` অথবা নির্দিষ্ট failure type ([Q8 Clean Code](section-16-clean-code-bn.md#q8))।
 
 ```dart
 Future<Result<User>> getUser() async {
@@ -717,10 +717,10 @@ Cubit/BLoC একটা পরিষ্কার error state emit করে, স
 on failure → emit(FeedError('No internet. Pull to retry.'));
 ```
 
-**ধাপ ৪ — UI: বন্ধুত্বপূর্ণ, কাজে লাগার মতো, সামঞ্জস্যপূর্ণ।**
+**ধাপ ৪ — UI: বন্ধুত্বপূর্ণ, কাজে লাগার মতো, আর সব জায়গায় একই রকম।**
 - একটা **পরিষ্কার message** দেখান ("No internet — pull to retry"), কখনোই stack trace নয়।
 - যেখানে সম্ভব একটা **action** দিন (retry button)।
-- **সামঞ্জস্যপূর্ণ** error widget ব্যবহার করুন (একটা shared error view)।
+- **একই রকম** error widget ব্যবহার করুন (একটা shared error view)।
 
 **ধাপ ৫ — Global নিরাপত্তা জাল।**
 যা কিছু ফাঁক গলে বেরিয়ে যায়, সেটা ধরুন আর report করুন:
@@ -730,9 +730,9 @@ FlutterError.onError = (details) => crashReporter.record(details);
 PlatformDispatcher.instance.onError = (error, stack) { crashReporter.record(...); return true; };
 ```
 
-ফলে অপ্রত্যাশিত crash-ও log হয় (secret মুছে দিয়ে, [Q5 Security](section-20-mobile-security-bn.md#q5)) আর app সুন্দরভাবে degrade করে।
+ফলে হঠাৎ আসা crash-ও log হয় (secret মুছে দিয়ে, [Q5 Security](section-20-mobile-security-bn.md#q5)) আর app সুন্দরভাবে degrade করে।
 
-**Interviewer কেন জিজ্ঞেস করে:** পুরো app জুড়ে error handling ঝকঝকে app-কে ভঙ্গুর app থেকে আলাদা করে; এটা architecture আর UX চিন্তা একসাথে যাচাই করে।
+**Interviewer কেন জিজ্ঞেস করে:** পুরো app জুড়ে error handling ঝকঝকে app-কে ঠুনকো app থেকে আলাদা করে; এটা architecture আর UX চিন্তা একসাথে যাচাই করে।
 
 **সাধারণ ভুল:** User-কে raw exception দেখানো, প্রতি screen-এ আলাদা আলাদা ভাবে error handle করা, অথবা চুপচাপ error গিলে ফেলা (কোনো message নেই, কোনো report নেই)।
 
@@ -762,7 +762,7 @@ Interview-এর সকালে এটা পড়ুন। আগে table, �
 
 ## Transport বেছে নেওয়া
 
-| প্রয়োজন | যা ব্যবহার করবেন |
+| দরকার | যা ব্যবহার করবেন |
 |---|---|
 | সাধারণ CRUD data | REST |
 | Live, দুই-মুখী (chat, presence) | WebSocket |
@@ -807,6 +807,6 @@ Design interview trade-off নিয়ে খোঁড়াখুঁড়ি 
 4. *"50টা screen, 10 জন developer — কীভাবে সাজাবেন?"* → modular feature package, melos দিয়ে monorepo, কঠোরভাবে boundary মানা।
 5. *"একটা API call fail করল — user কী দেখে?"* → layer ধরে error handling দিয়ে একটা বন্ধুত্বপূর্ণ, কাজে লাগার মতো message (stack trace নয়)।
 
-আগে পরিষ্কার করা, তারপর মুখে বলে বলে trade-off নিয়ে যুক্তি সাজানো — এই *প্রক্রিয়াটাই* mobile system-design interview জেতায়, remote হোক বা BD, দুই জায়গাতেই।
+আগে পরিষ্কার করা, তারপর মুখে বলে বলে trade-off নিয়ে যুক্তি সাজানো — এই *process-টাই* mobile system-design interview জেতায়, remote হোক বা BD, দুই জায়গাতেই।
 
 [↑ উপরে ফিরুন](#toc)

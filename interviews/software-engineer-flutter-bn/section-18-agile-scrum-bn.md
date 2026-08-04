@@ -1,10 +1,10 @@
 # Section 18 — Agile, Scrum ও Methodology
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরোপুরি ব্যাখ্যা করা**, আর **link করা** — যাতে আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারেন। এটা একটা process-এর বিষয় — উদাহরণগুলো বাস্তব scenario, code নয়।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। এটা একটা process-এর বিষয় — উদাহরণগুলো বাস্তব scenario, code নয়।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-18-agile-scrum-bn.md](../software-engineer-flutter/section-18-agile-scrum.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-18-agile-scrum.md](../software-engineer-flutter/section-18-agile-scrum.md)
 
 ---
 
@@ -12,10 +12,10 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমেই বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ সহ ধাপে ধাপে ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংশ্লিষ্ট প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে আসুন।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
@@ -89,7 +89,7 @@
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q1)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Agile Manifesto (2001) হলো কিছু value-র তালিকা, যা নমনীয় আর customer-কেন্দ্রিক উপায়ে software বানাতে বলে। এর মূল হলো চারটা value statement — যেমন 'individuals and interactions over processes and tools' আর 'responding to change over following a plan'। এটা বলে না যে ডান পাশের জিনিসগুলো মূল্যহীন; এটা বলে বাম পাশেরগুলোর গুরুত্ব বেশি।"
+"Agile Manifesto (2001) হলো কিছু value-র তালিকা, যা flexible আর customer-কেন্দ্রিক উপায়ে software বানাতে বলে। এর মূল হলো চারটা value statement — যেমন 'individuals and interactions over processes and tools' আর 'responding to change over following a plan'। এটা বলে না যে ডান পাশের জিনিসগুলো মূল্যহীন; এটা বলে বাম পাশেরগুলোর গুরুত্ব বেশি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -108,17 +108,17 @@
 মূল বাক্যটা: "while there is value in the items on the right, we value the items on the left more."
 
 **ধাপ ৩ — ১২টি principle (সারকথা)।**
-এগুলো value-গুলোকে বিস্তারিত করে: ঘন ঘন working software deliver করা, requirement বদলানোকে স্বাগত জানানো, business-এর সাথে ঘনিষ্ঠভাবে কাজ করা, উৎসাহী মানুষদের ঘিরে দল গড়া, নিয়মিত নিজেদের কাজ পর্যালোচনা করে উন্নত হওয়া, আর টেকসই গতিতে কাজ করা।
+এগুলো value-গুলোকে বিস্তারিত করে: ঘন ঘন working software deliver করা, requirement বদলানোকে স্বাগত জানানো, business-এর সাথে কাছ থেকে কাজ করা, উৎসাহী মানুষদের ঘিরে দল গড়া, নিয়মিত নিজেদের কাজ পর্যালোচনা করে উন্নত হওয়া, আর টেকসই গতিতে কাজ করা।
 
 **ধাপ ৪ — Agile যা নয়।**
 Agile মানে "plan নেই" বা "documentation নেই" — এমন নয়। এর মানে *শুরুতে কম কড়াকড়ি* আর *বেশি ঘন ঘন feedback ও সমন্বয়*।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখেন আপনি Agile-এর *মূল ভাব* (feedback আর নমনীয়তা) বোঝেন কি না, শুধু buzzword নয়।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখেন আপনি Agile-এর *মূল ভাব* (feedback আর flexibility) বোঝেন কি না, শুধু buzzword নয়।
 
 **সাধারণ ভুল:** বলা যে Agile মানে "documentation নেই" বা "plan নেই"। এর মানে হলো working software আর মানিয়ে নেওয়ার ক্ষমতাকে *বেশি* মূল্য দেওয়া, বাকিগুলো ছুঁড়ে ফেলা নয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Agile vs Scrum?"* → Agile হলো mindset (value); Scrum হলো একটা নির্দিষ্ট framework যা সেটা বাস্তবায়ন করে ([Q3](#q3))।
+- *"Agile vs Scrum?"* → Agile হলো mindset (value); Scrum হলো একটা নির্দিষ্ট framework যা সেটা কাজে লাগায় ([Q3](#q3))।
 
 **সম্পর্কিত:** [Q2 — Waterfall vs Agile](#q2) · [Q3 — Scrum](#q3)
 
@@ -126,16 +126,16 @@ Agile মানে "plan নেই" বা "documentation নেই" — এম�
 
 ---
 
-## <a id="q2"></a>2. Waterfall আর Agile-এর পার্থক্য কী? কোনটা কখন উপযুক্ত?
+## <a id="q2"></a>2. Waterfall আর Agile-এর পার্থক্য কী? কোনটা কখন মানানসই?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Waterfall ধারাবাহিক — আগে সব requirement শেষ, তারপর design, তারপর build, তারপর test — নির্দিষ্ট ধাপে ধাপে। Agile পুনরাবৃত্তিমূলক — আপনি ছোট ছোট cycle-এ বানান আর release করেন, আর সবসময় feedback পান। যেসব project-এ requirement নির্দিষ্ট ও ভালোভাবে জানা (যেমন regulated বা hardware project), সেখানে Waterfall মানানসই; আর যেখানে requirement বদলায়, সেখানে Agile মানানসই — যা বেশিরভাগ software-এর ক্ষেত্রেই সত্যি।"
+"Waterfall ধাপে ধাপে চলে — আগে সব requirement শেষ, তারপর design, তারপর build, তারপর test — নির্দিষ্ট ধাপে ধাপে। Agile চলে ঘুরে ঘুরে — আপনি ছোট ছোট cycle-এ বানান আর release করেন, আর সবসময় feedback পান। যেসব project-এ requirement নির্দিষ্ট ও ভালোভাবে জানা (যেমন regulated বা hardware project), সেখানে Waterfall মানানসই; আর যেখানে requirement বদলায়, সেখানে Agile মানানসই — যা বেশিরভাগ software-এর ক্ষেত্রেই সত্যি।"
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — Waterfall — একটা বড় ধারাবাহিক লাইন।**
+**ধাপ ১ — Waterfall — একটা বড় একটানা লাইন।**
 
 ```
 Requirements → Design → Build → Test → Release
@@ -154,12 +154,12 @@ Requirements → Design → Build → Test → Release
 | | Waterfall | Agile |
 |---|---|---|
 | Requirement | শুরুতেই নির্দিষ্ট | সময়ের সাথে বদলায় |
-| Feedback | দেরিতে (release-এর পরে) | ক্রমাগত |
-| পরিবর্তন | ব্যয়বহুল, নিরুৎসাহিত | প্রত্যাশিত, স্বাগত |
+| Feedback | দেরিতে (release-এর পরে) | একটানা |
+| পরিবর্তন | খরচ বেশি, মানা করা হয় | expected, স্বাগত |
 | ঝুঁকি | দেরিতে ধরা পড়ে | আগে ধরা পড়ে |
 
 **ধাপ ৪ — কোনটা কখন ব্যবহার করবেন।**
-- **Waterfall** — requirement নির্দিষ্ট ও পরিষ্কার, আর পরিবর্তন ব্যয়বহুল (medical device, construction, fixed-scope contract)।
+- **Waterfall** — requirement নির্দিষ্ট ও পরিষ্কার, আর পরিবর্তন ভারী (medical device, construction, fixed-scope contract)।
 - **Agile** — requirement বদলাবে আর আপনি আগেভাগে feedback চান (বেশিরভাগ app আর product)।
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখেন আপনি project অনুযায়ী process বেছে নিতে পারেন কি না, নাকি গোঁড়ামি করে একটাই চাপিয়ে দেন।
@@ -167,7 +167,7 @@ Requirements → Design → Build → Test → Release
 **সাধারণ ভুল:** দাবি করা যে Agile সবসময় ভালো। সত্যিই fixed-scope আর safety-critical project-এ Waterfall-এর শুরুর কড়া নিয়মই সঠিক পছন্দ হতে পারে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"দুটো কি মেশানো যায়?"* → হ্যাঁ — "hybrid" পদ্ধতিতে নির্দিষ্ট অংশের জন্য শুরুতেই planning হয়, আর বদলাতে থাকা অংশের জন্য Agile cycle চলে।
+- *"দুটো কি মেশানো যায়?"* → হ্যাঁ — "hybrid" উপায়ে নির্দিষ্ট অংশের জন্য শুরুতেই planning হয়, আর বদলাতে থাকা অংশের জন্য Agile cycle চলে।
 
 **সম্পর্কিত:** [Q1 — Agile Manifesto](#q1) · [Q19 (SDLC) — model](section-19-sdlc-bn.md#q1)
 
@@ -204,7 +204,7 @@ Product Backlog → [Sprint Planning] → Sprint Backlog
 **ধাপ ৩ — ছন্দটা।**
 প্রতিটা Sprint একটা পূর্ণ mini-cycle: plan করুন, বানান, দেখান (Review), কাজের ধরন উন্নত করুন (Retrospective), আবার শুরু করুন। প্রতিটা Sprint শেষ হওয়া উচিত এমন কিছু দিয়ে যা ship করা সম্ভব।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা Scrum-এর মৌলিক প্রশ্ন; তাঁরা নিশ্চিত হতে চান আপনি জানেন role, artifact আর event কীভাবে একসাথে কাজ করে।
+**Interviewer কেন জিজ্ঞেস করে:** এটা Scrum-এর গোড়ার প্রশ্ন; তাঁরা নিশ্চিত হতে চান আপনি জানেন role, artifact আর event কীভাবে একসাথে কাজ করে।
 
 **সাধারণ ভুল:** Scrum Master-কে "boss" বা "project manager" বলা। Scrum Master একজন facilitator/coach, manager নন ([Q4](#q4))।
 
@@ -273,7 +273,7 @@ PO = *কী* আর *কেন*। Developer-রা = *কীভাবে* আ�
 
 **ধাপ ২ — Sprint Backlog — এই Sprint-এর পরিকল্পনা।**
 - Product Backlog থেকে *এই* Sprint-এর জন্য নেওয়া item গুলো, সাথে Sprint Goal।
-- এর মালিক Developer-রা; তাঁরাই ঠিক করেন কতটুকু বাস্তবসম্মত।
+- এর মালিক Developer-রা; তাঁরাই ঠিক করেন কতটুকু বাস্তব।
 - Sprint-এর মাঝে খুব একটা বদলায় না (goal সুরক্ষিত থাকে — দেখুন [Q16](#q16))।
 
 **ধাপ ৩ — Increment — কাজ করা ফলাফল।**
@@ -308,12 +308,12 @@ Product Backlog (everything) → Sprint Backlog (this sprint) → Increment (don
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q6)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Sprint হলো একটা নির্দিষ্ট time-box, সাধারণত ২ সপ্তাহ, যার মধ্যে team একটা Sprint Goal-এর দিকে কাজ করা increment বানায়। দৈর্ঘ্যটা নির্দিষ্ট, বাড়ানো হয় না। Goal পূরণ না হলে Sprint বাড়ানো হয় না — অসমাপ্ত কাজ backlog-এ ফিরে যায় আর নতুন করে plan করা হয়, আর Retrospective-এ কারণটা দেখা হয়।"
+"Sprint হলো একটা নির্দিষ্ট time-box, সাধারণত ২ সপ্তাহ, যার মধ্যে team একটা Sprint Goal-এর দিকে কাজ করা increment বানায়। সময়টা নির্দিষ্ট, বাড়ানো হয় না। Goal পূরণ না হলে Sprint বাড়ানো হয় না — অসমাপ্ত কাজ backlog-এ ফিরে যায় আর নতুন করে plan করা হয়, আর Retrospective-এ কারণটা দেখা হয়।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — একটা নির্দিষ্ট time-box।**
-Sprint-এর একটা নির্দিষ্ট দৈর্ঘ্য থাকে (সাধারণত ২ সপ্তাহ; ১–৪ স্বাভাবিক)। দৈর্ঘ্যটা এক রকম থাকে, যাতে team-এর একটা স্থির ছন্দ আর অনুমানযোগ্য velocity তৈরি হয়।
+Sprint-এর একটা নির্দিষ্ট সময় থাকে (সাধারণত ২ সপ্তাহ; ১–৪ স্বাভাবিক)। সময়টা এক রকম থাকে, যাতে team-এর একটা স্থির ছন্দ আর আগে থেকে বোঝা যায় এমন velocity তৈরি হয়।
 
 **ধাপ ২ — মূল নিয়ম।**
 - এমন কোনো পরিবর্তন নয় যা **Sprint Goal**-কে বিপদে ফেলে।
@@ -325,15 +325,15 @@ Sprint-এর একটা নির্দিষ্ট দৈর্ঘ্য থ
 - অসমাপ্ত item **Product Backlog-এ ফিরে যায়**, নতুন করে estimate আর priority করার জন্য।
 - **Retrospective** ([Q9](#q9)) দেখে *কেন* হলো (বেশি কাজ নেওয়া? blocker? অস্পষ্ট story?) আর team নিজেকে ঠিক করে নেয়।
 
-**ধাপ ৪ — নির্দিষ্ট দৈর্ঘ্য কেন গুরুত্বপূর্ণ।**
-এক রকম Sprint দৈর্ঘ্য velocity-কে অর্থবহ করে ([Q13](#q13)) আর একটা নির্ভরযোগ্য delivery ছন্দ তৈরি করে। Sprint বাড়ালে সমস্যা সামনে না এসে লুকিয়ে যায়।
+**ধাপ ৪ — নির্দিষ্ট সময় কেন গুরুত্বপূর্ণ।**
+এক রকম Sprint সময় velocity-কে অর্থবহ করে ([Q13](#q13)) আর একটা ভরসা করা যায় এমন delivery ছন্দ তৈরি করে। Sprint বাড়ালে সমস্যা সামনে না এসে লুকিয়ে যায়।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা Scrum-এর মূল শৃঙ্খলা যাচাই করে — নির্দিষ্ট time-box আর অসমাপ্ত কাজ সৎভাবে সামলানো।
 
 **সাধারণ ভুল:** বলা যে "শেষ করার জন্য আমরা Sprint কয়েক দিন বাড়াই।" এতে time-box ভেঙে যায়; বদলে নতুন করে plan করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Sprint কি বাতিল করা যায়?"* → শুধু PO পারেন, আর তখনই যখন Sprint Goal অপ্রয়োজনীয় হয়ে যায় — এটা বিরল।
+- *"Sprint কি বাতিল করা যায়?"* → শুধু PO পারেন, আর তখনই যখন Sprint Goal দরকার নেই এমন হয়ে যায় — এটা বিরল।
 
 **সম্পর্কিত:** [Q3 — Scrum overview](#q3) · [Q13 — velocity](#q13) · [Q16 — changing requirements](#q16)
 
@@ -359,13 +359,13 @@ Sprint-এর একটা নির্দিষ্ট দৈর্ঘ্য থ
 - **Developer-রা** — estimate করেন, কতটুকু নিতে পারবেন ঠিক করেন, আর item গুলোকে task-এ ভাগ করেন।
 - **SM** — meeting চালান আর সময়ের ভেতরে রাখেন।
 
-**ধাপ ৩ — বাস্তবসম্মত থাকতে velocity ব্যবহার করুন।**
+**ধাপ ৩ — বাস্তব থাকতে velocity ব্যবহার করুন।**
 Team তার গড় velocity ([Q13](#q13)) দেখে, যাতে বেশি কাজ না নিয়ে ফেলে। গড় ২৫ হলে ৪০ point নেওয়া মানে Sprint-কে ব্যর্থ হওয়ার পথে ঠেলে দেওয়া।
 
 **ধাপ ৪ — ফলাফল।**
 একটা স্পষ্ট **Sprint Goal** আর একটা **Sprint Backlog**, যেটা সবাই মানেন যে করা সম্ভব।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা দেখে আপনি বাস্তবসম্মতভাবে plan করেন কি না, আর scope কে ঠিক করে সেটা বোঝেন কি না (team, PO-র priority অনুযায়ী)।
+**Interviewer কেন জিজ্ঞেস করে:** এটা দেখে আপনি বাস্তবভাবে plan করেন কি না, আর scope কে ঠিক করে সেটা বোঝেন কি না (team, PO-র priority অনুযায়ী)।
 
 **সাধারণ ভুল:** PO বা কোনো manager team-এর velocity-র চেয়ে বেশি কাজ *চাপিয়ে* দেন। কতটুকু নেওয়া হবে সেটা team-এর সিদ্ধান্ত।
 
@@ -395,7 +395,7 @@ Team তার গড় velocity ([Q13](#q13)) দেখে, যাতে ব�
 **ধাপ ২ — ছোট আর নির্দিষ্ট রাখুন।**
 - **১৫ মিনিট**-এ time-box করা।
 - এটা *developer*-দের মধ্যে sync, boss-কে দেওয়া report নয়।
-- বিস্তারিত আলোচনা standup-এর পরে "offline"-এ নেওয়া হয়, শুধু সংশ্লিষ্ট মানুষদের নিয়ে।
+- বিস্তারিত আলোচনা standup-এর পরে "offline"-এ নেওয়া হয়, শুধু সম্পর্কিত মানুষদের নিয়ে।
 
 **ধাপ ৩ — যে সাধারণ anti-pattern গুলো এড়াবেন।**
 - এটাকে Scrum Master বা manager-এর *কাছে* status report বানিয়ে ফেলা।
@@ -466,7 +466,7 @@ Team তার গড় velocity ([Q13](#q13)) দেখে, যাতে ব�
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q10)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Backlog refinement হলো একটা চলমান কাজ — ভবিষ্যতের Sprint-এর জন্য backlog item গুলোকে তৈরি করা। মানে item পরিষ্কার করা, বড় গুলো ভাগ করা, acceptance criteria যোগ করা, আর estimate করা। PO আর Developer-রা একসাথে এটা করেন, সাধারণত সপ্তাহে অল্প কিছু সময়। ফলে Sprint Planning দ্রুত হয় আর item গুলো 'ready' থাকে।"
+"Backlog refinement হলো একটা চলতে থাকা কাজ — পরের Sprint-এর জন্য backlog item গুলোকে তৈরি করা। মানে item পরিষ্কার করা, বড় গুলো ভাগ করা, acceptance criteria যোগ করা, আর estimate করা। PO আর Developer-রা একসাথে এটা করেন, সাধারণত সপ্তাহে অল্প কিছু সময়। ফলে Sprint Planning দ্রুত হয় আর item গুলো 'ready' থাকে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -481,7 +481,7 @@ Refinement backlog-এর উপরের অংশটা পরিষ্কা�
 
 **ধাপ ৩ — কে করে আর কত ঘনঘন।**
 - **PO** আর **Developer-রা** একসাথে (SM সাহায্য করেন)।
-- চলমান — প্রায়ই সপ্তাহে ~১টা ছোট session, team-এর সময়ের প্রায় 10%-এর মধ্যে রাখা হয়।
+- চলতে থাকা — প্রায়ই সপ্তাহে ~১টা ছোট session, team-এর সময়ের প্রায় 10%-এর মধ্যে রাখা হয়।
 
 **ধাপ ৪ — Definition of Ready।**
 একটা "ready" item পরিষ্কার, ছোট, estimate করা, আর তার acceptance criteria আছে। তাই এটা নিরাপদে Sprint-এ টেনে নেওয়া যায়। Refinement এই ready item গুলোই বানায়।
@@ -549,7 +549,7 @@ Team মিলে ঠিক করা একটা যৌথ checklist, যে�
 **সাধারণ ভুল:** AC (প্রতি story) আর DoD (পুরো team) গুলিয়ে ফেলা। অথবা এমন story লেখা যা user value-র বদলে technical task বর্ণনা করে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"ভালো story-র বৈশিষ্ট্য কী?"* → INVEST: Independent, Negotiable, Valuable, Estimable, Small, Testable।
+- *"ভালো story কেমন হয়?"* → INVEST: Independent, Negotiable, Valuable, Estimable, Small, Testable।
 
 **সম্পর্কিত:** [Q10 — refinement](#q10) · [Q12 — story points](#q12) · [Q5 — increment ও DoD](#q5)
 
@@ -562,18 +562,18 @@ Team মিলে ঠিক করা একটা যৌথ checklist, যে�
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q12)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Story point কাজের *আপেক্ষিক আকার* estimate করে — এর effort, জটিলতা আর অনিশ্চয়তা — সঠিক ঘণ্টার বদলে। Team এটা পছন্দ করে কারণ মানুষ ঘণ্টা estimate করতে খারাপ, কিন্তু আকার তুলনা করতে মোটামুটি ভালো। আর point নিজেকে নিখুঁত প্রতিশ্রুতি বলে দাবি করে না। Planning poker হলো সেই পদ্ধতি, যেখানে team একসাথে estimate করে আর ভিন্ন ভিন্ন মত সামনে আসে।"
+"Story point কাজের *তুলনায় কত বড়* estimate করে — এর effort, জটিলতা আর ধোঁয়াশা — সঠিক ঘণ্টার বদলে। Team এটা পছন্দ করে কারণ মানুষ ঘণ্টা estimate করতে খারাপ, কিন্তু আকার তুলনা করতে মোটামুটি ভালো। আর point নিজেকে নিখুঁত প্রতিশ্রুতি বলে দাবি করে না। Planning poker হলো সেই উপায়, যেখানে team একসাথে estimate করে আর আলাদা আলাদা মত সামনে আসে।"
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — Point হলো আপেক্ষিক আকার, সময় নয়।**
+**ধাপ ১ — Point হলো তুলনায় কত বড় — সেই মাপ, সময় নয়।**
 T-shirt size (S, M, L) বা Fibonacci scale (1, 2, 3, 5, 8, 13)-এর মতো। ২ point-এর একটা story ১ point-এর story-র "প্রায় দ্বিগুণ আকার" — "২ ঘণ্টা" নয়।
 
 **ধাপ ২ — ঘণ্টার বদলে point কেন।**
-- মানুষ পরম ঘণ্টার চেয়ে *আপেক্ষিক* আকার ভালো estimate করে।
-- Point-এ effort + জটিলতা + অনিশ্চয়তা সবই ধরা পড়ে, শুধু টাইপ করার সময় নয়।
-- ঘণ্টা শুনতে নিখুঁত প্রতিশ্রুতির মতো লাগে (আর ভুল হলে দোষারোপ শুরু হয়); point অনিশ্চয়তা নিয়ে সৎ থাকে।
-- Team-এর velocity ([Q13](#q13)) সময়ের সাথে point-কে অনুমানযোগ্য planning-এ বদলে দেয়।
+- মানুষ সরাসরি ঘণ্টার চেয়ে *তুলনামূলক* আকার ভালো estimate করে।
+- Point-এ effort + জটিলতা + ধোঁয়াশা সবই ধরা পড়ে, শুধু টাইপ করার সময় নয়।
+- ঘণ্টা শুনতে নিখুঁত প্রতিশ্রুতির মতো লাগে (আর ভুল হলে দোষারোপ শুরু হয়); point ধোঁয়াশা নিয়ে সৎ থাকে।
+- Team-এর velocity ([Q13](#q13)) সময়ের সাথে point-কে আগে থেকে বোঝা যায় এমন planning-এ বদলে দেয়।
 
 **ধাপ ৩ — Planning Poker।**
 1. PO একটা story পড়ে শোনান।
@@ -586,7 +586,7 @@ T-shirt size (S, M, L) বা Fibonacci scale (1, 2, 3, 5, 8, 13)-এর মত�
 **ধাপ ৪ — আগে লুকিয়ে, পরে দেখানো কেন।**
 আগে গোপনে vote করলে সবচেয়ে জোরে কথা বলা বা সবচেয়ে senior মানুষটি সবাইকে প্রভাবিত করতে পারেন না। পার্থক্য থেকেই দরকারি আলোচনা শুরু হয়।
 
-**Interviewer কেন জিজ্ঞেস করে:** Estimation সবসময়ই একটা কষ্টের জায়গা; তাঁরা দেখেন আপনি আপেক্ষিক estimation আর team-ভিত্তিক estimate করা বোঝেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** Estimation সবসময়ই একটা কষ্টের জায়গা; তাঁরা দেখেন আপনি তুলনা করে estimation আর team-ভিত্তিক estimate করা বোঝেন কি না।
 
 **সাধারণ ভুল:** Point-কে সরাসরি ঘণ্টায় বদলে ফেলা ("১ point = ৪ ঘণ্টা")। এতে পুরো সুবিধাটাই নষ্ট হয় আর ভুয়া নিখুঁততা ফিরে আসে।
 
@@ -604,7 +604,7 @@ T-shirt size (S, M, L) বা Fibonacci scale (1, 2, 3, 5, 8, 13)-এর মত�
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q13)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Velocity হলো একটা team প্রতি Sprint-এ গড়ে কত story point শেষ করে তার হিসাব। এটা দিয়ে বাস্তবসম্মত planning করা হয় — team-এর গড় ২৫ point হলে তারা ৪০ point-এর কথা দেবে না। এটা team-এর জন্য একটা planning tool, team তুলনা করার বা মানুষের উপর চাপ দেওয়ার productivity score নয়।"
+"Velocity হলো একটা team প্রতি Sprint-এ গড়ে কত story point শেষ করে তার হিসাব। এটা দিয়ে বাস্তব planning করা হয় — team-এর গড় ২৫ point হলে তারা ৪০ point-এর কথা দেবে না। এটা team-এর জন্য একটা planning tool, team তুলনা করার বা মানুষের উপর চাপ দেওয়ার productivity score নয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -620,11 +620,11 @@ Velocity ≈ 24 points per sprint
 Planning-এ team মোটামুটি তার velocity-র সমান কাজ তুলে নেয় — এর বেশি নয়। কয়েকটা Sprint পরে velocity দিয়ে আন্দাজও করা যায়, N point-এর একটা backlog কখন শেষ হবে।
 
 **ধাপ ৩ — গুরুত্বপূর্ণ সতর্কতা।**
-- Velocity **প্রতিটা team-এর নিজস্ব** — কখনোই দুই team-এর velocity তুলনা করবেন না (তাঁদের point-এর মানে আলাদা)।
+- Velocity **প্রতিটা team-এর নিজের** — কখনোই দুই team-এর velocity তুলনা করবেন না (তাঁদের point-এর মানে আলাদা)।
 - এটা একটা **planning-এর সাহায্য**, target নয়। "আরও বেশি velocity" চাপ দিলে team estimate ফুলিয়ে দেয়, আর এতে এর মূল্যই নষ্ট হয়।
 - একটা স্থির team নিয়ে কয়েকটা Sprint যাওয়ার পরেই এটা থিতু হয়।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা বাস্তবসম্মত planning যাচাই করে, আর দেখে আপনি velocity-কে performance metric হিসেবে ভুলভাবে ব্যবহার করবেন কি না (একটা পরিচিত anti-pattern)।
+**Interviewer কেন জিজ্ঞেস করে:** এটা বাস্তব planning যাচাই করে, আর দেখে আপনি velocity-কে performance metric হিসেবে ভুলভাবে ব্যবহার করবেন কি না (একটা পরিচিত anti-pattern)।
 
 **সাধারণ ভুল:** Velocity দিয়ে team তুলনা করা, বা team-এর উপর চাপ দিতে KPI হিসেবে ব্যবহার করা — দুটোই estimate আর metric দুটোকেই নষ্ট করে।
 
@@ -695,15 +695,15 @@ points
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q15)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Kanban হলো flow-ভিত্তিক একটা Agile পদ্ধতি: কাজের item একটা board-এর উপর দিয়ে চলতে থাকে (To Do → In Progress → Done), কোনো নির্দিষ্ট Sprint নেই। WIP (Work In Progress) limit ঠিক করে দেয় প্রতিটি column-এ একসাথে কতগুলো item থাকতে পারবে। এটা team-কে বাধ্য করে নতুন কাজ শুরুর আগে চলতি কাজ শেষ করতে। Kanban মানায় support-এর মতো চলমান, অনিশ্চিত কাজে; Scrum মানায় পরিকল্পিত feature delivery-তে।"
+"Kanban হলো flow-ভিত্তিক একটা Agile উপায়: কাজের item একটা board-এর উপর দিয়ে চলতে থাকে (To Do → In Progress → Done), কোনো নির্দিষ্ট Sprint নেই। WIP (Work In Progress) limit ঠিক করে দেয় প্রতিটি column-এ একসাথে কতগুলো item থাকতে পারবে। এটা team-কে বাধ্য করে নতুন কাজ শুরুর আগে চলতি কাজ শেষ করতে। Kanban মানায় support-এর মতো চলতে থাকা, অনিশ্চিত কাজে; Scrum মানায় পরিকল্পিত feature delivery-তে।"
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — Kanban = চলমান flow।**
+**ধাপ ১ — Kanban = চলতে থাকা flow।**
 এখানে কোনো Sprint নেই। যখন capacity খালি হয়, item board-এর উপর দিয়ে এগোয়। কিছু শেষ হলেই release করবেন, Sprint-এর সীমানায় নয়।
 
 **ধাপ ২ — WIP limit — মূল ধারণা।**
-প্রতিটি column-এর একটা সর্বোচ্চ সংখ্যা থাকে (যেমন "In Progress: max 3")। ভরে গেলে নতুন কাজ শুরু করা যাবে না — আগে কিছু শেষ করতে হবে বা unblock করতে হবে।
+প্রতিটি column-এর একটা সীমা থাকে (যেমন "In Progress: max 3")। ভরে গেলে নতুন কাজ শুরু করা যাবে না — আগে কিছু শেষ করতে হবে বা unblock করতে হবে।
 
 ```
 To Do        In Progress (max 3)     Done
@@ -717,20 +717,20 @@ To Do        In Progress (max 3)     Done
 
 | | Scrum | Kanban |
 |---|---|---|
-| Cadence | নির্দিষ্ট Sprint | চলমান flow |
-| Roles | PO, SM, Developers | কোনো বাধ্যতামূলক role নেই |
+| Cadence | নির্দিষ্ট Sprint | চলতে থাকা flow |
+| Roles | PO, SM, Developers | বাঁধা-ধরা কোনো role নেই |
 | Change | Sprint-এর মাঝে নয় | যেকোনো সময় |
 | Best for | পরিকল্পিত feature-এর কাজ | support, ops, নিয়মিত ধারা |
 
 **ধাপ ৪ — কখন Kanban ব্যবহার করবেন।**
-যে কাজে বারবার বাধা আসে বা কাজ চলমান (bug fixing, support, ops), সেখানে নির্দিষ্ট Sprint-এর প্রতিশ্রুতি মানায় না। কিছু team দুটো মিলিয়ে ব্যবহার করে ("Scrumban")।
+যে কাজে বারবার বাধা আসে বা কাজ চলতে থাকা (bug fixing, support, ops), সেখানে নির্দিষ্ট Sprint-এর প্রতিশ্রুতি মানায় না। কিছু team দুটো মিলিয়ে ব্যবহার করে ("Scrumban")।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি কাজের ধরন বুঝে সঠিক Agile ধরনটা বাছতে পারেন কি না। আর WIP সীমিত রাখার শক্তিশালী ধারণাটা বোঝেন কি না।
 
 **সাধারণ ভুল:** Kanban মানে "কোনো process নেই" — এটা ভাবা। এতে কড়া শৃঙ্খলা আছে — বিশেষ করে WIP limit আর flow মাপা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"WIP সীমিত করব কেন?"* → বেশি সমান্তরাল কাজ সবকিছু ধীর করে দেয় (context switching) আর bottleneck ঢেকে রাখে; সীমিত করলে delivery দ্রুত হয়।
+- *"WIP সীমিত করব কেন?"* → বেশি পাশাপাশি কাজ সবকিছু ধীর করে দেয় (context switching) আর bottleneck ঢেকে রাখে; সীমিত করলে delivery দ্রুত হয়।
 
 **সম্পর্কিত:** [Q3 — Scrum overview](#q3) · [Q6 — sprint](#q6)
 
@@ -751,9 +751,9 @@ To Do        In Progress (max 3)     Done
 Agile বদলে যাওয়া requirement-কে *স্বাগত জানায়* — কিন্তু Scrum *Sprint Goal রক্ষা করে*, যাতে team মনোযোগ ধরে রাখতে পারে। এই দুটো পরস্পরবিরোধী নয়: backlog পর্যায়ে পরিবর্তনকে স্বাগত জানান, কিন্তু চলতি Sprint-কে এলোমেলো করবেন না।
 
 **ধাপ ২ — বাস্তব বিকল্পগুলো।**
-- **জরুরি নয় এমন পরিবর্তন** → Product Backlog-এ যোগ করুন; ভবিষ্যতের কোনো Sprint-এর জন্য priority ঠিক করুন।
+- **জরুরি নয় এমন পরিবর্তন** → Product Backlog-এ যোগ করুন; পরের কোনো Sprint-এর জন্য priority ঠিক করুন।
 - **ছোট জরুরি পরিবর্তন** → PO আর team রাজি হয়ে এটা ঢোকায়, আর সমান আকারের কাজ বের করে দেয় (এটা বদল, যোগ নয়)।
-- **সংকট/জরুরি অবস্থা** (production বন্ধ, security) → PO Sprint বাতিল করতে বা নতুন করে পরিকল্পনা করতে পারেন; বিরল, কিন্তু হয়।
+- **বিপদ/জরুরি অবস্থা** (production বন্ধ, security) → PO Sprint বাতিল করতে বা নতুন করে পরিকল্পনা করতে পারেন; বিরল, কিন্তু হয়।
 
 **ধাপ ৩ — কে সিদ্ধান্ত নেয়।**
 **Product Owner** priority ঠিক করেন, কিন্তু **team**-কে মানতে হবে যে goal না ভেঙে পরিবর্তনটা করা সম্ভব। এটা আলোচনা, আদেশ নয়।
@@ -761,12 +761,12 @@ Agile বদলে যাওয়া requirement-কে *স্বাগত জ
 **ধাপ ৪ — Sprint কেন রক্ষা করবেন।**
 Sprint-এর মাঝে বারবার পরিবর্তন মানে কিছুই কখনো শেষ হয় না (সব কিছু 80% হয়ে পড়ে থাকে)। Sprint ছোট হওয়ায় এমনিতেই কোনো পরিবর্তনকে বেশিদিন অপেক্ষা করতে হয় না — সাধারণত কয়েক দিন।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা নমনীয়তা আর মনোযোগের ভারসাম্য যাচাই করে — প্রতিটি team-ই এই টানাপোড়েনে পড়ে।
+**Interviewer কেন জিজ্ঞেস করে:** এটা flexibility আর মনোযোগের balance যাচাই করে — প্রতিটি team-ই এই টানাপোড়েনে পড়ে।
 
 **সাধারণ ভুল:** হয় কঠোরভাবে সব পরিবর্তন মানা না করা ("এই Sprint-এ হবে না, ব্যস"), নয়তো প্রতিটি বাধা মেনে নেওয়া (ফলে team এলোমেলো হয় আর কিছুই শেষ হয় না)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"পরিবর্তনের কারণে Sprint Goal অর্থহীন হয়ে গেলে কী হবে?"* → PO Sprint বাতিল করে নতুন পরিকল্পনা করতে পারেন; পুরো দিক বদলানোর এটাই একমাত্র পরিষ্কার উপায়।
+- *"পরিবর্তনের কারণে Sprint Goal মানে নেই এমন হয়ে গেলে কী হবে?"* → PO Sprint বাতিল করে নতুন পরিকল্পনা করতে পারেন; পুরো দিক বদলানোর এটাই একমাত্র পরিষ্কার উপায়।
 
 **সম্পর্কিত:** [Q6 — sprint goal](#q6) · [Q4 — PO role](#q4) · [Q1 — পরিবর্তনকে স্বাগত জানানো](#q1)
 
@@ -779,20 +779,20 @@ Sprint-এর মাঝে বারবার পরিবর্তন মান
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q17)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Technical debt হলো শর্টকাটের খরচ — দ্রুত লেখা code, যা পরে আপনাকে ধীর করে দেবে। এটা এখন সময় ধার নেওয়া, আর ভবিষ্যতে bug আর ধীর পরিবর্তনের মাধ্যমে সুদ দেওয়ার মতো। এটা সামলাতে হয় দৃশ্যমান করে (track করে), আর প্রতিটি Sprint-এর একটা অংশ (ধরুন 10–20%) রেখে ধীরে ধীরে শোধ করে। পাশাপাশি review আর শক্ত Definition of Done দিয়ে নতুন debt ঠেকাতে হয়।"
+"Technical debt হলো শর্টকাটের খরচ — দ্রুত লেখা code, যা পরে আপনাকে ধীর করে দেবে। এটা এখন সময় ধার নেওয়া, আর পরে bug আর ধীরে ধীরে বদলে সুদ দেওয়ার মতো। এটা সামলাতে হয় সবার সামনে এনে (track করে), আর প্রতিটি Sprint-এর একটা অংশ (ধরুন 10–20%) রেখে ধীরে ধীরে শোধ করে। পাশাপাশি review আর শক্ত Definition of Done দিয়ে নতুন debt ঠেকাতে হয়।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের একটা ছবি: টাকা ধার নেওয়া।**
 শর্টকাট আজকে দ্রুত delivery দেয় (ধার নেওয়া), কিন্তু পরে সুদ দিতে হয় — ওই এলোমেলো জায়গায় প্রতিটি ভবিষ্যৎ পরিবর্তনে বেশি সময় লাগে আর bug-এর ঝুঁকি থাকে। অল্প debt একটা বুদ্ধিমান বদল হতে পারে; বেশি হলে team পঙ্গু হয়ে যায়।
 
-**ধাপ ২ — Flutter project-এ সাধারণ উৎস।**
+**ধাপ ২ — Flutter project-এ সাধারণ source।**
 - Deadline ধরতে test বাদ দেওয়া।
-- পুনঃব্যবহারযোগ্য widget/logic-এর বদলে copy-paste করা widget/logic।
+- আবার ব্যবহার করা যায় এমন widget/logic-এর বদলে copy-paste করা widget/logic।
 - পুরোনো package, কোনো architecture নেই, widget-এর ভেতরে business logic।
 
 **ধাপ ৩ — Sprint-এ এটা কীভাবে সামলাবেন।**
-- **দৃশ্যমান করুন** — debt-এর item backlog-এ track করুন, মাথার ভেতরে রাখবেন না।
+- **সবাইকে দেখান** — debt-এর item backlog-এ track করুন, মাথার ভেতরে রাখবেন না।
 - **এর জন্য বাজেট রাখুন** — প্রতিটি Sprint-এর ~10–20% debt শোধের জন্য রাখুন, যাতে এটা জমে না যায়।
 - **চলতে চলতে শোধ করুন** — boy scout rule: আপনি যে code-এ কাজ করছেন তার আশেপাশের অংশ একটু ভালো করুন ([Q12 Clean Code](section-16-clean-code-bn.md#q12))।
 - **নতুন debt ঠেকান** — code review আর শক্ত Definition of Done।
@@ -800,9 +800,9 @@ Sprint-এর মাঝে বারবার পরিবর্তন মান
 **ধাপ ৪ — ব্যবসার ভাষায় বলুন।**
 "আমরা পরিষ্কার code চাই" — এটা বলবেন না। বলুন "এই এলোমেলো module থেকেই আমাদের বেশিরভাগ bug আসে আর নতুন feature ধীর হয়; এটা ঠিক করলে delivery দ্রুত হবে।" Debt-কে ব্যবসার খরচের সাথে জুড়ে দিন।
 
-**Interviewer কেন জিজ্ঞেস করে:** Senior engineer গতি আর টেকসই হওয়ার মধ্যে ভারসাম্য রাখেন; তাঁরা দেখতে চান আপনি ভেবেচিন্তে debt সামলান, উপেক্ষাও করেন না, আবার এটা নিয়ে বাড়াবাড়িও করেন না।
+**Interviewer কেন জিজ্ঞেস করে:** Senior engineer গতি আর টেকসই হওয়ার মধ্যে balance রাখেন; তাঁরা দেখতে চান আপনি ভেবেচিন্তে debt সামলান, বাদও দেন না, আবার এটা নিয়ে বাড়াবাড়িও করেন না।
 
-**সাধারণ ভুল:** হয় debt উপেক্ষা করা যতক্ষণ না codebase-এ কাজ করাই অসম্ভব হয়, নয়তো একটা বড় "সব থামাও আর refactor করো" sprint দাবি করা (ঝুঁকিপূর্ণ আর সাধারণত নাকচ হয়)।
+**সাধারণ ভুল:** হয় debt বাদ দেওয়া যতক্ষণ না codebase-এ কাজ করাই অসম্ভব হয়, নয়তো একটা বড় "সব থামাও আর refactor করো" sprint দাবি করা (ঝুঁকির আর সাধারণত নাকচ হয়)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"PO-কে সময় বরাদ্দ করতে কীভাবে রাজি করাবেন?"* → bug-এর হার আর ধীর delivery দিয়ে খরচটা দেখান; ছোট, নিয়মিত একটা বাজেটের প্রস্তাব দিন ([Q3 Refactoring](section-15-code-smells-bn.md#q3))।
@@ -841,11 +841,11 @@ Epic         "User authentication"          (large, spans many sprints)
 Scrum/Kanban board, যাতে column থাকে (To Do, In Progress, In Review, Done)। প্রতিটি card একটা issue; কাজ এগোনোর সাথে আপনি এটা টেনে পরের column-এ নেন। Standup-এর সময় team এক নজরেই অবস্থা বুঝে নেয়।
 
 **ধাপ ৪ — এটাকে কাজের রাখুন, আমলাতান্ত্রিক নয়।**
-Tool team-এর সেবা করে, উল্টোটা নয়। Ticket সৎভাবে update করুন, কিন্তু process-এ ডুবে যাবেন না — লক্ষ্য হলো দৃশ্যমানতা, কাগজপত্র নয়।
+Tool team-এর সেবা করে, উল্টোটা নয়। Ticket সৎভাবে update করুন, কিন্তু process-এ ডুবে যাবেন না — লক্ষ্য হলো সবাই যেন দেখতে পায়, কাগজপত্র নয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** বেশিরভাগ team Jira (বা একই রকম কিছু) ব্যবহার করে; তাঁরা নিশ্চিত হতে চান আপনি একটা track করা Agile workflow-তে কাজ করতে পারেন।
 
-**সাধারণ ভুল:** Jira-কেই লক্ষ্য মনে করা — অতিরিক্ত বিস্তারিত ticket আর লোক দেখানো status — সহজ একটা দৃশ্যমানতার tool হিসেবে না দেখে।
+**সাধারণ ভুল:** Jira-কেই লক্ষ্য মনে করা — বাড়তি বিস্তারিত ticket আর লোক দেখানো status — সবাই যেন দেখতে পায় — এমন একটা সহজ tool হিসেবে না দেখে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Epic বনাম Story?"* → Epic = বড়, অনেক Sprint; Story = একটা feature যা এক Sprint-এ ধরে যায়।
@@ -885,14 +885,14 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 - **Waterfall** = ধাপে ধাপে, scope নির্দিষ্ট; **Agile** = iterative, feedback-নির্ভর। ([Q2](#q2))
 - **Scrum Master = coach/facilitator**, manager নন। ([Q4](#q4))
 - **PO priority ঠিক করেন; team ঠিক করে কতটুকু** কাজ নেবে। ([Q4](#q4), [Q7](#q7))
-- **Sprint-এর দৈর্ঘ্য নির্দিষ্ট** — বাড়াবেন না; অসমাপ্ত কাজ আবার plan করুন। ([Q6](#q6))
+- **Sprint-এর সময় নির্দিষ্ট** — বাড়াবেন না; অসমাপ্ত কাজ আবার plan করুন। ([Q6](#q6))
 - **Standup** = 15 মিনিটের team sync (৩টি প্রশ্ন), boss-কে দেওয়া status report নয়। ([Q8](#q8))
 - **Review = product-এর demo; Retro = process-এর উন্নতি** (শুধু team)। ([Q9](#q9))
-- **Story point = আপেক্ষিক আকার, ঘণ্টা নয়**; planning poker দিয়ে estimate করুন। ([Q12](#q12))
+- **Story point = তুলনায় কত বড়, ঘণ্টা নয়**; planning poker দিয়ে estimate করুন। ([Q12](#q12))
 - **Velocity** = গড় point/sprint; এটা planning-এর সাহায্য, কখনোই cross-team KPI নয়। ([Q13](#q13))
 - **WIP limit** শুরু করার আগে শেষ করতে বাধ্য করে — এটাই Kanban-এর মূল কথা। ([Q15](#q15))
 - Sprint-এর মাঝখানে **Sprint Goal রক্ষা করুন**; বদলে নিন, উপরে চাপাবেন না। ([Q16](#q16))
-- **Technical debt** = এটাকে দৃশ্যমান করুন, প্রতি sprint-এ ~10–20% বরাদ্দ রাখুন। ([Q17](#q17))
+- **Technical debt** = এটাকে সবাইকে দেখান, প্রতি sprint-এ ~10–20% রেখে দিন। ([Q17](#q17))
 
 [↑ উপরে ফিরুন](#toc)
 
@@ -905,7 +905,7 @@ Agile interview-এ আসল অভিজ্ঞতা যাচাই করা
 1. *"আপনি চালিয়েছেন এমন একটা Sprint-এর গল্প বলুন।"* → planning → goal → daily standup → review/retro, একটা বাস্তব উদাহরণসহ।
 2. *"৩ নম্বর দিনে একজন stakeholder পরিবর্তন চাইছেন — আপনি কী করবেন?"* → goal রক্ষা করুন; জরুরি হলে PO-র সাথে swap করুন, নাহলে backlog-এ রাখুন।
 3. *"আপনার velocity কমে গেছে — team কি ফাঁকি দিচ্ছে?"* → না; ছুটি, blocker, scope দেখুন; velocity কোনো performance score নয়।
-4. *"Tech debt জমতে থাকা কীভাবে আটকান?"* → দৃশ্যমান করুন, প্রতি sprint-এ একটু অংশ বরাদ্দ রাখুন, শক্ত DoD রাখুন।
+4. *"Tech debt জমতে থাকা কীভাবে আটকান?"* → সবাইকে দেখান, প্রতি sprint-এ একটু অংশ রেখে দিন, শক্ত DoD রাখুন।
 5. *"Support team-এর জন্য Scrum না Kanban?"* → Kanban — WIP limit সহ continuous flow বারবার বাধা আসা কাজের সাথে মানায়।
 
 উত্তরের সাথে "আমাদের team-এ আমরা X করেছি" জুড়ে দিন। আসল ও নির্দিষ্ট অভিজ্ঞতা প্রতিবারই বইয়ের সংজ্ঞাকে হারিয়ে দেয়। এটা remote আর BD — দুই ধরনের interview-তেই খাটে।
