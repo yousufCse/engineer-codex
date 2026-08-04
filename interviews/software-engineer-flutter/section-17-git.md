@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Everyday commands**
 1. [Core commands (init/clone/status/add/commit/push/pull)](#q1) · *Very common*
@@ -60,7 +61,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The daily basics (start here).**
 → [Q1 Core commands](#q1) · [Q2 Branching](#q2) · [Q3 fetch vs pull](#q3)
@@ -85,9 +87,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. What do `git init`, `clone`, `status`, `add`, `commit`, `push`, and `pull` do?
+<a id="q1"></a>
+## 1. What do `git init`, `clone`, `status`, `add`, `commit`, `push`, and `pull` do?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q1)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#1-git-init-clone-status-add-commit-push-আর-pull-কী-কাজ-করে)
 
 **Short answer (say this):**
 "These are the everyday commands. `init` starts a repo, `clone` copies a remote one. `status` shows what changed, `add` stages changes, `commit` saves them to history. `push` sends commits to the remote, `pull` brings remote commits down. The flow is: edit → add → commit → push."
@@ -133,9 +136,10 @@ Think of a commit as a labeled save point in a video game — you can always go 
 
 ---
 
-## <a id="q2"></a>2. How do you create, switch to, and delete a branch?
+<a id="q2"></a>
+## 2. How do you create, switch to, and delete a branch?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q2)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#2-একটা-branch-কীভাবে-তৈরি-করবেন-switch-করবেন-আর-delete-করবেন)
 
 **Short answer (say this):**
 "A branch is a separate line of work so you can build a feature without touching the main code. You create and switch with `git switch -c name`, move between branches with `git switch`, and delete a merged branch with `git branch -d`. The modern commands are `switch` and `restore`; older tutorials use `checkout`."
@@ -173,9 +177,10 @@ They let many people work in parallel without stepping on each other, and keep `
 
 ---
 
-## <a id="q3"></a>3. What is the difference between `git fetch` and `git pull`?
+<a id="q3"></a>
+## 3. What is the difference between `git fetch` and `git pull`?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q3)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#3-git-fetch-আর-git-pull-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "`fetch` downloads the latest commits from the remote but doesn't change your working branch — it just updates your knowledge of the remote. `pull` does a `fetch` and then immediately merges those changes into your current branch. So `pull = fetch + merge`."
@@ -221,9 +226,10 @@ This updates your current branch immediately. Convenient, but it can create a su
 
 ---
 
-## <a id="q4"></a>4. What is the difference between `git merge` and `git rebase`? When do you use each?
+<a id="q4"></a>
+## 4. What is the difference between `git merge` and `git rebase`? When do you use each?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#4-git-merge-আর-git-rebase-এর-পার্থক্য-কী-কোনটা-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Both combine work from two branches, but differently. `merge` joins them with a new merge commit, keeping the true history (branches visibly came together). `rebase` replays your commits on top of another branch, making a clean, linear history — but it rewrites your commits. The golden rule: never rebase commits you've already shared/pushed."
@@ -274,9 +280,10 @@ merge:                 rebase:
 
 ---
 
-## <a id="q5"></a>5. What causes a merge conflict, and how do you resolve one step by step?
+<a id="q5"></a>
+## 5. What causes a merge conflict, and how do you resolve one step by step?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#5-merge-conflict-কেন-হয়-আর-ধাপে-ধাপে-কীভাবে-সমাধান-করবেন)
 
 **Short answer (say this):**
 "A conflict happens when two branches change the *same lines* of the same file in different ways, so Git can't decide which to keep. You resolve it by opening the marked file, choosing the correct final code, removing the conflict markers, then staging and committing. Tests after resolving are essential."
@@ -330,9 +337,10 @@ Pull/rebase often (small, frequent merges), keep branches short-lived, and keep 
 
 ---
 
-## <a id="q6"></a>6. What is `git cherry-pick`, and when would you use it?
+<a id="q6"></a>
+## 6. What is `git cherry-pick`, and when would you use it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q6)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#6-git-cherry-pick-কী-আর-কখন-এটা-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "`cherry-pick` copies one specific commit from another branch onto your current branch, without merging the whole branch. You use it to grab a single fix — for example, applying a bug fix to a release branch without bringing along everything else from main."
@@ -374,9 +382,10 @@ Cherry-picking the same change onto branches that later merge can create duplica
 
 ---
 
-## <a id="q7"></a>7. What is the difference between `git reset --soft`, `--mixed`, and `--hard`?
+<a id="q7"></a>
+## 7. What is the difference between `git reset --soft`, `--mixed`, and `--hard`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q7)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#7-git-reset---soft---mixed-আর---hard-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "All three move the branch pointer back to an earlier commit; they differ in what they do to your changes. `--soft` keeps changes staged, `--mixed` (the default) keeps them unstaged, and `--hard` throws the changes away entirely. `--hard` is the dangerous one — it deletes work."
@@ -419,9 +428,10 @@ Like rebase, `reset` changes history — don't reset commits you've already push
 
 ---
 
-## <a id="q8"></a>8. What is `git revert`, and how does it differ from `git reset`?
+<a id="q8"></a>
+## 8. What is `git revert`, and how does it differ from `git reset`?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#8-git-revert-কী-আর-git-reset-এর-সাথে-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "`revert` creates a *new* commit that undoes a previous commit's changes, leaving history intact. `reset` moves the branch pointer backward and rewrites history. So `revert` is the safe choice for shared/public branches, and `reset` is for local cleanup before you've pushed."
@@ -468,9 +478,10 @@ This rewrites history, so it's unsafe once others have those commits.
 
 ---
 
-## <a id="q9"></a>9. How do you undo the last commit without losing your changes?
+<a id="q9"></a>
+## 9. How do you undo the last commit without losing your changes?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q9)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#9-পরিবর্তন-না-হারিয়ে-শেষ-commit-undo-করবেন-কীভাবে)
 
 **Short answer (say this):**
 "Use `git reset --soft HEAD~1`. It removes the last commit but keeps all your changes staged, so you can fix the message or add more and commit again. If you only want to fix the message or add a forgotten file, `git commit --amend` is even simpler."
@@ -510,9 +521,10 @@ Both rewrite history. If you already pushed the commit, amending/resetting means
 
 ---
 
-## <a id="q10"></a>10. What does `git stash` do, and how do you apply stashed changes?
+<a id="q10"></a>
+## 10. What does `git stash` do, and how do you apply stashed changes?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q10)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#10-git-stash-কী-করে-আর-stash-করা-পরিবর্তন-কীভাবে-ফিরিয়ে-আনবেন)
 
 **Short answer (say this):**
 "`stash` temporarily shelves your uncommitted changes so you have a clean working directory — useful when you need to switch branches quickly without committing half-done work. You bring the changes back with `stash pop`."
@@ -560,9 +572,10 @@ For short interruptions. For longer pauses, a quick commit (even WIP) on a branc
 
 ---
 
-## <a id="q11"></a>11. How do you use `git log` and `git blame`?
+<a id="q11"></a>
+## 11. How do you use `git log` and `git blame`?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q11)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#11-git-log-আর-git-blame-কীভাবে-ব্যবহার-করেন)
 
 **Short answer (say this):**
 "`git log` shows the commit history — who changed what and when. `git blame` shows, line by line, which commit last changed each line of a file. Together they help you understand history and find when and why a line was introduced."
@@ -603,9 +616,10 @@ See a confusing line → `git blame` to find its commit → `git show <commit>` 
 
 ---
 
-## <a id="q12"></a>12. How do you find which commit introduced a bug using `git bisect`?
+<a id="q12"></a>
+## 12. How do you find which commit introduced a bug using `git bisect`?
 
-> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q12)
+> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#12-git-bisect-দিয়ে-কোন-commit-একটা-bug-এনেছে-তা-কীভাবে-খুঁজবেন)
 
 **Short answer (say this):**
 "`git bisect` does a binary search through your history to find the commit that introduced a bug. You mark a known-good commit and a known-bad one, and Git checks out the middle commit for you to test, repeatedly halving the range until it pinpoints the exact bad commit."
@@ -613,7 +627,7 @@ See a confusing line → `git blame` to find its commit → `git show <commit>` 
 **Let's understand it fully:**
 
 **Step 1 — The idea: binary search on commits.**
-If the bug appeared somewhere in the last 100 commits, bisect finds it in about 7 steps (log₂ 100), not 100 — by halving each time ([binary search](section-11-data-structure.md#q11)).
+If the bug appeared somewhere in the last 100 commits, bisect finds it in about 7 steps (log₂ 100), not 100 — by halving each time ([binary search](section-11-data-structure.md#11-how-does-binary-search-work-and-when-can-you-use-it)).
 
 **Step 2 — The workflow.**
 
@@ -640,15 +654,16 @@ If you have a test script, `git bisect run ./test.sh` runs it on each step autom
 **Follow-ups they may ask:**
 - *"Why is it fast?"* → It halves the search range each step — O(log n).
 
-**Related:** [Q11 — log & blame](#q11) · [Q11 (DSA) — binary search](section-11-data-structure.md#q11)
+**Related:** [Q11 — log & blame](#q11) · [Q11 (DSA) — binary search](section-11-data-structure.md#11-how-does-binary-search-work-and-when-can-you-use-it)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q13"></a>13. What is a detached HEAD state? How does it happen, and how do you recover?
+<a id="q13"></a>
+## 13. What is a detached HEAD state? How does it happen, and how do you recover?
 
-> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q13)
+> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#13-detached-head-state-কী-এটা-কীভাবে-হয়-আর-কীভাবে-recover-করবেন)
 
 **Short answer (say this):**
 "Normally HEAD points to a branch. A 'detached HEAD' means HEAD points directly at a specific commit instead of a branch — usually because you checked out a commit hash or a tag. Any commits you make there aren't on a branch and can be lost. To recover, create a branch from where you are before switching away."
@@ -695,9 +710,10 @@ It's fine for *looking* at an old commit or tag (read-only). Just don't do impor
 
 ---
 
-## <a id="q14"></a>14. What is `.gitignore`, and what are common Flutter entries?
+<a id="q14"></a>
+## 14. What is `.gitignore`, and what are common Flutter entries?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q14)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#14-gitignore-কী-আর-flutter-এ-সাধারণ-entry-কোনগুলো)
 
 **Short answer (say this):**
 "`.gitignore` lists files and folders Git should not track — build outputs, secrets, and machine-specific files. For Flutter, you ignore `build/`, `.dart_tool/`, IDE files, and anything with secrets like `.env` or signing keys. The goal is to keep the repo clean and never commit generated or sensitive files."
@@ -743,15 +759,16 @@ Adding it to `.gitignore` doesn't remove it from history. You must remove it fro
 **Follow-ups they may ask:**
 - *"Ignore an already-tracked file?"* → `git rm --cached file` to untrack it, then it respects `.gitignore`.
 
-**Related:** [Q20 (Security) — secrets](section-20-mobile-security.md#q1) · [Q1 — core commands](#q1)
+**Related:** [Q20 (Security) — secrets](section-20-mobile-security.md#1-what-is-the-owasp-mobile-top-10) · [Q1 — core commands](#q1)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q15"></a>15. Compare Git Flow, GitHub Flow, and Trunk-Based Development.
+<a id="q15"></a>
+## 15. Compare Git Flow, GitHub Flow, and Trunk-Based Development.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q15)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#15-git-flow-github-flow-আর-trunk-based-development-এর-তুলনা-করুন।)
 
 **Short answer (say this):**
 "They're branching strategies with different amounts of structure. Git Flow has many long-lived branches (main, develop, feature, release, hotfix) — powerful but heavy. GitHub Flow is simple: branch off main, PR, merge, deploy. Trunk-Based keeps everyone committing to main behind feature flags, with tiny short-lived branches — best for continuous delivery."
@@ -794,9 +811,10 @@ Adding it to `.gitignore` doesn't remove it from history. You must remove it fro
 
 ---
 
-## <a id="q16"></a>16. What are Conventional Commits, and why do teams adopt them?
+<a id="q16"></a>
+## 16. What are Conventional Commits, and why do teams adopt them?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q16)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#16-conventional-commits-কী-আর-দলগুলো-কেন-এটা-নেয়)
 
 **Short answer (say this):**
 "Conventional Commits is a standard format for commit messages: a type, an optional scope, and a description — like `feat(auth): add Google login`. Teams adopt it because the consistent format makes history readable and lets tools auto-generate changelogs and version numbers."
@@ -840,9 +858,10 @@ The description should say *what changed and why* in the imperative ("add", "fix
 
 ---
 
-## <a id="q17"></a>17. What does it mean to "squash" commits, and when would you do it?
+<a id="q17"></a>
+## 17. What does it mean to "squash" commits, and when would you do it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q17)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#17-commit-squash-করা-মানে-কী-আর-কখন-এটা-করবেন)
 
 **Short answer (say this):**
 "Squashing combines several commits into one. You do it to turn a messy work-in-progress history (`wip`, `fix typo`, `try again`) into one clean, meaningful commit before merging. Many teams 'Squash and merge' a Pull Request so each feature becomes a single tidy commit on main."
@@ -879,9 +898,10 @@ Squashing rewrites history. Do it on your own feature branch *before* it's merge
 
 ---
 
-## <a id="q18"></a>18. What are best practices for Pull Requests and code review (as author and reviewer)?
+<a id="q18"></a>
+## 18. What are best practices for Pull Requests and code review (as author and reviewer)?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q18)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#18-pull-request-আর-code-review-এর-best-practice-কী-কী-author-হিসেবে-আর-reviewer-হিসেবে)
 
 **Short answer (say this):**
 "As the author: keep PRs small and focused, write a clear description of what and why, and make sure tests pass. As the reviewer: be timely, kind, and specific — ask questions instead of giving orders, focus on correctness and design over style (let the formatter handle style), and approve once it's good enough, not perfect."
@@ -913,15 +933,16 @@ Reviews are about the code, not the person. Questions and suggestions keep it co
 **Follow-ups they may ask:**
 - *"How big should a PR be?"* → Small enough to review carefully in one sitting — often a few hundred lines or less.
 
-**Related:** [Q16 — conventional commits](#q16) · [Q14 (Clean Code) — enforcing](section-16-clean-code.md#q14)
+**Related:** [Q16 — conventional commits](#q16) · [Q14 (Clean Code) — enforcing](section-16-clean-code.md#14-how-do-you-enforce-clean-code-in-a-team-linters-code-review-pair-programming)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q19"></a>19. How do you handle a hotfix on production while feature branches are in progress?
+<a id="q19"></a>
+## 19. How do you handle a hotfix on production while feature branches are in progress?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q19)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#19-feature-branch-এর-কাজ-চলার-মাঝে-production-এ-hotfix-কীভাবে-সামলান)
 
 **Short answer (say this):**
 "I branch the hotfix directly off the production branch (or the latest release tag), not off in-progress feature work, so the fix contains only the fix. I fix, test, and deploy it, then merge it back into main so the fix isn't lost — or cherry-pick it where needed. Feature branches later pull main to get the fix."
@@ -968,7 +989,8 @@ A hotfix must be tiny and low-risk. Mixing it with unfinished features makes it 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

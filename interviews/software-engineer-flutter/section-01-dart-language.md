@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Variables, null safety & types**
 1. [Null safety — `?`, `!`, `late`, `required`](#q1) · *Very common*
@@ -69,7 +70,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 26 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -97,9 +99,10 @@ You don't need to study all 26 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. What is null safety in Dart? Explain `?`, `!`, `late`, and `required`.
+<a id="q1"></a>
+## 1. What is null safety in Dart? Explain `?`, `!`, `late`, and `required`.
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#1-dart-এ-null-safety-কী---late-আর-required-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "Null safety means a variable cannot hold `null` unless I clearly allow it. Before null safety, any object could secretly be null, and using a null object crashed the app. Now Dart catches this mistake while I am writing code, before the app ever runs — so a whole category of crashes disappears."
@@ -209,9 +212,10 @@ nickname ??= 'Guest';                // ??= = set it to 'Guest' only if it's nul
 
 ---
 
-## <a id="q2"></a>2. What is the difference between `var`, `dynamic`, `Object`, `final`, and `const`?
+<a id="q2"></a>
+## 2. What is the difference between `var`, `dynamic`, `Object`, `final`, and `const`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#2-var-dynamic-object-final-আর-const-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "These solve three different problems. `var` lets Dart guess the type. `dynamic` turns off type checking (risky). `Object` is the safe parent of all types. `final` means a value can be set only once. `const` means the value is fixed and known before the app even runs."
@@ -294,9 +298,10 @@ Easy way to remember:
 
 ---
 
-## <a id="q3"></a>3. What is a `const` constructor, and why does it help Flutter performance?
+<a id="q3"></a>
+## 3. What is a `const` constructor, and why does it help Flutter performance?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#3-const-constructor-কী-আর-এটা-flutter-এর-performance-এ-কীভাবে-সাহায্য-করে)
 
 **Short answer (say this):**
 "A `const` constructor lets Dart build the whole object before the app runs. Dart then reuses the same object in memory instead of making new copies. In Flutter, `const` widgets are built once and skipped during rebuilds, so the screen updates faster."
@@ -353,9 +358,10 @@ So the advice "use `const` everywhere you can" is not random — it directly red
 
 ---
 
-## <a id="q4"></a>4. How do you check if two objects are equal? Explain `==`, `hashCode`, and `identical`.
+<a id="q4"></a>
+## 4. How do you check if two objects are equal? Explain `==`, `hashCode`, and `identical`.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#4-দুটো-object-সমান-কি-না-কীভাবে-check-করবেন--hashcode-আর-identical-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "By default, Dart says two objects are equal only if they are the exact same object. To compare by values, I override `==` and `hashCode` together — they must always agree. In real projects I use `Equatable` or `freezed` so I don't make mistakes by hand."
@@ -431,9 +437,10 @@ In BLoC or Riverpod, if a new state object is `==` the old one, the UI correctly
 
 ---
 
-## <a id="q5"></a>5. Why do we use generics? Explain `<T>` and bounded generics.
+<a id="q5"></a>
+## 5. Why do we use generics? Explain `<T>` and bounded generics.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q5)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#5-আমরা-generics-কেন-ব্যবহার-করি-t-আর-bounded-generics-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "Generics let me write code once and reuse it safely with any type. `List<int>` means only ints go in and come out, and Dart checks this while I code. A bound like `<T extends Comparable>` adds a rule, so I can safely use certain methods on T."
@@ -499,9 +506,10 @@ Without the bound `extends Comparable`, Dart wouldn't know T can be compared, so
 
 ---
 
-## <a id="q6"></a>6. What is the difference between an `Exception` and an `Error` in Dart?
+<a id="q6"></a>
+## 6. What is the difference between an `Exception` and an `Error` in Dart?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q6)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#6-dart-এ-exception-আর-error-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "An `Exception` is a problem you can expect and handle — like a failed network call. An `Error` usually means a bug in my code — like a wrong list index. So I catch and handle exceptions, but I fix errors instead of hiding them."
@@ -573,9 +581,10 @@ class UserLoadException implements Exception {
 
 ---
 
-## <a id="q7"></a>7. What are named, positional, and optional parameters? When do you use each?
+<a id="q7"></a>
+## 7. What are named, positional, and optional parameters? When do you use each?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q7)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#7-named-positional-আর-optional-parameter-কী-কোনটা-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Positional parameters depend on order and are good for one or two obvious values. Named parameters use a label, so the code reads clearly — that's why Flutter widgets use them everywhere. `required` makes a named one mandatory, and `[ ]` makes a positional one optional with a default."
@@ -630,9 +639,10 @@ Simple rule: if you have many values, or any `true/false` value, use named param
 
 ---
 
-## <a id="q8"></a>8. What is a closure? Explain it simply with an example.
+<a id="q8"></a>
+## 8. What is a closure? Explain it simply with an example.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#8-closure-কী-সহজ-করে-উদাহরণ-দিয়ে-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "A closure is a function that remembers the variables around it, even after that outer code has finished running. It is how callbacks keep access to their data. The key point: a closure remembers the variable itself, not a frozen copy of its value."
@@ -690,9 +700,10 @@ ElevatedButton(
 
 ---
 
-## <a id="q9"></a>9. What is cascade notation (`..`)? How is it different from method chaining?
+<a id="q9"></a>
+## 9. What is cascade notation (`..`)? How is it different from method chaining?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q9)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#9-cascade-notation--কী-method-chaining-থেকে-এটা-কীভাবে-আলাদা)
 
 **Short answer (say this):**
 "Cascade (`..`) lets me run many actions on the same object without writing its name again. Each `..` ignores what the action returns and gives back the original object. Method chaining is different — it works only because each method returns something to call the next one on."
@@ -747,9 +758,10 @@ paint?..color = Colors.blue; // does nothing if paint is null
 
 ---
 
-## <a id="q10"></a>10. What is `typedef`, the spread operator (`...`), and collection `if`/`for`?
+<a id="q10"></a>
+## 10. What is `typedef`, the spread operator (`...`), and collection `if`/`for`?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q10)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#10-typedef-spread-operator--আর-collection-iffor-কী)
 
 **Short answer (say this):**
 "`typedef` gives a nickname to a type — usually a function type — so the code reads better. The spread operator and collection `if`/`for` let me build lists in a clean, readable way, which is very useful for Flutter widget lists."
@@ -813,9 +825,10 @@ Without this, you'd build the list with many `if` blocks and `.add()` calls befo
 
 ---
 
-## <a id="q11"></a>11. Explain Dart's constructors: normal, named, factory, const, and redirecting.
+<a id="q11"></a>
+## 11. Explain Dart's constructors: normal, named, factory, const, and redirecting.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#11-dart-এর-constructor-ব্যাখ্যা-করুন-normal-named-factory-const-আর-redirecting।)
 
 **Short answer (say this):**
 "A normal constructor always makes a new object. A named constructor gives a clear second way to build it. A factory constructor does not have to make a new object — it can return a cached one or even a subtype. Redirecting means one constructor calls another to avoid repeating code."
@@ -906,9 +919,10 @@ Builds the object before running (all fields must be `final`). See [Q3](#q3).
 
 ---
 
-## <a id="q12"></a>12. Dart has no `interface` keyword. How do you get interfaces? And what is the difference between `extends`, `implements`, `with`, and `on`?
+<a id="q12"></a>
+## 12. Dart has no `interface` keyword. How do you get interfaces? And what is the difference between `extends`, `implements`, `with`, and `on`?
 
-> Very common · Medium — the most common Dart OOP question. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q12)
+> Very common · Medium — the most common Dart OOP question. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#12-dart-এ-interface-keyword-নেই।-তাহলে-interface-কীভাবে-পান-আর-extends-implements-with-আর-on-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "In Dart, every class can be used as an interface automatically. `extends` is for inheriting code — only one parent. `implements` takes only the rules (the contract) and forces me to write everything myself. `with` adds reusable behavior (a mixin). `on` limits which classes a mixin can be used with."
@@ -995,9 +1009,10 @@ Easy way to remember:
 
 ---
 
-## <a id="q13"></a>13. What are mixins? Explain `with`, `on`, and what happens when two mixins have the same method.
+<a id="q13"></a>
+## 13. What are mixins? Explain `with`, `on`, and what happens when two mixins have the same method.
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q13)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#13-mixin-কী-with-on-ব্যাখ্যা-করুন-আর-দুটো-mixin-এ-একই-method-থাকলে-কী-হয়)
 
 **Short answer (say this):**
 "A mixin is reusable behavior you add to a class with `with`, without using inheritance. You can add many mixins. If two mixins have the same method, the last one wins. The `on` keyword limits a mixin so it can only be used on a certain type."
@@ -1068,9 +1083,10 @@ A mixin gets merged into the main class, which already handles object creation. 
 
 ---
 
-## <a id="q14"></a>14. What are extension methods? What can they NOT do?
+<a id="q14"></a>
+## 14. What are extension methods? What can they NOT do?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#14-extension-method-কী-এটা-কী-কী-করতে-পারে-না)
 
 **Short answer (say this):**
 "Extensions let me add methods to a type I don't own — like `String` or `int` — without changing it or wrapping it. The main limits: they are chosen based on the variable's written type (not its real type), and they cannot add new fields (no state)."
@@ -1135,9 +1151,10 @@ So extensions are not like overridden methods (which use the real runtime type).
 
 ---
 
-## <a id="q15"></a>15. What are enhanced enums? Can an enum have fields and methods?
+<a id="q15"></a>
+## 15. What are enhanced enums? Can an enum have fields and methods?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q15)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#15-enhanced-enum-কী-একটা-enum-এ-কি-field-আর-method-থাকতে-পারে)
 
 **Short answer (say this):**
 "Yes. Since Dart 2.17, enums can have fields, a const constructor, and methods. So instead of an enum plus a separate helper, I keep the data and behavior together on the enum itself."
@@ -1210,9 +1227,10 @@ Plan.values.byName('free');  // Plan.free  (find by text)
 
 ---
 
-## <a id="q16"></a>16. What are records in Dart 3?
+<a id="q16"></a>
+## 16. What are records in Dart 3?
 
-> Very common (Dart 3) · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q16)
+> Very common (Dart 3) · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#16-dart-3-এ-record-কী)
 
 **Short answer (say this):**
 "A record is a quick way to group a few values together without creating a class. It is immutable (cannot change), and two records with the same values are equal. The most common use is returning more than one value from a function."
@@ -1280,9 +1298,10 @@ When to use: use a record for quick, temporary groups of values. Use a real clas
 
 ---
 
-## <a id="q17"></a>17. What is pattern matching, destructuring, and switch expressions?
+<a id="q17"></a>
+## 17. What is pattern matching, destructuring, and switch expressions?
 
-> Very common (Dart 3) · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q17)
+> Very common (Dart 3) · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#17-pattern-matching-destructuring-আর-switch-expression-কী)
 
 **Short answer (say this):**
 "Patterns let me check the shape of data and pull values out at the same time. A switch *expression* returns a value, which is much cleaner than a long switch that assigns variables. And `if-case` lets me check a shape and unpack it in one line — great for reading JSON safely."
@@ -1358,9 +1377,10 @@ If the shape doesn't match (no `token`, or it's not a String), the `if` is simpl
 
 ---
 
-## <a id="q18"></a>18. What are sealed classes? And the new class modifiers (`sealed`, `final`, `base`, `interface`)?
+<a id="q18"></a>
+## 18. What are sealed classes? And the new class modifiers (`sealed`, `final`, `base`, `interface`)?
 
-> Common (Dart 3) · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q18)
+> Common (Dart 3) · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#18-sealed-class-কী-আর-নতুন-class-modifier-গুলো-sealed-final-base-interface-কী)
 
 **Short answer (say this):**
 "A `sealed` class has a fixed, known set of subclasses, all in the same file. The big benefit: when I `switch` over it, Dart checks that I handled every case. If I add a new subclass later and forget to handle it, the code won't even compile. The other modifiers — `final`, `base`, `interface` — control how a class can be reused in other files."
@@ -1430,9 +1450,10 @@ Old way: one class with three nullable fields and a `type` flag — easy to crea
 
 ---
 
-## <a id="q19"></a>19. What is a `Future`? How does `async`/`await` work? Does `await` freeze the app?
+<a id="q19"></a>
+## 19. What is a `Future`? How does `async`/`await` work? Does `await` freeze the app?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q19)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#19-future-কী-asyncawait-কীভাবে-কাজ-করে-await-কি-app-জমিয়ে-দেয়)
 
 **Short answer (say this):**
 "A `Future` is a value that will be ready later — like a receipt for food you ordered. `async`/`await` lets me write this in a simple top-to-bottom style. Very important: `await` does not freeze the app. It only pauses that one function and lets the rest of the app keep working."
@@ -1498,9 +1519,10 @@ But if B needs A's result, then sequential `await` is correct.
 
 ---
 
-## <a id="q20"></a>20. Explain the event loop: microtask queue vs event queue.
+<a id="q20"></a>
+## 20. Explain the event loop: microtask queue vs event queue.
 
-> Deeper question · Hard — a senior tie-breaker. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q20)
+> Deeper question · Hard — a senior tie-breaker. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#20-event-loop-ব্যাখ্যা-করুন-microtask-queue-vs-event-queue।)
 
 **Short answer (say this):**
 "Dart runs on a single event loop with two lines: a microtask line (high priority) and an event line (normal). Dart finishes all microtasks before taking the next event. Futures and code after `await` use the microtask line, while timers, taps, and network results use the event line."
@@ -1553,9 +1575,10 @@ If you keep adding microtasks in a loop, the VIP line never empties, and the nor
 
 ---
 
-## <a id="q21"></a>21. What is a `Stream`? Explain single-subscription vs broadcast, `StreamController`, and `StreamBuilder`.
+<a id="q21"></a>
+## 21. What is a `Stream`? Explain single-subscription vs broadcast, `StreamController`, and `StreamBuilder`.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q21)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#21-stream-কী-single-subscription-vs-broadcast-streamcontroller-আর-streambuilder-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "A `Future` gives one value; a `Stream` gives many values over time. A single-subscription stream allows only one listener (the default). A broadcast stream allows many listeners. `StreamController` creates and feeds a stream, and `StreamBuilder` rebuilds a widget every time a new value arrives."
@@ -1648,9 +1671,10 @@ void dispose() {
 
 ---
 
-## <a id="q22"></a>22. What are generators — `sync*`/`yield` and `async*`/`yield*`?
+<a id="q22"></a>
+## 22. What are generators — `sync*`/`yield` and `async*`/`yield*`?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q22)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#22-generator-কী--syncyield-আর-asyncyield)
 
 **Short answer (say this):**
 "Generators produce a sequence of values lazily, one at a time. `sync*` makes an `Iterable` and gives values only when asked. `async*` makes a `Stream` and can `await` between values. `yield` gives one value; `yield*` gives all values from another sequence."
@@ -1713,9 +1737,10 @@ Iterable<int> combined() sync* {
 
 ---
 
-## <a id="q23"></a>23. Why is Dart single-threaded? What are isolates, and what is `compute()` / `Isolate.run`?
+<a id="q23"></a>
+## 23. Why is Dart single-threaded? What are isolates, and what is `compute()` / `Isolate.run`?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q23)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#23-dart-কেন-single-threaded-isolate-কী-আর-compute--isolaterun-কী)
 
 **Short answer (say this):**
 "Dart runs your code on a single thread, so there are no locks and no race conditions — it's simple and safe. The downside: heavy work freezes the screen. An isolate is a separate worker with its own memory. Isolates don't share memory; they pass messages. `compute()` and `Isolate.run` are easy shortcuts to run heavy work on another isolate."
@@ -1777,9 +1802,10 @@ Rule of thumb: use an isolate for CPU-heavy work that takes more than about 16ms
 
 ---
 
-## <a id="q24"></a>24. What is JIT vs AOT? Why does it matter for Flutter?
+<a id="q24"></a>
+## 24. What is JIT vs AOT? Why does it matter for Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q24)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#24-jit-আর-aot-কী-flutter-এর-জন্য-এটা-কেন-গুরুত্বপূর্ণ)
 
 **Short answer (say this):**
 "During development, Dart uses JIT (compiles while running), which is what makes hot reload so fast. In a release build, Dart uses AOT (compiled to native code before running), so the app starts fast and runs smoothly. That's why we never judge performance from a debug build."
@@ -1815,9 +1841,10 @@ In debug mode, the app is slower because of JIT and extra debug checks. So if yo
 
 ---
 
-## <a id="q25"></a>25. What is the Dart VM?
+<a id="q25"></a>
+## 25. What is the Dart VM?
 
-> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q25)
+> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#25-dart-vm-কী)
 
 **Short answer (say this):**
 "The Dart VM is the system that runs Dart. In development it compiles and runs your code (JIT). In a release build, your code is already compiled to native (AOT), but a small part of the VM is still included to handle things like garbage collection, isolates, and the event loop. So 'VM' does not mean 'slow' or 'interpreted'."
@@ -1848,9 +1875,10 @@ So: AOT removes the compiler, but keeps the runtime helpers.
 
 ---
 
-## <a id="q26"></a>26. How does Dart manage memory (garbage collection)?
+<a id="q26"></a>
+## 26. How does Dart manage memory (garbage collection)?
 
-> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#q26)
+> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-01-dart-language-bn.md#26-dart-কীভাবে-memory-manage-করে-garbage-collection)
 
 **Short answer (say this):**
 "Dart automatically frees memory you no longer use — that's garbage collection (GC). It uses a 'generational' design based on a simple idea: most objects die young. New objects go to a small area that is cleaned quickly. Objects that survive move to an older area that is cleaned less often."
@@ -1897,7 +1925,8 @@ static final _formatter = DateFormat('yyyy-MM-dd');
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

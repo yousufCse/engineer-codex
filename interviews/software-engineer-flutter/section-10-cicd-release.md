@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Build modes & CI/CD basics**
 1. [Build modes — debug, profile, release](#q1) · *Very common*
@@ -53,7 +54,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 14 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -78,9 +80,10 @@ You don't need to study all 14 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. What are Flutter's build modes? Explain debug, profile, and release.
+<a id="q1"></a>
+## 1. What are Flutter's build modes? Explain debug, profile, and release.
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#1-flutter-এর-build-mode-কী-কী-debug-profile-আর-release-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "Flutter has three build modes. Debug is for daily coding — it has hot reload and lots of checks, but it's slow. Profile is for measuring performance — it runs like release but keeps the profiling tools on. Release is what real users get — it's compiled to native code, small and fast. The big rule: never judge speed from a debug build."
@@ -140,9 +143,10 @@ flutter build ipa --release
 
 ---
 
-## <a id="q2"></a>2. How do you set up a basic CI pipeline for Flutter using GitHub Actions?
+<a id="q2"></a>
+## 2. How do you set up a basic CI pipeline for Flutter using GitHub Actions?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#2-github-actions-ব্যবহার-করে-flutter-এর-জন্য-গোড়ার-ci-pipeline-কীভাবে-সেট-করবেন)
 
 **Short answer (say this):**
 "CI means: every time I push code, a server automatically checks it. For Flutter I write a YAML file in `.github/workflows/`. The pipeline usually does four steps — get the code, install Flutter, run analyze and tests, then build the app. Android builds run on a Linux machine; iOS builds need a macOS machine."
@@ -262,9 +266,10 @@ When the run finishes, the build machine is destroyed. So you must **upload the 
 
 ---
 
-## <a id="q3"></a>3. How do you handle secrets in CI, and how do you speed up Flutter builds?
+<a id="q3"></a>
+## 3. How do you handle secrets in CI, and how do you speed up Flutter builds?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#3-ci-তে-secrets-কীভাবে-handle-করেন-আর-flutter-build-কীভাবে-দ্রুত-করেন)
 
 **Short answer (say this):**
 "Secrets — like keystores, API keys, and store credentials — must never be committed to Git. I store them as CI secrets and inject them at build time, often as base64-encoded files. To speed builds up, I cache the Flutter SDK and pub packages, pin the Flutter version, and split work into parallel jobs."
@@ -334,9 +339,10 @@ Most of a CI run is re-downloading the same files. Cache them.
 
 ---
 
-## <a id="q4"></a>4. How does Flutter versioning work? Explain the `1.0.0+1` format and auto-incrementing the build number in CI.
+<a id="q4"></a>
+## 4. How does Flutter versioning work? Explain the `1.0.0+1` format and auto-incrementing the build number in CI.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#4-flutter-এ-versioning-কীভাবে-কাজ-করে-1001-format-আর-ci-তে-build-number-নিজে-নিজেই-বাড়ানো-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "In `pubspec.yaml` the version looks like `1.2.3+45`. The part before the `+` is the version name that users see in the store. The part after the `+` is the build number — an internal integer that must always go up with each upload. In CI, I usually set the build number automatically instead of editing the file by hand."
@@ -411,9 +417,10 @@ flutter build appbundle --release \
 
 ---
 
-## <a id="q5"></a>5. What are Flutter flavors? How do you set up dev / staging / prod on Android and iOS?
+<a id="q5"></a>
+## 5. What are Flutter flavors? How do you set up dev / staging / prod on Android and iOS?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#5-flutter-flavors-কী-android-আর-ios-এ-dev--staging--prod-কীভাবে-setup-করেন)
 
 **Short answer (say this):**
 "Flavors let me build several versions of the same app from one codebase — usually dev, staging, and prod. Each flavor can have its own app ID, name, icon, and config. On Android I define `productFlavors` in `build.gradle`; on iOS I create Xcode schemes and build configurations. Then I run with `--flavor`."
@@ -511,9 +518,10 @@ A flavor is a **native** concept — it changes the app ID, name, icon, and nati
 
 ---
 
-## <a id="q6"></a>6. How does `--dart-define` work? How do you pass variables at build time?
+<a id="q6"></a>
+## 6. How does `--dart-define` work? How do you pass variables at build time?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#6---dart-define-কীভাবে-কাজ-করে-build-এর-সময়-variable-কীভাবে-pass-করবেন)
 
 **Short answer (say this):**
 "`--dart-define` passes key-value pairs into Dart as compile-time constants. They get baked into the binary when I build — they are not runtime values. I read them with `String.fromEnvironment` and friends. Because they're `const`, Dart can even tree-shake away code that depends on them."
@@ -596,9 +604,10 @@ This is much cleaner for CI: you keep one file per environment, and CI can write
 
 ---
 
-## <a id="q7"></a>7. How do you manage different API URLs, keys, and configs per environment?
+<a id="q7"></a>
+## 7. How do you manage different API URLs, keys, and configs per environment?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#7-প্রতি-environment-এর-জন্য-আলাদা-api-url-key-আর-config-কীভাবে-সামলান)
 
 **Short answer (say this):**
 "I centralize all environment values in one config class instead of scattering URLs around the code. The values come either from separate `main` entry points per flavor, or from `--dart-define`. The rule: one place to change config, and never hardcode a URL inside a service class."
@@ -709,9 +718,10 @@ Both share the same principle: **one centralized config**, and **secrets injecte
 
 ---
 
-## <a id="q8"></a>8. Explain code signing. What are an Android keystore and iOS certificates & provisioning profiles?
+<a id="q8"></a>
+## 8. Explain code signing. What are an Android keystore and iOS certificates & provisioning profiles?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q8)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#8-code-signing-ব্যাখ্যা-করুন।-android-keystore-আর-ios-certificate-ও-provisioning-profile-কী)
 
 **Short answer (say this):**
 "Code signing proves an app was built by me and hasn't been tampered with. It uses public-key cryptography — I sign with my private key, and the OS or store verifies with the public key. On Android the private key lives in a keystore file. On iOS you need both a signing certificate and a provisioning profile that ties the certificate, app ID, and devices together."
@@ -810,9 +820,10 @@ iOS signing needs both:
 
 ---
 
-## <a id="q9"></a>9. What is Fastlane? How does `match` work for iOS signing, and `supply` for Android deployment?
+<a id="q9"></a>
+## 9. What is Fastlane? How does `match` work for iOS signing, and `supply` for Android deployment?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q9)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#9-fastlane-কী-ios-signing-এর-জন্য-match-কীভাবে-কাজ-করে-আর-android-deployment-এর-জন্য-supply)
 
 **Short answer (say this):**
 "Fastlane is a tool that automates building and releasing mobile apps. You define 'lanes' in a Ruby file called the Fastfile. `match` solves iOS signing by storing one shared set of certificates and profiles in a private Git repo, so every machine signs the same way. `supply` uploads your Android app straight to the Play Store."
@@ -899,9 +910,10 @@ end
 
 ---
 
-## <a id="q10"></a>10. What is app obfuscation? Why do it, and how do you enable it in Flutter?
+<a id="q10"></a>
+## 10. What is app obfuscation? Why do it, and how do you enable it in Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q10)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#10-app-obfuscation-কী-কেন-করবেন-আর-flutter-এ-কীভাবে-enable-করবেন)
 
 **Short answer (say this):**
 "Obfuscation renames your classes and methods to meaningless names like `aa`, `b0` in the compiled app. This makes it much harder for someone to decompile your app and read your logic. In Flutter you enable it with `--obfuscate` plus `--split-debug-info`, and you must keep the saved symbols so you can decode real crash reports later."
@@ -979,9 +991,10 @@ It does **not** encrypt strings. A literal like `const apiKey = 'secret123'` is 
 
 ---
 
-## <a id="q11"></a>11. What is a build artifact? Explain the difference between APK and AAB, and why Google Play prefers AAB.
+<a id="q11"></a>
+## 11. What is a build artifact? Explain the difference between APK and AAB, and why Google Play prefers AAB.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#11-build-artifact-কী-apk-আর-aab-এর-পার্থক্য-ব্যাখ্যা-করুন-আর-কেন-google-play-aab-পছন্দ-করে।)
 
 **Short answer (say this):**
 "A build artifact is anything the build produces — APKs, AABs, IPAs, symbols, test reports. For Android the two big ones are APK and AAB. An APK is a single installable file containing everything for every device. An AAB is an upload format — you give it to Google Play, and Play generates a small, optimized APK for each user's device."
@@ -1055,9 +1068,10 @@ Since August 2021, Play requires AAB for all new apps. The main reason is **smal
 
 ---
 
-## <a id="q12"></a>12. How does Firebase App Distribution work for distributing test builds?
+<a id="q12"></a>
+## 12. How does Firebase App Distribution work for distributing test builds?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#12-test-build-বিলি-করার-জন্য-firebase-app-distribution-কীভাবে-কাজ-করে)
 
 **Short answer (say this):**
 "Firebase App Distribution sends pre-release builds — APK, AAB, or IPA — straight to testers, skipping the app stores. Testers get an email or in-app prompt, tap a link, and install. It's great for getting builds to QA fast. The iOS catch: testers' device UDIDs must be in an ad-hoc provisioning profile."
@@ -1129,9 +1143,10 @@ On iOS you must distribute an **ad-hoc** build whose provisioning profile lists 
 
 ---
 
-## <a id="q13"></a>13. How do you submit an app to the Google Play Store? Explain the tracks: internal, alpha, beta, production.
+<a id="q13"></a>
+## 13. How do you submit an app to the Google Play Store? Explain the tracks: internal, alpha, beta, production.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q13)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#13-google-play-store-এ-app-কীভাবে-submit-করবেন-track-গুলো-ব্যাখ্যা-করুন-internal-alpha-beta-production।)
 
 **Short answer (say this):**
 "Play organizes releases into tracks — internal, closed (alpha), open (beta), and production — each a stage in the rollout. You upload an AAB to a track, and only users on that track get it. Production supports staged rollout, so I can release to a small percentage first and halt if something breaks."
@@ -1196,9 +1211,10 @@ supply(
 
 ---
 
-## <a id="q14"></a>14. How do you submit an app to the Apple App Store? Describe the TestFlight flow.
+<a id="q14"></a>
+## 14. How do you submit an app to the Apple App Store? Describe the TestFlight flow.
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q14)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#14-apple-app-store-এ-app-কীভাবে-submit-করবেন-testflight-এর-flow-বর্ণনা-করুন।)
 
 **Short answer (say this):**
 "Everything goes through App Store Connect. First you upload a signed IPA. TestFlight handles pre-release testing — internal testers get it instantly, external testers need a quick Beta App Review. Then for the public release you fill in the store listing and submit for App Review, which usually takes a day or two."
@@ -1277,7 +1293,8 @@ Once testing is done:
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

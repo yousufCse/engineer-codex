@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. The basics every interview starts with**
 1. [What is "state"? Ephemeral vs app state](#q1) · *Very common*
@@ -59,7 +60,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 18 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -87,9 +89,10 @@ You don't need to study all 18 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. What is "state" in Flutter? What is the difference between ephemeral and app state?
+<a id="q1"></a>
+## 1. What is "state" in Flutter? What is the difference between ephemeral and app state?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q1)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#1-flutter-এ-state-কী-ephemeral-আর-app-state-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "State is any data that can change and that the screen shows. Flutter splits it into two kinds: ephemeral state, which only one widget cares about — like which tab is open — and app state, which many screens share — like the logged-in user or a shopping cart. The simple test is: 'Who else needs this data?' If only this widget, it's ephemeral; if other screens too, it's app state."
@@ -148,9 +151,10 @@ The same piece of data can change category. A "selected tab" starts ephemeral, b
 
 ---
 
-## <a id="q2"></a>2. How does `setState` work internally? When should you NOT use it?
+<a id="q2"></a>
+## 2. How does `setState` work internally? When should you NOT use it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#2-setstate-ভেতরে-কীভাবে-কাজ-করে-কখন-এটা-ব্যবহার-করবেন-না)
 
 **Short answer (say this):**
 "`setState` does two things: it runs my little function to change the data, then it marks this widget as 'dirty' so Flutter rebuilds it on the next frame. It's the right tool for state that lives in one widget. I avoid it when state must be shared across screens, when it would rebuild a huge subtree for one tiny change, or when I'm setting state after an `await` and the widget might already be gone."
@@ -241,9 +245,10 @@ Future<void> _load() async {
 
 ---
 
-## <a id="q3"></a>3. Walk me through the `StatefulWidget` lifecycle. Where does state actually live?
+<a id="q3"></a>
+## 3. Walk me through the `StatefulWidget` lifecycle. Where does state actually live?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#3-statefulwidget-এর-lifecycle-ধাপে-ধাপে-বলুন।-state-আসলে-কোথায়-থাকে)
 
 **Short answer (say this):**
 "A `StatefulWidget` itself is throwaway and rebuilt often, so the real state lives in its separate `State` object, which Flutter keeps alive across rebuilds. The key lifecycle steps are `initState` (set things up once), `didChangeDependencies`, `build` (runs many times), `didUpdateWidget` (parent gave new inputs), and `dispose` (clean up). I create controllers and subscriptions in `initState` and free them in `dispose`."
@@ -318,9 +323,10 @@ Inside `State`, you read the widget's inputs through `widget.something` (for exa
 
 ---
 
-## <a id="q4"></a>4. What does "lifting state up" mean, and why does it stop scaling?
+<a id="q4"></a>
+## 4. What does "lifting state up" mean, and why does it stop scaling?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q4)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#4-lifting-state-up-মানে-কী-আর-এটা-কেন-scale-করা-বন্ধ-করে-দেয়)
 
 **Short answer (say this):**
 "Lifting state up means moving shared state to the nearest common parent of the widgets that need it, then passing the data down and passing callbacks up. It's the simplest way to share state between a few close widgets. It stops scaling because, as the tree grows, you end up threading data and callbacks through many widgets that don't even use them — that pain is exactly why Provider, Riverpod, and BLoC exist."
@@ -382,9 +388,10 @@ State managers solve prop drilling by letting any descendant read shared state d
 
 ---
 
-## <a id="q5"></a>5. How does `InheritedWidget` pass data down, and what does `updateShouldNotify` do?
+<a id="q5"></a>
+## 5. How does `InheritedWidget` pass data down, and what does `updateShouldNotify` do?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q5)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#5-inheritedwidget-কীভাবে-data-নিচে-পাঠায়-আর-updateshouldnotify-কী-করে)
 
 **Short answer (say this):**
 "`InheritedWidget` is Flutter's built-in way to push data down the tree so any descendant can read it directly, without passing it through every constructor. A descendant reads it with `dependOnInheritedWidgetOfExactType`, which also subscribes that widget to changes. When the data updates, Flutter calls `updateShouldNotify`; if it returns true, only the widgets that depend on it rebuild. It's the engine under `Theme.of(context)` and Provider."
@@ -458,9 +465,10 @@ There are two lookups. `dependOnInheritedWidgetOfExactType` subscribes (rebuild 
 
 ---
 
-## <a id="q6"></a>6. Explain Provider — `ChangeNotifier`, `Consumer`, `Selector`, and `ProxyProvider`.
+<a id="q6"></a>
+## 6. Explain Provider — `ChangeNotifier`, `Consumer`, `Selector`, and `ProxyProvider`.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#6-provider-ব্যাখ্যা-করুন--changenotifier-consumer-selector-আর-proxyprovider।)
 
 **Short answer (say this):**
 "Provider is a thin, friendly wrapper around `InheritedWidget` that removes boilerplate. My model extends `ChangeNotifier` and calls `notifyListeners()` when data changes. `Consumer` rebuilds just one subtree when the model changes, `Selector` rebuilds only when one chosen field changes, and `ProxyProvider` builds one provided value from another. It's the officially recommended starting point for most apps."
@@ -549,9 +557,10 @@ MultiProvider(
 
 ---
 
-## <a id="q7"></a>7. What is the difference between `context.watch`, `context.read`, and `context.select`?
+<a id="q7"></a>
+## 7. What is the difference between `context.watch`, `context.read`, and `context.select`?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q7)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#7-contextwatch-contextread-আর-contextselect-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "All three read a provided value, but they listen differently. `watch` subscribes and rebuilds the widget on every change — use it in `build`. `read` reads once with no subscription — use it inside callbacks like `onPressed`. `select` is the precise one: it watches a derived value and rebuilds only when that exact value changes. The classic rule is: `watch`/`select` in `build`, `read` in callbacks."
@@ -619,9 +628,10 @@ context.read<T>()       -> read once, NO subscription        (use in callbacks)
 
 ---
 
-## <a id="q8"></a>8. Explain the BLoC pattern — events, states, and streams.
+<a id="q8"></a>
+## 8. Explain the BLoC pattern — events, states, and streams.
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q8)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#8-bloc-pattern-ব্যাখ্যা-করুন--event-state-আর-stream।)
 
 **Short answer (say this):**
 "BLoC stands for Business Logic Component. The UI sends in events — like 'login pressed' — and the BLoC sends back a stream of states — like loading, then success or failure. The UI just rebuilds from whatever state it receives. This keeps business logic out of the widgets, which makes it predictable and easy to test. In modern bloc v8+, I register handlers with `on<Event>()` and emit new states with an `Emitter`."
@@ -728,9 +738,10 @@ Because everything flows one way (event in → state out), the logic is predicta
 
 ---
 
-## <a id="q9"></a>9. What is a Cubit? How does it differ from BLoC, and when should you prefer each?
+<a id="q9"></a>
+## 9. What is a Cubit? How does it differ from BLoC, and when should you prefer each?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#9-cubit-কী-এটা-bloc-থেকে-কীভাবে-আলাদা-আর-কোনটা-কখন-পছন্দ-করবেন)
 
 **Short answer (say this):**
 "A Cubit is a simpler BLoC with the event layer removed. Instead of sending events, I just call methods on the Cubit, and those methods call `emit(newState)`. Both share the same base class, so both work with `BlocBuilder` and friends. I use Cubit for simple logic like counters and toggles, and full BLoC when I need a log of events or stream transformations like debounce."
@@ -807,9 +818,10 @@ bloc.add(Increment()); // must create an event object first
 
 ---
 
-## <a id="q10"></a>10. When do you use `BlocBuilder` vs `BlocListener` vs `BlocConsumer`?
+<a id="q10"></a>
+## 10. When do you use `BlocBuilder` vs `BlocListener` vs `BlocConsumer`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q10)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#10-blocbuilder-vs-bloclistener-vs-blocconsumer--কোনটা-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "`BlocBuilder` rebuilds UI when the state changes — use it to show data or a spinner. `BlocListener` runs a one-time side-effect on a state change without rebuilding — use it for navigation, a SnackBar, or a dialog. `BlocConsumer` is both together, for when one state change should both rebuild the UI and fire a side-effect. The key idea: rebuild with the builder, do one-shot actions with the listener."
@@ -898,9 +910,10 @@ If it changes pixels → `BlocBuilder`. If it's a one-shot action (navigate, sna
 
 ---
 
-## <a id="q11"></a>11. What do `buildWhen` and `listenWhen` do, and why do they matter for performance?
+<a id="q11"></a>
+## 11. What do `buildWhen` and `listenWhen` do, and why do they matter for performance?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q11)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#11-buildwhen-আর-listenwhen-কী-কাজ-করে-আর-performance-এর-জন্য-এগুলো-কেন-গুরুত্বপূর্ণ)
 
 **Short answer (say this):**
 "They are filters. `buildWhen` sits on `BlocBuilder` and gets the previous and current state; if it returns false, the builder skips that rebuild even though the state changed. `listenWhen` does the same for `BlocListener`. They matter because a single bloc may emit many states a second, and without filtering, every connected widget rebuilds every time — that's the difference between a smooth app and a janky one."
@@ -971,9 +984,10 @@ Imagine search-as-you-type: the bloc emits a new state on every keystroke. Witho
 
 ---
 
-## <a id="q12"></a>12. What is the difference between `emit()` and `setState()`? What happens if you call `emit()` after a Cubit is closed?
+<a id="q12"></a>
+## 12. What is the difference between `emit()` and `setState()`? What happens if you call `emit()` after a Cubit is closed?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#12-emit-আর-setstate-এর-পার্থক্য-কী-cubit-close-হয়ে-যাওয়ার-পরে-emit-call-করলে-কী-হয়)
 
 **Short answer (say this):**
 "Both push a new state and update the UI, but they live in different systems. `setState` belongs to a widget's `State` and rebuilds that widget's own subtree. `emit` belongs to a Cubit/Bloc and pushes a new state onto its stream, so any `BlocBuilder` listening rebuilds. If I call `emit` after the Cubit is closed — usually after an `await` once the user has left the screen — it throws a `StateError`. I guard it with an `isClosed` check."
@@ -1051,9 +1065,10 @@ Inside a Bloc's `on<Event>` handler, the framework helps: emits after close are 
 
 ---
 
-## <a id="q13"></a>13. Explain Riverpod — how it differs from Provider, its provider types, and `ref.watch` vs `ref.read` vs `ref.listen`.
+<a id="q13"></a>
+## 13. Explain Riverpod — how it differs from Provider, its provider types, and `ref.watch` vs `ref.read` vs `ref.listen`.
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q13)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#13-riverpod-ব্যাখ্যা-করুন--এটা-provider-থেকে-কীভাবে-আলাদা-এর-provider-ধরনগুলো-কী-আর-refwatch-vs-refread-vs-reflisten।)
 
 **Short answer (say this):**
 "Riverpod is by the same author as Provider and fixes its main limits: providers are global and don't depend on the widget tree, so there are no 'provider not found' runtime errors. It has typed providers — `StateProvider`, `FutureProvider`, `StreamProvider`, and `NotifierProvider` for complex logic. Inside a widget I use `ref.watch` to rebuild on change, `ref.read` for one-time access in callbacks, and `ref.listen` for side-effects like navigation."
@@ -1172,9 +1187,10 @@ Add `.autoDispose` so a provider is destroyed when nobody is listening — impor
 
 ---
 
-## <a id="q14"></a>14. Explain GetX — controllers, `Obx`, `GetBuilder` — and its trade-offs.
+<a id="q14"></a>
+## 14. Explain GetX — controllers, `Obx`, `GetBuilder` — and its trade-offs.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#14-getx-ব্যাখ্যা-করুন--controllers-obx-getbuilder--আর-এর-trade-off-কী-কী)
 
 **Short answer (say this):**
 "GetX is an all-in-one package bundling state management, dependency injection, and routing, with very little boilerplate. State lives in a `GetxController`. You make a variable reactive with `.obs`, and any `Obx(() => ...)` reading it rebuilds automatically; or you use `GetBuilder` and call `update()` manually. The trade-off: it's fast to build but uses a lot of hidden magic and global singletons, which makes data flow harder to trace and testing harder — and it's not endorsed by the Flutter team."
@@ -1262,9 +1278,10 @@ GetX shines for solo developers, prototypes, and small apps where speed of build
 
 ---
 
-## <a id="q15"></a>15. How do you model loading, success, and error states cleanly using a sealed union?
+<a id="q15"></a>
+## 15. How do you model loading, success, and error states cleanly using a sealed union?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q15)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#15-sealed-union-দিয়ে-loading-success-আর-error-state-কীভাবে-পরিষ্কারভাবে-model-করবেন)
 
 **Short answer (say this):**
 "Instead of juggling separate booleans like `isLoading`, `hasError`, and a nullable `data`, I model the state as a sealed class with one subtype per case: `Loading`, `Success`, `Failure`. Because it's sealed, the compiler forces my `switch` to handle every case, so I can't forget one and there's no `default` needed. This makes impossible states — like loading and error at the same time — literally unrepresentable."
@@ -1387,9 +1404,10 @@ class AsyncStateWidget<T> extends StatelessWidget {
 
 ---
 
-## <a id="q16"></a>16. How do you share state between two completely unrelated screens?
+<a id="q16"></a>
+## 16. How do you share state between two completely unrelated screens?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q16)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#16-সম্পূর্ণ-সম্পর্ক-নেই-এমন-দুটি-screen-এর-মধ্যে-state-কীভাবে-share-করবেন)
 
 **Short answer (say this):**
 "'Unrelated' means neither screen is an ancestor of the other, so I must put the state above both of them, or outside the tree entirely. The cleanest options are a Provider/BLoC at a common ancestor like `MaterialApp`, or a Riverpod provider, which is global and tree-independent so both screens read the same instance. I avoid global mutable variables, because the data changes but the UI never updates."
@@ -1464,9 +1482,10 @@ A plain global variable shares the value but has no way to tell the UI it change
 
 ---
 
-## <a id="q17"></a>17. How do you choose a state management solution for a project?
+<a id="q17"></a>
+## 17. How do you choose a state management solution for a project?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q17)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#17-একটা-project-এর-জন্য-state-management-solution-কীভাবে-বাছাই-করেন)
 
 **Short answer (say this):**
 "There's no single right answer — it depends on the state and the team. I use `setState` for state local to one widget, Provider or Riverpod for most app-wide state, and BLoC when I need strict architecture or complex event handling like debounce. And it's fine to mix them in one app. The senior point is weighing trade-offs — team familiarity, testability, complexity — instead of defending one tool."
@@ -1537,9 +1556,10 @@ Don't bring BLoC to a toggle, and don't manage app-wide auth with `setState`. Ov
 
 ---
 
-## <a id="q18"></a>18. How do you test BLoC / Cubit state logic?
+<a id="q18"></a>
+## 18. How do you test BLoC / Cubit state logic?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q18)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#18-bloc--cubit-এর-state-logic-কীভাবে-test-করেন)
 
 **Short answer (say this):**
 "I use the `bloc_test` package and its `blocTest` helper. The pattern is: `build` creates the bloc with mocked dependencies, `act` triggers an action — add an event for a Bloc, call a method for a Cubit — and `expect` asserts the exact sequence of emitted states. For Blocs with dependencies, I mock the repository and verify it was called. The key gotcha is that `blocTest` skips the initial state, so I only list the states emitted after the action."
@@ -1642,7 +1662,8 @@ Don't only test success. Test failures, edge cases (like calling a method after 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

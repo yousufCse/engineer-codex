@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Test types & strategy**
 1. [Three test types — unit, widget, integration](#q1) · *Very common*
@@ -65,7 +66,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 18 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -93,9 +95,10 @@ You don't need to study all 18 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. What are the three types of Flutter tests — unit, widget, and integration — and when do you use each?
+<a id="q1"></a>
+## 1. What are the three types of Flutter tests — unit, widget, and integration — and when do you use each?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#1-flutter-test-এর-তিনটি-ধরন--unit-widget-আর-integration--কী-আর-কোনটা-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Flutter has three layers of tests. Unit tests check one function or class with no UI — they are fast. Widget tests render one widget or a small piece of the screen in a fake engine — medium speed. Integration tests run the whole app on a real device or emulator — slow but most realistic. I push as much testing as I can down to the unit level."
@@ -173,9 +176,10 @@ void main() {
 
 ---
 
-## <a id="q2"></a>2. What is the test pyramid, and how do you balance unit, widget, and integration tests?
+<a id="q2"></a>
+## 2. What is the test pyramid, and how do you balance unit, widget, and integration tests?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#2-test-pyramid-কী-আর-unit-widget-আর-integration-test-এর-মধ্যে-balance-কীভাবে-রাখবেন)
 
 **Short answer (say this):**
 "The test pyramid says: have many cheap fast tests at the bottom (unit), fewer in the middle (widget), and only a handful of slow expensive tests at the top (integration). The reason is cost — unit tests give fast feedback and are easy to maintain, while integration tests are slow and flaky. The main rule is: push testing down to the lowest level that can prove the behavior."
@@ -242,9 +246,10 @@ Integration tests (one or two):
 
 ---
 
-## <a id="q3"></a>3. What is test-driven development (TDD), and would you use it in Flutter?
+<a id="q3"></a>
+## 3. What is test-driven development (TDD), and would you use it in Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#3-test-driven-development-tdd-কী-আর-flutter-এ-এটা-ব্যবহার-করবেন-কি)
 
 **Short answer (say this):**
 "TDD means I write the test first, watch it fail, then write just enough code to make it pass, then clean up — this is the red, green, refactor loop. It forces me to think about the behavior and the design before the implementation. I use it most for business logic and bug fixes, and more loosely for UI."
@@ -304,9 +309,10 @@ Because you call your own code before it exists, you feel awkward APIs early. If
 
 ---
 
-## <a id="q4"></a>4. Explain the core unit testing primitives — `test`, `expect`, `group`, `setUp`, `tearDown`.
+<a id="q4"></a>
+## 4. Explain the core unit testing primitives — `test`, `expect`, `group`, `setUp`, `tearDown`.
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q4)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#4-মূল-unit-testing-primitive-গুলো-ব্যাখ্যা-করুন--test-expect-group-setup-teardown।)
 
 **Short answer (say this):**
 "`test` defines one test case. `expect` checks a value against a matcher. `group` bundles related tests under a label. `setUp` runs before each test to give a clean starting point, and `tearDown` runs after each test to clean up. There are also `setUpAll` and `tearDownAll` that run once for the whole group."
@@ -395,9 +401,10 @@ tearDownAll(() => closeDb());     // runs ONCE after all tests
 
 ---
 
-## <a id="q5"></a>5. What are matchers? Explain `equals`, `throwsA`, `isA`, `contains`, and async matchers.
+<a id="q5"></a>
+## 5. What are matchers? Explain `equals`, `throwsA`, `isA`, `contains`, and async matchers.
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q5)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#5-matcher-কী-equals-throwsa-isa-contains-আর-async-matcher-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "A matcher is the second argument to `expect` — it describes the rule the value must satisfy, not just a fixed value. Simple ones are `equals`, `isTrue`, `isNull`. `isA<T>()` checks the type, `contains` checks collections, and `throwsA` checks that a function throws. For futures I use `expectLater` with `completion` or `throwsA`."
@@ -475,9 +482,10 @@ await expectLater(counterStream, emitsInOrder([1, 2, 3]));
 
 ---
 
-## <a id="q6"></a>6. How does widget testing work — explain `pumpWidget`, `find`, `tap`, `pump`, and `pumpAndSettle`?
+<a id="q6"></a>
+## 6. How does widget testing work — explain `pumpWidget`, `find`, `tap`, `pump`, and `pumpAndSettle`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#6-widget-testing-কীভাবে-কাজ-করে--pumpwidget-find-tap-pump-আর-pumpandsettle-ব্যাখ্যা-করুন)
 
 **Short answer (say this):**
 "Widget tests use a `WidgetTester` to render a widget in a headless test engine and interact with it. `pumpWidget` builds and renders the tree. `find` locates widgets. `tap` fires a gesture. The key detail: after a tap or state change, the UI does not rebuild on its own — I must call `pump` to advance one frame, or `pumpAndSettle` to run all frames until animations finish."
@@ -566,9 +574,10 @@ testWidgets('Login button enables when the form is valid', (tester) async {
 
 ---
 
-## <a id="q7"></a>7. How do finders work — `find.byType`, `byKey`, `text`, `byIcon`, and `widgetWithText`?
+<a id="q7"></a>
+## 7. How do finders work — `find.byType`, `byKey`, `text`, `byIcon`, and `widgetWithText`?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q7)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#7-finder-কীভাবে-কাজ-করে--findbytype-bykey-text-byicon-আর-widgetwithtext)
 
 **Short answer (say this):**
 "A finder is a description of which widget to locate in the test tree — it doesn't fetch anything until a `WidgetTester` uses it. The common ones are `byType`, `byKey`, `text`, and `byIcon`. I check results with `findsOneWidget`, `findsNothing`, or `findsNWidgets(n)`. When several widgets match, I add a `Key` to target exactly one."
@@ -641,9 +650,10 @@ Use `.first` / `.last` / `.at(index)` only when keys would be noisy and the orde
 
 ---
 
-## <a id="q8"></a>8. How do you test async code and time-based logic — `async` tests, `fakeAsync`, and advancing time?
+<a id="q8"></a>
+## 8. How do you test async code and time-based logic — `async` tests, `fakeAsync`, and advancing time?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q8)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#8-async-code-আর-time-based-logic-কীভাবে-test-করেন--async-test-fakeasync-আর-সময়-এগিয়ে-নেওয়া)
 
 **Short answer (say this):**
 "For fast async work like a mocked API call, I just make the test `async` and `await` the future. For time-based logic like debounce, polling, or timeouts, I control time instead of really waiting — `fakeAsync` and `async.elapse(...)` in unit tests, and `tester.pump(duration)` in widget tests. The goal is fast, deterministic tests with no real `sleep`."
@@ -738,9 +748,10 @@ testWidgets('Debounced search waits 500ms before calling the API', (tester) asyn
 
 ---
 
-## <a id="q9"></a>9. How does mocking with Mockito work — `@GenerateMocks`, `when`/`thenReturn`, and `verify`?
+<a id="q9"></a>
+## 9. How does mocking with Mockito work — `@GenerateMocks`, `when`/`thenReturn`, and `verify`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#9-mockito-দিয়ে-mocking-কীভাবে-কাজ-করে--generatemocks-whenthenreturn-আর-verify)
 
 **Short answer (say this):**
 "Mockito creates fake versions of your dependencies so you can test a class in isolation. It uses code generation: I annotate with `@GenerateMocks`, run build_runner, and it creates the mock classes. Then the cycle is: stub with `when(...).thenReturn(...)`, run the code, and check calls with `verify(...)`. For async methods I use `thenAnswer`, not `thenReturn`."
@@ -836,9 +847,10 @@ verifyNoMoreInteractions(mockApi);           // nothing else was called
 
 ---
 
-## <a id="q10"></a>10. How does Mocktail differ from Mockito, and when would you choose it?
+<a id="q10"></a>
+## 10. How does Mocktail differ from Mockito, and when would you choose it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q10)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#10-mocktail-আর-mockito-র-মধ্যে-পার্থক্য-কী-আর-কখন-আপনি-mocktail-বেছে-নেবেন)
 
 **Short answer (say this):**
 "Mocktail does the same job as Mockito but needs no code generation — no build_runner, no generated files. You just write `class MockX extends Mock implements X {}`. The syntax uses a closure: `when(() => mock.method())`. And when you use `any()` with a custom type, you must register a fallback value first. I reach for Mocktail to keep setup simple and builds fast."
@@ -932,9 +944,10 @@ void main() {
 
 ---
 
-## <a id="q11"></a>11. What is the difference between a Fake and a Mock — when do you use each?
+<a id="q11"></a>
+## 11. What is the difference between a Fake and a Mock — when do you use each?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q11)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#11-fake-আর-mock-এর-পার্থক্য-কী--কোনটা-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Both are test doubles — stand-ins for a real dependency. A mock records how it was called, so I stub it with `when` and check calls with `verify`; use it when I care *how* the dependency was used. A fake is a real, simplified working implementation — like an in-memory database — with no stubbing or verifying; use it when I just need something that works during the test."
@@ -1025,9 +1038,10 @@ Do you need to verify HOW the dependency was called?
 
 ---
 
-## <a id="q12"></a>12. How do you test a BLoC or Cubit using `bloc_test`?
+<a id="q12"></a>
+## 12. How do you test a BLoC or Cubit using `bloc_test`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q12)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#12-bloc_test-দিয়ে-একটা-bloc-বা-cubit-কীভাবে-test-করবেন)
 
 **Short answer (say this):**
 "The `bloc_test` package gives a `blocTest` helper with a fixed shape: build, optionally seed, act, expect, optionally verify. It records every state the BLoC emits during `act` and compares them to my expected list. Two things to remember: the initial state is NOT in the expect list, and the state classes must be equatable."
@@ -1130,9 +1144,10 @@ void main() {
 
 ---
 
-## <a id="q13"></a>13. How do you test a screen (widget) that depends on a Cubit?
+<a id="q13"></a>
+## 13. How do you test a screen (widget) that depends on a Cubit?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q13)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#13-যে-screen-widget-একটা-cubit-এর-উপর-নির্ভর-করে-সেটা-কীভাবে-test-করবেন)
 
 **Short answer (say this):**
 "I mock the Cubit and inject it with `BlocProvider.value`, so the widget test stays focused on UI only. I stub the Cubit's `state` to the state I want to test, render the screen, and assert the UI matches. The easiest way is the `MockCubit` helper from `bloc_test`, which handles the `state` and `stream` for me."
@@ -1229,9 +1244,10 @@ If you hand-roll `class MockUserCubit extends Mock implements UserCubit {}`, you
 
 ---
 
-## <a id="q14"></a>14. How do you test a repository that calls an HTTP API — how do you mock Dio or `http`?
+<a id="q14"></a>
+## 14. How do you test a repository that calls an HTTP API — how do you mock Dio or `http`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q14)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#14-যে-repository-একটা-http-api-call-করে-সেটা-কীভাবে-test-করবেন--dio-বা-http-কীভাবে-mock-করবেন)
 
 **Short answer (say this):**
 "Never make real network calls in a unit test. Instead I inject the HTTP client into the repository and mock it at that boundary. For the `http` package I use `MockClient` from `package:http/testing`. For Dio I mock the `Dio` instance with Mocktail. Best of all, I hide the client behind my own interface so swapping a mock is trivial."
@@ -1335,9 +1351,10 @@ class MockApiClient extends Mock implements ApiClient {}  // trivial to mock
 
 ---
 
-## <a id="q15"></a>15. What are golden tests — how do you create and update them, and when should you use them?
+<a id="q15"></a>
+## 15. What are golden tests — how do you create and update them, and when should you use them?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q15)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#15-golden-test-কী--কীভাবে-এগুলো-তৈরি-আর-update-করবেন-আর-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "A golden test takes a snapshot image of a rendered widget and compares it pixel-by-pixel to a saved reference image. If the pixels differ, the test fails — so it catches unwanted visual changes. I create or update the reference with `--update-goldens`, and normal runs compare against it. I use them for custom-painted and design-system widgets, not for everything."
@@ -1422,9 +1439,10 @@ Golden images depend on the platform, because fonts render slightly differently 
 
 ---
 
-## <a id="q16"></a>16. How does integration testing work in Flutter — the `integration_test` package and running on real devices?
+<a id="q16"></a>
+## 16. How does integration testing work in Flutter — the `integration_test` package and running on real devices?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q16)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#16-flutter-এ-integration-testing-কীভাবে-কাজ-করে--integration_test-package-আর-আসল-device-এ-চালানো)
 
 **Short answer (say this):**
 "The `integration_test` package runs full-app tests on a real device or emulator. Unlike widget tests, it drives the complete rendering pipeline, navigation, and platform channels. You initialize `IntegrationTestWidgetsFlutterBinding`, start the app, then drive it with the same `tester` API. It replaces the old `flutter_driver` approach."
@@ -1514,9 +1532,10 @@ flutter test integration_test/app_test.dart -d chrome
 
 ---
 
-## <a id="q17"></a>17. How do you generate and measure code coverage in Flutter — and what does it really tell you?
+<a id="q17"></a>
+## 17. How do you generate and measure code coverage in Flutter — and what does it really tell you?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q17)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#17-flutter-এ-code-coverage-কীভাবে-তৈরি-আর-মাপবেন--আর-এটা-আসলে-কী-বলে)
 
 **Short answer (say this):**
 "Flutter has built-in coverage: `flutter test --coverage` produces `coverage/lcov.info`, and I turn it into an HTML report with `genhtml`. But coverage only measures which lines ran, not whether the tests are good. So I treat it as a hint about what is untested, not as a quality score, and I never chase 100%."
@@ -1584,9 +1603,10 @@ A typical pipeline runs tests with coverage, filters generated files, enforces a
 
 ---
 
-## <a id="q18"></a>18. How do you keep tests maintainable as the codebase grows?
+<a id="q18"></a>
+## 18. How do you keep tests maintainable as the codebase grows?
 
-> Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q18)
+> Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#18-codebase-বড়-হওয়ার-সাথে-সাথে-test-গুলো-maintainable-রাখেন-কীভাবে)
 
 **Short answer (say this):**
 "Maintainable tests are really an architecture problem. I push logic down to fast unit tests, extract setup into helper functions so I don't repeat widget trees, test one behavior per test, mock only the immediate dependency, and treat test code like production code. And I test *what* happens, not *how* it happens internally — so a refactor doesn't break everything."
@@ -1679,7 +1699,8 @@ Maintainability checklist:
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

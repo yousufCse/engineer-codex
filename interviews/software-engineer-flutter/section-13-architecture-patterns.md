@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Layers & separation**
 1. [Layered Architecture](#q1) · *Very common*
@@ -53,7 +54,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 Follow these stages in order. Tick a stage off only when you can give the **short answer** and draw the layers, without looking.
 
@@ -78,9 +80,10 @@ Follow these stages in order. Tick a stage off only when you can give the **shor
 
 ---
 
-## <a id="q1"></a>1. What is Layered Architecture, and what are the typical layers in a mobile app?
+<a id="q1"></a>
+## 1. What is Layered Architecture, and what are the typical layers in a mobile app?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q1)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#1-layered-architecture-কী-আর-একটা-mobile-app-এ-সাধারণত-কোন-কোন-layer-থাকে)
 
 **Short answer (say this):**
 "Layered architecture splits the app into horizontal layers, each with one job, where a layer only talks to the layer directly below it. In a mobile app the layers are usually Presentation (UI), Domain/Application (business logic), and Data (APIs, database). It keeps concerns separate so each layer can change and be tested independently."
@@ -125,9 +128,10 @@ A button tap (Presentation) → calls a use case (Domain) → which asks a repos
 
 ---
 
-## <a id="q2"></a>2. Explain Clean Architecture in Flutter — the 3 layers and the dependency rule.
+<a id="q2"></a>
+## 2. Explain Clean Architecture in Flutter — the 3 layers and the dependency rule.
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q2)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#2-flutter-এ-clean-architecture-ব্যাখ্যা-করুন--৩টি-layer-আর-dependency-rule।)
 
 **Short answer (say this):**
 "Clean Architecture splits the app into Presentation, Domain, and Data layers, with one strict rule: dependencies point inward, toward the Domain. The Domain is the center — pure business logic with no Flutter or package imports. Presentation and Data both depend on Domain, but Domain depends on nothing. This makes the core logic stable and easy to test."
@@ -199,9 +203,10 @@ Clean Architecture adds boilerplate (interfaces, use cases, models vs entities).
 
 ---
 
-## <a id="q3"></a>3. What is "Separation of Concerns"? Give a Flutter example of a violation and the fix.
+<a id="q3"></a>
+## 3. What is "Separation of Concerns"? Give a Flutter example of a violation and the fix.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#3-separation-of-concerns-কী-flutter-এ-একটা-violation-আর-তার-সমাধানের-উদাহরণ-দিন।)
 
 **Short answer (say this):**
 "Separation of concerns means each part of the code handles one concern — UI, business logic, or data — and they don't mix. A common violation is calling the network and parsing JSON directly inside a widget's `build` method. The fix is to move that work into a repository and keep the widget focused on showing UI."
@@ -276,9 +281,10 @@ Now the data layer is testable on its own, the logic is testable on its own, and
 
 ---
 
-## <a id="q4"></a>4. What is MVC (Model-View-Controller)?
+<a id="q4"></a>
+## 4. What is MVC (Model-View-Controller)?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#4-mvc-model-view-controller-কী)
 
 **Short answer (say this):**
 "MVC splits an app into three parts: the Model holds data and rules, the View shows the UI, and the Controller handles input and updates the Model and View. The goal is to keep the UI separate from the data. In Flutter, pure MVC is less common because Flutter's reactive widgets blur the View/Controller line."
@@ -317,9 +323,10 @@ Flutter widgets are reactive — they rebuild from state. So the "View" and "Con
 
 ---
 
-## <a id="q5"></a>5. What is MVVM, and how do Cubit/BLoC map to it?
+<a id="q5"></a>
+## 5. What is MVVM, and how do Cubit/BLoC map to it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#5-mvvm-কী-আর-cubitbloc-এর-সাথে-কীভাবে-মেলে)
 
 **Short answer (say this):**
 "MVVM is Model-View-ViewModel. The ViewModel sits between the UI and the data: it holds the screen's state and exposes it in a ready-to-display form, and the View just binds to it. In Flutter, a Cubit or BLoC acts as the ViewModel — it holds state, the widget rebuilds when the state changes."
@@ -376,9 +383,10 @@ Flutter is reactive: the UI rebuilds from state. A ViewModel (Cubit/BLoC/Riverpo
 
 ---
 
-## <a id="q6"></a>6. What is MVP (Model-View-Presenter), and how is it different from MVVM?
+<a id="q6"></a>
+## 6. What is MVP (Model-View-Presenter), and how is it different from MVVM?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q6)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#6-mvp-model-view-presenter-কী-আর-এটা-mvvm-থেকে-কীভাবে-আলাদা)
 
 **Short answer (say this):**
 "MVP has a Presenter that does all the logic and tells a 'dumb' View exactly what to show, usually through a View interface. The main difference from MVVM: in MVP the Presenter pushes updates to the View directly; in MVVM the View binds to observable state and updates itself. MVVM is more reactive, which fits Flutter better."
@@ -441,9 +449,10 @@ Flutter's whole model is "rebuild from state," which is MVVM's binding style. MV
 
 ---
 
-## <a id="q7"></a>7. What is the Repository Pattern, what problem does it solve, and how does it fit Clean Architecture?
+<a id="q7"></a>
+## 7. What is the Repository Pattern, what problem does it solve, and how does it fit Clean Architecture?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q7)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#7-repository-pattern-কী-এটা-কোন-সমস্যা-সমাধান-করে-আর-clean-architecture-এ-এটা-কীভাবে-বসে)
 
 **Short answer (say this):**
 "A repository is a class that hides where data comes from. The rest of the app asks the repository for data and doesn't care if it came from the network, a database, or a cache. It solves the problem of UI and logic being tied to a specific data source. In Clean Architecture, the Domain defines the repository interface and the Data layer implements it."
@@ -500,9 +509,10 @@ The Domain owns the *interface* (so the Domain stays pure), and the Data layer p
 
 ---
 
-## <a id="q8"></a>8. What is the Use Case (Interactor) pattern? When is it useful, and when is it overkill?
+<a id="q8"></a>
+## 8. What is the Use Case (Interactor) pattern? When is it useful, and when is it overkill?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#8-use-case-interactor-pattern-কী-কখন-এটা-কাজে-লাগে-আর-কখন-এটা-বাড়াবাড়ি)
 
 **Short answer (say this):**
 "A use case is a class that does exactly one business action — like 'get user profile' or 'place order'. It sits in the Domain layer between the state management and the repository. It's useful for complex apps with real business rules, but on a simple CRUD app it can be just an extra layer that forwards a call, which is overkill."
@@ -552,9 +562,10 @@ If the use case just calls `repo.getUser(id)` and nothing else, it's an empty mi
 
 ---
 
-## <a id="q9"></a>9. What is Dependency Injection, why do we use it, and how does `get_it` implement it?
+<a id="q9"></a>
+## 9. What is Dependency Injection, why do we use it, and how does `get_it` implement it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#9-dependency-injection-কী-আমরা-কেন-এটা-ব্যবহার-করি-আর-get_it-এটা-কীভাবে-implement-করে)
 
 **Short answer (say this):**
 "Dependency Injection (DI) means a class receives the things it needs from outside, instead of creating them itself. We use it for low coupling and testability — you can swap a real dependency for a fake. `get_it` is a service locator that registers dependencies once at startup and hands them out wherever you need them."
@@ -617,9 +628,10 @@ final cubit = sl<UserCubit>();
 
 ---
 
-## <a id="q10"></a>10. What is the difference between a Service Locator and Dependency Injection? What are the trade-offs?
+<a id="q10"></a>
+## 10. What is the difference between a Service Locator and Dependency Injection? What are the trade-offs?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q10)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#10-service-locator-আর-dependency-injection-এর-মধ্যে-পার্থক্য-কী-এর-trade-off-কী-কী)
 
 **Short answer (say this):**
 "Both provide dependencies, but in opposite directions. With Dependency Injection, dependencies are *pushed in* through the constructor, so they're visible in the class's signature. With a Service Locator, the class *pulls* dependencies by asking a global registry. DI is more explicit and testable; a service locator is convenient but hides dependencies."
@@ -669,9 +681,10 @@ Prefer constructor injection inside your classes (visible, testable). Use the se
 
 ---
 
-## <a id="q11"></a>11. What is event-driven architecture, and how does BLoC use this concept?
+<a id="q11"></a>
+## 11. What is event-driven architecture, and how does BLoC use this concept?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q11)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#11-event-driven-architecture-কী-আর-bloc-এই-ধারণাটা-কীভাবে-ব্যবহার-করে)
 
 **Short answer (say this):**
 "Event-driven means parts of the system communicate by sending and reacting to events, instead of calling each other directly. BLoC uses this: the UI sends events in, the BLoC processes them and emits states out. This one-way flow makes the logic predictable and easy to test."
@@ -731,9 +744,10 @@ Cubit drops the explicit events and exposes methods directly (`increment()`). Us
 
 ---
 
-## <a id="q12"></a>12. What are the trade-offs between Monorepo and Multi-repo for mobile teams?
+<a id="q12"></a>
+## 12. What are the trade-offs between Monorepo and Multi-repo for mobile teams?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#12-মোবাইল-টিমের-জন্য-monorepo-আর-multi-repo-র-trade-off-কী-কী)
 
 **Short answer (say this):**
 "A monorepo keeps all code in one repository; a multi-repo splits it across many. A monorepo makes sharing code and making cross-cutting changes easy, with one source of truth — but it can get big and needs good tooling. Multi-repo gives strong separation and independent releases, but sharing code and coordinating changes is harder."
@@ -774,9 +788,10 @@ Flutter teams often use a monorepo with `melos` to manage multiple packages (a c
 
 ---
 
-## <a id="q13"></a>13. What is modular architecture (feature packages) in Flutter, and why do large teams adopt it?
+<a id="q13"></a>
+## 13. What is modular architecture (feature packages) in Flutter, and why do large teams adopt it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#13-flutter-এ-modular-architecture-feature-package-কী-আর-বড়-টিমগুলো-কেন-এটা-নেয়)
 
 **Short answer (say this):**
 "Modular architecture splits the app into separate packages — usually one per feature, plus shared core packages — instead of one big lib folder. Large teams adopt it because it gives clear boundaries, lets teams work in parallel without stepping on each other, enforces dependency rules, and speeds up builds and tests for a single feature."
@@ -822,9 +837,10 @@ More setup and tooling (often a monorepo with `melos`). For a small app it's ove
 
 ---
 
-## <a id="q14"></a>14. How do you decide which architecture to use for a new Flutter project?
+<a id="q14"></a>
+## 14. How do you decide which architecture to use for a new Flutter project?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#q14)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-13-architecture-patterns-bn.md#14-নতুন-একটা-flutter-project-এর-জন্য-কোন-architecture-ব্যবহার-করবেন-সেটা-কীভাবে-ঠিক-করেন)
 
 **Short answer (say this):**
 "I match the architecture to the project's size and lifespan. A tiny app gets a simple structure — Cubit plus a repository. A medium app gets layered MVVM with repositories and DI. A large, long-lived, multi-team app gets full Clean Architecture with modular feature packages. The rule is: enough structure to stay maintainable, but not so much that it slows you down."
@@ -867,7 +883,8 @@ You can begin with a simple structure and add layers (use cases, modular package
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Foundations**
 1. [Code smell vs bug](#q1) · *Very common*
@@ -71,7 +72,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The foundations (start here).**
 → [Q1 Smell vs bug](#q1) · [Q2 Refactor safely](#q2) · [Q15 Extract Method](#q15)
@@ -96,9 +98,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. What is a code smell, and how is it different from a bug?
+<a id="q1"></a>
+## 1. What is a code smell, and how is it different from a bug?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q1)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#1-code-smell-কী-আর-এটা-bug-থেকে-কীভাবে-আলাদা)
 
 **Short answer (say this):**
 "A code smell is a sign that something in the code is poorly structured and may cause trouble later — but it still works correctly. A bug means the code is actually broken. So a smell is a warning about *design*, while a bug is a failure in *behaviour*."
@@ -136,9 +139,10 @@ Smells slow the team down: messy code is hard to read, test, and change, and it 
 
 ---
 
-## <a id="q2"></a>2. How do you refactor safely?
+<a id="q2"></a>
+## 2. How do you refactor safely?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#2-আপনি-কীভাবে-নিরাপদে-refactor-করেন)
 
 **Short answer (say this):**
 "Refactoring means improving the structure of code without changing what it does. To do it safely: make sure tests exist first, change in small steps, and run the tests after each step. If a step breaks a test, you undo just that small step — not a day's work."
@@ -173,9 +177,10 @@ Add a few "characterization tests" first — tests that lock in the *current* be
 
 ---
 
-## <a id="q3"></a>3. How do you convince a team to refactor old code?
+<a id="q3"></a>
+## 3. How do you convince a team to refactor old code?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#3-পুরোনো-code-refactor-করতে-team-কে-কীভাবে-রাজি-করান)
 
 **Short answer (say this):**
 "I tie refactoring to business value, not 'clean code for its own sake'. I show how the messy area slows delivery or causes bugs, and I refactor in small, safe steps alongside feature work — the 'boy scout rule', leave the code a little cleaner than you found it — rather than asking for a big risky rewrite."
@@ -211,9 +216,10 @@ Do it behind tests, in small PRs, and show the before/after improvement. Small w
 
 ---
 
-## <a id="q4"></a>4. What is a Long Method, and how do you fix it?
+<a id="q4"></a>
+## 4. What is a Long Method, and how do you fix it?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q4)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#4-long-method-কী-আর-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "A Long Method tries to do too much in one place, so it's hard to read and test. The fix is Extract Method — pull each distinct task into its own small, well-named method. A good method does one thing and reads like a short paragraph."
@@ -268,9 +274,10 @@ Now `checkout` reads like a summary, and each piece is testable on its own.
 
 ---
 
-## <a id="q5"></a>5. What is a Large Class (God Object), and how do you fix it?
+<a id="q5"></a>
+## 5. What is a Large Class (God Object), and how do you fix it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#5-large-class-god-object-কী-আর-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "A Large Class, or God Object, knows and does too much — it holds many unrelated fields and methods. It breaks the Single Responsibility Principle. The fix is Extract Class: split it into smaller classes, each with one clear job."
@@ -299,7 +306,7 @@ class UserRepository { void save(User u) {/* db */} }
 class EmailService { void sendWelcome(User u) {/* email */} }
 ```
 
-Each class now has one reason to change (high cohesion, [SRP](section-12-oop-principles.md#q10)).
+Each class now has one reason to change (high cohesion, [SRP](section-12-oop-principles.md#10-solid--s-single-responsibility-principle-srp)).
 
 **Why interviewers ask:** God objects are a top cause of unmaintainable code. They check you can apply SRP.
 
@@ -314,9 +321,10 @@ Each class now has one reason to change (high cohesion, [SRP](section-12-oop-pri
 
 ---
 
-## <a id="q6"></a>6. What is a Long Parameter List, and how do you fix it?
+<a id="q6"></a>
+## 6. What is a Long Parameter List, and how do you fix it?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q6)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#6-long-parameter-list-কী-আর-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "A Long Parameter List means a method takes too many arguments, which is hard to read and easy to pass in the wrong order. The fix is Introduce Parameter Object — group related parameters into one small object. In Dart, named parameters also help a lot."
@@ -361,9 +369,10 @@ void createUser({required String first, required String last, required Address a
 
 ---
 
-## <a id="q7"></a>7. What are Data Clumps, and how do you fix them?
+<a id="q7"></a>
+## 7. What are Data Clumps, and how do you fix them?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#7-data-clumps-কী-আর-এগুলো-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "Data Clumps are the same group of variables that keep appearing together — like `startDate` and `endDate`, or `x` and `y` everywhere. It's a sign they should be one object. The fix is to wrap the clump in a small class, which also gives a home for related behaviour."
@@ -408,9 +417,10 @@ It removes repetition, makes signatures shorter, and gives a place for related l
 
 ---
 
-## <a id="q8"></a>8. What is Primitive Obsession, and how do you fix it with value objects?
+<a id="q8"></a>
+## 8. What is Primitive Obsession, and how do you fix it with value objects?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#8-primitive-obsession-কী-আর-value-object-দিয়ে-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "Primitive Obsession is using raw primitives (String, int) for concepts that deserve their own type — like a `String` for an email or an `int` for money. The fix is a value object: a small class that wraps the primitive and enforces its rules, so invalid values can't exist."
@@ -461,9 +471,10 @@ void sendEmail(Email email) {} // now only a valid Email can be passed
 
 ---
 
-## <a id="q9"></a>9. What is Duplicate Code, and how do you fix it?
+<a id="q9"></a>
+## 9. What is Duplicate Code, and how do you fix it?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q9)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#9-duplicate-code-কী-আর-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "Duplicate Code is the same logic copy-pasted in several places. It's dangerous because a change means fixing every copy, and you'll miss one. The fix is to pull the shared logic into one function or class — the DRY principle. But be careful only to merge code that represents the same *knowledge*."
@@ -495,15 +506,16 @@ Don't merge code just because it *looks* the same today. If two pieces represent
 **Follow-ups they may ask:**
 - *"DRY downside?"* → Premature merging couples things that should evolve separately; a little duplication is sometimes healthier.
 
-**Related:** [Q15 — Extract Method](#q15) · [Q12 (OOP) — DRY](section-12-oop-principles.md#q15)
+**Related:** [Q15 — Extract Method](#q15) · [Q12 (OOP) — DRY](section-12-oop-principles.md#15-what-is-the-dry-principle)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q10"></a>10. What are Magic Numbers and Magic Strings, and how do you fix them?
+<a id="q10"></a>
+## 10. What are Magic Numbers and Magic Strings, and how do you fix them?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q10)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#10-magic-number-আর-magic-string-কী-আর-এগুলো-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "Magic numbers and strings are unexplained literal values sprinkled in the code, like `if (status == 3)` or `'admin'`. Nobody knows what they mean, and changing one means hunting through the codebase. The fix is to replace them with named constants or enums."
@@ -546,9 +558,10 @@ if (user.role == Role.admin) {}
 
 ---
 
-## <a id="q11"></a>11. What is Dead Code, and why is it dangerous?
+<a id="q11"></a>
+## 11. What is Dead Code, and why is it dangerous?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q11)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#11-dead-code-কী-আর-এটা-কেন-বিপজ্জনক)
 
 **Short answer (say this):**
 "Dead code is code that's never used — unused functions, variables, commented-out blocks, or unreachable branches. It's dangerous because it confuses readers, hides real logic, and rots over time. The fix is simple: delete it. Version control remembers it if you ever need it back."
@@ -588,9 +601,10 @@ Don't comment it out "just in case" — that's the worst of both worlds. Git kee
 
 ---
 
-## <a id="q12"></a>12. When do comments become a code smell?
+<a id="q12"></a>
+## 12. When do comments become a code smell?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q12)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#12-comment-কখন-একটা-code-smell-হয়ে-যায়)
 
 **Short answer (say this):**
 "Comments become a smell when they explain *what* badly-written code does, instead of the code explaining itself. A comment that restates the code, or apologizes for messy logic, usually means the code should be refactored. Good comments explain *why*, not *what*."
@@ -629,7 +643,7 @@ final cents = (amount * 100).round();
 **Follow-ups they may ask:**
 - *"What's a good comment?"* → One that explains *why*, captures intent, or warns — things the code can't say itself.
 
-**Related:** [Q16 (Clean Code) — comments](section-16-clean-code.md#q1) · [Q15 — Extract Method](#q15)
+**Related:** [Q16 (Clean Code) — comments](section-16-clean-code.md#1-what-is-clean-code-and-how-do-you-define-it-in-practice) · [Q15 — Extract Method](#q15)
 
 [↑ Back to top](#toc)
 
@@ -639,9 +653,10 @@ final cents = (amount * 100).round();
 
 ---
 
-## <a id="q13"></a>13. What is Feature Envy, and how do you fix it?
+<a id="q13"></a>
+## 13. What is Feature Envy, and how do you fix it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#13-feature-envy-কী-আর-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "Feature Envy is when a method is more interested in another class's data than its own — it keeps reaching into another object's fields to do its work. The fix is Move Method: move that logic to the class that owns the data, so behaviour lives with the data it uses."
@@ -686,9 +701,10 @@ class Customer {
 
 ---
 
-## <a id="q14"></a>14. What is Shotgun Surgery, and how is it different from Divergent Change?
+<a id="q14"></a>
+## 14. What is Shotgun Surgery, and how is it different from Divergent Change?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#14-shotgun-surgery-কী-আর-divergent-change-থেকে-এটা-কীভাবে-আলাদা)
 
 **Short answer (say this):**
 "Shotgun Surgery is when one small change forces edits in many different classes — the logic is scattered. Divergent Change is the opposite: one class has to be changed for many different reasons. Shotgun Surgery means 'too spread out'; Divergent Change means 'too much in one place'."
@@ -699,7 +715,7 @@ class Customer {
 Example: changing how a tax is calculated means editing 8 different classes that each do their own tax math. The fix is to **gather** the scattered logic into one place (a `TaxCalculator`).
 
 **Step 2 — Divergent Change — one class, many reasons.**
-Example: a `UserManager` must change when the UI changes, when the database changes, and when email rules change. The fix is to **split** it by responsibility (Extract Class, [SRP](section-12-oop-principles.md#q10)).
+Example: a `UserManager` must change when the UI changes, when the database changes, and when email rules change. The fix is to **split** it by responsibility (Extract Class, [SRP](section-12-oop-principles.md#10-solid--s-single-responsibility-principle-srp)).
 
 **Step 3 — The easy way to remember.**
 
@@ -717,7 +733,7 @@ They're mirror images: one is too spread out, the other too concentrated.
 **Follow-ups they may ask:**
 - *"Which principle do both relate to?"* → Both are about cohesion — keeping related things together and unrelated things apart.
 
-**Related:** [Q5 — Large Class](#q5) · [Q13 — Feature Envy](#q13) · [Q9 (coupling/cohesion)](section-12-oop-principles.md#q9)
+**Related:** [Q5 — Large Class](#q5) · [Q13 — Feature Envy](#q13) · [Q9 (coupling/cohesion)](section-12-oop-principles.md#9-what-are-coupling-and-cohesion-why-do-we-want-low-coupling-and-high-cohesion)
 
 [↑ Back to top](#toc)
 
@@ -727,9 +743,10 @@ They're mirror images: one is too spread out, the other too concentrated.
 
 ---
 
-## <a id="q15"></a>15. Extract Method — how and when?
+<a id="q15"></a>
+## 15. Extract Method — how and when?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q15)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#15-extract-method--কীভাবে-আর-কখন)
 
 **Short answer (say this):**
 "Extract Method takes a chunk of code and turns it into its own well-named method. You do it when a piece of code does one identifiable task, or when you'd otherwise write a comment to explain a block. The method name then replaces the comment."
@@ -776,9 +793,10 @@ Extract, run tests, repeat. Modern IDEs do "Extract Method" automatically and sa
 
 ---
 
-## <a id="q16"></a>16. Extract Class — how and when?
+<a id="q16"></a>
+## 16. Extract Class — how and when?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q16)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#16-extract-class--কীভাবে-আর-কখন)
 
 **Short answer (say this):**
 "Extract Class splits a class that's doing two jobs into two classes. You do it when a class has grown too large, or when a group of its fields and methods clearly belong together as their own concept. It's the main fix for a God Object."
@@ -827,9 +845,10 @@ Create the new class, move one field/method at a time, run tests, repeat — sma
 
 ---
 
-## <a id="q17"></a>17. Inline Method — when is a method unnecessary indirection?
+<a id="q17"></a>
+## 17. Inline Method — when is a method unnecessary indirection?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q17)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#17-inline-method--একটা-method-কখন-দরকার-নেই-এমন-indirection)
 
 **Short answer (say this):**
 "Inline Method is the opposite of Extract Method: when a method's body is just as clear as its name and adds no value, you replace calls to it with the body and delete it. You do it to remove pointless indirection that makes the code harder to follow."
@@ -868,9 +887,10 @@ If the method name adds meaning, is used in many places, or could be overridden,
 
 ---
 
-## <a id="q18"></a>18. Move Method — how and when?
+<a id="q18"></a>
+## 18. Move Method — how and when?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q18)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#18-move-method--কীভাবে-আর-কখন)
 
 **Short answer (say this):**
 "Move Method moves a method to the class whose data it mostly uses. You do it to fix Feature Envy and to put behaviour next to the data it works on, which lowers coupling between classes."
@@ -911,9 +931,10 @@ Copy the method to the target class, adjust references, update callers, run test
 
 ---
 
-## <a id="q19"></a>19. How do you Rename (a method, variable, or class) safely?
+<a id="q19"></a>
+## 19. How do you Rename (a method, variable, or class) safely?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q19)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#19-কোনো-method-variable-বা-class-কীভাবে-নিরাপদে-rename-করবেন)
 
 **Short answer (say this):**
 "Renaming is the simplest, highest-value refactoring — a clear name removes the need for comments. To do it safely, use the IDE's Rename refactoring so every reference updates at once, and run the tests. Never rename with find-and-replace text, which can hit unrelated matches."
@@ -943,15 +964,16 @@ Plain text replace can change a comment, a string, or a different variable with 
 **Follow-ups they may ask:**
 - *"What makes a good name?"* → It reveals intent: what it is or does, no abbreviations, no need for a comment.
 
-**Related:** [Q12 — comments as a smell](#q12) · [Q1 (Clean Code) — naming](section-16-clean-code.md#q1)
+**Related:** [Q12 — comments as a smell](#q12) · [Q1 (Clean Code) — naming](section-16-clean-code.md#1-what-is-clean-code-and-how-do-you-define-it-in-practice)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q20"></a>20. Introduce Parameter Object — when and how?
+<a id="q20"></a>
+## 20. Introduce Parameter Object — when and how?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q20)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#20-introduce-parameter-object--কখন-আর-কীভাবে)
 
 **Short answer (say this):**
 "Introduce Parameter Object groups several parameters that travel together into a single object. You use it to shorten long parameter lists and to give the group a name and a home for related behaviour. It's the fix for Long Parameter List and Data Clumps."
@@ -994,9 +1016,10 @@ Once the parameters are an object, you can move related logic onto it (like `day
 
 ---
 
-## <a id="q21"></a>21. Replace Temp with Query — what is it?
+<a id="q21"></a>
+## 21. Replace Temp with Query — what is it?
 
-> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q21)
+> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#21-replace-temp-with-query--এটা-কী)
 
 **Short answer (say this):**
 "Replace Temp with Query turns a temporary variable that holds a calculation into a small method (a 'query') that computes it. This removes duplicated temp variables, makes the calculation reusable, and often enables extracting larger methods."
@@ -1047,9 +1070,10 @@ A query recomputes each time it's called. For cheap calculations that's fine; fo
 
 ---
 
-## <a id="q22"></a>22. Replace Magic Number with Named Constant — how to do it correctly in Dart?
+<a id="q22"></a>
+## 22. Replace Magic Number with Named Constant — how to do it correctly in Dart?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q22)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#22-replace-magic-number-with-named-constant--dart-এ-এটা-সঠিকভাবে-কীভাবে-করবেন)
 
 **Short answer (say this):**
 "You give an unexplained literal a named constant, so the meaning is clear and the value lives in one place. In Dart, use `const` for compile-time values and `static const` for class-level constants. For a fixed set of related values, an enum is even better."
@@ -1091,9 +1115,10 @@ if (attempts > maxLoginAttempts) lockAccount();
 
 ---
 
-## <a id="q23"></a>23. Replace Conditional with Polymorphism — when and how?
+<a id="q23"></a>
+## 23. Replace Conditional with Polymorphism — when and how?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q23)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#23-replace-conditional-with-polymorphism--কখন-আর-কীভাবে)
 
 **Short answer (say this):**
 "When you have a big switch or if/else that behaves differently based on a type, you can replace it with polymorphism: make each case its own class that implements a shared method. Then adding a new case means adding a class, not editing the conditional — that's the Open/Closed Principle."
@@ -1135,22 +1160,23 @@ double pay(Employee e) => e.pay(); // the conditional is gone
 **Step 3 — When NOT to do this.**
 If there are only two cases that rarely change, a simple `if` is clearer. Polymorphism shines when cases grow or change often. (Dart's sealed classes + switch are a good middle ground for a fixed set.)
 
-**Why interviewers ask:** It's the classic OOP move that connects refactoring to the Open/Closed Principle ([Q11 OCP](section-12-oop-principles.md#q11)).
+**Why interviewers ask:** It's the classic OOP move that connects refactoring to the Open/Closed Principle ([Q11 OCP](section-12-oop-principles.md#11-solid--o-openclosed-principle-ocp)).
 
 **Common mistake:** Applying it to a tiny, stable conditional — that's over-engineering. Use judgment.
 
 **Follow-ups they may ask:**
 - *"Isn't a sealed class + switch also fine?"* → Yes — it gives compile-time exhaustiveness; pick it when the set is fixed and you want the compiler to catch missing cases.
 
-**Related:** [Q11 (OCP)](section-12-oop-principles.md#q11) · [Q24 — Decompose Conditional](#q24)
+**Related:** [Q11 (OCP)](section-12-oop-principles.md#11-solid--o-openclosed-principle-ocp) · [Q24 — Decompose Conditional](#q24)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q24"></a>24. What is the Decompose Conditional refactoring?
+<a id="q24"></a>
+## 24. What is the Decompose Conditional refactoring?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q24)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#24-decompose-conditional-refactoring-কী)
 
 **Short answer (say this):**
 "Decompose Conditional breaks a complex if/else into well-named methods — one for the condition, and one for each branch. The logic becomes readable: instead of a tangled boolean, you read a sentence."
@@ -1199,9 +1225,10 @@ The *intent* (winter vs summer pricing) becomes obvious, and each piece is testa
 
 ---
 
-## <a id="q25"></a>25. What is Consolidate Conditional Expression?
+<a id="q25"></a>
+## 25. What is Consolidate Conditional Expression?
 
-> Deeper · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q25)
+> Deeper · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#25-consolidate-conditional-expression-কী)
 
 **Short answer (say this):**
 "Consolidate Conditional Expression combines several separate checks that all lead to the *same* result into one condition, then names it. It removes repetition and makes the shared outcome clear."
@@ -1256,9 +1283,10 @@ If the checks are truly independent (different results, side effects), keep them
 
 ---
 
-## <a id="q26"></a>26. What is the Strangler Fig Pattern, and when do you use it?
+<a id="q26"></a>
+## 26. What is the Strangler Fig Pattern, and when do you use it?
 
-> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q26)
+> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#26-strangler-fig-pattern-কী-আর-কখন-ব্যবহার-করেন)
 
 **Short answer (say this):**
 "The Strangler Fig pattern replaces an old system gradually, piece by piece, instead of in one risky big-bang rewrite. You build the new code around the old, route a little traffic to it at a time, and slowly 'strangle' the old system until it can be removed. You use it for large legacy migrations."
@@ -1302,7 +1330,8 @@ Big-bang rewrites are famous for failing (they take longer than planned and the 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

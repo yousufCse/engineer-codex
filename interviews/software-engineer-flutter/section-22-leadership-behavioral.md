@@ -33,7 +33,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Technical leadership**
 1. [Conducting a code review](#q1) · *Very common*
@@ -64,7 +65,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The leadership essentials (start here).**
 → [Q1 Code review](#q1) · [Q3 Disagreement](#q3) · [Q6 Speed vs quality](#q6)
@@ -89,9 +91,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. How do you conduct a code review? What do you look for?
+<a id="q1"></a>
+## 1. How do you conduct a code review? What do you look for?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q1)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#1-আপনি-কীভাবে-code-review-করেন-কী-কী-খোঁজেন)
 
 **Short answer (say this):**
 "I review in layers — correctness and design first, readability next, and I let the linter handle pure style. I look for edge cases, clear naming, good structure, and tests. Just as important is *how* I give feedback: I ask questions instead of giving orders, stay kind and specific, and review promptly so I don't block the team."
@@ -126,15 +129,16 @@ Reviews spread knowledge and standards. I point to *why* a pattern is better, no
 **Follow-ups they may ask:**
 - *"How do you handle a huge PR?"* → Ask to split it; big PRs get shallow reviews.
 
-**Related:** [Q9 — reviewing a senior's PR](#q9) · [Q18 (Git) — PR best practices](section-17-git.md#q18) · [Q5 (SDLC) — code review](section-19-sdlc.md#q5)
+**Related:** [Q9 — reviewing a senior's PR](#q9) · [Q18 (Git) — PR best practices](section-17-git.md#18-what-are-best-practices-for-pull-requests-and-code-review-as-author-and-reviewer) · [Q5 (SDLC) — code review](section-19-sdlc.md#5-what-is-the-purpose-of-code-review-what-do-you-look-for)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q2"></a>2. How do you mentor junior or mid-level developers?
+<a id="q2"></a>
+## 2. How do you mentor junior or mid-level developers?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q2)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#2-আপনি-junior-বা-mid-level-developer-দের-কীভাবে-mentor-করেন)
 
 **Short answer (say this):**
 "I meet them where they are and grow their independence over time. I pair on problems, give context and the 'why' rather than just answers, set small stretch goals, and use code reviews as teaching moments. The goal is to make them self-sufficient, not dependent on me."
@@ -169,9 +173,10 @@ I let them make (safe) mistakes and learn, praise progress, and gradually hand o
 
 ---
 
-## <a id="q3"></a>3. How do you handle a technical disagreement with a teammate or architect?
+<a id="q3"></a>
+## 3. How do you handle a technical disagreement with a teammate or architect?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#3-teammate-বা-architect-এর-সাথে-technical-মতভেদ-কীভাবে-সামলান)
 
 **Short answer (say this):**
 "I focus on the problem, not winning. I make sure I understand their view, present mine with evidence and trade-offs, and look for the option that's best for the project. If we still disagree, I'll prototype or defer to data, and once the team decides, I commit fully — even if it wasn't my preference."
@@ -185,7 +190,7 @@ First, restate their position so they know I get it. Often a disagreement is a m
 Present trade-offs, not opinions: "Option A is simpler but won't scale past X; option B is more work but handles growth." Make it about the project's needs.
 
 **Step 3 — Resolve it constructively.**
-- **Prototype/spike** to let data decide ([Q15 SDLC](section-19-sdlc.md#q15)).
+- **Prototype/spike** to let data decide ([Q15 SDLC](section-19-sdlc.md#15-what-is-a-spike-and-when-do-you-use-it)).
 - **Bring in a third perspective** if stuck.
 - **Disagree and commit** — once the team decides, I support the decision fully, even if it wasn't mine.
 
@@ -205,9 +210,10 @@ The goal is the best outcome *and* a good working relationship. I never make it 
 
 ---
 
-## <a id="q4"></a>4. How do you introduce a new library or technology to your team?
+<a id="q4"></a>
+## 4. How do you introduce a new library or technology to your team?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#4-আপনি-team-এ-নতুন-library-বা-technology-কীভাবে-introduce-করেন)
 
 **Short answer (say this):**
 "Carefully and with evidence. I start by confirming there's a real problem it solves, then evaluate options (maturity, maintenance, community, fit), run a small spike or proof-of-concept, and share the findings with the team. I get buy-in before adopting, and roll it out gradually rather than rewriting everything at once."
@@ -224,7 +230,7 @@ New tech must solve a real pain. "It's trendy" isn't a reason. I name the proble
 - **Alternatives** — including "do nothing" or using what we have.
 
 **Step 3 — Prove it with a spike.**
-A small proof-of-concept de-risks the decision ([Q15 SDLC](section-19-sdlc.md#q15)) and gives real evidence instead of opinion.
+A small proof-of-concept de-risks the decision ([Q15 SDLC](section-19-sdlc.md#15-what-is-a-spike-and-when-do-you-use-it)) and gives real evidence instead of opinion.
 
 **Step 4 — Get buy-in and roll out gradually.**
 Share findings, discuss as a team, and adopt incrementally (one feature first), not a big-bang rewrite. Document the decision ([Q7](#q7)) and help the team learn it.
@@ -242,9 +248,10 @@ Share findings, discuss as a team, and adopt incrementally (one feature first), 
 
 ---
 
-## <a id="q5"></a>5. How do you manage and pay down technical debt?
+<a id="q5"></a>
+## 5. How do you manage and pay down technical debt?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q5)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#5-technical-debt-আপনি-কীভাবে-manage-করেন-আর-শোধ-করেন)
 
 **Short answer (say this):**
 "I make it visible and pay it down steadily rather than ignoring it or demanding a big rewrite. I track debt items in the backlog, tie them to business impact (bugs, slow delivery), budget a slice of each sprint to address the worst, and prevent new debt with reviews and a strong Definition of Done."
@@ -272,15 +279,16 @@ Code reviews, a strong Definition of Done, tests, and clear standards stop the p
 **Follow-ups they may ask:**
 - *"How do you convince a PO to allocate time?"* → Show the cost in bug rates and slower delivery; propose a small steady budget.
 
-**Related:** [Q6 — speed vs quality](#q6) · [Q17 (Agile) — tech debt](section-18-agile-scrum.md#q17) · [Q3 (Refactoring) — convince a team](section-15-code-smells.md#q3)
+**Related:** [Q6 — speed vs quality](#q6) · [Q17 (Agile) — tech debt](section-18-agile-scrum.md#17-what-is-technical-debt-and-how-do-you-manage-it-in-a-sprint-based-team) · [Q3 (Refactoring) — convince a team](section-15-code-smells.md#3-how-do-you-convince-a-team-to-refactor-old-code)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q6"></a>6. How do you balance speed of delivery vs code quality?
+<a id="q6"></a>
+## 6. How do you balance speed of delivery vs code quality?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#6-delivery-র-গতি-আর-code-quality-র-মধ্যে-balance-কীভাবে-রাখেন)
 
 **Short answer (say this):**
 "I treat it as a deliberate trade-off, not a fixed rule. For a quick experiment or a deadline, I'll take a *conscious* shortcut and log it as debt to fix later. For core, long-lived code, quality wins because it's cheaper over time. The key is to decide consciously and communicate it, never to let quality slip silently."
@@ -307,15 +315,16 @@ I make the cost clear to the PO/team: "We can ship Friday with a known limitatio
 **Follow-ups they may ask:**
 - *"A deadline forces a shortcut — what do you do?"* → Take it consciously, document the debt, and schedule the fix; never hide it.
 
-**Related:** [Q5 — tech debt](#q5) · [Q13 (Clean Code) — clean vs over-engineered](section-16-clean-code.md#q13)
+**Related:** [Q5 — tech debt](#q5) · [Q13 (Clean Code) — clean vs over-engineered](section-16-clean-code.md#13-what-is-the-difference-between-clean-code-and-over-engineered-code)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q7"></a>7. How do you make architectural decisions, and how do you document them?
+<a id="q7"></a>
+## 7. How do you make architectural decisions, and how do you document them?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#7-আপনি-architectural-সিদ্ধান্ত-কীভাবে-নেন-আর-সেগুলো-কীভাবে-document-করেন)
 
 **Short answer (say this):**
 "I gather the requirements and constraints, list a few realistic options with their trade-offs, and choose based on the project's actual needs — not the trendiest option. I document significant decisions as short ADRs (Architecture Decision Records) capturing the context, the options, the choice, and *why*, so future developers understand the reasoning."
@@ -323,7 +332,7 @@ I make the cost clear to the PO/team: "We can ship Friday with a known limitatio
 **Let's understand it fully:**
 
 **Step 1 — Decide based on real needs.**
-Start from requirements (scale, team size, lifespan, constraints). Match the architecture to *those*, not to a pattern you want to use ([Q14 Architecture](section-13-architecture-patterns.md#q14)).
+Start from requirements (scale, team size, lifespan, constraints). Match the architecture to *those*, not to a pattern you want to use ([Q14 Architecture](section-13-architecture-patterns.md#14-how-do-you-decide-which-architecture-to-use-for-a-new-flutter-project)).
 
 **Step 2 — Compare options and trade-offs.**
 List 2–3 realistic options, each with pros/cons. There's rarely one "right" answer — there's the best fit for this context. Involve the team for buy-in.
@@ -349,15 +358,16 @@ Six months later, someone asks "why did we do this?" Without an ADR, that knowle
 **Follow-ups they may ask:**
 - *"What's an ADR?"* → A short, lightweight doc of a decision, the options, and the reasoning — kept with the code.
 
-**Related:** [Q4 — new technology](#q4) · [Q14 (Architecture) — choosing](section-13-architecture-patterns.md#q14) · [Q14 (SDLC) — documentation](section-19-sdlc.md#q14)
+**Related:** [Q4 — new technology](#q4) · [Q14 (Architecture) — choosing](section-13-architecture-patterns.md#14-how-do-you-decide-which-architecture-to-use-for-a-new-flutter-project) · [Q14 (SDLC) — documentation](section-19-sdlc.md#14-what-should-you-document-and-what-should-you-not-over-document)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q8"></a>8. How do you onboard a new developer to a large Flutter codebase?
+<a id="q8"></a>
+## 8. How do you onboard a new developer to a large Flutter codebase?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#8-বড়-একটা-flutter-codebase-এ-নতুন-developer-কে-কীভাবে-onboard-করেন)
 
 **Short answer (say this):**
 "I make the first week about small wins and context, not the whole codebase at once. I ensure setup docs work, give them a small real task early, pair them with a buddy, walk them through the architecture and conventions, and point them to the parts that matter for their first feature. The goal is a confident first PR fast."
@@ -383,15 +393,16 @@ If onboarding revealed missing/confusing docs, fix them — that improves onboar
 **Follow-ups they may ask:**
 - *"First task for a new senior?"* → Something real but bounded that touches several areas, with a buddy — so they learn the system by doing.
 
-**Related:** [Q2 — mentoring](#q2) · [Q14 (SDLC) — documentation](section-19-sdlc.md#q14)
+**Related:** [Q2 — mentoring](#q2) · [Q14 (SDLC) — documentation](section-19-sdlc.md#14-what-should-you-document-and-what-should-you-not-over-document)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q9"></a>9. How do you review a PR from a developer more senior than you?
+<a id="q9"></a>
+## 9. How do you review a PR from a developer more senior than you?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q9)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#9-আপনার-চেয়ে-বেশি-senior-একজন-developer-এর-pr-আপনি-কীভাবে-review-করেন)
 
 **Short answer (say this):**
 "The same standards apply to everyone — I review it carefully and honestly. I ask questions to understand their reasoning rather than assuming I'm wrong, raise concerns respectfully with evidence, and I'm also open to learning from their approach. Good seniors *want* real review, not a rubber stamp."
@@ -429,9 +440,10 @@ A healthy team reviews everyone's code equally. Doing this well also shows confi
 
 ---
 
-## <a id="q10"></a>10. Tell me about yourself (senior-level framing).
+<a id="q10"></a>
+## 10. Tell me about yourself (senior-level framing).
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q10)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#10-নিজের-সম্পর্কে-বলুন-senior-level-framing।)
 
 **Short answer (say this):**
 "Keep it to ~90 seconds in three parts: a one-line summary of who you are, 2–3 highlights that match the role (with impact), and why you're excited about *this* job. It's a pitch, not your life story — lead with what's most relevant to a senior Flutter role."
@@ -465,9 +477,10 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-## <a id="q11"></a>11. What is your biggest technical achievement?
+<a id="q11"></a>
+## 11. What is your biggest technical achievement?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#11-আপনার-সবচেয়ে-বড়-technical-achievement-কী)
 
 **Short answer (say this):**
 "Pick one achievement with real impact and tell it in STAR. Lead with the result, then explain the challenge and what *you* specifically did. Choose something that shows senior qualities — solving a hard problem, leading, or delivering measurable business value."
@@ -497,9 +510,10 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-## <a id="q12"></a>12. Describe a time you led a project from scratch to production.
+<a id="q12"></a>
+## 12. Describe a time you led a project from scratch to production.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#12-এমন-একটা-সময়ের-কথা-বলুন-যখন-আপনি-শূন্য-থেকে-production-পর্যন্ত-একটা-project-lead-করেছেন।)
 
 **Short answer (say this):**
 "Use STAR and emphasize *leadership* and *delivery*: how you scoped it, made key decisions, coordinated people, handled problems, and shipped it with results. This is your chance to show ownership end-to-end, not just coding."
@@ -529,9 +543,10 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-## <a id="q13"></a>13. Tell me about a time you fixed a critical production bug.
+<a id="q13"></a>
+## 13. Tell me about a time you fixed a critical production bug.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q13)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#13-এমন-একটা-সময়ের-কথা-বলুন-যখন-আপনি-একটা-critical-production-bug-ঠিক-করেছেন।)
 
 **Short answer (say this):**
 "Use STAR and show a calm, methodical process under pressure: contain the impact first, find the root cause, fix it with a test so it can't return, deploy safely, and run a blameless post-mortem. Interviewers want composure and process, not heroics."
@@ -544,7 +559,7 @@ End with energy about the role, which naturally hands the conversation back.
 - **Result:** "Downtime was limited to ~25 minutes, no data loss, and the contract test has caught two similar issues since."
 
 **Tips:**
-- Stress **'contain first, root-cause second'** ([Q9 SDLC](section-19-sdlc.md#q9)).
+- Stress **'contain first, root-cause second'** ([Q9 SDLC](section-19-sdlc.md#9-how-do-you-handle-a-production-bug-walk-through-the-process)).
 - Mention the **test** that prevents recurrence.
 - **Blameless** tone — focus on the system, not blaming a person.
 
@@ -555,15 +570,16 @@ End with energy about the role, which naturally hands the conversation back.
 **Follow-ups they may ask:**
 - *"How did you prevent it recurring?"* → The test + a process/monitoring improvement.
 
-**Related:** [Q9 (SDLC) — production bug](section-19-sdlc.md#q9) · [Q19 (Git) — hotfix](section-17-git.md#q19)
+**Related:** [Q9 (SDLC) — production bug](section-19-sdlc.md#9-how-do-you-handle-a-production-bug-walk-through-the-process) · [Q19 (Git) — hotfix](section-17-git.md#19-how-do-you-handle-a-hotfix-on-production-while-feature-branches-are-in-progress)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q14"></a>14. Describe a time you disagreed with your manager.
+<a id="q14"></a>
+## 14. Describe a time you disagreed with your manager.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q14)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#14-এমন-একটা-সময়ের-কথা-বলুন-যখন-আপনার-manager-এর-সাথে-আপনার-মতের-অমিল-হয়েছিল।)
 
 **Short answer (say this):**
 "Use STAR and show respectful pushback plus commitment. I voiced my concern with evidence, listened to their view, and we found a path forward. The key signals: I raised it professionally, I backed it with facts, and once a decision was made I committed fully — no sulking."
@@ -593,9 +609,10 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-## <a id="q15"></a>15. Tell me about a time you improved the performance of an app.
+<a id="q15"></a>
+## 15. Tell me about a time you improved the performance of an app.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q15)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#15-এমন-একটা-সময়ের-কথা-বলুন-যখন-আপনি-একটা-app-এর-performance-ভালো-করেছেন।)
 
 **Short answer (say this):**
 "Use STAR and show a *measured* approach: I identified the problem with profiling, found the real cause, applied targeted fixes, and measured the improvement. The signal is that I optimize with data, not guesses, and I know Flutter's performance tools."
@@ -609,7 +626,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 **Tips:**
 - Stress **measure first** (profile), then fix, then **measure again** — in **release** mode.
-- Name the specific Flutter tools/fixes ([Q5 Performance](section-05-performance.md#q1)).
+- Name the specific Flutter tools/fixes ([Q5 Performance](section-05-performance.md#1-what-causes-jank-in-flutter-and-how-do-you-find-it)).
 
 **Why interviewers ask:** It tests a data-driven approach and real Flutter performance knowledge.
 
@@ -618,15 +635,16 @@ End with energy about the role, which naturally hands the conversation back.
 **Follow-ups they may ask:**
 - *"How did you find the bottleneck?"* → DevTools timeline, the performance overlay, "Track Widget Rebuilds".
 
-**Related:** [Q5 (Performance)](section-05-performance.md#q1) · [Q11 — achievement](#q11)
+**Related:** [Q5 (Performance)](section-05-performance.md#1-what-causes-jank-in-flutter-and-how-do-you-find-it) · [Q11 — achievement](#q11)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q16"></a>16. Describe a time a project failed. What did you learn?
+<a id="q16"></a>
+## 16. Describe a time a project failed. What did you learn?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q16)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#16-এমন-একটা-সময়ের-কথা-বলুন-যখন-একটা-project-ব্যর্থ-হয়েছিল।-আপনি-কী-শিখলেন)
 
 **Short answer (say this):**
 "Use STAR and pick a *real* failure where you take honest ownership and show clear learning. Don't blame others or pick a fake 'failure'. The signal they want: you can fail, own it, learn, and apply the lesson — that's how seniors grow."
@@ -656,9 +674,10 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-## <a id="q17"></a>17. How do you stay up to date with Flutter and the Dart ecosystem?
+<a id="q17"></a>
+## 17. How do you stay up to date with Flutter and the Dart ecosystem?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q17)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#17-flutter-আর-dart-ecosystem-এর-সাথে-আপনি-কীভাবে-up-to-date-থাকেন)
 
 **Short answer (say this):**
 "A mix of sources and hands-on practice. I follow the official Flutter/Dart channels and release notes, read the community (newsletters, key blogs, conference talks), and most importantly I *try* new things in side projects. I also learn from my team and code reviews."
@@ -690,9 +709,10 @@ Code reviews, pairing, and team discussions spread knowledge both ways. Teaching
 
 ---
 
-## <a id="q18"></a>18. Why do you want this Senior Flutter role?
+<a id="q18"></a>
+## 18. Why do you want this Senior Flutter role?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q18)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#18-এই-senior-flutter-role-টা-আপনি-কেন-চান)
 
 **Short answer (say this):**
 "Connect *their* specifics to *your* goals. Show you researched the company/product, name what genuinely excites you about it, and tie it to where you want to grow. Avoid generic answers that could apply to any company — be specific."
@@ -724,9 +744,10 @@ Balance "what I get" with "what I'll contribute." Senior candidates show they'll
 
 ---
 
-## <a id="q19"></a>19. Where do you see yourself in 3–5 years?
+<a id="q19"></a>
+## 19. Where do you see yourself in 3–5 years?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q19)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#19-৩–৫-বছর-পরে-নিজেকে-কোথায়-দেখেন)
 
 **Short answer (say this):**
 "Show ambition that fits a realistic growth path and aligns with the role — deepening into senior/staff or tech lead, taking on bigger systems and more mentoring. Keep it honest and connected to growing *with* a company like theirs, not 'I'll start my own company in a year'."
@@ -758,9 +779,10 @@ Frame growth around bigger impact and skills, not just titles: "leading larger p
 
 ---
 
-## <a id="q20"></a>20. What is your greatest technical weakness?
+<a id="q20"></a>
+## 20. What is your greatest technical weakness?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q20)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#20-আপনার-সবচেয়ে-বড়-technical-দুর্বলতা-কী)
 
 **Short answer (say this):**
 "Name a *real* weakness, then show what you're actively doing about it. The trick isn't to disguise a strength ('I'm a perfectionist') — interviewers see through that. Pick something genuine but not central to the role, and show concrete improvement."
@@ -793,7 +815,8 @@ Don't name a weakness that's core to the job (e.g. "I'm bad at Flutter" for a Fl
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. STAR template, tables, then reminders.
 

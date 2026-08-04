@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. The three trees & widget identity**
 1. [The three trees — Widget, Element, RenderObject](#q1) · *Very common*
@@ -68,7 +69,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 23 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -96,9 +98,10 @@ You don't need to study all 23 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. Explain the three trees in Flutter — Widget, Element, and RenderObject. Why does Flutter need all three?
+<a id="q1"></a>
+## 1. Explain the three trees in Flutter — Widget, Element, and RenderObject. Why does Flutter need all three?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q1)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#1-flutter-এর-তিনটি-tree-ব্যাখ্যা-করুন--widget-element-আর-renderobject।-flutter-এর-তিনটাই-কেন-দরকার)
 
 **Short answer (say this):**
 "Flutter keeps three trees that work together. The Widget tree is the cheap blueprint I write in code. The Element tree is the living bridge that remembers each widget's place and state. The RenderObject tree does the real layout and painting. Flutter needs all three so it can throw away and rebuild cheap widgets constantly, while reusing the expensive render objects underneath."
@@ -159,9 +162,10 @@ So: cheap rebuilds at the widget level, expensive objects reused at the render l
 
 ---
 
-## <a id="q2"></a>2. Why are Flutter widgets immutable? Doesn't creating new widgets every frame waste memory?
+<a id="q2"></a>
+## 2. Why are Flutter widgets immutable? Doesn't creating new widgets every frame waste memory?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q2)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#2-flutter-widget-গুলো-immutable-কেন-প্রতি-frame-এ-নতুন-widget-বানালে-কি-memory-নষ্ট-হয়-না)
 
 **Short answer (say this):**
 "Widgets are immutable because they are just a description of the UI, and a description should not change under you. Making new widgets is cheap — they are tiny config objects, and Dart's garbage collector is tuned for exactly this 'create and throw away' pattern. The expensive things, the render objects, are not recreated; they are reused through the element tree."
@@ -212,9 +216,10 @@ Because rebuilds are cheap, you should not fight them. Instead, keep rebuilds sm
 
 ---
 
-## <a id="q3"></a>3. What are Keys in Flutter? When do you use ValueKey, ObjectKey, UniqueKey, GlobalKey, and LocalKey?
+<a id="q3"></a>
+## 3. What are Keys in Flutter? When do you use ValueKey, ObjectKey, UniqueKey, GlobalKey, and LocalKey?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#3-flutter-এ-keys-কী-valuekey-objectkey-uniquekey-globalkey-আর-localkey-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Keys solve the widget identity problem. When Flutter rebuilds, it matches old and new widgets by type and key. Without a key, it matches same-type widgets by position, so reordering a list attaches the wrong state to the wrong item. I use a `ValueKey` with a stable id for list items, and a `GlobalKey` only when I truly need to reach a widget's state from outside."
@@ -296,9 +301,10 @@ AnimatedSwitcher(
 
 ---
 
-## <a id="q4"></a>4. How does Flutter decide whether to reuse a widget or rebuild it? (Reconciliation)
+<a id="q4"></a>
+## 4. How does Flutter decide whether to reuse a widget or rebuild it? (Reconciliation)
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#4-flutter-কীভাবে-ঠিক-করে-একটা-widget-reuse-করবে-না-rebuild-করবে-reconciliation)
 
 **Short answer (say this):**
 "On each rebuild, Flutter walks the new widget tree next to the old element tree and asks one question per spot: does the new widget have the same type and key as the old one? If yes, it reuses the element and render object and just updates properties. If no, it throws the old one away and inflates a new one."
@@ -348,9 +354,10 @@ Because reuse keeps the expensive render objects, a rebuild is usually just "upd
 
 ---
 
-## <a id="q5"></a>5. What is the difference between StatelessWidget and StatefulWidget? What is different internally?
+<a id="q5"></a>
+## 5. What is the difference between StatelessWidget and StatefulWidget? What is different internally?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q5)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#5-statelesswidget-আর-statefulwidget-এর-পার্থক্য-কী-ভেতরে-কী-আলাদা)
 
 **Short answer (say this):**
 "A StatelessWidget has no changing data — it only rebuilds when its parent gives it new inputs. A StatefulWidget owns changing data in a separate `State` object and can rebuild itself by calling `setState`. The key internal point: the `State` lives on the Element, not on the widget, which is why state survives rebuilds."
@@ -414,9 +421,10 @@ The `State` object is attached to the **Element**, which is long-lived. The widg
 
 ---
 
-## <a id="q6"></a>6. Walk through the full StatefulWidget lifecycle. When is each method called, and what do you do in it?
+<a id="q6"></a>
+## 6. Walk through the full StatefulWidget lifecycle. When is each method called, and what do you do in it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#6-পুরো-statefulwidget-lifecycle-ধাপে-ধাপে-বলুন।-কোন-method-কখন-call-হয়-আর-সেখানে-আপনি-কী-করেন)
 
 **Short answer (say this):**
 "The order is: `createState`, then `initState` for one-time setup, then `didChangeDependencies` where it's safe to read inherited widgets, then `build`. While alive, `didUpdateWidget` runs when the parent passes new config, and `build` runs on every rebuild. At the end, `deactivate` then `dispose`, where I clean up controllers and subscriptions."
@@ -497,9 +505,10 @@ class _MyWidgetState extends State<MyWidget>
 
 ---
 
-## <a id="q7"></a>7. What does `setState` actually do? Why is it not just "refresh the screen"?
+<a id="q7"></a>
+## 7. What does `setState` actually do? Why is it not just "refresh the screen"?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q7)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#7-setstate-আসলে-কী-করে-এটা-শুধু-screen-refresh-করা-নয়-কেন)
 
 **Short answer (say this):**
 "`setState` does two things: it runs the function I give it so I can change my state fields, then it marks this element as dirty so Flutter schedules a rebuild on the next frame. It does not paint immediately, and it does not rebuild the whole app — only this element's subtree is rebuilt."
@@ -550,9 +559,10 @@ Future<void> load() async {
 
 ---
 
-## <a id="q8"></a>8. What is BuildContext? Why can't you use it before `initState` finishes?
+<a id="q8"></a>
+## 8. What is BuildContext? Why can't you use it before `initState` finishes?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q8)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#8-buildcontext-কী-initstate-শেষ-হওয়ার-আগে-এটা-ব্যবহার-করা-যায়-না-কেন)
 
 **Short answer (say this):**
 "BuildContext *is* the Element — `Element` implements `BuildContext`. It represents this widget's exact spot in the element tree, and it's how you walk up to find inherited widgets, theme, or media data. You can't use it for inherited lookups in `initState` because the element isn't fully mounted in the tree yet."
@@ -612,9 +622,10 @@ Future<void> go() async {
 
 ---
 
-## <a id="q9"></a>9. What is InheritedWidget? How does it pass data down, and how is Provider built on top of it?
+<a id="q9"></a>
+## 9. What is InheritedWidget? How does it pass data down, and how is Provider built on top of it?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q9)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#9-inheritedwidget-কী-এটা-কীভাবে-নিচে-data-পাঠায়-আর-provider-কীভাবে-এর-উপরে-তৈরি)
 
 **Short answer (say this):**
 "InheritedWidget pushes data down the tree so any descendant can read it in O(1) with `dependOnInheritedWidgetOfExactType`. When it updates, only the widgets that *registered* a dependency on it rebuild — not the whole subtree. Provider is a friendly wrapper around it that adds lifecycle, lazy creation, and a cleaner API like `context.watch` and `Consumer`."
@@ -681,9 +692,10 @@ ChangeNotifierProvider<CartModel>(
 
 ---
 
-## <a id="q10"></a>10. How does a `const` constructor prevent widget rebuilds? What does `const` mean at the tree level?
+<a id="q10"></a>
+## 10. How does a `const` constructor prevent widget rebuilds? What does `const` mean at the tree level?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q10)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#10-একটা-const-constructor-কীভাবে-widget-rebuild-আটকায়-tree-র-স্তরে-const-মানে-কী)
 
 **Short answer (say this):**
 "A `const` widget is built at compile time and canonicalized — every `const Text('Hello')` in the app is the exact same object in memory. During reconciliation, when the parent rebuilds, Flutter sees the new child is the *identical* object as the old one, so it skips rebuilding that whole subtree instantly. No `build` call, no diffing."
@@ -740,9 +752,10 @@ If a const widget depends on an `InheritedWidget` that changes (like Theme), it 
 
 ---
 
-## <a id="q11"></a>11. What is RepaintBoundary? How does it reduce repaints, and when should you add it?
+<a id="q11"></a>
+## 11. What is RepaintBoundary? How does it reduce repaints, and when should you add it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q11)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#11-repaintboundary-কী-এটা-কীভাবে-repaint-কমায়-আর-কখন-এটা-যোগ-করা-উচিত)
 
 **Short answer (say this):**
 "A RepaintBoundary puts its subtree on its own paint layer. Without it, when something needs repainting, Flutter repaints everything up to the nearest boundary, which can be a large region. With it, a frequently-changing area repaints alone, without forcing its expensive neighbors to repaint."
@@ -794,9 +807,10 @@ Add it around something that repaints often while its neighbors don't: an animat
 
 ---
 
-## <a id="q12"></a>12. How does Flutter hit 60/120fps? What are the UI thread and the raster thread?
+<a id="q12"></a>
+## 12. How does Flutter hit 60/120fps? What are the UI thread and the raster thread?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q12)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#12-flutter-কীভাবে-60120fps-ধরে-ui-thread-আর-raster-thread-কী)
 
 **Short answer (say this):**
 "Flutter has a frame budget of about 16ms at 60fps, or 8ms at 120fps. It uses multiple threads: the UI thread runs my Dart code — build, layout, and building the layer tree — and the raster thread turns those layers into pixels on the GPU. Because they run in parallel, the raster thread can paint frame N while the UI thread builds frame N+1."
@@ -855,9 +869,10 @@ void onTap() async {
 
 ---
 
-## <a id="q13"></a>13. Explain Flutter's layout rule: "constraints go down, sizes go up, parent sets position." Walk through an example.
+<a id="q13"></a>
+## 13. Explain Flutter's layout rule: "constraints go down, sizes go up, parent sets position." Walk through an example.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q13)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#13-flutter-এর-layout-নিয়মটা-ব্যাখ্যা-করুন-constraints-নিচে-যায়-size-উপরে-আসে-parent-position-ঠিক-করে।-একটা-উদাহরণ-দিয়ে-দেখান।)
 
 **Short answer (say this):**
 "Layout is a single pass with three rules. A parent passes constraints (min/max width and height) down to each child. Each child picks its own size within those constraints and reports it back up. Then the parent places the child — the child never knows its own position. Because it's one walk down and up, layout is O(n)."
@@ -911,9 +926,10 @@ Constraints flow down once and sizes flow up once, in one depth-first walk. It i
 
 ---
 
-## <a id="q14"></a>14. What are BoxConstraints? Explain tight vs loose, and what "unbounded" means.
+<a id="q14"></a>
+## 14. What are BoxConstraints? Explain tight vs loose, and what "unbounded" means.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#14-boxconstraints-কী-tight-বনাম-loose-ব্যাখ্যা-করুন-আর-unbounded-মানে-কী-বলুন।)
 
 **Short answer (say this):**
 "BoxConstraints are four numbers: min and max width, min and max height. Tight means min equals max, so the child has no choice. Loose means min is 0, so the child can be any size up to the max. Unbounded means a max is infinity, which happens inside scrollables — and a widget that tries to fill all space will then try to be infinitely big and error."
@@ -979,9 +995,10 @@ ListView(children: [
 
 ---
 
-## <a id="q15"></a>15. Why does "RenderFlex overflowed" happen, and how do you fix it?
+<a id="q15"></a>
+## 15. Why does "RenderFlex overflowed" happen, and how do you fix it?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q15)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#15-renderflex-overflowed-কেন-হয়-আর-আপনি-এটা-কীভাবে-ঠিক-করেন)
 
 **Short answer (say this):**
 "RenderFlex is the render object behind Row and Column. The overflow means the children's total size along the main axis is bigger than the space available. The fix depends on intent: let children share space with Flexible or Expanded, ellipsis long text, or wrap in a scroll view if the content is genuinely larger than the screen."
@@ -1052,9 +1069,10 @@ A `Column` inside a `ListView` (both vertical) gives the Column infinite height.
 
 ---
 
-## <a id="q16"></a>16. What is the difference between MediaQuery and LayoutBuilder? When do you use each?
+<a id="q16"></a>
+## 16. What is the difference between MediaQuery and LayoutBuilder? When do you use each?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q16)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#16-mediaquery-আর-layoutbuilder-এর-মধ্যে-পার্থক্য-কী-কোনটা-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "MediaQuery gives global screen info — full screen size, padding, text scale, orientation. LayoutBuilder gives the actual constraints my widget got at its specific spot in the tree. So if my widget sits inside a 300px box, MediaQuery still reports the full screen width, but LayoutBuilder reports 300. For reusable, responsive widgets, LayoutBuilder is usually more correct."
@@ -1123,9 +1141,10 @@ LayoutBuilder(
 
 ---
 
-## <a id="q17"></a>17. Describe Flutter's rendering pipeline. How does a frame go from a tap to pixels on screen?
+<a id="q17"></a>
+## 17. Describe Flutter's rendering pipeline. How does a frame go from a tap to pixels on screen?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q17)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#17-flutter-এর-rendering-pipeline-বর্ণনা-করুন।-একটা-tap-থেকে-screen-এর-pixel-পর্যন্ত-একটা-frame-কীভাবে-যায়)
 
 **Short answer (say this):**
 "Each frame, triggered by a vsync signal, runs through phases: a state change marks an element dirty, then build produces new widgets, then layout sizes and positions render objects, then paint records draw commands into layers, then compositing flattens the layers, then the raster thread turns them into pixels, and finally the GPU shows the frame."
@@ -1178,9 +1197,10 @@ ElevatedButton(
 
 ---
 
-## <a id="q18"></a>18. What is Impeller, and how does it differ from Skia? Why did Flutter move to it?
+<a id="q18"></a>
+## 18. What is Impeller, and how does it differ from Skia? Why did Flutter move to it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q18)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#18-impeller-কী-আর-এটা-skia-থেকে-কীভাবে-আলাদা-flutter-কেন-এতে-সরে-এল)
 
 **Short answer (say this):**
 "Skia is the older 2D engine Flutter used; it compiled GPU shaders the first time it met a new drawing operation, which caused 'shader jank' — a stutter the first time you saw an animation. Impeller is Flutter's newer engine that compiles all shaders ahead of time, at build time, so there is no runtime shader compilation and no first-frame jank."
@@ -1235,9 +1255,10 @@ flutter run --no-enable-impeller  # force Skia
 
 ---
 
-## <a id="q19"></a>19. What is the difference between Hot Reload, Hot Restart, and Full Restart? What does each reset?
+<a id="q19"></a>
+## 19. What is the difference between Hot Reload, Hot Restart, and Full Restart? What does each reset?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q19)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#19-hot-reload-hot-restart-আর-full-restart-এর-মধ্যে-পার্থক্য-কী-কোনটা-কী-reset-করে)
 
 **Short answer (say this):**
 "Hot Reload injects new code into the running VM and keeps all state — it just re-runs `build`, in about a second. Hot Restart restarts the Dart VM and wipes all state, re-running `main` and `initState`. Full Restart rebuilds everything including native code and reinstalls the app — needed when you touch native code, plugins, or pubspec."
@@ -1296,9 +1317,10 @@ Hot Reload cannot apply changes to `main()`, global initializers, `initState` lo
 
 ---
 
-## <a id="q20"></a>20. What is pub.dev? How does pubspec.yaml manage dependencies, and how do `^`, `>=`, and `==` work?
+<a id="q20"></a>
+## 20. What is pub.dev? How does pubspec.yaml manage dependencies, and how do `^`, `>=`, and `==` work?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q20)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#20-pubdev-কী-pubspecyaml-কীভাবে-dependency-manage-করে-আর---আর--কীভাবে-কাজ-করে)
 
 **Short answer (say this):**
 "pub.dev is the official package registry for Dart and Flutter, like npm for JavaScript. pubspec.yaml declares your project's dependencies and version rules; `flutter pub get` resolves and locks exact versions into pubspec.lock. `dependencies` ship in the app; `dev_dependencies` are only for development. The caret `^1.5.0` means `>=1.5.0 <2.0.0` and is the recommended default."
@@ -1372,9 +1394,10 @@ flutter pub upgrade     # upgrade within constraints
 
 ---
 
-## <a id="q21"></a>21. What are Flutter's SDK channels — stable, beta, and master? Which should production use?
+<a id="q21"></a>
+## 21. What are Flutter's SDK channels — stable, beta, and master? Which should production use?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q21)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#21-flutter-এর-sdk-channel-কী-কী--stable-beta-আর-master-production-এ-কোনটা-ব্যবহার-করা-উচিত)
 
 **Short answer (say this):**
 "Stable is the production-ready track, released about quarterly and heavily tested, including by Google's own apps — it's the only channel for production. Beta is a monthly preview of nearly-final features. Master is the bleeding edge, updated many times a day, and can break anytime — only for Flutter contributors or experiments."
@@ -1427,9 +1450,10 @@ A channel is a *release track*; a version is a *specific build*. You can be on t
 
 ---
 
-## <a id="q22"></a>22. Explain Flutter's three architecture layers — Embedder, Engine, and Framework. How do they communicate?
+<a id="q22"></a>
+## 22. Explain Flutter's three architecture layers — Embedder, Engine, and Framework. How do they communicate?
 
-> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q22)
+> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#22-flutter-এর-তিনটি-architecture-layer--embedder-engine-আর-framework--ব্যাখ্যা-করুন।-এরা-একে-অপরের-সাথে-কীভাবে-কথা-বলে)
 
 **Short answer (say this):**
 "Flutter is three layers. The Embedder is the thin, platform-specific host that gives Flutter a window, input events, and vsync. The Engine is the C++ core that holds the Dart runtime, the rendering engine, and text layout. The Framework is the Dart layer I actually use — render objects, widgets, and Material/Cupertino. The framework sends layer trees down to the engine, and the engine sends events and vsync up."
@@ -1492,9 +1516,10 @@ final level = await platform.invokeMethod('getBatteryLevel');
 
 ---
 
-## <a id="q23"></a>23. How do Flutter and Dart work together? How is the Dart VM embedded, and how does Dart reach native code (JIT vs AOT)?
+<a id="q23"></a>
+## 23. How do Flutter and Dart work together? How is the Dart VM embedded, and how does Dart reach native code (JIT vs AOT)?
 
-> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#q23)
+> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-02-flutter-internals-bn.md#23-flutter-আর-dart-একসাথে-কীভাবে-কাজ-করে-dart-vm-কীভাবে-embed-করা-হয়-আর-dart-কীভাবে-native-code-এ-পৌঁছায়-jit-বনাম-aot)
 
 **Short answer (say this):**
 "The Dart runtime is compiled right into the Flutter engine — Dart doesn't run as a separate process. In debug it's JIT-compiled, which is what makes hot reload possible. In release it's AOT-compiled to native machine code, so there's no interpreter and startup is fast. Dart talks to the engine through `dart:ui` bindings that map to C++ engine calls."
@@ -1553,7 +1578,8 @@ The engine holds references to Dart callbacks registered via `dart:ui`. At each 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 
