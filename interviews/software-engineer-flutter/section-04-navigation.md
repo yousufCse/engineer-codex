@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Navigator 1.0 (the imperative stack)**
 1. [Navigator 1.0 — the stack, push/pop/pushReplacement/pushAndRemoveUntil/maybePop](#q1) · *Very common*
@@ -56,7 +57,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 17 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -84,9 +86,10 @@ You don't need to study all 17 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. Explain Navigator 1.0. How does the stack work? Walk through `push`, `pop`, `pushReplacement`, `pushAndRemoveUntil`, and `maybePop`.
+<a id="q1"></a>
+## 1. Explain Navigator 1.0. How does the stack work? Walk through `push`, `pop`, `pushReplacement`, `pushAndRemoveUntil`, and `maybePop`.
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#1-navigator-10-ব্যাখ্যা-করুন।-stack-কীভাবে-কাজ-করে-push-pop-pushreplacement-pushandremoveuntil-আর-maybepop-ধাপে-ধাপে-বলুন।)
 
 **Short answer (say this):**
 "Navigator 1.0 keeps screens in a stack — last in, first out, like a pile of plates. `push` puts a new screen on top, `pop` removes the top one. `pushReplacement` swaps the current screen for a new one, and `pushAndRemoveUntil` clears screens below until a condition is met. `maybePop` is a safe pop that won't accidentally close the app on the root screen."
@@ -182,9 +185,10 @@ Navigator.maybePop(context); // safe: won't blow away the app on the root
 
 ---
 
-## <a id="q2"></a>2. How do you pass data back to the previous screen? How does awaiting a navigation result work?
+<a id="q2"></a>
+## 2. How do you pass data back to the previous screen? How does awaiting a navigation result work?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q2)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#2-আগের-screen-এ-data-কীভাবে-ফেরত-পাঠান-navigation-result-await-করা-কীভাবে-কাজ-করে)
 
 **Short answer (say this):**
 "`Navigator.push` returns a `Future` that completes when the screen is popped. So I `await` the push, and on the other screen I call `Navigator.pop(context, result)` to send a value back. It's like ordering at a counter: you wait at the counter, and the value comes back when the other screen closes."
@@ -249,9 +253,10 @@ context.pop('blue');
 
 ---
 
-## <a id="q3"></a>3. What are named routes? How do `MaterialApp.routes` and `onGenerateRoute` work?
+<a id="q3"></a>
+## 3. What are named routes? How do `MaterialApp.routes` and `onGenerateRoute` work?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#3-named-routes-কী-materialapproutes-আর-ongenerateroute-কীভাবে-কাজ-করে)
 
 **Short answer (say this):**
 "Named routes let me navigate using a string name like `/details` instead of building a `MaterialPageRoute` every time. I register simple routes in `MaterialApp.routes`, and use `onGenerateRoute` when I need to read arguments or decide the screen dynamically. It's the classic approach before go_router."
@@ -330,9 +335,10 @@ return MaterialPageRoute(builder: (_) => const NotFoundScreen());
 
 ---
 
-## <a id="q4"></a>4. Why was Navigator 2.0 introduced? What problems does it solve that Navigator 1.0 couldn't?
+<a id="q4"></a>
+## 4. Why was Navigator 2.0 introduced? What problems does it solve that Navigator 1.0 couldn't?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#4-navigator-20-কেন-আনা-হলো-এটা-কোন-সমস্যাগুলো-সমাধান-করে-যা-navigator-10-পারত-না)
 
 **Short answer (say this):**
 "Navigator 1.0 is imperative — you manually push and pop one screen at a time. That breaks down for deep links, web URLs, and the back button, because there is no clean way to rebuild a whole stack from a URL. Navigator 2.0 is declarative: you describe the *whole* page stack from your app state, and Flutter figures out the transitions — the same idea as `build()` for widgets."
@@ -390,9 +396,10 @@ Navigator(
 
 ---
 
-## <a id="q5"></a>5. Explain the core Navigator 2.0 internals — `Router`, `RouteInformationParser`, and `RouterDelegate`. What does each do?
+<a id="q5"></a>
+## 5. Explain the core Navigator 2.0 internals — `Router`, `RouteInformationParser`, and `RouterDelegate`. What does each do?
 
-> Deeper · Hard — a senior tie-breaker. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q5)
+> Deeper · Hard — a senior tie-breaker. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#5-navigator-20-এর-মূল-internals-ব্যাখ্যা-করুন--router-routeinformationparser-আর-routerdelegate।-প্রতিটা-কী-করে)
 
 **Short answer (say this):**
 "Navigator 2.0 has three parts that form a pipeline from the URL to the screen. The `RouteInformationParser` turns a URL string into my own route object. The `RouterDelegate` is the brain — it turns that object into a list of pages and builds the `Navigator`. The `Router` widget ties them together. In real code I let go_router implement all three for me."
@@ -513,9 +520,10 @@ Writing all three classes by hand is a lot of boilerplate and easy to get wrong.
 
 ---
 
-## <a id="q6"></a>6. How does go_router work? Explain route declaration, subroutes, path parameters, and query parameters.
+<a id="q6"></a>
+## 6. How does go_router work? Explain route declaration, subroutes, path parameters, and query parameters.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#6-go_router-কীভাবে-কাজ-করে-route-declaration-subroutes-path-parameters-আর-query-parameters-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "go_router is a declarative routing package built on Navigator 2.0. I declare my whole route tree once as a list of `GoRoute` objects, and it handles URL parsing, deep links, and browser-URL sync. Path parameters use `:name` in the path; query parameters need no declaration and come from `GoRouterState`."
@@ -606,9 +614,10 @@ A simple rule: **path parameters identify *which* thing** (which product), **que
 
 ---
 
-## <a id="q7"></a>7. In go_router, what is the difference between `go()`, `push()`, and `replace()`?
+<a id="q7"></a>
+## 7. In go_router, what is the difference between `go()`, `push()`, and `replace()`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q7)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#7-go_router-এ-go-push-আর-replace-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "`go()` is declarative — it rebuilds the whole stack to match the target URL. `push()` is imperative — it adds one screen on top of the current stack, like Navigator 1.0. `replace()` swaps the top screen for a new one without growing the stack. I use `go()` for normal navigation and `push()` only when I want a screen layered on top."
@@ -662,9 +671,10 @@ On web, `push()` adds a screen that isn't fully described by the URL. If the use
 
 ---
 
-## <a id="q8"></a>8. How do you implement an auth / login guard with go_router's `redirect`?
+<a id="q8"></a>
+## 8. How do you implement an auth / login guard with go_router's `redirect`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q8)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#8-go_router-এর-redirect-দিয়ে-auth--login-guard-কীভাবে-implement-করবেন)
 
 **Short answer (say this):**
 "go_router's `redirect` callback runs before every navigation. It returns `null` to allow the navigation, or a new path to send the user somewhere else. That's the perfect place for an auth guard: if the user isn't logged in, return `/login`. To react when auth changes (like a logout), I wire up `refreshListenable` so the redirect re-runs."
@@ -760,9 +770,10 @@ final router = GoRouter(
 
 ---
 
-## <a id="q9"></a>9. What is go_router's `ShellRoute`? How do you build a persistent bottom navigation bar, and how is `StatefulShellRoute` different?
+<a id="q9"></a>
+## 9. What is go_router's `ShellRoute`? How do you build a persistent bottom navigation bar, and how is `StatefulShellRoute` different?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q9)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#9-go_router-এর-shellroute-কী-persistent-bottom-navigation-bar-কীভাবে-বানাবেন-আর-statefulshellroute-কীভাবে-আলাদা)
 
 **Short answer (say this):**
 "`ShellRoute` wraps child routes in a shared shell — usually a `Scaffold` with a bottom bar — so only the body changes while the bar stays put. But a plain `ShellRoute` shares one stack, so switching tabs loses each tab's state. `StatefulShellRoute.indexedStack` gives each tab its own independent stack and keeps its scroll position and history. That's what real apps use."
@@ -872,9 +883,10 @@ StatefulShellRoute.indexedStack(
 
 ---
 
-## <a id="q10"></a>10. What is the difference between named routes and typed routes (go_router_builder)?
+<a id="q10"></a>
+## 10. What is the difference between named routes and typed routes (go_router_builder)?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q10)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#10-named-routes-আর-typed-routes-go_router_builder-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "Named routes navigate with a string name plus a map of parameters — simple, but a typo or a missing parameter only fails at runtime. Typed routes use the `go_router_builder` package: you define route classes, run `build_runner`, and get generated, compile-time-safe navigation. Named routes are fine for small apps; typed routes shine in large codebases."
@@ -947,9 +959,10 @@ Typed routes add `build_runner` setup, a generated file, and more boilerplate pe
 
 ---
 
-## <a id="q11"></a>11. How do you pass arguments between screens? What is the safe (typed) way versus the unsafe way?
+<a id="q11"></a>
+## 11. How do you pass arguments between screens? What is the safe (typed) way versus the unsafe way?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#11-screen-এর-মধ্যে-argument-কীভাবে-পাঠাবেন-নিরাপদ-typed-উপায়-আর-অনিরাপদ-উপায়-কোনটা)
 
 **Short answer (say this):**
 "The safe way is path and query parameters, because they live in the URL — they survive a web refresh and work with deep links. The unsafe way is go_router's `extra`, which can carry any object but is in-memory only, so it's lost on web refresh and breaks deep links. The safest of all is typed routes, where the compiler enforces the arguments."
@@ -1035,9 +1048,10 @@ if (data == null) return const ProductLoaderScreen(); // re-fetch fallback
 
 ---
 
-## <a id="q12"></a>12. How do you handle 404 / unknown routes in go_router?
+<a id="q12"></a>
+## 12. How do you handle 404 / unknown routes in go_router?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q12)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#12-go_router-এ-404--unknown-route-কীভাবে-handle-করেন)
 
 **Short answer (say this):**
 "go_router has an `errorBuilder` that runs whenever a navigation doesn't match any route — that's the 404 page. So a typo, a stale deep link, or a hand-edited URL on web shows a friendly screen instead of crashing. If I don't set one, go_router shows a default red error screen in debug."
@@ -1110,9 +1124,10 @@ redirect: (context, state) {
 
 ---
 
-## <a id="q13"></a>13. What is deep linking? How do you configure it for Android and iOS with go_router?
+<a id="q13"></a>
+## 13. What is deep linking? How do you configure it for Android and iOS with go_router?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#13-deep-linking-কী-go_router-দিয়ে-android-আর-ios-এ-এটা-কীভাবে-configure-করেন)
 
 **Short answer (say this):**
 "A deep link lets something outside the app — a browser URL, a push notification, another app — open the app straight to a specific screen instead of the home screen. go_router handles the in-app part for free once the URL arrives. The real work is the platform setup: App Links on Android and Universal Links on iOS, both backed by a verification file on your domain."
@@ -1202,9 +1217,10 @@ A custom scheme like `myapp://product/42` is easy but unverified and won't open 
 
 ---
 
-## <a id="q14"></a>14. How does `PopScope` work? How do you intercept the back button?
+<a id="q14"></a>
+## 14. How does `PopScope` work? How do you intercept the back button?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q14)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#14-popscope-কীভাবে-কাজ-করে-back-button-কীভাবে-intercept-করেন)
 
 **Short answer (say this):**
 "`PopScope` wraps a screen and decides whether it can be popped, catching the Android back button, the iOS back swipe, and `Navigator.pop`. I set `canPop: false` to block the pop, and in `onPopInvokedWithResult` I show a confirm dialog and pop manually if the user agrees. It replaced the old, deprecated `WillPopScope`."
@@ -1282,9 +1298,10 @@ The old `WillPopScope` returned a `Future<bool>` to allow or block the pop. That
 
 ---
 
-## <a id="q15"></a>15. How do you navigate from outside the widget tree — for example, from a Cubit, service, or repository?
+<a id="q15"></a>
+## 15. How do you navigate from outside the widget tree — for example, from a Cubit, service, or repository?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q15)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#15-widget-tree-এর-বাইরে-থেকে-কীভাবে-navigate-করবেন--যেমন-cubit-service-বা-repository-থেকে)
 
 **Short answer (say this):**
 "The problem is that `context.go()` needs a `BuildContext`, which doesn't exist in a Cubit or service. The cleanest answer is reactive: the Cubit emits a state, and a `BlocListener` in the UI does the navigation. If I really need to navigate without context, I keep a reference to the `GoRouter` (or a global navigator key) and call it directly. I never store a `BuildContext` in a Cubit."
@@ -1360,9 +1377,10 @@ Saving a `context` in a Cubit or service is dangerous — once that widget is di
 
 ---
 
-## <a id="q16"></a>16. When do you need nested navigators? How does a bottom navigation bar use separate navigation stacks?
+<a id="q16"></a>
+## 16. When do you need nested navigators? How does a bottom navigation bar use separate navigation stacks?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q16)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#16-nested-navigator-কখন-দরকার-হয়-bottom-navigation-bar-কীভাবে-আলাদা-navigation-stack-ব্যবহার-করে)
 
 **Short answer (say this):**
 "You need nested navigators when different sections of the app must keep their own history. The classic case is a bottom nav bar: each tab should remember its own stack and scroll, so leaving Home (drilled into a detail) and coming back restores that detail, not the Home root. You build this with one `Navigator` per tab inside an `IndexedStack`, or `StatefulShellRoute.indexedStack` in go_router."
@@ -1482,9 +1500,10 @@ StatefulShellRoute.indexedStack(
 
 ---
 
-## <a id="q17"></a>17. How do you create custom page transitions / animations between screens?
+<a id="q17"></a>
+## 17. How do you create custom page transitions / animations between screens?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q17)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#17-screen-এর-মাঝে-custom-page-transition--animation-কীভাবে-বানাবেন)
 
 **Short answer (say this):**
 "For Navigator 1.0, I use `PageRouteBuilder` and animate the new screen with the transition's `animation` value — a `SlideTransition` or `FadeTransition`, for example. In go_router, I return a `CustomTransitionPage` from `pageBuilder` instead of `builder`. The key idea is wrapping the child in a transition driven by the route's animation."
@@ -1556,7 +1575,8 @@ Use durations around 200–350 ms and the same style across the app. Long or mis
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

@@ -27,7 +27,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Complexity (Big-O)**
 1. [Big-O notation — time complexity](#q1) · *Very common*
@@ -71,7 +72,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need all 23 at once. Follow these stages in order. Tick a stage off only when you can give the **short answer** and write the code without looking.
 
@@ -99,9 +101,10 @@ You don't need all 23 at once. Follow these stages in order. Tick a stage off on
 
 ---
 
-## <a id="q1"></a>1. What is Big-O notation and why does it matter?
+<a id="q1"></a>
+## 1. What is Big-O notation and why does it matter?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#1-big-o-notation-কী-আর-এটা-কেন-গুরুত্বপূর্ণ)
 
 **Short answer (say this):**
 "Big-O describes how the work an algorithm does grows as the input grows. It ignores small details and machine speed, and focuses on the shape of the growth. We use it to compare two solutions before we even run them — for example, O(log n) is far better than O(n) for large inputs."
@@ -170,9 +173,10 @@ void printPairs(List<int> a) {
 
 ---
 
-## <a id="q2"></a>2. What is space complexity, and how is it different from time complexity?
+<a id="q2"></a>
+## 2. What is space complexity, and how is it different from time complexity?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q2)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#2-space-complexity-কী-আর-এটা-time-complexity-থেকে-কীভাবে-আলাদা)
 
 **Short answer (say this):**
 "Time complexity measures how the running time grows; space complexity measures how the extra memory grows as the input grows. We count the extra memory the algorithm creates, not the input itself. The call stack in recursion counts too — a recursion n levels deep uses O(n) space."
@@ -232,9 +236,10 @@ Often you can make something faster by using more memory, or save memory by spen
 
 ---
 
-## <a id="q3"></a>3. How do Dart Lists (arrays) work internally, and what are the time complexities?
+<a id="q3"></a>
+## 3. How do Dart Lists (arrays) work internally, and what are the time complexities?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#3-dart-এর-list-array-ভেতরে-ভেতরে-কীভাবে-কাজ-করে-আর-এর-time-complexity-কী-কী)
 
 **Short answer (say this):**
 "A Dart `List` is a dynamic array — items sit next to each other in memory, so reading by index is instant, O(1). Adding at the end is usually O(1), but when it runs out of room it copies everything to a bigger block, which is O(n) once in a while — that averages out to amortized O(1). Inserting or removing in the middle is O(n) because everything after it must shift."
@@ -293,9 +298,10 @@ list.removeAt(0);  // shifts everything back → O(n)
 
 ---
 
-## <a id="q4"></a>4. What is a Linked List, how is it different from an array, and what are the trade-offs?
+<a id="q4"></a>
+## 4. What is a Linked List, how is it different from an array, and what are the trade-offs?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#4-linked-list-কী-array-থেকে-এটা-কীভাবে-আলাদা-আর-এর-trade-off-কী-কী)
 
 **Short answer (say this):**
 "A linked list is a chain of nodes, where each node holds a value and a pointer to the next node. Unlike an array, the items are not next to each other in memory. So inserting or deleting at a known spot is O(1) — you just change pointers — but reading the nth item is O(n) because you must walk the chain from the start."
@@ -363,9 +369,10 @@ Node<T>? getAt<T>(Node<T>? head, int index) {
 
 ---
 
-## <a id="q5"></a>5. What is a Stack, how does it work, and how do you implement one in Dart?
+<a id="q5"></a>
+## 5. What is a Stack, how does it work, and how do you implement one in Dart?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q5)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#5-stack-কী-এটা-কীভাবে-কাজ-করে-আর-dart-এ-কীভাবে-একটা-বানাবেন)
 
 **Short answer (say this):**
 "A stack is Last-In-First-Out (LIFO) — the last item you put in is the first one you take out. Push adds to the top, pop removes from the top, both O(1). In Dart, a plain `List` is a stack: `add` to push and `removeLast` to pop."
@@ -428,9 +435,10 @@ bool isBalanced(String s) {
 
 ---
 
-## <a id="q6"></a>6. What is a Queue, how is it different from a Stack, and how do you use it in Dart?
+<a id="q6"></a>
+## 6. What is a Queue, how is it different from a Stack, and how do you use it in Dart?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q6)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#6-queue-কী-stack-থেকে-এটা-কীভাবে-আলাদা-আর-dart-এ-কীভাবে-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "A queue is First-In-First-Out (FIFO) — the first item in is the first one out, like a line at a shop. In Dart, use `Queue` from `dart:collection`, which adds and removes from both ends in O(1). A plain List can act as a queue too, but `removeAt(0)` is O(n), so prefer `Queue`."
@@ -480,9 +488,10 @@ A List can do `add` (back) in O(1), but `removeAt(0)` (front) is O(n) because ev
 
 ---
 
-## <a id="q7"></a>7. How does Dart's `Map` (HashMap) work internally, and what are the time complexities?
+<a id="q7"></a>
+## 7. How does Dart's `Map` (HashMap) work internally, and what are the time complexities?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q7)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#7-dart-এর-map-hashmap-ভেতরে-কীভাবে-কাজ-করে-আর-এর-time-complexity-কী-কী)
 
 **Short answer (say this):**
 "A Map stores key-value pairs and finds a key almost instantly — average O(1) — by running the key through a hash function to compute where to store it. Worst case is O(n) if many keys collide into the same spot. Dart's default Map keeps insertion order, and keys must have correct `==` and `hashCode`."
@@ -543,9 +552,10 @@ print(m[const Point(1, 2)]); // 'A' — works because == and hashCode are correc
 
 ---
 
-## <a id="q8"></a>8. What is a Set, how is it different from a List, and when should you use it?
+<a id="q8"></a>
+## 8. What is a Set, how is it different from a List, and when should you use it?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q8)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#8-set-কী-list-থেকে-এটা-কীভাবে-আলাদা-আর-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "A Set is a collection of unique items with no duplicates, and it checks membership in O(1) on average. A List allows duplicates and checks membership in O(n). So use a Set whenever you need uniqueness or fast 'have I seen this?' checks."
@@ -610,9 +620,10 @@ print(a.difference(b));   // {1}
 
 ---
 
-## <a id="q9"></a>9. What is a Binary Tree, and how do BFS and DFS traversals work?
+<a id="q9"></a>
+## 9. What is a Binary Tree, and how do BFS and DFS traversals work?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#9-binary-tree-কী-আর-bfs-ও-dfs-traversal-কীভাবে-কাজ-করে)
 
 **Short answer (say this):**
 "A binary tree is nodes where each node has up to two children, left and right. BFS (breadth-first) visits the tree level by level using a queue. DFS (depth-first) goes as deep as possible down one branch first, using recursion or a stack. Both visit every node, so both are O(n)."
@@ -684,9 +695,10 @@ Both are **O(n)** time (every node once). Space: BFS uses O(width) for the queue
 
 ---
 
-## <a id="q10"></a>10. What is a Graph, how do you represent one, and how do BFS/DFS work on it?
+<a id="q10"></a>
+## 10. What is a Graph, how do you represent one, and how do BFS/DFS work on it?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q10)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#10-graph-কী-একে-কীভাবে-represent-করবেন-আর-তাতে-bfsdfs-কীভাবে-কাজ-করে)
 
 **Short answer (say this):**
 "A graph is nodes (vertices) connected by edges — like a map of cities and roads. The most common representation is an adjacency list: a Map from each node to a list of its neighbours. BFS and DFS work like on trees, but you must track visited nodes, because graphs can have cycles."
@@ -766,9 +778,10 @@ Both BFS and DFS are **O(V + E)** — every node and every edge is looked at onc
 
 ---
 
-## <a id="q11"></a>11. How does Binary Search work, and when can you use it?
+<a id="q11"></a>
+## 11. How does Binary Search work, and when can you use it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#11-binary-search-কীভাবে-কাজ-করে-আর-কখন-এটা-ব্যবহার-করা-যায়)
 
 **Short answer (say this):**
 "Binary search finds an item in a sorted list in O(log n) by repeatedly cutting the search range in half. You check the middle: if it's the target, done; if the target is smaller, search the left half; if bigger, the right half. The one rule: the list must already be sorted."
@@ -820,9 +833,10 @@ The two classic bugs: using `<` instead of `<=` in the loop, and computing `mid`
 
 ---
 
-## <a id="q12"></a>12. Explain Bubble, Insertion, Merge, and Quick Sort — approach and complexity.
+<a id="q12"></a>
+## 12. Explain Bubble, Insertion, Merge, and Quick Sort — approach and complexity.
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q12)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#12-bubble-insertion-merge-আর-quick-sort-ব্যাখ্যা-করুন--উপায়-আর-complexity।)
 
 **Short answer (say this):**
 "Bubble and Insertion sort are simple but O(n²) — fine only for tiny or nearly-sorted data. Merge sort is O(n log n) always and stable, but uses O(n) extra space. Quick sort is O(n log n) on average and sorts in place, but O(n²) in the worst case. In practice Dart's built-in `sort()` uses a tuned hybrid, so I rarely write my own."
@@ -901,9 +915,10 @@ Choose a pivot, move smaller items left and bigger items right, then sort each s
 
 ---
 
-## <a id="q13"></a>13. What is the Two Pointers technique, and when do you use it?
+<a id="q13"></a>
+## 13. What is the Two Pointers technique, and when do you use it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#13-two-pointers-technique-কী-আর-কখন-এটা-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Two pointers means using two index variables that move through a list, instead of a nested loop. It turns many O(n²) problems into O(n). The two common styles are pointers starting at opposite ends and moving toward each other, or both moving in the same direction at different speeds."
@@ -966,9 +981,10 @@ Look for: a **sorted** list, finding **pairs**, comparing **both ends**, or **in
 
 ---
 
-## <a id="q14"></a>14. What is the Sliding Window technique, and when should you use it?
+<a id="q14"></a>
+## 14. What is the Sliding Window technique, and when should you use it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#14-sliding-window-technique-কী-আর-কখন-এটা-ব্যবহার-করা-উচিত)
 
 **Short answer (say this):**
 "Sliding window keeps a 'window' over part of a list and slides it instead of recomputing from scratch. When you move the window one step, you add the new item and remove the old one — so a problem that looks O(n²) becomes O(n). Use it for 'best subarray/substring of size k' or 'longest/shortest range that satisfies a rule' questions."
@@ -1028,9 +1044,10 @@ Look for: "subarray/substring", "consecutive", "of size k", "longest/shortest ra
 
 ---
 
-## <a id="q15"></a>15. How does recursion work? Explain the base case, the call stack, and tail recursion.
+<a id="q15"></a>
+## 15. How does recursion work? Explain the base case, the call stack, and tail recursion.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q15)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#15-recursion-কীভাবে-কাজ-করে-base-case-call-stack-আর-tail-recursion-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "Recursion is a function that calls itself to solve a smaller piece of the same problem. It needs a base case — a stopping condition — or it runs forever. Each call waits on the call stack until the deeper calls finish, so deep recursion uses O(n) stack memory and can overflow."
@@ -1083,9 +1100,10 @@ int factorialTail(int n, [int acc = 1]) {
 
 ---
 
-## <a id="q16"></a>16. What is Dynamic Programming, and what is the difference between memoization and tabulation?
+<a id="q16"></a>
+## 16. What is Dynamic Programming, and what is the difference between memoization and tabulation?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q16)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#16-dynamic-programming-কী-আর-memoization-ও-tabulation-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "Dynamic programming (DP) solves a big problem by combining answers to smaller overlapping sub-problems, and it stores each sub-answer so it is computed only once. Memoization is top-down: normal recursion plus a cache. Tabulation is bottom-up: fill a table from the smallest cases up. Both turn slow exponential recursion into fast linear time."
@@ -1148,9 +1166,10 @@ int fibTab(int n) {
 
 ---
 
-## <a id="q17"></a>17. Write a function that reverses a string.
+<a id="q17"></a>
+## 17. Write a function that reverses a string.
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q17)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#17-একটা-function-লিখুন-যেটা-একটা-string-reverse-করে।)
 
 **Short answer (say this):**
 "The simplest correct way in Dart is to split the string into characters, reverse the list, and join it back. That's O(n) time and O(n) space. If asked to do it in place on a list of characters, I'd use two pointers swapping from both ends."
@@ -1199,9 +1218,10 @@ Some characters (emojis, accented letters) are made of multiple code units, and 
 
 ---
 
-## <a id="q18"></a>18. Write a function to check if a string is a palindrome.
+<a id="q18"></a>
+## 18. Write a function to check if a string is a palindrome.
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q18)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#18-একটা-function-লিখুন-যেটা-check-করে-string-টা-palindrome-কি-না।)
 
 **Short answer (say this):**
 "A palindrome reads the same forwards and backwards. The cleanest check uses two pointers — one from the start, one from the end — comparing characters as they move toward the middle. That's O(n) time and O(1) extra space."
@@ -1259,9 +1279,10 @@ This is O(n) space because it builds a reversed copy. The two-pointer version is
 
 ---
 
-## <a id="q19"></a>19. Write a function to find all duplicate elements in a list.
+<a id="q19"></a>
+## 19. Write a function to find all duplicate elements in a list.
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q19)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#19-একটা-function-লিখুন-যেটা-একটা-list-এর-সব-duplicate-element-খুঁজে-বের-করে।)
 
 **Short answer (say this):**
 "Walk the list once, keeping a Set of items you've already seen. If an item is already in the Set, it's a duplicate. That's O(n) time and O(n) space — far better than comparing every pair, which is O(n²)."
@@ -1318,9 +1339,10 @@ Map<int, int> counts(List<int> nums) {
 
 ---
 
-## <a id="q20"></a>20. Write FizzBuzz.
+<a id="q20"></a>
+## 20. Write FizzBuzz.
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q20)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#20-fizzbuzz-লিখুন।)
 
 **Short answer (say this):**
 "For numbers 1 to n: print 'FizzBuzz' if divisible by both 3 and 5, else 'Fizz' if divisible by 3, else 'Buzz' if divisible by 5, else the number. The key is to check the both-case (15) first, otherwise it never runs."
@@ -1375,9 +1397,10 @@ void fizzBuzz2(int n) {
 
 ---
 
-## <a id="q21"></a>21. Compute the nth Fibonacci number — iterative, recursive, and memoized.
+<a id="q21"></a>
+## 21. Compute the nth Fibonacci number — iterative, recursive, and memoized.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q21)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#21-n-তম-fibonacci-সংখ্যা-বের-করুন--iterative-recursive-আর-memoized।)
 
 **Short answer (say this):**
 "Fibonacci is each number being the sum of the previous two. The naive recursion is O(2ⁿ) because it recomputes the same values endlessly. The iterative version is O(n) time and O(1) space — the best for an interview. Memoization also makes the recursion O(n)."
@@ -1444,9 +1467,10 @@ int fibMemo(int n, [Map<int, int>? memo]) {
 
 ---
 
-## <a id="q22"></a>22. Two Sum — find two indices whose values add up to a target.
+<a id="q22"></a>
+## 22. Two Sum — find two indices whose values add up to a target.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q22)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#22-two-sum--এমন-দুটো-index-বের-করুন-যাদের-মান-যোগ-করলে-target-হয়।)
 
 **Short answer (say this):**
 "Walk the list once, keeping a Map from each value to its index. For each number, check if 'target minus this number' is already in the Map — if so, you've found the pair. That's O(n) time and O(n) space, versus the O(n²) nested-loop brute force."
@@ -1494,9 +1518,10 @@ We spend O(n) extra memory (the Map) to save time (O(n²) → O(n)). That trade 
 
 ---
 
-## <a id="q23"></a>23. Find the maximum value in a list without using `max()`.
+<a id="q23"></a>
+## 23. Find the maximum value in a list without using `max()`.
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q23)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#23-max-ব্যবহার-না-করে-list-এর-সবচেয়ে-বড়-মান-বের-করুন।)
 
 **Short answer (say this):**
 "Track a 'best so far' variable. Start it at the first element, then walk the list once and update it whenever you find something bigger. That's O(n) time and O(1) space. The key edge case is an empty list — decide whether to throw or return null."
@@ -1550,7 +1575,8 @@ int? findMaxOrNull(List<int> nums) {
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Foundations**
 1. [What is clean code?](#q1) · *Very common*
@@ -58,7 +59,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The basics (start here).**
 → [Q1 What is clean code](#q1) · [Q2 Naming](#q2) · [Q3 Clean functions](#q3)
@@ -83,9 +85,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. What is clean code, and how do you define it in practice?
+<a id="q1"></a>
+## 1. What is clean code, and how do you define it in practice?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q1)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#1-clean-code-কী-আর-বাস্তবে-আপনি-এটাকে-কীভাবে-সংজ্ঞায়িত-করেন)
 
 **Short answer (say this):**
 "Clean code is code that's easy to read, understand, change, and delete. It communicates its intent clearly, so the next person doesn't have to reverse-engineer it. The key idea: code is read far more often than it's written, so I optimize for the reader."
@@ -117,9 +120,10 @@ Can a new teammate read a function and understand it in a few seconds, without a
 
 ---
 
-## <a id="q2"></a>2. What are good naming conventions in Dart, and what makes a name good?
+<a id="q2"></a>
+## 2. What are good naming conventions in Dart, and what makes a name good?
 
-> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q2)
+> Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#2-dart-এ-ভালো-naming-convention-কোনগুলো-আর-একটা-নামকে-ভালো-বানায়-কী)
 
 **Short answer (say this):**
 "A good name reveals intent — what something is or does — without needing a comment. In Dart: classes and enums use UpperCamelCase, variables and functions use lowerCamelCase, constants use lowerCamelCase too, and private members start with an underscore. Avoid abbreviations and single letters except for tiny loop counters."
@@ -161,7 +165,7 @@ List<User> getActiveUsers() => users.where((u) => u.isActive).toList();
 **Follow-ups they may ask:**
 - *"How long should a name be?"* → As long as it needs to be clear; clarity beats brevity.
 
-**Related:** [Q1 — clean code](#q1) · [Q19 (Refactoring) — Rename](section-15-code-smells.md#q19)
+**Related:** [Q1 — clean code](#q1) · [Q19 (Refactoring) — Rename](section-15-code-smells.md#19-how-do-you-rename-a-method-variable-or-class-safely)
 
 [↑ Back to top](#toc)
 
@@ -171,9 +175,10 @@ List<User> getActiveUsers() => users.where((u) => u.isActive).toList();
 
 ---
 
-## <a id="q3"></a>3. What are the rules for clean functions — small size, one job, no side effects?
+<a id="q3"></a>
+## 3. What are the rules for clean functions — small size, one job, no side effects?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#3-clean-function-এর-নিয়ম-কী--ছোট-আকার-একটাই-কাজ-কোনো-side-effect-নেই)
 
 **Short answer (say this):**
 "A clean function should be small, do one thing, and have no hidden side effects. 'One thing' means one level of work; 'no side effects' means it doesn't secretly change global state or do extra things its name doesn't promise. Small, focused functions are easy to read, test, and reuse."
@@ -211,7 +216,7 @@ bool isPasswordValid(String pw) => pw == stored;
 ```
 
 **Step 3 — Few parameters.**
-Fewer is easier. Zero, one, or two parameters are ideal; more is a smell ([Long Parameter List](section-15-code-smells.md#q6)). Use named parameters in Dart for clarity.
+Fewer is easier. Zero, one, or two parameters are ideal; more is a smell ([Long Parameter List](section-15-code-smells.md#6-what-is-a-long-parameter-list-and-how-do-you-fix-it)). Use named parameters in Dart for clarity.
 
 **Why interviewers ask:** Function design is daily work. Hidden side effects cause the nastiest bugs.
 
@@ -220,15 +225,16 @@ Fewer is easier. Zero, one, or two parameters are ideal; more is a smell ([Long 
 **Follow-ups they may ask:**
 - *"How small is small?"* → Small enough to do one thing and read top to bottom without scrolling.
 
-**Related:** [Q4 — single level of abstraction](#q4) · [Q5 — CQS](#q5) · [Q4 (Refactoring) — Long Method](section-15-code-smells.md#q4)
+**Related:** [Q4 — single level of abstraction](#q4) · [Q5 — CQS](#q5) · [Q4 (Refactoring) — Long Method](section-15-code-smells.md#4-what-is-a-long-method-and-how-do-you-fix-it)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q4"></a>4. What is the Single Level of Abstraction principle?
+<a id="q4"></a>
+## 4. What is the Single Level of Abstraction principle?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#4-single-level-of-abstraction-principle-কী)
 
 **Short answer (say this):**
 "Inside one function, all the steps should be at the same level of detail. Don't mix a high-level step like 'sendEmail()' with low-level details like string-concatenating an SMTP header in the same function. Mixing levels makes a function hard to read; keep each function at one altitude."
@@ -268,15 +274,16 @@ Now `checkout` reads as a clear sequence of high-level steps; the loop lives ins
 **Follow-ups they may ask:**
 - *"How does this relate to Extract Method?"* → Extracting the low-level details into named methods is how you achieve a single level.
 
-**Related:** [Q3 — clean functions](#q3) · [Q15 (Refactoring) — Extract Method](section-15-code-smells.md#q15)
+**Related:** [Q3 — clean functions](#q3) · [Q15 (Refactoring) — Extract Method](section-15-code-smells.md#15-extract-method--how-and-when)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q5"></a>5. What is Command-Query Separation (CQS)?
+<a id="q5"></a>
+## 5. What is Command-Query Separation (CQS)?
 
-> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q5)
+> Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#5-command-query-separation-cqs-কী)
 
 **Short answer (say this):**
 "CQS says a method should either *do* something (a command that changes state) or *answer* something (a query that returns a value) — but not both. A query shouldn't have side effects. This makes code predictable: asking a question never secretly changes the answer."
@@ -329,9 +336,10 @@ Some well-known methods break CQS on purpose (e.g. `list.removeLast()` removes *
 
 ---
 
-## <a id="q6"></a>6. When should you write comments, and what is self-documenting code?
+<a id="q6"></a>
+## 6. When should you write comments, and what is self-documenting code?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q6)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#6-কখন-comment-লেখা-উচিত-আর-self-documenting-code-কী)
 
 **Short answer (say this):**
 "Write comments to explain *why* — a non-obvious decision, a workaround, or a business rule. Don't write comments that explain *what* the code does; instead, make the code itself clear with good names and small functions. That's self-documenting code."
@@ -372,15 +380,16 @@ Good comments capture intent, warnings, business rules, and public API docs (`//
 **Follow-ups they may ask:**
 - *"What about doc comments?"* → Use `///` for public APIs; tools generate docs from them.
 
-**Related:** [Q2 — naming](#q2) · [Q12 (Refactoring) — comments as a smell](section-15-code-smells.md#q12)
+**Related:** [Q2 — naming](#q2) · [Q12 (Refactoring) — comments as a smell](section-15-code-smells.md#12-when-do-comments-become-a-code-smell)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q7"></a>7. Why does consistent formatting matter, and how do you use `dart format`?
+<a id="q7"></a>
+## 7. Why does consistent formatting matter, and how do you use `dart format`?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q7)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#7-consistent-formatting-কেন-গুরুত্বপূর্ণ-আর-dart-format-কীভাবে-ব্যবহার-করেন)
 
 **Short answer (say this):**
 "Consistent formatting makes code easy to scan and removes pointless debates and diff noise. In Dart you don't argue about it — you run `dart format` (or `flutter format`), which auto-formats to the official style. Most teams run it automatically on save and in CI."
@@ -431,9 +440,10 @@ Format on save in your IDE, and run a format check in CI so unformatted code can
 
 ---
 
-## <a id="q8"></a>8. Why are error codes bad? When should you use exceptions vs result types in Dart?
+<a id="q8"></a>
+## 8. Why are error codes bad? When should you use exceptions vs result types in Dart?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#8-error-code-খারাপ-কেন-dart-এ-exception-বনাম-result-type-কখন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Error codes (returning -1 or a status int) are easy to ignore and clutter the calling code with checks. Exceptions are better for truly unexpected failures — they can't be silently ignored. For *expected* failures (like a failed network call), a result type, such as a sealed `Result` or `Either`, makes the success/failure explicit and forces the caller to handle both."
@@ -494,15 +504,16 @@ switch (r) {
 **Follow-ups they may ask:**
 - *"Either from dartz?"* → Same idea as a sealed `Result` — `Left` (failure) / `Right` (success). Dart 3 sealed classes often replace it now.
 
-**Related:** [Q9 — avoiding null](#q9) · [Q6 (DSA/Dart) — exceptions vs errors](section-11-data-structure.md#q1)
+**Related:** [Q9 — avoiding null](#q9) · [Q6 (DSA/Dart) — exceptions vs errors](section-11-data-structure.md#1-what-is-big-o-notation-and-why-does-it-matter)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q9"></a>9. Why is returning `null` risky, and what are the alternatives in Dart?
+<a id="q9"></a>
+## 9. Why is returning `null` risky, and what are the alternatives in Dart?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q9)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#9-null-return-করা-ঝুঁকির-কেন-আর-dart-এ-এর-বিকল্প-কী-কী)
 
 **Short answer (say this):**
 "Returning `null` pushes a hidden landmine onto the caller — forget to check it and you get a crash. With Dart's null safety the compiler helps, but it's still better to avoid `null` where you can: return an empty collection, throw for truly missing data, or use a result/optional type to make 'maybe missing' explicit."
@@ -544,15 +555,16 @@ Use a nullable type *deliberately* (and handle it), or a result type ([Q8](#q8))
 **Follow-ups they may ask:**
 - *"Null Object pattern?"* → Return a harmless default object (e.g. a `GuestUser`) instead of null, so callers need no null check.
 
-**Related:** [Q8 — result types](#q8) · [Q1 (Dart) — null safety](section-01-dart-language.md#q1)
+**Related:** [Q8 — result types](#q8) · [Q1 (Dart) — null safety](section-01-dart-language.md#1-what-is-null-safety-in-dart-explain---late-and-required)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q10"></a>10. What is the Boolean trap, and how do you avoid it in Dart?
+<a id="q10"></a>
+## 10. What is the Boolean trap, and how do you avoid it in Dart?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q10)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#10-boolean-trap-কী-আর-dart-এ-আপনি-এটা-কীভাবে-এড়ান)
 
 **Short answer (say this):**
 "The Boolean trap is passing a bare `true`/`false` to a function, where the call site gives no clue what it means — like `setUser('Sara', true, false)`. You avoid it in Dart with named parameters or an enum, so the meaning is visible at the call site."
@@ -593,7 +605,7 @@ Named arguments and enums make code self-documenting and survive change (you can
 **Follow-ups they may ask:**
 - *"When is a boolean parameter okay?"* → As a single, named boolean with an obvious meaning (`expanded: true`); avoid stacking several positional ones.
 
-**Related:** [Q2 — naming](#q2) · [Q3 — clean functions](#q3) · [Q7 (Dart) — named parameters](section-01-dart-language.md#q7)
+**Related:** [Q2 — naming](#q2) · [Q3 — clean functions](#q3) · [Q7 (Dart) — named parameters](section-01-dart-language.md#7-what-are-named-positional-and-optional-parameters-when-do-you-use-each)
 
 [↑ Back to top](#toc)
 
@@ -603,9 +615,10 @@ Named arguments and enums make code self-documenting and survive change (you can
 
 ---
 
-## <a id="q11"></a>11. What is the DRY principle, and how do you apply it in Flutter?
+<a id="q11"></a>
+## 11. What is the DRY principle, and how do you apply it in Flutter?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q11)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#11-dry-principle-কী-আর-flutter-এ-আপনি-এটা-কীভাবে-কাজে-লাগান)
 
 **Short answer (say this):**
 "DRY means Don't Repeat Yourself — keep each piece of knowledge in one place. In Flutter you apply it by extracting repeated widgets into reusable widget classes, sharing logic in helpers or extensions, and centralizing constants like colors and text styles in a theme. But avoid merging code that only *looks* similar."
@@ -646,15 +659,16 @@ Don't force two pieces of code together just because they look alike today. If t
 **Follow-ups they may ask:**
 - *"When is duplication okay?"* → When merging would couple things that should evolve independently.
 
-**Related:** [Q9 (Refactoring) — Duplicate Code](section-15-code-smells.md#q9) · [Q15 (OOP) — DRY](section-12-oop-principles.md#q15)
+**Related:** [Q9 (Refactoring) — Duplicate Code](section-15-code-smells.md#9-what-is-duplicate-code-and-how-do-you-fix-it) · [Q15 (OOP) — DRY](section-12-oop-principles.md#15-what-is-the-dry-principle)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q12"></a>12. What is the Boy Scout Rule, and how do you practice it?
+<a id="q12"></a>
+## 12. What is the Boy Scout Rule, and how do you practice it?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q12)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#12-boy-scout-rule-কী-আর-আপনি-এটা-কীভাবে-মেনে-চলেন)
 
 **Short answer (say this):**
 "The Boy Scout Rule says: always leave the code a little cleaner than you found it. Whenever you touch a file, make one small improvement — a better name, an extracted method, a deleted dead line. Over time, these tiny cleanups keep the codebase healthy without a big rewrite."
@@ -683,15 +697,16 @@ Don't turn a one-line bug fix into a 500-line refactor — that bloats the PR an
 **Follow-ups they may ask:**
 - *"How do you keep cleanups reviewable?"* → Keep them small and near your change; or split a larger cleanup into its own PR.
 
-**Related:** [Q3 (Refactoring) — convince a team](section-15-code-smells.md#q3) · [Q2 (Refactoring) — refactor safely](section-15-code-smells.md#q2)
+**Related:** [Q3 (Refactoring) — convince a team](section-15-code-smells.md#3-how-do-you-convince-a-team-to-refactor-old-code) · [Q2 (Refactoring) — refactor safely](section-15-code-smells.md#2-how-do-you-refactor-safely)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q13"></a>13. What is the difference between clean code and over-engineered code?
+<a id="q13"></a>
+## 13. What is the difference between clean code and over-engineered code?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q13)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#13-clean-code-আর-over-engineered-code-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "Clean code is as simple as possible while staying clear and changeable. Over-engineered code adds layers, patterns, and flexibility that aren't needed yet — abstractions for imaginary future requirements. Clean code solves today's problem simply; over-engineering solves problems you don't have."
@@ -711,7 +726,7 @@ Clean code is the right-sized tool. Over-engineering is buying a 12-blade machin
 Signs: abstractions with a single implementation, "configurable" systems no one configures, patterns added "just in case" (a YAGNI violation).
 
 **Step 3 — Clean is simple but not careless.**
-Clean code isn't "no structure" — it has the *right* amount. The skill is matching the structure to the real need: simple now, easy to extend *when* the need actually appears ([OCP](section-12-oop-principles.md#q11)).
+Clean code isn't "no structure" — it has the *right* amount. The skill is matching the structure to the real need: simple now, easy to extend *when* the need actually appears ([OCP](section-12-oop-principles.md#11-solid--o-openclosed-principle-ocp)).
 
 **Step 4 — The balance.**
 - Too little structure → spaghetti, hard to change.
@@ -723,9 +738,9 @@ Clean code isn't "no structure" — it has the *right* amount. The skill is matc
 **Common mistake:** Adding design patterns and abstraction layers to show off, making simple things hard to follow.
 
 **Follow-ups they may ask:**
-- *"How do you decide how much structure?"* → Match it to the app's size, lifespan, and real (not imagined) requirements ([YAGNI](section-12-oop-principles.md#q17)).
+- *"How do you decide how much structure?"* → Match it to the app's size, lifespan, and real (not imagined) requirements ([YAGNI](section-12-oop-principles.md#17-what-is-the-yagni-principle)).
 
-**Related:** [Q1 — clean code](#q1) · [Q17 (OOP) — YAGNI](section-12-oop-principles.md#q17) · [Q14 (Architecture) — choosing](section-13-architecture-patterns.md#q14)
+**Related:** [Q1 — clean code](#q1) · [Q17 (OOP) — YAGNI](section-12-oop-principles.md#17-what-is-the-yagni-principle) · [Q14 (Architecture) — choosing](section-13-architecture-patterns.md#14-how-do-you-decide-which-architecture-to-use-for-a-new-flutter-project)
 
 [↑ Back to top](#toc)
 
@@ -735,9 +750,10 @@ Clean code isn't "no structure" — it has the *right* amount. The skill is matc
 
 ---
 
-## <a id="q14"></a>14. How do you enforce clean code in a team? (linters, code review, pair programming)
+<a id="q14"></a>
+## 14. How do you enforce clean code in a team? (linters, code review, pair programming)
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#14-team-এ-clean-code-কীভাবে-কাজে-লাগান-linters-code-review-pair-programming)
 
 **Short answer (say this):**
 "You don't rely on willpower — you build it into the workflow. Automated linters and formatters catch style and common mistakes, code reviews catch design and readability issues a tool can't, and pair programming spreads knowledge and standards in real time. Together they make clean code the default."
@@ -769,9 +785,10 @@ Agree on the lint rules and review checklist as a team, so feedback is about the
 
 ---
 
-## <a id="q15"></a>15. What is `analysis_options.yaml`, and how do you set up lint rules with `flutter_lints` / `very_good_analysis`?
+<a id="q15"></a>
+## 15. What is `analysis_options.yaml`, and how do you set up lint rules with `flutter_lints` / `very_good_analysis`?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q15)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#15-analysis_optionsyaml-কী-আর-flutter_lints--very_good_analysis-দিয়ে-lint-rule-কীভাবে-setup-করেন)
 
 **Short answer (say this):**
 "`analysis_options.yaml` is the config file that tells the Dart analyzer which lint rules to enforce. You include a ready-made rule set — `flutter_lints` (the official baseline) or `very_good_analysis` (stricter) — and can add or turn off individual rules. The analyzer then flags issues in the IDE and in CI."
@@ -827,7 +844,8 @@ Start from a package, then enable/disable specific rules by team agreement. Trea
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Table first, then one-line reminders.
 

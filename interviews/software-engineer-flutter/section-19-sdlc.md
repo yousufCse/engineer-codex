@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Overview & requirements**
 1. [What is SDLC? (the phases)](#q1) · *Very common*
@@ -57,7 +58,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The lifecycle (start here).**
 → [Q1 SDLC phases](#q1) · [Q2 Requirements](#q2) · [Q3 HLD vs LLD](#q3)
@@ -82,9 +84,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. What is SDLC, and what are its phases?
+<a id="q1"></a>
+## 1. What is SDLC, and what are its phases?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#1-sdlc-কী-আর-এর-phase-গুলো-কী-কী)
 
 **Short answer (say this):**
 "SDLC, the Software Development Lifecycle, is the structured process for building software — from planning to retirement. The classic phases are: requirements, design, development, testing, deployment, and maintenance. It gives teams a repeatable way to deliver quality software predictably, and different models (Waterfall, Agile) arrange these phases differently."
@@ -110,7 +113,7 @@ Requirements → Design → Development → Testing → Deployment → Maintenan
 
 **Step 3 — Models arrange phases differently.**
 - **Waterfall** — phases run once, in strict sequence.
-- **Agile** — phases repeat in short cycles, with feedback each loop ([Q2 Agile](section-18-agile-scrum.md#q2)).
+- **Agile** — phases repeat in short cycles, with feedback each loop ([Q2 Agile](section-18-agile-scrum.md#2-what-is-the-difference-between-waterfall-and-agile-when-is-each-appropriate)).
 - Others: V-model, Spiral, Iterative.
 
 **Step 4 — The point of having a process.**
@@ -123,15 +126,16 @@ A defined lifecycle catches problems early (cheaper), makes delivery predictable
 **Follow-ups they may ask:**
 - *"Which model do you prefer?"* → Usually Agile for products (feedback-driven); Waterfall for fixed-scope/regulated work.
 
-**Related:** [Q2 — requirements](#q2) · [Q2 (Agile) — Waterfall vs Agile](section-18-agile-scrum.md#q2)
+**Related:** [Q2 — requirements](#q2) · [Q2 (Agile) — Waterfall vs Agile](section-18-agile-scrum.md#2-what-is-the-difference-between-waterfall-and-agile-when-is-each-appropriate)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q2"></a>2. What is requirement gathering? Functional vs non-functional requirements?
+<a id="q2"></a>
+## 2. What is requirement gathering? Functional vs non-functional requirements?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#2-requirement-gathering-কী-functional-বনাম-non-functional-requirement)
 
 **Short answer (say this):**
 "Requirement gathering is finding out what the software must do, before building it. Functional requirements describe *what* the system does — features and behaviour, like 'users can reset their password'. Non-functional requirements describe *how well* it does it — performance, security, scalability, usability. You gather them through interviews, user stories, and prototypes."
@@ -155,7 +159,7 @@ Non-functional: "...and loads within 1 second"       (how well)
 
 **Step 3 — How you elicit them.**
 - **Interviews/workshops** with stakeholders.
-- **User stories** and acceptance criteria ([Q11 Agile](section-18-agile-scrum.md#q11)).
+- **User stories** and acceptance criteria ([Q11 Agile](section-18-agile-scrum.md#11-what-is-a-user-story-explain-the-format-acceptance-criteria-and-definition-of-done)).
 - **Prototypes/mockups** to make vague ideas concrete.
 - **Observing real users** to find unspoken needs.
 
@@ -169,15 +173,16 @@ A mistake here is the most expensive kind — building the wrong thing wastes th
 **Follow-ups they may ask:**
 - *"How do you handle vague requirements?"* → Ask questions, build a prototype, and confirm with the stakeholder before building fully.
 
-**Related:** [Q1 — SDLC](#q1) · [Q3 — system design](#q3) · [Q11 (Agile) — user stories](section-18-agile-scrum.md#q11)
+**Related:** [Q1 — SDLC](#q1) · [Q3 — system design](#q3) · [Q11 (Agile) — user stories](section-18-agile-scrum.md#11-what-is-a-user-story-explain-the-format-acceptance-criteria-and-definition-of-done)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q3"></a>3. What is system design, and what is the difference between HLD and LLD?
+<a id="q3"></a>
+## 3. What is system design, and what is the difference between HLD and LLD?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q3)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#3-system-design-কী-আর-hld-ও-lld-র-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "System design is planning how the software will be built before coding. High-Level Design (HLD) is the big-picture architecture — the major components, how they connect, and the tech choices. Low-Level Design (LLD) is the detailed design of each component — the classes, methods, and data structures. HLD is the city map; LLD is the street-by-street plan."
@@ -213,7 +218,7 @@ HLD aligns the team and stakeholders on the shape and the big trade-offs. LLD en
 **Follow-ups they may ask:**
 - *"How detailed should design be?"* → Enough to align and de-risk — not so much that it's a frozen, over-specified document (that's wasteful in Agile).
 
-**Related:** [Q2 — requirements](#q2) · [Q21 — system design for mobile](section-21-system-design.md#q1) · [Q2 (Architecture) — Clean Architecture](section-13-architecture-patterns.md#q2)
+**Related:** [Q2 — requirements](#q2) · [Q21 — system design for mobile](section-21-system-design.md#1-how-do-you-approach-a-system-design-question-in-a-fluttermobile-context) · [Q2 (Architecture) — Clean Architecture](section-13-architecture-patterns.md#2-explain-clean-architecture-in-flutter--the-3-layers-and-the-dependency-rule)
 
 [↑ Back to top](#toc)
 
@@ -223,9 +228,10 @@ HLD aligns the team and stakeholders on the shape and the big trade-offs. LLD en
 
 ---
 
-## <a id="q4"></a>4. What does good development practice look like?
+<a id="q4"></a>
+## 4. What does good development practice look like?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#4-ভালো-development-practice-দেখতে-কেমন)
 
 **Short answer (say this):**
 "Good development means writing clean, tested code in small, reviewed increments. In practice: work in small branches, follow coding standards and linters, write tests, commit with clear messages, get code reviewed, and integrate often via CI. The goal is code that's correct, readable, and safe to change."
@@ -238,12 +244,12 @@ HLD aligns the team and stakeholders on the shape and the big trade-offs. LLD en
 - Keep changes **small** — easier to review and less risky.
 
 **Step 2 — Quality built in, not bolted on.**
-- Follow **coding standards** and run **linters/formatters** automatically ([Q14 Clean Code](section-16-clean-code.md#q14)).
+- Follow **coding standards** and run **linters/formatters** automatically ([Q14 Clean Code](section-16-clean-code.md#14-how-do-you-enforce-clean-code-in-a-team-linters-code-review-pair-programming)).
 - **Write tests** alongside the code ([Q6](#q6)).
 - A clear **Definition of Done** so "done" means done, not "works on my machine."
 
 **Step 3 — Clear history and communication.**
-- **Meaningful commits** (conventional commits) and PR descriptions ([Q16 Git](section-17-git.md#q16)).
+- **Meaningful commits** (conventional commits) and PR descriptions ([Q16 Git](section-17-git.md#16-what-are-conventional-commits-and-why-do-teams-adopt-them)).
 - Update tickets/docs so the team has visibility.
 
 **Step 4 — Why this matters.**
@@ -256,15 +262,16 @@ These habits catch bugs early (cheap), keep the codebase healthy, and let many p
 **Follow-ups they may ask:**
 - *"What is CI?"* → Continuous Integration: automatically build and test every change so integration problems appear immediately.
 
-**Related:** [Q5 — code review](#q5) · [Q6 — testing](#q6) · [Q4 (Clean Code) — clean functions](section-16-clean-code.md#q3)
+**Related:** [Q5 — code review](#q5) · [Q6 — testing](#q6) · [Q4 (Clean Code) — clean functions](section-16-clean-code.md#3-what-are-the-rules-for-clean-functions--small-size-one-job-no-side-effects)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q5"></a>5. What is the purpose of code review? What do you look for?
+<a id="q5"></a>
+## 5. What is the purpose of code review? What do you look for?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#5-code-review-র-উদ্দেশ্য-কী-আপনি-কী-কী-দেখেন)
 
 **Short answer (say this):**
 "Code review is a second pair of eyes before code merges. Its purpose is to catch bugs, improve design and readability, share knowledge across the team, and keep a consistent standard. I look for correctness, edge cases, clear naming, good design, and tests — and I let the linter handle pure style."
@@ -291,7 +298,7 @@ These habits catch bugs early (cheap), keep the codebase healthy, and let many p
 - **Approve when good enough**, not perfect.
 
 **Step 4 — As the author.**
-Keep PRs small, write a clear description, self-review first, and make tests pass before requesting review ([Q18 Git](section-17-git.md#q18)).
+Keep PRs small, write a clear description, self-review first, and make tests pass before requesting review ([Q18 Git](section-17-git.md#18-what-are-best-practices-for-pull-requests-and-code-review-as-author-and-reviewer)).
 
 **Why interviewers ask:** Reviews are a daily senior responsibility; they assess your judgment and collaboration.
 
@@ -300,15 +307,16 @@ Keep PRs small, write a clear description, self-review first, and make tests pas
 **Follow-ups they may ask:**
 - *"How do you handle disagreement in review?"* → Discuss the trade-offs, defer to data/standards, and escalate to the team if needed — keep it about the code.
 
-**Related:** [Q18 (Git) — PR best practices](section-17-git.md#q18) · [Q4 — dev practices](#q4) · [Q22 (Leadership) — code review](section-22-leadership-behavioral.md#q1)
+**Related:** [Q18 (Git) — PR best practices](section-17-git.md#18-what-are-best-practices-for-pull-requests-and-code-review-as-author-and-reviewer) · [Q4 — dev practices](#q4) · [Q22 (Leadership) — code review](section-22-leadership-behavioral.md#1-how-do-you-conduct-a-code-review-what-do-you-look-for)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q6"></a>6. What are the testing phases? Explain unit, integration, system, and UAT.
+<a id="q6"></a>
+## 6. What are the testing phases? Explain unit, integration, system, and UAT.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#6-testing-এর-পর্যায়গুলো-কী-কী-unit-integration-system-আর-uat-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "Testing happens at levels, from small to big. Unit tests check one piece in isolation. Integration tests check that pieces work together. System testing checks the whole app end-to-end. UAT (User Acceptance Testing) is real users or the client confirming it meets their needs. Each level catches different kinds of bugs."
@@ -331,7 +339,7 @@ Keep PRs small, write a clear description, self-review first, and make tests pas
 | UAT | client/user acceptance | the customer confirms it fits their needs |
 
 **Step 3 — Where most tests should be (the pyramid).**
-Most tests should be fast **unit** tests, fewer **integration**, and even fewer slow **end-to-end** tests. This "test pyramid" keeps the suite fast and reliable ([Q6 Flutter Testing](section-06-testing.md#q1)).
+Most tests should be fast **unit** tests, fewer **integration**, and even fewer slow **end-to-end** tests. This "test pyramid" keeps the suite fast and reliable ([Q6 Flutter Testing](section-06-testing.md#1-what-are-the-three-types-of-flutter-tests--unit-widget-and-integration--and-when-do-you-use-each)).
 
 **Step 4 — Who does what.**
 Developers write unit/integration tests; QA often drives system testing; the **client or end users** do UAT. UAT is about *fit for purpose*, not just "no bugs."
@@ -343,7 +351,7 @@ Developers write unit/integration tests; QA often drives system testing; the **c
 **Follow-ups they may ask:**
 - *"Regression testing?"* → Re-running tests after a change to confirm you didn't break existing behaviour — automated tests make this cheap.
 
-**Related:** [Q6 (Flutter) — testing in Flutter](section-06-testing.md#q1) · [Q11 — shift-left](#q11)
+**Related:** [Q6 (Flutter) — testing in Flutter](section-06-testing.md#1-what-are-the-three-types-of-flutter-tests--unit-widget-and-integration--and-when-do-you-use-each) · [Q11 — shift-left](#q11)
 
 [↑ Back to top](#toc)
 
@@ -353,9 +361,10 @@ Developers write unit/integration tests; QA often drives system testing; the **c
 
 ---
 
-## <a id="q7"></a>7. What is the deployment process? Staging vs production, and what's on a deployment checklist?
+<a id="q7"></a>
+## 7. What is the deployment process? Staging vs production, and what's on a deployment checklist?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#7-deployment-process-কী-staging-বনাম-production-আর-deployment-checklist-এ-কী-কী-থাকে)
 
 **Short answer (say this):**
 "Deployment is releasing the software to an environment. Staging is a near-identical copy of production used for a final test (a dress rehearsal); production is the live environment real users hit. A deployment checklist ensures a safe release: tests pass, a backup/rollback plan exists, config and secrets are correct, and monitoring is ready."
@@ -394,15 +403,16 @@ It catches problems that only appear in a production-like setup (real config, da
 **Follow-ups they may ask:**
 - *"How do you roll back quickly?"* → Blue-green switch, redeploy the previous build, or toggle a feature flag off.
 
-**Related:** [Q10 (CI/CD) — release](section-10-cicd-release.md#q1) · [Q9 — production bug](#q9)
+**Related:** [Q10 (CI/CD) — release](section-10-cicd-release.md#1-what-are-flutters-build-modes-explain-debug-profile-and-release) · [Q9 — production bug](#q9)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q8"></a>8. What does maintenance look like? How do you handle bug tracking, hotfixes, and versioning?
+<a id="q8"></a>
+## 8. What does maintenance look like? How do you handle bug tracking, hotfixes, and versioning?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#8-maintenance-দেখতে-কেমন-bug-tracking-hotfix-আর-versioning-কীভাবে-সামলান)
 
 **Short answer (say this):**
 "Maintenance is everything after release — fixing bugs, improving performance, and adding small changes. Bugs are tracked in a tool (Jira/GitHub Issues) with priority. Hotfixes are urgent fixes branched off production and shipped fast. Versioning (semantic versioning: major.minor.patch) communicates the size of each release."
@@ -417,7 +427,7 @@ A product spends far longer being maintained than being first built. Good mainte
 - Triage regularly — fix critical bugs fast, schedule the rest.
 
 **Step 3 — Hotfixes.**
-For urgent production problems, branch directly off production, fix narrowly, test, deploy, then merge back to main ([Q19 Git](section-17-git.md#q19)).
+For urgent production problems, branch directly off production, fix narrowly, test, deploy, then merge back to main ([Q19 Git](section-17-git.md#19-how-do-you-handle-a-hotfix-on-production-while-feature-branches-are-in-progress)).
 
 **Step 4 — Semantic versioning (semver).**
 
@@ -438,15 +448,16 @@ This tells users at a glance how risky an upgrade is.
 **Follow-ups they may ask:**
 - *"What is regression?"* → A bug that reappears or a new change breaking old behaviour — automated tests catch these.
 
-**Related:** [Q9 — production bug](#q9) · [Q19 (Git) — hotfix](section-17-git.md#q19) · [Q16 (Git) — conventional commits/versioning](section-17-git.md#q16)
+**Related:** [Q9 — production bug](#q9) · [Q19 (Git) — hotfix](section-17-git.md#19-how-do-you-handle-a-hotfix-on-production-while-feature-branches-are-in-progress) · [Q16 (Git) — conventional commits/versioning](section-17-git.md#16-what-are-conventional-commits-and-why-do-teams-adopt-them)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q9"></a>9. How do you handle a production bug? Walk through the process.
+<a id="q9"></a>
+## 9. How do you handle a production bug? Walk through the process.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#9-production-bug-কীভাবে-handle-করেন-পুরো-process-টা-বলুন।)
 
 **Short answer (say this):**
 "I follow a clear order: first contain the damage (mitigate so users aren't hurt), then reproduce and diagnose, then fix and test, then deploy the fix safely, and finally do a blameless post-mortem to prevent it recurring. The instinct is 'stop the bleeding first, find the root cause second'."
@@ -462,7 +473,7 @@ Reduce user impact immediately: roll back the bad release, toggle a feature flag
 
 **Step 3 — Fix, test, and deploy safely.**
 - Write a focused fix and a **test** that would have caught it (so it never returns).
-- Deploy via a hotfix process with a rollback plan ([Q19 Git](section-17-git.md#q19)).
+- Deploy via a hotfix process with a rollback plan ([Q19 Git](section-17-git.md#19-how-do-you-handle-a-hotfix-on-production-while-feature-branches-are-in-progress)).
 
 **Step 4 — Post-mortem (blameless).**
 After it's resolved, the team reviews: what happened, why, and how to prevent it (better tests, monitoring, alerts). **Blameless** means focusing on the system and process, not punishing a person — that keeps people honest.
@@ -477,7 +488,7 @@ Keep stakeholders/users informed during a serious incident — silence is worse 
 **Follow-ups they may ask:**
 - *"Why blameless post-mortems?"* → Fear hides information; blameless reviews surface the real causes so the system improves.
 
-**Related:** [Q7 — deployment & rollback](#q7) · [Q19 (Git) — hotfix](section-17-git.md#q19)
+**Related:** [Q7 — deployment & rollback](#q7) · [Q19 (Git) — hotfix](section-17-git.md#19-how-do-you-handle-a-hotfix-on-production-while-feature-branches-are-in-progress)
 
 [↑ Back to top](#toc)
 
@@ -487,9 +498,10 @@ Keep stakeholders/users informed during a serious incident — silence is worse 
 
 ---
 
-## <a id="q10"></a>10. How do you ensure quality throughout the SDLC, not just at testing?
+<a id="q10"></a>
+## 10. How do you ensure quality throughout the SDLC, not just at testing?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q10)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#10-শুধু-testing-এর-সময়-নয়-পুরো-sdlc-জুড়ে-quality-কীভাবে-নিশ্চিত-করেন)
 
 **Short answer (say this):**
 "Quality can't be tested in at the end — it has to be built in at every phase. That means clear requirements, good design reviews, coding standards and linters, tests written with the code, code reviews, CI checks, and monitoring in production. Each phase has its own quality gate, so problems are caught where they're cheapest to fix."
@@ -523,15 +535,16 @@ The cost of fixing a bug grows roughly 10× each phase it slips. Building qualit
 **Follow-ups they may ask:**
 - *"How do you measure quality?"* → Bug escape rate, test coverage (with judgment), crash-free users, lead time to fix.
 
-**Related:** [Q11 — shift-left](#q11) · [Q6 — testing phases](#q6) · [Q14 (Clean Code) — enforcing](section-16-clean-code.md#q14)
+**Related:** [Q11 — shift-left](#q11) · [Q6 — testing phases](#q6) · [Q14 (Clean Code) — enforcing](section-16-clean-code.md#14-how-do-you-enforce-clean-code-in-a-team-linters-code-review-pair-programming)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q11"></a>11. What is Shift-Left testing, and why is it important?
+<a id="q11"></a>
+## 11. What is Shift-Left testing, and why is it important?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q11)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#11-shift-left-testing-কী-আর-এটা-কেন-গুরুত্বপূর্ণ)
 
 **Short answer (say this):**
 "Shift-left means moving testing and quality checks earlier (to the 'left') in the timeline, instead of leaving them to the end. You test as you build, automate checks in CI, and even involve QA during design. It's important because bugs caught early are far cheaper and faster to fix than bugs found in production."
@@ -570,9 +583,10 @@ Faster feedback, fewer production bugs, and developers who own quality (rather t
 
 ---
 
-## <a id="q12"></a>12. What is DevOps culture, and how does it relate to the SDLC?
+<a id="q12"></a>
+## 12. What is DevOps culture, and how does it relate to the SDLC?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#12-devops-culture-কী-আর-এটা-sdlc-র-সাথে-কীভাবে-সম্পর্কিত)
 
 **Short answer (say this):**
 "DevOps is a culture where development and operations work as one team, sharing responsibility for building, releasing, and running software. It uses automation — CI/CD, infrastructure as code, monitoring — to ship faster and more reliably. In SDLC terms, it tightens the loop between development, deployment, and maintenance so feedback is fast."
@@ -583,7 +597,7 @@ Faster feedback, fewer production bugs, and developers who own quality (rather t
 Traditionally, developers built code and "threw it over the wall" to operations to run — and blamed each other when things broke. DevOps removes that wall: one team owns the whole lifecycle.
 
 **Step 2 — The key practices.**
-- **CI/CD** — automatically build, test, and deploy ([Q10 CI/CD](section-10-cicd-release.md#q1)).
+- **CI/CD** — automatically build, test, and deploy ([Q10 CI/CD](section-10-cicd-release.md#1-what-are-flutters-build-modes-explain-debug-profile-and-release)).
 - **Infrastructure as Code** — servers/config defined in version-controlled files.
 - **Monitoring & observability** — see how the system behaves in production.
 - **Automation everywhere** — less manual, error-prone work.
@@ -603,15 +617,16 @@ DevOps makes the SDLC a fast, continuous loop instead of a one-way line — code
 **Follow-ups they may ask:**
 - *"CI vs CD?"* → CI = integrate + test every change automatically; CD = automatically deliver/deploy that tested change.
 
-**Related:** [Q11 — shift-left](#q11) · [Q10 (CI/CD)](section-10-cicd-release.md#q1) · [Q7 — deployment](#q7)
+**Related:** [Q11 — shift-left](#q11) · [Q10 (CI/CD)](section-10-cicd-release.md#1-what-are-flutters-build-modes-explain-debug-profile-and-release) · [Q7 — deployment](#q7)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q13"></a>13. What is risk management in a software project?
+<a id="q13"></a>
+## 13. What is risk management in a software project?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#13-software-project-এ-risk-management-কী)
 
 **Short answer (say this):**
 "Risk management is spotting things that could go wrong before they do, and planning for them. You identify risks (technical, schedule, people, external), judge each by how likely it is and how bad the impact would be, then mitigate the important ones — and keep watching. It's checking the weather before a trip."
@@ -654,9 +669,10 @@ Risks change over the project. Review them regularly (a risk register) and updat
 
 ---
 
-## <a id="q14"></a>14. What should you document, and what should you NOT over-document?
+<a id="q14"></a>
+## 14. What should you document, and what should you NOT over-document?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#14-কী-কী-document-করা-উচিত-আর-কী-কী-নিয়ে-over-document-করা-উচিত-নয়)
 
 **Short answer (say this):**
 "Document the things people need that the code can't tell them: architecture decisions and *why*, setup/onboarding steps, API contracts, and runbooks for operations. Don't over-document things that change constantly or that the code already says — like line-by-line comments or detailed specs that go stale. Good docs are useful and maintained; bad docs mislead."
@@ -673,7 +689,7 @@ Risks change over the project. Review them regularly (a risk register) and updat
 **Step 2 — NOT worth over-documenting.**
 - Comments that restate the code (`i++; // increment`).
 - Huge specs that freeze fast-changing details and go stale.
-- Anything the code already makes clear with good names ([Q6 Clean Code](section-16-clean-code.md#q6)).
+- Anything the code already makes clear with good names ([Q6 Clean Code](section-16-clean-code.md#6-when-should-you-write-comments-and-what-is-self-documenting-code)).
 
 **Step 3 — The guiding rule.**
 Document **why**, not **what**. The code shows *what* it does; docs should capture *why* a decision was made and knowledge that isn't in the code.
@@ -688,7 +704,7 @@ Stale docs are worse than none — they mislead. Keep docs close to the code, li
 **Follow-ups they may ask:**
 - *"What's an ADR?"* → A short record of a significant decision and the reasoning, so future devs know *why*.
 
-**Related:** [Q6 (Clean Code) — comments](section-16-clean-code.md#q6) · [Q3 — design](#q3)
+**Related:** [Q6 (Clean Code) — comments](section-16-clean-code.md#6-when-should-you-write-comments-and-what-is-self-documenting-code) · [Q3 — design](#q3)
 
 [↑ Back to top](#toc)
 
@@ -698,9 +714,10 @@ Stale docs are worse than none — they mislead. Keep docs close to the code, li
 
 ---
 
-## <a id="q15"></a>15. What is a spike, and when do you use it?
+<a id="q15"></a>
+## 15. What is a spike, and when do you use it?
 
-> Deeper · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q15)
+> Deeper · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#15-spike-কী-আর-কখন-এটা-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "A spike is a short, time-boxed piece of research to answer a question or reduce uncertainty before committing to real work. You use it when you don't know enough to estimate or design — like trying a new library or proving an approach is feasible. The output is knowledge, not shippable code."
@@ -728,15 +745,16 @@ A spike usually ends in a recommendation and a better estimate — and the throw
 **Follow-ups they may ask:**
 - *"Spike vs a normal story?"* → A story delivers a feature; a spike delivers knowledge to make the next story estimable.
 
-**Related:** [Q13 — risk management](#q13) · [Q12 (Agile) — story points](section-18-agile-scrum.md#q12)
+**Related:** [Q13 — risk management](#q13) · [Q12 (Agile) — story points](section-18-agile-scrum.md#12-what-are-story-points-why-use-them-over-hours-and-what-is-planning-poker)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q16"></a>16. What is the difference between a bug, a defect, and a feature request?
+<a id="q16"></a>
+## 16. What is the difference between a bug, a defect, and a feature request?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q16)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#16-bug-defect-আর-feature-request-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "A defect is a flaw in the software found at any stage; a bug is the common word for a defect found while running the software — it behaves differently from the requirement. A feature request is a *new* capability someone wants that was never part of the requirements. The key difference: bugs/defects are 'it's broken'; a feature request is 'I want something new'."
@@ -770,14 +788,15 @@ Mislabeling a feature as a "bug" lets scope creep in for free; mislabeling a bug
 **Follow-ups they may ask:**
 - *"What about an 'enhancement'?"* → A smaller improvement to existing functionality — still new scope, not a defect.
 
-**Related:** [Q8 — bug tracking](#q8) · [Q11 (Agile) — user stories](section-18-agile-scrum.md#q11)
+**Related:** [Q8 — bug tracking](#q8) · [Q11 (Agile) — user stories](section-18-agile-scrum.md#11-what-is-a-user-story-explain-the-format-acceptance-criteria-and-definition-of-done)
 
 [↑ Back to top](#toc)
 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

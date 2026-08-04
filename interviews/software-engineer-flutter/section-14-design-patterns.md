@@ -24,7 +24,8 @@ Each pattern is tagged with how often it is asked (**Very common / Common / Deep
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Creational patterns** (how objects are made)
 1. [Singleton](#q1) · *Very common*
@@ -52,7 +53,8 @@ Each pattern is tagged with how often it is asked (**Very common / Common / Deep
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 Follow these stages. Tick a stage off only when you can give the **short answer** and a real Flutter example, without looking.
 
@@ -77,9 +79,10 @@ Follow these stages. Tick a stage off only when you can give the **short answer*
 
 ---
 
-## <a id="q1"></a>1. Singleton
+<a id="q1"></a>
+## 1. Singleton
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#1-singleton)
 
 **Short answer (say this):**
 "Singleton makes sure a class has only one instance for the whole app, and gives a single point of access to it. In Dart you use a factory constructor that always returns the same private instance. It's good for shared services like a config store or a service locator."
@@ -124,9 +127,10 @@ void main() {
 
 ---
 
-## <a id="q2"></a>2. Factory Method
+<a id="q2"></a>
+## 2. Factory Method
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#2-factory-method)
 
 **Short answer (say this):**
 "Factory Method gives a method that decides which object to create and returns it, so the caller doesn't use a constructor directly. It lets you return different subtypes based on input, without the caller knowing the concrete class. In Dart, `factory` constructors and `fromJson` are everyday examples."
@@ -174,9 +178,10 @@ ButtonFactory.create('ios').render(); // caller doesn't know the concrete class
 
 ---
 
-## <a id="q3"></a>3. Abstract Factory
+<a id="q3"></a>
+## 3. Abstract Factory
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q3)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#3-abstract-factory)
 
 **Short answer (say this):**
 "Abstract Factory creates whole *families* of related objects that are meant to be used together, without naming their concrete classes. A classic example is a UI kit: a light-theme factory makes light buttons and light text fields, while a dark-theme factory makes the dark versions — and they always match."
@@ -233,9 +238,10 @@ Theming systems and adaptive UI kits: one factory per theme/platform produces a 
 
 ---
 
-## <a id="q4"></a>4. Builder
+<a id="q4"></a>
+## 4. Builder
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q4)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#4-builder)
 
 **Short answer (say this):**
 "Builder constructs a complex object step by step, instead of one huge constructor with many parameters. You set the parts you want, then call build. It's great when an object has many optional fields. Dart's cascade operator and named parameters often replace the classic Builder."
@@ -290,9 +296,10 @@ Flutter's named parameters already give a builder-like experience (`Container(pa
 
 ---
 
-## <a id="q5"></a>5. Adapter
+<a id="q5"></a>
+## 5. Adapter
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q5)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#5-adapter)
 
 **Short answer (say this):**
 "Adapter lets two incompatible interfaces work together by wrapping one so it looks like the other. It's like a travel plug adapter. You use it to fit a third-party library or legacy class into the interface your app expects, without changing either side."
@@ -343,9 +350,10 @@ Wrapping a third-party SDK (payments, analytics, a database) behind your own int
 
 ---
 
-## <a id="q6"></a>6. Decorator
+<a id="q6"></a>
+## 6. Decorator
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q6)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#6-decorator)
 
 **Short answer (say this):**
 "Decorator adds behaviour to an object by wrapping it in another object with the same interface, instead of subclassing. Think of adding toppings to a coffee. Flutter is built on this idea — you wrap a widget in Padding, then Center, then a GestureDetector, each adding a feature."
@@ -396,9 +404,10 @@ The entire widget tree is decorator-style: `GestureDetector(child: Padding(child
 
 ---
 
-## <a id="q7"></a>7. Facade
+<a id="q7"></a>
+## 7. Facade
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q7)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#7-facade)
 
 **Short answer (say this):**
 "Facade gives one simple interface in front of a complex set of classes, so callers don't deal with the messy details. It's like a hotel reception desk that handles everything for you. You use it to wrap several subsystems behind one easy method."
@@ -449,9 +458,10 @@ A repository is often a facade over several data sources (API + cache + database
 
 ---
 
-## <a id="q8"></a>8. Proxy
+<a id="q8"></a>
+## 8. Proxy
 
-> Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q8)
+> Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#8-proxy)
 
 **Short answer (say this):**
 "A proxy is a stand-in object that controls access to a real object — same interface, but it adds something before or after, like caching, lazy loading, or access checks. Think of a receptionist who decides whether to let you reach the manager. A lazy-loading image placeholder is a common proxy."
@@ -505,9 +515,10 @@ Lazy-loading images (load only when scrolled into view), a caching proxy that re
 
 ---
 
-## <a id="q9"></a>9. Composite
+<a id="q9"></a>
+## 9. Composite
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q9)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#9-composite)
 
 **Short answer (say this):**
 "Composite lets you treat a single object and a group of objects the same way, by giving them a common interface. Think of folders that can hold files *and* other folders. Flutter's widget tree is exactly this — a widget can be a leaf or contain other widgets, and you treat them uniformly."
@@ -559,9 +570,10 @@ The widget tree: a `Column` (composite) holds children that may be leaves (`Text
 
 ---
 
-## <a id="q10"></a>10. Observer
+<a id="q10"></a>
+## 10. Observer
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q10)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#10-observer)
 
 **Short answer (say this):**
 "Observer lets many objects subscribe to a subject and get notified automatically when it changes. It's like a newspaper subscription — publish once, all subscribers get it. Flutter uses this everywhere: `ChangeNotifier`/`Listenable`, `ValueNotifier`, and Streams are all Observer."
@@ -609,9 +621,10 @@ s.value = 5; // both A and B are notified
 
 ---
 
-## <a id="q11"></a>11. Strategy
+<a id="q11"></a>
+## 11. Strategy
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#11-strategy)
 
 **Short answer (say this):**
 "Strategy lets you swap an algorithm at runtime by putting each option behind a common interface. Instead of a big if/else choosing behaviour, you inject the strategy you want. Examples: different sorting methods, validation rules, or payment options."
@@ -659,9 +672,10 @@ Swappable repositories (real vs fake), different validation strategies for forms
 
 ---
 
-## <a id="q12"></a>12. Command
+<a id="q12"></a>
+## 12. Command
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#12-command)
 
 **Short answer (say this):**
 "Command turns a request into an object that holds everything needed to perform it. Because the action is now an object, you can queue it, log it, or undo it. It's like a written order ticket. The classic use is undo/redo."
@@ -703,15 +717,16 @@ Undo/redo in editors, action queues (e.g. offline actions replayed later), and F
 **Follow-ups they may ask:**
 - *"How does Command enable undo?"* → Each command knows how to reverse itself; keep a stack of executed commands.
 
-**Related:** [Q11 — Strategy](#q11) · [Q5 — Stack (undo history)](section-11-data-structure.md#q5)
+**Related:** [Q11 — Strategy](#q11) · [Q5 — Stack (undo history)](section-11-data-structure.md#5-what-is-a-stack-how-does-it-work-and-how-do-you-implement-one-in-dart)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q13"></a>13. State
+<a id="q13"></a>
+## 13. State
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#13-state)
 
 **Short answer (say this):**
 "The State pattern lets an object change its behaviour when its internal state changes, as if it became a different class. Instead of big if/else on a status field, each state is its own object that knows how to behave and what state comes next. A traffic light is the classic example."
@@ -760,9 +775,10 @@ Modeling screen status (loading / loaded / error) — often done with sealed cla
 
 ---
 
-## <a id="q14"></a>14. Template Method
+<a id="q14"></a>
+## 14. Template Method
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#14-template-method)
 
 **Short answer (say this):**
 "Template Method defines the fixed skeleton of an algorithm in a base class, but lets subclasses fill in specific steps. The overall order is locked; only the customizable parts change. It's like a recipe where the steps are fixed but you choose the ingredients."
@@ -811,9 +827,10 @@ CsvProcessor().process(); // runs the fixed skeleton with CSV-specific steps
 
 ---
 
-## <a id="q15"></a>15. Iterator
+<a id="q15"></a>
+## 15. Iterator
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q15)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#15-iterator)
 
 **Short answer (say this):**
 "Iterator gives a standard way to go through the items of a collection one by one, without exposing how the collection stores them. Dart builds this in: anything that is `Iterable` works with `for-in`, `map`, `where`, etc. You can also make your own iterator."
@@ -848,14 +865,15 @@ Every `for-in` loop, `ListView.builder`'s item access, and chained collection me
 **Follow-ups they may ask:**
 - *"How do you make a class iterable?"* → Implement `Iterable<T>` (provide an `iterator`), or expose a `sync*` generator method.
 
-**Related:** [Q9 — Composite (traversing)](#q9) · [Q3 (DSA) — Lists](section-11-data-structure.md#q3)
+**Related:** [Q9 — Composite (traversing)](#q9) · [Q3 (DSA) — Lists](section-11-data-structure.md#3-how-do-dart-lists-arrays-work-internally-and-what-are-the-time-complexities)
 
 [↑ Back to top](#toc)
 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Table first, then one-line reminders.
 

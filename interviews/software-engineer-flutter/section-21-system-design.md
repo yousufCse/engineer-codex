@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. The framework**
 1. [How to approach a mobile system design question](#q1) · *Very common*
@@ -52,7 +53,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The method (start here).**
 → [Q1 The framework](#q1) · [Q2 REST vs WebSocket](#q2)
@@ -77,9 +79,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. How do you approach a system design question in a Flutter/mobile context?
+<a id="q1"></a>
+## 1. How do you approach a system design question in a Flutter/mobile context?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q1)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#1-fluttermobile-context-এ-system-design-প্রশ্নের-কাছে-আপনি-কীভাবে-যান)
 
 **Short answer (say this):**
 "I use a simple framework: first clarify the requirements and scope, then sketch the high-level architecture, then dive into the key mobile concerns — data flow, state management, local storage, offline support, and networking. Throughout, I talk through trade-offs out loud. The goal is to show structured thinking, not memorize one right answer."
@@ -112,15 +115,16 @@ Think out loud, draw boxes, state assumptions, and name trade-offs ("WebSocket g
 **Follow-ups they may ask:**
 - *"What's different about mobile vs web design?"* → Offline support, unreliable networks, limited battery/data, local storage, and app lifecycle.
 
-**Related:** [Q2 — REST vs WebSocket](#q2) · [Q3 (SDLC) — HLD vs LLD](section-19-sdlc.md#q3)
+**Related:** [Q2 — REST vs WebSocket](#q2) · [Q3 (SDLC) — HLD vs LLD](section-19-sdlc.md#3-what-is-system-design-and-what-is-the-difference-between-hld-and-lld)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q2"></a>2. What are the trade-offs between REST and WebSocket for live data?
+<a id="q2"></a>
+## 2. What are the trade-offs between REST and WebSocket for live data?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q2)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#2-live-data-র-জন্য-rest-আর-websocket-এর-trade-off-কী-কী)
 
 **Short answer (say this):**
 "REST is request/response — the app asks, the server answers, then the connection closes. It's simple and great for most data. WebSocket keeps a single connection open for two-way, real-time messages — ideal for chat, live scores, or presence. WebSocket gives low latency but costs a persistent connection and more complexity; REST is simpler but can't push updates."
@@ -156,7 +160,7 @@ Use REST for normal data (profile, orders). Add WebSocket *only* where you need 
 **Follow-ups they may ask:**
 - *"How do you handle a dropped WebSocket?"* → Auto-reconnect with backoff, heartbeats to detect drops, and re-sync missed messages on reconnect.
 
-**Related:** [Q3 — chat](#q3) · [Q7 — push notifications](#q7) · [Q1 (Networking) — http vs Dio](section-07-networking-storage.md#q1)
+**Related:** [Q3 — chat](#q3) · [Q7 — push notifications](#q7) · [Q1 (Networking) — http vs Dio](section-07-networking-storage.md#1-what-is-the-difference-between-the-http-package-and-dio-why-is-dio-usually-preferred-in-production)
 
 [↑ Back to top](#toc)
 
@@ -166,9 +170,10 @@ Use REST for normal data (profile, orders). Add WebSocket *only* where you need 
 
 ---
 
-## <a id="q3"></a>3. Design a real-time chat application in Flutter.
+<a id="q3"></a>
+## 3. Design a real-time chat application in Flutter.
 
-> Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q3)
+> Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#3-flutter-এ-একটা-real-time-chat-application-design-করুন।)
 
 **Short answer (say this):**
 "I'd use WebSocket for real-time messaging, a BLoC/Cubit to manage the chat state, and a local database (like Drift or Hive) to store messages for offline access and instant loading. Messages are stored locally first (optimistic), sent over the socket, and confirmed by the server. I'd handle reconnection, ordering, and delivery/read receipts."
@@ -189,7 +194,7 @@ Flutter app  ── WebSocket ──►  Chat server  ──►  Message DB
 
 **Step 3 — Key decisions.**
 - **Transport** — WebSocket for live messages ([Q2](#q2)); REST for history pagination.
-- **State** — BLoC/Cubit holds the message list; UI rebuilds on new messages ([Q3 State Mgmt](section-03-state-management.md#q1)).
+- **State** — BLoC/Cubit holds the message list; UI rebuilds on new messages ([Q3 State Mgmt](section-03-state-management.md#1-what-is-state-in-flutter-what-is-the-difference-between-ephemeral-and-app-state)).
 - **Local storage** — a local DB stores all messages, so the chat loads instantly and works offline.
 - **Optimistic UI** — show the message immediately as "sending", then mark "sent/delivered/read" as the server confirms.
 
@@ -216,9 +221,10 @@ WebSocket gives instant delivery but needs reconnection/heartbeat logic and serv
 
 ---
 
-## <a id="q4"></a>4. Design an offline-first news feed in Flutter.
+<a id="q4"></a>
+## 4. Design an offline-first news feed in Flutter.
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q4)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#4-flutter-এ-একটা-offline-first-news-feed-design-করুন।)
 
 **Short answer (say this):**
 "Offline-first means the local database is the single source of truth for the UI. The app always reads from local storage (so it works instantly and offline), and a background sync fetches fresh data from the API and updates the local store. The UI just listens to the local DB and rebuilds when it changes."
@@ -267,15 +273,16 @@ Offline-first gives a fast, resilient UX but adds sync complexity and storage. F
 **Follow-ups they may ask:**
 - *"How do you know what's new?"* → Use timestamps/etags or a "since" cursor so you fetch only new items.
 
-**Related:** [Q3 — chat (offline)](#q3) · [Q15 (Networking) — offline-first](section-07-networking-storage.md#q15)
+**Related:** [Q3 — chat (offline)](#q3) · [Q15 (Networking) — offline-first](section-07-networking-storage.md#15-how-do-you-implement-an-offline-first-architecture-in-flutter)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q5"></a>5. Design an authentication system in Flutter (login, token storage, refresh, logout).
+<a id="q5"></a>
+## 5. Design an authentication system in Flutter (login, token storage, refresh, logout).
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q5)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#5-flutter-এ-একটা-authentication-system-design-করুন-login-token-storage-refresh-logout।)
 
 **Short answer (say this):**
 "The user logs in, the server returns a short-lived access token and a longer-lived refresh token, and I store both in secure storage. Every request carries the access token; when it expires (401), an interceptor uses the refresh token to get a new one and retries. Logout clears the tokens and tells the server to revoke the refresh token."
@@ -315,8 +322,8 @@ Queue concurrent 401s so you refresh once, not many times.
 
 **Step 4 — Logout and security.**
 - **Logout** → delete tokens from secure storage AND call the server to revoke the refresh token.
-- **Storage** → secure storage only ([Q3 Security](section-20-mobile-security.md#q3)); never SharedPreferences.
-- **Tokens** → short access + refresh, optionally with rotation ([Q9 Security](section-20-mobile-security.md#q9)).
+- **Storage** → secure storage only ([Q3 Security](section-20-mobile-security.md#3-why-is-sharedpreferences-not-secure-for-tokens-how-do-you-use-flutter-secure-storage)); never SharedPreferences.
+- **Tokens** → short access + refresh, optionally with rotation ([Q9 Security](section-20-mobile-security.md#9-what-is-the-difference-between-access-tokens-and-refresh-tokens-where-do-you-store-them)).
 - **Biometric gate** → optionally require biometrics to unlock the stored token on app open.
 
 **Step 5 — Trade-offs.**
@@ -329,15 +336,16 @@ Short tokens + refresh add interceptor complexity but greatly reduce the damage 
 **Follow-ups they may ask:**
 - *"Multiple requests get 401 at once?"* → Refresh once, pause other requests, then replay them with the new token.
 
-**Related:** [Q9 (Security) — tokens](section-20-mobile-security.md#q9) · [Q3 (Security) — secure storage](section-20-mobile-security.md#q3) · [Q3 (Networking) — interceptors](section-07-networking-storage.md#q3)
+**Related:** [Q9 (Security) — tokens](section-20-mobile-security.md#9-what-is-the-difference-between-access-tokens-and-refresh-tokens-where-do-you-store-them) · [Q3 (Security) — secure storage](section-20-mobile-security.md#3-why-is-sharedpreferences-not-secure-for-tokens-how-do-you-use-flutter-secure-storage) · [Q3 (Networking) — interceptors](section-07-networking-storage.md#3-how-do-dio-interceptors-work-how-do-you-inject-an-auth-token-and-handle-a-401-with-token-refresh-and-a-retry-queue)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q6"></a>6. Design a photo upload feature (chunked upload, progress, retry, compression).
+<a id="q6"></a>
+## 6. Design a photo upload feature (chunked upload, progress, retry, compression).
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q6)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#6-একটা-photo-upload-feature-design-করুন-chunked-upload-progress-retry-compression।)
 
 **Short answer (say this):**
 "I'd compress the image first to save bandwidth, then upload it — for large files, in chunks so a failure only re-sends one chunk. I'd show progress from Dio's callback, retry failed chunks with backoff, and run the upload in a way that survives the user navigating away. The server reassembles the chunks."
@@ -387,9 +395,10 @@ Chunking + retry adds complexity but is essential for big files on flaky mobile 
 
 ---
 
-## <a id="q7"></a>7. Design push notification architecture end-to-end for a Flutter app.
+<a id="q7"></a>
+## 7. Design push notification architecture end-to-end for a Flutter app.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#7-একটা-flutter-app-এর-জন্য-push-notification-architecture-end-to-end-design-করুন।)
 
 **Short answer (say this):**
 "The app registers with FCM (Firebase Cloud Messaging) and gets a device token, which it sends to my backend. When something happens, my backend tells FCM to deliver a notification to that token. The app handles notifications in three states — foreground, background, and terminated — and taps deep-link the user to the right screen."
@@ -423,7 +432,7 @@ final initial = await FirebaseMessaging.instance.getInitialMessage(); // termina
 - **Token refresh** — the device token can change; listen for `onTokenRefresh` and update the backend.
 - **Permissions** — iOS (and Android 13+) require asking the user; handle denial gracefully.
 - **Data vs notification messages** — "notification" messages are shown by the OS; "data" messages let your app decide. Use data messages when you need custom handling.
-- **Deep linking** — the payload carries a route so a tap lands on the right screen ([Q15 Security](section-20-mobile-security.md#q15)).
+- **Deep linking** — the payload carries a route so a tap lands on the right screen ([Q15 Security](section-20-mobile-security.md#15-what-is-deep-link-hijacking-and-how-do-you-secure-deep-links-in-flutter)).
 
 **Why interviewers ask:** Push is in almost every app and tests platform/lifecycle understanding.
 
@@ -432,15 +441,16 @@ final initial = await FirebaseMessaging.instance.getInitialMessage(); // termina
 **Follow-ups they may ask:**
 - *"How do you target one user with multiple devices?"* → Store multiple tokens per user; send to all (or use FCM topics/user-based fan-out).
 
-**Related:** [Q3 — chat (offline push)](#q3) · [Q15 (Security) — deep links](section-20-mobile-security.md#q15)
+**Related:** [Q3 — chat (offline push)](#q3) · [Q15 (Security) — deep links](section-20-mobile-security.md#15-what-is-deep-link-hijacking-and-how-do-you-secure-deep-links-in-flutter)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q8"></a>8. Design a shopping cart feature (state, persistence, backend sync).
+<a id="q8"></a>
+## 8. Design a shopping cart feature (state, persistence, backend sync).
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#8-একটা-shopping-cart-feature-design-করুন-state-persistence-backend-sync।)
 
 **Short answer (say this):**
 "The cart lives as app state (BLoC/Cubit/Riverpod) for instant UI updates, is persisted locally so it survives app restarts, and syncs to the backend so it follows the user across devices. I'd update locally first (optimistic), then sync, and handle conflicts when the same user changes the cart on two devices."
@@ -478,7 +488,7 @@ Optimistic local-first updates feel instant and work offline, at the cost of syn
 **Follow-ups they may ask:**
 - *"Merge guest cart on login?"* → Combine items, summing quantities for duplicates, then push the merged cart to the server.
 
-**Related:** [Q4 — offline-first](#q4) · [Q5 — auth](#q5) · [Q1 (State Mgmt)](section-03-state-management.md#q1)
+**Related:** [Q4 — offline-first](#q4) · [Q5 — auth](#q5) · [Q1 (State Mgmt)](section-03-state-management.md#1-what-is-state-in-flutter-what-is-the-difference-between-ephemeral-and-app-state)
 
 [↑ Back to top](#toc)
 
@@ -488,9 +498,10 @@ Optimistic local-first updates feel instant and work offline, at the cost of syn
 
 ---
 
-## <a id="q9"></a>9. How do you design for scalability in a mobile app architecture?
+<a id="q9"></a>
+## 9. How do you design for scalability in a mobile app architecture?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q9)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#9-mobile-app-architecture-এ-scalability-র-জন্য-কীভাবে-design-করেন)
 
 **Short answer (say this):**
 "Scalability for mobile means two things: the *codebase* scales to more features and developers, and the *app* handles more data/users smoothly. For the code: clean layered architecture, modular feature packages, and dependency injection. For the runtime: pagination, caching, lazy loading, efficient state management, and offloading heavy work to isolates."
@@ -502,7 +513,7 @@ Optimistic local-first updates feel instant and work offline, at the cost of syn
 - **Runtime scale** — large data and many users without lag.
 
 **Step 2 — Scaling the codebase.**
-- **Layered/Clean Architecture** so concerns are separated ([Q2 Architecture](section-13-architecture-patterns.md#q2)).
+- **Layered/Clean Architecture** so concerns are separated ([Q2 Architecture](section-13-architecture-patterns.md#2-explain-clean-architecture-in-flutter--the-3-layers-and-the-dependency-rule)).
 - **Modular feature packages** so teams work in parallel ([Q10](#q10)).
 - **Dependency injection** for testability and swapability.
 - **Consistent patterns** so new code looks like old code.
@@ -526,15 +537,16 @@ Optimistic local-first updates feel instant and work offline, at the cost of syn
 **Follow-ups they may ask:**
 - *"App feels slow with a big list — what do you check?"* → Lazy building (`ListView.builder`), `const`, rebuild scope, image caching, and heavy work on the UI thread.
 
-**Related:** [Q10 — large app](#q10) · [Q5 (Performance)](section-05-performance.md#q1) · [Q2 (Architecture)](section-13-architecture-patterns.md#q2)
+**Related:** [Q10 — large app](#q10) · [Q5 (Performance)](section-05-performance.md#1-what-causes-jank-in-flutter-and-how-do-you-find-it) · [Q2 (Architecture)](section-13-architecture-patterns.md#2-explain-clean-architecture-in-flutter--the-3-layers-and-the-dependency-rule)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q10"></a>10. How would you architect a Flutter app with 50+ screens and 10+ developers?
+<a id="q10"></a>
+## 10. How would you architect a Flutter app with 50+ screens and 10+ developers?
 
-> Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q10)
+> Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#10-50-screen-আর-10-developer-এর-একটা-flutter-app-কীভাবে-architect-করবেন)
 
 **Short answer (say this):**
 "I'd use a modular, feature-based architecture: each feature is its own package with clear boundaries, sharing common 'core' and 'domain' packages, all in a monorepo managed with melos. Inside each feature, Clean Architecture (presentation/domain/data) with DI. This lets teams work in parallel, enforces boundaries, and keeps builds and tests fast per feature."
@@ -554,10 +566,10 @@ packages/
   feature_auth/       feature_profile/   feature_orders/   ...
 ```
 
-Rule: features depend on `core`/`domain`, **not on each other** ([Q13 Architecture](section-13-architecture-patterns.md#q13)).
+Rule: features depend on `core`/`domain`, **not on each other** ([Q13 Architecture](section-13-architecture-patterns.md#13-what-is-modular-architecture-feature-packages-in-flutter-and-why-do-large-teams-adopt-it)).
 
 **Step 3 — Inside each feature.**
-Clean Architecture (presentation → domain → data) with DI ([Q2 Architecture](section-13-architecture-patterns.md#q2)), and a consistent state management choice across the app (e.g. BLoC) so any developer can read any feature.
+Clean Architecture (presentation → domain → data) with DI ([Q2 Architecture](section-13-architecture-patterns.md#2-explain-clean-architecture-in-flutter--the-3-layers-and-the-dependency-rule)), and a consistent state management choice across the app (e.g. BLoC) so any developer can read any feature.
 
 **Step 4 — Tooling and process.**
 - **melos** to manage the monorepo (link packages, run scripts everywhere).
@@ -575,15 +587,16 @@ Modularization adds upfront setup and tooling complexity. For a small app it's o
 **Follow-ups they may ask:**
 - *"How do features communicate?"* → Through shared abstractions in `core`/`domain` or an event/navigation layer in the app shell — never direct imports.
 
-**Related:** [Q13 (Architecture) — modular](section-13-architecture-patterns.md#q13) · [Q12 (Architecture) — monorepo](section-13-architecture-patterns.md#q12) · [Q9 — scalability](#q9)
+**Related:** [Q13 (Architecture) — modular](section-13-architecture-patterns.md#13-what-is-modular-architecture-feature-packages-in-flutter-and-why-do-large-teams-adopt-it) · [Q12 (Architecture) — monorepo](section-13-architecture-patterns.md#12-what-are-the-trade-offs-between-monorepo-and-multi-repo-for-mobile-teams) · [Q9 — scalability](#q9)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q11"></a>11. How do you design a plugin or SDK that other Flutter apps will use?
+<a id="q11"></a>
+## 11. How do you design a plugin or SDK that other Flutter apps will use?
 
-> Deeper · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q11)
+> Deeper · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#11-অন্য-flutter-app-যেটা-ব্যবহার-করবে-এমন-plugin-বা-sdk-কীভাবে-design-করেন)
 
 **Short answer (say this):**
 "An SDK is a product for *developers*, so the priorities are a clean, stable public API, great documentation, and not breaking users. I'd expose a small, well-named surface, hide internals, handle errors gracefully, support null safety and current Flutter versions, and version it with semver so breaking changes are clearly signaled."
@@ -614,7 +627,7 @@ class PaymentSdk {
 
 **Step 4 — Documentation, versioning, testing.**
 - **Docs + examples** — an example app and clear README; SDKs live or die on docs.
-- **Semantic versioning** — MAJOR for breaking changes, so users upgrade safely ([Q8 SDLC](section-19-sdlc.md#q8)).
+- **Semantic versioning** — MAJOR for breaking changes, so users upgrade safely ([Q8 SDLC](section-19-sdlc.md#8-what-does-maintenance-look-like-how-do-you-handle-bug-tracking-hotfixes-and-versioning)).
 - **Deprecation path** — mark old APIs `@deprecated` with guidance before removing.
 - **Thorough tests** — you can't easily hotfix something installed in many apps.
 
@@ -625,7 +638,7 @@ class PaymentSdk {
 **Follow-ups they may ask:**
 - *"How do you make a breaking change safely?"* → Deprecate first with a migration path, bump the MAJOR version, and document the upgrade.
 
-**Related:** [Q12 — API versioning](#q12) · [Q5 (Clean Code) — CQS / clean API](section-16-clean-code.md#q5) · [Q11 (OOP) — constructors](section-12-oop-principles.md#q18)
+**Related:** [Q12 — API versioning](#q12) · [Q5 (Clean Code) — CQS / clean API](section-16-clean-code.md#5-what-is-command-query-separation-cqs) · [Q11 (OOP) — constructors](section-12-oop-principles.md#18-what-are-the-different-constructor-types-in-dart)
 
 [↑ Back to top](#toc)
 
@@ -635,9 +648,10 @@ class PaymentSdk {
 
 ---
 
-## <a id="q12"></a>12. What is API versioning, and how do you handle breaking API changes in a mobile app?
+<a id="q12"></a>
+## 12. What is API versioning, and how do you handle breaking API changes in a mobile app?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#12-api-versioning-কী-আর-mobile-app-এ-breaking-api-change-কীভাবে-handle-করবেন)
 
 **Short answer (say this):**
 "API versioning lets the server evolve without breaking older app versions still on users' phones. You version the API (like `/v1/`, `/v2/`) and keep old versions running until old apps age out. The key mobile constraint: you can't force everyone to update instantly, so the backend must support multiple app versions at once."
@@ -672,15 +686,16 @@ For unavoidable breaking changes (or security), the app can check a minimum supp
 **Follow-ups they may ask:**
 - *"How long do you keep old versions?"* → Until usage of old app versions drops low enough (track it via analytics), then deprecate with notice.
 
-**Related:** [Q8 (SDLC) — versioning](section-19-sdlc.md#q8) · [Q11 — SDK versioning](#q11)
+**Related:** [Q8 (SDLC) — versioning](section-19-sdlc.md#8-what-does-maintenance-look-like-how-do-you-handle-bug-tracking-hotfixes-and-versioning) · [Q11 — SDK versioning](#q11)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q13"></a>13. How do you design error handling across an entire Flutter app — from API failure to user-visible message?
+<a id="q13"></a>
+## 13. How do you design error handling across an entire Flutter app — from API failure to user-visible message?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q13)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#13-পুরো-একটা-flutter-app-এ-error-handling-কীভাবে-design-করবেন--api-failure-থেকে-user-এর-চোখে-পড়া-message-পর্যন্ত)
 
 **Short answer (say this):**
 "I handle errors in layers. The data layer catches low-level errors (network, parsing) and turns them into clear domain failures. The state layer maps those to UI states (error states). The UI shows a friendly, actionable message — never a raw exception. I also catch uncaught errors globally and report them to a crash tool."
@@ -697,7 +712,7 @@ API/DB error → Data layer (catch, wrap) → domain Failure
 Each layer translates the error into the right form for the next.
 
 **Step 2 — Data layer: turn exceptions into typed failures.**
-Catch raw errors (DioException, FormatException) and convert them into meaningful domain results — a sealed `Result`/`Either` or specific failure types ([Q8 Clean Code](section-16-clean-code.md#q8)).
+Catch raw errors (DioException, FormatException) and convert them into meaningful domain results — a sealed `Result`/`Either` or specific failure types ([Q8 Clean Code](section-16-clean-code.md#8-why-are-error-codes-bad-when-should-you-use-exceptions-vs-result-types-in-dart)).
 
 ```dart
 Future<Result<User>> getUser() async {
@@ -730,7 +745,7 @@ FlutterError.onError = (details) => crashReporter.record(details);
 PlatformDispatcher.instance.onError = (error, stack) { crashReporter.record(...); return true; };
 ```
 
-So even unexpected crashes are logged (scrubbed of secrets, [Q5 Security](section-20-mobile-security.md#q5)) and the app degrades gracefully.
+So even unexpected crashes are logged (scrubbed of secrets, [Q5 Security](section-20-mobile-security.md#5-why-is-logging-sensitive-data-dangerous-and-how-do-you-prevent-it)) and the app degrades gracefully.
 
 **Why interviewers ask:** App-wide error handling separates polished apps from fragile ones; it tests architecture and UX thinking together.
 
@@ -739,14 +754,15 @@ So even unexpected crashes are logged (scrubbed of secrets, [Q5 Security](sectio
 **Follow-ups they may ask:**
 - *"Where do you catch uncaught async errors?"* → `PlatformDispatcher.instance.onError` (and `FlutterError.onError` for framework errors); report both.
 
-**Related:** [Q8 (Clean Code) — result types](section-16-clean-code.md#q8) · [Q4 (Networking) — global error handling](section-07-networking-storage.md#q4) · [Q9 (SDLC) — production bugs](section-19-sdlc.md#q9)
+**Related:** [Q8 (Clean Code) — result types](section-16-clean-code.md#8-why-are-error-codes-bad-when-should-you-use-exceptions-vs-result-types-in-dart) · [Q4 (Networking) — global error handling](section-07-networking-storage.md#4-how-do-you-do-global-error-handling-in-dio-what-are-the-dioexception-types) · [Q9 (SDLC) — production bugs](section-19-sdlc.md#9-how-do-you-handle-a-production-bug-walk-through-the-process)
 
 [↑ Back to top](#toc)
 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

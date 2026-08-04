@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. The four pillars of OOP**
 1. [The four pillars — overview](#q1) · *Very common*
@@ -62,7 +63,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 Follow these stages in order. Tick a stage off only when you can give the **short answer** with a real-life example, without looking.
 
@@ -90,9 +92,10 @@ Follow these stages in order. Tick a stage off only when you can give the **shor
 
 ---
 
-## <a id="q1"></a>1. What are the four pillars of Object-Oriented Programming?
+<a id="q1"></a>
+## 1. What are the four pillars of Object-Oriented Programming?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#1-object-oriented-programming-এর-চারটি-খুঁটি-কী-কী)
 
 **Short answer (say this):**
 "The four pillars are Encapsulation, Abstraction, Inheritance, and Polymorphism. Encapsulation hides the inside details, abstraction shows only what matters and hides complexity, inheritance lets one class reuse another's code, and polymorphism lets one action behave differently for different types. Together they help model real things in clean, reusable code."
@@ -151,9 +154,10 @@ If `Circle` kept `r` private and exposed only a getter, that is encapsulation �
 
 ---
 
-## <a id="q2"></a>2. What is Encapsulation, how do you implement it in Dart, and why does it matter?
+<a id="q2"></a>
+## 2. What is Encapsulation, how do you implement it in Dart, and why does it matter?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q2)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#2-encapsulation-কী-dart-এ-এটা-কীভাবে-করবেন-আর-এটা-কেন-গুরুত্বপূর্ণ)
 
 **Short answer (say this):**
 "Encapsulation means hiding an object's internal data and only letting the outside touch it through safe methods. In Dart, you make a field private with a leading underscore, then expose getters or methods to control access. It matters because it protects the object from being put into an invalid state."
@@ -200,9 +204,10 @@ In Dart, `_` is private to the *library* (the file), not the class. Within the s
 
 ---
 
-## <a id="q3"></a>3. How does Inheritance work in Dart? Explain `extends`, `super`, and `@override`.
+<a id="q3"></a>
+## 3. How does Inheritance work in Dart? Explain `extends`, `super`, and `@override`.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#3-dart-এ-inheritance-কীভাবে-কাজ-করে-extends-super-আর-override-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "Inheritance lets a class reuse another class's code with `extends`. The child gets the parent's fields and methods, can call the parent's version with `super`, and can replace a method with its own using `@override`. Dart allows only one parent (single inheritance)."
@@ -269,9 +274,10 @@ You can `extends` exactly one class. To reuse code from several sources, use mix
 
 ---
 
-## <a id="q4"></a>4. What is Polymorphism? Explain compile-time vs runtime, and how Dart handles overloading.
+<a id="q4"></a>
+## 4. What is Polymorphism? Explain compile-time vs runtime, and how Dart handles overloading.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#4-polymorphism-কী-compile-time-বনাম-runtime-ব্যাখ্যা-করুন-আর-dart-overloading-কীভাবে-সামলায়।)
 
 **Short answer (say this):**
 "Polymorphism means one action takes many forms — the same method call behaves differently depending on the object's real type. Runtime polymorphism is method overriding, decided when the program runs. Important Dart detail: Dart does NOT support method overloading (same name, different parameters), so we use optional or named parameters instead."
@@ -327,9 +333,10 @@ In languages with overloading, picking which overloaded method to call is decide
 
 ---
 
-## <a id="q5"></a>5. What is Abstraction? What's the difference between an `abstract class` and an interface (`implements`) in Dart?
+<a id="q5"></a>
+## 5. What is Abstraction? What's the difference between an `abstract class` and an interface (`implements`) in Dart?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#5-abstraction-কী-dart-এ-abstract-class-আর-interface-implements-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "Abstraction means showing only what something does and hiding how it does it. In Dart, an `abstract class` can have both unfinished methods and shared code, and you `extends` it. Any class can also be used as an interface with `implements`, where you take only the method signatures and must write all the code yourself. Dart has no separate `interface` keyword — every class is an interface."
@@ -391,9 +398,10 @@ Every class automatically defines an interface, so you can `implements` any clas
 
 ---
 
-## <a id="q6"></a>6. What is "Composition over Inheritance"? When and why should you prefer it?
+<a id="q6"></a>
+## 6. What is "Composition over Inheritance"? When and why should you prefer it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#6-composition-over-inheritance-কী-কখন-আর-কেন-এটা-বেছে-নেবেন)
 
 **Short answer (say this):**
 "Composition means a class is built from other objects it *has*, instead of inheriting from a parent it *is*. The advice 'prefer composition over inheritance' means: rather than building deep class trees, give a class the pieces it needs as fields. It's more flexible — you can mix and change behaviours without a rigid hierarchy."
@@ -446,9 +454,10 @@ Use inheritance for a true, stable "is-a" relationship (every Flutter widget ext
 
 ---
 
-## <a id="q7"></a>7. What is the difference between Mixins, Abstract Classes, and Interfaces in Dart? When do you use each?
+<a id="q7"></a>
+## 7. What is the difference between Mixins, Abstract Classes, and Interfaces in Dart? When do you use each?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#7-dart-এ-mixin-abstract-class-আর-interface-এর-পার্থক্য-কী-কখন-কোনটা-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "An abstract class is a partial blueprint you `extends` — it can share code, but you get only one parent. A mixin is reusable behaviour you add with `with` — you can add many, and it gives you working code without inheritance. An interface (any class used with `implements`) is a contract only — no code, but you can implement many."
@@ -514,9 +523,10 @@ class FakeRepository implements Repository {
 
 ---
 
-## <a id="q8"></a>8. What is the difference between a Class, an Object, and an Instance?
+<a id="q8"></a>
+## 8. What is the difference between a Class, an Object, and an Instance?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q8)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#8-class-object-আর-instance-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "A class is the blueprint. An object is a real thing built from that blueprint. 'Instance' is just another word for an object — we say an object is 'an instance of' a class. So `class User` is the plan, and `User('Sara')` creates an instance."
@@ -558,9 +568,10 @@ One class, many instances. Each instance has its own data but shares the same st
 
 ---
 
-## <a id="q9"></a>9. What are Coupling and Cohesion? Why do we want low coupling and high cohesion?
+<a id="q9"></a>
+## 9. What are Coupling and Cohesion? Why do we want low coupling and high cohesion?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#9-coupling-আর-cohesion-কী-আমরা-কেন-low-coupling-আর-high-cohesion-চাই)
 
 **Short answer (say this):**
 "Coupling is how much one part depends on another; cohesion is how focused a single part is on one job. We want low coupling (parts can change independently) and high cohesion (each class does one clear thing). Together they make code easy to change, test, and reuse."
@@ -616,9 +627,10 @@ These two ideas are the "why" behind most of SOLID (especially [SRP](#q10) and [
 
 ---
 
-## <a id="q10"></a>10. SOLID — S: Single Responsibility Principle (SRP)
+<a id="q10"></a>
+## 10. SOLID — S: Single Responsibility Principle (SRP)
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q10)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#10-solid--s-single-responsibility-principle-srp)
 
 **Short answer (say this):**
 "A class should have one reason to change — one job. If a class handles two different concerns, a change to one can break the other. So I split mixed responsibilities into focused classes."
@@ -675,9 +687,10 @@ Don't read SRP as "one method." Read it as "one responsibility / one reason to c
 
 ---
 
-## <a id="q11"></a>11. SOLID — O: Open/Closed Principle (OCP)
+<a id="q11"></a>
+## 11. SOLID — O: Open/Closed Principle (OCP)
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#11-solid--o-openclosed-principle-ocp)
 
 **Short answer (say this):**
 "Classes should be open for extension but closed for modification. That means you add new behaviour by adding new code, not by editing existing, tested code. The usual way is to depend on an abstraction and add new implementations."
@@ -729,9 +742,10 @@ Editing tested code risks breaking it. Adding new code (a new class) leaves the 
 
 ---
 
-## <a id="q12"></a>12. SOLID — L: Liskov Substitution Principle (LSP)
+<a id="q12"></a>
+## 12. SOLID — L: Liskov Substitution Principle (LSP)
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q12)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#12-solid--l-liskov-substitution-principle-lsp)
 
 **Short answer (say this):**
 "Any subclass should work wherever its parent is expected, without breaking things. If you replace a parent with a child and the program misbehaves, you've broken LSP. It usually means the inheritance was wrong."
@@ -785,9 +799,10 @@ A subclass that throws "not supported" for a parent method (e.g. a read-only lis
 
 ---
 
-## <a id="q13"></a>13. SOLID — I: Interface Segregation Principle (ISP)
+<a id="q13"></a>
+## 13. SOLID — I: Interface Segregation Principle (ISP)
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#13-solid--i-interface-segregation-principle-isp)
 
 **Short answer (say this):**
 "Don't force a class to implement methods it doesn't need. Prefer several small, focused interfaces over one big fat interface. That way a class only depends on the methods it actually uses."
@@ -845,9 +860,10 @@ Fat interfaces force empty or fake methods, and they couple classes to things th
 
 ---
 
-## <a id="q14"></a>14. SOLID — D: Dependency Inversion Principle (DIP)
+<a id="q14"></a>
+## 14. SOLID — D: Dependency Inversion Principle (DIP)
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q14)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#14-solid--d-dependency-inversion-principle-dip)
 
 **Short answer (say this):**
 "High-level code should depend on abstractions, not on concrete details. Instead of a class creating its own database or API client inside, it should receive an interface from outside. This makes code flexible and testable — you can swap real for fake without changing the class."
@@ -907,9 +923,10 @@ Normally high-level code would directly create low-level details. DIP *inverts* 
 
 ---
 
-## <a id="q15"></a>15. What is the DRY principle?
+<a id="q15"></a>
+## 15. What is the DRY principle?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q15)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#15-dry-principle-কী)
 
 **Short answer (say this):**
 "DRY means Don't Repeat Yourself — every piece of knowledge should live in one place. If you copy-paste the same logic in several spots, a change means fixing it everywhere and forgetting one. So I pull repeated logic into one function or class."
@@ -947,9 +964,10 @@ Don't merge two pieces of code just because they *look* the same right now. If t
 
 ---
 
-## <a id="q16"></a>16. What is the KISS principle?
+<a id="q16"></a>
+## 16. What is the KISS principle?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q16)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#16-kiss-principle-কী)
 
 **Short answer (say this):**
 "KISS means Keep It Simple, Stupid — prefer the simplest solution that works. Clever, complex code is harder to read, test, and change. I reach for the plain, clear version unless there's a real reason to add complexity."
@@ -989,9 +1007,10 @@ Both work, but the second is instantly readable. Simple code is a feature.
 
 ---
 
-## <a id="q17"></a>17. What is the YAGNI principle?
+<a id="q17"></a>
+## 17. What is the YAGNI principle?
 
-> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q17)
+> Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#17-yagni-principle-কী)
 
 **Short answer (say this):**
 "YAGNI means You Aren't Gonna Need It — don't build features or flexibility until you actually need them. Code written for an imagined future need is often wrong, unused, and just extra weight to maintain. Build for today's real requirement."
@@ -1039,9 +1058,10 @@ YAGNI doesn't mean "write careless code." It means don't add *unneeded* flexibil
 
 ---
 
-## <a id="q18"></a>18. What are the different constructor types in Dart?
+<a id="q18"></a>
+## 18. What are the different constructor types in Dart?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q18)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#18-dart-এ-কী-কী-ধরনের-constructor-আছে)
 
 **Short answer (say this):**
 "Dart has default (generative) constructors that always make a new object, named constructors for a clearly-labeled second way to build, factory constructors that can return a cached object or a subtype, and const constructors that build the object at compile time. The part after the colon, the initializer list, sets final fields before the body runs."
@@ -1104,9 +1124,10 @@ class Circle {
 
 ---
 
-## <a id="q19"></a>19. When and why should you use `static` members in Dart?
+<a id="q19"></a>
+## 19. When and why should you use `static` members in Dart?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q19)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#19-dart-এ-static-member-কখন-আর-কেন-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "A `static` member belongs to the class itself, not to any one object. You use it for shared constants, utility/helper functions that don't need instance data, and factory-style helpers. You call it on the class name, not an instance."
@@ -1156,9 +1177,10 @@ Static makes code harder to test and mock (you can't easily swap a static call f
 
 ---
 
-## <a id="q20"></a>20. What is covariance and contravariance in Dart?
+<a id="q20"></a>
+## 20. What is covariance and contravariance in Dart?
 
-> Deeper · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q20)
+> Deeper · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#20-dart-এ-covariance-আর-contravariance-কী)
 
 **Short answer (say this):**
 "Covariance means a more specific type can be used where a general one is expected — for example, a `List<Cat>` can be treated as a `List<Animal>`. Dart's generics are covariant by default, which is convenient but slightly unsafe, so Dart adds runtime checks. The `covariant` keyword lets you intentionally narrow a parameter type in an override."
@@ -1212,9 +1234,10 @@ Most developers rarely write `covariant` by hand. It shows up in advanced generi
 
 ---
 
-## <a id="q21"></a>21. What is the difference between method overriding and method hiding in Dart?
+<a id="q21"></a>
+## 21. What is the difference between method overriding and method hiding in Dart?
 
-> Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q21)
+> Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#21-dart-এ-method-overriding-আর-method-hiding-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "Overriding replaces an instance method in a subclass, and the object's real type decides which version runs at runtime — that's true polymorphism. Method 'hiding' happens with static methods: they belong to the class, not the object, so a subclass's static method just shadows the parent's by name — there's no runtime dispatch."
@@ -1274,7 +1297,8 @@ If a subclass declares a field with the same name as the parent's, it shadows it
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

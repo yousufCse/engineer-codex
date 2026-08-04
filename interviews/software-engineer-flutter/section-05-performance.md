@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Spotting and measuring slowness**
 1. [What is jank, and how do you find it?](#q1) · *Very common*
@@ -60,7 +61,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 19 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -88,9 +90,10 @@ You don't need to study all 19 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. What causes jank in Flutter, and how do you find it?
+<a id="q1"></a>
+## 1. What causes jank in Flutter, and how do you find it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q1)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#1-flutter-এ-jank-কেন-হয়-আর-আপনি-এটা-কীভাবে-খুঁজে-পান)
 
 **Short answer (say this):**
 "Jank is when the screen stutters because a frame took too long to draw. To stay smooth at 60fps, each frame must finish in about 16ms. Jank comes from two places: doing too much work on the UI thread (heavy builds, big computations) or too much work on the raster thread (complex painting, big images). I find it by running in profile mode and using Flutter DevTools to spot the slow frames."
@@ -162,9 +165,10 @@ This thread turns the drawing into pixels on the GPU. It gets slow when:
 
 ---
 
-## <a id="q2"></a>2. How do you use Flutter DevTools — the Performance, Rebuild, and Memory tabs?
+<a id="q2"></a>
+## 2. How do you use Flutter DevTools — the Performance, Rebuild, and Memory tabs?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q2)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#2-flutter-devtools-কীভাবে-ব্যবহার-করেন--performance-rebuild-আর-memory-tab)
 
 **Short answer (say this):**
 "DevTools is Flutter's main toolbox for measuring performance. The Performance tab shows me which frames are slow and why. The Rebuild inspector shows which widgets rebuild too often. The Memory tab shows heap usage and helps me catch leaks by comparing snapshots. The whole point is: I measure before I optimize."
@@ -227,9 +231,10 @@ It shows a live graph of the Dart heap (how much memory is in use). To hunt a le
 
 ---
 
-## <a id="q3"></a>3. Why should you never measure performance in debug mode?
+<a id="q3"></a>
+## 3. Why should you never measure performance in debug mode?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q3)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#3-debug-mode-এ-কেন-কখনোই-performance-মাপা-উচিত-নয়)
 
 **Short answer (say this):**
 "Debug mode is built for fast coding, not for speed. It uses JIT compilation, turns on extra checks and assertions, and is often 5–10x slower than the real app. So a debug build can look janky even when the release build is perfectly smooth. I always measure in profile or release mode on a real device."
@@ -282,9 +287,10 @@ Emulators and simulators do not have a real phone's GPU and CPU limits. A list m
 
 ---
 
-## <a id="q4"></a>4. How do `const` widgets prevent unnecessary rebuilds?
+<a id="q4"></a>
+## 4. How do `const` widgets prevent unnecessary rebuilds?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#4-const-widget-কীভাবে-দরকার-নেই-এমন-rebuild-ঠেকায়)
 
 **Short answer (say this):**
 "When I mark a widget `const`, Dart builds it once at compile time and reuses the exact same object everywhere. During a rebuild, Flutter compares the old and new widget by identity. Because a `const` widget is literally the same object as last time, that check passes instantly, and Flutter skips rebuilding that whole subtree."
@@ -348,9 +354,10 @@ Turn on **"Track Widget Rebuilds"** in DevTools ([Q2](#q2)). The `const` widget'
 
 ---
 
-## <a id="q5"></a>5. Why is extracting small widget classes better than helper methods for performance?
+<a id="q5"></a>
+## 5. Why is extracting small widget classes better than helper methods for performance?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#5-performance-এর-জন্য-helper-method-এর-চেয়ে-ছোট-widget-class-আলাদা-করা-কেন-ভালো)
 
 **Short answer (say this):**
 "A separate widget class gets its own Element in the tree, which is a rebuild boundary — Flutter can skip it when its inputs haven't changed. A helper method has no such boundary; its widgets are inlined into the parent, so they re-run every single time the parent rebuilds. Plus, a real widget class can be `const`; a method never can."
@@ -452,9 +459,10 @@ Column(
 
 ---
 
-## <a id="q6"></a>6. What is the `build()` method's golden rule?
+<a id="q6"></a>
+## 6. What is the `build()` method's golden rule?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q6)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#6-build-method-এর-golden-rule-কী)
 
 **Short answer (say this):**
 "`build()` must be a pure function: fast, and with no side effects. Given the same state and props, it should return the same widget tree and do nothing else. No network calls, no timers, no analytics inside it. The reason is that Flutter can call `build()` at any time and many times per second, so anything extra inside it gets repeated dozens of times."
@@ -538,9 +546,10 @@ FutureBuilder(future: _userFuture, builder: ...);
 
 ---
 
-## <a id="q7"></a>7. Why should you avoid calling `setState` high in the tree, and how do you fix it?
+<a id="q7"></a>
+## 7. Why should you avoid calling `setState` high in the tree, and how do you fix it?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q7)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#7-tree-এর-উপরের-দিকে-setstate-call-করা-কেন-এড়ানো-উচিত-আর-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "`setState` rebuilds the widget it is called on and its whole subtree. If I call it on a screen-level widget, hundreds of children rebuild for one small change — even the parts that didn't change. The fix is to push the state down into the smallest widget that actually uses it, or use a state-management tool that rebuilds only the right consumers."
@@ -652,9 +661,10 @@ ValueListenableBuilder<bool>(
 
 ---
 
-## <a id="q8"></a>8. What is the difference between `Selector` and `Consumer` in Provider, and why is `Selector` more performant?
+<a id="q8"></a>
+## 8. What is the difference between `Selector` and `Consumer` in Provider, and why is `Selector` more performant?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#8-provider-এ-selector-আর-consumer-এর-পার্থক্য-কী-আর-selector-কেন-বেশি-performant)
 
 **Short answer (say this):**
 "`Consumer` rebuilds whenever the provided object calls `notifyListeners()` — so any change to any field rebuilds it. `Selector` first picks out one specific value, and only rebuilds when *that* value changes. So if a widget only needs the cart count, `Selector` ignores unrelated changes like the promo code."
@@ -723,9 +733,10 @@ Notice the `child:` parameter and `child!` in the builder. A widget passed as `c
 
 ---
 
-## <a id="q9"></a>9. How does `buildWhen` in `BlocBuilder` reduce unnecessary rebuilds?
+<a id="q9"></a>
+## 9. How does `buildWhen` in `BlocBuilder` reduce unnecessary rebuilds?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q9)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#9-blocbuilder-এ-buildwhen-কীভাবে-দরকার-নেই-এমন-rebuild-কমায়)
 
 **Short answer (say this):**
 "By default, `BlocBuilder` rebuilds on every new state the Bloc emits. `buildWhen` is a function that gets the previous and current state and returns a bool. If it returns false, the builder is skipped even though a new state arrived. So a widget can react only to the part of the state it cares about."
@@ -794,9 +805,10 @@ BlocListener<DashboardBloc, DashboardState>(
 
 ---
 
-## <a id="q10"></a>10. How do you debounce or throttle expensive work, like search-as-you-type?
+<a id="q10"></a>
+## 10. How do you debounce or throttle expensive work, like search-as-you-type?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q10)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#10-search-as-you-type-এর-মতো-ভারী-কাজ-আপনি-কীভাবে-debounce-বা-throttle-করেন)
 
 **Short answer (say this):**
 "Debounce means 'wait until the user stops doing the thing, then run once.' Throttle means 'run at most once every X milliseconds, no matter how often it fires.' For a search box, I debounce the API call so I don't fire a request on every keystroke — I wait until typing pauses."
@@ -876,9 +888,10 @@ void _onScroll() {
 
 ---
 
-## <a id="q11"></a>11. `ListView` vs `ListView.builder` vs `ListView.separated` vs `ListView.custom` — when do you use each, and what's the performance difference?
+<a id="q11"></a>
+## 11. `ListView` vs `ListView.builder` vs `ListView.separated` vs `ListView.custom` — when do you use each, and what's the performance difference?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#11-listview-vs-listviewbuilder-vs-listviewseparated-vs-listviewcustom--কোনটা-কখন-ব্যবহার-করবেন-আর-performance-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "The core difference is eager vs lazy building. The default `ListView` builds every child up front — fine for short lists. `ListView.builder` builds children lazily, only as they scroll into view, so it scales to thousands of items. `.separated` is the lazy builder plus a separator between items. `.custom` gives full control over how children are created and recycled."
@@ -953,9 +966,10 @@ ListView.custom(
 
 ---
 
-## <a id="q12"></a>12. How do you implement lazy loading and pagination (efficient infinite scroll)?
+<a id="q12"></a>
+## 12. How do you implement lazy loading and pagination (efficient infinite scroll)?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#12-lazy-loading-আর-pagination-কার্যকর-infinite-scroll-কীভাবে-implement-করবেন)
 
 **Short answer (say this):**
 "Infinite scroll loads one page, and when the user nears the bottom, it fetches the next page. I use a `ScrollController` to detect the position, a `ListView.builder` for lazy item building, and a flag to stop duplicate fetches. I also handle the 'no more data' case and dispose the controller."
@@ -1059,9 +1073,10 @@ class _InfiniteListState extends State<InfiniteList> {
 
 ---
 
-## <a id="q13"></a>13. How do you avoid problems during scroll using keys and `AutomaticKeepAliveClientMixin`?
+<a id="q13"></a>
+## 13. How do you avoid problems during scroll using keys and `AutomaticKeepAliveClientMixin`?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q13)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#13-key-আর-automatickeepaliveclientmixin-ব্যবহার-করে-scroll-এর-সময়ের-সমস্যা-কীভাবে-এড়াবেন)
 
 **Short answer (say this):**
 "When list items scroll off-screen in a `.builder`, Flutter destroys their state to save memory and rebuilds them when they return. Keys make sure Flutter matches each item to the right state when items move or are inserted. `AutomaticKeepAliveClientMixin` tells the list to keep a specific item's state alive while it is off-screen, so it doesn't lose its data or flicker."
@@ -1133,9 +1148,10 @@ Keep-alive trades **memory** for **scroll smoothness**. Use it only where the st
 
 ---
 
-## <a id="q14"></a>14. What is `RepaintBoundary`, when should you add it, and when does it hurt?
+<a id="q14"></a>
+## 14. What is `RepaintBoundary`, when should you add it, and when does it hurt?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q14)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#14-repaintboundary-কী-কখন-এটা-যোগ-করবেন-আর-কখন-এটা-ক্ষতি-করে)
 
 **Short answer (say this):**
 "By default a parent and its children paint onto the same layer, so when one part repaints, the whole layer repaints. `RepaintBoundary` puts its child on a separate layer. Then a frequently-changing widget repaints alone, and the static part around it is cached. But each boundary costs GPU memory, so adding them everywhere actually hurts."
@@ -1197,9 +1213,10 @@ Also note: Flutter **already** inserts `RepaintBoundary` in some places for you 
 
 ---
 
-## <a id="q15"></a>15. How do you optimize images in Flutter — caching, resizing, WebP, and `precacheImage`?
+<a id="q15"></a>
+## 15. How do you optimize images in Flutter — caching, resizing, WebP, and `precacheImage`?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q15)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#15-flutter-এ-image-কীভাবে-optimize-করবেন--caching-resizing-webp-আর-precacheimage)
 
 **Short answer (say this):**
 "Images are usually the biggest source of memory bloat and jank. I optimize on four fronts: cache downloaded images to disk, decode them at the display size (not the original size), serve WebP to shrink file size, and precache images that are about to appear. The most impactful one is resizing during decode, because a huge bitmap eats huge memory."
@@ -1266,9 +1283,10 @@ void didChangeDependencies() {
 
 ---
 
-## <a id="q16"></a>16. What is shader compilation jank, and how do you fix it?
+<a id="q16"></a>
+## 16. What is shader compilation jank, and how do you fix it?
 
-> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q16)
+> Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#16-shader-compilation-jank-কী-আর-এটা-কীভাবে-ঠিক-করবেন)
 
 **Short answer (say this):**
 "The first time a particular animation or effect runs, the engine sometimes has to compile its shader (a tiny GPU program) right then, which causes a one-time stutter. Users see it as jank on the very first run of an animation. The fix is to warm up shaders ahead of time, and on newer Flutter the Impeller engine largely removes the problem by precompiling shaders."
@@ -1318,9 +1336,10 @@ In the DevTools Performance view, a slow first frame whose time is spent in shad
 
 ---
 
-## <a id="q17"></a>17. What are isolates and `compute()`? What work should run on a separate isolate?
+<a id="q17"></a>
+## 17. What are isolates and `compute()`? What work should run on a separate isolate?
 
-> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q17)
+> Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#17-isolate-আর-compute-কী-কোন-কাজ-আলাদা-isolate-এ-চালানো-উচিত)
 
 **Short answer (say this):**
 "Dart runs all my code — including `build()` and event handlers — on a single UI thread. Heavy synchronous work on that thread freezes the screen. An isolate is a separate worker with its own memory; isolates don't share memory, they pass messages. `compute()` is a shortcut that runs one function on a fresh isolate and returns the result, so heavy work stays off the UI."
@@ -1389,9 +1408,10 @@ Rule of thumb: use an isolate for CPU-heavy work that would take more than about
 
 ---
 
-## <a id="q18"></a>18. What causes memory leaks with controllers and subscriptions, and how do you dispose them?
+<a id="q18"></a>
+## 18. What causes memory leaks with controllers and subscriptions, and how do you dispose them?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q18)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#18-controller-আর-subscription-থেকে-memory-leak-কেন-হয়-আর-এগুলো-কীভাবে-dispose-করবেন)
 
 **Short answer (say this):**
 "A leak happens when something keeps a reference to a widget's State after the widget is gone, so the garbage collector can't free it. The usual culprits are uncancelled `StreamSubscription`s, undisposed `AnimationController`s, and undisposed `TextEditingController`/`ScrollController`s. The rule is simple: whatever I create in `initState`, I clean up in `dispose()`."
@@ -1459,9 +1479,10 @@ Use the DevTools **Memory tab** ([Q2](#q2)): snapshot → open and close the scr
 
 ---
 
-## <a id="q19"></a>19. How do you measure and reduce app startup time?
+<a id="q19"></a>
+## 19. How do you measure and reduce app startup time?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q19)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#19-app-এর-startup-time-কীভাবে-measure-করবেন-আর-কমাবেন)
 
 **Short answer (say this):**
 "I measure startup with `flutter run --trace-startup`, which records time to the first frame, plus my own marker for when real content appears. To reduce it, I only `await` what the first screen truly needs in `main()`, defer everything else until after the first frame, and shrink the app size. The key idea is: show something fast, finish initializing in the background."
@@ -1567,7 +1588,8 @@ class _AppShellState extends State<AppShell> {
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

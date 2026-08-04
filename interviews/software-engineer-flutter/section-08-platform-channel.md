@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. The basics — what a channel is**
 1. [What is a Platform Channel and why is it needed?](#q1) · *Very common*
@@ -55,7 +56,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 You don't need to study all 14 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -83,9 +85,10 @@ You don't need to study all 14 questions at once. Follow these stages in order �
 
 ---
 
-## <a id="q1"></a>1. What is a Platform Channel and why is it needed?
+<a id="q1"></a>
+## 1. What is a Platform Channel and why is it needed?
 
-> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q1)
+> Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#1-platform-channel-কী-আর-কেন-দরকার)
 
 **Short answer (say this):**
 "A Platform Channel is a named phone line between my Dart code and the native code (Kotlin/Java on Android, Swift/Objective-C on iOS). Flutter draws its own screen and runs Dart in its own engine, so it cannot directly touch native things like the camera, Bluetooth, or battery. The channel lets Dart send a message to the native side, the native side does the work, and the answer comes back — all asynchronously."
@@ -146,9 +149,10 @@ Most common needs (camera, location, shared preferences) already have plugins on
 
 ---
 
-## <a id="q2"></a>2. Which thread do Platform Channel handlers run on? How do you do heavy native work?
+<a id="q2"></a>
+## 2. Which thread do Platform Channel handlers run on? How do you do heavy native work?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q2)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#2-platform-channel-handler-কোন-thread-এ-চলে-ভারী-native-কাজ-কীভাবে-করবেন)
 
 **Short answer (say this):**
 "By default, the native channel handler runs on the platform's main (UI) thread. So if I do heavy work right there, I freeze the native UI and delay the reply to Dart. The fix is to move heavy work to a background thread on the native side, then jump back to the main thread only to call `result.success(...)`."
@@ -228,9 +232,10 @@ If the heavy work is pure Dart (like parsing a huge JSON the native side sent ba
 
 ---
 
-## <a id="q3"></a>3. How does MethodChannel work? Show calling native code and returning a result (Dart, Kotlin, Swift).
+<a id="q3"></a>
+## 3. How does MethodChannel work? Show calling native code and returning a result (Dart, Kotlin, Swift).
 
-> Very common · Medium — the single most common channel question. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q3)
+> Very common · Medium — the single most common channel question. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#3-methodchannel-কীভাবে-কাজ-করে-native-code-call-করে-result-ফেরত-আনা-দেখান-dart-kotlin-swift।)
 
 **Short answer (say this):**
 "MethodChannel is a request/reply call. Dart calls `invokeMethod` with a method name and optional arguments. The native side registers a handler that matches the method name, does the work, and replies with `result.success(value)` or `result.error(...)`. Both sides must use the exact same channel name string."
@@ -381,9 +386,10 @@ await _channel.invokeMethod('setBrightness', {'value': 0.8});
 
 ---
 
-## <a id="q4"></a>4. What is the difference between MethodChannel, EventChannel, and BasicMessageChannel?
+<a id="q4"></a>
+## 4. What is the difference between MethodChannel, EventChannel, and BasicMessageChannel?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#4-methodchannel-eventchannel-আর-basicmessagechannel-এর-মধ্যে-পার্থক্য-কী)
 
 **Short answer (say this):**
 "All three are phone lines between Dart and native, but they talk in different shapes. MethodChannel is one question and one answer. EventChannel is a continuous broadcast from native to Dart, like a radio station. BasicMessageChannel is free-form messages either direction, with no built-in 'method' idea."
@@ -431,9 +437,10 @@ Under the hood, all three use the same binary messaging and the same codec famil
 
 ---
 
-## <a id="q5"></a>5. How does EventChannel work for continuous data streams from native? Give a use case.
+<a id="q5"></a>
+## 5. How does EventChannel work for continuous data streams from native? Give a use case.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q5)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#5-native-থেকে-একটানা-data-stream-এর-জন্য-eventchannel-কীভাবে-কাজ-করে-একটা-use-case-দিন।)
 
 **Short answer (say this):**
 "EventChannel is a radio broadcast from native to Dart. Dart tunes in by listening to a `Stream`, and native keeps pushing events through an event sink. On the native side I implement a `StreamHandler` with `onListen` (start sending) and `onCancel` (stop and clean up). It is the right choice for sensors, GPS, or connectivity changes."
@@ -573,9 +580,10 @@ Two cleanups must happen. On Dart, cancel the subscription in `dispose()`. On na
 
 ---
 
-## <a id="q6"></a>6. What is BasicMessageChannel? When would you use it instead of MethodChannel?
+<a id="q6"></a>
+## 6. What is BasicMessageChannel? When would you use it instead of MethodChannel?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q6)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#6-basicmessagechannel-কী-methodchannel-এর-বদলে-কখন-এটা-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "BasicMessageChannel is the simplest channel — it just sends raw messages back and forth using a codec, with no idea of 'method names'. Both sides can send and receive. I use it when native needs to push messages to Dart freely, when I am sending simple data like a JSON blob, or when I want my own protocol."
@@ -656,9 +664,10 @@ It is not deprecated. In fact, Pigeon's generated code uses `BasicMessageChannel
 
 ---
 
-## <a id="q7"></a>7. What data types can cross a channel? How do you handle errors with `PlatformException`?
+<a id="q7"></a>
+## 7. What data types can cross a channel? How do you handle errors with `PlatformException`?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#7-একটা-channel-দিয়ে-কোন-কোন-data-type-পার-হতে-পারে-platformexception-দিয়ে-error-কীভাবে-handle-করেন)
 
 **Short answer (say this):**
 "A codec turns Dart values into bytes and back. The standard codec supports `null`, `bool`, `int`, `double`, `String`, `Uint8List`, `List`, and `Map` — not your custom classes, so I convert those to maps first. For errors, the native side replies with `result.error(code, message, details)`, and Dart receives it as a `PlatformException` I catch with `try/catch`."
@@ -753,9 +762,10 @@ try {
 
 ---
 
-## <a id="q8"></a>8. What is Dart FFI (`dart:ffi`)? How does it differ from Platform Channels? When would you use it?
+<a id="q8"></a>
+## 8. What is Dart FFI (`dart:ffi`)? How does it differ from Platform Channels? When would you use it?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q8)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#8-dart-ffi-dartffi-কী-এটা-platform-channel-থেকে-কীভাবে-আলাদা-কখন-এটা-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "Dart FFI lets Dart call C/C++ functions directly and synchronously, without going through the engine's message system. Platform Channels talk to Kotlin/Swift asynchronously with serialized data; FFI talks to C/C++ with direct, near-instant function calls and raw memory. I use channels for OS APIs, and FFI for heavy computation libraries like crypto, image processing, or SQLite."
@@ -850,9 +860,10 @@ An FFI call is synchronous, so a long C function freezes that isolate. If the wo
 
 ---
 
-## <a id="q9"></a>9. How do you write a simple Flutter plugin package? Describe the structure, pubspec, and platform code.
+<a id="q9"></a>
+## 9. How do you write a simple Flutter plugin package? Describe the structure, pubspec, and platform code.
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q9)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#9-একটা-সহজ-flutter-plugin-package-কীভাবে-লিখবেন-structure-pubspec-আর-platform-code-বর্ণনা-করুন।)
 
 **Short answer (say this):**
 "A plugin is a package that bundles platform code (Kotlin/Swift) with a clean Dart API that uses Platform Channels inside. The modern structure has three Dart pieces: a public API class, a platform-interface abstract class, and a MethodChannel implementation. This lets platform implementations be swapped, which is great for tests and web."
@@ -1027,9 +1038,10 @@ Because the public API talks to an interface (not directly to a channel), you ca
 
 ---
 
-## <a id="q10"></a>10. What is Pigeon? How does it improve Platform Channel type safety?
+<a id="q10"></a>
+## 10. What is Pigeon? How does it improve Platform Channel type safety?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q10)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#10-pigeon-কী-এটা-platform-channel-এর-type-safety-কীভাবে-উন্নত-করে)
 
 **Short answer (say this):**
 "Pigeon is an official Flutter code-generation tool. I write one Dart schema with real types, and Pigeon generates the matching Dart, Kotlin, and Swift code for me. This removes the two biggest channel risks: mistyped method-name strings and manual casting of untyped arguments. Everything becomes compile-time type-safe."
@@ -1137,9 +1149,10 @@ print(response.name); // "Alice" — typed, no casting, no magic strings
 
 ---
 
-## <a id="q11"></a>11. How do you add a Flutter module to an existing native Android or iOS app (add-to-app)?
+<a id="q11"></a>
+## 11. How do you add a Flutter module to an existing native Android or iOS app (add-to-app)?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q11)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#11-একটা-আগে-থেকে-থাকা-native-android-বা-ios-app-এ-flutter-module-কীভাবে-যোগ-করবেন-add-to-app)
 
 **Short answer (say this):**
 "This is called 'add-to-app'. Instead of a full Flutter app, I create a Flutter module and embed it into the existing native project as a dependency. The native app then launches a `FlutterActivity` (Android) or `FlutterViewController` (iOS) to show the Flutter screen, while the rest of the app stays native."
@@ -1251,9 +1264,10 @@ Starting a `FlutterEngine` from cold takes a moment. If the Flutter screen opens
 
 ---
 
-## <a id="q12"></a>12. How do you integrate a native SDK (e.g. payment, maps) that has no Flutter plugin?
+<a id="q12"></a>
+## 12. How do you integrate a native SDK (e.g. payment, maps) that has no Flutter plugin?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q12)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#12-যে-native-sdk-র-যেমন-payment-maps-কোনো-flutter-plugin-নেই-সেটা-কীভাবে-integrate-করবেন)
 
 **Short answer (say this):**
 "I have two options. For a one-off in one app, I add the native SDK and write Platform Channel bridge code directly in the app. For something reusable, I wrap it in a proper plugin package. If the SDK also needs to show a native view, like a map or a card field, I embed it with a PlatformView (`AndroidView` / `UiKitView`)."
@@ -1426,9 +1440,10 @@ Register a view factory on each platform: on Android implement `PlatformViewFact
 
 ---
 
-## <a id="q13"></a>13. How do you handle platform-specific UI differences (adaptive design) in Flutter?
+<a id="q13"></a>
+## 13. How do you handle platform-specific UI differences (adaptive design) in Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#13-flutter-এ-platform-specific-ui-পার্থক্য-adaptive-design-কীভাবে-handle-করেন)
 
 **Short answer (say this):**
 "Adaptive design means the app feels native on each platform — Material on Android, Cupertino on iOS — while sharing the same logic and most of the widget tree. I check the platform with `Theme.of(context).platform` (not `dart:io`, which breaks on web), and I only adapt the parts that genuinely differ, like dialogs, switches, and navigation."
@@ -1521,9 +1536,10 @@ Widget build(BuildContext context) {
 
 ---
 
-## <a id="q14"></a>14. How do you check and request permissions (camera, location, notifications) in Flutter?
+<a id="q14"></a>
+## 14. How do you check and request permissions (camera, location, notifications) in Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#14-flutter-এ-permission-camera-location-notification-কীভাবে-check-আর-request-করেন)
 
 **Short answer (say this):**
 "Flutter has no built-in permission system, so I use the `permission_handler` package for a unified API. I declare the permission in the Android manifest and add a usage-description string in the iOS Info.plist, then in Dart I check the status and request it — handling every state, especially `permanentlyDenied`, which means I must send the user to app settings."
@@ -1641,7 +1657,8 @@ Don't blast every permission at launch. Ask right when the feature is used (requ
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

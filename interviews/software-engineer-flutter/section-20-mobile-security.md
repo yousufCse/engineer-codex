@@ -24,7 +24,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="toc"></a>Table of Contents
+<a id="toc"></a>
+## Table of Contents
 
 **A. Foundations**
 1. [OWASP Mobile Top 10](#q1) · *Common*
@@ -56,7 +57,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 ---
 
 
-## <a id="study-plan"></a>How to prepare gradually (study plan)
+<a id="study-plan"></a>
+## How to prepare gradually (study plan)
 
 **Stage 1 — The foundations (start here).**
 → [Q1 OWASP Top 10](#q1) · [Q2 At rest vs in transit](#q2)
@@ -81,9 +83,10 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-## <a id="q1"></a>1. What is the OWASP Mobile Top 10?
+<a id="q1"></a>
+## 1. What is the OWASP Mobile Top 10?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q1)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#1-owasp-mobile-top-10-কী)
 
 **Short answer (say this):**
 "OWASP Mobile Top 10 is the industry-standard list of the most critical security risks in mobile apps. It covers things like insecure data storage, weak authentication, insecure communication, and poor code protection. It's the checklist every mobile security review starts from."
@@ -123,9 +126,10 @@ Most mobile risks come down to: **don't trust the device**, **protect data at re
 
 ---
 
-## <a id="q2"></a>2. What is the difference between encryption at rest and encryption in transit?
+<a id="q2"></a>
+## 2. What is the difference between encryption at rest and encryption in transit?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q2)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#2-encryption-at-rest-আর-encryption-in-transit-এর-পার্থক্য-কী)
 
 **Short answer (say this):**
 "Encryption in transit protects data while it moves over the network — that's HTTPS/TLS. Encryption at rest protects data while it's stored on the device or server — like encrypted databases or secure storage. You need both: TLS stops eavesdropping on the wire, and at-rest encryption stops a stolen device leaking data."
@@ -169,9 +173,10 @@ TLS alone doesn't help if the token is then saved in plain text on disk. At-rest
 
 ---
 
-## <a id="q3"></a>3. Why is SharedPreferences not secure for tokens? How do you use Flutter Secure Storage?
+<a id="q3"></a>
+## 3. Why is SharedPreferences not secure for tokens? How do you use Flutter Secure Storage?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q3)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#3-token-রাখার-জন্য-sharedpreferences-কেন-নিরাপদ-নয়-flutter-secure-storage-কীভাবে-ব্যবহার-করবেন)
 
 **Short answer (say this):**
 "SharedPreferences stores data in plain text — on a rooted Android device or via backups, anyone can read it. So it must never hold tokens, passwords, or personal data. For secrets I use `flutter_secure_storage`, which saves them in the iOS Keychain and Android Keystore/EncryptedSharedPreferences, backed by OS-level encryption."
@@ -222,9 +227,10 @@ A fully compromised (rooted) device can sometimes still be attacked. Combine sec
 
 ---
 
-## <a id="q4"></a>4. Why should you never hardcode API keys in Flutter, and what are the secure alternatives?
+<a id="q4"></a>
+## 4. Why should you never hardcode API keys in Flutter, and what are the secure alternatives?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q4)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#4-flutter-এ-api-key-কখনোই-hardcode-করা-উচিত-নয়-কেন-আর-নিরাপদ-বিকল্প-কী-কী)
 
 **Short answer (say this):**
 "Anything compiled into the app can be extracted by decompiling it — a hardcoded key is effectively public. So never put secrets in Dart source or commit them to git. Safer options: pass build-time values with `--dart-define`, keep real secrets on a backend that the app calls, and for truly sensitive keys, never let them touch the client at all."
@@ -267,17 +273,18 @@ For keys that must be in the app (e.g. some map/analytics keys), lock them down 
 **Common mistake:** Thinking `--dart-define` or `.env` *hides* the key. It keeps it out of source control, but it's still in the binary — truly sensitive secrets belong on the server.
 
 **Follow-ups they may ask:**
-- *"You committed a key — now what?"* → Rotate it immediately (assume it's compromised) and remove it from git history ([Q14 Git](section-17-git.md#q14)).
+- *"You committed a key — now what?"* → Rotate it immediately (assume it's compromised) and remove it from git history ([Q14 Git](section-17-git.md#14-what-is-gitignore-and-what-are-common-flutter-entries)).
 
-**Related:** [Q1 — OWASP](#q1) · [Q3 — secure storage](#q3) · [Q14 (Git) — .gitignore/secrets](section-17-git.md#q14)
+**Related:** [Q1 — OWASP](#q1) · [Q3 — secure storage](#q3) · [Q14 (Git) — .gitignore/secrets](section-17-git.md#14-what-is-gitignore-and-what-are-common-flutter-entries)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q5"></a>5. Why is logging sensitive data dangerous, and how do you prevent it?
+<a id="q5"></a>
+## 5. Why is logging sensitive data dangerous, and how do you prevent it?
 
-> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q5)
+> Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#5-sensitive-data-log-করা-কেন-বিপজ্জনক-আর-এটা-কীভাবে-আটকাবেন)
 
 **Short answer (say this):**
 "Logs are often readable on the device, captured by crash tools, or shipped to third-party services — so logging a token, password, or personal data leaks it. The fix: never log secrets, scrub sensitive fields before logging, and disable verbose logging in release builds."
@@ -330,9 +337,10 @@ Set up Crashlytics/Sentry to strip sensitive keys before sending, so even accide
 
 ---
 
-## <a id="q6"></a>6. What is certificate pinning, why does it matter, and how do you implement it with Dio?
+<a id="q6"></a>
+## 6. What is certificate pinning, why does it matter, and how do you implement it with Dio?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q6)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#6-certificate-pinning-কী-এটা-কেন-গুরুত্বপূর্ণ-আর-dio-দিয়ে-কীভাবে-implement-করবেন)
 
 **Short answer (say this):**
 "Certificate pinning means the app only trusts a specific, known server certificate (or its public key), instead of any certificate a device trusts. It matters because it defeats man-in-the-middle attacks where an attacker installs a fake trusted certificate. In Flutter with Dio, you check the server's certificate fingerprint against a value baked into the app."
@@ -378,9 +386,10 @@ Certificates expire and rotate. If you pin one and it changes, the app breaks un
 
 ---
 
-## <a id="q7"></a>7. What is a Man-in-the-Middle (MITM) attack, and how do you prevent it?
+<a id="q7"></a>
+## 7. What is a Man-in-the-Middle (MITM) attack, and how do you prevent it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q7)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#7-man-in-the-middle-mitm-আক্রমণ-কী-আর-এটা-কীভাবে-আটকাবেন)
 
 **Short answer (say this):**
 "A MITM attack is when an attacker secretly sits between the app and the server, reading or changing the traffic — for example on a fake public Wi-Fi. You prevent it with HTTPS everywhere (so traffic is encrypted), certificate pinning (so a fake certificate is rejected), and never trusting user-installed certificates in release."
@@ -417,9 +426,10 @@ Tools like Charles Proxy or mitmproxy simulate a MITM. A pinned app should *fail
 
 ---
 
-## <a id="q8"></a>8. What is SQL injection in a mobile context, and how do you prevent it?
+<a id="q8"></a>
+## 8. What is SQL injection in a mobile context, and how do you prevent it?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q8)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#8-mobile-এর-প্রেক্ষাপটে-sql-injection-কী-আর-এটা-কীভাবে-আটকাবেন)
 
 **Short answer (say this):**
 "SQL injection is when untrusted input is concatenated into a SQL query, letting an attacker change what the query does — read or delete data they shouldn't. In a mobile app it can hit a local SQLite database or the backend. You prevent it by always using parameterized queries (placeholders), never building SQL by string concatenation."
@@ -465,7 +475,7 @@ The same rule holds for your server's database. Most ORMs parameterize by defaul
 **Follow-ups they may ask:**
 - *"Does this apply to NoSQL?"* → Yes — "NoSQL injection" exists too; never trust raw input in any query.
 
-**Related:** [Q8 (DSA) — none] · [Q12 (Networking) — sqflite/drift](section-07-networking-storage.md#q12)
+**Related:** [Q8 (DSA) — none] · [Q12 (Networking) — sqflite/drift](section-07-networking-storage.md#12-when-do-you-need-sqlite--drift-and-how-do-you-write-basic-queries-in-drift)
 
 [↑ Back to top](#toc)
 
@@ -475,9 +485,10 @@ The same rule holds for your server's database. Most ORMs parameterize by defaul
 
 ---
 
-## <a id="q9"></a>9. What is the difference between access tokens and refresh tokens? Where do you store them?
+<a id="q9"></a>
+## 9. What is the difference between access tokens and refresh tokens? Where do you store them?
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q9)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#9-access-token-আর-refresh-token-এর-পার্থক্য-কী-এগুলো-কোথায়-রাখেন)
 
 **Short answer (say this):**
 "An access token is a short-lived key that proves who you are on each API call; a refresh token is a longer-lived key used only to get a new access token when it expires. Short access-token lifetimes limit the damage if one leaks. Both should be stored in secure storage, and when the access token expires, you silently refresh it."
@@ -515,15 +526,16 @@ If the refresh token itself is invalid/expired, force the user to log in again.
 **Follow-ups they may ask:**
 - *"Refresh token rotation?"* → Issue a new refresh token each refresh and invalidate the old one, so a stolen refresh token is quickly useless.
 
-**Related:** [Q3 — secure storage](#q3) · [Q11 — JWT](#q11) · [Q3 (Networking) — interceptor/refresh](section-07-networking-storage.md#q3)
+**Related:** [Q3 — secure storage](#q3) · [Q11 — JWT](#q11) · [Q3 (Networking) — interceptor/refresh](section-07-networking-storage.md#3-how-do-dio-interceptors-work-how-do-you-inject-an-auth-token-and-handle-a-401-with-token-refresh-and-a-retry-queue)
 
 [↑ Back to top](#toc)
 
 ---
 
-## <a id="q10"></a>10. Explain the OAuth 2.0 Authorization Code + PKCE flow for mobile.
+<a id="q10"></a>
+## 10. Explain the OAuth 2.0 Authorization Code + PKCE flow for mobile.
 
-> Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q10)
+> Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#10-mobile-এর-জন্য-oauth-20-authorization-code--pkce-flow-ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "OAuth 2.0 lets a user log in via a provider (Google, Facebook) without giving the app their password. For mobile, the secure version is Authorization Code with PKCE. PKCE adds a one-time secret the app generates, so even if the authorization code is intercepted, an attacker can't exchange it for tokens without that secret."
@@ -562,9 +574,10 @@ Use a well-tested package (e.g. `flutter_appauth` or the provider's SDK) and the
 
 ---
 
-## <a id="q11"></a>11. What is a JWT? Explain its structure, how to verify it, and what NOT to store in it.
+<a id="q11"></a>
+## 11. What is a JWT? Explain its structure, how to verify it, and what NOT to store in it.
 
-> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q11)
+> Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#11-jwt-কী-এর-গঠন-কীভাবে-verify-করবেন-আর-এতে-কী-রাখা-যাবে-না--ব্যাখ্যা-করুন।)
 
 **Short answer (say this):**
 "A JWT (JSON Web Token) is a signed token with three parts: header, payload, and signature, separated by dots. The signature lets the server verify the token wasn't tampered with. Crucially, the payload is only encoded, not encrypted — anyone can read it — so never put secrets or sensitive data in it."
@@ -615,9 +628,10 @@ The payload is just Base64-encoded JSON, not encrypted. Anyone can decode it (pa
 
 ---
 
-## <a id="q12"></a>12. How do you handle biometric authentication in Flutter?
+<a id="q12"></a>
+## 12. How do you handle biometric authentication in Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q12)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#12-flutter-এ-biometric-authentication-কীভাবে-সামলান)
 
 **Short answer (say this):**
 "Biometrics (fingerprint, Face ID) authenticate the user via the device's secure hardware. In Flutter you use the `local_auth` package, which asks the OS to verify the user. Important: biometrics unlock *local* access — the actual check happens on-device, and you still need server-side auth (tokens) for real security."
@@ -668,9 +682,10 @@ A common, safe design: the user logs in once (server auth → tokens in secure s
 
 ---
 
-## <a id="q13"></a>13. What is code obfuscation, and how do you enable it in Flutter?
+<a id="q13"></a>
+## 13. What is code obfuscation, and how do you enable it in Flutter?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q13)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#13-code-obfuscation-কী-আর-flutter-এ-কীভাবে-এটা-enable-করবেন)
 
 **Short answer (say this):**
 "Obfuscation scrambles your compiled code — renaming classes and methods to meaningless symbols — so it's much harder for someone to decompile and understand your app. In Flutter you enable it with `--obfuscate --split-debug-info` when building release. It raises the bar for reverse engineering, but it's not a substitute for real security."
@@ -709,9 +724,10 @@ Pair it with no-hardcoded-secrets, server-side checks, and optionally integrity/
 
 ---
 
-## <a id="q14"></a>14. What is root / jailbreak detection, and how would you implement basic detection?
+<a id="q14"></a>
+## 14. What is root / jailbreak detection, and how would you implement basic detection?
 
-> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q14)
+> Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#14-root--jailbreak-detection-কী-আর-basic-detection-কীভাবে-implement-করবেন)
 
 **Short answer (say this):**
 "Root (Android) or jailbreak (iOS) means the device's security controls have been removed, so the OS protections you rely on (like the keystore) are weaker. Detection tries to spot such devices and react — warn the user, limit features, or block sensitive actions. In Flutter you can use packages like `flutter_jailbreak_detection`, but detection can be bypassed, so treat it as one signal, not a guarantee."
@@ -752,9 +768,10 @@ Detection is a **cat-and-mouse game** — a determined attacker can hide root or
 
 ---
 
-## <a id="q15"></a>15. What is deep link hijacking, and how do you secure deep links in Flutter?
+<a id="q15"></a>
+## 15. What is deep link hijacking, and how do you secure deep links in Flutter?
 
-> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#q15)
+> Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-20-mobile-security-bn.md#15-deep-link-hijacking-কী-আর-flutter-এ-deep-link-কীভাবে-নিরাপদ-করবেন)
 
 **Short answer (say this):**
 "Deep link hijacking is when a malicious app registers the same custom URL scheme as yours, so it can intercept links meant for your app — potentially stealing data like an OAuth code. You secure it by using verified App Links (Android) and Universal Links (iOS), which are tied to your domain and can't be claimed by another app, and by never trusting deep-link data without validation."
@@ -784,14 +801,15 @@ Use a router like `go_router` for deep links, configure App Links/Universal Link
 **Follow-ups they may ask:**
 - *"App Links vs custom scheme?"* → App/Universal Links are domain-verified (can't be hijacked); custom schemes can be claimed by any app.
 
-**Related:** [Q10 — OAuth/PKCE](#q10) · [Q8 — input validation](#q8) · [Q4 (Navigation) — deep linking](section-04-navigation.md#q1)
+**Related:** [Q10 — OAuth/PKCE](#q10) · [Q8 — input validation](#q8) · [Q4 (Navigation) — deep linking](section-04-navigation.md#1-explain-navigator-10-how-does-the-stack-work-walk-through-push-pop-pushreplacement-pushandremoveuntil-and-maybepop)
 
 [↑ Back to top](#toc)
 
 ---
 
 
-# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
+<a id="cheatsheet"></a>
+# Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 
