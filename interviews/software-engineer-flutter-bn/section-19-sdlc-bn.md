@@ -1,10 +1,10 @@
 # Section 19 — SDLC ও Software Engineering Process
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** এবং **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক যেতে পারবেন এবং ধীরে ধীরে প্রস্তুতি নিতে পারবেন। এটা একটা process-এর topic — উদাহরণগুলো বাস্তব scenario, code নয়।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। এটা একটা process-এর topic — উদাহরণগুলো বাস্তব scenario, code নয়।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-19-sdlc-bn.md](../software-engineer-flutter/section-19-sdlc.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-19-sdlc.md](../software-engineer-flutter/section-19-sdlc.md)
 
 ---
 
@@ -13,9 +13,9 @@
 প্রতিটা প্রশ্নের গঠন একই:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণসহ ধাপে ধাপে ব্যাখ্যা।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — যুক্ত প্রশ্নে যান · **উপরে ফিরুন** — index-এ ফিরে আসুন।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে tag দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
@@ -87,7 +87,7 @@
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q1)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"SDLC মানে Software Development Lifecycle। এটা software বানানোর একটা সাজানো process — planning থেকে শুরু করে retirement পর্যন্ত। ক্লাসিক phase-গুলো হলো: requirements, design, development, testing, deployment, আর maintenance। এটা team-কে একটা repeatable উপায় দেয়, যাতে quality software অনুমানযোগ্যভাবে deliver করা যায়। আর ভিন্ন ভিন্ন model (Waterfall, Agile) এই phase-গুলোকে ভিন্নভাবে সাজায়।"
+"SDLC মানে Software Development Lifecycle। এটা software বানানোর একটা সাজানো process — planning থেকে শুরু করে retirement পর্যন্ত। ক্লাসিক phase-গুলো হলো: requirements, design, development, testing, deployment, আর maintenance। এটা team-কে একটা repeatable উপায় দেয়, যাতে quality software ঠিক সময়ে, ঠিকভাবে deliver করা যায়। আর আলাদা আলাদা model (Waterfall, Agile) এই phase-গুলোকে আলাদাভাবে সাজায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -108,13 +108,13 @@ Requirements → Design → Development → Testing → Deployment → Maintenan
 - **Deployment** — release করা ([Q7](#q7))।
 - **Maintenance** — সময়ের সাথে ঠিক করা আর উন্নত করা ([Q8](#q8))।
 
-**ধাপ ৩ — Model-গুলো phase ভিন্নভাবে সাজায়।**
+**ধাপ ৩ — Model-গুলো phase আলাদাভাবে সাজায়।**
 - **Waterfall** — phase একবারই চলে, কড়া ক্রমে।
 - **Agile** — phase ছোট ছোট cycle-এ বারবার চলে, প্রতি loop-এ feedback আসে ([Q2 Agile](section-18-agile-scrum-bn.md#q2))।
 - অন্যগুলো: V-model, Spiral, Iterative।
 
 **ধাপ ৪ — Process রাখার আসল কারণ।**
-একটা ঠিক করা lifecycle সমস্যা আগেই ধরে ফেলে (খরচ কম)। এটা delivery-কে অনুমানযোগ্য করে। আর quality যেন শেষে মনে পড়ার জিনিস না হয়, সেটা নিশ্চিত করে।
+একটা ঠিক করা lifecycle সমস্যা আগেই ধরে ফেলে (খরচ কম)। এটা delivery-কে আগে থেকে বোঝা যায় এমন করে। আর quality যেন শেষে মনে পড়ার জিনিস না হয়, সেটা নিশ্চিত করে।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা ভিত্তি। তাঁরা দেখতে চান আপনি software-কে শুধু coding নয়, একটা managed process হিসেবে দেখছেন কি না।
 
@@ -134,7 +134,7 @@ Requirements → Design → Development → Testing → Deployment → Maintenan
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Requirement gathering মানে বানানোর আগে জেনে নেওয়া — software-টা আসলে কী করবে। Functional requirement বলে system *কী* করে — feature আর আচরণ, যেমন 'user নিজের password reset করতে পারবে'। Non-functional requirement বলে system কাজটা *কতটা ভালোভাবে* করে — performance, security, scalability, usability। এগুলো সংগ্রহ করা হয় interview, user story আর prototype-এর মাধ্যমে।"
+"Requirement gathering মানে বানানোর আগে জেনে নেওয়া — software-টা আসলে কী করবে। Functional requirement বলে system *কী* করে — feature আর আচরণ, যেমন 'user নিজের password reset করতে পারবে'। Non-functional requirement বলে system কাজটা *কতটা ভালোভাবে* করে — performance, security, scalability, usability। এগুলো জোগাড় করা হয় interview, user story আর prototype দিয়ে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -142,7 +142,7 @@ Requirements → Design → Development → Testing → Deployment → Maintenan
 Feature আর আচরণ: "user log in করতে পারবে," "app একটা receipt email পাঠাবে," "admin post delete করতে পারবে।"
 
 **ধাপ ২ — Non-functional — কতটা ভালোভাবে করে।**
-Quality-র বৈশিষ্ট্য, যেগুলো সব feature-এর ওপর দিয়ে যায়:
+Quality-র গুণ, যেগুলো সব feature-এর ওপর দিয়ে যায়:
 - **Performance** — screen 2 সেকেন্ডের কমে load হবে।
 - **Security** — password encrypted থাকবে; data সুরক্ষিত থাকবে।
 - **Scalability** — 10,000 concurrent user সামলাবে।
@@ -157,14 +157,14 @@ Non-functional: "...and loads within 1 second"       (how well)
 - Stakeholder-দের সাথে **interview/workshop**।
 - **User story** আর acceptance criteria ([Q11 Agile](section-18-agile-scrum-bn.md#q11))।
 - অস্পষ্ট ধারণাকে স্পষ্ট করতে **prototype/mockup**।
-- না-বলা প্রয়োজন খুঁজে পেতে **আসল user-দের দেখা**।
+- না-বলা দরকার খুঁজে পেতে **আসল user-দের দেখা**।
 
 **ধাপ ৪ — এই phase কেন এত গুরুত্বপূর্ণ।**
-এখানে ভুল করলে সেটাই সবচেয়ে ব্যয়বহুল — ভুল জিনিস বানালে পুরো project নষ্ট হয়। আগেভাগে পরিষ্কার করে নিলে (এবং stakeholder-দের সাথে মিলিয়ে নিলে) ব্যয়বহুল rework এড়ানো যায়।
+এখানে ভুল করলে সেটাই সবচেয়ে খরচ বেশি — ভুল জিনিস বানালে পুরো project নষ্ট হয়। আগেভাগে পরিষ্কার করে নিলে (এবং stakeholder-দের সাথে মিলিয়ে নিলে) ভারী rework এড়ানো যায়।
 
 **Interviewer কেন জিজ্ঞেস করে:** ভুল বোঝা requirement project ব্যর্থ হওয়ার সবচেয়ে বড় কারণগুলোর একটা। তাঁরা দেখেন আপনি এটাকে গুরুত্ব দেন কি না।
 
-**সাধারণ ভুল:** non-functional requirement (performance, security) শেষ পর্যন্ত ফেলে রাখা। তখন এগুলো পরে যোগ করা কঠিন এবং ব্যয়বহুল।
+**সাধারণ ভুল:** non-functional requirement (performance, security) শেষ পর্যন্ত ফেলে রাখা। তখন এগুলো পরে যোগ করা কঠিন এবং খরচ বেশি।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"অস্পষ্ট requirement কীভাবে সামলান?"* → প্রশ্ন করুন, একটা prototype বানান, আর পুরোপুরি বানানোর আগে stakeholder-এর সাথে মিলিয়ে নিন।
@@ -211,7 +211,7 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 **সাধারণ ভুল:** কোনো HLD ছাড়াই সরাসরি code-এ ঝাঁপিয়ে পড়া। এতে architecture জট পাকিয়ে যায়, পরে বদলানো কঠিন হয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Design কতটা বিস্তারিত হওয়া উচিত?"* → যতটা লাগে সবাইকে এক করতে আর ঝুঁকি কমাতে — এত বেশি নয় যে সেটা জমে যাওয়া, অতিরিক্ত বিস্তারিত document হয়ে যায় (Agile-এ ওটা অপচয়)।
+- *"Design কতটা বিস্তারিত হওয়া উচিত?"* → যতটা লাগে সবাইকে এক করতে আর ঝুঁকি কমাতে — এত বেশি নয় যে সেটা জমে যাওয়া, বাড়তি বিস্তারিত document হয়ে যায় (Agile-এ ওটা অপচয়)।
 
 **সম্পর্কিত:** [Q2 — requirements](#q2) · [Q21 — mobile-এর জন্য system design](section-21-system-design-bn.md#q1) · [Q2 (Architecture) — Clean Architecture](section-13-architecture-patterns-bn.md#q2)
 
@@ -238,7 +238,7 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 - পরিবর্তন **ছোট** রাখুন — review করা সহজ হয়, ঝুঁকিও কম।
 
 **ধাপ ২ — Quality পরে জোড়া নয়, ভেতরেই তৈরি।**
-- **Coding standard** মেনে চলুন। **Linter/formatter** স্বয়ংক্রিয়ভাবে চালান ([Q14 Clean Code](section-16-clean-code-bn.md#q14))।
+- **Coding standard** মেনে চলুন। **Linter/formatter** নিজে নিজেই চালান ([Q14 Clean Code](section-16-clean-code-bn.md#q14))।
 - Code-এর সাথেই **test লিখুন** ([Q6](#q6))।
 - একটা স্পষ্ট **Definition of Done** রাখুন। তাহলে "done" মানে সত্যিই done, "আমার machine-এ চলে" নয়।
 
@@ -254,7 +254,7 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 **সাধারণ ভুল:** Big-bang merge (বিশাল branch, কালেভদ্রে integration)। এতে যন্ত্রণাদায়ক conflict হয়, আর bug দেরিতে ধরা পড়ে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"CI কী?"* → Continuous Integration: প্রতিটা পরিবর্তন স্বয়ংক্রিয়ভাবে build আর test করা, যাতে integration-এর সমস্যা সাথে সাথে দেখা যায়।
+- *"CI কী?"* → Continuous Integration: প্রতিটা পরিবর্তন নিজে নিজেই build আর test করা, যাতে integration-এর সমস্যা সাথে সাথে দেখা যায়।
 
 **সম্পর্কিত:** [Q5 — code review](#q5) · [Q6 — testing](#q6) · [Q4 (Clean Code) — clean function](section-16-clean-code-bn.md#q3)
 
@@ -279,7 +279,7 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 
 **ধাপ ২ — কী কী দেখবেন (গুরুত্ব অনুযায়ী)।**
 1. **Correctness** — এটা কি কাজ করে, edge case সহ (খালি, null, error)?
-2. **Design** — এটা কি সঠিক জায়গায়, ভালোভাবে সাজানো, অতিরিক্ত জটিল নয়?
+2. **Design** — এটা কি সঠিক জায়গায়, ভালোভাবে সাজানো, বাড়তি জটিল নয়?
 3. **Readability** — স্পষ্ট নাম, ছোট function, কোনো চমক নেই।
 4. **Tests** — পরিবর্তনগুলো কি test দিয়ে ঢাকা?
 5. **Style** — formatter/linter-এর উপর ছেড়ে দিন, খুঁটিনাটি ধরবেন না।
@@ -287,13 +287,13 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 **ধাপ ৩ — ভালো feedback কীভাবে দেবেন।**
 - **প্রশ্ন করুন**, হুকুম নয়: "list খালি হলে কী হবে?"
 - **ভদ্র আর নির্দিষ্ট** হোন। Code-এর দিকে তাকান, মানুষের দিকে নয়।
-- **সময়মতো** দিন — একজন আটকে থাকা teammate ব্যয়বহুল।
+- **সময়মতো** দিন — একজন আটকে থাকা teammate খরচ বেশি।
 - **যথেষ্ট ভালো হলেই approve করুন**, নিখুঁত হতে হবে না।
 
 **ধাপ ৪ — লেখক হিসেবে।**
 PR ছোট রাখুন, স্পষ্ট description লিখুন, আগে নিজে review করুন, আর review চাওয়ার আগে test pass করান ([Q18 Git](section-17-git-bn.md#q18))।
 
-**Interviewer কেন জিজ্ঞেস করে:** Review একজন senior-এর প্রতিদিনের দায়িত্ব। এতে তাঁরা আপনার বিচারবুদ্ধি আর সহযোগিতা যাচাই করেন।
+**Interviewer কেন জিজ্ঞেস করে:** Review একজন senior-এর প্রতিদিনের দায়িত্ব। এতে তাঁরা আপনার বুদ্ধি আর সহযোগিতা যাচাই করেন।
 
 **সাধারণ ভুল:** Formatting নিয়ে খুঁটিনাটি ধরা (যেটা tool-এর কাজ), আর আসল correctness/design সমস্যা মিস করা। অথবা কড়া, অস্পষ্ট feedback দেওয়া ("this is wrong")।
 
@@ -331,7 +331,7 @@ PR ছোট রাখুন, স্পষ্ট description লিখুন, �
 | UAT | client/user-এর গ্রহণযোগ্যতা | customer নিশ্চিত করেন এটা তাঁর দরকার মেটায় |
 
 **ধাপ ৩ — বেশিরভাগ test কোথায় থাকা উচিত (pyramid)।**
-বেশিরভাগ test হওয়া উচিত দ্রুত **unit** test। তার চেয়ে কম **integration**। আর সবচেয়ে কম ধীর **end-to-end** test। এই "test pyramid" suite-টাকে দ্রুত আর নির্ভরযোগ্য রাখে ([Q6 Flutter Testing](section-06-testing-bn.md#q1))।
+বেশিরভাগ test হওয়া উচিত দ্রুত **unit** test। তার চেয়ে কম **integration**। আর সবচেয়ে কম ধীর **end-to-end** test। এই "test pyramid" suite-টাকে দ্রুত আর ভরসা করা যায় এমন রাখে ([Q6 Flutter Testing](section-06-testing-bn.md#q1))।
 
 **ধাপ ৪ — কে কী করে।**
 Developer-রা unit/integration test লেখেন। System testing প্রায়ই QA চালান। **Client বা end user** UAT করেন। UAT-এর কথা হলো *কাজের উপযোগী কি না*, শুধু "কোনো bug নেই" নয়।
@@ -380,7 +380,7 @@ Local (your machine) → Dev → Staging (like production) → Production (real 
 - লক্ষ্য environment-এর জন্য config আর secret ঠিক আছে।
 - কিছু ভেঙে গেলে একটা **rollback plan** আছে।
 - সমস্যা ধরতে monitoring/alert তৈরি।
-- Stakeholder-দের জানানো হয়েছে। ঝুঁকিপূর্ণ হলে কম traffic-এর সময়ে deploy করুন।
+- Stakeholder-দের জানানো হয়েছে। ঝুঁকির হলে কম traffic-এর সময়ে deploy করুন।
 
 **ধাপ ৪ — আরও নিরাপদ release কৌশল।**
 - **Blue-green** — দুটো production environment চালান, traffic সাথে সাথে switch করুন (rollback সহজ)।
@@ -429,7 +429,7 @@ MINOR (2.4.1 → 2.5.0)  new feature, backward compatible
 MAJOR (2.4.1 → 3.0.0)  breaking change
 ```
 
-এটা user-দের এক নজরেই বলে দেয় upgrade করা কতটা ঝুঁকিপূর্ণ।
+এটা user-দের এক নজরেই বলে দেয় upgrade করা কতটা ঝুঁকির কাজ।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি launch-এর পরের কথাও ভাবেন কি না — engineering-এর বেশিরভাগ পরিশ্রমই maintenance।
 
@@ -444,7 +444,7 @@ MAJOR (2.4.1 → 3.0.0)  breaking change
 
 ---
 
-## <a id="q9"></a>9. Production bug কীভাবে handle করেন? পুরো প্রক্রিয়াটা বলুন।
+## <a id="q9"></a>9. Production bug কীভাবে handle করেন? পুরো process-টা বলুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q9)
 
@@ -457,7 +457,7 @@ MAJOR (2.4.1 → 3.0.0)  breaking change
 User-এর উপর প্রভাব সাথে সাথে কমান: খারাপ release roll back করুন, feature flag বন্ধ করুন, বা ভাঙা feature-টা disable করুন। User-রা ভুগছেন আর আপনি এক ঘণ্টা ধরে debug করছেন — এটা করবেন না। আগে mitigate করুন।
 
 **ধাপ ২ — Reproduce করুন আর diagnose করুন।**
-- Bug-টা নির্ভরযোগ্যভাবে reproduce করুন (report, log, আর Crashlytics/Sentry-র মতো crash report থেকে)।
+- Bug-টা প্রতিবার একইভাবে reproduce করুন (report, log, আর Crashlytics/Sentry-র মতো crash report থেকে)।
 - শুধু উপসর্গ নয়, **root cause** খুঁজে বের করুন।
 
 **ধাপ ৩ — Fix করুন, test করুন, নিরাপদে deploy করুন।**
@@ -472,7 +472,7 @@ User-এর উপর প্রভাব সাথে সাথে কমান:
 
 **Interviewer কেন জিজ্ঞেস করে:** Incident handle করা senior-দের একটা মূল দক্ষতা। তাঁরা দেখতে চান আপনি "আগে contain, পরে root cause, সবসময় প্রতিরোধ" ভাবেন কি না।
 
-**সাধারণ ভুল:** User-রা ভুগছেন, অথচ সরাসরি debug করতে বসে যাওয়া (আগে mitigate করা উচিত)। অথবা উপসর্গ ঠিক করা, কিন্তু পুনরাবৃত্তি ঠেকানোর test না লেখা।
+**সাধারণ ভুল:** User-রা ভুগছেন, অথচ সরাসরি debug করতে বসে যাওয়া (আগে mitigate করা উচিত)। অথবা উপসর্গ ঠিক করা, কিন্তু বারবার একই জিনিস ঠেকানোর test না লেখা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Blameless post-mortem কেন?"* → ভয় থাকলে তথ্য চাপা পড়ে যায়। Blameless review আসল কারণগুলো সামনে আনে, ফলে system উন্নত হয়।
@@ -492,7 +492,7 @@ User-এর উপর প্রভাব সাথে সাথে কমান:
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q10)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"শেষে test করে quality ঢোকানো যায় না — এটা প্রতিটা পর্যায়ে গড়ে তুলতে হয়। মানে পরিষ্কার requirement, ভালো design review, coding standard আর linter, code-এর সাথেই লেখা test, code review, CI check, আর production-এ monitoring। প্রতিটা পর্যায়ের নিজস্ব quality gate থাকে, ফলে সমস্যা সেখানেই ধরা পড়ে যেখানে ঠিক করা সবচেয়ে সস্তা।"
+"শেষে test করে quality ঢোকানো যায় না — এটা প্রতিটা পর্যায়ে গড়ে তুলতে হয়। মানে পরিষ্কার requirement, ভালো design review, coding standard আর linter, code-এর সাথেই লেখা test, code review, CI check, আর production-এ monitoring। প্রতিটা পর্যায়ের নিজের quality gate থাকে, ফলে সমস্যা সেখানেই ধরা পড়ে যেখানে ঠিক করা সবচেয়ে সস্তা।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -504,7 +504,7 @@ Bug আগে ধরলে ঠিক করা সবচেয়ে সস্�
 | পর্যায় | Quality gate |
 |---|---|
 | Requirements | পরিষ্কার, নিশ্চিত করা, testable acceptance criteria |
-| Design | design review, edge case ও non-functional প্রয়োজন বিবেচনা |
+| Design | design review, edge case ও non-functional দরকার ভেবে দেখা |
 | Development | linter, standard, test, code review |
 | Testing | test pyramid + automated regression |
 | Deployment | CI check, staging verification, rollback plan |
@@ -516,12 +516,12 @@ CI প্রতিটা change-এ format, lint আর test চালায়�
 **ধাপ ৪ — খরচের curve।**
 Bug যত পর্যায় পার হয়, ঠিক করার খরচ প্রায় 10× করে বাড়ে। শুরুতেই quality গড়ে তোলা (shift-left, [Q11](#q11)) সবচেয়ে সস্তা কৌশল।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা দেখে আপনি quality-কে চলমান কাজ হিসেবে দেখেন, নাকি শেষের একটা QA ধাপ হিসেবে।
+**Interviewer কেন জিজ্ঞেস করে:** এটা দেখে আপনি quality-কে চলতে থাকা কাজ হিসেবে দেখেন, নাকি শেষের একটা QA ধাপ হিসেবে।
 
-**সাধারণ ভুল:** "শেষে test করব" — ততক্ষণে design আর requirement-এর bug ভেতরে বসে গেছে, আর ঠিক করা ব্যয়বহুল।
+**সাধারণ ভুল:** "শেষে test করব" — ততক্ষণে design আর requirement-এর bug ভেতরে বসে গেছে, আর ঠিক করা খরচ বেশি।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Quality কীভাবে মাপেন?"* → Bug escape rate, test coverage (বিচারবুদ্ধি সহ), crash-free user, আর fix করার lead time।
+- *"Quality কীভাবে মাপেন?"* → Bug escape rate, test coverage (বুদ্ধি সহ), crash-free user, আর fix করার lead time।
 
 **সম্পর্কিত:** [Q11 — shift-left](#q11) · [Q6 — testing phase](#q6) · [Q14 (Clean Code) — enforcing](section-16-clean-code-bn.md#q14)
 
@@ -552,7 +552,7 @@ Shift-left:   TEST from the start → → → and all along the way (left)
 - **Static analysis/linter** code চালু হওয়ার আগেই সমস্যা ধরে ফেলে।
 
 **ধাপ ৩ — এটা কেন সস্তা।**
-Code লেখার সময় পাওয়া bug ঠিক করতে হয়তো কয়েক মিনিট লাগে। একই bug production-এ পাওয়া গেলে সেটা মানে একটা incident, একটা hotfix, আর হারানো বিশ্বাস — খরচ বহু গুণ বেশি। Shift-left ধরা পড়ার জায়গাটাকে সস্তা প্রান্তে সরিয়ে আনে।
+Code লেখার সময় পাওয়া bug ঠিক করতে হয়তো কয়েক মিনিট লাগে। একই bug production-এ পাওয়া গেলে সেটা মানে একটা incident, একটা hotfix, আর হারানো বিশ্বাস — খরচ বহু গুণ বেশি। Shift-left ধরা পড়ার জায়গাটাকে সস্তা দিকে সরিয়ে আনে।
 
 **ধাপ ৪ — ফলাফল।**
 দ্রুত feedback, production-এ কম bug, আর এমন developer যাঁরা quality-র মালিকানা নেন (শেষে QA-র দিকে "দেয়ালের ওপারে ছুড়ে দেওয়া" নয়)।
@@ -575,7 +575,7 @@ Code লেখার সময় পাওয়া bug ঠিক করতে 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q12)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"DevOps হলো এমন একটা culture যেখানে development আর operations এক team হিসেবে কাজ করে। Software build করা, release করা আর চালানোর দায়িত্ব তারা ভাগ করে নেয়। এতে automation ব্যবহার হয় — CI/CD, infrastructure as code, monitoring — যাতে দ্রুত আর নির্ভরযোগ্যভাবে ship করা যায়। SDLC-র ভাষায়, এটা development, deployment আর maintenance-এর মধ্যের loop-টা শক্ত করে, ফলে feedback দ্রুত আসে।"
+"DevOps হলো এমন একটা culture যেখানে development আর operations এক team হিসেবে কাজ করে। Software build করা, release করা আর চালানোর দায়িত্ব তারা ভাগ করে নেয়। এতে automation ব্যবহার হয় — CI/CD, infrastructure as code, monitoring — যাতে দ্রুত আর নিশ্চিন্তে ship করা যায়। SDLC-র ভাষায়, এটা development, deployment আর maintenance-এর মধ্যের loop-টা শক্ত করে, ফলে feedback দ্রুত আসে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -590,11 +590,11 @@ Code লেখার সময় পাওয়া bug ঠিক করতে 
 
 **ধাপ ৩ — Cultural অংশ (সবচেয়ে গুরুত্বপূর্ণ)।**
 - ভাগ করা মালিকানা ("you build it, you run it")।
-- দ্রুত feedback আর ক্রমাগত উন্নতি।
+- দ্রুত feedback আর একটানা উন্নতি।
 - Incident-এর জন্য blameless culture ([Q9](#q9))।
 
 **ধাপ ৪ — SDLC-র সাথে সম্পর্ক।**
-DevOps SDLC-কে এক-মুখী সরলরেখার বদলে একটা দ্রুত, চলমান loop বানায় — code দ্রুত আর নিরাপদে production-এ যায়, আর production-এর feedback সোজা development-এ ফিরে আসে।
+DevOps SDLC-কে এক-মুখী সরলরেখার বদলে একটা দ্রুত, চলতে থাকা loop বানায় — code দ্রুত আর নিরাপদে production-এ যায়, আর production-এর feedback সোজা development-এ ফিরে আসে।
 
 **Interviewer কেন জিজ্ঞেস করে:** আধুনিক team-এ DevOps স্বাভাবিক ব্যাপার। তাঁরা দেখেন আপনি বোঝেন কি না যে এটা culture + automation, শুধু "একটা tools team" নয়।
 
@@ -639,11 +639,11 @@ Likelihood
 - **মেনে নিন** — ছোট risk-গুলোর ক্ষেত্রে শুধু স্বীকার করে নিন।
 
 **ধাপ ৪ — নজর রাখতে থাকুন।**
-Project চলার সাথে সাথে risk বদলায়। নিয়মিত review করুন (একটা risk register রাখুন) আর plan হালনাগাদ করুন। নতুন risk আসে; পুরোনোগুলো মিলিয়ে যায়।
+Project চলার সাথে সাথে risk বদলায়। নিয়মিত review করুন (একটা risk register রাখুন) আর plan update করুন। নতুন risk আসে; পুরোনোগুলো মিলিয়ে যায়।
 
 **Interviewer কেন জিজ্ঞেস করে:** Senior engineer-রা সমস্যা আগেই আঁচ করেন। তাঁরা দেখতে চান আপনি আগে থেকে ভাবেন, শুধু আগুন নেভানোর কাজ করেন না।
 
-**সাধারণ ভুল:** Risk-গুলোকে সংকট হয়ে ওঠা পর্যন্ত উপেক্ষা করা। অথবা সম্ভাবনা × প্রভাব দিয়ে অগ্রাধিকার না দিয়ে সব risk-কে সমান ভাবা।
+**সাধারণ ভুল:** Risk-গুলোকে বিপদ হয়ে ওঠা পর্যন্ত বাদ দেওয়া। অথবা সম্ভাবনা × প্রভাব দিয়ে অগ্রাধিকার না দিয়ে সব risk-কে সমান ভাবা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"নতুন technology-র ঝুঁকি কীভাবে কমান?"* → পুরোপুরি নামার আগে একটা time-boxed spike দিয়ে প্রমাণ করে নিই যে এটা কাজ করে ([Q15](#q15))।
@@ -686,7 +686,7 @@ Project চলার সাথে সাথে risk বদলায়। নি
 **সাধারণ ভুল:** হয় কোনো documentation-ই নেই (নতুন মানুষ হারিয়ে যায়), নয়তো বিশাল বিস্তারিত docs যেগুলো কেউ update করে না আর যেগুলো দ্রুত ভুল পথে নিয়ে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"ADR কী?"* → একটা গুরুত্বপূর্ণ decision আর তার যুক্তির ছোট record, যাতে ভবিষ্যতের developer-রা *কেন* সেটা জানতে পারেন।
+- *"ADR কী?"* → একটা গুরুত্বপূর্ণ decision আর তার যুক্তির ছোট record, যাতে পরের developer-রা *কেন* সেটা জানতে পারেন।
 
 **সম্পর্কিত:** [Q6 (Clean Code) — comment](section-16-clean-code-bn.md#q6) · [Q3 — design](#q3)
 
@@ -703,7 +703,7 @@ Project চলার সাথে সাথে risk বদলায়। নি
 > Deeper · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q15)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Spike হলো ছোট, time-boxed একটা গবেষণা। আসল কাজে নামার আগে একটা প্রশ্নের উত্তর দিতে বা অনিশ্চয়তা কমাতে এটা করা হয়। যখন estimate বা design করার মতো যথেষ্ট জানা নেই, তখন এটা ব্যবহার করি — যেমন নতুন library চেষ্টা করা, বা একটা approach সম্ভব কি না প্রমাণ করা। এর ফলাফল জ্ঞান, ship করার মতো code নয়।"
+"Spike হলো ছোট, time-boxed একটা খোঁজখবর। আসল কাজে নামার আগে একটা প্রশ্নের উত্তর দিতে বা ধোঁয়াশা কমাতে এটা করা হয়। যখন estimate বা design করার মতো যথেষ্ট জানা নেই, তখন এটা ব্যবহার করি — যেমন নতুন library চেষ্টা করা, বা একটা approach সম্ভব কি না প্রমাণ করা। এর ফলাফল জ্ঞান, ship করার মতো code নয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -716,10 +716,10 @@ Project চলার সাথে সাথে risk বদলায়। নি
 - কঠিন একটা approach কাজ করে কি না, তার উপর কিছু বানানোর আগে প্রমাণ করা।
 
 **ধাপ ৩ — Time-box রাখুন।**
-Spike-এর একটা নির্দিষ্ট সীমা থাকে (যেমন "এটা কাজ করে কি না জানতে ২ দিন")। লক্ষ্য হলো *decide/estimate করার মতো যথেষ্ট শেখা*, তারপর থামা। Time-box না থাকলে গবেষণা অনন্তকাল চলতে পারে।
+Spike-এর একটা নির্দিষ্ট সীমা থাকে (যেমন "এটা কাজ করে কি না জানতে ২ দিন")। লক্ষ্য হলো *decide/estimate করার মতো যথেষ্ট শেখা*, তারপর থামা। Time-box না থাকলে খোঁজখবর অনন্তকাল চলতে পারে।
 
 **ধাপ ৪ — ফলাফল একটা decision, feature নয়।**
-Spike সাধারণত শেষ হয় একটা recommendation আর ভালো estimate দিয়ে — আর throwaway code প্রায়ই ফেলে দেওয়া হয়। আসল deliverable হলো কমে যাওয়া অনিশ্চয়তা।
+Spike সাধারণত শেষ হয় একটা recommendation আর ভালো estimate দিয়ে — আর throwaway code প্রায়ই ফেলে দেওয়া হয়। আসল deliverable হলো কমে যাওয়া ধোঁয়াশা।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি কাজে নামার আগে অজানা জিনিসের ঝুঁকি কমান কি না — পরিপক্ব planning-এর লক্ষণ।
 
@@ -739,12 +739,12 @@ Spike সাধারণত শেষ হয় একটা recommendation আ�
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q16)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Defect হলো software-এর একটা ত্রুটি, যেকোনো পর্যায়ে পাওয়া যায়; bug হলো সেই defect-এর চলতি শব্দ, যেটা software চলার সময়ে ধরা পড়ে — এটা requirement-এর চেয়ে আলাদা আচরণ করে। Feature request হলো *নতুন* একটা ক্ষমতা, যেটা কেউ চায় কিন্তু requirement-এ কখনো ছিল না। মূল পার্থক্য: bug/defect মানে 'এটা ভেঙে গেছে'; feature request মানে 'আমি নতুন কিছু চাই'।"
+"Defect হলো software-এর একটা ভুল, যেকোনো পর্যায়ে পাওয়া যায়; bug হলো সেই defect-এর চলতি শব্দ, যেটা software চলার সময়ে ধরা পড়ে — এটা requirement-এর চেয়ে আলাদা আচরণ করে। Feature request হলো *নতুন* একটা ক্ষমতা, যেটা কেউ চায় কিন্তু requirement-এ কখনো ছিল না। মূল পার্থক্য: bug/defect মানে 'এটা ভেঙে গেছে'; feature request মানে 'আমি নতুন কিছু চাই'।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — পার্থক্যগুলো।**
-- **Defect** — যা হওয়ার কথা ছিল তার তুলনায় একটা ত্রুটি। প্রায়ই testing/review-তে পাওয়া সমস্যার জন্য ব্যবহার হয়।
+- **Defect** — যা হওয়ার কথা ছিল তার তুলনায় একটা ভুল। প্রায়ই testing/review-তে পাওয়া সমস্যার জন্য ব্যবহার হয়।
 - **Bug** — defect-এর দৈনন্দিন শব্দ, সাধারণত software চলার সময়ে পাওয়া যায়।
 - **Feature request** — নতুন functionality-র জন্য অনুরোধ, যেটা specify করা ছিল না।
 
@@ -821,7 +821,7 @@ Requirements → Design → Development → Testing → Deployment → Maintenan
 - **DevOps** = dev + ops এক team, automated (CI/CD), ভাগাভাগি করা মালিকানা। ([Q12](#q12))
 - **Risk** = likelihood × impact; বড়গুলো mitigate করুন, নজর রাখতে থাকুন। ([Q13](#q13))
 - ***কেন*** **document করুন**, *কী* নয়; docs জীবিত রাখুন। ([Q14](#q14))
-- **Spike** = অনিশ্চয়তা কমানোর জন্য time-boxed গবেষণা। ([Q15](#q15))
+- **Spike** = ধোঁয়াশা কমানোর জন্য time-boxed খোঁজখবর। ([Q15](#q15))
 
 [↑ উপরে ফিরুন](#toc)
 

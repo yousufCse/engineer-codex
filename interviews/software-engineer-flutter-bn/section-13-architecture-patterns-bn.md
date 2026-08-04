@@ -1,9 +1,9 @@
 # Section 13 — Software Architecture Patterns
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা সহ**, আর **link করা** — যাতে আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারেন।
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-13-architecture-patterns-bn.md](../software-engineer-flutter/section-13-architecture-patterns.md)
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-13-architecture-patterns.md](../software-engineer-flutter/section-13-architecture-patterns.md)
 
 ---
 
@@ -54,7 +54,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন আর layer-গুলো আঁকতে পারবেন।
+এই পর্যায়গুলো একটার পর একটা শেষ করুন। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন আর layer-গুলো আঁকতে পারবেন।
 
 **পর্যায় ১ — ভিত্তি (এখান থেকে শুরু করুন)।**
 → [Q1 Layered](#q1) · [Q2 Clean Architecture](#q2) · [Q3 Separation of concerns](#q3)
@@ -179,14 +179,14 @@ class UserRepositoryImpl implements UserRepository {
 ```
 
 **ধাপ ৪ — Domain কেন Data বা Presentation-এর উপর নির্ভর করতে পারে না।**
-Domain হলো আপনার business rule — সবচেয়ে মূল্যবান আর সবচেয়ে দীর্ঘজীবী code। এটা যদি Flutter বা কোনো নির্দিষ্ট database-এর উপর নির্ভর করত, তাহলে প্রতিটা UI বা database পরিবর্তন এটাকে ভেঙে দিতে পারত। খাঁটি রাখলে আপনি সাধারণ Dart দিয়েই এটা test করতে পারবেন। আর যেকোনো জায়গায় আবার ব্যবহার করতে পারবেন।
+Domain হলো আপনার business rule — সবচেয়ে দামি আর সবচেয়ে বেশিদিন টিকে থাকা code। এটা যদি Flutter বা কোনো নির্দিষ্ট database-এর উপর নির্ভর করত, তাহলে প্রতিটা UI বা database পরিবর্তন এটাকে ভেঙে দিতে পারত। খাঁটি রাখলে আপনি সাধারণ Dart দিয়েই এটা test করতে পারবেন। আর যেকোনো জায়গায় আবার ব্যবহার করতে পারবেন।
 
 **ধাপ ৫ — Trade-off।**
 Clean Architecture boilerplate বাড়ায় (interface, use case, model বনাম entity)। বড় আর দীর্ঘদিন চলা app-এ এটা দারুণ কাজ করে। কিন্তু ছোট app-এ এটা বাড়াবাড়ি হয়ে যেতে পারে ([Q14](#q14))।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটাই Flutter-এর আদর্শ "সিরিয়াস" architecture। তাঁরা শুনতে চান *dependency rule* (ভেতরের দিকে) আর Domain কেন খাঁটি থাকে, তার *কারণ*।
 
-**সাধারণ ভুল:** Domain layer-এ Flutter বা API/database code import করা — এতে পুরো উদ্দেশ্যটাই নষ্ট হয়ে যায়। আরেকটা ভুল — খুব সাধারণ একটা app-এ এটা প্রয়োগ করা, যেখানে এটা শুধুই বাড়তি বোঝা।
+**সাধারণ ভুল:** Domain layer-এ Flutter বা API/database code import করা — এতে পুরো উদ্দেশ্যটাই নষ্ট হয়ে যায়। আরেকটা ভুল — খুব সাধারণ একটা app-এ এটা কাজে লাগানো, যেখানে এটা শুধুই বাড়তি বোঝা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Entity বনাম Model?"* → Entity = খাঁটি Domain object। Model = Data layer-এর object, যার `fromJson`/`toJson` আছে আর যেটা entity-তে/থেকে map করে।
@@ -263,7 +263,7 @@ class UserScreen extends StatelessWidget {
 **সাধারণ ভুল:** widget-এর ভেতরে business logic আর network call রাখা। এতে widget untestable আর ভারী হয়ে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"এটার সাথে SRP-র সম্পর্ক কী?"* → Separation of concerns হলো পুরো app জুড়ে প্রয়োগ করা SRP, শুধু একটা class-এ নয়।
+- *"এটার সাথে SRP-র সম্পর্ক কী?"* → Separation of concerns হলো পুরো app জুড়ে কাজে লাগানো SRP, শুধু একটা class-এ নয়।
 
 **সম্পর্কিত:** [Q1 — layered](#q1) · [Q2 — Clean Architecture](#q2) · [Q7 — repository](#q7)
 
@@ -485,13 +485,13 @@ Caller শুধু `repo.getUser(id)` করে — cache নাকি network,
 **ধাপ ৪ — Clean Architecture-এ এটা কেন মানানসই।**
 Domain-এর হাতে থাকে *interface* (তাই Domain খাঁটি থাকে), আর Data layer দেয় *implementation*। Presentation layer শুধু interface-এর উপর নির্ভর করে। তাই আপনি implementation বদলাতে পারেন, বা test-এর জন্য একটা fake inject করতে পারেন।
 
-**Interviewer কেন জিজ্ঞেস করে:** বাস্তব Flutter app-এ repository সবচেয়ে বেশি ব্যবহৃত pattern। তাঁরা দেখতে চান আপনি "কোন data" আর "কোথা থেকে আসে" — এই দুটো আলাদা করতে পারেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** বাস্তব Flutter app-এ repository সবচেয়ে বেশি ব্যবহার করা pattern। তাঁরা দেখতে চান আপনি "কোন data" আর "কোথা থেকে আসে" — এই দুটো আলাদা করতে পারেন কি না।
 
 **সাধারণ ভুল:** repository বাদ দিয়ে API call আর JSON parsing সরাসরি Cubit/BLoC-এ রাখা — এতে আপনার logic একটা data source-এর সাথে বাঁধা পড়ে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"এটা testing-এ কীভাবে সাহায্য করে?"* → আপনি একটা fake repository inject করেন, ফলে আসল network ছাড়াই logic test করা যায়।
-- *"Single source of truth?"* → একটা repository network + local DB মিলিয়ে একটাই সামঞ্জস্যপূর্ণ view দিতে পারে (offline-first)।
+- *"Single source of truth?"* → একটা repository network + local DB মিলিয়ে একটাই মিলমিশ view দিতে পারে (offline-first)।
 
 **সম্পর্কিত:** [Q2 — Clean Architecture](#q2) · [Q9 — DI](#q9) · [Q8 — use case](#q8)
 
@@ -520,7 +520,7 @@ class GetUserProfile {
   GetUserProfile(this.repo);
 
   Future<User> call(String id) {
-    // এখানে business rule যোগ করা যায়: validation, একাধিক source মেলানো, ইত্যাদি
+    // এখানে business rule যোগ করা যায়: validation, একের বেশি source মেলানো, ইত্যাদি
     return repo.getUser(id);
   }
 }
@@ -602,9 +602,9 @@ final cubit = sl<UserCubit>();
 - **কম coupling** — class-গুলো interface-এর উপর নির্ভর করে, concrete class-এর উপর নয় ([DIP](#q10))।
 - **এক জায়গায় wiring** — dependency বদলান setup-এ, 50টা file-এ নয়।
 
-**Interviewer কেন জিজ্ঞেস করে:** testable আর layered app-এর জন্য DI অপরিহার্য। তাঁরা দেখতে চান আপনি class-এর ভেতরে `new` দিয়ে dependency শক্ত করে বাঁধছেন না।
+**Interviewer কেন জিজ্ঞেস করে:** testable আর layered app-এর জন্য DI অবশ্যই লাগে এমন। তাঁরা দেখতে চান আপনি class-এর ভেতরে `new` দিয়ে dependency শক্ত করে বাঁধছেন না।
 
-**সাধারণ ভুল:** business logic-এর গভীরে সব জায়গায় `sl<X>()` call করা (লুকানো dependency)। constructor দিয়ে inject করাই ভালো; locator ব্যবহার করুন প্রান্তে।
+**সাধারণ ভুল:** business logic-এর গভীরে সব জায়গায় `sl<X>()` call করা (লুকানো dependency)। constructor দিয়ে inject করাই ভালো; locator ব্যবহার করুন দুই মাথায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"DI-র জন্য get_it বনাম Provider/Riverpod?"* → `get_it` একটা সাধারণ service locator (`BuildContext` লাগে না)। Provider/Riverpod DI-কে widget tree-র সাথে বেঁধে দেয়।
@@ -653,7 +653,7 @@ class OrderService {
 আমরা এটাকে "DI" বললেও `get_it` একটা service locator — আপনি `sl<X>()` থেকে টেনে আনেন। অনেক team দুটোরই সেরা দিকটা নেয়: `get_it`-এ register করে, কিন্তু resolve হওয়া object-গুলো constructor দিয়ে **inject** করে (ফলে class-গুলো নিজে DI ব্যবহার করে, আর শুধু setup locator ব্যবহার করে)।
 
 **ধাপ ৪ — বাস্তব পরামর্শ।**
-আপনার class-এর ভেতরে constructor injection-ই বেছে নিন (দেখা যায়, test করা যায়)। Service locator ব্যবহার করুন শুধু "প্রান্তে" (app setup, যেখানে আপনি object graph বানান)। এতে business class পরিষ্কার থাকে, আবার সুবিধাও থাকে।
+আপনার class-এর ভেতরে constructor injection-ই বেছে নিন (দেখা যায়, test করা যায়)। Service locator ব্যবহার করুন শুধু "দিকে" (app setup, যেখানে আপনি object graph বানান)। এতে business class পরিষ্কার থাকে, আবার সুবিধাও থাকে।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা senior-level বিচারবোধের প্রশ্ন — locator ব্যবহার করেও আপনি বোঝেন কি না স্পষ্ট dependency *কেন* ভালো?
 
@@ -678,7 +678,7 @@ class OrderService {
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের ছবি: একটা notice board।**
-A সরাসরি B-কে হুকুম দেওয়ার বদলে A একটা note (event) board-এ টাঙিয়ে দেয়। যার দরকার সে এতে react করে। অংশগুলো event-এর মাধ্যমে আলগাভাবে যুক্ত থাকে।
+A সরাসরি B-কে হুকুম দেওয়ার বদলে A একটা note (event) board-এ টাঙিয়ে দেয়। যার দরকার সে এতে react করে। অংশগুলো event দিয়ে আলগাভাবে যুক্ত থাকে।
 
 **ধাপ ২ — BLoC-এর flow: event ভেতরে, state বাইরে।**
 
@@ -749,15 +749,15 @@ Cubit স্পষ্ট event বাদ দেয় আর সরাসরি 
 |---|---|---|
 | Code sharing | সহজ (এক জায়গায়) | কঠিন (package publish করতে হয়) |
 | Cross-cutting পরিবর্তন | একটা commit/PR | অনেক সমন্বিত PR |
-| সীমানা | নরম | শক্ত, বাধ্যতামূলক |
+| সীমানা | নরম | শক্ত, মানতেই হবে |
 | স্বাধীন release | কঠিন | প্রতি repo-তে সহজ |
 | যত tooling লাগে | বেশি (যেমন `melos`) | প্রতি repo-তে সহজ |
 
 **ধাপ ৩ — Flutter-এ monorepo (`melos`)।**
-Flutter টিমগুলো প্রায়ই `melos` দিয়ে monorepo ব্যবহার করে একাধিক package সামলাতে (একটা core package, feature package, app) এক repo-তে — local package link করে আর সবগুলোর উপর script চালায়।
+Flutter টিমগুলো প্রায়ই `melos` দিয়ে monorepo ব্যবহার করে একের বেশি package সামলাতে (একটা core package, feature package, app) এক repo-তে — local package link করে আর সবগুলোর উপর script চালায়।
 
 **ধাপ ৪ — কীভাবে বাছবেন।**
-- **Monorepo** — এক টিম বা ঘনিষ্ঠভাবে সম্পর্কিত project, যারা অনেক code share করে।
+- **Monorepo** — এক টিম বা কাছ থেকে সম্পর্কিত project, যারা অনেক code share করে।
 - **Multi-repo** — আলাদা টিম যারা স্বাধীনভাবে release করে আর শক্ত সীমানা চায়।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা senior পদের জন্য scaling/team-structure-এর প্রশ্ন। তাঁরা trade-off শুনতে চান, "X সবসময় ভালো" এমন সরল কথা নয়।
@@ -778,7 +778,7 @@ Flutter টিমগুলো প্রায়ই `melos` দিয়ে mono
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q13)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Modular architecture app-কে আলাদা package-এ ভাগ করে — সাধারণত প্রতি feature-এ একটা, সাথে shared core package — একটা বিশাল lib folder-এর বদলে। বড় টিমগুলো এটা নেয় কারণ এতে স্পষ্ট সীমানা পাওয়া যায়, টিমগুলো একে অপরের গায়ে না লেগে সমান্তরালে কাজ করতে পারে, dependency-র নিয়ম বাধ্যতামূলক হয়, আর একটা feature-এর build ও test দ্রুত হয়।"
+"Modular architecture app-কে আলাদা package-এ ভাগ করে — সাধারণত প্রতি feature-এ একটা, সাথে shared core package — একটা বিশাল lib folder-এর বদলে। বড় টিমগুলো এটা নেয় কারণ এতে স্পষ্ট সীমানা পাওয়া যায়, টিমগুলো একে অপরের গায়ে না লেগে পাশাপাশি কাজ করতে পারে, dependency-র নিয়ম মানতেই হয়, আর একটা feature-এর build ও test দ্রুত হয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -797,18 +797,18 @@ packages/
   feature_orders/     (orders feature)
 ```
 
-সাধারণত একটা নিয়ম বাধ্যতামূলক করা হয়: feature package `core`/`domain`-এর উপর depend করতে পারে, কিন্তু **একে অপরের উপর নয়** — এতে feature গুলো স্বাধীন থাকে।
+সাধারণত একটা নিয়ম মানতে বাধ্য করা হয়: feature package `core`/`domain`-এর উপর depend করতে পারে, কিন্তু **একে অপরের উপর নয়** — এতে feature গুলো স্বাধীন থাকে।
 
 **ধাপ ৩ — বড় টিমগুলো কেন এটা নেয়।**
-- **সমান্তরাল কাজ** — টিম A-র হাতে `feature_auth`, টিম B-র হাতে `feature_orders`, কোনো conflict নেই।
-- **বাধ্যতামূলক সীমানা** — package system একটা feature-কে অন্য feature-এর ভেতরের জিনিস import করতে দেয় না।
+- **পাশাপাশি কাজ** — টিম A-র হাতে `feature_auth`, টিম B-র হাতে `feature_orders`, কোনো conflict নেই।
+- **মানতেই হবে এমন সীমানা** — package system একটা feature-কে অন্য feature-এর ভেতরের জিনিস import করতে দেয় না।
 - **দ্রুত build/test** — পুরো app ছাড়াই একটা feature test বা build করা যায়।
-- **পুনর্ব্যবহার** — একটা feature package অন্য app-এ আবার ব্যবহার করা যায়।
+- **আবার ব্যবহার** — একটা feature package অন্য app-এ আবার ব্যবহার করা যায়।
 
 **ধাপ ৪ — এর খরচ।**
 বেশি setup আর tooling লাগে (প্রায়ই `melos` দিয়ে monorepo)। ছোট app-এর জন্য এটা বাড়তি বোঝা; বড় multi-team app-এর জন্য এটা বড় লাভ।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা senior/lead পর্যায়ের scaling বিষয়। তাঁরা সীমানা আর সমান্তরাল টিম কাজের কথা শুনতে চান।
+**Interviewer কেন জিজ্ঞেস করে:** এটা senior/lead পর্যায়ের scaling বিষয়। তাঁরা সীমানা আর পাশাপাশি টিম কাজের কথা শুনতে চান।
 
 **সাধারণ ভুল:** Feature package গুলোকে একে অপরের উপর depend করতে দেওয়া। এতে যে জট এড়াতে চেয়েছিলেন সেটাই আবার তৈরি হয়।
 
@@ -826,7 +826,7 @@ packages/
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q14)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"আমি architecture-টা project-এর আকার আর আয়ুর সাথে মিলিয়ে নিই। খুব ছোট app পায় সরল structure — Cubit আর একটা repository। মাঝারি app পায় layered MVVM, সাথে repository আর DI। বড়, দীর্ঘজীবী, multi-team app পায় পুরো Clean Architecture আর modular feature package। নিয়ম হলো: maintainable থাকার মতো যথেষ্ট structure, কিন্তু এত বেশি নয় যে কাজ ধীর হয়ে যায়।"
+"আমি architecture-টা project-এর আকার আর আয়ুর সাথে মিলিয়ে নিই। খুব ছোট app পায় সরল structure — Cubit আর একটা repository। মাঝারি app পায় layered MVVM, সাথে repository আর DI। বড়, অনেকক্ষণ টিকে থাকে, multi-team app পায় পুরো Clean Architecture আর modular feature package। নিয়ম হলো: maintainable থাকার মতো যথেষ্ট structure, কিন্তু এত বেশি নয় যে কাজ ধীর হয়ে যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -839,7 +839,7 @@ packages/
 |---|---|
 | Prototype / খুব ছোট app | `setState` বা সরল Cubit + একটা repository |
 | মাঝারি app | Layered MVVM: UI → Cubit/BLoC → repository, সাথে DI ([Q9](#q9)) |
-| বড় / দীর্ঘজীবী | Clean Architecture ([Q2](#q2)) + use case + DI |
+| বড় / অনেকদিন চলবে | Clean Architecture ([Q2](#q2)) + use case + DI |
 | বড় multi-team | Clean Architecture + modular feature package ([Q13](#q13)) |
 
 **ধাপ ৩ — বাছাই করার আগে আমি যে প্রশ্নগুলো করি।**
@@ -849,9 +849,9 @@ packages/
 - Testability আর offline support কতটা গুরুত্বপূর্ণ?
 
 **ধাপ ৪ — সরল দিয়ে শুরু করুন, তারপর বাড়ান।**
-আপনি সরল structure দিয়ে শুরু করতে পারেন, আর app বড় হলে layer (use case, modular package) যোগ করতে পারেন। পরে structure যোগ করা ঠিক আছে; over-engineering উপড়ে ফেলা কষ্টকর। এটা architecture-এ প্রয়োগ করা YAGNI।
+আপনি সরল structure দিয়ে শুরু করতে পারেন, আর app বড় হলে layer (use case, modular package) যোগ করতে পারেন। পরে structure যোগ করা ঠিক আছে; over-engineering উপড়ে ফেলা কষ্টকর। এটা architecture-এ কাজে লাগানো YAGNI।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা বাস্তব বিচারবুদ্ধি যাচাই করে — pattern অন্ধভাবে নকল না করে সমস্যার সাথে সমাধান মিলিয়ে নেওয়ার senior দক্ষতা।
+**Interviewer কেন জিজ্ঞেস করে:** এটা বাস্তব বুদ্ধি যাচাই করে — pattern অন্ধভাবে নকল না করে সমস্যার সাথে সমাধান মিলিয়ে নেওয়ার senior skill।
 
 **সাধারণ ভুল:** ৩ screen-এর app-এ পুরো Clean Architecture বসানো (boilerplate-এর বোঝা), বা বড় app-এ কোনো structure না রাখা (spaghetti)।
 
@@ -892,7 +892,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 | | DI (constructor) | Service Locator |
 |---|---|---|
-| Dependency | দৃশ্যমান | লুকানো |
+| Dependency | দেখা যায় এমন | লুকানো |
 | Testability | সহজ | কঠিন |
 | কোথায় ভালো | class-এর ভেতরে | শুধু app setup-এ |
 
@@ -908,7 +908,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 - **DI** = dependency বাইরে থেকে ভেতরে পাঠান (testable); **get_it** একটা service locator। ([Q9](#q9), [Q10](#q10))
 - **BLoC** = event ভেতরে, state বাইরে (এক-মুখী, testable flow)। ([Q11](#q11))
 - **Monorepo** = share করা সহজ, tooling লাগে; **multi-repo** = শক্ত সীমানা, আলাদা release। ([Q12](#q12))
-- **Modular package** = পরিষ্কার সীমানা + বড় app-এ team-এর সমান্তরাল কাজ। ([Q13](#q13))
+- **Modular package** = পরিষ্কার সীমানা + বড় app-এ team-এর পাশাপাশি কাজ। ([Q13](#q13))
 - **আকার দেখে বাছুন**: সহজ app → Cubit+repo; বড় app → Clean + modular। Over-engineer করবেন না। ([Q14](#q14))
 
 [↑ উপরে ফিরুন](#toc)

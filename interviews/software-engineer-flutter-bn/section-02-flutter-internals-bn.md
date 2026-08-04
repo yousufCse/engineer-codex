@@ -1,10 +1,10 @@
 # Section 2 — Flutter Core Internals
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরোপুরি ব্যাখ্যা করা**, আর **link দেওয়া** — যাতে আপনি এদিক-ওদিক ঘুরে ধাপে ধাপে প্রস্তুতি নিতে পারেন।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-02-flutter-internals-bn.md](../software-engineer-flutter/section-02-flutter-internals.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-02-flutter-internals.md](../software-engineer-flutter/section-02-flutter-internals.md)
 
 ---
 
@@ -13,13 +13,13 @@
 প্রতিটা প্রশ্নের গঠন একই:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বিস্তারিত, ধাপে ধাপে ব্যাখ্যা, বাস্তব জীবনের উদাহরণ আর code সহ।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
 - **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তর** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলা নিজেই একটা senior skill — আর এটা remote আর BD দুই ধরনের কোম্পানিতেই সমান কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -70,7 +70,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-২৩টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন — প্রতিটা আগেরটার উপরে দাঁড়িয়ে আছে। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+২৩টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপরে দাঁড়িয়ে আছে। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — মূল mental model (এখান থেকেই শুরু)।** এটা ছাড়া বাকি কিছুই বোঝা যাবে না।
 → [Q1 তিনটি tree](#q1) · [Q5 Stateless বনাম Stateful](#q5) · [Q7 setState](#q7) · [Q8 BuildContext](#q8)
@@ -101,7 +101,7 @@
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q1)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Flutter তিনটা tree রাখে, যারা একসাথে কাজ করে। Widget tree হলো সস্তা blueprint, যেটা আমি code-এ লিখি। Element tree হলো জীবন্ত সেতু, যেটা প্রতিটা widget-এর জায়গা আর state মনে রাখে। RenderObject tree আসল layout আর painting-এর কাজ করে। Flutter-এর তিনটাই দরকার, যাতে সস্তা widget-গুলো বারবার ফেলে দিয়ে নতুন বানানো যায়, আর নিচের ব্যয়বহুল render object-গুলো reuse করা যায়।"
+"Flutter তিনটা tree রাখে, যারা একসাথে কাজ করে। Widget tree হলো সস্তা blueprint, যেটা আমি code-এ লিখি। Element tree হলো জীবন্ত সেতু, যেটা প্রতিটা widget-এর জায়গা আর state মনে রাখে। RenderObject tree আসল layout আর painting-এর কাজ করে। Flutter-এর তিনটাই দরকার, যাতে সস্তা widget-গুলো বারবার ফেলে দিয়ে নতুন বানানো যায়, আর নিচের ভারী render object-গুলো reuse করা যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -109,7 +109,7 @@
 একটা বাড়ি বানানোর কথা ভাবুন:
 - **Widget** হলো *blueprint* — এক টুকরো কাগজ, যেখানে লেখা "এখানে নীল দরজা।" কাগজ সস্তা; আপনি বারবার আঁকতে পারেন।
 - **Element** হলো *site manager* — একজন আসল মানুষ, যিনি ওই জায়গায় দাঁড়িয়ে থাকেন, মনে রাখেন সেখানে কী বানানো হয়েছিল, আর ঠিক করেন আসলে কী বদলানো দরকার।
-- **RenderObject** হলো *আসল বিল্ডিং* — ইট আর দেয়াল। বানাতে ব্যয়বহুল, তাই ছোট একটা পরিবর্তনের জন্য আপনি সেটা ভাঙেন না।
+- **RenderObject** হলো *আসল বিল্ডিং* — ইট আর দেয়াল। বানাতে খরচ বেশি, তাই ছোট একটা পরিবর্তনের জন্য আপনি সেটা ভাঙেন না।
 
 **ধাপ ২ — Widget tree (সস্তা blueprint, immutable)।**
 Widget হলো সেই object, যেগুলো আপনি লেখেন। এরা শুধু UI-কে *বর্ণনা* করে। এরা immutable আর সস্তা। তাই Flutter খুশি মনে এগুলো ফেলে দেয় আর প্রতিটা rebuild-এ নতুন বানায়।
@@ -122,15 +122,15 @@ Container(
 ```
 
 **ধাপ ৩ — Element tree (জীবন্ত সেতু)।**
-একটা widget প্রথমবার দেখানোর সময়ে Flutter সেটাকে "inflate" করে **Element**-এ পরিণত করে। Element ওই widget-এর tree-তে অবস্থান ধরে রাখে, `State` object রাখে (stateful widget-এর জন্য), আর render object-এর দিকে নির্দেশ করে। Element-রা দীর্ঘজীবী — এরা rebuild-এর পরেও টিকে থাকে। ঠিক এই কারণেই আপনার state টিকে যায়।
+একটা widget প্রথমবার দেখানোর সময়ে Flutter সেটাকে "inflate" করে **Element**-এ পরিণত করে। Element ওই widget-এর tree-তে অবস্থান ধরে রাখে, `State` object রাখে (stateful widget-এর জন্য), আর render object-এর দিকে নির্দেশ করে। Element-রা অনেকক্ষণ টিকে থাকে — এরা rebuild-এর পরেও টিকে থাকে। ঠিক এই কারণেই আপনার state টিকে যায়।
 
 **ধাপ ৪ — RenderObject tree (আসল layout আর paint)।**
-Render object জানে তার নিজের size আর position, আর জানে কীভাবে paint করতে হয়। এগুলো বানানো ব্যয়বহুল, তাই Flutter নতুন বানানো এড়িয়ে চলে।
+Render object জানে তার নিজের size আর position, আর জানে কীভাবে paint করতে হয়। এগুলো বানানো খরচ বেশি, তাই Flutter নতুন বানানো এড়িয়ে চলে।
 
 ```dart
 // আপনি যা লেখেন:     Container → Text
-// Element tree:      ContainerElement → TextElement   (দীর্ঘজীবী)
-// RenderObject tree: RenderDecoratedBox → RenderParagraph (ব্যয়বহুল, reuse হয়)
+// Element tree:      ContainerElement → TextElement   (অনেকক্ষণ টিকে থাকে)
+// RenderObject tree: RenderDecoratedBox → RenderParagraph (খরচ বেশি, reuse হয়)
 ```
 
 **ধাপ ৫ — তিনটা কেন? মূল কথা হলো গতি।**
@@ -143,15 +143,15 @@ Render object জানে তার নিজের size আর position, আ�
 // → নতুন render object নেই, subtree-র পুরো rebuild নেই
 ```
 
-অর্থাৎ: widget level-এ সস্তা rebuild, আর render level-এ ব্যয়বহুল object reuse। এভাবেই Flutter সেকেন্ডে ৬০+ বার rebuild করতে পারে, তবু মরে যায় না।
+অর্থাৎ: widget level-এ সস্তা rebuild, আর render level-এ ভারী object reuse। এভাবেই Flutter সেকেন্ডে ৬০+ বার rebuild করতে পারে, তবু মরে যায় না।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটাই Flutter architecture-এর সবচেয়ে মৌলিক প্রশ্ন। তাঁরা দেখতে চান আপনি performance model-টা বোঝেন কি না — শুধু widget কীভাবে ব্যবহার করতে হয় তা নয়, বরং বারবার rebuild করা কেন সস্তা সেটাও।
+**Interviewer কেন জিজ্ঞেস করে:** এটাই Flutter architecture-এর সবচেয়ে গোড়ার প্রশ্ন। তাঁরা দেখতে চান আপনি performance model-টা বোঝেন কি না — শুধু widget কীভাবে ব্যবহার করতে হয় তা নয়, বরং বারবার rebuild করা কেন সস্তা সেটাও।
 
 **সাধারণ ভুল:** বলা যে "widget হলো screen-এ যা দেখা যায়।" Widget screen-এ **থাকে না** — RenderObject থাকে। Widget শুধু configuration। আরেকটা ভুল হলো Element tree-র অস্তিত্বই না জানা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"কোনটা কোথায় থাকে?"* → Widget রাখে config। Element রাখে `State` আর tree-তে অবস্থান। Render object রাখে size, position আর paint।
-- *"State Widget-এ না রেখে Element-এ কেন?"* → কারণ প্রতিটা rebuild-এ widget ফেলে দেওয়া হয়। State-কে এমন কিছুতে থাকতে হবে যেটা দীর্ঘজীবী — অর্থাৎ element।
+- *"State Widget-এ না রেখে Element-এ কেন?"* → কারণ প্রতিটা rebuild-এ widget ফেলে দেওয়া হয়। State-কে এমন কিছুতে থাকতে হবে যেটা অনেকক্ষণ টিকে থাকে — অর্থাৎ element।
 
 **সম্পর্কিত:** [Q2 — widget immutable কেন](#q2) · [Q4 — reconciliation](#q4) · [Q8 — BuildContext আসলে element](#q8)
 
@@ -164,7 +164,7 @@ Render object জানে তার নিজের size আর position, আ�
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Widget immutable, কারণ এরা শুধু UI-এর একটা বর্ণনা। আর বর্ণনা আপনার অজান্তে বদলে যাওয়া উচিত নয়। নতুন widget বানানো সস্তা — এরা ছোট্ট config object, আর Dart-এর garbage collector ঠিক এই 'বানাও আর ফেলে দাও' ধরনের জন্যই তৈরি। ব্যয়বহুল জিনিস, মানে render object, আবার বানানো হয় না; element tree-র মাধ্যমে সেগুলো reuse হয়।"
+"Widget immutable, কারণ এরা শুধু UI-এর একটা বর্ণনা। আর বর্ণনা আপনার অজান্তে বদলে যাওয়া উচিত নয়। নতুন widget বানানো সস্তা — এরা ছোট্ট config object, আর Dart-এর garbage collector ঠিক এই 'বানাও আর ফেলে দাও' ধরনের জন্যই তৈরি। ভারী জিনিস, মানে render object, আবার বানানো হয় না; element tree দিয়ে সেগুলো reuse হয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -187,12 +187,12 @@ Widget হলো এই মুহূর্তে UI দেখতে কেমন
 1. Widget **খুব ছোট** — মাত্র কয়েকটা field। একটা বানানো প্রায় বিনামূল্যে।
 2. Dart-এর garbage collector "বেশিরভাগ object অল্প বয়সে মরে" — এই নকশায় চলে। অল্প সময় বাঁচা object (যেমন widget) খুব সস্তায় পরিষ্কার হয়ে যায়।
 
-**ধাপ ৪ — ব্যয়বহুল জিনিসগুলো আবার বানানো হয় না।**
-আপনি সস্তা Widget tree rebuild করেন, কিন্তু ব্যয়বহুল RenderObject tree Element tree-র মাধ্যমে reuse হয় ([Q1](#q1) দেখুন)। তাই "প্রতি frame-এ নতুন widget" মানে **এটা নয়** যে "প্রতি frame-এ নতুন layout object।"
+**ধাপ ৪ — ভারী জিনিসগুলো আবার বানানো হয় না।**
+আপনি সস্তা Widget tree rebuild করেন, কিন্তু ভারী RenderObject tree Element tree দিয়ে reuse হয় ([Q1](#q1) দেখুন)। তাই "প্রতি frame-এ নতুন widget" মানে **এটা নয়** যে "প্রতি frame-এ নতুন layout object।"
 
 ```dart
 // Rebuild: নতুন Text('1') widget বানানো হলো (সস্তা)
-// Element একই RenderParagraph (ব্যয়বহুল) reuse করে আর তার text update করে
+// Element একই RenderParagraph (খরচ বেশি) reuse করে আর তার text update করে
 ```
 
 **ধাপ ৫ — এখান থেকে যে বাস্তব নিয়ম আসে।**
@@ -200,7 +200,7 @@ Rebuild সস্তা বলে আপনার এর সাথে লড়�
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি বোঝেন যে "rebuild" নকশা অনুযায়ীই সস্তা। আর ভয় পেয়ে rebuild এড়াতে আপনি আজেবাজে code লিখবেন না।
 
-**সাধারণ ভুল:** rebuild ব্যয়বহুল ভেবে সব জায়গায় "rebuild এড়ানোর" প্রাণপণ চেষ্টা করা। Rebuild নিজেই সস্তা; আসল ব্যাপার হলো `build()` হালকা রাখা আর `const` ব্যবহার করা।
+**সাধারণ ভুল:** rebuild ভারী ভেবে সব জায়গায় "rebuild এড়ানোর" প্রাণপণ চেষ্টা করা। Rebuild নিজেই সস্তা; আসল ব্যাপার হলো `build()` হালকা রাখা আর `const` ব্যবহার করা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Widget যদি immutable হয়, তাহলে UI বদলায় কীভাবে?"* → আপনি একটা নতুন widget tree বানান; element সেটার সাথে পার্থক্য মিলিয়ে দেখে আর শুধু যা বদলেছে তা update করে।
@@ -282,9 +282,9 @@ AnimatedSwitcher(
 )
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা আলাদা করে দেয় — কে শুধু layout-এর bug তালি দিয়ে ঠিক করে, আর কে reconciliation algorithm বোঝে। Key-এর ভুল ব্যবহারে list আর animation-এ সূক্ষ্ম, কঠিন-করে-reproduce-করা bug তৈরি হয়।
+**Interviewer কেন জিজ্ঞেস করে:** এটা আলাদা করে দেয় — কে শুধু layout-এর bug তালি দিয়ে ঠিক করে, আর কে reconciliation algorithm বোঝে। Key-এর ভুল ব্যবহারে list আর animation-এ চোখে পড়ে না এমন, কঠিন-করে-reproduce-করা bug তৈরি হয়।
 
-**সাধারণ ভুল:** "নিরাপদ থাকার জন্য" সব জায়গায় `GlobalKey` ব্যবহার করা। এটা ব্যয়বহুল (global registry-তে lookup করতে হয়) আর কিছু optimization বন্ধ করে দেয়। আরেকটা পরিচিত ভুল: reorderable list-এ list-এর *index*-কে key হিসেবে ব্যবহার করা — reorder করলে index বদলে যায়, তাই পুরো উদ্দেশ্যটাই নষ্ট হয়।
+**সাধারণ ভুল:** "নিরাপদ থাকার জন্য" সব জায়গায় `GlobalKey` ব্যবহার করা। এটা ভারী (global registry-তে lookup করতে হয়) আর কিছু optimization বন্ধ করে দেয়। আরেকটা পরিচিত ভুল: reorderable list-এ list-এর *index*-কে key হিসেবে ব্যবহার করা — reorder করলে index বদলে যায়, তাই পুরো উদ্দেশ্যটাই নষ্ট হয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Index-কে key হিসেবে দেওয়া — খারাপ কেন?"* → Reorder করলে index সরে যায়, তাই Flutter আবার position দিয়েই মেলায়। একটা stable id ব্যবহার করুন (`ValueKey(item.id)`)।
@@ -311,14 +311,14 @@ AnimatedSwitcher(
 **ধাপ ২ — নিয়ম: একই `runtimeType` এবং একই `key` → reuse।**
 প্রতিটা position-এ Flutter পুরোনো widget-এর সাথে নতুন widget-কে তুলনা করে:
 - একই type আর একই key → element আর render object **reuse**, শুধু যে field বদলেছে সেটা update।
-- ভিন্ন type বা ভিন্ন key → পুরোনো element (আর তার state) **ফেলে দেয়** এবং নতুন একটা বানায়।
+- আলাদা type বা আলাদা key → পুরোনো element (আর তার state) **ফেলে দেয়** এবং নতুন একটা বানায়।
 
 ```dart
 // পুরোনো: Container(color: blue)   নতুন: Container(color: red)
 // একই type, একই key → RenderDecoratedBox reuse হবে, শুধু color বদলাবে।
 
 // পুরোনো: Container(...)           নতুন: SizedBox(...)
-// ভিন্ন type → পুরোনো element + state ফেলে দিয়ে নতুন SizedBox বানাবে।
+// আলাদা type → পুরোনো element + state ফেলে দিয়ে নতুন SizedBox বানাবে।
 ```
 
 **ধাপ ৩ — এটা হয় position ধরে, উপর থেকে নিচে।**
@@ -328,7 +328,7 @@ Flutter মিল খুঁজতে পুরো tree তল্লাশি ক
 Key থাকলে Flutter slot-এর বদলে identity দিয়ে মেলাতে পারে। তাই সে element-টাকে নতুন position-এ সরিয়ে নিয়েও তার state ধরে রাখতে পারে (দেখুন [Q3](#q3))।
 
 **ধাপ ৫ — Performance-এর জন্য এটা কেন গুরুত্বপূর্ণ।**
-Reuse করলে ব্যয়বহুল render object-গুলো থেকে যায়। তাই একটা rebuild সাধারণত শুধু "কয়েকটা property update" মাত্র। এই ব্যবস্থাটাই তিন-tree-র design-কে (দেখুন [Q1](#q1)) বাস্তবে দ্রুত করে।
+Reuse করলে ভারী render object-গুলো থেকে যায়। তাই একটা rebuild সাধারণত শুধু "কয়েকটা property update" মাত্র। এই ব্যবস্থাটাই তিন-tree-র design-কে (দেখুন [Q1](#q1)) বাস্তবে দ্রুত করে।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা প্রমাণ করে আপনি বোঝেন keys *কেন* আছে, আর widget-এর type বদলালে তার state *কেন* reset হয়। এটা তিনটা tree-কে বাস্তব আচরণের সাথে যোগ করে।
 
@@ -371,7 +371,7 @@ class Greeting extends StatelessWidget {
 ```
 
 **ধাপ ২ — StatefulWidget: বদলে যাওয়া data নিজে রাখে।**
-এটা একটা immutable widget-কে একটা দীর্ঘজীবী `State` object-এর সাথে জোড়া লাগায়। `State` নিজের field বদলাতে পারে, আর `setState` call করে rebuild করাতে পারে।
+এটা একটা immutable widget-কে একটা অনেকক্ষণ টিকে থাকা `State` object-এর সাথে জোড়া লাগায়। `State` নিজের field বদলাতে পারে, আর `setState` call করে rebuild করাতে পারে।
 
 ```dart
 class Counter extends StatefulWidget {
@@ -394,7 +394,7 @@ class _CounterState extends State<Counter> {
 - `StatelessWidget` → একটা `StatelessElement` বানায় → element `widget.build(context)` call করে।
 - `StatefulWidget` → একটা `StatefulElement` বানায় → element একবার `createState()` call করে, তারপর `state.build(context)` call করে।
 
-`State` object যুক্ত থাকে **Element**-এর সাথে, যেটা দীর্ঘজীবী। Widget নিজে প্রতিটা rebuild-এ ফেলে দেওয়া হয়। ঠিক এই কারণেই `_count` টিকে থাকে: এটা থাকে element-এর `State`-এ, widget-এ নয়।
+`State` object যুক্ত থাকে **Element**-এর সাথে, যেটা অনেকক্ষণ টিকে থাকে। Widget নিজে প্রতিটা rebuild-এ ফেলে দেওয়া হয়। ঠিক এই কারণেই `_count` টিকে থাকে: এটা থাকে element-এর `State`-এ, widget-এ নয়।
 
 **ধাপ ৪ — কোনটা কখন ব্যবহার করবেন।**
 - `StatelessWidget` — যখন সবকিছু constructor বা inherited data থেকে আসে (একটা styled label, একটা layout wrapper)।
@@ -430,7 +430,7 @@ Framework যখন widget-টি inflate করে তখন একবারই
 `State` তৈরি হয়ে tree-তে বসার ঠিক পরেই একবার call হয়। একবারের setup এখানে করুন: `AnimationController` তৈরি, stream-এ subscribe, শুরুর মান বসানো। এখানে inherited-widget lookup আপনি **করতে পারবেন না** (element তখনো পুরোপুরি mount হয়নি)।
 
 **ধাপ ৩ — `didChangeDependencies()`।**
-`initState`-এর ঠিক পরেই call হয়। আর আপনি যে `InheritedWidget`-এর উপর নির্ভরশীল, সেটা বদলালে আবারও call হয়। `Theme.of` বা `MediaQuery.of`-এর মতো inherited lookup-এর জন্য `context` ব্যবহারের এটাই প্রথম **নিরাপদ** জায়গা।
+`initState`-এর ঠিক পরেই call হয়। আর আপনি যে `InheritedWidget`-এর উপর নির্ভর করেন, সেটা বদলালে আবারও call হয়। `Theme.of` বা `MediaQuery.of`-এর মতো inherited lookup-এর জন্য `context` ব্যবহারের এটাই প্রথম **নিরাপদ** জায়গা।
 
 **ধাপ ৪ — `build()`।**
 Widget-টিকে যখনই render করতে হবে তখনই call হয়: `setState`-এর পরে, `didChangeDependencies`-এর পরে, অথবা parent rebuild হলে। এটা **pure আর দ্রুত** হতেই হবে — কোনো side effect নয়, কোনো ভারী কাজ নয়।
@@ -555,7 +555,7 @@ Future<void> load() async {
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q8)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"BuildContext আসলে Element *নিজেই* — `Element` `BuildContext` implement করে। এটা element tree-তে এই widget-এর ঠিক অবস্থান বোঝায়। এর মাধ্যমেই আপনি উপরে উঠে inherited widget, theme বা media data খুঁজে পান। `initState`-এ inherited lookup-এর জন্য এটা ব্যবহার করা যায় না, কারণ element তখনো tree-তে পুরোপুরি mount হয়নি।"
+"BuildContext আসলে Element *নিজেই* — `Element` `BuildContext` implement করে। এটা element tree-তে এই widget-এর ঠিক অবস্থান বোঝায়। এটা দিয়েই আপনি উপরে উঠে inherited widget, theme বা media data খুঁজে পান। `initState`-এ inherited lookup-এর জন্য এটা ব্যবহার করা যায় না, কারণ element তখনো tree-তে পুরোপুরি mount হয়নি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -603,7 +603,7 @@ Future<void> go() async {
 **সাধারণ ভুল:** বলা যে "context হলো widget-এর একটা reference"। এটা তা নয় — এটা element **নিজেই**। আর widget চলে যাওয়ার সম্ভাবনা থাকা সত্ত্বেও async callback-এ context ব্যবহার করা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"initState-এ `context.read` কাজ করে কিন্তু `context.watch` করে না কেন?"* → দুটোরই শেষ পর্যন্ত active element লাগে; `initState`-এ পড়ার কাজ শুধু `context.read` দিয়ে খুব সাবধানে করুন। আর inherited data-র উপর নির্ভরশীল যেকোনো কিছুর জন্য `didChangeDependencies` বেছে নিন।
+- *"initState-এ `context.read` কাজ করে কিন্তু `context.watch` করে না কেন?"* → দুটোরই শেষ পর্যন্ত active element লাগে; `initState`-এ পড়ার কাজ শুধু `context.read` দিয়ে খুব সাবধানে করুন। আর inherited data-র উপর নির্ভর করে এমন যেকোনো কিছুর জন্য `didChangeDependencies` বেছে নিন।
 - *"`mounted` কী?"* → `State`-এর উপর একটা flag, element tree-তে থাকা অবস্থায় এটা true থাকে। `await`-এর পরে `context` ব্যবহারের আগে এটা check করুন।
 
 **সম্পর্কিত:** [Q1 — context-ই element](#q1) · [Q6 — lifecycle](#q6) · [Q9 — InheritedWidget lookup](#q9)
@@ -728,7 +728,7 @@ class _ParentState extends State<Parent> {
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে "সব জায়গায় const ব্যবহার করুন" কথাটা আপনি মুখস্থ করেছেন নাকি বুঝেছেন। আসল কারণ হলো identical object আবার ব্যবহার করা, সাথে reconciliation-এর short-circuit।
 
-**সাধারণ ভুল:** ভাবা যে `const` *সব* rebuild আটকায়। এটা শুধু parent আবার তৈরি হওয়ার কারণে হওয়া rebuild আটকায়। আরেকটা ভুল — শুধু `final` যথেষ্ট ভাবা। `final` পুনরায় assign করা আটকায়, কিন্তু `const` পুরো object-টাকে compile-time constant বানায়।
+**সাধারণ ভুল:** ভাবা যে `const` *সব* rebuild আটকায়। এটা শুধু parent আবার তৈরি হওয়ার কারণে হওয়া rebuild আটকায়। আরেকটা ভুল — শুধু `final` যথেষ্ট ভাবা। `final` আবার assign করা আটকায়, কিন্তু `const` পুরো object-টাকে compile-time constant বানায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"একটা মান যদি network থেকে আসে তখন কী?"* → তখন সেটা `const` হতে পারবে না। যে অংশ বদলায় সেটা আলাদা রাখুন, বাকিটা `const` করুন।
@@ -745,7 +745,7 @@ class _ParentState extends State<Parent> {
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q11)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"RepaintBoundary তার subtree-কে নিজস্ব paint layer-এ বসায়। এটা ছাড়া কিছু repaint দরকার হলে Flutter সবচেয়ে কাছের boundary পর্যন্ত সবকিছু repaint করে, যেটা বড় একটা region হতে পারে। এটা থাকলে ঘন ঘন বদলানো অংশ একা repaint হয়, আর তার পাশের ব্যয়বহুল অংশগুলোকে repaint হতে বাধ্য করে না।"
+"RepaintBoundary তার subtree-কে নিজের paint layer-এ বসায়। এটা ছাড়া কিছু repaint দরকার হলে Flutter সবচেয়ে কাছের boundary পর্যন্ত সবকিছু repaint করে, যেটা বড় একটা region হতে পারে। এটা থাকলে ঘন ঘন বদলানো অংশ একা repaint হয়, আর তার পাশের ভারী অংশগুলোকে repaint হতে বাধ্য করে না।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -799,7 +799,7 @@ Column(children: [
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q12)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Flutter-এর frame budget 60fps-এ প্রায় 16ms, আর 120fps-এ 8ms। এটা একাধিক thread ব্যবহার করে: UI thread আমার Dart code চালায় — build, layout, আর layer tree বানানো — আর raster thread ওই layer-গুলোকে GPU-তে pixel বানায়। এগুলো সমান্তরালে চলে বলে raster thread frame N আঁকতে পারে যখন UI thread frame N+1 বানাচ্ছে।"
+"Flutter-এর frame budget 60fps-এ প্রায় 16ms, আর 120fps-এ 8ms। এটা একের বেশি thread ব্যবহার করে: UI thread আমার Dart code চালায় — build, layout, আর layer tree বানানো — আর raster thread ওই layer-গুলোকে GPU-তে pixel বানায়। এগুলো পাশাপাশি চলে বলে raster thread frame N আঁকতে পারে যখন UI thread frame N+1 বানাচ্ছে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -819,7 +819,7 @@ Column(children: [
 **ধাপ ৫ — যে diagnosis সমাধান বদলে দেয়।**
 এটাই senior-level পয়েন্ট। DevTools খুলুন আর দুটো bar দেখুন:
 - **UI bar লাল (>16ms)** → সমস্যা আপনার *Dart*-এ: ভারী `build()`, বড় synchronous কাজ। সমাধান — `const`, কম widget, বা CPU-র কাজ একটা isolate-এ সরানো।
-- **Raster bar লাল** → সমস্যা *GPU*-তে: অনেক বেশি overdraw, ব্যয়বহুল shadow/clip। সমাধান — `RepaintBoundary`, সহজ effect।
+- **Raster bar লাল** → সমস্যা *GPU*-তে: অনেক বেশি overdraw, ভারী shadow/clip। সমাধান — `RepaintBoundary`, সহজ effect।
 
 ```dart
 // Jank: UI thread-এ ভারী কাজ frame আটকে দেয়
@@ -839,7 +839,7 @@ void onTap() async {
 
 **Interviewer কেন জিজ্ঞেস করে:** এটাই সেরা performance প্রশ্ন। এটা যাচাই করে আপনি jank *কোথায়* সেটা বলতে পারেন কি না — UI thread (আপনার code) নাকি raster thread (GPU) — কারণ সমাধান পুরোপুরি আলাদা।
 
-**সাধারণ ভুল:** বলা যে "Flutter single-threaded"। এতে অন্তত চারটা thread আছে। আরেকটা ভুল — সব jank-এর দোষ GPU-কে দেওয়া; UI bar লাল হলে সমস্যা আপনার Dart code-এ। আর মনে রাখুন, `async`/`await` কোনো নতুন thread **বানায় না**; শুধু isolate সত্যিকারের সমান্তরাল CPU কাজ দেয়।
+**সাধারণ ভুল:** বলা যে "Flutter single-threaded"। এতে অন্তত চারটা thread আছে। আরেকটা ভুল — সব jank-এর দোষ GPU-কে দেওয়া; UI bar লাল হলে সমস্যা আপনার Dart code-এ। আর মনে রাখুন, `async`/`await` কোনো নতুন thread **বানায় না**; শুধু isolate সত্যিকারের পাশাপাশি CPU কাজ দেয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Shader jank কেন raster thread আটকে দেয়?"* → পুরোনো Skia runtime-এ shader compile করত, ফলে প্রথমবার ব্যবহারে raster thread আটকে যেত (দেখুন [Q18](#q18))।
@@ -1188,7 +1188,7 @@ ElevatedButton(
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Skia আর shader-jank সমস্যা।**
-Skia একটা general-purpose 2D graphics library। এটা shader compile করত **runtime-এ, দেরিতে** — কোনো একটা effect প্রথমবার এলে raster thread থেমে যেত (প্রায়ই 50–200ms) shader compile করতে। আপনি `--cache-sksl` দিয়ে shader আগে থেকে গরম করতে পারতেন, কিন্তু সেটা ভঙ্গুর আর হাতে করার কাজ ছিল।
+Skia একটা general-purpose 2D graphics library। এটা shader compile করত **runtime-এ, দেরিতে** — কোনো একটা effect প্রথমবার এলে raster thread থেমে যেত (প্রায়ই 50–200ms) shader compile করতে। আপনি `--cache-sksl` দিয়ে shader আগে থেকে গরম করতে পারতেন, কিন্তু সেটা ঠুনকো আর হাতে করার কাজ ছিল।
 
 **ধাপ ২ — Impeller-এর মূল ধারণা: shader আগেভাগে compile করা।**
 Impeller বানানো হয়েছে শুধু Flutter-এর জন্য। এর সব shader **engine build time-এ precompile করা** থাকে। তাই runtime-এ shader compilation একদম শূন্য। GPU pipeline state আগে থেকেই জানা।
@@ -1196,7 +1196,7 @@ Impeller বানানো হয়েছে শুধু Flutter-এর জ�
 ```dart
 // Skia দিয়ে:
 // একটা জটিল animation প্রথমবার আসে
-//   → Skia তখনই shader compile করে → raster thread থেমে যায় → দৃশ্যমান আটকে যাওয়া
+//   → Skia তখনই shader compile করে → raster thread থেমে যায় → চোখে পড়ার মতো আটকে যাওয়া
 //   → পরের frame গুলো মসৃণ (shader cache হয়ে গেছে)
 
 // Impeller দিয়ে:
@@ -1219,7 +1219,7 @@ flutter run --no-enable-impeller  # জোর করে Skia
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় আপনি Flutter-এর পরিবর্তনের খবর রাখেন আর widget-এর নিচের rendering stack বোঝেন। কম দামের Android-এ ship করা team-রা বিশেষভাবে এটা নিয়ে ভাবেন, কারণ shader jank ছিল তাঁদের user-দের সবচেয়ে বড় অভিযোগ।
 
-**সাধারণ ভুল:** বলা যে Impeller সব ক্ষেত্রেই "দ্রুত"। এর সুবিধা হলো *ধারাবাহিকতা* (কোনো jank spike নেই), কাঁচা throughput নয়। কিছু Skia-optimized path আজও Impeller-এ একটু ধীর হতে পারে।
+**সাধারণ ভুল:** বলা যে Impeller সব ক্ষেত্রেই "দ্রুত"। এর সুবিধা হলো *একটানা মসৃণ চলা* (কোনো jank spike নেই), কাঁচা throughput নয়। কিছু Skia-optimized path আজও Impeller-এ একটু ধীর হতে পারে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Shader jank ঠিক কী?"* → নতুন কোনো drawing operation-এর জন্য Skia-কে প্রথমবার shader compile করতে হলে raster thread-এ যে আটকে যাওয়া হয়, সেটাই।
@@ -1240,12 +1240,12 @@ flutter run --no-enable-impeller  # জোর করে Skia
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q19)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Hot Reload চলমান VM-এ নতুন code ঢুকিয়ে দেয় আর সব state রেখে দেয় — এটা শুধু `build` আবার চালায়, প্রায় এক সেকেন্ডে। Hot Restart Dart VM restart করে আর সব state মুছে দেয়, `main` আর `initState` আবার চালায়। Full Restart native code সহ সবকিছু আবার build করে আর app পুনরায় install করে — native code, plugin বা pubspec ছুঁলে এটা লাগে।"
+"Hot Reload চলতে থাকা VM-এ নতুন code ঢুকিয়ে দেয় আর সব state রেখে দেয় — এটা শুধু `build` আবার চালায়, প্রায় এক সেকেন্ডে। Hot Restart Dart VM restart করে আর সব state মুছে দেয়, `main` আর `initState` আবার চালায়। Full Restart native code সহ সবকিছু আবার build করে আর app আবার install করে — native code, plugin বা pubspec ছুঁলে এটা লাগে।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Hot Reload (state রেখে দেয়)।**
-এটা আপডেট করা Dart code চলমান VM-এ পাঠায়, restart **ছাড়াই**। সব `State` object, global, static আর navigation stack ঠিক থাকে। নতুন code দিয়ে `build()` আবার চলে, কিন্তু `main()` বা `initState()` আবার **চলে না**। প্রায় ১ সেকেন্ড।
+এটা আপডেট করা Dart code চলতে থাকা VM-এ পাঠায়, restart **ছাড়াই**। সব `State` object, global, static আর navigation stack ঠিক থাকে। নতুন code দিয়ে `build()` আবার চলে, কিন্তু `main()` বা `initState()` আবার **চলে না**। প্রায় ১ সেকেন্ড।
 
 **ধাপ ২ — Hot Restart (Dart state মুছে দেয়)।**
 এটা Dart VM restart করে। Global, static আর `State` object আবার নতুন করে তৈরি হয়; `main()` আর `initState()` আবার চলে। কয়েক সেকেন্ড লাগে। এটা native Kotlin/Swift code আবার compile করে **না**।
@@ -1288,7 +1288,7 @@ Hot Reload `main()`-এর বদল, global initializer, আগেই চলে
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Hot Reload কেন initState আবার চালায় না?"* → এটা আগের `State` object গুলো রেখে দেয়, তাই তাদের `initState` আগেই চলে গেছে; শুধু `build` আবার চলে।
-- *"Full Restart কখন বাধ্যতামূলক?"* → যেকোনো native বদলে: নতুন plugin, বদলানো manifest/Info.plist, নতুন platform channel।
+- *"Full Restart কখন করতেই হবে?"* → যেকোনো native বদলে: নতুন plugin, বদলানো manifest/Info.plist, নতুন platform channel।
 
 **সম্পর্কিত:** [Q6 — restart-এ initState চলে](#q6) · [Q23 — JIT hot reload সম্ভব করে](#q23)
 
@@ -1321,9 +1321,9 @@ pub.dev open-source package host করে, সাথে popularity, health আ�
 
 **ধাপ ৪ — Constraint-এর syntax।**
 - `^1.5.0` (caret) → `>=1.5.0 <2.0.0`। Minor/patch upgrade চলবে, পরের major নয়। এটাই recommended default।
-- `>=1.5.0 <3.0.0` → স্পষ্ট range, যখন আপনি জানেন আপনার code একাধিক major-এ কাজ করে।
+- `>=1.5.0 <3.0.0` → স্পষ্ট range, যখন আপনি জানেন আপনার code একের বেশি major-এ কাজ করে।
 - `==1.5.0` → exact pin। এটা update আটকায় আর conflict বাড়ায়; খুব কমই সঠিক।
-- `>=1.5.0` → উপরের দিকে কোনো সীমা নেই, ঝুঁকিপূর্ণ (ভবিষ্যতের কোনো major আপনার code ভেঙে দিতে পারে)।
+- `>=1.5.0` → উপরের দিকে কোনো সীমা নেই, ঝুঁকির (পরের কোনো major আপনার code ভেঙে দিতে পারে)।
 - `any` → যেকোনো কিছু নেয়; শুধু ফেলে দেওয়ার মতো prototype-এর জন্য।
 
 ```yaml
@@ -1350,7 +1350,7 @@ dev_dependencies:
 ```
 
 **ধাপ ৫ — Conflict সমাধান।**
-দুটো package যদি তৃতীয় একটা package-এর অসামঞ্জস্যপূর্ণ version চায়, তাহলে solver "incompatible version constraints" বলে fail করে। Constraint ঢিলা করে বা upgrade করে ঠিক করুন। শেষ উপায় হিসেবে `dependency_overrides` পুরো project-এ একটা version জোর করে বসায়। এটা শুধু সাময়িকভাবে ব্যবহার করুন, কারণ API না মিললে runtime-এ crash হতে পারে।
+দুটো package যদি তৃতীয় একটা package-এর মেলে না এমন version চায়, তাহলে solver "incompatible version constraints" বলে fail করে। Constraint ঢিলা করে বা upgrade করে ঠিক করুন। শেষ উপায় হিসেবে `dependency_overrides` পুরো project-এ একটা version জোর করে বসায়। এটা শুধু সাময়িকভাবে ব্যবহার করুন, কারণ API না মিললে runtime-এ crash হতে পারে।
 
 ```bash
 flutter pub deps        # dependency-র tree
@@ -1360,7 +1360,7 @@ flutter pub upgrade     # constraint-এর ভেতরে upgrade
 
 **Interviewer কেন জিজ্ঞেস করে:** প্রতিটা project শুরু হয় pubspec.yaml দিয়ে। তাঁরা মাপেন আপনি সত্যিকারের project সামলাতে পারেন কি না — conflict সমাধান, path dependency দিয়ে monorepo সাজানো, আর dev dependency আলাদা রেখে build ছোট রাখা।
 
-**সাধারণ ভুল:** সব জায়গায় `==` ব্যবহার করা, যাতে resolution প্রায় অসম্ভব হয়ে যায়। `build_runner`/`mockito`/`flutter_test`-কে `dependencies`-এ রাখা। আরেকটা: **app**-এর জন্য `pubspec.lock` commit করুন (reproducible build), কিন্তু **package**-এর জন্য নয় (consumer-দের নমনীয় resolution দরকার)।
+**সাধারণ ভুল:** সব জায়গায় `==` ব্যবহার করা, যাতে resolution প্রায় অসম্ভব হয়ে যায়। `build_runner`/`mockito`/`flutter_test`-কে `dependencies`-এ রাখা। আরেকটা: **app**-এর জন্য `pubspec.lock` commit করুন (reproducible build), কিন্তু **package**-এর জন্য নয় (consumer-দের flexible resolution দরকার)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Caret `^` মানে কী?"* → "পরের major পর্যন্ত" — `^1.5.0` মানে `>=1.5.0 <2.0.0`।
@@ -1377,7 +1377,7 @@ flutter pub upgrade     # constraint-এর ভেতরে upgrade
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q21)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Stable হলো production-ready track, প্রায় প্রতি তিন মাসে release হয় আর ভালোভাবে test করা হয় — Google-এর নিজের app দিয়েও। Production-এর জন্য এটাই একমাত্র channel। Beta হলো মাসিক preview, যেখানে feature প্রায় চূড়ান্ত। Master হলো একদম সামনের প্রান্ত, দিনে অনেকবার update হয়, আর যেকোনো সময় ভেঙে যেতে পারে — শুধু Flutter contributor বা পরীক্ষার জন্য।"
+"Stable হলো production-ready track, প্রায় প্রতি তিন মাসে release হয় আর ভালোভাবে test করা হয় — Google-এর নিজের app দিয়েও। Production-এর জন্য এটাই একমাত্র channel। Beta হলো মাসিক preview, যেখানে feature প্রায় final। Master হলো একদম সামনের সারি, দিনে অনেকবার update হয়, আর যেকোনো সময় ভেঙে যেতে পারে — শুধু Flutter contributor বা পরীক্ষার জন্য।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1407,7 +1407,7 @@ flutter version 3.22.2       # CI-তে নির্দিষ্ট version pin
 ```
 
 **ধাপ ৫ — Channel বনাম version।**
-Channel হলো একটা *release track*; version হলো একটা *নির্দিষ্ট build*। আপনি stable channel-এ থেকেও 3.22.2 version-এ থাকতে পারেন। Channel বলে আপনি কোন track অনুসরণ করছেন, ঠিক কোন version নয়।
+Channel হলো একটা *release track*; version হলো একটা *নির্দিষ্ট build*। আপনি stable channel-এ থেকেও 3.22.2 version-এ থাকতে পারেন। Channel বলে আপনি কোন track ধরে আছেন, ঠিক কোন version নয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা পেশাগত পরিপক্বতা মাপে। Junior-রা master-এ চকচকে feature-এর পেছনে ছোটেন। Senior-রা release management, reproducible build, আর feature ship করার বদলে framework-এর bug debug করার খরচ বোঝেন।
 
@@ -1440,7 +1440,7 @@ Channel হলো একটা *release track*; version হলো একটা *
 Embedder হলো *মঞ্চ*, যেটা platform দেয়। Engine হলো *পেছনের কলাকুশলী* (আলো, শব্দ, ভারী যন্ত্রপাতি)। Framework হলো *script আর অভিনেতা*, যেটা আপনি লেখেন। আপনি script নিয়ে কাজ করেন; কলাকুশলীরা সেটাকে মঞ্চে সত্যিকারের show বানিয়ে দেন।
 
 **ধাপ ২ — Embedder layer (platform-native, পাতলা)।**
-প্রতিটা platform-এ আলাদা (Android-এ Kotlin/Java, iOS-এ Swift/Obj-C, Windows-এ C++, web-এ JS)। এটা native app-এর ভেতরে engine host করে: window/surface বানায়, touch/keyboard/lifecycle event পাঠায়, display-এর vsync দেয়, render surface দেয়, platform channel route করে, আর accessibility (TalkBack/VoiceOver) সংযুক্ত করে।
+প্রতিটা platform-এ আলাদা (Android-এ Kotlin/Java, iOS-এ Swift/Obj-C, Windows-এ C++, web-এ JS)। এটা native app-এর ভেতরে engine host করে: window/surface বানায়, touch/keyboard/lifecycle event পাঠায়, display-এর vsync দেয়, render surface দেয়, platform channel route করে, আর accessibility (TalkBack/VoiceOver) যুক্ত করে।
 
 **ধাপ ৩ — Engine layer (C/C++, precompiled হয়ে ship হয়)।**
 মূল runtime, প্রতিটা app-এর সাথে precompiled binary হিসেবে যায়। এর ভেতরে আছে:
@@ -1463,7 +1463,7 @@ Embedder হলো *মঞ্চ*, যেটা platform দেয়। Engine 
 - Framework ↔ Native code: platform channel binary message engine হয়ে embedder-এ নিয়ে যায়, আর embedder সেটা plugin code-এ route করে।
 
 ```dart
-// একটা tap-এর পথ অনুসরণ করুন, hardware → আপনার Dart:
+// একটা tap-এর পথ ধরে এগোন, hardware → আপনার Dart:
 // 1. EMBEDDER: Android একটা MotionEvent পায় → engine-এ pointer data পাঠায়
 // 2. ENGINE: একটা PointerDataPacket বানায় → window.onPointerDataPacket call করে
 // 3. FRAMEWORK: GestureBinding hit-test করে → আপনার onTap চলে:
@@ -1505,7 +1505,7 @@ final level = await platform.invokeMethod('getBatteryLevel');
 Flutter app চালু হলে embedder engine চালু করে, আর engine Dart runtime চালু করে। Dart হলো *engine process-এর ভেতরের একটা component* — V8-এর উপর চলা Node-এর মতো আলাদা program নয়।
 
 **ধাপ ২ — Debug mode (JIT — Just-In-Time)।**
-পুরো Dart VM তার JIT compiler-সহ থাকে। Source **Kernel bytecode**-এ (`.dill`) compile হয়; runtime-এ VM সেটা চালায় আর গরম path গুলো JIT-compile করে। এটাই **hot reload** সম্ভব করে: VM চলমান isolate-এ নতুন Kernel ঢুকিয়ে দিতে পারে আর `build()` আবার চালাতে পারে। JIT-এর বাড়তি খরচ আর চালু থাকা assertion-এর কারণে এটা release-এর চেয়ে ধীর।
+পুরো Dart VM তার JIT compiler-সহ থাকে। Source **Kernel bytecode**-এ (`.dill`) compile হয়; runtime-এ VM সেটা চালায় আর গরম path গুলো JIT-compile করে। এটাই **hot reload** সম্ভব করে: VM চলতে থাকা isolate-এ নতুন Kernel ঢুকিয়ে দিতে পারে আর `build()` আবার চালাতে পারে। JIT-এর বাড়তি খরচ আর চালু থাকা assertion-এর কারণে এটা release-এর চেয়ে ধীর।
 
 ```text
 debug:   .dart → Kernel .dill → VM interprets + JIT-compiles at runtime
@@ -1564,8 +1564,8 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 | Tree | এটা কী | আয়ু | খরচ |
 |---|---|---|---|
 | Widget | আপনার লেখা blueprint | প্রতি rebuild-এ ফেলে দেওয়া হয় | সস্তা |
-| Element | জীবন্ত সেতু + `State` ধরে রাখে | দীর্ঘজীবী | মাঝারি |
-| RenderObject | layout ও paint করে | আবার ব্যবহার হয়, খুব কমই নতুন হয় | ব্যয়বহুল |
+| Element | জীবন্ত সেতু + `State` ধরে রাখে | অনেকক্ষণ টিকে থাকে | মাঝারি |
+| RenderObject | layout ও paint করে | আবার ব্যবহার হয়, খুব কমই নতুন হয় | খরচ বেশি |
 
 **Stateless vs Stateful**
 
@@ -1619,8 +1619,8 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 ## এক লাইনের reminder
 
-- **তিনটা tree**: Widget = সস্তা blueprint, Element = জীবন্ত সেতু + state, RenderObject = ব্যয়বহুল layout/paint। ([Q1](#q1))
-- **Widget immutable** আর সস্তা; ব্যয়বহুল render object-গুলো element-এর মাধ্যমে আবার ব্যবহার হয়। ([Q2](#q2))
+- **তিনটা tree**: Widget = সস্তা blueprint, Element = জীবন্ত সেতু + state, RenderObject = ভারী layout/paint। ([Q1](#q1))
+- **Widget immutable** আর সস্তা; ভারী render object-গুলো element দিয়ে আবার ব্যবহার হয়। ([Q2](#q2))
 - **Key** widget মেলায় পরিচয় দিয়ে, position দিয়ে নয় — list-এ `ValueKey(id)` ব্যবহার করুন, `GlobalKey` খুব কম। ([Q3](#q3))
 - **Reconciliation**: একই type + একই key → আবার ব্যবহার; নাহলে ফেলে দিয়ে নতুন করে বানানো। ([Q4](#q4))
 - **State থাকে Element-এ**, এই কারণেই rebuild-এর পরেও টিকে যায়। ([Q5](#q5))
@@ -1634,7 +1634,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 - **Layout**: constraints নিচে যায়, size উপরে আসে, parent position ঠিক করে — এক pass, O(n)। ([Q13](#q13))
 - **Unbounded** (infinity) constraints scrollable-এর ভেতরে fill/flex widget ভেঙে দেয় — একটা bounded size দিন। ([Q14](#q14))
 - **RenderFlex overflow** → `Expanded`/`Flexible`, ellipsis text, বা একটা scroll view। ([Q15](#q15))
-- **MediaQuery** = পুরো screen; **LayoutBuilder** = আপনার আসল জায়গা। পুনরায় ব্যবহারযোগ্য widget-এ LayoutBuilder-ই ভালো। ([Q16](#q16))
+- **MediaQuery** = পুরো screen; **LayoutBuilder** = আপনার আসল জায়গা। আবার ব্যবহার করা যায় এমন widget-এ LayoutBuilder-ই ভালো। ([Q16](#q16))
 - **Pipeline**: build → layout → paint (layers) → composite → rasterize (raster thread) → display। ([Q17](#q17))
 - **Impeller** shader আগেই compile করে রাখে (jank নেই); **Skia** সেগুলো runtime-এ compile করত (প্রথম frame-এ jank)। ([Q18](#q18))
 - **Hot Reload** state রাখে; **Hot Restart** Dart state মুছে দেয়; **Full Restart** native আবার build করে। ([Q19](#q19))
@@ -1652,7 +1652,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 Interviewer সাধারণত এক প্রশ্নে থামেন না। আপনার গভীরতা মাপতে তাঁরা খুঁড়তেই থাকেন। এই chain-টা মুখে বলে অনুশীলন করুন — শান্তভাবে, ধাপে ধাপে:
 
 1. *"তিনটা tree কী কী?"* → Widget (blueprint), Element (জীবন্ত সেতু + state), RenderObject (layout/paint)।
-2. *"তাহলে Flutter কীভাবে সেকেন্ডে ৬০ বার widget rebuild করতে পারে?"* → Widget সস্তা; element ব্যয়বহুল render object-গুলো আবার ব্যবহার করে।
+2. *"তাহলে Flutter কীভাবে সেকেন্ডে ৬০ বার widget rebuild করতে পারে?"* → Widget সস্তা; element ভারী render object-গুলো আবার ব্যবহার করে।
 3. *"Element কীভাবে ঠিক করে যে আবার ব্যবহার করবে?"* → একই type আর key → আবার ব্যবহার করে property update করে; নাহলে ফেলে দিয়ে নতুন করে বানায়।
 4. *"তাহলে list-এ key কেন দরকার?"* → Key ছাড়া মেলানো হয় position দিয়ে, তাই order বদলালে state ভুল item-এ লেগে যায়।
 5. *"ঘন ঘন বদলায় এমন item-কে কীভাবে সস্তা করবেন?"* → স্থির অংশে `const`, repaint আলাদা রাখতে `RepaintBoundary`, আর `build()` হালকা রাখা।

@@ -2,9 +2,9 @@
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
 > **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা** করা, আর **link** করা — যাতে আপনি এদিক-ওদিক ঘুরে পড়তে পারেন এবং ধাপে ধাপে প্রস্তুতি নিতে পারেন।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-09-advanced-flutter-bn.md](../software-engineer-flutter/section-09-advanced-flutter.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-09-advanced-flutter.md](../software-engineer-flutter/section-09-advanced-flutter.md)
 
 ---
 
@@ -12,14 +12,14 @@
 
 প্রতিটা প্রশ্নের গঠন একই:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার জন্য ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব জীবনের উদাহরণ আর code সহ বিস্তারিত, ধাপে ধাপে ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
 - **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর সেটা কতটা কঠিন (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় **আগে সংক্ষিপ্ত উত্তর** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কারভাবে বলতে পারাটাই একটা senior skill — আর remote ও BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -67,12 +67,12 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-একসাথে ২০টা প্রশ্নই পড়ার দরকার নেই। এই পর্যায়গুলো ক্রমে অনুসরণ করুন — প্রতিটা পর্যায় আগেরটার উপর দাঁড়ানো। কোনো পর্যায় শেষ ধরবেন তখনই, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+একসাথে ২০টা প্রশ্নই পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা পর্যায় আগেরটার উপর দাঁড়ানো। কোনো পর্যায় শেষ ধরবেন তখনই, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — মূল animation অংশগুলো (এখান থেকে শুরু করুন)।** প্রায় প্রতিটা Flutter interview-এ এগুলো আসে।
 → [Q1 AnimationController](#q1) · [Q2 Tween](#q2) · [Q5 Implicit বনাম explicit](#q5) · [Q4 AnimatedBuilder বনাম AnimatedWidget](#q4)
 
-**পর্যায় ২ — পরিপাটি, বাস্তব app-এর animation।** কোন জিনিস motion-কে ভালো অনুভব করায় আর পুনরায় ব্যবহারযোগ্য করে।
+**পর্যায় ২ — পরিপাটি, বাস্তব app-এর animation।** কোন জিনিস motion-কে ভালো অনুভব করায় আর আবার ব্যবহার করা যায় এমন করে।
 → [Q3 Curves](#q3) · [Q7 Hero](#q7) · [Q6 Staggered](#q6) · [Q8 Rive বনাম Lottie](#q8)
 
 **পর্যায় ৩ — Touch আর scrolling।** আঙুল আর বড় list-এ app কীভাবে সাড়া দেয়।
@@ -116,7 +116,7 @@ _controller.forward();   // শুরু: value 800ms-এ 0.0 -> 1.0 হয়
 ```
 
 **ধাপ ২ — এটা যে যে value তৈরি করতে পারে।**
-Default-এ value চলে `0.0 → 1.0`, কিন্তু দিক আর looping আপনি নিয়ন্ত্রণ করেন:
+Default-এ value চলে `0.0 → 1.0`, কিন্তু দিক আর looping আপনি control করেন:
 
 ```dart
 _controller.forward();   // 0.0 -> 1.0
@@ -157,9 +157,9 @@ class _MyWidgetState extends State<MyWidget>
 }
 ```
 
-একটা controller-এর জন্য `SingleTickerProviderStateMixin` ব্যবহার করুন। সত্যিই একাধিক controller থাকলে তবেই `TickerProviderStateMixin` ব্যবহার করুন।
+একটা controller-এর জন্য `SingleTickerProviderStateMixin` ব্যবহার করুন। সত্যিই একের বেশি controller থাকলে তবেই `TickerProviderStateMixin` ব্যবহার করুন।
 
-**ধাপ ৪ — `dispose()` কেন ঐচ্ছিক নয়।**
+**ধাপ ৪ — `dispose()` কেন optional নয়।**
 Controller একটা ticker ধরে রাখে। Dispose করতে ভুলে গেলে widget সরে যাওয়ার পরেও ticker চিরকাল চলতে থাকে। এটা একটা memory leak। আর Flutter একটা পরিষ্কার error দেবে: *"A TickerProvider was disposed but a Ticker was not."* তাই নিয়মটা সহজ: `initState`-এ যে controller তৈরি করবেন, `dispose`-এ সেটা dispose করবেন।
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি frame-by-frame pipeline বোঝেন কি না। `vsync` কেন আছে সেটাও (performance-এর জন্য, "মসৃণতার" জন্য নয়)। আর dispose-এর চুক্তিটা আপনি জানেন কি না। Dispose ভুলে যাওয়া বাস্তব production bug।
@@ -253,7 +253,7 @@ Widget build(BuildContext context) {
 
 ---
 
-## <a id="q3"></a>3. `CurvedAnimation` কী? `Curves` কী, আর easing কীভাবে প্রয়োগ করবেন?
+## <a id="q3"></a>3. `CurvedAnimation` কী? `Curves` কী, আর easing কীভাবে কাজে লাগাবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q3)
 
@@ -307,18 +307,18 @@ void initState() {
 
 | Curve | অনুভূতি | কীসের জন্য |
 |---|---|---|
-| `Curves.easeInOut` | দুই প্রান্তেই মসৃণ | সাধারণ UI transition |
+| `Curves.easeInOut` | দুই মাথাতেই মসৃণ | সাধারণ UI transition |
 | `Curves.easeOut` | দ্রুত শুরু, নরম থামা | কিছু আসছে এমন |
 | `Curves.easeIn` | নরম শুরু, দ্রুত শেষ | কিছু মিলিয়ে যাচ্ছে এমন |
 | `Curves.bounceOut` | শেষে লাফায় | মজাদার, game-এর মতো UI |
 | `Curves.elasticOut` | ছাড়িয়ে গিয়ে থিতু হয় | নজর কাড়ার জন্য |
 | `Curves.decelerate` | স্বাভাবিকভাবে ধীর হওয়া | flick করার পরে থেমে যাওয়া |
 
-`In`/`Out` নামটা বলে দেয় কোন প্রান্তে effect পড়বে: `bounceIn` শুরুতে লাফায়, `bounceOut` শেষে লাফায়।
+`In`/`Out` নামটা বলে দেয় কোন মাথায় effect পড়বে: `bounceIn` শুরুতে লাফায়, `bounceOut` শেষে লাফায়।
 
 **Interviewer কেন জিজ্ঞেস করে:** Curve জানা থাকলে animation শুধু "কাজ করে" না, "ভালো লাগে"ও। এটা পরিপাটি কাজের লক্ষণ, আর senior-দের কাছ থেকে এটাই আশা করা হয়।
 
-**সাধারণ ভুল:** `bounceOut` বোঝাতে চেয়ে `bounceIn` ব্যবহার করা (ভুল প্রান্তে effect পড়ে)। আরেকটা ভুল: `CurvedAnimation` dispose করা নিয়ে চিন্তা করা — parent controller dispose হলে এটা নিজেই পরিষ্কার হয়ে যায়।
+**সাধারণ ভুল:** `bounceOut` বোঝাতে চেয়ে `bounceIn` ব্যবহার করা (ভুল মাথায় effect পড়ে)। আরেকটা ভুল: `CurvedAnimation` dispose করা নিয়ে চিন্তা করা — parent controller dispose হলে এটা নিজেই পরিষ্কার হয়ে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"নিজের custom curve লিখতে পারবেন?"* → হ্যাঁ — `Curve` extend করুন আর `transformInternal(double t)` override করুন।
@@ -335,15 +335,15 @@ void initState() {
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q4)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"দুটোই animation দিয়ে UI rebuild করায়, আমাকে হাতে `setState` call করতে হয় না। `AnimatedWidget` হলো একটা subclass যেটা আমি বানাই — পুনঃব্যবহারযোগ্য, স্বয়ংসম্পূর্ণ animated widget-এর জন্য ভালো। `AnimatedBuilder` হলো inline builder — চালু থাকা কোনো widget-এ motion যোগ করার জন্য ভালো। `AnimatedBuilder`-এর বড় কৌশল হলো `child` argument, যেটা একবার build হয় আর প্রতি frame-এ rebuild হয় না।"
+"দুটোই animation দিয়ে UI rebuild করায়, আমাকে হাতে `setState` call করতে হয় না। `AnimatedWidget` হলো একটা subclass যেটা আমি বানাই — আবার ব্যবহার করা যায় এমন, নিজে নিজেই চলে এমন animated widget-এর জন্য ভালো। `AnimatedBuilder` হলো inline builder — চালু থাকা কোনো widget-এ motion যোগ করার জন্য ভালো। `AnimatedBuilder`-এর বড় কৌশল হলো `child` argument, যেটা একবার build হয় আর প্রতি frame-এ rebuild হয় না।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — দুটোই কোন সমস্যা সমাধান করে।**
 একটা animation সেকেন্ডে প্রায় 60 বার তার মান বদলায়। আপনি নিশ্চয়ই সেকেন্ডে 60 বার হাতে `setState` call করতে চান না। `AnimatedWidget` আর `AnimatedBuilder` দুটোই animation শোনে। যে ছোট অংশটা নড়ে, শুধু সেটাই rebuild করে।
 
-**ধাপ ২ — `AnimatedWidget`: পুনঃব্যবহারযোগ্য animated widget বানান (subclass)।**
-আপনি `AnimatedWidget` extend করেন আর animation-টা `listenable` হিসেবে পাঠান। Animation tick করলেই widget নিজেকে rebuild করে। পরিষ্কার, পুনঃব্যবহারযোগ্য component চাইলে এটাই সেরা।
+**ধাপ ২ — `AnimatedWidget`: আবার ব্যবহার করা যায় এমন animated widget বানান (subclass)।**
+আপনি `AnimatedWidget` extend করেন আর animation-টা `listenable` হিসেবে পাঠান। Animation tick করলেই widget নিজেকে rebuild করে। পরিষ্কার, আবার ব্যবহার করা যায় এমন component চাইলে এটাই সেরা।
 
 ```dart
 class PulsatingCircle extends AnimatedWidget {
@@ -385,19 +385,19 @@ AnimatedBuilder(
 ```
 
 **ধাপ ৪ — `child` কৌশল (যে performance পয়েন্টটা তাঁরা শুনতে চান)।**
-`AnimatedBuilder`-এ আপনি যে `child` পাঠান, সেটা একবার build হয়। তারপর প্রতি frame-এ আপনার `builder`-কে সেটাই ফেরত দেওয়া হয়। তাই প্রতি frame-এ শুধু মোড়কটা (এখানে `Transform.rotate`) নতুন করে তৈরি হয় — ব্যয়বহুল child নয়। Interviewer এই optimization-টাই শুনতে চান।
+`AnimatedBuilder`-এ আপনি যে `child` পাঠান, সেটা একবার build হয়। তারপর প্রতি frame-এ আপনার `builder`-কে সেটাই ফেরত দেওয়া হয়। তাই প্রতি frame-এ শুধু মোড়কটা (এখানে `Transform.rotate`) নতুন করে তৈরি হয় — ভারী child নয়। Interviewer এই optimization-টাই শুনতে চান।
 
 **ধাপ ৫ — কোনটা বেছে নেবেন।**
 
 | | `AnimatedWidget` | `AnimatedBuilder` |
 |---|---|---|
 | গঠন | আপনার লেখা একটা subclass | একটা inline builder |
-| কীসের জন্য সেরা | পুনঃব্যবহারযোগ্য animated component | একবারের কাজ, চালু tree-তে motion যোগ করা |
+| কীসের জন্য সেরা | আবার ব্যবহার করা যায় এমন animated component | একবারের কাজ, চালু tree-তে motion যোগ করা |
 | Child-এর rebuild এড়ানো? | ভেতরে static child মুড়ে দিন | `child` হিসেবে পাঠান |
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান animation-এর সময় ব্যয়বহুল widget rebuild করা আপনি এড়াতে জানেন কি না। আরও দেখতে চান আপনি composition (`AnimatedBuilder`) আর inheritance (`AnimatedWidget`)-এর পার্থক্য বোঝেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান animation-এর সময় ভারী widget rebuild করা আপনি এড়াতে জানেন কি না। আরও দেখতে চান আপনি composition (`AnimatedBuilder`) আর inheritance (`AnimatedWidget`)-এর পার্থক্য বোঝেন কি না।
 
-**সাধারণ ভুল:** ব্যয়বহুল widget tree `AnimatedBuilder`-এর `builder`-এর ভেতরে বানানো, `child` হিসেবে না পাঠিয়ে। তখন সেটা সেকেন্ডে 60 বার rebuild হয়। Static অংশটা `child` হিসেবে পাঠান আর সেটাকেই ব্যবহার করুন।
+**সাধারণ ভুল:** ভারী widget tree `AnimatedBuilder`-এর `builder`-এর ভেতরে বানানো, `child` হিসেবে না পাঠিয়ে। তখন সেটা সেকেন্ডে 60 বার rebuild হয়। Static অংশটা `child` হিসেবে পাঠান আর সেটাকেই ব্যবহার করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`child` কেন দ্রুত?"* → এটা একবার তৈরি হয় আর বারবার ব্যবহার হয়; প্রতি frame-এ শুধু মোড়ক widget-টা rebuild হয়।
@@ -414,7 +414,7 @@ AnimatedBuilder(
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q5)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Implicit animation হলো সহজ mode: আমি শুধু একটা মান বদলাই, আর `AnimatedContainer`-এর মতো widget সেই পরিবর্তনটা animate করে দেয় — কোনো controller লাগে না। Explicit animation পুরো নিয়ন্ত্রণ দেয় — start, stop, loop, reverse, sequence — কিন্তু `AnimationController` আমাকে নিজেই সামলাতে হয়। আমি সাধারণভাবে implicit বেছে নিই। Looping, sequencing বা code থেকে নিয়ন্ত্রণ লাগলে তবেই explicit-এ যাই।"
+"Implicit animation হলো সহজ mode: আমি শুধু একটা মান বদলাই, আর `AnimatedContainer`-এর মতো widget সেই পরিবর্তনটা animate করে দেয় — কোনো controller লাগে না। Explicit animation পুরো control দেয় — start, stop, loop, reverse, sequence — কিন্তু `AnimationController` আমাকে নিজেই সামলাতে হয়। আমি সাধারণভাবে implicit বেছে নিই। Looping, sequencing বা code থেকে control লাগলে তবেই explicit-এ যাই।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -469,7 +469,7 @@ class _SpinnerState extends State<Spinner>
 ```
 
 **ধাপ ৩ — সিদ্ধান্ত নেওয়ার সহজ নিয়ম।**
-একটাই প্রশ্ন করুন: *motion-টার কি loop, sequence, বা code দিয়ে নিয়ন্ত্রণ দরকার?*
+একটাই প্রশ্ন করুন: *motion-টার কি loop, sequence, বা code দিয়ে control দরকার?*
 
 - **না** → implicit (কম code, কম bug): toggle, layout পরিবর্তন, hover effect, একবারের fade-in।
 - **হ্যাঁ** → explicit: spinner, বারবার চলা pulse, staggered intro, swipe-to-dismiss progress, আর যা কিছু code থেকে শুরু ও বন্ধ করেন।
@@ -491,7 +491,7 @@ class _SpinnerState extends State<Spinner>
 
 ---
 
-## <a id="q6"></a>6. Staggered animation (কয়েকটা অংশ ভিন্ন ভিন্ন সময়ে নড়ে) কীভাবে বানাবেন?
+## <a id="q6"></a>6. Staggered animation (কয়েকটা অংশ আলাদা আলাদা সময়ে নড়ে) কীভাবে বানাবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q6)
 
@@ -508,7 +508,7 @@ class _SpinnerState extends State<Spinner>
 
 ```dart
 _controller = AnimationController(
-  duration: const Duration(milliseconds: 1200), // মোট দৈর্ঘ্য
+  duration: const Duration(milliseconds: 1200), // মোট সময়
   vsync: this,
 );
 ```
@@ -590,20 +590,20 @@ Widget build(BuildContext context) {
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Hero-কে ভাবুন এক screen থেকে আরেক screen-এ উড়ে যাওয়া একটাই জিনিস হিসেবে।**
-Screen A-তে একটা ছোট avatar আছে। আপনি tap করলেন, screen B-তে গেলেন। ওই একই avatar বড় হয়ে নতুন জায়গায় সরে গেল। মনে হয় একটাই জিনিস সরল, দুটো আলাদা image নয়। এই ধারাবাহিকতাটাই Hero effect।
+Screen A-তে একটা ছোট avatar আছে। আপনি tap করলেন, screen B-তে গেলেন। ওই একই avatar বড় হয়ে নতুন জায়গায় সরে গেল। মনে হয় একটাই জিনিস সরল, দুটো আলাদা image নয়। এই টানা মিলটাই Hero effect।
 
 **ধাপ ২ — ভেতরে এটা কীভাবে কাজ করে।**
 Route transition-এর সময় Flutter:
-1. উৎস route-এর `Hero` খুঁজে বের করে আর তার size ও position মাপে।
+1. source route-এর `Hero` খুঁজে বের করে আর তার size ও position মাপে।
 2. গন্তব্য route-এ **একই tag** সহ `Hero` খুঁজে বের করে আর তার লক্ষ্য size ও position মাপে।
-3. দুই screen-এর উপরে একটা overlay-তে একটা copy তুলে নেয়। তারপর উৎস rect থেকে গন্তব্য rect পর্যন্ত সেটা animate করে।
+3. দুই screen-এর উপরে একটা overlay-তে একটা copy তুলে নেয়। তারপর source rect থেকে গন্তব্য rect পর্যন্ত সেটা animate করে।
 4. Transition শেষ হলে সেটাকে জায়গামতো বসিয়ে দেয়।
 
 **ধাপ ৩ — `tag`-এর নিয়ম।**
 দুটো hero-কেই **একই `tag`** ব্যবহার করতে হবে। আর প্রতিটা tag **একটা screen-এর ভেতরে unique** হতে হবে। এই tag দিয়েই Flutter বোঝে কোন hero-র সাথে কোনটা মেলে।
 
 ```dart
-// Screen A — উৎস (একটা list-এর ভেতরে)
+// Screen A — source (একটা list-এর ভেতরে)
 GestureDetector(
   onTap: () => Navigator.push(
     context,
@@ -634,7 +634,7 @@ Hero(tag: 'image-${product.id}', child: ...);
 ```
 
 **ধাপ ৫ — ওড়ার সময়ের চেহারা নিজের মতো করা।**
-দুই screen-এ widget-টা দেখতে আলাদা হলে (যেমন আলাদা corner radius), ওড়াটা লাফিয়ে লাফিয়ে দেখাতে পারে। ওড়ার সময় ঠিক কী আঁকা হবে তা নিয়ন্ত্রণ করতে `flightShuttleBuilder` ব্যবহার করুন।
+দুই screen-এ widget-টা দেখতে আলাদা হলে (যেমন আলাদা corner radius), ওড়াটা লাফিয়ে লাফিয়ে দেখাতে পারে। ওড়ার সময় ঠিক কী আঁকা হবে তা control করতে `flightShuttleBuilder` ব্যবহার করুন।
 
 **Interviewer কেন জিজ্ঞেস করে:** Hero transition সবচেয়ে বেশি প্রভাব ফেলা UX pattern-গুলোর একটা (photo gallery, product detail, profile)। তাঁরা দেখতে চান আপনি tag matching আর overlay flight path বোঝেন কি না। শুধু widget-টার নাম `Hero` — এটুকু নয়।
 
@@ -674,7 +674,7 @@ Lottie.asset(
 ```
 
 **ধাপ ২ — Rive = state machine সহ interactive animation।**
-Rive-এর নিজের web-based editor আছে আর এটা ছোট `.riv` binary export করে। এর প্রধান বৈশিষ্ট্য হলো **state machine**: input (একটা tap, একটা boolean, একটা number) runtime-এ animation state-গুলোর মধ্যে transition চালায়। তাই একটা Rive file-ই এমন একটা animated button হতে পারে যা press-এ সাড়া দেয়।
+Rive-এর নিজের web-based editor আছে আর এটা ছোট `.riv` binary export করে। এর প্রধান গুণ হলো **state machine**: input (একটা tap, একটা boolean, একটা number) runtime-এ animation state-গুলোর মধ্যে transition চালায়। তাই একটা Rive file-ই এমন একটা animated button হতে পারে যা press-এ সাড়া দেয়।
 
 ```dart
 import 'package:rive/rive.dart';
@@ -703,7 +703,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 
 | | Lottie | Rive |
 |---|---|---|
-| উৎস tool | After Effects + Bodymovin | Rive editor |
+| source tool | After Effects + Bodymovin | Rive editor |
 | File | `.json` (text) | `.riv` (binary, ছোট) |
 | Runtime logic | শুধু playback | state machine, input, condition |
 | Input-এ সাড়া দেয় | না | হ্যাঁ |
@@ -715,7 +715,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি tooling-এর trade-off নিয়ে team-কে পরামর্শ দিতে পারেন কি না। আর আপনি design থেকে code পর্যন্ত pipeline বোঝেন কি না, শুধু Dart-এর দিকটা নয়।
 
-**সাধারণ ভুল:** বলা যে "দুটো একই জিনিস, শুধু file format আলাদা।" এগুলো মূল জায়গাতেই আলাদা: Rive-এ interactive state machine আছে; Lottie-তে নেই। আরেকটা ভুল: file size উপেক্ষা করা — জটিল Lottie JSON বেশ বড় হয়ে যেতে পারে, যেখানে `.riv` ছোট থাকে।
+**সাধারণ ভুল:** বলা যে "দুটো একই জিনিস, শুধু file format আলাদা।" এগুলো মূল জায়গাতেই আলাদা: Rive-এ interactive state machine আছে; Lottie-তে নেই। আরেকটা ভুল: file size বাদ দেওয়া — জটিল Lottie JSON বেশ বড় হয়ে যেতে পারে, যেখানে `.riv` ছোট থাকে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Lottie কি একটা tap-এ সাড়া দিতে পারে?"* → শুধু মোটা দাগে (একটা segment চালানো, speed বদলানো)। এর সত্যিকারের কোনো state logic নেই; ওটা Rive-এর কাজ।
@@ -738,7 +738,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q9)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`Listener` আমাকে raw pointer event দেয় — down, move, up — কোনো ব্যাখ্যা ছাড়া। `GestureDetector` তার উপরে বসে অর্থপূর্ণ gesture চেনে, যেমন tap, double-tap, long-press, drag আর scale। যখন একাধিক widget একই touch দাবি করতে পারে, তখন Flutter একটা 'gesture arena' চালায় ঠিক করতে কে জিতবে। ফলে দুটো gesture একসাথে fire করে না।"
+"`Listener` আমাকে raw pointer event দেয় — down, move, up — কোনো ব্যাখ্যা ছাড়া। `GestureDetector` তার উপরে বসে অর্থপূর্ণ gesture চেনে, যেমন tap, double-tap, long-press, drag আর scale। যখন একের বেশি widget একই touch দাবি করতে পারে, তখন Flutter একটা 'gesture arena' চালায় ঠিক করতে কে জিতবে। ফলে দুটো gesture একসাথে fire করে না।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -818,7 +818,7 @@ GestureDetector(
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q10)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Sliver হলো একটা low-level scrollable section, যেটা scroll করার সাথে সাথে চাহিদামতো দৃশ্যমান content বানায়। এগুলো আছে যাতে আপনি আলাদা আলাদা scroll behavior এক scroll view-তে মেশাতে পারেন — একটা collapsing app bar, তারপর একটা grid, তারপর একটা list। `ListView` আর `GridView` আসলে sliver-এর উপরে বন্ধুত্বপূর্ণ মোড়ক।"
+"Sliver হলো একটা low-level scrollable section, যেটা scroll করার সাথে সাথে চাহিদামতো দেখা যায় এমন content বানায়। এগুলো আছে যাতে আপনি আলাদা আলাদা scroll behavior এক scroll view-তে মেশাতে পারেন — একটা collapsing app bar, তারপর একটা grid, তারপর একটা list। `ListView` আর `GridView` আসলে sliver-এর উপরে বন্ধুত্বপূর্ণ মোড়ক।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -869,7 +869,7 @@ CustomScrollView(
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`ListView` কি একটা sliver?"* → ভেতরে এটা একটা `Viewport`-এর মধ্যে `SliverList` মুড়ে রাখে। সুবিধাজনক widget-গুলো sliver-চালিত।
-- *"চাহিদামতো কেন?"* → একটা sliver শুধু এখন দৃশ্যমান child-গুলো বানায় (সাথে ছোট একটা cache)। তাই 10,000 item-এর list-ও সস্তা থাকে।
+- *"চাহিদামতো কেন?"* → একটা sliver শুধু এখন দেখা যায় এমন child-গুলো বানায় (সাথে ছোট একটা cache)। তাই 10,000 item-এর list-ও সস্তা থাকে।
 
 **সম্পর্কিত:** [Q11 — sliver list-এর ধরন](#q11) · [Q12 — SliverAppBar](#q12) · [Q13 — CustomScrollView](#q13)
 
@@ -882,12 +882,12 @@ CustomScrollView(
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q11)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`SliverList` child-গুলোকে এক লাইনে সাজায়, যেখানে প্রতিটার height আলাদা হতে পারে। `SliverGrid` এগুলোকে 2D grid-এ সাজায়। `SliverFixedExtentList` হলো `SliverList`-এর মতোই, কিন্তু প্রতিটা child-এর height একই আর নির্দিষ্ট — আর height আগে থেকেই জানা বলে Flutter সহজ হিসাব করে সরাসরি দৃশ্যমান item-এ চলে যেতে পারে, যেটা খুব লম্বা list-এর জন্য অনেক দ্রুত।"
+"`SliverList` child-গুলোকে এক লাইনে সাজায়, যেখানে প্রতিটার height আলাদা হতে পারে। `SliverGrid` এগুলোকে 2D grid-এ সাজায়। `SliverFixedExtentList` হলো `SliverList`-এর মতোই, কিন্তু প্রতিটা child-এর height একই আর নির্দিষ্ট — আর height আগে থেকেই জানা বলে Flutter সহজ হিসাব করে সরাসরি দেখা যায় এমন item-এ চলে যেতে পারে, যেটা খুব লম্বা list-এর জন্য অনেক দ্রুত।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — `SliverList`: আলাদা আলাদা height-এর item-এর এক লাইন।**
-প্রতিটা child-এর height আলাদা হতে পারে। Flutter শুধু দৃশ্যমান child-গুলো বানায় (সাথে ছোট একটা cache)। তাই লম্বা list-এও এটা কার্যকর — কিন্তু প্রতিটা কোথায় বসবে জানতে child-গুলো একের পর এক layout করতেই হয়।
+প্রতিটা child-এর height আলাদা হতে পারে। Flutter শুধু দেখা যায় এমন child-গুলো বানায় (সাথে ছোট একটা cache)। তাই লম্বা list-এও এটা কার্যকর — কিন্তু প্রতিটা কোথায় বসবে জানতে child-গুলো একের পর এক layout করতেই হয়।
 
 ```dart
 SliverList(
@@ -902,7 +902,7 @@ SliverList(
 ```
 
 **ধাপ ২ — `SliverGrid`: একটা 2D grid।**
-Layout আপনি নিয়ন্ত্রণ করেন একটা grid delegate দিয়ে — নির্দিষ্ট সংখ্যক column, অথবা সর্বোচ্চ tile width।
+Layout আপনি control করেন একটা grid delegate দিয়ে — নির্দিষ্ট সংখ্যক column, অথবা সবচেয়ে বেশি tile width।
 
 ```dart
 SliverGrid(
@@ -937,14 +937,14 @@ SliverFixedExtentList(
 |---|---|---|---|
 | `SliverList` | এক লাইন | প্রতিটা আলাদা হতে পারে | ভালো |
 | `SliverGrid` | 2D grid | grid delegate অনুযায়ী | ভালো |
-| `SliverFixedExtentList` | এক লাইন | সবগুলো একই | সবচেয়ে দ্রুত (সরাসরি দৃশ্যমান অংশে লাফ) |
+| `SliverFixedExtentList` | এক লাইন | সবগুলো একই | সবচেয়ে দ্রুত (সরাসরি দেখা যায় এমন অংশে লাফ) |
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা scrolling performance নিয়ে আপনার বোধ যাচাই করছেন। একরকম উচ্চতার 10,000 item-এর contacts screen-এ fixed-extent list বেছে নেওয়া একটা অর্থপূর্ণ, senior-level সিদ্ধান্ত।
 
 **সাধারণ ভুল:** সব item একই height হলেও `SliverList` ব্যবহার করা। একরকম হলে `SliverFixedExtentList` বেছে নিন। আরেকটা জিনিস জানা ভালো: `SliverPrototypeExtentList` একটা নমুনা widget থেকে extent মেপে নেয়, hard-coded সংখ্যার বদলে — row height যখন text scale বা theme-এর উপর নির্ভর করে তখন কাজে লাগে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Fixed-extent কেন দ্রুত?"* → Flutter প্রতিটা child layout করে অবস্থান বের করার বদলে ভাগ করে দৃশ্যমান পরিসর হিসাব করে।
+- *"Fixed-extent কেন দ্রুত?"* → Flutter প্রতিটা child layout করে অবস্থান বের করার বদলে ভাগ করে দেখা যায় এমন পরিসর হিসাব করে।
 - *"Height যদি font size-এর উপর নির্ভর করে?"* → `SliverPrototypeExtentList` ব্যবহার করুন আর তাকে একটা prototype item দিন।
 
 **সম্পর্কিত:** [Q10 — sliver কী](#q10) · [Q13 — CustomScrollView](#q13)
@@ -1025,7 +1025,7 @@ CustomScrollView(
 
 ---
 
-## <a id="q13"></a>13. একাধিক sliver widget একসাথে করতে `CustomScrollView` কীভাবে ব্যবহার করবেন?
+## <a id="q13"></a>13. একের বেশি sliver widget একসাথে করতে `CustomScrollView` কীভাবে ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q13)
 
@@ -1100,7 +1100,7 @@ CustomScrollView(
 
 **Interviewer কেন জিজ্ঞেস করে:** এটাই প্রমাণ যে আপনি সত্যিই একটা জটিল scrollable screen বানাতে পারেন। শুধু "sliver আছে" মুখস্থ বলা নয়।
 
-**সাধারণ ভুল:** `SliverToBoxAdapter` ছাড়া সরাসরি `slivers:`-এ সাধারণ widget বসিয়ে দেওয়া — এতে compile-time type error বা render crash হয়। আরেকটা ভুল: একটা `CustomScrollView`-এর ভেতরে আরেকটা রাখা, ভেতরেরটাতে `shrinkWrap` আর `NeverScrollableScrollPhysics` না দিয়ে — সাধারণত এটা ইঙ্গিত দেয় যে আপনার উচিত সবটা একটাই `CustomScrollView`-এ আরও sliver দিয়ে সমতল করা।
+**সাধারণ ভুল:** `SliverToBoxAdapter` ছাড়া সরাসরি `slivers:`-এ সাধারণ widget বসিয়ে দেওয়া — এতে compile-time type error বা render crash হয়। আরেকটা ভুল: একটা `CustomScrollView`-এর ভেতরে আরেকটা রাখা, ভেতরেরটাতে `shrinkWrap` আর `NeverScrollableScrollPhysics` না দিয়ে — সাধারণত এটা ইশারা দেয় যে আপনার উচিত সবটা একটাই `CustomScrollView`-এ আরও sliver দিয়ে সমতল করা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Pull-to-refresh কীভাবে করবেন?"* → `CustomScrollView`-কে `RefreshIndicator`-এ wrap করুন, অথবা প্রথম sliver হিসেবে `CupertinoSliverRefreshControl` দিন।
@@ -1114,7 +1114,7 @@ CustomScrollView(
 
 # E. Custom painting
 
-> যখন কোনো widget-ই আপনার দরকারি জিনিস আঁকতে পারে না — একটা chart, একটা gauge, একটা signature pad — তখন `CustomPainter` আপনাকে একটা raw canvas দেয়। এই ক্ষমতার সাথে একটা দায়িত্বও আসে: repaint নিয়ন্ত্রণ করুন, যাতে অকারণে প্রতি frame-এ আবার আঁকা না হয়।
+> যখন কোনো widget-ই আপনার দরকারি জিনিস আঁকতে পারে না — একটা chart, একটা gauge, একটা signature pad — তখন `CustomPainter` আপনাকে একটা raw canvas দেয়। এই ক্ষমতার সাথে একটা দায়িত্বও আসে: repaint control করুন, যাতে অকারণে প্রতি frame-এ আবার আঁকা না হয়।
 
 ---
 
@@ -1225,7 +1225,7 @@ CustomPaint(
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q15)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Default হিসেবে আমি widget compose করি। `CustomPainter`-এ যাই শুধু তখন, যখন widget দিয়ে shape-টা বানানো যায় না, বা widget দিয়ে আঁকলে খরচ অনেক বেশি হয়। Widget আপনাকে বিনা খরচে hit testing, accessibility আর gesture দেয়। Custom painter কাঁচা নিয়ন্ত্রণ দেয়, কিন্তু ওই সুবিধাগুলো ছেড়ে দিতে হয়।"
+"Default হিসেবে আমি widget compose করি। `CustomPainter`-এ যাই শুধু তখন, যখন widget দিয়ে shape-টা বানানো যায় না, বা widget দিয়ে আঁকলে খরচ অনেক বেশি হয়। Widget আপনাকে বিনা খরচে hit testing, accessibility আর gesture দেয়। Custom painter কাঁচা control দেয়, কিন্তু ওই সুবিধাগুলো ছেড়ে দিতে হয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1285,7 +1285,7 @@ class LineChartPainter extends CustomPainter {
 | যে shape কোনো widget বানাতে পারে না (chart, gauge, waveform) | `CustomPainter` |
 | শত বা হাজারখানেক ছোট visual element | `CustomPainter` (performance) |
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা আপনার architectural বিচারবুদ্ধি যাচাই করছেন। সব কিছুর জন্য `CustomPainter`-এ ঝাঁপিয়ে পড়া over-engineering (maintain করা কঠিন, built-in accessibility নেই)। আবার কখনোই ব্যবহার না করা মানে আপনি custom visual সামলাতে পারেন না। Senior-রা সঠিকটা বেছে নেন।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা আপনার architectural বুদ্ধি যাচাই করছেন। সব কিছুর জন্য `CustomPainter`-এ ঝাঁপিয়ে পড়া over-engineering (maintain করা কঠিন, built-in accessibility নেই)। আবার কখনোই ব্যবহার না করা মানে আপনি custom visual সামলাতে পারেন না। Senior-রা সঠিকটা বেছে নেন।
 
 **সাধারণ ভুল:** gradient সহ একটা rounded rectangle হাতে এঁকে ফেলা (যেটা `Container` + `BoxDecoration` দিয়ে খুবই সহজ)। উল্টো ভুলটাও হয়: waveform না এঁকে `Container` স্তূপ করে নকল waveform বানানো।
 
@@ -1304,12 +1304,12 @@ class LineChartPainter extends CustomPainter {
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q16)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`shouldRepaint` Flutter-কে জানায় painter-টার সত্যিই আবার আঁকা দরকার কি না। আমি নতুন data-র সাথে পুরোনো painter-এর data মিলিয়ে দেখি। কিছু না বদলালে `false` ফেরত দিই, ফলে ব্যয়বহুল redraw বাদ যায়। `RepaintBoundary` হলো এর সঙ্গী কৌশল: এটা screen-এর একটা অংশকে আলাদা layer-এ বিচ্ছিন্ন করে। ফলে এক জায়গার repaint চারপাশের সবকিছুকে repaint করতে বাধ্য করে না।"
+"`shouldRepaint` Flutter-কে জানায় painter-টার সত্যিই আবার আঁকা দরকার কি না। আমি নতুন data-র সাথে পুরোনো painter-এর data মিলিয়ে দেখি। কিছু না বদলালে `false` ফেরত দিই, ফলে ভারী redraw বাদ যায়। `RepaintBoundary` হলো এর সঙ্গী কৌশল: এটা screen-এর একটা অংশকে আলাদা layer-এ আলাদা করে। ফলে এক জায়গার repaint চারপাশের সবকিছুকে repaint করতে বাধ্য করে না।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — `shouldRepaint` হলো "আবার আঁকা কি দরকার?" check।**
-Flutter এটাকে আগের painter instance দিয়ে call করে। Repaint করাতে চাইলে `true`, পুরোনো আঁকা রাখতে চাইলে `false` ফেরত দিন। `paint()` ব্যয়বহুল হতে পারে (জটিল path, text layout)। তাই কিছু না বদলালে এটা বাদ দেওয়া সত্যিকারের লাভ।
+Flutter এটাকে আগের painter instance দিয়ে call করে। Repaint করাতে চাইলে `true`, পুরোনো আঁকা রাখতে চাইলে `false` ফেরত দিন। `paint()` ভারী হতে পারে (জটিল path, text layout)। তাই কিছু না বদলালে এটা বাদ দেওয়া সত্যিকারের লাভ।
 
 **ধাপ ২ — সঠিকভাবে কীভাবে লিখবেন।**
 Painter যে data-র উপর নির্ভর করে সেটা field হিসেবে রাখুন, তারপর তুলনা করুন:
@@ -1403,12 +1403,12 @@ Widget tree              Semantics tree (what a screen reader says)
 ```
 
 **ধাপ ২ — ফাঁকটা: custom আর কাঁচা widget-এর কোনো semantics নেই।**
-খালি একটা `GestureDetector`, একটা `CustomPaint`, আর একটা সাজসজ্জার `Image` — এদের default অবস্থায় **কোনো** অর্থ থাকে না। Screen reader-এর কাছে এরা অদৃশ্য বা নীরব। এদেরকে `Semantics`-এ মুড়ে দিয়ে এটা ঠিক করবেন।
+খালি একটা `GestureDetector`, একটা `CustomPaint`, আর একটা সাজসজ্জার `Image` — এদের default অবস্থায় **কোনো** অর্থ থাকে না। Screen reader-এর কাছে এরা দেখা যায় না এমন বা নীরব। এদেরকে `Semantics`-এ মুড়ে দিয়ে এটা ঠিক করবেন।
 
 **ধাপ ৩ — একটা label আর একটা role দিন।**
 
 ```dart
-// Image-এর নিজস্ব কোনো description থাকে না:
+// Image-এর নিজের কোনো description থাকে না:
 Semantics(
   label: 'Company logo',
   image: true,
@@ -1442,9 +1442,9 @@ Semantics(
 );
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** অনেক বাজারে accessibility আইনি বাধ্যবাধকতা (ADA, EU-র নিয়ম), আর এটা করাই ঠিক কাজ। তাঁরা এমন engineer চান যাঁরা এমন app বানান যা সবাই ব্যবহার করতে পারে, শুধু পূর্ণ দৃষ্টি আর হাতের নিয়ন্ত্রণ থাকা user নয়।
+**Interviewer কেন জিজ্ঞেস করে:** অনেক বাজারে accessibility আইনি বাধ্যবাধকতা (ADA, EU-র নিয়ম), আর এটা করাই ঠিক কাজ। তাঁরা এমন engineer চান যাঁরা এমন app বানান যা সবাই ব্যবহার করতে পারে, শুধু পূর্ণ দৃষ্টি আর হাতের control থাকা user নয়।
 
-**সাধারণ ভুল:** ধরে নেওয়া যে প্রতিটা widget নিজে থেকেই accessible। কাঁচা gesture detector, custom-painted widget, আর সাজসজ্জার image-এ default অবস্থায় শূন্য semantics থাকে। আরেকটা ভুল: অতিরিক্ত লম্বা label, যেমন "This is a button you can tap to delete the item" — label ছোট রাখুন আর action আগে বলুন: "Delete item."
+**সাধারণ ভুল:** ধরে নেওয়া যে প্রতিটা widget নিজে থেকেই accessible। কাঁচা gesture detector, custom-painted widget, আর সাজসজ্জার image-এ default অবস্থায় শূন্য semantics থাকে। আরেকটা ভুল: বাড়তি লম্বা label, যেমন "This is a button you can tap to delete the item" — label ছোট রাখুন আর action আগে বলুন: "Delete item."
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`button: true` কী করে?"* → এটা screen reader-কে বলে element-টাকে button হিসেবে ঘোষণা করতে, যাতে user বোঝেন এটা tap করা যায়।
@@ -1465,7 +1465,7 @@ Semantics(
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — `ExcludeSemantics` = screen reader-কে এটা উপেক্ষা করতে বলা।**
+**ধাপ ১ — `ExcludeSemantics` = screen reader-কে এটা বাদ দিতে বলা।**
 যে সাজসজ্জা কোনো অর্থ যোগ করে না, তার জন্য এটা ব্যবহার করুন — background wave, spacer image। Reader শব্দদূষণ না করে ওটা বাদ দিয়ে যায়।
 
 ```dart
@@ -1499,7 +1499,7 @@ MergeSemantics(
 ```
 
 **ধাপ ৩ — দুটো একসাথে ব্যবহার করুন।**
-একটা সাধারণ pattern: অংশগুলোকে এক unit-এ merge করা *এবং* তাকে একটা পরিষ্কার label দেওয়া, আর এখন অপ্রয়োজনীয় হয়ে যাওয়া children-কে বাদ দেওয়া।
+একটা সাধারণ pattern: অংশগুলোকে এক unit-এ merge করা *এবং* তাকে একটা পরিষ্কার label দেওয়া, আর এখন দরকার নেই এমন হয়ে যাওয়া children-কে বাদ দেওয়া।
 
 ```dart
 Semantics(
@@ -1516,7 +1516,7 @@ Semantics(
 
 **ধাপ ৪ — মনে রাখার সহজ মডেল।**
 - অনেক বেশি আলাদা announcement হচ্ছে? → `MergeSemantics`।
-- অর্থহীন সাজসজ্জা reader-কে ভরিয়ে ফেলছে? → `ExcludeSemantics`।
+- মানে নেই এমন সাজসজ্জা reader-কে ভরিয়ে ফেলছে? → `ExcludeSemantics`।
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা জানতে চান আপনি screen-reader-এর *অভিজ্ঞতা* নিয়ে ভাবেন কি না, শুধু semantics আছে কি না তা নয়। যে card ৫০টা আলাদা announcement ছোড়ে, সেটা একদম semantics-হীন card-এর মতোই অব্যবহারযোগ্য।
 
@@ -1524,7 +1524,7 @@ Semantics(
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"একটা merged group-এ যদি দুটো action থাকে?"* → তখন merge করবেন না; reader-এর প্রতিটা action আলাদা করে দরকার। শুধু একক logical unit merge করুন।
-- *"`MergeSemantics` কি `Semantics` label-এর মতোই?"* → না। Merge বিদ্যমান children-কে একসাথে ভাঁজ করে; `Semantics` label একটা description বসায় বা যোগ করে।
+- *"`MergeSemantics` কি `Semantics` label-এর মতোই?"* → না। Merge আগে থেকে থাকা children-কে একসাথে ভাঁজ করে; `Semantics` label একটা description বসায় বা যোগ করে।
 
 **সম্পর্কিত:** [Q17 — Semantics](#q17) · [Q19 — accessibility testing](#q19)
 
@@ -1566,7 +1566,7 @@ testWidgets('delete button is accessible', (tester) async {
 ```
 
 **ধাপ ৩ — Built-in guideline matcher ব্যবহার করুন।**
-Flutter-এর সাথেই matcher আসে, যেগুলো সর্বনিম্ন tap-target size, text contrast আর label আছে কি না check করে:
+Flutter-এর সাথেই matcher আসে, যেগুলো সবচেয়ে কম tap-target size, text contrast আর label আছে কি না check করে:
 
 ```dart
 testWidgets('meets accessibility guidelines', (tester) async {
@@ -1590,12 +1590,12 @@ TalkBack (Android) আর VoiceOver (iOS) চালু করুন, তার�
 **ধাপ ৫ — DevTools inspector।**
 DevTools-এর Flutter Inspector widget tree-র পাশে semantics tree দেখায়। অনুপস্থিত বা ভুল node খুঁজে বের করতে এটা কাজে লাগে।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা একটা বাস্তব পদ্ধতি চান, তত্ত্ব নয়। "আমরা `Semantics` widget যোগ করি" বলা, অথচ সেগুলো কীভাবে verify করতে হয় না জানা — এটা অসম্পূর্ণ চর্চা দেখায়।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা একটা বাস্তব উপায় চান, তত্ত্ব নয়। "আমরা `Semantics` widget যোগ করি" বলা, অথচ সেগুলো কীভাবে verify করতে হয় না জানা — এটা অসম্পূর্ণ চর্চা দেখায়।
 
-**সাধারণ ভুল:** শুধু automated test-এর উপর নির্ভর করা। ওগুলো size আর label check করে। কিন্তু reading order যুক্তিসঙ্গত কি না, announcement সহায়ক কি না, বা flow ব্যবহারযোগ্য কি না — ওগুলো বলতে পারে না। আসল screen reader দিয়ে manual testing অপরিহার্য, এটা বাদ দেওয়া যায় না।
+**সাধারণ ভুল:** শুধু automated test-এর উপর নির্ভর করা। ওগুলো size আর label check করে। কিন্তু reading order যুক্তিসঙ্গত কি না, announcement সহায়ক কি না, বা flow ব্যবহার করা যায় এমন কি না — ওগুলো বলতে পারে না। আসল screen reader দিয়ে manual testing অবশ্যই লাগে এমন, এটা বাদ দেওয়া যায় না।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"ভালো সর্বনিম্ন tap target কত?"* → Android-এ ~48x48 dp, iOS-এ ~44x44 pt; guideline matcher এগুলো জোর করে মানায়।
+- *"ভালো সবচেয়ে কম tap target কত?"* → Android-এ ~48x48 dp, iOS-এ ~44x44 pt; guideline matcher এগুলো জোর করে মানায়।
 - *"সময়ের সাথে হওয়া announcement কীভাবে test করবেন?"* → Screen reader দিয়ে হাতে-কলমে, সাথে widget test যেখানে pump করে state change-এর পরে semantics check করা হয়।
 
 **সম্পর্কিত:** [Q17 — Semantics](#q17) · [Q18 — Exclude বনাম Merge](#q18)
@@ -1732,9 +1732,9 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** Global বা BD-মুখী app-এর জন্য localization ঐচ্ছিক নয়। তাঁরা পুরো pipeline জানতে চান — ARB format, code generation, placeholder, plural rule, delegate — শুধু "কিছু JSON file ব্যবহার করি" নয়।
+**Interviewer কেন জিজ্ঞেস করে:** Global বা BD-মুখী app-এর জন্য localization optional নয়। তাঁরা পুরো pipeline জানতে চান — ARB format, code generation, placeholder, plural rule, delegate — শুধু "কিছু JSON file ব্যবহার করি" নয়।
 
-**সাধারণ ভুল:** সব জায়গায় `Text('Welcome')` hardcode করা, আর পরে l10n জুড়ে দেওয়ার চেষ্টা করা — ভীষণ কষ্টকর। প্রথম দিন থেকেই localized শুরু করুন। আরেকটা ভুল: plural rule উপেক্ষা করা (কিছু ভাষায় একাধিক plural form থাকে); ARB-এর ICU `plural` syntax এগুলো সামলায়, কিন্তু case-গুলো আপনাকেই লিখতে হয়। আরও একটা: `pubspec.yaml`-এ `generate: true` দিতে ভুলে যাওয়া, ফলে `gen-l10n` যে file বানায় সেগুলো কখনো build-এ পৌঁছায় না।
+**সাধারণ ভুল:** সব জায়গায় `Text('Welcome')` hardcode করা, আর পরে l10n জুড়ে দেওয়ার চেষ্টা করা — ভীষণ কষ্টকর। প্রথম দিন থেকেই localized শুরু করুন। আরেকটা ভুল: plural rule বাদ দেওয়া (কিছু ভাষায় একের বেশি plural form থাকে); ARB-এর ICU `plural` syntax এগুলো সামলায়, কিন্তু case-গুলো আপনাকেই লিখতে হয়। আরও একটা: `pubspec.yaml`-এ `generate: true` দিতে ভুলে যাওয়া, ফলে `gen-l10n` যে file বানায় সেগুলো কখনো build-এ পৌঁছায় না।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"User-কে app-এর ভেতরেই ভাষা বদলাতে দেবেন কীভাবে?"* → বেছে নেওয়া `Locale`-টা state-এ রাখুন আর `MaterialApp`-এর `locale:`-এ পাঠান; typed class string-গুলো update করে দেয়।
@@ -1760,14 +1760,14 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 | আপনি সামলান | কিছুই না (শুধু একটা value বদলান) | `AnimationController` |
 | উদাহরণ | `AnimatedContainer`, `AnimatedOpacity` | `AnimationController` + `Tween` |
 | Loop / sequence করা যায়? | না | হ্যাঁ |
-| কোথায় সবচেয়ে ভালো | toggle, layout বদল | spinner, staggered intro, নিয়ন্ত্রণ |
+| কোথায় সবচেয়ে ভালো | toggle, layout বদল | spinner, staggered intro, control |
 
 **`AnimatedBuilder` বনাম `AnimatedWidget`**
 
 | | `AnimatedBuilder` | `AnimatedWidget` |
 |---|---|---|
 | ধরন | inline builder | আপনার লেখা একটা subclass |
-| কোথায় সবচেয়ে ভালো | এককালীন কাজ, আগে থেকেই থাকা widget | পুনঃব্যবহারযোগ্য animated component |
+| কোথায় সবচেয়ে ভালো | এককালীন কাজ, আগে থেকেই থাকা widget | আবার ব্যবহার করা যায় এমন animated component |
 | Child-এর rebuild এড়ানো | সেটা `child` হিসেবে pass করুন | ভেতরে একটা static child মুড়ে দিন |
 
 **`GestureDetector` বনাম `Listener`**
@@ -1802,9 +1802,9 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 
 - **`AnimationController`** প্রতি frame-এ 0→1 চালায়; `vsync` screen-এর বাইরে গেলে থামায়; সবসময় `dispose()` করুন। ([Q1](#q1))
 - **`Tween`** 0→1-কে একটা বাস্তব range-এ বদলায়, আর controller ছাড়া কিছুই করে না (`tween.animate(controller)`)। ([Q2](#q2))
-- **Curve** সোজা progress-কে বাঁকিয়ে স্বাভাবিক গতি দেয়; `In`/`Out` = কোন প্রান্তে effect পড়বে। ([Q3](#q3))
+- **Curve** সোজা progress-কে বাঁকিয়ে স্বাভাবিক গতি দেয়; `In`/`Out` = কোন মাথায় effect পড়বে। ([Q3](#q3))
 - **`AnimatedBuilder`** প্রতি tick-এ rebuild করে — static অংশটা `child` হিসেবে pass করুন, তাহলে সেটা rebuild হবে না। ([Q4](#q4))
-- **Implicit** = একটা value বদলানো (সহজ); **explicit** = একটা controller ধরে রাখা (loop, sequence, নিয়ন্ত্রণ)। ([Q5](#q5))
+- **Implicit** = একটা value বদলানো (সহজ); **explicit** = একটা controller ধরে রাখা (loop, sequence, control)। ([Q5](#q5))
 - **Staggered** = একটা controller + প্রতি অংশের জন্য একটা `Interval`, অনেকগুলো controller নয়। ([Q6](#q6))
 - **`Hero`** একটা widget-কে screen থেকে screen-এ উড়িয়ে নেয়; দুই পাশে **একই, unique `tag`** লাগে। ([Q7](#q7))
 - **Lottie** = After Effects JSON, শুধু playback; **Rive** = `.riv` binary, ভেতরে interactive state machine। ([Q8](#q8))

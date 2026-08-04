@@ -2,8 +2,8 @@
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
 > **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যাসহ**, আর **link করা** — তাই এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-01-dart-language-bn.md](../software-engineer-flutter/section-01-dart-language.md)
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-01-dart-language.md](../software-engineer-flutter/section-01-dart-language.md)
 
 ---
 
@@ -12,13 +12,13 @@
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব জীবনের উদাহরণ আর code দিয়ে ধাপে ধাপে বিস্তারিত ব্যাখ্যা।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংযুক্ত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে আসুন।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে tag দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরেকটু গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলা নিজেই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -70,7 +70,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-২৬টা প্রশ্ন একসাথে পড়ার দরকার নেই। নিচের পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ায়। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তরটা** বলতে পারবেন।
+২৬টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ায়। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তরটা** বলতে পারবেন।
 
 **পর্যায় ১ — মূল ভিত্তি (এখান থেকে শুরু করুন)।** এগুলো প্রায় প্রতিটা interview-এ আসে।
 → [Q1 Null safety](#q1) · [Q2 var/final/const](#q2) · [Q7 Parameters](#q7) · [Q19 Future ও async](#q19) · [Q21 Streams](#q21)
@@ -78,7 +78,7 @@
 **পর্যায় ২ — Object-oriented Dart।** আপনি class কীভাবে design করেন।
 → [Q11 Constructors](#q11) · [Q12 extends/implements/with/on](#q12) · [Q4 Equality](#q4) · [Q13 Mixins](#q13) · [Q14 Extensions](#q14)
 
-**পর্যায় ৩ — আধুনিক Dart 3 (দেখায় আপনি হালনাগাদ আছেন)।**
+**পর্যায় ৩ — আধুনিক Dart 3 (দেখায় আপনি up-to-date আছেন)।**
 → [Q16 Records](#q16) · [Q17 Patterns](#q17) · [Q18 Sealed classes](#q18) · [Q15 Enhanced enums](#q15)
 
 **পর্যায় ৪ — গভীরতা ও senior signal।**
@@ -141,7 +141,7 @@ String? email = getEmail();
 print(email!.length);   // email null হলে ঠিক এখানেই crash
 ```
 
-তাই `!` ঝুঁকিপূর্ণ। এটা Dart-এর সুরক্ষা বন্ধ করে দেয়। 100% নিশ্চিত হলে তবেই ব্যবহার করুন।
+তাই `!` ঝুঁকির কাজ। এটা Dart-এর সুরক্ষা বন্ধ করে দেয়। 100% নিশ্চিত হলে তবেই ব্যবহার করুন।
 
 **ধাপ ৪ — `late` মানে "একটু পরেই বসাব, কেউ পড়ার আগেই।"**
 যখন মানটা সাথে সাথে বসানো যায় না, কিন্তু সেটা আসলে কখনোই null নয় — তখন এটা ব্যবহার করুন:
@@ -200,7 +200,7 @@ nickname ??= 'Guest';                // ??= = এখন null হলে তবে
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`late` vs `final`?"* → `late` = পরে set করা। `final` = একবারই set করা। `late final` = পরে set করা, আর একবারই।
 - *"`??` কী?"* → "null হলে এই default-টা ব্যবহার করো।" উদাহরণ: `final name = nickname ?? 'Guest';`
-- *"'sound' null safety মানে কী?"* → "Sound" মানে guarantee-টা 100% নির্ভরযোগ্য — একটা type nullable না হলে Dart সত্যিই নিশ্চিত করে সেটা কখনোই null নয়।
+- *"'sound' null safety মানে কী?"* → "Sound" মানে guarantee-টা 100% ভরসা করা যায় — একটা type nullable না হলে Dart সত্যিই নিশ্চিত করে সেটা কখনোই null নয়।
 
 **সম্পর্কিত:** [Q2 — var/dynamic/final/const](#q2)
 
@@ -213,7 +213,7 @@ nickname ??= 'Guest';                // ??= = এখন null হলে তবে
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"এগুলো তিনটা আলাদা সমস্যার সমাধান করে। `var` Dart-কে type অনুমান করতে দেয়। `dynamic` type checking বন্ধ করে দেয় (ঝুঁকিপূর্ণ)। `Object` হলো সব type-এর নিরাপদ parent। `final` মানে একটা value শুধু একবারই set করা যায়। `const` মানে value নির্দিষ্ট, আর app চালু হওয়ার আগেই সেটা জানা থাকে।"
+"এগুলো তিনটা আলাদা সমস্যার সমাধান করে। `var` Dart-কে type অনুমান করতে দেয়। `dynamic` type checking বন্ধ করে দেয় (ঝুঁকির কাজ)। `Object` হলো সব type-এর নিরাপদ parent। `final` মানে একটা value শুধু একবারই set করা যায়। `const` মানে value নির্দিষ্ট, আর app চালু হওয়ার আগেই সেটা জানা থাকে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -414,7 +414,7 @@ print(seen.contains(Money(100, 'BDT'))); // hashCode না থাকলে fals
 ```
 
 **ধাপ ৫ — State management-এ এটা কেন গুরুত্বপূর্ণ।**
-BLoC বা Riverpod-এ নতুন state object পুরোনোটার সাথে `==` হলে UI ঠিকভাবেই rebuild করে না। আপনার equality ভুল হলে হয় অতিরিক্ত rebuild হবে, নাহয় কখনোই rebuild হবে না। এই কারণেই `Equatable` আর `freezed` এত জনপ্রিয় (এরা `==` আর `hashCode` নিজে থেকেই তৈরি করে দেয়)।
+BLoC বা Riverpod-এ নতুন state object পুরোনোটার সাথে `==` হলে UI ঠিকভাবেই rebuild করে না। আপনার equality ভুল হলে হয় বাড়তি rebuild হবে, নাহয় কখনোই rebuild হবে না। এই কারণেই `Equatable` আর `freezed` এত জনপ্রিয় (এরা `==` আর `hashCode` নিজে থেকেই তৈরি করে দেয়)।
 
 **Interviewer কেন জিজ্ঞেস করে:** ভুল equality দুটো পরিচিত bug তৈরি করে: Set বা Map-এ item হারিয়ে যাওয়া, আর state management-এ screen ভুলভাবে rebuild হওয়া। তাঁরা জানতে চান আপনি `==` আর `hashCode`-এর contract-টা বোঝেন কি না।
 
@@ -484,12 +484,12 @@ print(bigger<String>('a', 'z'));  // 'z'
 
 `extends Comparable` bound না থাকলে Dart জানত না যে T তুলনা করা যায়। তখন `compareTo` একটা error হতো।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি type-safe আর পুনরায় ব্যবহারযোগ্য code লেখেন কি না। নাকি `dynamic` ব্যবহার করে আশা করেন যে কিছু ভাঙবে না।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখতে চান আপনি type-safe আর আবার ব্যবহার করা যায় এমন code লেখেন কি না। নাকি `dynamic` ব্যবহার করে আশা করেন যে কিছু ভাঙবে না।
 
 **সাধারণ ভুল:** `List<int>` কাজ করে এমন জায়গায় `List<dynamic>` বা খালি `List` ব্যবহার করা। এতে Dart-এর নিরাপত্তা ফেলে দেওয়া হয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Bound কেন যোগ করবেন?"* → Bound ছাড়া Dart T-কে সাধারণ `Object` ধরে নেয়। তখন শুধু মৌলিক method ব্যবহার করা যায়। Bound আরও method খুলে দেয়।
+- *"Bound কেন যোগ করবেন?"* → Bound ছাড়া Dart T-কে সাধারণ `Object` ধরে নেয়। তখন শুধু গোড়ার method ব্যবহার করা যায়। Bound আরও method খুলে দেয়।
 - *"বাস্তব Flutter উদাহরণ?"* → `Future<User>`, `List<Widget>`, `StreamBuilder<int>` — generics সব জায়গায় আছে।
 
 **সম্পর্কিত:** [Q2 — types](#q2)
@@ -577,7 +577,7 @@ class UserLoadException implements Exception {
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q7)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Positional parameter order-এর উপর নির্ভর করে। এক-দুটো স্পষ্ট মানের জন্য এটা ভালো। Named parameter একটা label ব্যবহার করে, তাই code পড়তে পরিষ্কার লাগে — এই কারণেই Flutter widget সব জায়গায় এগুলো ব্যবহার করে। `required` একটা named parameter-কে বাধ্যতামূলক করে। আর `[ ]` একটা positional parameter-কে optional করে, একটা default মান সহ।"
+"Positional parameter order-এর উপর নির্ভর করে। এক-দুটো স্পষ্ট মানের জন্য এটা ভালো। Named parameter একটা label ব্যবহার করে, তাই code পড়তে পরিষ্কার লাগে — এই কারণেই Flutter widget সব জায়গায় এগুলো ব্যবহার করে। `required` মানে ওই named parameter দিতেই হবে। আর `[ ]` একটা positional parameter-কে optional করে, একটা default মান সহ।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -681,7 +681,7 @@ ElevatedButton(
 **সাধারণ ভুল:** ভাবা যে closure মানটা copy করে রাখে। আসলে সে জীবন্ত variable-টাকেই মনে রাখে। তাই মান বদলাতে পারে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Closure নিয়ে কোনো বিপদ আছে?"* → হ্যাঁ। ভুল করে বড় object বা `context` বাঁচিয়ে রাখলে memory leak হতে পারে। দীর্ঘজীবী object-এর ভেতরে closure নিয়ে সাবধান থাকুন।
+- *"Closure নিয়ে কোনো বিপদ আছে?"* → হ্যাঁ। ভুল করে বড় object বা `context` বাঁচিয়ে রাখলে memory leak হতে পারে। অনেকক্ষণ টিকে থাকা object-এর ভেতরে closure নিয়ে সাবধান থাকুন।
 
 **সম্পর্কিত:** [Q19 — async callback](#q19) · [Q21 — stream listener](#q21)
 
@@ -694,7 +694,7 @@ ElevatedButton(
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q9)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Cascade (`..`) দিয়ে আমি একই object-এর উপর অনেক কাজ চালাতে পারি, বারবার তার নাম না লিখেই। প্রতিটা `..` কাজটার return করা জিনিস উপেক্ষা করে এবং মূল object-টাই ফেরত দেয়। Method chaining আলাদা — সেটা কাজ করে কারণ প্রতিটা method এমন কিছু return করে যার উপর পরেরটা call করা যায়।"
+"Cascade (`..`) দিয়ে আমি একই object-এর উপর অনেক কাজ চালাতে পারি, বারবার তার নাম না লিখেই। প্রতিটা `..` কাজটার return করা জিনিস বাদ দেয় এবং মূল object-টাই ফেরত দেয়। Method chaining আলাদা — সেটা কাজ করে কারণ প্রতিটা method এমন কিছু return করে যার উপর পরেরটা call করা যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -718,7 +718,7 @@ final paint2 = Paint()
 দুটোই একই কাজ করে। কিন্তু cascade version ছোট আর পরিষ্কার।
 
 **ধাপ ২ — Cascade বনাম method chaining (আসল পার্থক্য)।**
-- **Cascade (`..`)** → return করা মান উপেক্ষা করে, সবসময় মূল object-টাই ফেরত দেয়। অনেক property set করার জন্য ভালো।
+- **Cascade (`..`)** → return করা মান বাদ দেয়, সবসময় মূল object-টাই ফেরত দেয়। অনেক property set করার জন্য ভালো।
 - **Method chaining (`a.b().c()`)** → কাজ করে শুধু এই কারণে যে প্রতিটা method একটা object return করে, যাতে চালিয়ে যাওয়া যায়।
 
 ```dart
@@ -897,7 +897,7 @@ Object-টা চলার আগেই বানিয়ে ফেলে (স�
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Factory কি null ফেরত দিতে পারে?"* → না (null safety-তে return type non-null হতে হবে, যদি না nullable ঘোষণা করা হয়)। তাকে একটা বৈধ object ফেরত দিতেই হবে।
-- *"Named নাকি factory — কখন কোনটা?"* → Named = object বানানোর সহজ বিকল্প পথ। Factory = যখন নিয়ন্ত্রণ দরকার (caching, subtype, validation)।
+- *"Named নাকি factory — কখন কোনটা?"* → Named = object বানানোর সহজ বিকল্প পথ। Factory = যখন control দরকার (caching, subtype, validation)।
 
 **সম্পর্কিত:** [Q3 — const constructor](#q3) · [Q12 — OOP keyword](#q12) · [Q7 — named parameter](#q7)
 
@@ -1055,7 +1055,7 @@ Mixin মূল class-এর সাথে মিশে যায়, আর স�
 
 **Interviewer কেন জিজ্ঞেস করে:** আপনি mixin-এর order (শেষেরটা জেতে) আর `on`-এর উদ্দেশ্য বোঝেন কি না, তা যাচাই করতে।
 
-**সাধারণ ভুল:** Mixin-কে "multiple inheritance" বলা। এটা বিভ্রান্তিকর diamond সমস্যা নয় — Dart ওদের order অনুযায়ী সাজায় আর শেষেরটা জেতে। পরিষ্কার আর অনুমানযোগ্য।
+**সাধারণ ভুল:** Mixin-কে "multiple inheritance" বলা। এটা বিভ্রান্তিকর diamond সমস্যা নয় — Dart ওদের order অনুযায়ী সাজায় আর শেষেরটা জেতে। পরিষ্কার আর আগে থেকেই বোঝা যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Mixin vs interface (`implements`)?"* → Mixin আপনাকে চলতি code দেয়। `implements` শুধু নিয়ম দেয়, code আপনি লেখেন।
@@ -1337,7 +1337,7 @@ JSON নিরাপদে পড়ার জন্য এটা চমৎক�
 final json = {'token': 'abc123'};
 
 if (json case {'token': final String token}) {
-  saveToken(token); // token ব্যবহারের জন্য তৈরি এবং নিশ্চিতভাবে String
+  saveToken(token); // token ব্যবহারের জন্য তৈরি এবং অবশ্যই String
 }
 ```
 
@@ -1349,7 +1349,7 @@ if (json case {'token': final String token}) {
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`User(:final id)` মানে কী?"* → এটা একটা `User` object-এর সাথে মেলে, আর তার `id` field-টা `id` নামের variable-এ বের করে আনে।
-- *"`when` কী?"* → Pattern-এর সাথে যোগ করা একটা অতিরিক্ত শর্ত, যেমন `int n when n > 0`।
+- *"`when` কী?"* → Pattern-এর সাথে যোগ করা একটা বাড়তি শর্ত, যেমন `int n when n > 0`।
 
 **সম্পর্কিত:** [Q16 — record](#q16) · [Q18 — sealed + exhaustive switch](#q18)
 
@@ -1367,7 +1367,7 @@ if (json case {'token': final String token}) {
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — `sealed` হলো একটা নির্দিষ্ট menu-র মতো।**
-Sealed class বলে — "শুধু এই option গুলোই আছে।" App state-এর জন্য এটা একদম উপযুক্ত, যেমন *loading / success / error*:
+Sealed class বলে — "শুধু এই option গুলোই আছে।" App state-এর জন্য এটা একদম মানানসই, যেমন *loading / success / error*:
 
 ```dart
 sealed class Result {}
@@ -1396,10 +1396,10 @@ String show(Result r) => switch (r) {
 
 পরে `class Empty extends Result {}` যোগ করে handle করতে ভুলে গেলে code compile হবে না। Dart ঠিক missing case-টা দেখিয়ে দেয়। এতে একটা পুরো ধরনের bug বন্ধ হয়ে যায়।
 
-**ধাপ ৩ — এটা পুরোনো পদ্ধতির চেয়ে কেন ভালো।**
-পুরোনো পদ্ধতি: একটা class-এ তিনটা nullable field আর একটা `type` flag — এতে invalid state সহজেই তৈরি হয় (data আর error একসাথে?)। Sealed class invalid state-কে অসম্ভব করে দেয়। আর নিশ্চিত করে প্রতিটা state handle হয়েছে।
+**ধাপ ৩ — এটা পুরোনো উপায়ের চেয়ে কেন ভালো।**
+পুরোনো উপায়: একটা class-এ তিনটা nullable field আর একটা `type` flag — এতে invalid state সহজেই তৈরি হয় (data আর error একসাথে?)। Sealed class invalid state-কে অসম্ভব করে দেয়। আর নিশ্চিত করে প্রতিটা state handle হয়েছে।
 
-**ধাপ ৪ — বাকি class modifier গুলো (অন্য file-এ reuse নিয়ন্ত্রণ করে)।**
+**ধাপ ৪ — বাকি class modifier গুলো (অন্য file-এ reuse control করে)।**
 
 | Modifier | `extend` করা যায়? | `implement` করা যায়? | মানে |
 |---|:---:|:---:|---|
@@ -1786,7 +1786,7 @@ Memory share হয় না বলে input আর result isolate-এর ম�
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — শব্দ দুটোর মানে কী।**
-- **JIT = Just-In-Time:** app চলার সময়েই code compile হয়। নমনীয় আর দ্রুত বদলানো যায়, যা hot reload সম্ভব করে।
+- **JIT = Just-In-Time:** app চলার সময়েই code compile হয়। flexible আর দ্রুত বদলানো যায়, যা hot reload সম্ভব করে।
 - **AOT = Ahead-Of-Time:** app চলার আগেই code native machine code-এ compile হয়। Runtime-এ কোনো compile নেই, তাই startup দ্রুত হয় আর performance মসৃণ থাকে।
 
 **ধাপ ২ — Flutter-এ কোনটা কখন ব্যবহার হয়।**
@@ -1886,8 +1886,8 @@ static final _formatter = DateFormat('yyyy-MM-dd');
 **Interviewer কেন জিজ্ঞেস করে:** Memory-র আচরণকে একটা বাস্তব Flutter নিয়মের সাথে জুড়তে — hot path-এ ভারী allocation করবেন না।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"GC কীসে trigger হয়?"* → বেশিরভাগ সময় young area ভরে গেলে। GC-কে সরাসরি নিয়ন্ত্রণ করা যায় না, কিন্তু আপনি কত object বানাচ্ছেন সেটা আপনার হাতে।
-- *"Dart-এ কি এখনো memory leak হতে পারে?"* → হ্যাঁ — যদি আপনি অপ্রয়োজনীয় reference ধরে রাখেন (cancel না করা stream subscription, listener, closure-এর ভেতরে বড় object)। যেটা এখনো reference করা আছে, GC সেটা ছাড়তে পারে না।
+- *"GC কীসে trigger হয়?"* → বেশিরভাগ সময় young area ভরে গেলে। GC-কে সরাসরি control করা যায় না, কিন্তু আপনি কত object বানাচ্ছেন সেটা আপনার হাতে।
+- *"Dart-এ কি এখনো memory leak হতে পারে?"* → হ্যাঁ — যদি আপনি দরকার নেই এমন reference ধরে রাখেন (cancel না করা stream subscription, listener, closure-এর ভেতরে বড় object)। যেটা এখনো reference করা আছে, GC সেটা ছাড়তে পারে না।
 
 **সম্পর্কিত:** [Q25 — Dart VM](#q25) · [Q3 — const allocation কমায়](#q3)
 
@@ -1943,7 +1943,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 
 ## এক লাইনের মনে করিয়ে দেওয়া কথা
 
-- **Null safety** = একটা variable null হতে পারবে না, যদি না আপনি `?` দিয়ে অনুমতি দেন। প্রতিটা `!` একটা ঝুঁকিপূর্ণ প্রতিশ্রুতি। ([Q1](#q1))
+- **Null safety** = একটা variable null হতে পারবে না, যদি না আপনি `?` দিয়ে অনুমতি দেন। প্রতিটা `!` একটা ঝুঁকির প্রতিশ্রুতি। ([Q1](#q1))
 - **`final`** বাক্সটা লক করে (একবার সেট); **`const`** সবকিছু জমাট করে আর একই object আবার ব্যবহার করে। ([Q2](#q2), [Q3](#q3))
 - **`==` আর `hashCode`** সবসময় একসাথে override করতে হবে, এমন field দিয়ে যেগুলো বদলায় না। ([Q4](#q4))
 - **`extends`** = code inherit করা (একটা)। **`implements`** = নিয়ম মানা, সব code নিজে লেখা (অনেকগুলো)। **`with`** = behavior যোগ করা। ([Q12](#q12))

@@ -1,10 +1,10 @@
 # Section 14 — Design Patterns (Gang of Four)
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — যাতে আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারেন। সব উদাহরণ Dart-এ, সাথে বাস্তব Flutter use case।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। সব উদাহরণ Dart-এ, সাথে বাস্তব Flutter use case।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-14-design-patterns-bn.md](../software-engineer-flutter/section-14-design-patterns.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-14-design-patterns.md](../software-engineer-flutter/section-14-design-patterns.md)
 
 ---
 
@@ -12,10 +12,10 @@
 
 প্রতিটা pattern-এর গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার জন্য ২–৩ বাক্যের উত্তর।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
 - **এবার পুরোটা বুঝি** — এটা কোন সমস্যা সমাধান করে, কীভাবে কাজ করে (Dart code সহ), আর একটা বাস্তব Flutter use case।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সম্পর্কিত pattern-এ যান · **উপরে ফিরুন** — index-এ ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত pattern-এ যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা pattern-এ tag দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
@@ -295,7 +295,7 @@ Flutter-এর named parameter আগে থেকেই builder-এর মত�
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q5)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Adapter দুটো বেমানান interface-কে একসাথে কাজ করায়। একটাকে wrap করে অন্যটার মতো দেখায়। এটা travel plug adapter-এর মতো। কোনো third-party library বা legacy class-কে আপনার app-এর প্রত্যাশিত interface-এ বসাতে এটা ব্যবহার করি। কোনো দিকই বদলাতে হয় না।"
+"Adapter দুটো বেমানান interface-কে একসাথে কাজ করায়। একটাকে wrap করে অন্যটার মতো দেখায়। এটা travel plug adapter-এর মতো। কোনো third-party library বা legacy class-কে আপনার app যেমন interface চায়, সেই interface-এ বসাতে এটা ব্যবহার করি। কোনো দিকই বদলাতে হয় না।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -353,7 +353,7 @@ checkout(StripeAdapter(StripeApi()));
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — এটা কোন সমস্যা সমাধান করে।**
-আপনি object-এ নমনীয়ভাবে feature যোগ করতে চান, নানা রকম মিশ্রণে। প্রতিটা মিশ্রণের জন্য আলাদা subclass বানাতে চান না। wrap করলে feature-গুলো স্তরে স্তরে সাজানো যায়।
+আপনি object-এ সহজে feature যোগ করতে চান, নানা রকম মিশ্রণে। প্রতিটা মিশ্রণের জন্য আলাদা subclass বানাতে চান না। wrap করলে feature-গুলো স্তরে স্তরে সাজানো যায়।
 
 **ধাপ ২ — Dart-এ এটা কীভাবে কাজ করে।**
 
@@ -385,7 +385,7 @@ print(order.cost());        // 3.0
 
 **Interviewer কেন জিজ্ঞেস করে:** Flutter-এর "সবকিছু সবকিছুকে wrap করে" composition model এই pattern দিয়েই বোঝা যায়।
 
-**সাধারণ ভুল:** এটাকে inheritance-এর সাথে গুলিয়ে ফেলা। Decorator runtime-এ wrap করে (নমনীয় মিশ্রণ); subclass বানালে আচরণ compile time-এ আটকে যায়।
+**সাধারণ ভুল:** এটাকে inheritance-এর সাথে গুলিয়ে ফেলা। Decorator runtime-এ wrap করে (flexible মিশ্রণ); subclass বানালে আচরণ compile time-এ আটকে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Flutter কীভাবে decorator-এর উদাহরণ?"* → widget wrap করা (Padding, Center, Opacity) ভেতরের widget-এর subclass না বানিয়েই আচরণ যোগ করে।
@@ -438,7 +438,7 @@ UserFacade().getUserData(); // caller ভেতরের ধাপগুলো �
 
 **Interviewer কেন জিজ্ঞেস করে:** জটিলতাকে একটা সহজ, স্থির interface-এর পেছনে লুকাতে পারেন কি না, এটা তা পরীক্ষা করে।
 
-**সাধারণ ভুল:** এটাকে Adapter-এর সাথে গুলিয়ে ফেলা। Facade অনেক class-কে একটা interface-এ *সহজ* করে; Adapter একটা interface-কে আরেকটায় *রূপান্তর* করে ([Q5](#q5))।
+**সাধারণ ভুল:** এটাকে Adapter-এর সাথে গুলিয়ে ফেলা। Facade অনেক class-কে একটা interface-এ *সহজ* করে; Adapter একটা interface-কে আরেকটায় *বদলে ফেলা* করে ([Q5](#q5))।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Facade vs Repository?"* → repository হলো data access-এর জন্য বিশেষায়িত একটা facade, যেটা data source-ও লুকিয়ে রাখে।
@@ -454,12 +454,12 @@ UserFacade().getUserData(); // caller ভেতরের ধাপগুলো �
 > Deeper · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q8)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Proxy হলো একটা বদলি object, যেটা আসল object-এ পৌঁছানোর পথ নিয়ন্ত্রণ করে — interface একই থাকে, কিন্তু আগে বা পরে কিছু যোগ করে, যেমন caching, lazy loading, বা access check। ভাবুন একজন receptionist-এর কথা, যিনি ঠিক করেন আপনি manager-এর কাছে যেতে পারবেন কি না। Lazy-loading image placeholder একটা সাধারণ proxy।"
+"Proxy হলো একটা বদলি object, যেটা আসল object-এ পৌঁছানোর পথ control করে — interface একই থাকে, কিন্তু আগে বা পরে কিছু যোগ করে, যেমন caching, lazy loading, বা access check। ভাবুন একজন receptionist-এর কথা, যিনি ঠিক করেন আপনি manager-এর কাছে যেতে পারবেন কি না। Lazy-loading image placeholder একটা সাধারণ proxy।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — এটা কোন সমস্যা সমাধান করে।**
-কখনো কখনো আপনি আসল object সরাসরি ব্যবহার করতে চান না — হয়তো সেটা তৈরি করা ব্যয়বহুল, বা caching লাগে, বা permission check লাগে। Proxy সেটাকে মুড়ে দেয় আর ওই নিয়ন্ত্রণটা যোগ করে। বাইরে থেকে দেখতে আসল জিনিসের মতোই লাগে।
+কখনো কখনো আপনি আসল object সরাসরি ব্যবহার করতে চান না — হয়তো সেটা তৈরি করা খরচ বেশি, বা caching লাগে, বা permission check লাগে। Proxy সেটাকে মুড়ে দেয় আর ওই control-টা যোগ করে। বাইরে থেকে দেখতে আসল জিনিসের মতোই লাগে।
 
 **ধাপ ২ — Dart-এ এটা কীভাবে কাজ করে।**
 
@@ -469,11 +469,11 @@ abstract class Image {
 }
 class RealImage implements Image {
   final String file;
-  RealImage(this.file) { print('loading $file from disk'); } // ব্যয়বহুল
+  RealImage(this.file) { print('loading $file from disk'); } // ভারী
   @override void display() => print('showing $file');
 }
 
-// Proxy ব্যয়বহুল load-টা দেরি করায়, যতক্ষণ না সত্যিই দরকার হয় (lazy loading)
+// Proxy ভারী load-টা দেরি করায়, যতক্ষণ না সত্যিই দরকার হয় (lazy loading)
 class ImageProxy implements Image {
   final String file;
   RealImage? _real;
@@ -492,9 +492,9 @@ img.display();                        // এখন load হয়, তারপ�
 **ধাপ ৩ — বাস্তব Flutter use case।**
 Lazy-loading image (scroll করে চোখের সামনে এলে তবেই load), একটা caching proxy যেটা network-এ যাওয়ার আগে cache করা data ফেরত দেয়, বা একটা access-control proxy যেটা call-এর আগে auth check করে।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা একটা গভীর structural pattern। এটা যাচাই করে আপনি cross-cutting নিয়ন্ত্রণ (caching, lazy load) স্বচ্ছভাবে যোগ করতে পারেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা একটা গভীর structural pattern। এটা যাচাই করে আপনি cross-cutting control (caching, lazy load) স্বচ্ছভাবে যোগ করতে পারেন কি না।
 
-**সাধারণ ভুল:** Decorator-এর সাথে গুলিয়ে ফেলা। দুটোই মুড়ে দেয় আর একই interface ব্যবহার করে। কিন্তু Proxy আসল object-এ *পৌঁছানো নিয়ন্ত্রণ করে*; Decorator *আচরণ/feature যোগ করে*।
+**সাধারণ ভুল:** Decorator-এর সাথে গুলিয়ে ফেলা। দুটোই মুড়ে দেয় আর একই interface ব্যবহার করে। কিন্তু Proxy আসল object-এ *পৌঁছানো control করে*; Decorator *আচরণ/feature যোগ করে*।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Proxy-র ধরনগুলো কী?"* → Virtual (lazy load), caching, protection (access control), remote (দূরের object-এর বদলি হয়ে দাঁড়ায়)।
@@ -651,7 +651,7 @@ Checkout(BkashPayment()).process(9.99); // ইচ্ছেমতো strategy ব
 **সাধারণ ভুল:** State-এর সাথে গুলিয়ে ফেলা। Strategy বেছে নেয় *caller*, একটা কাজ অন্যভাবে করার জন্য। আর State object-এর আচরণ বদলায় যখন তার *internal state* বদলায় ([Q13](#q13))।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Strategy বনাম সাধারণ if/else?"* → Strategy-তে নতুন option যোগ করতে শুধু একটা class যোগ করলেই হয় (open/closed)। পুরোনো code সম্পাদনা করতে হয় না।
+- *"Strategy বনাম সাধারণ if/else?"* → Strategy-তে নতুন option যোগ করতে শুধু একটা class যোগ করলেই হয় (open/closed)। পুরোনো code edit করতে হয় না।
 
 **সম্পর্কিত:** [Q13 — State](#q13) · [Q2 — Factory Method](#q2) · [Q10 — Observer](#q10)
 
@@ -719,7 +719,7 @@ Editor-এ undo/redo, action queue (যেমন offline action পরে replay
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — এটা কোন সমস্যা সমাধান করে।**
-একটা object ভিন্ন ভিন্ন mode-এ ভিন্নভাবে আচরণ করে (একটা media player: playing, paused, stopped)। পুরোটা এক class-এ `if (status == ...)` দিয়ে লিখলে জট পাকিয়ে যায়। State pattern প্রতিটা mode-কে নিজের আলাদা class-এ রাখে।
+একটা object আলাদা আলাদা mode-এ আলাদাভাবে আচরণ করে (একটা media player: playing, paused, stopped)। পুরোটা এক class-এ `if (status == ...)` দিয়ে লিখলে জট পাকিয়ে যায়। State pattern প্রতিটা mode-কে নিজের আলাদা class-এ রাখে।
 
 **ধাপ ২ — Dart-এ এটা কীভাবে কাজ করে।**
 
@@ -765,12 +765,12 @@ Screen-এর status model করা (loading / loaded / error) — সাধা
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q14)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Template Method একটা algorithm-এর নির্দিষ্ট কাঠামো base class-এ ঠিক করে দেয়। কিন্তু নির্দিষ্ট step-গুলো subclass পূরণ করে। পুরো order আটকানো থাকে; শুধু customizable অংশটুকু বদলায়। এটা একটা recipe-র মতো — ধাপগুলো fixed, কিন্তু উপকরণ আপনি বেছে নেন।"
+"Template Method একটা algorithm-এর নির্দিষ্ট structure base class-এ ঠিক করে দেয়। কিন্তু নির্দিষ্ট step-গুলো subclass পূরণ করে। পুরো order আটকানো থাকে; শুধু customizable অংশটুকু বদলায়। এটা একটা recipe-র মতো — ধাপগুলো fixed, কিন্তু উপকরণ আপনি বেছে নেন।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — এটা কোন সমস্যা সমাধান করে।**
-কয়েকটা process-এর মোট ধাপ একই, কিন্তু অল্প কিছু ধাপে পার্থক্য থাকে। আপনি shared কাঠামোটা একবার লিখতে চান। আর প্রতিটা variant শুধু আলাদা অংশটুকু override করবে।
+কয়েকটা process-এর মোট ধাপ একই, কিন্তু অল্প কিছু ধাপে পার্থক্য থাকে। আপনি shared structure-টা একবার লিখতে চান। আর প্রতিটা variant শুধু আলাদা অংশটুকু override করবে।
 
 **ধাপ ২ — Dart-এ এটা কীভাবে কাজ করে।**
 
@@ -792,11 +792,11 @@ class CsvProcessor extends DataProcessor {
   @override String transform(String raw) => raw.toUpperCase();
 }
 
-CsvProcessor().process(); // fixed কাঠামো চলে, CSV-এর নিজস্ব step দিয়ে
+CsvProcessor().process(); // fixed structure চলে, CSV-এর নিজের step দিয়ে
 ```
 
 **ধাপ ৩ — বাস্তব Flutter use case।**
-`StatelessWidget`/`StatefulWidget` একটা template ব্যবহার করে: framework lifecycle নিয়ন্ত্রণ করে আর আপনার `build()` call করে (এই step-টা আপনি পূরণ করেন)। fixed flow আর overridable hook সহ abstract base class সব জায়গায় আছে।
+`StatelessWidget`/`StatefulWidget` একটা template ব্যবহার করে: framework lifecycle control করে আর আপনার `build()` call করে (এই step-টা আপনি পূরণ করেন)। fixed flow আর overridable hook সহ abstract base class সব জায়গায় আছে।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা ব্যাখ্যা করে framework (Flutter সহ) কীভাবে আপনাকে hook method দেয়, অথচ পুরো flow নিজের হাতে রাখে।
 
@@ -821,7 +821,7 @@ CsvProcessor().process(); // fixed কাঠামো চলে, CSV-এর ন�
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — এটা কোন সমস্যা সমাধান করে।**
-ভিন্ন ভিন্ন collection (list, set, tree) data আলাদাভাবে জমা রাখে। Iterator সেগুলো ঘুরে দেখার একটা সাধারণ উপায় দেয়। ফলে আপনার loop-এর code ভেতরের storage-এর উপর নির্ভর করে না।
+আলাদা আলাদা collection (list, set, tree) data আলাদাভাবে জমা রাখে। Iterator সেগুলো ঘুরে দেখার একটা সাধারণ উপায় দেয়। ফলে আপনার loop-এর code ভেতরের storage-এর উপর নির্ভর করে না।
 
 **ধাপ ২ — Dart-এ এটা কীভাবে কাজ করে (built in)।**
 
@@ -870,20 +870,20 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 | Adapter | Structural | দুটো interface মিলিয়ে দেয় | 3rd-party SDK wrap করা |
 | Decorator | Structural | feature যোগ করতে wrap করা | widget-এর চারপাশে Padding/Center |
 | Facade | Structural | অনেক class-এর জন্য একটা সহজ সামনের মুখ | API+cache-এর উপরে repository |
-| Proxy | Structural | বদলি, যে access নিয়ন্ত্রণ করে | lazy image, caching |
+| Proxy | Structural | বদলি, যে access control করে | lazy image, caching |
 | Composite | Structural | এক আর অনেককে একইভাবে দেখা | widget tree |
 | Observer | Behavioral | পরিবর্তন হলে subscriber-রা খবর পায় | ChangeNotifier, Streams |
 | Strategy | Behavioral | runtime-এ algorithm বদলে ফেলা | বদলানো যায় এমন repo/validator |
 | Command | Behavioral | action-কে object হিসেবে রাখা (undo) | undo/redo, action queue |
 | State | Behavioral | ভেতরের state অনুযায়ী আচরণ বদলায় | BLoC state, media player |
-| Template Method | Behavioral | কাঠামো fixed, ধাপগুলো override করা যায় | `build()` hook |
+| Template Method | Behavioral | structure fixed, ধাপগুলো override করা যায় | `build()` hook |
 | Iterator | Behavioral | collection একইভাবে ঘুরে দেখা | `for-in`, Iterable |
 
 ## যেগুলো নিয়ে মানুষ গুলিয়ে ফেলে
 
 - **Factory Method vs Abstract Factory** → একটা product বনাম মানানসই একটা family। ([Q2](#q2), [Q3](#q3))
 - **Adapter vs Facade** → interface বদলে দেওয়া বনাম অনেক class সহজ করা। ([Q5](#q5), [Q7](#q7))
-- **Decorator vs Proxy** → feature যোগ করা বনাম access নিয়ন্ত্রণ করা। ([Q6](#q6), [Q8](#q8))
+- **Decorator vs Proxy** → feature যোগ করা বনাম access control করা। ([Q6](#q6), [Q8](#q8))
 - **Strategy vs State** → caller নিজে algorithm বেছে নেয় বনাম ভেতরের state অনুযায়ী আচরণ বদলায়। ([Q11](#q11), [Q13](#q13))
 - **Strategy vs Template Method** → algorithm inject করা (composition) বনাম ধাপ override করা (inheritance)। ([Q11](#q11), [Q14](#q14))
 
@@ -908,7 +908,7 @@ Interviewer "সংজ্ঞা দিন" থেকে ঠেলে নিয�
 2. *"বাস্তব একটা ক্ষেত্রে Strategy দেখান।"* → DI দিয়ে inject করা বদলানো যায় এমন repository; পুরোনো code না বদলেই নতুন একটা যোগ করা যায়।
 3. *"Strategy আর State-এর পার্থক্য কী?"* → Strategy-তে caller বেছে নেয়; State ভেতরের state দেখে নিজেই বদলে যায়।
 4. *"undo/redo কীভাবে বানাবেন?"* → একটা stack-এ Command object; প্রতিটা জানে নিজেকে কীভাবে undo করতে হয়।
-5. *"এটা কি over-engineering নয়?"* → জোর করে করলে হ্যাঁ; pattern তখনই ব্যবহার করুন যখন এটা বাস্তব সমস্যা সমাধান করে (বিচারবুদ্ধি, মুখস্থ নয়)।
+5. *"এটা কি over-engineering নয়?"* → জোর করে করলে হ্যাঁ; pattern তখনই ব্যবহার করুন যখন এটা বাস্তব সমস্যা সমাধান করে (বুদ্ধি, মুখস্থ নয়)।
 
 *কখন* আর *কেন* ব্যাখ্যা করা — শুধু *কী* নয় — এটাই senior signal এনে দেয়। remote আর BD, দুই ধরনের interview-তেই।
 

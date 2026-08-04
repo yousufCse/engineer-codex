@@ -5,9 +5,9 @@ claude --resume abbeebc0-c14d-4e25-a217-43bcb48442f4
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
 > **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা সহ**, আর **link করা** — তাই এদিক-ওদিক ঘুরে ধাপে ধাপে প্রস্তুতি নিতে পারবেন। (DSA সবচেয়ে বেশি কাজে লাগে remote/আন্তর্জাতিক interview-এ।)
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। (DSA সবচেয়ে বেশি কাজে লাগে remote/আন্তর্জাতিক interview-এ।)
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-11-data-structure-bn.md](../software-engineer-flutter/section-11-data-structure.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-11-data-structure.md](../software-engineer-flutter/section-11-data-structure.md)
 
 ---
 
@@ -15,10 +15,10 @@ claude --resume abbeebc0-c14d-4e25-a217-43bcb48442f4
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২-৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code সহ ধাপে ধাপে বিস্তারিত ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংশ্লিষ্ট প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**খুব সাধারণ / সাধারণ / গভীর**) আর তার কাঠিন্য (**সহজ / মাঝারি / কঠিন**)।
 
@@ -73,7 +73,7 @@ claude --resume abbeebc0-c14d-4e25-a217-43bcb48442f4
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-২৩টা প্রশ্ন একসাথে লাগবে না। এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন। একটা পর্যায় তখনই টিক দিন, যখন আপনি **সংক্ষিপ্ত উত্তর** বলতে পারবেন আর না দেখে code লিখতে পারবেন।
+২৩টা প্রশ্ন একসাথে লাগবে না। এই পর্যায়গুলো একটার পর একটা শেষ করুন। একটা পর্যায় তখনই টিক দিন, যখন আপনি **সংক্ষিপ্ত উত্তর** বলতে পারবেন আর না দেখে code লিখতে পারবেন।
 
 **ধাপ ১ — DSA-র ভাষা (এখান থেকেই শুরু)।** সবকিছু এই মাপকাঠিতেই মাপা হয়।
 → [Q1 Big-O](#q1) · [Q2 Space complexity](#q2)
@@ -175,7 +175,7 @@ void printPairs(List<int> a) {
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Time complexity মাপে চলার সময় কতটা বাড়ে; space complexity মাপে input বাড়লে অতিরিক্ত memory কতটা বাড়ে। আমরা algorithm যে বাড়তি memory বানায় সেটাই গুনি, input নিজে গুনি না। Recursion-এর call stack-ও এর মধ্যে পড়ে — n স্তর গভীর recursion O(n) space নেয়।"
+"Time complexity মাপে চলার সময় কতটা বাড়ে; space complexity মাপে input বাড়লে বাড়তি memory কতটা বাড়ে। আমরা algorithm যে বাড়তি memory বানায় সেটাই গুনি, input নিজে গুনি না। Recursion-এর call stack-ও এর মধ্যে পড়ে — n স্তর গভীর recursion O(n) space নেয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -279,7 +279,7 @@ list.removeAt(0);  // সব আবার পিছনে সরে → O(n)
 | মাঝখানে/সামনে insert/remove | O(n) | বাকিগুলো সরাতে হয় |
 | search (`contains`, `indexOf`) | O(n) | একটা একটা করে item দেখা |
 
-**Interviewer কেন জিজ্ঞেস করে:** List সবচেয়ে বেশি ব্যবহৃত structure। তাঁরা জানতে চান, মাঝখানে insert করা আর search করার লুকানো খরচটা আপনি বোঝেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** List সবচেয়ে বেশি ব্যবহার করা structure। তাঁরা জানতে চান, মাঝখানে insert করা আর search করার লুকানো খরচটা আপনি বোঝেন কি না।
 
 **সাধারণ ভুল:** `insert(0, x)` বা `contains`-কে সস্তা ভাবা। দুটোই O(n)। অনেক বেশি search করলে বদলে Map বা Set ব্যবহার করুন ([Q7](#q7), [Q8](#q8))।
 
@@ -433,14 +433,14 @@ bool isBalanced(String s) {
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q6)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Queue হলো First-In-First-Out (FIFO) — যে item প্রথমে ঢোকে, সেটাই প্রথমে বের হয়, দোকানের line-এর মতো। Dart-এ `dart:collection`-এর `Queue` ব্যবহার করি। এটা দুই প্রান্তেই O(1)-এ add আর remove করে। সাধারণ List-ও queue-এর কাজ করতে পারে, কিন্তু `removeAt(0)` হলো O(n)। তাই `Queue`-ই ভালো।"
+"Queue হলো First-In-First-Out (FIFO) — যে item প্রথমে ঢোকে, সেটাই প্রথমে বের হয়, দোকানের line-এর মতো। Dart-এ `dart:collection`-এর `Queue` ব্যবহার করি। এটা দুই মাথাতেই O(1)-এ add আর remove করে। সাধারণ List-ও queue-এর কাজ করতে পারে, কিন্তু `removeAt(0)` হলো O(n)। তাই `Queue`-ই ভালো।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের ছবি: দোকানের line।**
 Line-এর প্রথম মানুষটি আগে service পান। নতুন মানুষ পেছনে যোগ হন। এটাই FIFO — stack-এর ঠিক উল্টো।
 
-**ধাপ ২ — Dart-এর `Queue` ব্যবহার করুন (দুই প্রান্তেই দ্রুত)।**
+**ধাপ ২ — Dart-এর `Queue` ব্যবহার করুন (দুই মাথাতেই দ্রুত)।**
 
 ```dart
 import 'dart:collection';
@@ -453,10 +453,10 @@ final peek = queue.first;          // সামনের item দেখা
 ```
 
 **ধাপ ৩ — শুধু List ব্যবহার করলে সমস্যা কোথায়?**
-List `add` (পেছনে) করতে পারে O(1)-এ, কিন্তু `removeAt(0)` (সামনে) হলো O(n)। কারণ বাকি প্রতিটা item সরে যায়। `Queue` বানানোই হয়েছে দুই প্রান্তে O(1) হওয়ার জন্য। তাই আসল queue-এর কাজে এটাই ব্যবহার করুন।
+List `add` (পেছনে) করতে পারে O(1)-এ, কিন্তু `removeAt(0)` (সামনে) হলো O(n)। কারণ বাকি প্রতিটা item সরে যায়। `Queue` বানানোই হয়েছে দুই মাথায় O(1) হওয়ার জন্য। তাই আসল queue-এর কাজে এটাই ব্যবহার করুন।
 
 **ধাপ ৪ — Deque (double-ended queue)।**
-`Queue` একই সাথে একটা deque: দুই প্রান্তেই add/remove করা যায় (`addFirst`, `addLast`, `removeFirst`, `removeLast`)। Sliding-window সমস্যায় এটা কাজে লাগে।
+`Queue` একই সাথে একটা deque: দুই মাথাতেই add/remove করা যায় (`addFirst`, `addLast`, `removeFirst`, `removeLast`)। Sliding-window সমস্যায় এটা কাজে লাগে।
 
 **ধাপ ৫ — Queue কোথায় ব্যবহার হয়।**
 - **BFS** (breadth-first search) tree/graph-এ queue ব্যবহার করে ([Q9](#q9), [Q10](#q10))।
@@ -615,7 +615,7 @@ print(a.difference(b));   // {1}
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q9)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Binary tree হলো node-এর গঠন, যেখানে প্রতিটা node-এর সর্বোচ্চ দুটো child থাকে — left আর right। BFS (breadth-first) queue ব্যবহার করে tree-টা level ধরে ধরে ঘোরে। DFS (depth-first) আগে একটা branch ধরে যতদূর সম্ভব গভীরে যায়, recursion বা stack দিয়ে। দুটোই প্রতিটা node-এ যায়, তাই দুটোই O(n)।"
+"Binary tree হলো node-এর গঠন, যেখানে প্রতিটা node-এর বড়জোর দুটো child থাকে — left আর right। BFS (breadth-first) queue ব্যবহার করে tree-টা level ধরে ধরে ঘোরে। DFS (depth-first) আগে একটা branch ধরে যতদূর সম্ভব গভীরে যায়, recursion বা stack দিয়ে। দুটোই প্রতিটা node-এ যায়, তাই দুটোই O(n)।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -820,7 +820,7 @@ Binary search শুধু sorted data-তে কাজ করে। Data sorted
 
 ---
 
-## <a id="q12"></a>12. Bubble, Insertion, Merge, আর Quick Sort ব্যাখ্যা করুন — পদ্ধতি আর complexity।
+## <a id="q12"></a>12. Bubble, Insertion, Merge, আর Quick Sort ব্যাখ্যা করুন — উপায় আর complexity।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q12)
 
@@ -888,7 +888,7 @@ List<int> _merge(List<int> l, List<int> r) {
 **সাধারণ ভুল:** quick sort-কে "সবসময় O(n log n)" বলা — এর worst case O(n²)। আর merge sort-কে in-place বলা — এটার O(n) বাড়তি জায়গা লাগে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"'stable' মানে কী?"* → সমান item-গুলো তাদের আগের আপেক্ষিক order ধরে রাখে। এক field ধরে sort করে অন্য field-এর order রাখতে চাইলে এটা কাজে লাগে।
+- *"'stable' মানে কী?"* → সমান item-গুলো তাদের আগের order ঠিক ধরে রাখে। এক field ধরে sort করে অন্য field-এর order রাখতে চাইলে এটা কাজে লাগে।
 - *"Dart-এর `list.sort()` কী ব্যবহার করে?"* → একটা tuned hybrid (ছোট অংশের জন্য insertion sort, বাকিটার জন্য merge-এর ধরনের)। আপনি খুব কমই নিজে হাতে sort লিখবেন।
 
 **সম্পর্কিত:** [Q11 — binary search-এর sorted data লাগে](#q11) · [Q1 — Big-O](#q1) · [Q15 — recursion (merge/quick)](#q15)
@@ -906,14 +906,14 @@ List<int> _merge(List<int> l, List<int> r) {
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q13)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Two pointers মানে nested loop-এর বদলে দুটো index variable ব্যবহার করা, যেগুলো list-এর ভেতর দিয়ে চলে। এটা অনেক O(n²) সমস্যাকে O(n)-এ নামিয়ে আনে। সাধারণ দুটো ধরন আছে — দুই pointer দুই প্রান্ত থেকে শুরু হয়ে মাঝের দিকে আসে, অথবা দুটোই একই দিকে আলাদা গতিতে চলে।"
+"Two pointers মানে nested loop-এর বদলে দুটো index variable ব্যবহার করা, যেগুলো list-এর ভেতর দিয়ে চলে। এটা অনেক O(n²) সমস্যাকে O(n)-এ নামিয়ে আনে। সাধারণ দুটো ধরন আছে — দুই pointer দুই মাথা থেকে শুরু হয়ে মাঝের দিকে আসে, অথবা দুটোই একই দিকে আলাদা গতিতে চলে।"
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — বাস্তব জীবনের ছবি: দুইজন মানুষ দুই প্রান্ত থেকে পড়ছেন।**
+**ধাপ ১ — বাস্তব জীবনের ছবি: দুইজন মানুষ দুই মাথা থেকে পড়ছেন।**
 একটা শব্দ সামনে থেকে আর পেছন থেকে একই রকম পড়া যায় কি না দেখতে, একজন শুরু থেকে পড়েন আর আরেকজন শেষ থেকে, দুজনেই মাঝের দিকে আসেন। এটাই two pointers।
 
-**ধাপ ২ — বিপরীত দুই প্রান্ত (sorted data-তে কাজ করে)।**
+**ধাপ ২ — বিপরীত দুই মাথা (sorted data-তে কাজ করে)।**
 উদাহরণ: একটা sorted list-এ এমন দুটো সংখ্যা খুঁজুন যাদের যোগফল target-এর সমান।
 
 ```dart
@@ -951,11 +951,11 @@ int removeDuplicates(List<int> sorted) {
 ```
 
 **ধাপ ৪ — কীভাবে চিনবেন।**
-খেয়াল করুন: একটা **sorted** list, **pair** খোঁজা, **দুই প্রান্ত** তুলনা করা, বা **in-place** সাজানো। এগুলো two pointers-এর ইঙ্গিত দেয়।
+খেয়াল করুন: একটা **sorted** list, **pair** খোঁজা, **দুই মাথা** তুলনা করা, বা **in-place** সাজানো। এগুলো two pointers-এর ইশারা দেয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** brute force-কে linear time-এ নামানোর সবচেয়ে সাধারণ pattern-গুলোর একটা এটা।
 
-**সাধারণ ভুল:** unsorted data-তে two pointers ব্যবহার করা, যখন কৌশলটার sorted input দরকার (বিপরীত-প্রান্ত ধরনটায়)।
+**সাধারণ ভুল:** unsorted data-তে two pointers ব্যবহার করা, যখন কৌশলটার sorted input দরকার (বিপরীত-মাথা ধরনটায়)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Two pointers vs sliding window?"* → Sliding window হলো two-pointer pattern-এর একটা বিশেষ রূপ, যেখানে দুই pointer-এর মাঝের ফাঁকটা একটা "window" — আপনি সেটা বড় আর ছোট করেন ([Q14](#q14))।
@@ -978,7 +978,7 @@ int removeDuplicates(List<int> sorted) {
 **ধাপ ১ — বাস্তব জীবনের ছবি: চলন্ত train-এর জানালা।**
 Train-এর জানালা দিয়ে তাকালে আপনি একটা নির্দিষ্ট অংশের দৃশ্য দেখেন। Train এগোলে একটা নতুন গাছ দৃশ্যে ঢোকে আর একটা পুরোনো গাছ বেরিয়ে যায় — আপনাকে সবকিছু আবার scan করতে হয় না।
 
-**ধাপ ২ — Fixed window — পরপর k-টা item-এর সর্বোচ্চ যোগফল।**
+**ধাপ ২ — Fixed window — পরপর k-টা item-এর সবচেয়ে বড় যোগফল।**
 
 ```dart
 int maxSumOfK(List<int> a, int k) {
@@ -1093,7 +1093,7 @@ int factorialTail(int n, [int acc = 1]) {
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — DP কখন কাজে লাগে।**
-DP এমন সমস্যায় খাটে যার দুটো বৈশিষ্ট্য আছে:
+DP এমন সমস্যায় খাটে যার দুটো গুণ আছে:
 1. **Overlapping sub-problems** — একই ছোট সমস্যা বারবার সমাধান করতে হয়।
 2. **Optimal substructure** — সেরা উত্তরটা sub-problem-গুলোর সেরা উত্তর দিয়ে তৈরি হয়।
 
@@ -1132,7 +1132,7 @@ int fibTab(int n) {
 
 **Interviewer কেন জিজ্ঞেস করে:** DP একটা সাধারণ medium/hard বিষয়। তাঁরা দেখতে চান আপনি বারবার হওয়া কাজ ধরতে পারেন কি না, আর সেটা cache করেন কি না।
 
-**সাধারণ ভুল:** যেখানে overlapping sub-problem নেই সেখানে DP ব্যবহার করা (তখন এটা শুধু সাধারণ recursion)। অথবা ফলাফল সত্যিই জমা/পুনরায় ব্যবহার করতে ভুলে যাওয়া।
+**সাধারণ ভুল:** যেখানে overlapping sub-problem নেই সেখানে DP ব্যবহার করা (তখন এটা শুধু সাধারণ recursion)। অথবা ফলাফল সত্যিই জমা/আবার ব্যবহার করতে ভুলে যাওয়া।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"কিছু পরিচিত DP সমস্যা বলুন।"* → Fibonacci, climbing stairs, coin change, longest common subsequence, knapsack।
@@ -1183,9 +1183,9 @@ String reverseManual(String s) {
 ```
 
 **ধাপ ৩ — ফাঁদ: emoji আর accent।**
-কিছু character (emoji, accent দেওয়া অক্ষর) একাধিক code unit দিয়ে তৈরি। সাদামাটা reverse এগুলো ভেঙে ফেলতে পারে। Interview-এর জন্য সহজ version-টাই যথেষ্ট। শুধু বলুন যে আপনি জানেন — ঠিকমতো Unicode reverse করতে `characters` package লাগে (`s.characters.toList().reversed`)।
+কিছু character (emoji, accent দেওয়া অক্ষর) একের বেশি code unit দিয়ে তৈরি। সাদামাটা reverse এগুলো ভেঙে ফেলতে পারে। Interview-এর জন্য সহজ version-টাই যথেষ্ট। শুধু বলুন যে আপনি জানেন — ঠিকমতো Unicode reverse করতে `characters` package লাগে (`s.characters.toList().reversed`)।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা একটা warm-up প্রশ্ন। এটা মৌলিক string handling দেখে, আর দেখে আপনি two-pointer swap জানেন কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা একটা warm-up প্রশ্ন। এটা গোড়ার string handling দেখে, আর দেখে আপনি two-pointer swap জানেন কি না।
 
 **সাধারণ ভুল:** Dart `String`-কে array-র মতো index করে জায়গাতেই swap করার চেষ্টা করা — string immutable, তাই আগে list-এ convert করতেই হবে।
 
@@ -1208,7 +1208,7 @@ String reverseManual(String s) {
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — দুই প্রান্ত থেকে two pointers।**
+**ধাপ ১ — দুই মাথা থেকে two pointers।**
 
 ```dart
 bool isPalindrome(String s) {
@@ -1248,7 +1248,7 @@ bool isPalindromeSimple(String s) => s == s.split('').reversed.join();
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা একটা পরিষ্কার two-pointer warm-up। তাঁরা আপনাকে case/যতিচিহ্ন handle করতে চাপ দিতে পারেন। এতে খুঁটিনাটির প্রতি মনোযোগ যাচাই হয়।
 
-**সাধারণ ভুল:** প্রশ্নে ইঙ্গিত থাকা সত্ত্বেও input clean করতে ভুলে যাওয়া ("space আর case বাদ দিন")। অথবা O(1) space সম্ভব হওয়া সত্ত্বেও reverse করা copy বানানো।
+**সাধারণ ভুল:** প্রশ্নে ইশারা থাকা সত্ত্বেও input clean করতে ভুলে যাওয়া ("space আর case বাদ দিন")। অথবা O(1) space সম্ভব হওয়া সত্ত্বেও reverse করা copy বানানো।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"একটা সংখ্যা palindrome কি না check করুন?"* → String-এ convert করুন, অথবা গণিত দিয়ে সংখ্যাটা reverse করুন।
@@ -1287,7 +1287,7 @@ Set<int> findDuplicates(List<int> nums) {
 প্রতিটা item-কে বাকি প্রতিটা item-এর সাথে তুলনা করা O(n²) — বড় input-এ অনেক ধীর। Set "এটা কি আগে দেখেছি?" check-টাকে O(1) বানিয়ে দেয়।
 
 ```dart
-// এই O(n^2) পদ্ধতিটা এড়িয়ে চলুন:
+// এই O(n^2) উপায়টা এড়িয়ে চলুন:
 // প্রতিটা i-এর জন্য, প্রতিটা j-এর জন্য, nums[i] আর nums[j] তুলনা
 ```
 
@@ -1362,7 +1362,7 @@ void fizzBuzz2(int n) {
 }
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা মৌলিক control flow আর modulo operator-এর দ্রুত যাচাই — আর আপনি order-এর ফাঁদটা ধরতে পারেন কি না তাও দেখে।
+**Interviewer কেন জিজ্ঞেস করে:** এটা গোড়ার control flow আর modulo operator-এর দ্রুত যাচাই — আর আপনি order-এর ফাঁদটা ধরতে পারেন কি না তাও দেখে।
 
 **সাধারণ ভুল:** 15-এর case-এর আগে 3 আর 5 check করা, ফলে 15-এর গুণিতক কখনোই "FizzBuzz" print করে না।
 
@@ -1425,7 +1425,7 @@ int fibMemo(int n, [Map<int, int>? memo]) {
 
 **ধাপ ৪ — তুলনা।**
 
-| পদ্ধতি | Time | Space |
+| উপায় | Time | Space |
 |---|---|---|
 | সাধারণ recursion | O(2ⁿ) | O(n) stack |
 | Memoized recursion | O(n) | O(n) |
@@ -1485,7 +1485,7 @@ List<int>? twoSum(List<int> nums, int target) {
 **সাধারণ ভুল:** brute-force O(n²) দিয়ে থেমে যাওয়া। আরেকটা ভুল — check করার *আগে* বর্তমান সংখ্যাটা Map-এ যোগ করা। এতে একটা সংখ্যা ভুলভাবে নিজের সাথেই জোড়া লেগে যেতে পারে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"List sorted হলে কী করবেন?"* → দুই প্রান্ত থেকে two pointers ব্যবহার করুন ([Q13](#q13)), তাতে বাড়তি space O(1)।
+- *"List sorted হলে কী করবেন?"* → দুই মাথা থেকে two pointers ব্যবহার করুন ([Q13](#q13)), তাতে বাড়তি space O(1)।
 - *"কোনো জোড়া না থাকলে?"* → null বা খালি ফেরত দিন, আর কথাটা স্পষ্ট করে বলুন।
 
 **সম্পর্কিত:** [Q7 — Map](#q7) · [Q13 — two pointers (sorted version)](#q13) · [Q1 — Big-O](#q1)
@@ -1574,14 +1574,14 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 ## কোন structure / technique ব্যবহার করবেন
 
-| প্রয়োজন | যা ব্যবহার করবেন |
+| দরকার | যা ব্যবহার করবেন |
 |---|---|
 | Key দিয়ে দ্রুত lookup | Map ([Q7](#q7)) |
 | Uniqueness / "আগে দেখেছি?" | Set ([Q8](#q8)) |
 | LIFO (undo, navigation) | Stack ([Q5](#q5)) |
 | FIFO / BFS | Queue ([Q6](#q6)) |
 | Sorted data-তে search | Binary search ([Q11](#q11)) |
-| Sorted data-তে pair / দুই প্রান্ত | Two pointers ([Q13](#q13)) |
+| Sorted data-তে pair / দুই মাথা | Two pointers ([Q13](#q13)) |
 | সেরা subarray/substring | Sliding window ([Q14](#q14)) |
 | বারবার একই sub-problem | Dynamic programming ([Q16](#q16)) |
 
@@ -1612,7 +1612,7 @@ Interviewer-রা "সমাধান করুন" বলেই থেমে �
 1. *"Two Sum solve করুন।"* → দুটো loop দিয়ে brute force, O(n²)।
 2. *"আরও ভালো করা যায়?"* → দেখা মানগুলোর একটা Map ব্যবহার করুন → O(n) time।
 3. *"Trade-off কী?"* → Map-এর জন্য O(n) extra space; time-এর বদলে space।
-4. *"List sorted হলে কী করবেন?"* → দুই প্রান্ত থেকে two pointers → O(1) extra space।
+4. *"List sorted হলে কী করবেন?"* → দুই মাথা থেকে two pointers → O(1) extra space।
 5. *"কোনো বৈধ pair না থাকলে?"* → null/খালি return করুন আর সেটা বলে দিন; edge case handle করুন।
 
 আপনার প্রথম ধারণার Big-O সবসময় বলে দিন, তারপর মুখে বলতে বলতে সেটা উন্নত করুন। Brute force থেকে optimal পর্যন্ত যাত্রাটা দেখানোই senior signal এনে দেয় — remote আর BD দুই ধরনের interview-তেই।

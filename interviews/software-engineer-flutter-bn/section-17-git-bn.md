@@ -1,10 +1,10 @@
 # Section 17 — Git & Version Control
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** আর **Bangladesh (BD)** company-র interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরোপুরি ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক গিয়ে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। Command-গুলো ঠিক যেভাবে টাইপ করবেন সেভাবেই দেখানো।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন। Command-গুলো ঠিক যেভাবে টাইপ করবেন সেভাবেই দেখানো।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-17-git-bn.md](../software-engineer-flutter/section-17-git.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-17-git.md](../software-engineer-flutter/section-17-git.md)
 
 ---
 
@@ -12,10 +12,10 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমেই বলার মতো ২–৩ বাক্যের উত্তর।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
 - **এবার পুরোটা বুঝি** — বাস্তব command সহ ধাপে ধাপে ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংশ্লিষ্ট প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে ট্যাগ দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
@@ -142,7 +142,7 @@ Commit-কে ভাবুন video game-এর নাম দেওয়া sav
 
 **এবার পুরোটা বুঝি:**
 
-**ধাপ ১ — বাস্তব ছবি: একটা সমান্তরাল কাজের জায়গা।**
+**ধাপ ১ — বাস্তব ছবি: একটা পাশাপাশি কাজের জায়গা।**
 Branch হলো project-এর একটা কপির মতো, যেখানে আপনি স্বাধীনভাবে পরীক্ষা করতে পারেন। কাজ করলে সেটা merge করে দেন; না করলে delete করে দেন — main নিরাপদ থাকে।
 
 **ধাপ ২ — Command-গুলো।**
@@ -178,7 +178,7 @@ git push -u origin feature/login  # নতুন branch remote-এ push কর�
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q3)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`fetch` remote থেকে সর্বশেষ commit নামায়, কিন্তু আপনার working branch বদলায় না — এটা শুধু remote সম্পর্কে আপনার জানাটা হালনাগাদ করে। `pull` একটা `fetch` করে, তারপর সাথে সাথে সেই পরিবর্তনগুলো আপনার বর্তমান branch-এ merge করে। তাই `pull = fetch + merge`।"
+"`fetch` remote থেকে সর্বশেষ commit নামায়, কিন্তু আপনার working branch বদলায় না — এটা শুধু remote সম্পর্কে আপনার জানাটা update করে। `pull` একটা `fetch` করে, তারপর সাথে সাথে সেই পরিবর্তনগুলো আপনার বর্তমান branch-এ merge করে। তাই `pull = fetch + merge`।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -189,7 +189,7 @@ git fetch          # remote commit নামায়; আপনার file অ�
 git log origin/main   # merge করার আগে নতুন কী আছে দেখে নিতে পারেন
 ```
 
-`fetch` নিরাপদ — এটা কখনোই আপনার working file বদলায় না। এটা শুধু remote-tracking branch (`origin/main`) হালনাগাদ করে।
+`fetch` নিরাপদ — এটা কখনোই আপনার working file বদলায় না। এটা শুধু remote-tracking branch (`origin/main`) update করে।
 
 **ধাপ ২ — `pull` — এক ধাপে fetch আর merge।**
 
@@ -197,16 +197,16 @@ git log origin/main   # merge করার আগে নতুন কী আছ�
 git pull           # = git fetch + git merge origin/<branch>
 ```
 
-এটা আপনার বর্তমান branch সাথে সাথে হালনাগাদ করে। সুবিধাজনক, কিন্তু হঠাৎ একটা merge বা conflict তৈরি করতে পারে।
+এটা আপনার বর্তমান branch সাথে সাথে update করে। সুবিধাজনক, কিন্তু হঠাৎ একটা merge বা conflict তৈরি করতে পারে।
 
 **ধাপ ৩ — কখন কোনটা ব্যবহার করবেন।**
 - **`fetch`** — যখন remote-এর পরিবর্তন আগে দেখে নিতে চান (বেশি নিরাপদ)।
-- **`pull`** — যখন শুধু দ্রুত হালনাগাদ হতে চান।
+- **`pull`** — যখন শুধু দ্রুত update হতে চান।
 - `git pull --rebase` আপনার local commit-গুলো remote commit-এর উপরে বসায়, ফলে history সরলরেখায় থাকে ([rebase](#q4) দেখুন)।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি বোঝেন কি না যে `pull` চুপচাপ merge করে ফেলে, আর সেটা আপনাকে চমকে দিতে পারে।
 
-**সাধারণ ভুল:** ভাবা যে `fetch` আপনার file হালনাগাদ করে (করে না), অথবা uncommitted পরিবর্তনের উপর `pull` করে এলোমেলো conflict বাধিয়ে ফেলা।
+**সাধারণ ভুল:** ভাবা যে `fetch` আপনার file update করে (করে না), অথবা uncommitted পরিবর্তনের উপর `pull` করে এলোমেলো conflict বাধিয়ে ফেলা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`origin` কী?"* → যে remote থেকে clone করেছেন, তার default নাম।
@@ -406,7 +406,7 @@ git reset --hard HEAD~1    # শেষ commit undo আর changes মুছে �
 **ধাপ ৪ — Reset history নতুন করে লেখে।**
 Rebase-এর মতোই `reset` history বদলে দেয় — shared branch-এ push করা commit reset করবেন না। Shared branch-এর জন্য `revert` ব্যবহার করুন ([Q8](#q8))।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা undo সম্পর্কে সূক্ষ্ম জ্ঞান দেখে, আর আপনি জানেন কি না যে `--hard` কাজ নষ্ট করে দেয়।
+**Interviewer কেন জিজ্ঞেস করে:** এটা undo সম্পর্কে খুঁটিনাটি জ্ঞান দেখে, আর আপনি জানেন কি না যে `--hard` কাজ নষ্ট করে দেয়।
 
 **সাধারণ ভুল:** `git reset --hard` চালিয়ে commit না করা কাজ হারিয়ে ফেলা। (কখনো কখনো `git reflog` দিয়ে ফেরত পাওয়া যায়, কিন্তু এর উপর ভরসা করবেন না।)
 
@@ -662,7 +662,7 @@ HEAD মানে "আপনি এখন কোথায় আছেন।" �
 git checkout a1b2c3d   # এখন detached HEAD-এ — HEAD commit-কে point করছে, branch-কে নয়
 ```
 
-**ধাপ ২ — কেন এটা ঝুঁকিপূর্ণ।**
+**ধাপ ২ — কেন এটা ঝুঁকির কাজ।**
 এখানে commit করে তারপর অন্য branch-এ `switch` করলে, ওই commit-গুলো কোনো কিছুর সাথে যুক্ত থাকে না। ফলে খুঁজে পাওয়া কঠিন হয়ে যায় (cleanup-এর জন্য যোগ্য হয়ে যায়)।
 
 **ধাপ ৩ — কীভাবে recover করবেন / নিরাপদে ব্যবহার করবেন।**
@@ -766,7 +766,7 @@ android/key.properties
 **ধাপ ২ — GitHub Flow — সহজ, PR-ভিত্তিক।**
 - একটাই main branch; একটা ছোট feature branch বানান, Pull Request খুলুন, review, merge, deploy।
 - Web app আর continuous deployment-এর জন্য ভালো।
-- সহজ আর দ্রুত; দলে সবচেয়ে বেশি ব্যবহৃত flow।
+- সহজ আর দ্রুত; দলে সবচেয়ে বেশি ব্যবহার করা flow।
 
 **ধাপ ৩ — Trunk-Based — সবাই main-এ।**
 - খুব স্বল্পস্থায়ী branch (কয়েক ঘণ্টা), অনবরত `main`-এ merge হয়; অসম্পূর্ণ কাজ **feature flag**-এর আড়ালে লুকানো থাকে।
@@ -799,7 +799,7 @@ android/key.properties
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q16)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Conventional Commits হলো commit message লেখার একটা মান করা format: একটা type, একটা ঐচ্ছিক scope, আর একটা description — যেমন `feat(auth): add Google login`। দলগুলো এটা নেয় কারণ একই রকম format history পড়তে সহজ করে, আর tool দিয়ে changelog ও version number নিজে থেকে তৈরি করা যায়।"
+"Conventional Commits হলো commit message লেখার একটা মান করা format: একটা type, একটা optional scope, আর একটা description — যেমন `feat(auth): add Google login`। দলগুলো এটা নেয় কারণ একই রকম format history পড়তে সহজ করে, আর tool দিয়ে changelog ও version number নিজে থেকে তৈরি করা যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -895,7 +895,7 @@ Squash করা history rewrite করে। এটা নিজের feature 
 - **আগে নিজে review করুন** — নিজের diff পড়ুন; স্পষ্ট সমস্যাগুলো নিজেই ধরুন।
 
 **ধাপ ২ — Reviewer হিসেবে।**
-- **সময়মতো করুন** — আটকে থাকা teammate ব্যয়বহুল; দ্রুত review করুন।
+- **সময়মতো করুন** — আটকে থাকা teammate ভারী; দ্রুত review করুন।
 - **ভদ্র আর নির্দিষ্ট হোন** — "list খালি হলে কী হবে?" — এটা "এটা ভুল"-এর চেয়ে অনেক ভালো।
 - **অগ্রাধিকার ঠিক করুন** — আগে correctness আর design; linter যে style সামলায় তা নিয়ে খুঁতখুঁত করবেন না।
 - **যথেষ্ট ভালো হলেই approve করুন** — নিখুঁত হলে নয়; ছোট জিনিসগুলোর জন্য follow-up-এর পরামর্শ দিন।
@@ -906,7 +906,7 @@ Squash করা history rewrite করে। এটা নিজের feature 
 **ধাপ ৪ — সুর-ই সব।**
 Review হয় code নিয়ে, মানুষ নিয়ে নয়। প্রশ্ন আর পরামর্শ কাজটাকে সহযোগিতামূলক রাখে; হুকুম আর "আপনি কেন এটা করলেন…" আক্রমণের মতো লাগে।
 
-**Interviewer কেন জিজ্ঞেস করে:** Code review একজন senior-এর দৈনন্দিন দায়িত্ব; তাঁরা আপনার সহযোগিতা আর বিচারবুদ্ধি যাচাই করেন।
+**Interviewer কেন জিজ্ঞেস করে:** Code review একজন senior-এর দৈনন্দিন দায়িত্ব; তাঁরা আপনার সহযোগিতা আর বুদ্ধি যাচাই করেন।
 
 **সাধারণ ভুল:** বিশাল PR (review করাই যায় না), অথবা এমন review যেখানে formatting নিয়ে খুঁত ধরা হয় কিন্তু আসল design/correctness সমস্যা চোখ এড়িয়ে যায়।
 
@@ -924,7 +924,7 @@ Review হয় code নিয়ে, মানুষ নিয়ে নয়
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q19)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"আমি hotfix branch সরাসরি production branch (বা সর্বশেষ release tag) থেকে কাটি, চলমান feature কাজ থেকে নয়। ফলে fix-এ শুধু fix-টুকুই থাকে। আমি fix করি, test করি, deploy করি, তারপর সেটা আবার main-এ merge করি যাতে fix হারিয়ে না যায় — বা যেখানে দরকার সেখানে cherry-pick করি। পরে feature branch-গুলো main pull করে fix-টা নিয়ে নেয়।"
+"আমি hotfix branch সরাসরি production branch (বা সর্বশেষ release tag) থেকে কাটি, চলতে থাকা feature কাজ থেকে নয়। ফলে fix-এ শুধু fix-টুকুই থাকে। আমি fix করি, test করি, deploy করি, তারপর সেটা আবার main-এ merge করি যাতে fix হারিয়ে না যায় — বা যেখানে দরকার সেখানে cherry-pick করি। পরে feature branch-গুলো main pull করে fix-টা নিয়ে নেয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -949,10 +949,10 @@ git push
 পুরোনো কোনো release branch-এও দরকার হলে, সেখানে fix commit-টা **cherry-pick** করুন ([Q6](#q6))।
 
 **ধাপ ৩ — Feature branch-গুলো ধরে ফেলে।**
-চলমান feature branch-গুলো তখন `merge main` করে (বা rebase করে) hotfix-টা তুলে নেয়। ফলে তারা bug-টা আবার ফিরিয়ে আনে না।
+চলতে থাকা feature branch-গুলো তখন `merge main` করে (বা rebase করে) hotfix-টা তুলে নেয়। ফলে তারা bug-টা আবার ফিরিয়ে আনে না।
 
 **ধাপ ৪ — Hotfix আলাদা রাখা কেন দরকার।**
-Hotfix হতে হবে ছোট আর কম ঝুঁকির। অসমাপ্ত feature-এর সাথে মেশালে সেটা ঝুঁকিপূর্ণ হয় আর deploy করতে দেরি হয় — incident-এর সময়ে ঠিক এটাই আপনি সামলাতে পারবেন না।
+Hotfix হতে হবে ছোট আর কম ঝুঁকির। অসমাপ্ত feature-এর সাথে মেশালে সেটা ঝুঁকির হয় আর deploy করতে দেরি হয় — incident-এর সময়ে ঠিক এটাই আপনি সামলাতে পারবেন না।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা চাপের মুখে বাস্তব release management যাচাই করে — যা একজন senior-এর দায়িত্ব।
 
@@ -976,7 +976,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 | Command | যা করে |
 |---|---|
-| `git add` / `commit` | stage করা / history-তে সংরক্ষণ |
+| `git add` / `commit` | stage করা / history-তে জমিয়ে রাখা |
 | `git push` / `pull` | upload / download+merge |
 | `git switch -c name` | branch তৈরি + switch |
 | `git stash` / `stash pop` | পরিবর্তন সরিয়ে রাখা / ফিরিয়ে আনা |
@@ -1012,7 +1012,7 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 - **`bisect`** = খারাপ commit খোঁজার binary search। ([Q12](#q12))
 - **Detached HEAD** = একটা commit-এ আছেন, branch-এ নয় — কাজ বাঁচাতে `git switch -c`। ([Q13](#q13))
 - **GitHub Flow** (branch→PR→merge) বেশিরভাগ team-এর জন্য মানানসই; Git Flow ভারী। ([Q15](#q15))
-- **Conventional Commits** (`feat:`, `fix:`) → পড়ার মতো history + স্বয়ংক্রিয় versioning। ([Q16](#q16))
+- **Conventional Commits** (`feat:`, `fix:`) → পড়ার মতো history + automatic versioning। ([Q16](#q16))
 - **ছোট PR + ভদ্র, নির্দিষ্ট review** বেশি bug ধরে। ([Q18](#q18))
 - **Hotfix** production থেকে কাটুন, main-এ merge করে ফেরান। ([Q19](#q19))
 
@@ -1022,12 +1022,12 @@ Interview-এর দিন সকালে এটা পড়ুন। আগ�
 
 # অনুশীলন: interviewer কীভাবে আরও গভীরে যান
 
-Interviewer শুধু syntax নয়, বিচারবুদ্ধি যাচাই করেন। জোরে বলে অনুশীলন করুন:
+Interviewer শুধু syntax নয়, বুদ্ধি যাচাই করেন। জোরে বলে অনুশীলন করুন:
 
 1. *"এখানে merge না rebase?"* → local পরিষ্কার করতে rebase; shared branch-এ merge; push করা commit কখনোই rebase নয়।
 2. *"আপনি একটা secret commit করে ফেলেছেন — এখন কী?"* → history থেকে সরান আর key rotate করুন; শুধু .gitignore যথেষ্ট নয়।
 3. *"Production down আর আপনার feature অর্ধেক শেষ — ঠিক করুন।"* → production থেকে hotfix branch কাটুন, deploy করুন, main-এ merge করে ফেরান।
-4. *"কোন commit এটা ভেঙেছে বের করুন।"* → `git bisect` (binary search), `bisect run` দিয়ে স্বয়ংক্রিয় করুন।
+4. *"কোন commit এটা ভেঙেছে বের করুন।"* → `git bisect` (binary search), `bisect run` দিয়ে automatic করুন।
 5. *"আপনার PR 1,500 line — review করতে স্বচ্ছন্দ?"* → না; ছোট, নির্দিষ্ট PR-এ ভাগ করুন।
 
 *প্রতিটা command history-তে কী করে* আর *shared branch-এ কোনটা নিরাপদ* — এটা ব্যাখ্যা করতে পারাই senior signal, remote আর BD দুই ধরনের interview-তেই।

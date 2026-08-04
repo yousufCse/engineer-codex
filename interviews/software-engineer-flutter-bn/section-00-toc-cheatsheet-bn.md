@@ -1,7 +1,7 @@
 # Senior Flutter Engineer — Interview প্রস্তুতি
 ## সূচিপত্র ও Quick Reference Cheat Sheet
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-00-toc-cheatsheet-bn.md](../software-engineer-flutter/section-00-toc-cheatsheet.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-00-toc-cheatsheet.md](../software-engineer-flutter/section-00-toc-cheatsheet.md)
 
 ---
 
@@ -19,7 +19,7 @@
 ## Section 2: Dart Async Programming
 - `Future`, `async`/`await`, আর event loop
 - `Stream` — single-subscription বনাম broadcast
-- `Completer` — নিজের হাতে Future নিয়ন্ত্রণ
+- `Completer` — নিজের হাতে Future control
 - async code-এ error handling: `try/catch` বনাম `.catchError()`
 - `Future.wait`, `Future.any`, `Future.delayed`
 
@@ -93,7 +93,7 @@
 ## Section 12: Animations
 - `AnimationController`, `Tween`, `AnimatedBuilder`
 - Implicit animation — `AnimatedContainer`, `AnimatedOpacity`, ইত্যাদি
-- Explicit animation — যখন পুরো নিয়ন্ত্রণ দরকার
+- Explicit animation — যখন পুরো control দরকার
 - `Hero` animation — shared element transition
 - `Rive` আর `Lottie` — জটিল vector animation
 - canvas drawing দিয়ে `CustomPainter` animation
@@ -109,25 +109,25 @@
 ## Section 14: Clean Architecture ও Design Patterns
 - Clean Architecture-এর layer: Presentation → Domain → Data
 - Repository pattern — data source আড়াল করা
-- Flutter/Dart-এ SOLID principle প্রয়োগ
+- Flutter/Dart-এ SOLID principle কাজে লাগানো
 - Dependency Injection — `get_it`, `injectable`
 - Flutter-এ Factory, Singleton, Observer pattern
 - Feature-first বনাম layer-first folder structure
 
 ## Section 15: Flutter Web ও Desktop
 - Flutter Web কীভাবে render করে: CanvasKit বনাম HTML renderer
-- Web-এর নিজস্ব সীমাবদ্ধতা: isolate নেই, CORS, SEO
+- Web-এর নিজের সীমাবদ্ধতা: isolate নেই, CORS, SEO
 - Responsive design — `LayoutBuilder`, `MediaQuery`, `AdaptiveScaffold`
-- Desktop-এর নিজস্ব বিষয়: keyboard shortcut, window management, menu
+- Desktop-এর নিজের বিষয়: keyboard shortcut, window management, menu
 - সব platform-এ code sharing-এর strategy
 
 ## Section 16: Flutter-এর জন্য CI/CD ও DevOps
-- `fastlane` — build, signing, আর deployment স্বয়ংক্রিয় করা
+- `fastlane` — build, signing, আর deployment automatic করা
 - GitHub Actions / Bitrise — Flutter pipeline setup
 - Code signing: Android keystore, iOS provisioning profile
 - Flavor — dev, staging, production environment
 - beta delivery-র জন্য Firebase App Distribution বনাম TestFlight
-- Semantic versioning আর স্বয়ংক্রিয় version bump
+- Semantic versioning আর automatic version bump
 
 ## Section 17: Flutter App-এ Security
 - Secret রাখা: কখনোই source code-এ নয়, `.env` + `--dart-define` ব্যবহার করুন
@@ -139,7 +139,7 @@
 
 ## Section 18: Streams ও Reactive Programming
 - `Stream` বনাম `Future` — মূল পার্থক্য
-- `StreamController` — stream তৈরি আর পরিচালনা
+- `StreamController` — stream তৈরি আর চালানো
 - সাধারণ stream operator: `map`, `where`, `debounce`, `distinct`
 - `RxDart` — `BehaviorSubject`, `PublishSubject`, `ReplaySubject`
 - Stream-এর lifecycle: listen, pause, cancel, error handling
@@ -164,7 +164,7 @@
 ## Section 21: App Architecture ও Scalability
 - বড় Flutter project-এর জন্য monorepo বনাম multi-repo
 - Module federation — feature package, shared package
-- `melos` — multi-package Flutter monorepo পরিচালনা
+- `melos` — multi-package Flutter monorepo চালানো
 - Code generation: `build_runner`, `freezed`, `json_serializable`
 - Breaking API change সামলানো — versioning strategy
 - Feature flag আর remote configuration
@@ -257,7 +257,7 @@
 
 **Section 11: Platform Channels ও Native Integration**
 - `MethodChannel` async আর দুই দিকেই কাজ করে — Dart native-কে call করে, native-ও Dart-কে call করতে পারে।
-- `EventChannel` native থেকে Dart-এ ধারাবাহিক stream পাঠানোর জন্য (যেমন sensor, Bluetooth)।
+- `EventChannel` native থেকে Dart-এ একটানা stream পাঠানোর জন্য (যেমন sensor, Bluetooth)।
 - CPU-bound native call-এর জন্য FFI, MethodChannel-এর চেয়ে দ্রুত — কোনো serialization খরচ নেই।
 
 ---
@@ -299,7 +299,7 @@
 
 **Section 17: Flutter App-এ Security**
 - `--obfuscate --split-debug-info=./symbols` reverse engineering অনেক কঠিন করে দেয়; crash symbolication-এর জন্য symbol রেখে দিন।
-- Certificate pinning: app-এ প্রত্যাশিত cert hash রাখুন, না মিললে connection বাতিল করুন — এতে MITM আটকে যায়।
+- Certificate pinning: app-এ expected cert hash রাখুন, না মিললে connection বাতিল করুন — এতে MITM আটকে যায়।
 - `flutter_secure_storage` Android Keystore / iOS Keychain ব্যবহার করে — OS-level hardware-backed encryption।
 
 ---

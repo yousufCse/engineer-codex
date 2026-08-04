@@ -2,9 +2,9 @@
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
 > **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরোপুরি ব্যাখ্যা করা**, আর **link করা** — যাতে আপনি এদিক-ওদিক ঘুরে ধাপে ধাপে প্রস্তুতি নিতে পারেন।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-06-testing-bn.md](../software-engineer-flutter/section-06-testing.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-06-testing.md](../software-engineer-flutter/section-06-testing.md)
 
 ---
 
@@ -13,13 +13,13 @@
 প্রতিটা প্রশ্নের গঠন একই:
 
 - **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বিস্তারিত, ধাপে ধাপে ব্যাখ্যা, বাস্তব জীবনের উদাহরণ আর code সহ।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংশ্লিষ্ট প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তর** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারেন?" সহজ আর পরিষ্কারভাবে বলাটাই একটা senior skill — আর এটা remote আর BD দুই ধরনের কোম্পানিতেই সমানভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -28,7 +28,7 @@
 
 **A. Test-এর ধরন ও strategy**
 1. [তিন ধরনের test — unit, widget, integration](#q1) · *Very common*
-2. [Test pyramid ও test-এর ভারসাম্য](#q2) · *Very common*
+2. [Test pyramid ও test-এর balance](#q2) · *Very common*
 3. [Test-driven development (TDD)](#q3) · *Common*
 
 **B. Unit testing-এর মূল বিষয়**
@@ -49,7 +49,7 @@
 
 **F. আসল app layer test করা**
 12. [`bloc_test` দিয়ে BLoC বা Cubit test করা](#q12) · *Very common*
-13. [Cubit-এর উপর নির্ভরশীল একটা screen test করা](#q13) · *Very common*
+13. [Cubit-এর উপর নির্ভর করে এমন একটা screen test করা](#q13) · *Very common*
 14. [HTTP API call করে এমন repository test করা (mock Dio / http)](#q14) · *Very common*
 
 **G. Visual ও end-to-end testing**
@@ -67,7 +67,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৮টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম মেনে চলুন — প্রতিটা আগেরটার উপরে দাঁড়ায়। কোনো পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+১৮টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপরে দাঁড়ায়। কোনো পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — মূল ভিত্তি (এখান থেকে শুরু করুন)।** এগুলো প্রায় প্রতিটা interview-এ আসে।
 → [Q1 তিন ধরনের test](#q1) · [Q2 Test pyramid](#q2) · [Q4 Unit primitive](#q4) · [Q6 Widget testing](#q6)
@@ -153,11 +153,11 @@ void main() {
 - **Widget test** = একটা তৈরি হওয়া ঘর দেখা। একটু ধীর।
 - **Integration test** = চাবি হস্তান্তরের আগে পুরো বাড়ি ঘুরে দেখা। ধীর, কিন্তু ছোট check যা ধরতে পারে না, এটা তা ধরে।
 
-| ধরন | পরিধি | গতি | আস্থা | খরচ |
+| ধরন | সীমা | গতি | আস্থা | খরচ |
 |---|---|---|---|---|
 | Unit | একটা function/class | সবচেয়ে দ্রুত | কম–মাঝারি | সবচেয়ে সস্তা |
 | Widget | একটা widget/subtree | মাঝারি | মাঝারি–বেশি | মাঝারি |
-| Integration | পুরো app | সবচেয়ে ধীর | সবচেয়ে বেশি | সবচেয়ে ব্যয়বহুল |
+| Integration | পুরো app | সবচেয়ে ধীর | সবচেয়ে বেশি | সবচেয়ে খরচ বেশি |
 
 **Interviewer কেন জিজ্ঞেস করে:** তাঁরা শুধু নাম নয়, *tradeoff* শুনতে চান। একজন senior সবচেয়ে সস্তা test-টাই বেছে নেন, যেটা তবুও behavior প্রমাণ করে।
 
@@ -173,12 +173,12 @@ void main() {
 
 ---
 
-## <a id="q2"></a>2. Test pyramid কী, আর unit, widget, আর integration test-এর মধ্যে ভারসাম্য কীভাবে রাখবেন?
+## <a id="q2"></a>2. Test pyramid কী, আর unit, widget, আর integration test-এর মধ্যে balance কীভাবে রাখবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Test pyramid বলে: নিচে অনেক সস্তা আর দ্রুত test রাখুন (unit), মাঝে কম (widget), আর উপরে মাত্র কয়েকটা ধীর ও ব্যয়বহুল test (integration)। কারণটা খরচ — unit test দ্রুত feedback দেয় আর maintain করা সহজ, অন্যদিকে integration test ধীর আর flaky। মূল নিয়ম হলো: testing-কে সবচেয়ে নিচের level-এ নামিয়ে আনুন, যেখানে behavior প্রমাণ করা যায়।"
+"Test pyramid বলে: নিচে অনেক সস্তা আর দ্রুত test রাখুন (unit), মাঝে কম (widget), আর উপরে মাত্র কয়েকটা ধীর ও ভারী test (integration)। কারণটা খরচ — unit test দ্রুত feedback দেয় আর maintain করা সহজ, অন্যদিকে integration test ধীর আর flaky। মূল নিয়ম হলো: testing-কে সবচেয়ে নিচের level-এ নামিয়ে আনুন, যেখানে behavior প্রমাণ করা যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -233,7 +233,7 @@ Integration tests (one or two):
 **সাধারণ ভুল:** Pyramid-টাকে উল্টে দেওয়া — অনেক ধীর integration test আর অল্প unit test লেখা। ফল হলো ধীর CI, flaky pipeline, আর এমন failure যেগুলো debug করা কষ্টকর।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"100% coverage কি লক্ষ্য?"* → না। Coverage শুধু ইঙ্গিত দেয় কোনটা test করা হয়নি, আপনার test ভালো তার প্রমাণ নয়। দেখুন [Q17](#q17)।
+- *"100% coverage কি লক্ষ্য?"* → না। Coverage শুধু ইশারা দেয় কোনটা test করা হয়নি, আপনার test ভালো তার প্রমাণ নয়। দেখুন [Q17](#q17)।
 - *"Golden test কোথায় বসে?"* → এগুলো widget test-এর পাশে বসে — নির্দিষ্ট widget-এর জন্য একটা visual check। দেখুন [Q15](#q15)।
 
 **সম্পর্কিত:** [Q1 — তিন ধরনের test](#q1) · [Q17 — code coverage](#q17) · [Q18 — maintainable test](#q18)
@@ -334,7 +334,7 @@ expect(list, contains('Alice'));     // collection matcher
 `group` সম্পর্কিত test-গুলোকে এক label-এর নিচে রাখে। এতে output পড়তে সুবিধা হয়, আর তারা setup ভাগাভাগি করতে পারে। Group-এর ভেতরে group রাখা যায়।
 
 **ধাপ ৪ — `setUp` আর `tearDown`: প্রতিবার পরিষ্কার শুরু।**
-নির্ভরযোগ্য test-এর জন্য এটাই সবচেয়ে গুরুত্বপূর্ণ ধারণা। `setUp` চলে **প্রতিটা test-এর আগে**। তাই প্রতিটা test নতুন করে শুরু হয়, আর তারা পুরোনো state ভাগাভাগি করে না। `tearDown` চলে **প্রতিটা test-এর পরে**, resource ছেড়ে দেওয়ার জন্য।
+ভরসা করা যায় এমন test-এর জন্য এটাই সবচেয়ে গুরুত্বপূর্ণ ধারণা। `setUp` চলে **প্রতিটা test-এর আগে**। তাই প্রতিটা test নতুন করে শুরু হয়, আর তারা পুরোনো state ভাগাভাগি করে না। `tearDown` চলে **প্রতিটা test-এর পরে**, resource ছেড়ে দেওয়ার জন্য।
 
 `setUp`-কে ভাবুন প্রতিটা নতুন অঙ্কের আগে whiteboard মুছে ফেলার মতো — যাতে আগের test-এ যা লিখেছিলেন সেটা পরেরটাকে গুলিয়ে না দেয়।
 
@@ -374,7 +374,7 @@ void main() {
 ```
 
 **ধাপ ৫ — `setUpAll` / `tearDownAll`: পুরো group-এর জন্য একবার চলে।**
-ব্যয়বহুল এককালীন কাজে এগুলো ব্যবহার করুন, যেমন একটা fixture file load করা বা fallback value register করা — যে জিনিস প্রতিটা test-এ নতুন লাগবে, তার জন্য নয়।
+ভারী এককালীন কাজে এগুলো ব্যবহার করুন, যেমন একটা fixture file load করা বা fallback value register করা — যে জিনিস প্রতিটা test-এ নতুন লাগবে, তার জন্য নয়।
 
 ```dart
 setUpAll(() => loadFixtures());   // group-এর সব test-এর আগে একবার চলে
@@ -383,10 +383,10 @@ tearDownAll(() => closeDb());     // সব test-এর পরে একবা�
 
 **Interviewer কেন জিজ্ঞেস করে:** এগুলোই ভিত্তি। ঠিকভাবে isolation রেখে এগুলো ব্যবহার করতে না পারলে testing-এর বাকি সব বিষয় ভেঙে পড়ে।
 
-**সাধারণ ভুল:** `setUp`-এর বাইরে ভাগাভাগি করা object বানানো (যেমন top-level variable হিসেবে)। এতে test-গুলো একই mutable instance আবার ব্যবহার করে। তখন test order-এর উপর নির্ভরশীল হয়ে যায় আর এলোমেলো fail করে। সবসময় `setUp`-এ নতুন state বানান।
+**সাধারণ ভুল:** `setUp`-এর বাইরে ভাগাভাগি করা object বানানো (যেমন top-level variable হিসেবে)। এতে test-গুলো একই mutable instance আবার ব্যবহার করে। তখন test order-এর উপর নির্ভর করে এমন হয়ে যায় আর এলোমেলো fail করে। সবসময় `setUp`-এ নতুন state বানান।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"`setUp` বনাম `setUpAll`?"* → `setUp` চলে *প্রতিটা* test-এর আগে (নতুন state)। `setUpAll` চলে পুরো group-এর জন্য *একবার* (ব্যয়বহুল ভাগাভাগি করা setup)।
+- *"`setUp` বনাম `setUpAll`?"* → `setUp` চলে *প্রতিটা* test-এর আগে (নতুন state)। `setUpAll` চলে পুরো group-এর জন্য *একবার* (ভারী ভাগাভাগি করা setup)।
 - *"কোনো কিছু throw করে কি না সেটা কীভাবে test করবেন?"* → `expect`-এ একটা function পাঠান `throwsA` দিয়ে: `expect(() => calc.divide(1, 0), throwsA(isA<ArgumentError>()))`।
 
 **সম্পর্কিত:** [Q5 — matchers](#q5) · [Q3 — TDD](#q3)
@@ -497,12 +497,12 @@ await tester.pumpWidget(const MaterialApp(home: LoginScreen()));
 ```dart
 find.byType(ElevatedButton);            // widget type দিয়ে
 find.byKey(const Key('email_field'));   // key দিয়ে
-find.text('Login');                     // দৃশ্যমান text দিয়ে
+find.text('Login');                     // দেখা যায় এমন text দিয়ে
 find.byIcon(Icons.add);                 // icon দিয়ে
 ```
 
 **ধাপ ৩ — `tap` / `enterText`: interact করা।**
-এগুলো user-এর কাজ নকল করে। একটা finder যদি একাধিক widget-এর সাথে মেলে, তাহলে সেটাকে সরু করুন (যেমন `.first`) — নাহলে error দেবে।
+এগুলো user-এর কাজ নকল করে। একটা finder যদি একের বেশি widget-এর সাথে মেলে, তাহলে সেটাকে সরু করুন (যেমন `.first`) — নাহলে error দেবে।
 
 ```dart
 await tester.tap(find.byType(ElevatedButton));
@@ -571,7 +571,7 @@ testWidgets('Login button enables when the form is valid', (tester) async {
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q7)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Finder হলো test tree-তে কোন widget খুঁজতে হবে তার একটা বর্ণনা — যতক্ষণ না একটা `WidgetTester` এটা ব্যবহার করে, ততক্ষণ এটা কিছুই আনে না। বেশি ব্যবহৃতগুলো হলো `byType`, `byKey`, `text`, আর `byIcon`। আমি ফলাফল check করি `findsOneWidget`, `findsNothing`, বা `findsNWidgets(n)` দিয়ে। একাধিক widget মিলে গেলে আমি একটা `Key` যোগ করি, যাতে ঠিক একটাকে ধরা যায়।"
+"Finder হলো test tree-তে কোন widget খুঁজতে হবে তার একটা বর্ণনা — যতক্ষণ না একটা `WidgetTester` এটা ব্যবহার করে, ততক্ষণ এটা কিছুই আনে না। বেশি ব্যবহার হয় এমনগুলো হলো `byType`, `byKey`, `text`, আর `byIcon`। আমি ফলাফল check করি `findsOneWidget`, `findsNothing`, বা `findsNWidgets(n)` দিয়ে। একের বেশি widget মিলে গেলে আমি একটা `Key` যোগ করি, যাতে ঠিক একটাকে ধরা যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -610,8 +610,8 @@ expect(find.byType(ListTile), findsNWidgets(3)); // ঠিক তিনটা
 expect(find.byType(ListTile), findsWidgets);     // এক বা তার বেশি
 ```
 
-**ধাপ ৫ — একাধিক মিলে গেলে `Key` ব্যবহার করুন।**
-দুটো widget যদি finder-এর চোখে একইরকম দেখায় (যেমন দুটো `ElevatedButton`), তাহলে যেটা দরকার সেটাকে একটা `Key` দিন। তারপর সরাসরি সেটাই খুঁজুন। ভঙ্গুর `.at(2)` indexing এড়ানোর সবচেয়ে পরিষ্কার উপায় এটাই।
+**ধাপ ৫ — একের বেশি মিলে গেলে `Key` ব্যবহার করুন।**
+দুটো widget যদি finder-এর চোখে একইরকম দেখায় (যেমন দুটো `ElevatedButton`), তাহলে যেটা দরকার সেটাকে একটা `Key` দিন। তারপর সরাসরি সেটাই খুঁজুন। ঠুনকো `.at(2)` indexing এড়ানোর সবচেয়ে পরিষ্কার উপায় এটাই।
 
 ```dart
 // widget-এ:
@@ -625,7 +625,7 @@ await tester.tap(find.byKey(const Key('login_button')));
 
 **Interviewer কেন জিজ্ঞেস করে:** প্রতিটা widget test-এর অর্ধেক কাজই হলো widget খুঁজে বের করা। এলোমেলো finder flaky test তৈরি করে, যা ছোট UI পরিবর্তনেই ভেঙে যায়।
 
-**সাধারণ ভুল:** অনেক `Text` widget থাকা অবস্থায় `find.byType(Text)` ব্যবহার করা। তখন finder একাধিক widget-এর সাথে মেলে, আর test error দেয়। একটা `Key` যোগ করুন, বা `find.widgetWithText` ব্যবহার করুন।
+**সাধারণ ভুল:** অনেক `Text` widget থাকা অবস্থায় `find.byType(Text)` ব্যবহার করা। তখন finder একের বেশি widget-এর সাথে মেলে, আর test error দেয়। একটা `Key` যোগ করুন, বা `find.widgetWithText` ব্যবহার করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`findsOneWidget` vs `findsWidgets`?"* → `findsOneWidget`-এ ঠিক একটা লাগবেই; `findsWidgets` এক বা তার বেশি মেনে নেয়।
@@ -646,7 +646,7 @@ await tester.tap(find.byKey(const Key('login_button')));
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q8)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Mock করা API call-এর মতো দ্রুত async কাজের জন্য আমি শুধু test-টাকে `async` বানাই আর future-টা `await` করি। Debounce, polling, বা timeout-এর মতো time-based logic-এর জন্য আমি সত্যিকারের অপেক্ষা করি না — সময়টাকেই নিয়ন্ত্রণ করি। Unit test-এ `fakeAsync` আর `async.elapse(...)`, আর widget test-এ `tester.pump(duration)`। লক্ষ্য হলো দ্রুত ও deterministic test, কোনো আসল `sleep` ছাড়া।"
+"Mock করা API call-এর মতো দ্রুত async কাজের জন্য আমি শুধু test-টাকে `async` বানাই আর future-টা `await` করি। Debounce, polling, বা timeout-এর মতো time-based logic-এর জন্য আমি সত্যিকারের অপেক্ষা করি না — সময়টাকেই control করি। Unit test-এ `fakeAsync` আর `async.elapse(...)`, আর widget test-এ `tester.pump(duration)`। লক্ষ্য হলো দ্রুত ও deterministic test, কোনো আসল `sleep` ছাড়া।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -664,7 +664,7 @@ test('fetchUser returns user from API', () async {
 ```
 
 **ধাপ ২ — সমস্যা: আসল delay test-কে ধীর আর flaky করে।**
-ধরুন আপনার search box API call করার আগে 500ms অপেক্ষা করে (debounce)। আপনার test যদি সত্যিই 500ms অপেক্ষা করত, তাহলে পুরো suite হামাগুড়ি দিত। আর timing-এর কারণে এটা flaky হতো। তার বদলে আমাদের *ঘড়িটাকে নিয়ন্ত্রণ* করতে হবে।
+ধরুন আপনার search box API call করার আগে 500ms অপেক্ষা করে (debounce)। আপনার test যদি সত্যিই 500ms অপেক্ষা করত, তাহলে পুরো suite হামাগুড়ি দিত। আর timing-এর কারণে এটা flaky হতো। তার বদলে আমাদের *ঘড়িটাকে control* করতে হবে।
 
 `fakeAsync`-কে ভাবুন fast-forward বোতামওয়ালা একটা TV remote হিসেবে। অনুষ্ঠানটা (আপনার timer আর delay) আসল সময়ে চলে না — আপনি ঠিক যতটা চান ততটা fast-forward চাপেন, সাথে সাথে।
 
@@ -720,12 +720,12 @@ testWidgets('Debounced search waits 500ms before calling the API', (tester) asyn
 | খাঁটি Dart-এ timer/debounce/timeout | `fakeAsync` + `async.elapse(...)` |
 | Widget test-এ সময় পার হওয়া | `tester.pump(duration)` |
 
-**Interviewer কেন জিজ্ঞেস করে:** আসল app async আর timer-এ ভরা। তাঁরা দেখতে চান আপনি সময়-নির্ভর আচরণ *deterministic*ভাবে test করেন কি না — কোনো আসল অপেক্ষা নয়, ঘড়ির উপর পূর্ণ নিয়ন্ত্রণ।
+**Interviewer কেন জিজ্ঞেস করে:** আসল app async আর timer-এ ভরা। তাঁরা দেখতে চান আপনি সময়-নির্ভর আচরণ *deterministic*ভাবে test করেন কি না — কোনো আসল অপেক্ষা নয়, ঘড়ির উপর পূর্ণ control।
 
 **সাধারণ ভুল:** Debounce-এর জন্য "অপেক্ষা করতে" test-এ `await Future.delayed(Duration(seconds: 2))` ব্যবহার করা। এতে suite ধীর আর flaky হয়। সবসময় তার বদলে fake সময় এগিয়ে নিন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"আসল delay-এর চেয়ে `fakeAsync` ভালো কেন?"* → এটা তাৎক্ষণিক আর deterministic — প্রতিবার একই ফলাফল, মাইক্রোসেকেন্ডে।
+- *"আসল delay-এর চেয়ে `fakeAsync` ভালো কেন?"* → এটা সাথে সাথে আর deterministic — প্রতিবার একই ফলাফল, মাইক্রোসেকেন্ডে।
 - *"Widget test-এ সময় কীভাবে এগিয়ে নেবেন?"* → `pump`-এ একটা `Duration` পাঠান, যেমন `await tester.pump(const Duration(seconds: 1))`।
 
 **সম্পর্কিত:** [Q5 — async matchers](#q5) · [Q6 — `pump`](#q6) · [Q12 — bloc_test](#q12)
@@ -748,7 +748,7 @@ testWidgets('Debounced search waits 500ms before calling the API', (tester) asyn
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — Mock করার দরকার কেন?**
-ধরুন একটা `UserRepository` test করছেন, যেটা আসল API call করে। আসল call ধীর, network লাগে, আর আপনার code-এর সাথে সম্পর্ক নেই এমন কারণেও fail করতে পারে। Mock হলো সিনেমার **stunt double**-এর মতো: আসল ঝুঁকিপূর্ণ actor-এর জায়গায় দাঁড়ায়, আর director (আপনার test) যা বলে ঠিক তাই করে।
+ধরুন একটা `UserRepository` test করছেন, যেটা আসল API call করে। আসল call ধীর, network লাগে, আর আপনার code-এর সাথে সম্পর্ক নেই এমন কারণেও fail করতে পারে। Mock হলো সিনেমার **stunt double**-এর মতো: আসল ঝুঁকির actor-এর জায়গায় দাঁড়ায়, আর director (আপনার test) যা বলে ঠিক তাই করে।
 
 **ধাপ ২ — Mock generate করা।**
 একটা test-এ `@GenerateMocks([...])` annotate করুন আর build_runner চালান। Mockito আপনার জন্য একটা `MockApiClient` class বানিয়ে দেয়।
@@ -771,7 +771,7 @@ dart run build_runner build --delete-conflicting-outputs
 **ধাপ ৩ — তিন ধাপের চক্র: stub, act, verify।**
 - **Stub** — `when(...).thenReturn(...)` দিয়ে mock-কে বলুন কী return করবে।
 - **Act** — test-এর আসল code চালান।
-- **Verify** — `verify(...)` দিয়ে check করুন mock প্রত্যাশা মতো call হয়েছে কি না।
+- **Verify** — `verify(...)` দিয়ে check করুন mock আশা মতো call হয়েছে কি না।
 
 ```dart
 void main() {
@@ -807,7 +807,7 @@ void main() {
 ```
 
 **ধাপ ৪ — `thenReturn` বনাম `thenAnswer` (একটা গুরুত্বপূর্ণ খুঁটিনাটি)।**
-সাধারণ মানের জন্য `thenReturn` ব্যবহার করুন। `Future` (async) হলে `thenAnswer((_) async => value)` ব্যবহার করুন। কারণ: `thenReturn(Future.value(x))` future-টা *একবারই* বানায়, আর প্রতিবার সেই একই instance ফেরত দেয়। এতে সূক্ষ্ম bug হয়। `thenAnswer` প্রতিবার নতুন করে চলে।
+সাধারণ মানের জন্য `thenReturn` ব্যবহার করুন। `Future` (async) হলে `thenAnswer((_) async => value)` ব্যবহার করুন। কারণ: `thenReturn(Future.value(x))` future-টা *একবারই* বানায়, আর প্রতিবার সেই একই instance ফেরত দেয়। এতে চোখে পড়ে না এমন bug হয়। `thenAnswer` প্রতিবার নতুন করে চলে।
 
 ```dart
 when(mockApi.ping()).thenReturn(true);                       // sync মান: ঠিক আছে
@@ -822,7 +822,7 @@ verifyNever(mockApi.delete(any));            // কখনোই call হয়�
 verifyNoMoreInteractions(mockApi);           // আর কিছুই call হয়নি
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** Mockito হলো Dart-এর সবচেয়ে বেশি ব্যবহৃত mocking library। stub, act, verify চক্রটা যেকোনো testable architecture-এর জন্য অপরিহার্য।
+**Interviewer কেন জিজ্ঞেস করে:** Mockito হলো Dart-এর সবচেয়ে বেশি ব্যবহার করা mocking library। stub, act, verify চক্রটা যেকোনো testable architecture-এর জন্য অবশ্যই লাগে এমন।
 
 **সাধারণ ভুল:** Async method-এ `thenAnswer`-এর বদলে `thenReturn` ব্যবহার করা। আরেকটা: `@GenerateMocks` যোগ করার পরে build_runner চালাতে ভুলে যাওয়া, তারপর "MockApiClient is undefined" error দেখে বিভ্রান্ত হওয়া।
 
@@ -1035,7 +1035,7 @@ Do you need to verify HOW the dependency was called?
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — `blocTest`-এর গঠন।**
-`blocTest` একটা পরিষ্কার ধারাবাহিকতায় চলে:
+`blocTest` একটা পরিষ্কার ক্রমে চলে:
 - **build** — BLoC/Cubit বানান (mock করা dependency দিয়ে)।
 - **seed** *(optional)* — `act`-এর আগে একটা শুরুর state বসান (নির্দিষ্ট state থেকে behavior test করতে)।
 - **act** — কাজটা করুন: একটা event add করুন (BLoC) বা একটা method call করুন (Cubit)।
@@ -1217,10 +1217,10 @@ Error state-এর ক্ষেত্রে "retry" tap করলে সঠি�
 
 **Interviewer কেন জিজ্ঞেস করে:** বাস্তব Flutter test-এ এটা সবচেয়ে সাধারণ পরিস্থিতিগুলোর একটা। BLoC/Cubit দিয়ে চলা প্রতিটা screen-এ এই pattern লাগে। তাঁরা আপনাকে সাথে সাথে লিখে দেখাতে বলতে পারেন।
 
-**সাধারণ ভুল:** আসল Cubit ব্যবহার করে *তার* dependency-গুলো mock করা — এতে একটা লক্ষ্যভিত্তিক widget test ভঙ্গুর আধা-integration test হয়ে যায়। আরেকটা ভুল: `BlocProvider.value(...)`-এর বদলে `BlocProvider(create: ...)` ব্যবহার করা — `create` lifecycle নিজের হাতে নেয়, কিন্তু test-এ আপনি mock-টা নিজে নিয়ন্ত্রণ করতে চান।
+**সাধারণ ভুল:** আসল Cubit ব্যবহার করে *তার* dependency-গুলো mock করা — এতে একটা লক্ষ্যভিত্তিক widget test ঠুনকো আধা-integration test হয়ে যায়। আরেকটা ভুল: `BlocProvider.value(...)`-এর বদলে `BlocProvider(create: ...)` ব্যবহার করা — `create` lifecycle নিজের হাতে নেয়, কিন্তু test-এ আপনি mock-টা নিজে control করতে চান।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"`.value` আর `create:`-এর পার্থক্য?"* → `.value` আপনার নিয়ন্ত্রণে থাকা একটা তৈরি instance দেয় (mock)। `create:` নিজেই একটা বানায় আর dispose করে — test-এর জন্য ভুল।
+- *"`.value` আর `create:`-এর পার্থক্য?"* → `.value` আপনার control-এ থাকা একটা তৈরি instance দেয় (mock)। `create:` নিজেই একটা বানায় আর dispose করে — test-এর জন্য ভুল।
 - *"State-এর একটা ধারা (loading তারপর loaded) কীভাবে test করবেন?"* → `bloc_test`-এর `whenListen(mockCubit, Stream.fromIterable([...]))` ব্যবহার করে emit হওয়া state-গুলো সাজিয়ে দিন।
 
 **সম্পর্কিত:** [Q12 — bloc_test](#q12) · [Q6 — widget testing](#q6) · [Q11 — mocks](#q11)
@@ -1239,7 +1239,7 @@ Error state-এর ক্ষেত্রে "retry" tap করলে সঠি�
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — সোনালি নিয়ম: সীমানায় mock করুন, client inject করুন।**
-Repository তার client constructor-এর মাধ্যমে পাবে, ভেতরে কখনোই বানাবে না। তখন test-এ আপনি একটা fake client পাস করবেন। Repository যদি ভেতরে `Dio()` করে, আপনি সেটা বদলাতে পারবেন না — তখন এটা untestable হয়ে যায়।
+Repository তার client constructor দিয়ে পাবে, ভেতরে কখনোই বানাবে না। তখন test-এ আপনি একটা fake client পাস করবেন। Repository যদি ভেতরে `Dio()` করে, আপনি সেটা বদলাতে পারবেন না — তখন এটা untestable হয়ে যায়।
 
 **ধাপ ২ — `MockClient` দিয়ে `http` package mock করা।**
 `MockClient` একটা function নেয়: সেটা request পায় আর একটা fake response ফেরত দেয়। আপনি ভেতরেই request-টা assert করতে পারেন।
@@ -1323,7 +1323,7 @@ class MockApiClient extends Mock implements ApiClient {}  // mock করা খ�
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"সরাসরি Dio mock না করে interface কেন?"* → এটা আপনার code-কে HTTP library থেকে আলাদা রাখে, mock সহজ করে, আর test না বদলেই client বদলাতে দেয়।
-- *"Timeout বা retry কীভাবে test করবেন?"* → Client-কে stub করে একটা timeout throw করান, তারপর repository-র retry/fallback আচরণ assert করুন (সময় নিয়ন্ত্রণের জন্য [Q8](#q8)-এর সাথে মিলিয়ে নিন)।
+- *"Timeout বা retry কীভাবে test করবেন?"* → Client-কে stub করে একটা timeout throw করান, তারপর repository-র retry/fallback আচরণ assert করুন (সময় control-এর জন্য [Q8](#q8)-এর সাথে মিলিয়ে নিন)।
 
 **সম্পর্কিত:** [Q9 — Mockito](#q9) · [Q11 — fake বনাম mock](#q11) · [Q8 — async/time](#q8)
 
@@ -1427,7 +1427,7 @@ Golden image platform-এর উপর নির্ভর করে। কার
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q16)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`integration_test` package পুরো app-এর test আসল device বা emulator-এ চালায়। Widget test-এর মতো নয় — এটা সম্পূর্ণ rendering pipeline, navigation আর platform channel চালায়। আপনি `IntegrationTestWidgetsFlutterBinding` initialize করেন, app চালু করেন, তারপর সেই একই `tester` API দিয়ে চালান। এটা পুরোনো `flutter_driver` পদ্ধতির জায়গা নিয়েছে।"
+"`integration_test` package পুরো app-এর test আসল device বা emulator-এ চালায়। Widget test-এর মতো নয় — এটা সম্পূর্ণ rendering pipeline, navigation আর platform channel চালায়। আপনি `IntegrationTestWidgetsFlutterBinding` initialize করেন, app চালু করেন, তারপর সেই একই `tester` API দিয়ে চালান। এটা পুরোনো `flutter_driver` উপায়ের জায়গা নিয়েছে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1519,7 +1519,7 @@ flutter test integration_test/app_test.dart -d chrome
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q17)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Flutter-এ coverage built-in আছে: `flutter test --coverage` চালালে `coverage/lcov.info` তৈরি হয়। আমি `genhtml` দিয়ে সেটাকে একটা HTML report বানাই। কিন্তু coverage শুধু মাপে কোন line গুলো চলেছে, test ভালো কি না তা নয়। তাই আমি এটাকে কোনটা untested তার একটা ইঙ্গিত হিসেবে দেখি, quality score হিসেবে নয়। আর আমি কখনোই 100%-এর পেছনে ছুটি না।"
+"Flutter-এ coverage built-in আছে: `flutter test --coverage` চালালে `coverage/lcov.info` তৈরি হয়। আমি `genhtml` দিয়ে সেটাকে একটা HTML report বানাই। কিন্তু coverage শুধু মাপে কোন line গুলো চলেছে, test ভালো কি না তা নয়। তাই আমি এটাকে কোনটা untested তার একটা ইশারা হিসেবে দেখি, quality score হিসেবে নয়। আর আমি কখনোই 100%-এর পেছনে ছুটি না।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -1643,10 +1643,10 @@ Future<void> pumpMyScreen(
 `'everything works'` নামের একটা test যদি ১৫টা জিনিস check করে, সেটা maintainable নয় — fail করলে কী ভেঙেছে বোঝা যায় না। Test-এর নাম behavior হিসেবে দিন: `'emits error state when the repository throws'`, `'test 3'` নয়।
 
 **ধাপ ৫ — বেশি mock করবেন না; শুধু সরাসরি boundary-তে mock করুন।**
-`ServiceA` যদি `RepoB` ব্যবহার করে, আর `RepoB` ব্যবহার করে `ApiClientC`, তাহলে `ServiceA`-র test-এ `RepoB` mock করা উচিত — নিচে নেমে `ApiClientC` নয়। অনেক layer গভীরে mock করলে test ভঙ্গুর হয়ে যায়।
+`ServiceA` যদি `RepoB` ব্যবহার করে, আর `RepoB` ব্যবহার করে `ApiClientC`, তাহলে `ServiceA`-র test-এ `RepoB` mock করা উচিত — নিচে নেমে `ApiClientC` নয়। অনেক layer গভীরে mock করলে test ঠুনকো হয়ে যায়।
 
 **ধাপ ৬ — Test code-কে production code-এর মতো ভাবুন।**
-পরিষ্কার naming, DRY আর refactoring প্রয়োগ করুন। `group()` দিয়ে গুছিয়ে রাখুন। State class-গুলোকে equatable বানান, যাতে তুলনা কাজ করে ([Q12](#q12) দেখুন)।
+পরিষ্কার naming, DRY আর refactoring কাজে লাগান। `group()` দিয়ে গুছিয়ে রাখুন। State class-গুলোকে equatable বানান, যাতে তুলনা কাজ করে ([Q12](#q12) দেখুন)।
 
 **ধাপ ৭ — প্রতিটা PR-এ CI-তে test চালান, আর flaky test কখনোই সহ্য করবেন না।**
 যে test নিয়মিত চলে না, সেটা পচে যায়। একটা flaky test সাথে সাথেই ঠিক করতে হবে বা মুছে ফেলতে হবে — কখনো এড়িয়ে যাবেন না, নাহলে পুরো suite-এর উপর বিশ্বাস চলে যায়।
@@ -1689,7 +1689,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 
 | | Unit | Widget | Integration |
 |---|---|---|---|
-| পরিধি | একটা function/class | একটা widget/subtree | পুরো app |
+| সীমা | একটা function/class | একটা widget/subtree | পুরো app |
 | কোথায় চলে | Dart VM | test engine (headless) | আসল device/emulator |
 | গতি | সবচেয়ে দ্রুত | মাঝারি | সবচেয়ে ধীর |
 | কীসের জন্য | logic, repo | UI behavior | গুরুত্বপূর্ণ flow |

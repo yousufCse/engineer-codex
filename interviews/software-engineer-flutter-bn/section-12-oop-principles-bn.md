@@ -1,9 +1,9 @@
 # Section 12 — OOP ও Design Principles
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** এবং **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি ঘুরে ঘুরে পড়তে পারবেন এবং ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-12-oop-principles-bn.md](../software-engineer-flutter/section-12-oop-principles.md)
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-12-oop-principles.md](../software-engineer-flutter/section-12-oop-principles.md)
 
 ---
 
@@ -11,10 +11,10 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার জন্য ২–৩ বাক্যের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code সহ ধাপে ধাপে বিস্তারিত ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংযুক্ত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে লেখা আছে সেটা কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর তার কঠিনতা (**Easy / Medium / Hard**)।
 
@@ -25,8 +25,8 @@
 
 ## <a id="toc"></a>সূচিপত্র
 
-**A. OOP-এর চারটি স্তম্ভ**
-1. [চারটি স্তম্ভ — সারসংক্ষেপ](#q1) · *Very common*
+**A. OOP-এর চারটি খুঁটি**
+1. [চারটি খুঁটি — সংক্ষেপে](#q1) · *Very common*
 2. [Encapsulation](#q2) · *Very common*
 3. [Inheritance — `extends`, `super`, `@override`](#q3) · *Very common*
 4. [Polymorphism](#q4) · *Very common*
@@ -63,10 +63,10 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-এই পর্যায়গুলো ক্রমে অনুসরণ করুন। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বাস্তব উদাহরণসহ বলতে পারবেন।
+এই পর্যায়গুলো একটার পর একটা শেষ করুন। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বাস্তব উদাহরণসহ বলতে পারবেন।
 
-**পর্যায় ১ — চারটি স্তম্ভ (এখান থেকে শুরু করুন)।** সব OOP প্রশ্নের ভিত্তি এটাই।
-→ [Q1 সারসংক্ষেপ](#q1) · [Q2 Encapsulation](#q2) · [Q3 Inheritance](#q3) · [Q4 Polymorphism](#q4) · [Q5 Abstraction](#q5)
+**পর্যায় ১ — চারটি খুঁটি (এখান থেকে শুরু করুন)।** সব OOP প্রশ্নের ভিত্তি এটাই।
+→ [Q1 সংক্ষেপে](#q1) · [Q2 Encapsulation](#q2) · [Q3 Inheritance](#q3) · [Q4 Polymorphism](#q4) · [Q5 Abstraction](#q5)
 
 **পর্যায় ২ — Class-গুলো একে অন্যের সাথে কীভাবে যুক্ত হয়।**
 → [Q6 Inheritance-এর বদলে composition](#q6) · [Q9 Coupling ও cohesion](#q9) · [Q7 Mixin বনাম abstract বনাম interface](#q7) · [Q8 Class বনাম object](#q8)
@@ -77,7 +77,7 @@
 **পর্যায় ৪ — ছোট principle-গুলো।**
 → [Q15 DRY](#q15) · [Q16 KISS](#q16) · [Q17 YAGNI](#q17)
 
-**পর্যায় ৫ — Dart-এর নিজস্ব খুঁটিনাটি।**
+**পর্যায় ৫ — Dart-এর নিজের খুঁটিনাটি।**
 → [Q18 Constructor](#q18) · [Q19 static](#q19) · [Q20 Covariance](#q20) · [Q21 Overriding বনাম hiding](#q21)
 
 **সময় কম (interview-এর ১ ঘণ্টা আগে)?** এই আটটা দেখে নিন:
@@ -85,26 +85,26 @@
 
 ---
 
-# A. OOP-এর চারটি স্তম্ভ
+# A. OOP-এর চারটি খুঁটি
 
 ---
 
-## <a id="q1"></a>1. Object-Oriented Programming-এর চারটি স্তম্ভ কী কী?
+## <a id="q1"></a>1. Object-Oriented Programming-এর চারটি খুঁটি কী কী?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q1)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"চারটি স্তম্ভ হলো Encapsulation, Abstraction, Inheritance আর Polymorphism। Encapsulation ভেতরের খুঁটিনাটি লুকায়, abstraction শুধু দরকারি জিনিস দেখায় আর জটিলতা লুকায়, inheritance এক class-কে আরেক class-এর code আবার ব্যবহার করতে দেয়, আর polymorphism একই কাজকে ভিন্ন type-এর জন্য ভিন্নভাবে চলতে দেয়। এই চারটা মিলে বাস্তব জিনিসকে পরিষ্কার ও পুনরায় ব্যবহারযোগ্য code-এ রূপ দিতে সাহায্য করে।"
+"চারটি খুঁটি হলো Encapsulation, Abstraction, Inheritance আর Polymorphism। Encapsulation ভেতরের খুঁটিনাটি লুকায়, abstraction শুধু দরকারি জিনিস দেখায় আর জটিলতা লুকায়, inheritance এক class-কে আরেক class-এর code আবার ব্যবহার করতে দেয়, আর polymorphism একই কাজকে আলাদা type-এর জন্য আলাদাভাবে চলতে দেয়। এই চারটা মিলে বাস্তব জিনিসকে পরিষ্কার ও আবার ব্যবহার করা যায় এমন code-এ রূপ দিতে সাহায্য করে।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — প্রতিটার এক লাইনের ছবি।**
 
-| স্তম্ভ | এক লাইনে | বাস্তব জীবনের উদাহরণ |
+| খুঁটি | এক লাইনে | বাস্তব জীবনের উদাহরণ |
 |---|---|---|
 | **Encapsulation** | ভেতরের state লুকান, নিরাপদ API দিন | TV remote তারের জট লুকায়; আপনি শুধু button চাপেন |
 | **Abstraction** | যা দরকার শুধু তাই দেখান, জটিলতা লুকান | engine না জেনেই গাড়ি চালানো |
-| **Inheritance** | child class parent-এর code আবার ব্যবহার করে | সন্তান বাবা-মায়ের বৈশিষ্ট্য পায় |
+| **Inheritance** | child class parent-এর code আবার ব্যবহার করে | সন্তান বাবা-মায়ের গুণ পায় |
 | **Polymorphism** | এক কাজ, অনেক রূপ | "draw()" circle, square, triangle সবার জন্য কাজ করে |
 
 **ধাপ ২ — ছোট একটা code উদাহরণ, যেখানে সবগুলো একসাথে আছে।**
@@ -130,7 +130,7 @@ class Square extends Shape {
   double area() => side * side;
 }
 
-// Polymorphism কাজের মধ্যে: একই call, ভিন্ন behaviour
+// Polymorphism কাজের মধ্যে: একই call, আলাদা behaviour
 void printArea(Shape s) => print(s.area());
 ```
 
@@ -155,7 +155,7 @@ void printArea(Shape s) => print(s.area());
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Encapsulation মানে একটা object-এর ভেতরের data লুকিয়ে রাখা। বাইরের code শুধু নিরাপদ method দিয়ে সেটা ছুঁতে পারবে। Dart-এ শুরুতে underscore দিয়ে field private করা হয়, তারপর getter বা method দিয়ে access নিয়ন্ত্রণ করা হয়। এটা গুরুত্বপূর্ণ কারণ object-কে ভুল অবস্থায় চলে যাওয়া থেকে বাঁচায়।"
+"Encapsulation মানে একটা object-এর ভেতরের data লুকিয়ে রাখা। বাইরের code শুধু নিরাপদ method দিয়ে সেটা ছুঁতে পারবে। Dart-এ শুরুতে underscore দিয়ে field private করা হয়, তারপর getter বা method দিয়ে access control করা হয়। এটা গুরুত্বপূর্ণ কারণ object-কে ভুল অবস্থায় চলে যাওয়া থেকে বাঁচায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -177,23 +177,23 @@ class BankAccount {
 }
 ```
 
-বাইরের code `deposit` করতে পারবে, কিন্তু সরাসরি `_balance = -999` বসাতে পারবে না। Class নিজের state নিজেই নিয়ন্ত্রণ করে।
+বাইরের code `deposit` করতে পারবে, কিন্তু সরাসরি `_balance = -999` বসাতে পারবে না। Class নিজের state নিজেই control করে।
 
 **ধাপ ৩ — কেন গুরুত্বপূর্ণ: invariant রক্ষা করা।**
 Encapsulation ছাড়া যে কেউ balance-এ ভুল মান বসিয়ে দিতে পারত। এটা থাকলে প্রতিটা পরিবর্তন এমন একটা method দিয়ে যায়, যেটা যাচাই করতে পারে। ফলে bug ঠেকে আর object সবসময় বৈধ থাকে।
 
 **ধাপ ৪ — Dart-এর privacy নিয়ে একটা কথা।**
-Dart-এ `_` private হয় *library*-এর জন্য (মানে file-এর জন্য), class-এর জন্য নয়। একই file-এর ভেতরে অন্য class-গুলো এটা দেখতে পায়। ভিন্ন file থেকে এটা লুকানো থাকে।
+Dart-এ `_` private হয় *library*-এর জন্য (মানে file-এর জন্য), class-এর জন্য নয়। একই file-এর ভেতরে অন্য class-গুলো এটা দেখতে পায়। আলাদা file থেকে এটা লুকানো থাকে।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা সবচেয়ে ব্যবহারিক স্তম্ভ। তাঁরা দেখতে চান আপনি state রক্ষা করেন, নাকি সব জায়গায় public field খুলে রাখেন।
+**Interviewer কেন জিজ্ঞেস করে:** এটা সবচেয়ে ব্যবহারিক খুঁটি। তাঁরা দেখতে চান আপনি state রক্ষা করেন, নাকি সব জায়গায় public field খুলে রাখেন।
 
 **সাধারণ ভুল:** সব field public আর mutable রেখে দেওয়া, তারপর এমন getter/setter দিয়ে "encapsulate" করা যেগুলো আসলে কিছুই করে না। আসল encapsulation হয় validation যোগ করে, নয়তো field-টা পুরোপুরি লুকিয়ে ফেলে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Getter আর setter?"* → `get` পড়ার একটা view দেয়; `set` লেখার সময় যাচাই করতে দেয়। এগুলো access নিয়ন্ত্রণের জন্য ব্যবহার করুন, প্রতিটা field মুড়ে দেওয়ার জন্য নয়।
+- *"Getter আর setter?"* → `get` পড়ার একটা view দেয়; `set` লেখার সময় যাচাই করতে দেয়। এগুলো access control-এর জন্য ব্যবহার করুন, প্রতিটা field মুড়ে দেওয়ার জন্য নয়।
 - *"`_` কি সত্যিই private?"* → এটা library (file)-এর জন্য private, তাই একই file-এর code এটা ব্যবহার করতে পারে।
 
-**সম্পর্কিত:** [Q1 — চারটি স্তম্ভ](#q1) · [Q9 — low coupling](#q9)
+**সম্পর্কিত:** [Q1 — চারটি খুঁটি](#q1) · [Q9 — low coupling](#q9)
 
 [↑ উপরে ফিরুন](#toc)
 
@@ -204,14 +204,14 @@ Dart-এ `_` private হয় *library*-এর জন্য (মানে file-
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q3)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Inheritance-এর মাধ্যমে একটা class `extends` দিয়ে আরেকটা class-এর code পুনরায় ব্যবহার করতে পারে। Child parent-এর field আর method পেয়ে যায়। `super` দিয়ে parent-এর version call করা যায়। আর `@override` দিয়ে একটা method-কে নিজের version দিয়ে বদলানো যায়। Dart-এ parent মাত্র একটাই হতে পারে (single inheritance)।"
+"Inheritance দিয়ে একটা class `extends` দিয়ে আরেকটা class-এর code আবার ব্যবহার করতে পারে। Child parent-এর field আর method পেয়ে যায়। `super` দিয়ে parent-এর version call করা যায়। আর `@override` দিয়ে একটা method-কে নিজের version দিয়ে বদলানো যায়। Dart-এ parent মাত্র একটাই হতে পারে (single inheritance)।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের ছবি: সন্তান আর বাবা-মা।**
-সন্তান বাবা-মার কাছ থেকে কিছু বৈশিষ্ট্য পায়। তার নিজের আলাদা বৈশিষ্ট্যও থাকতে পারে। Parent হলো ভিত্তি। Child নতুন জিনিস যোগ করে বা বদলে দেয়।
+সন্তান বাবা-মার কাছ থেকে কিছু গুণ পায়। তার নিজের আলাদা গুণও থাকতে পারে। Parent হলো ভিত্তি। Child নতুন জিনিস যোগ করে বা বদলে দেয়।
 
-**ধাপ ২ — `extends` parent-এর code পুনরায় ব্যবহার করে।**
+**ধাপ ২ — `extends` parent-এর code আবার ব্যবহার করে।**
 
 ```dart
 class Animal {
@@ -235,7 +235,7 @@ class Dog extends Animal {
 }
 ```
 
-`@override` লেখা বাধ্যতামূলক নয়, কিন্তু খুব জোরালোভাবে সুপারিশ করা হয় — এটা compiler-কে বলে "আমি এটা বদলাতে চাইছি"। ফলে method-এর নামে typo হলে সেটা error হয়ে যায়। চুপচাপ একটা নতুন method তৈরি হয় না।
+`@override` লেখা লাগবেই এমন নয়, কিন্তু খুব জোরালোভাবে সুপারিশ করা হয় — এটা compiler-কে বলে "আমি এটা বদলাতে চাইছি"। ফলে method-এর নামে typo হলে সেটা error হয়ে যায়। চুপচাপ একটা নতুন method তৈরি হয় না।
 
 **ধাপ ৪ — `super` parent-এর version call করে।**
 
@@ -252,14 +252,14 @@ class Dog extends Animal {
 Constructor-এও `super` ব্যবহার হয় — parent-এর কাছে value পাঠানোর জন্য।
 
 **ধাপ ৫ — Dart-এ parent মাত্র একটাই।**
-আপনি ঠিক একটা class-ই `extends` করতে পারবেন। একাধিক জায়গা থেকে code পুনরায় ব্যবহার করতে চাইলে mixin (`with`) বা composition ব্যবহার করুন (দেখুন [Q6](#q6), [Q7](#q7))।
+আপনি ঠিক একটা class-ই `extends` করতে পারবেন। একের বেশি জায়গা থেকে code আবার ব্যবহার করতে চাইলে mixin (`with`) বা composition ব্যবহার করুন (দেখুন [Q6](#q6), [Q7](#q7))।
 
 **Interviewer কেন জিজ্ঞেস করে:** Flutter-এ inheritance সব জায়গায় (প্রতিটা widget আরেকটা widget extends করে)। তাঁরা দেখেন আপনি `super`, `@override` আর single-parent নিয়মটা জানেন কি না।
 
-**সাধারণ ভুল:** সম্পর্কহীন class-এর মধ্যে code ভাগ করতে inheritance-এর অতিরিক্ত ব্যবহার। সত্যিকারের "is-a" সম্পর্ক না হলে composition বেছে নিন ([Q6](#q6))।
+**সাধারণ ভুল:** সম্পর্ক নেই এমন class-এর মধ্যে code ভাগ করতে inheritance-এর বাড়তি ব্যবহার। সত্যিকারের "is-a" সম্পর্ক না হলে composition বেছে নিন ([Q6](#q6))।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Inheritance vs composition?"* → Inheritance = "is-a"; composition = "has-a"। নমনীয়তার জন্য composition বেছে নিন ([Q6](#q6))।
+- *"Inheritance vs composition?"* → Inheritance = "is-a"; composition = "has-a"। flexibility-র জন্য composition বেছে নিন ([Q6](#q6))।
 - *"`@override` কেন ব্যবহার করবেন?"* → এটা typo ধরে ফেলে আর উদ্দেশ্য স্পষ্ট করে।
 
 **সম্পর্কিত:** [Q6 — inheritance-এর বদলে composition](#q6) · [Q7 — mixin](#q7) · [Q4 — polymorphism](#q4)
@@ -273,12 +273,12 @@ Constructor-এও `super` ব্যবহার হয় — parent-এর ক
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q4)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Polymorphism মানে একটা কাজ অনেক রূপ নেয় — একই method call object-এর আসল type অনুযায়ী ভিন্নভাবে আচরণ করে। Runtime polymorphism হলো method overriding, যেটা program চলার সময়ে ঠিক হয়। Dart-এর একটা গুরুত্বপূর্ণ বিষয়: Dart method overloading (একই নাম, ভিন্ন parameter) support করে না। তাই আমরা এর বদলে optional বা named parameter ব্যবহার করি।"
+"Polymorphism মানে একটা কাজ অনেক রূপ নেয় — একই method call object-এর আসল type অনুযায়ী আলাদাভাবে আচরণ করে। Runtime polymorphism হলো method overriding, যেটা program চলার সময়ে ঠিক হয়। Dart-এর একটা গুরুত্বপূর্ণ বিষয়: Dart method overloading (একই নাম, আলাদা parameter) support করে না। তাই আমরা এর বদলে optional বা named parameter ব্যবহার করি।"
 
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের ছবি: "run" শব্দটা।**
-মানুষ, app আর নদীর জন্য "run" মানে ভিন্ন ভিন্ন জিনিস। একটা শব্দ, অনেক আচরণ — এটাই polymorphism।
+মানুষ, app আর নদীর জন্য "run" মানে আলাদা আলাদা জিনিস। একটা শব্দ, অনেক আচরণ — এটাই polymorphism।
 
 **ধাপ ২ — Runtime polymorphism = method overriding।**
 আপনার হাতে থাকে parent type। কিন্তু আসল object ঠিক করে কোন method চলবে।
@@ -289,7 +289,7 @@ class Circle extends Shape { final double r; Circle(this.r); double area() => 3.
 class Square extends Shape { final double s; Square(this.s); double area() => s * s; }
 
 void show(Shape shape) => print(shape.area()); // একই call...
-show(Circle(2)); // 12.56  ...ভিন্ন behaviour
+show(Circle(2)); // 12.56  ...আলাদা behaviour
 show(Square(3)); // 9
 ```
 
@@ -310,17 +310,17 @@ void greet([String? name]) {
 ```
 
 **ধাপ ৪ — Compile-time polymorphism।**
-যেসব ভাষায় overloading আছে, সেখানে কোন overloaded method call হবে তা compile time-এ ঠিক হয় ("compile-time polymorphism")। Dart-এ overloading নেই। তাই আপনি যে polymorphism ব্যবহার করেন সেটা প্রধানত runtime (overriding) ধরনের। Dart-এর generics-ও এক ধরনের compile-time polymorphism দেয়।
+যেসব ভাষায় overloading আছে, সেখানে কোন overloaded method call হবে তা compile time-এ ঠিক হয় ("compile-time polymorphism")। Dart-এ overloading নেই। তাই আপনি যে polymorphism ব্যবহার করেন সেটা বেশিরভাগ runtime (overriding) ধরনের। Dart-এর generics-ও এক ধরনের compile-time polymorphism দেয়।
 
 **Interviewer কেন জিজ্ঞেস করে:** Polymorphism-ই code-কে extensible করে। "Dart-এ overloading নেই" — এই পয়েন্টটা তাঁদের প্রিয় ফাঁদ।
 
 **সাধারণ ভুল:** বলা যে Dart overloading support করে। করে না — optional/named parameter ব্যবহার করুন।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"বাস্তব Flutter উদাহরণ?"* → `Widget build()` প্রতিটা widget override করে — একই call, ভিন্ন UI।
-- *"Overloading নকল করবেন কীভাবে?"* → Named/optional parameter, বা ভিন্ন নামের factory constructor।
+- *"বাস্তব Flutter উদাহরণ?"* → `Widget build()` প্রতিটা widget override করে — একই call, আলাদা UI।
+- *"Overloading নকল করবেন কীভাবে?"* → Named/optional parameter, বা আলাদা নামের factory constructor।
 
-**সম্পর্কিত:** [Q3 — inheritance (overriding)](#q3) · [Q1 — চারটি স্তম্ভ](#q1) · [Q21 — overriding vs hiding](#q21)
+**সম্পর্কিত:** [Q3 — inheritance (overriding)](#q3) · [Q1 — চারটি খুঁটি](#q1) · [Q21 — overriding vs hiding](#q21)
 
 [↑ উপরে ফিরুন](#toc)
 
@@ -373,14 +373,14 @@ class WalletPayment implements Payment {
 **ধাপ ৫ — Dart-এ `interface` keyword নেই।**
 প্রতিটা class নিজে থেকেই একটা interface তৈরি করে। তাই যেকোনো class-কে `implements` করা যায়। কিছু code ভাগ করতে চাইলে abstract class ব্যবহার করুন। শুধু একটা contract চাপাতে চাইলে pure interface (`implements`) ব্যবহার করুন — fake দিয়ে testing-এর জন্য এটা দারুণ।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি contract-এর উপর ভিত্তি করে design করতে পারেন কি না। নমনীয় ও testable code-এর মূল কথাই এটা।
+**Interviewer কেন জিজ্ঞেস করে:** এটা যাচাই করে আপনি contract-এর উপর ভিত্তি করে design করতে পারেন কি না। flexible ও testable code-এর মূল কথাই এটা।
 
 **সাধারণ ভুল:** ভাবা যে Dart-এ আলাদা একটা `interface` keyword আছে (নেই)। অথবা ভাবা যে `implements` code inherit করে (করে না — সবকিছু নতুন করে লিখতে হয়)।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"কখন abstract class, কখন interface?"* → Code ভাগ করতে চাইলে abstract class। শুধু contract দরকার আর সহজে mock করতে চাইলে interface (`implements`)।
 
-**সম্পর্কিত:** [Q7 — mixin vs abstract vs interface](#q7) · [Q1 — abstraction স্তম্ভ](#q1) · [Q14 — DIP](#q14)
+**সম্পর্কিত:** [Q7 — mixin vs abstract vs interface](#q7) · [Q1 — abstraction খুঁটি](#q1) · [Q14 — DIP](#q14)
 
 [↑ উপরে ফিরুন](#toc)
 
@@ -395,7 +395,7 @@ class WalletPayment implements Payment {
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q6)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Composition মানে একটা class অন্য কিছু object দিয়ে তৈরি হয়, যেগুলো তার *আছে*। Parent থেকে inherit করে নয়, যেটা সে *হয়*। 'inheritance-এর বদলে composition বেছে নিন' পরামর্শের মানে: গভীর class tree না বানিয়ে class-কে তার দরকারি টুকরোগুলো field হিসেবে দিন। এটা বেশি নমনীয় — কঠিন hierarchy ছাড়াই আচরণ মেশানো আর বদলানো যায়।"
+"Composition মানে একটা class অন্য কিছু object দিয়ে তৈরি হয়, যেগুলো তার *আছে*। Parent থেকে inherit করে নয়, যেটা সে *হয়*। 'inheritance-এর বদলে composition বেছে নিন' পরামর্শের মানে: গভীর class tree না বানিয়ে class-কে তার দরকারি টুকরোগুলো field হিসেবে দিন। এটা বেশি flexible — কঠিন hierarchy ছাড়াই আচরণ মেশানো আর বদলানো যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -423,13 +423,13 @@ class Duck {
 
 এখন যেকোনো class ঠিক যে ability দরকার সেটাই নিতে পারে — কোনো কঠিন tree নেই।
 
-**ধাপ ৪ — কেন এটা বেশি নমনীয়।**
+**ধাপ ৪ — কেন এটা বেশি flexible।**
 - Runtime-এ আচরণ বদলানো যায় (টুকরোটা বদলে দিন)।
 - "fragile base class" সমস্যা এড়ানো যায়, যেখানে parent বদলালে অনেক child ভেঙে যায়।
 - এটা class-গুলোকে ছোট আর নির্দিষ্ট রাখে।
 
 **ধাপ ৫ — কখন inheritance-ই ঠিক।**
-সত্যিকারের, স্থায়ী "is-a" সম্পর্কের জন্য inheritance ব্যবহার করুন (প্রতিটা Flutter widget `Widget` extends করে)। শুধু আচরণ পুনরায় ব্যবহার করতে চাইলে composition ব্যবহার করুন।
+সত্যিকারের, স্থায়ী "is-a" সম্পর্কের জন্য inheritance ব্যবহার করুন (প্রতিটা Flutter widget `Widget` extends করে)। শুধু আচরণ আবার ব্যবহার করতে চাইলে composition ব্যবহার করুন।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা senior design-এর সহজাত বোধ। Composition-এর দিকে হাত বাড়ানো দেখায় আপনি কঠিন, বদলাতে-কষ্টকর hierarchy এড়িয়ে চলেন।
 
@@ -437,7 +437,7 @@ class Duck {
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Flutter কীভাবে composition ব্যবহার করে?"* → Widget-গুলো compose করা হয়: subclass না বানিয়ে ছোট widget একটার ভেতরে আরেকটা রাখা হয় (Padding-এর ভেতরে Center, তার ভেতরে Text)।
-- *"Mixin?"* → Dart-এর mixin মাঝামাঝি একটা পথ — parent ছাড়াই পুনরায় ব্যবহারযোগ্য আচরণ ([Q7](#q7))।
+- *"Mixin?"* → Dart-এর mixin মাঝামাঝি একটা পথ — parent ছাড়াই আবার ব্যবহার করা যায় এমন আচরণ ([Q7](#q7))।
 
 **সম্পর্কিত:** [Q3 — inheritance](#q3) · [Q7 — mixin](#q7) · [Q9 — coupling](#q9)
 
@@ -450,7 +450,7 @@ class Duck {
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q7)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Abstract class হলো একটা আংশিক blueprint, যেটা আমি `extends` করি — এটা code শেয়ার করতে পারে, কিন্তু parent পাই মাত্র একটা। Mixin হলো পুনরায় ব্যবহারযোগ্য behaviour, যেটা `with` দিয়ে যোগ করি — অনেকগুলো যোগ করা যায়, আর inheritance ছাড়াই কাজ করা code পাওয়া যায়। Interface (যেকোনো class যেটা `implements` দিয়ে ব্যবহার হয়) শুধু একটা contract — কোনো code নেই, কিন্তু অনেকগুলো implement করা যায়।"
+"Abstract class হলো একটা আংশিক blueprint, যেটা আমি `extends` করি — এটা code শেয়ার করতে পারে, কিন্তু parent পাই মাত্র একটা। Mixin হলো আবার ব্যবহার করা যায় এমন behaviour, যেটা `with` দিয়ে যোগ করি — অনেকগুলো যোগ করা যায়, আর inheritance ছাড়াই কাজ করা code পাওয়া যায়। Interface (যেকোনো class যেটা `implements` দিয়ে ব্যবহার হয়) শুধু একটা contract — কোনো code নেই, কিন্তু অনেকগুলো implement করা যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -471,7 +471,7 @@ abstract class Repository {
 }
 ```
 
-**ধাপ ৩ — Mixin — সম্পর্কহীন অনেক class-এ behaviour যোগ করে।**
+**ধাপ ৩ — Mixin — সম্পর্ক নেই এমন অনেক class-এ behaviour যোগ করে।**
 
 ```dart
 mixin Logger {
@@ -497,7 +497,7 @@ class FakeRepository implements Repository {
 
 **ধাপ ৫ — কীভাবে বাছবেন।**
 - শেয়ার করা code দরকার + সত্যিকারের "is-a" সম্পর্ক? → abstract class।
-- সম্পর্কহীন class-গুলোর মধ্যে behaviour পুনরায় ব্যবহার করা দরকার? → mixin।
+- সম্পর্ক নেই এমন class-গুলোর মধ্যে behaviour আবার ব্যবহার করা দরকার? → mixin।
 - শুধু একটা contract দরকার (swap বা mock করার জন্য)? → interface (`implements`)।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা গভীর Dart OOP জ্ঞান আর ভালো design judgment যাচাই করে।
@@ -536,7 +536,7 @@ class User {              // class (blueprint)
 }
 
 final a = User('Sara');   // একটা object / instance
-final b = User('Rahim');  // আরেকটা instance — একই class, ভিন্ন data
+final b = User('Rahim');  // আরেকটা instance — একই class, আলাদা data
 ```
 
 একটা class, অনেক instance। প্রতিটা instance-এর নিজের data থাকে। কিন্তু structure আর method একই থাকে।
@@ -544,12 +544,12 @@ final b = User('Rahim');  // আরেকটা instance — একই class, �
 **ধাপ ৩ — "Instance of"।**
 `a is User` সত্য — `a` হলো `User`-এর একটা instance। "Instance" শব্দটা শুধু জোর দেয় যে "class থেকে বানানো একটা নির্দিষ্ট জিনিস।"
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা দ্রুত দেখে নেয় যে আপনার মৌলিক শব্দভাণ্ডার ঠিক আছে কি না — শুরুর দিকের বা screening round-এ খুব সাধারণ।
+**Interviewer কেন জিজ্ঞেস করে:** এটা দ্রুত দেখে নেয় যে আপনার গোড়ার শব্দভাণ্ডার ঠিক আছে কি না — শুরুর দিকের বা screening round-এ খুব সাধারণ।
 
 **সাধারণ ভুল:** "class" আর "object" একই অর্থে ব্যবহার করা। Class হলো পরিকল্পনা; object হলো বানানো জিনিস।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"`new` কী করে?"* → এটা একটা instance বানায়। আধুনিক Dart-এ `new` ঐচ্ছিক এবং সাধারণত বাদ দেওয়া হয়।
+- *"`new` কী করে?"* → এটা একটা instance বানায়। আধুনিক Dart-এ `new` optional এবং সাধারণত বাদ দেওয়া হয়।
 
 **সম্পর্কিত:** [Q1 — OOP basics](#q1) · [Q18 — constructors](#q18)
 
@@ -562,7 +562,7 @@ final b = User('Rahim');  // আরেকটা instance — একই class, �
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q9)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Coupling মানে একটা অংশ আরেকটার উপর কতটা নির্ভর করে; cohesion মানে একটা অংশ একটা কাজে কতটা মনোযোগী। আমরা চাই low coupling (অংশগুলো আলাদাভাবে বদলানো যাবে) আর high cohesion (প্রতিটা class একটা পরিষ্কার কাজ করবে)। দুটো মিলে code বদলানো, test করা আর পুনরায় ব্যবহার করা সহজ করে দেয়।"
+"Coupling মানে একটা অংশ আরেকটার উপর কতটা নির্ভর করে; cohesion মানে একটা অংশ একটা কাজে কতটা মনোযোগী। আমরা চাই low coupling (অংশগুলো আলাদাভাবে বদলানো যাবে) আর high cohesion (প্রতিটা class একটা পরিষ্কার কাজ করবে)। দুটো মিলে code বদলানো, test করা আর আবার ব্যবহার করা সহজ করে দেয়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -591,7 +591,7 @@ Low (খারাপ) cohesion: একটা `User` class যেটা email-ও
 
 **ধাপ ৪ — দুটোই কেন গুরুত্বপূর্ণ।**
 - Low coupling → অন্যগুলো না ভেঙে একটা অংশ বদলাতে বা বদলে ফেলতে পারবেন (আর fake দিয়ে test করতে পারবেন)।
-- High cohesion → প্রতিটা class ছোট, পরিষ্কার আর পুনরায় ব্যবহারযোগ্য।
+- High cohesion → প্রতিটা class ছোট, পরিষ্কার আর আবার ব্যবহার করা যায়।
 
 এই দুটো ধারণাই SOLID-এর বেশিরভাগ নিয়মের পেছনের "কেন" (বিশেষ করে [SRP](#q10) আর [DIP](#q14))।
 
@@ -661,9 +661,9 @@ class EmailService {
 **ধাপ ৪ — "বদলানোর একটাই কারণ" — এটাই আসল পরীক্ষা।**
 SRP-কে "একটা method" হিসেবে পড়বেন না। পড়ুন "একটা দায়িত্ব / বদলানোর একটা কারণ" হিসেবে। একটা class-এ অনেক method থাকতে পারে, যদি সবগুলো একই কাজে লাগে।
 
-**Interviewer কেন জিজ্ঞেস করে:** SRP হলো সবচেয়ে বেশি ব্যবহৃত SOLID নিয়ম। আর clean architecture-এর layer-গুলোর ভিত্তি।
+**Interviewer কেন জিজ্ঞেস করে:** SRP হলো সবচেয়ে বেশি ব্যবহার করা SOLID নিয়ম। আর clean architecture-এর layer-গুলোর ভিত্তি।
 
-**সাধারণ ভুল:** একটা "god class" বানানো, যেটা data রাখে, network-এ কথা বলে, আর UI-ও বানায়। অথবা অতিরিক্ত ভাগ করে কয়েক ডজন ছোট class বানিয়ে ফেলা।
+**সাধারণ ভুল:** একটা "god class" বানানো, যেটা data রাখে, network-এ কথা বলে, আর UI-ও বানায়। অথবা বাড়তি ভাগ করে কয়েক ডজন ছোট class বানিয়ে ফেলা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"SRP-এর সাথে cohesion-এর সম্পর্ক কী?"* → SRP high cohesion দেয় — প্রতিটা class একটা জিনিসেই মনোযোগ দেয় ([Q9](#q9))।
@@ -713,14 +713,14 @@ double totalArea(List<Shape> shapes) =>
 ```
 
 **ধাপ ৪ — কেন এটা গুরুত্বপূর্ণ।**
-Tested code edit করলে সেটা ভাঙার ঝুঁকি থাকে। নতুন code যোগ করলে (নতুন একটা class) পুরোনো, চলমান code-এ হাত পড়ে না। এটা বেশি নিরাপদ, আর extend করাও সহজ।
+Tested code edit করলে সেটা ভাঙার ঝুঁকি থাকে। নতুন code যোগ করলে (নতুন একটা class) পুরোনো, চলতে থাকা code-এ হাত পড়ে না। এটা বেশি নিরাপদ, আর extend করাও সহজ।
 
 **Interviewer কেন জিজ্ঞেস করে:** এতে বোঝা যায় আপনি পরিবর্তনের কথা ভেবে design করেন। দীর্ঘদিন টিকে থাকা code-এ এটাই সবচেয়ে দামি গুণ।
 
 **সাধারণ ভুল:** type-এর উপর বড় `if/else` বা `switch` chain, যা প্রতিবার নতুন case এলে বাড়তে থাকে — এটা OCP ভাঙার ক্লাসিক উদাহরণ।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"sealed class + switch কি নিয়ম ভাঙে না?"* → এটা একটা ভারসাম্যপূর্ণ trade-off: sealed class compile-time safety দেয় (কোনো case ভুলে যাওয়া যায় না), বিনিময়ে switch edit করতে হয়। দুই ধরনই বৈধ; set কত ঘন ঘন বদলায় সেটা দেখে বেছে নিন।
+- *"sealed class + switch কি নিয়ম ভাঙে না?"* → এটা একটা মাঝামাঝি trade-off: sealed class compile-time safety দেয় (কোনো case ভুলে যাওয়া যায় না), বিনিময়ে switch edit করতে হয়। দুই ধরনই বৈধ; set কত ঘন ঘন বদলায় সেটা দেখে বেছে নিন।
 
 **সম্পর্কিত:** [Q10 — SRP](#q10) · [Q14 — DIP](#q14) · [Q5 — abstraction](#q5)
 
@@ -738,10 +738,10 @@ Tested code edit করলে সেটা ভাঙার ঝুঁকি থ�
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের ছবি: একজন stand-in অভিনেতা।**
-মূল অভিনেতা যেখানে যেখানে অভিনয় করতেন, stand-in-কেও সেখানে সেই role করতে পারতে হবে। Stand-in যদি মৌলিক role-টাই করতে না পারেন, তাহলে বদলি দিয়ে show ভেঙে যায়।
+মূল অভিনেতা যেখানে যেখানে অভিনয় করতেন, stand-in-কেও সেখানে সেই role করতে পারতে হবে। Stand-in যদি গোড়ার role-টাই করতে না পারেন, তাহলে বদলি দিয়ে show ভেঙে যায়।
 
 **ধাপ ২ — ক্লাসিক নিয়ম ভাঙা: Square extends Rectangle।**
-গণিতে square "is a" rectangle, কিন্তু code-এ এটা প্রত্যাশা ভেঙে দেয়:
+গণিতে square "is a" rectangle, কিন্তু code-এ এটা আশা ভেঙে দেয়:
 
 ```dart
 class Rectangle {
@@ -753,7 +753,7 @@ class Rectangle {
 class Square extends Rectangle {
   Square(int size) : super(size, size);
   // কেউ যদি width আর height আলাদা করে set করে (Rectangle-এর জন্য বৈধ),
-  // Square সেই প্রত্যাশা ভাঙে — width আর height সমান থাকতেই হবে।
+  // Square সেই আশা ভাঙে — width আর height সমান থাকতেই হবে।
 }
 
 void resizeAndCheck(Rectangle r) {
@@ -836,7 +836,7 @@ class Human implements Workable, Eatable {  // দুটোই নেয়
 **সাধারণ ভুল:** ২০টা method-ওয়ালা একটা বিশাল "service" interface, যেটা সবাই আংশিকভাবে implement করে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"এটা SRP-র সাথে কীভাবে সম্পর্কিত?"* → ISP হলো interface-এ প্রয়োগ করা SRP — প্রতিটা interface-এর একটাই নির্দিষ্ট উদ্দেশ্য থাকে।
+- *"এটা SRP-র সাথে কীভাবে সম্পর্কিত?"* → ISP হলো interface-এ কাজে লাগানো SRP — প্রতিটা interface-এর একটাই নির্দিষ্ট উদ্দেশ্য থাকে।
 
 **সম্পর্কিত:** [Q10 — SRP](#q10) · [Q5 — interfaces](#q5)
 
@@ -849,7 +849,7 @@ class Human implements Workable, Eatable {  // দুটোই নেয়
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q14)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"High-level code abstraction-এর উপর নির্ভর করবে, কোনো concrete detail-এর উপর নয়। কোনো class নিজের ভেতরে নিজেই database বা API client বানাবে না; বাইরে থেকে একটা interface পাবে। এতে code নমনীয় আর testable হয় — class না বদলে আসলটার জায়গায় নকল বসানো যায়।"
+"High-level code abstraction-এর উপর নির্ভর করবে, কোনো concrete detail-এর উপর নয়। কোনো class নিজের ভেতরে নিজেই database বা API client বানাবে না; বাইরে থেকে একটা interface পাবে। এতে code flexible আর testable হয় — class না বদলে আসলটার জায়গায় নকল বসানো যায়।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -911,7 +911,7 @@ OrderService(FakeApiClient());   // test করা সহজ, আসল network 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q15)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"DRY মানে Don't Repeat Yourself — প্রতিটা knowledge-এর একটাই জায়গা থাকা উচিত। একই logic যদি কয়েক জায়গায় copy-paste করা থাকে, তাহলে একটা পরিবর্তন মানে সব জায়গায় ঠিক করা, আর একটা জায়গা ভুলে যাওয়া। তাই আমি পুনরাবৃত্তি হওয়া logic একটা function বা class-এ নিয়ে আসি।"
+"DRY মানে Don't Repeat Yourself — প্রতিটা knowledge-এর একটাই জায়গা থাকা উচিত। একই logic যদি কয়েক জায়গায় copy-paste করা থাকে, তাহলে একটা পরিবর্তন মানে সব জায়গায় ঠিক করা, আর একটা জায়গা ভুলে যাওয়া। তাই আমি বারবার একই জিনিস হওয়া logic একটা function বা class-এ নিয়ে আসি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -933,9 +933,9 @@ double applyDiscount(double price, double rate) => price - (price * rate);
 **ধাপ ৩ — সাবধানতা: DRY knowledge নিয়ে, শুধু text নিয়ে নয়।**
 দুই টুকরো code এখন *দেখতে* এক লাগছে বলেই সেগুলো এক করে দেবেন না। যদি সেগুলো আলাদা নিয়ম বোঝায়, আর আজ কাকতালীয়ভাবে মিলে যায়, তাহলে জোর করে এক করলে আরও খারাপ coupling তৈরি হয়। DRY মানে duplicate *knowledge* সরানো, দেখতে এক রকম line সরানো নয়।
 
-**Interviewer কেন জিজ্ঞেস করে:** এটা একটা মৌলিক মানের অভ্যাস। তাঁরা দেখতে চান আপনি পুনরাবৃত্তি সঠিক উপায়ে সরান কি না।
+**Interviewer কেন জিজ্ঞেস করে:** এটা একটা গোড়ার মানের অভ্যাস। তাঁরা দেখতে চান আপনি বারবার একই জিনিস সঠিক উপায়ে সরান কি না।
 
-**সাধারণ ভুল:** DRY বেশি প্রয়োগ করা — শুধু দেখতে এক রকম বলে সম্পর্কহীন code এক করে ফেলা, আর একটা জট পাকানো shared function তৈরি করা।
+**সাধারণ ভুল:** DRY বেশি কাজে লাগানো — শুধু দেখতে এক রকম বলে সম্পর্ক নেই এমন code এক করে ফেলা, আর একটা জট পাকানো shared function তৈরি করা।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"DRY vs WET?"* → WET = "Write Everything Twice" (উল্টোটা)। অল্প duplication মাঝে মাঝে ঠিক আছে; খুব আগেভাগে এক করে ফেলা ক্ষতি করতে পারে।
@@ -998,7 +998,7 @@ bool isEven(int n) => n % 2 == 0;
 **এবার পুরোটা বুঝি:**
 
 **ধাপ ১ — বাস্তব জীবনের একটা ছবি।**
-একদিন বড় পরিবার *হতে পারে* বলে ১০ সিটের van কিনবেন না। এখন যা দরকার তাই কিনুন; প্রয়োজন সত্যি হলে upgrade করুন।
+একদিন বড় পরিবার *হতে পারে* বলে ১০ সিটের van কিনবেন না। এখন যা দরকার তাই কিনুন; দরকার সত্যি হলে upgrade করুন।
 
 **ধাপ ২ — একটা Flutter উদাহরণ।**
 
@@ -1012,14 +1012,14 @@ class BkashGateway implements PaymentGateway {
   @override
   Future<void> pay(double amount) async {/* আজ যতটুকু দরকার শুধু ততটুকু */}
 }
-// পরে আরও gateway যোগ করুন, যখন সত্যিকারের প্রয়োজন আসবে।
+// পরে আরও gateway যোগ করুন, যখন সত্যিকারের দরকার আসবে।
 ```
 
 **ধাপ ৩ — কেন এটা গুরুত্বপূর্ণ।**
 অনুমানের উপর বানানো feature বানাতে, test করতে আর maintain করতে সময় লাগে — আর সেগুলো সাধারণত ভুল হয়, কারণ আপনি ভবিষ্যৎ অনুমান করেছেন। YAGNI codebase-কে হালকা আর লক্ষ্যে স্থির রাখে।
 
-**ধাপ ৪ — ভারসাম্য।**
-YAGNI মানে "যেমন তেমন code লেখা" নয়। এর মানে *অপ্রয়োজনীয়* flexibility যোগ না করা। আপনি তবুও পরিষ্কার, সহজ code design করবেন (KISS)। সেটা প্রয়োজন এলে সহজে বাড়ানো যাবে (OCP)।
+**ধাপ ৪ — balance।**
+YAGNI মানে "যেমন তেমন code লেখা" নয়। এর মানে *দরকার নেই এমন* flexibility যোগ না করা। আপনি তবুও পরিষ্কার, সহজ code design করবেন (KISS)। সেটা দরকার এলে সহজে বাড়ানো যাবে (OCP)।
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা দেখায় আপনি আসল প্রয়োজনে মন দেন আর over-engineering এড়ান — দ্রুত চলা team-এ এটা মূল্যবান।
 
@@ -1092,7 +1092,7 @@ class Circle {
 
 **Interviewer কেন জিজ্ঞেস করে:** Constructor সারাক্ষণই ব্যবহার হয় (প্রতিটা `fromJson`)। তাঁরা দেখেন আপনি factory-র বিশেষ ক্ষমতা আর const-এর performance সুবিধা জানেন কি না।
 
-**সাধারণ ভুল:** ভাবা যে factory সবসময় নতুন object বানায় — সেটা বাধ্যতামূলক নয়।
+**সাধারণ ভুল:** ভাবা যে factory সবসময় নতুন object বানায় — সেটা লাগবেই এমন নয়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"`fromJson` কেন একটা factory?"* → কারণ এটা fail করতে পারে, cache করা object ফেরত দিতে পারে, বা একটা subtype ফেরত দিতে পারে — সাধারণ constructor সেটা পারে না।
@@ -1142,7 +1142,7 @@ print(MathUtils.square(5)); // 25
 **ধাপ ৪ — কখন ব্যবহার করবেন না।**
 Static থাকলে code test আর mock করা কঠিন হয়ে যায় (একটা static call-কে সহজে fake দিয়ে বদলানো যায় না)। আসল dependency-র জন্য (database, API) static নয় — DIP দিয়ে inject করা instance ব্যবহার করুন ([Q14](#q14))।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখেন আপনি class-level আর instance-level-এর পার্থক্য জানেন কি না। আরও দেখেন আপনি static-এর অতিরিক্ত ব্যবহার করেন কি না (যেটা testability নষ্ট করে)।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা দেখেন আপনি class-level আর instance-level-এর পার্থক্য জানেন কি না। আরও দেখেন আপনি static-এর বাড়তি ব্যবহার করেন কি না (যেটা testability নষ্ট করে)।
 
 **সাধারণ ভুল:** business logic আর dependency static method-এ রেখে দেওয়া। এতে test-এ code mock করা অসম্ভব হয়ে যায়।
 
@@ -1177,7 +1177,7 @@ List<Cat> cats = [Cat()];
 List<Animal> animals = cats; // allowed — covariant
 ```
 
-এটা কাজে লাগে, কিন্তু কারিগরিভাবে অনিরাপদ (আপনি `animals`-এ একটা `Dog` add করার চেষ্টা করতে পারেন, যেটা আসলে `Cat`-এর list)। Dart একটা runtime check বসিয়ে দেয় সেটা ধরার জন্য। ফলে জিনিসটা নিরাপদ থাকে, তবে দাম হলো একটা সম্ভাব্য runtime error।
+এটা কাজে লাগে, কিন্তু কারিগরিভাবে অনিরাপদ (আপনি `animals`-এ একটা `Dog` add করার চেষ্টা করতে পারেন, যেটা আসলে `Cat`-এর list)। Dart একটা runtime check বসিয়ে দেয় সেটা ধরার জন্য। ফলে জিনিসটা নিরাপদ থাকে, তবে দাম হলো একটা হতে পারে এমন runtime error।
 
 **ধাপ ৩ — `covariant` keyword (parameter সরু করা)।**
 সাধারণত একটা override-কে একই বা আরও চওড়া parameter type নিতে হয়। `covariant` আপনাকে আরও সরু type নিতে দেয়, বিনিময়ে একটা runtime check মেনে নিতে হয়।
@@ -1277,7 +1277,7 @@ Subclass যদি parent-এর সমান নামে একটা field de
 
 Interview-র দিন সকালে এটা পড়ুন। আগে table, তারপর এক-লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 
-## চারটি স্তম্ভ
+## চারটি খুঁটি
 
 | Pillar | মানে | মনে রাখুন |
 |---|---|---|
@@ -1301,21 +1301,21 @@ Interview-র দিন সকালে এটা পড়ুন। আগে t
 | | Inheritance | Composition |
 |---|---|---|
 | সম্পর্ক | "is-a" | "has-a" |
-| নমনীয়তা | শক্ত tree | বদলে নেওয়া যায় এমন টুকরো |
+| flexibility | শক্ত tree | বদলে নেওয়া যায় এমন টুকরো |
 | কখন বেছে নেবেন | সত্যিকারের, স্থির is-a | behaviour আবার ব্যবহার |
 
 ## এক লাইনের মনে রাখার তালিকা
 
 - **Encapsulation** = private field (`_`) + নিরাপদ method যা validate করে। ([Q2](#q2))
 - **Inheritance** = `extends` (একটাই parent), বদলাতে `@override`, উপরে call করতে `super`। ([Q3](#q3))
-- **Polymorphism** = একই call, ভিন্ন আচরণ; Dart-এ method overloading নেই। ([Q4](#q4))
+- **Polymorphism** = একই call, আলাদা আচরণ; Dart-এ method overloading নেই। ([Q4](#q4))
 - **Abstraction**: `abstract class` (code শেয়ার করে, `extends`) বনাম interface (`implements`, শুধু contract)। ([Q5](#q5))
-- **Inheritance-এর বদলে composition বেছে নিন** — গভীর "is-a" tree-এর চেয়ে "has-a" বেশি নমনীয়। ([Q6](#q6))
+- **Inheritance-এর বদলে composition বেছে নিন** — গভীর "is-a" tree-এর চেয়ে "has-a" বেশি flexible। ([Q6](#q6))
 - **Low coupling + high cohesion** = বদলানো, test করা, reuse করা সহজ। ([Q9](#q9))
 - **SRP** = বদলানোর একটাই কারণ; **OCP** = extend করতে খোলা, modify করতে বন্ধ। ([Q10](#q10), [Q11](#q11))
 - **LSP** = subclass-কে parent-এর জায়গায় বসানো যেতে হবে; **ISP** = ছোট interface। ([Q12](#q12), [Q13](#q13))
 - **DIP** = abstraction-এর উপর নির্ভর করুন, সেগুলো inject করুন (testable code-এর ভিত্তি)। ([Q14](#q14))
-- **DRY** (সত্যের একটাই উৎস), **KISS** (সহজ রাখুন), **YAGNI** (এখনো দরকার নেই এমন জিনিস বানাবেন না)। ([Q15](#q15), [Q16](#q16), [Q17](#q17))
+- **DRY** (সত্যের একটাই source), **KISS** (সহজ রাখুন), **YAGNI** (এখনো দরকার নেই এমন জিনিস বানাবেন না)। ([Q15](#q15), [Q16](#q16), [Q17](#q17))
 - **Factory** constructor cache করা object বা subtype return করতে পারে; **static** class-এর নিজের জিনিস। ([Q18](#q18), [Q19](#q19))
 - **Override** = instance method, runtime dispatch; **hiding** = static, class-এর নাম দিয়ে। ([Q21](#q21))
 

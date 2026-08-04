@@ -1,10 +1,10 @@
 # Section 10 — CI/CD, Flavors ও App Release
 
 > **Senior Flutter / Mobile Engineer — Interview Prep**
-> **Remote** এবং **Bangladesh (BD)** কোম্পানির interview-এর জন্য।
-> প্রতিটা উত্তর **সহজ ভাষায়**, **ধাপে ধাপে পুরো ব্যাখ্যা** সহ, আর **link** করা — যাতে আপনি এদিক-ওদিক ঘুরে ধাপে ধাপে প্রস্তুতি নিতে পারেন।
+> **Remote** আর **বাংলাদেশ (BD)** কোম্পানির interview-এর জন্য।
+> প্রতিটা উত্তর **সহজ ভাষায়** লেখা, **ধাপে ধাপে পুরো ব্যাখ্যা করা**, আর **link দেওয়া** — তাই আপনি এদিক-ওদিক ঘুরে ধীরে ধীরে প্রস্তুতি নিতে পারবেন।
 
-> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-10-cicd-release-bn.md](../software-engineer-flutter/section-10-cicd-release.md)
+> 🇬🇧 এই ডকুমেন্টের ইংরেজি ভার্সন: [section-10-cicd-release.md](../software-engineer-flutter/section-10-cicd-release.md)
 
 ---
 
@@ -12,14 +12,14 @@
 
 প্রতিটা প্রশ্নের গঠন একই রকম:
 
-- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ লাইনের উত্তর।
-- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code সহ ধাপে ধাপে বিস্তারিত ব্যাখ্যা।
+- **সংক্ষিপ্ত উত্তর (এটাই বলুন)** — interview-এ প্রথমে বলার মতো ২–৩ বাক্যের উত্তর।
+- **এবার পুরোটা বুঝি** — বাস্তব উদাহরণ আর code দিয়ে ধাপে ধাপে পুরো ব্যাখ্যা।
 - **Interviewer কেন জিজ্ঞেস করে** · **সাধারণ ভুল** · **যে Follow-up প্রশ্ন আসতে পারে**
-- **সম্পর্কিত** — সংযুক্ত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
+- **সম্পর্কিত** — সম্পর্কিত প্রশ্নে যান · **উপরে ফিরুন** — সূচিপত্রে ফিরে যান।
 
 প্রতিটা প্রশ্নে ট্যাগ দেওয়া আছে — কত ঘন ঘন জিজ্ঞেস করা হয় (**Very common / Common / Deeper**) আর কতটা কঠিন (**Easy / Medium / Hard**)।
 
-> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তর** দিন (২–৩ লাইন), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
+> **Interview Tip:** সবসময় আগে **সংক্ষিপ্ত উত্তরটা** দিন (২–৩ বাক্য), তারপর থামুন। Interviewer-কে জিজ্ঞেস করতে দিন — "আরও গভীরে যেতে পারবেন?" সহজ আর পরিষ্কার করে বলাটাই একটা senior skill — remote আর BD দুই ধরনের কোম্পানিতেই এটা একইভাবে কাজ করে।
 
 ---
 
@@ -28,7 +28,7 @@
 
 **A. Build mode আর CI/CD-র মূল কথা**
 1. [Build mode — debug, profile, release](#q1) · *Very common*
-2. [GitHub Actions দিয়ে মৌলিক CI pipeline](#q2) · *Very common*
+2. [GitHub Actions দিয়ে গোড়ার CI pipeline](#q2) · *Very common*
 3. [CI secrets, caching আর build দ্রুত করা](#q3) · *Common*
 4. [App versioning — `1.0.0+1` আর auto-increment](#q4) · *Very common*
 
@@ -55,7 +55,7 @@
 
 ## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
-১৪টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
+১৪টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো একটার পর একটা শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
 **পর্যায় ১ — ভিত্তি (এখান থেকে শুরু করুন)।** এগুলো ছাড়া release নিয়ে কথা বলা যায় না।
 → [Q1 Build mode](#q1) · [Q4 Versioning](#q4) · [Q5 Flavor](#q5) · [Q6 dart-define](#q6)
@@ -98,7 +98,7 @@ flutter run --debug         # একই জিনিস, স্পষ্ট ক�
 ```
 
 **ধাপ ২ — Profile mode (গতি মাপার জন্য)।**
-Profile mode release-এর মতোই native code-এ (AOT) compile করে, তাই গতিটা বাস্তবসম্মত। কিন্তু কিছু tooling চালু থাকে, যাতে DevTools দিয়ে ধীর frame (jank) খুঁজে পান। Profile mode-এ hot reload করা যায় না।
+Profile mode release-এর মতোই native code-এ (AOT) compile করে, তাই গতিটা বাস্তব। কিন্তু কিছু tooling চালু থাকে, যাতে DevTools দিয়ে ধীর frame (jank) খুঁজে পান। Profile mode-এ hot reload করা যায় না।
 
 ```bash
 flutter run --profile       # বাস্তব গতি + profiling tool
@@ -123,7 +123,7 @@ flutter build ipa --release
 | Compilation | JIT | AOT (native) | AOT (native) |
 | Hot reload | হ্যাঁ | না | না |
 | Assert / check | চালু | বন্ধ | বন্ধ |
-| গতি | ধীর | বাস্তবসম্মত | দ্রুত |
+| গতি | ধীর | বাস্তব | দ্রুত |
 | কীসের জন্য | code লেখা | performance মাপা | user-এর কাছে পাঠানো |
 
 **Interviewer কেন জিজ্ঞেস করে:** Junior-দের খুব সাধারণ একটা ভুল হলো debug build-এ lag নিয়ে অভিযোগ করা। তিনটা mode জানা — আর মাপার জন্য profile-ই সঠিক, এটা জানা — স্পষ্ট senior signal।
@@ -140,16 +140,16 @@ flutter build ipa --release
 
 ---
 
-## <a id="q2"></a>2. GitHub Actions ব্যবহার করে Flutter-এর জন্য মৌলিক CI pipeline কীভাবে সেট করবেন?
+## <a id="q2"></a>2. GitHub Actions ব্যবহার করে Flutter-এর জন্য গোড়ার CI pipeline কীভাবে সেট করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q2)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"CI মানে: আমি যতবার code push করি, একটা server স্বয়ংক্রিয়ভাবে সেটা check করে। Flutter-এর জন্য আমি `.github/workflows/`-এ একটা YAML file লিখি। Pipeline সাধারণত চারটা ধাপ করে — code আনা, Flutter install করা, analyze আর test চালানো, তারপর app build করা। Android build চলে Linux machine-এ; iOS build-এর জন্য macOS machine লাগে।"
+"CI মানে: আমি যতবার code push করি, একটা server নিজে নিজেই সেটা check করে। Flutter-এর জন্য আমি `.github/workflows/`-এ একটা YAML file লিখি। Pipeline সাধারণত চারটা ধাপ করে — code আনা, Flutter install করা, analyze আর test চালানো, তারপর app build করা। Android build চলে Linux machine-এ; iOS build-এর জন্য macOS machine লাগে।"
 
 **এবার পুরোটা বুঝি:**
 
-CI/CD-কে একটা **কারখানার conveyor belt** হিসেবে ভাবুন। আপনি এক প্রান্তে code ফেলেন (একটা push), আর সেটা একের পর এক station পেরিয়ে যায় — check, test, packing — হাতে কিছু না ছুঁয়েই। শেষে একটা তৈরি, tested build বেরিয়ে আসে। মূল কথা হলো সমস্যা স্বয়ংক্রিয়ভাবে ধরা, আর প্রতিবার একই নিয়মে।
+CI/CD-কে একটা **কারখানার conveyor belt** হিসেবে ভাবুন। আপনি এক মাথায় code ফেলেন (একটা push), আর সেটা একের পর এক station পেরিয়ে যায় — check, test, packing — হাতে কিছু না ছুঁয়েই। শেষে একটা তৈরি, tested build বেরিয়ে আসে। মূল কথা হলো সমস্যা নিজে নিজেই ধরা, আর প্রতিবার একই নিয়মে।
 
 **ধাপ ১ — File কোথায় থাকে।**
 GitHub Actions আপনার repo-র `.github/workflows/` folder থেকে YAML file পড়ে। প্রতিটা file একটা pipeline (যাকে "workflow" বলে)।
@@ -215,7 +215,7 @@ Linux-এ iOS app build করা যায় না, কারণ এর জ�
 ```yaml
 jobs:
   ios-build:
-    runs-on: macos-latest            # iOS-এর জন্য macOS বাধ্যতামূলক
+    runs-on: macos-latest            # iOS-এর জন্য macOS লাগবেই
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -227,7 +227,7 @@ jobs:
       - run: flutter build ipa --release
 ```
 
-**ধাপ ৫ — ফলাফল সংরক্ষণ করুন (artifact)।**
+**ধাপ ৫ — ফলাফল জমিয়ে রাখুন (artifact)।**
 Run শেষ হলে build machine-টা মুছে ফেলা হয়। তাই আপনাকে অবশ্যই **APK/IPA-কে artifact হিসেবে upload করতে** হবে (উপরের শেষ ধাপ), না হলে আপনার build হারিয়ে যাবে।
 
 ```
@@ -248,12 +248,12 @@ Run শেষ হলে build machine-টা মুছে ফেলা হয়
  Upload artifact     Upload artifact
 ```
 
-**Interviewer কেন জিজ্ঞেস করে:** যেকোনো পেশাদার Flutter team-এ CI থাকাটা প্রত্যাশিত। তাঁরা দেখতে চান আপনি শুধু feature লেখেন না, check আর build স্বয়ংক্রিয়ও করতে পারেন। YAML-এর গঠন, caching আর artifact জানা production-এর জন্য প্রস্তুতির লক্ষণ।
+**Interviewer কেন জিজ্ঞেস করে:** যেকোনো পেশাদার Flutter team-এ CI থাকাটা expected। তাঁরা দেখতে চান আপনি শুধু feature লেখেন না, check আর build automatic-ও করতে পারেন। YAML-এর গঠন, caching আর artifact জানা production-এর জন্য প্রস্তুতির লক্ষণ।
 
 **সাধারণ ভুল:** Linux runner-এ iOS build করার চেষ্টা করা — এটা fail করবে, কারণ সেখানে Xcode নেই। আরেকটা ভুল, artifact upload করতে ভুলে যাওয়া — তাতে machine মুছে গেলে build হারিয়ে যায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"CI আর CD-র পার্থক্য কী?"* → CI = স্বয়ংক্রিয়ভাবে build আর test করা। CD = সেই build স্বয়ংক্রিয়ভাবে পৌঁছে দেওয়া/deploy করা (tester বা store-এ)।
+- *"CI আর CD-র পার্থক্য কী?"* → CI = নিজে নিজেই build আর test করা। CD = সেই build নিজে নিজেই পৌঁছে দেওয়া/deploy করা (tester বা store-এ)।
 - *"GitHub Actions vs Codemagic vs Bitrise?"* → GitHub Actions সাধারণ কাজের জন্য, আর অনেক repo-তে বিনামূল্যে। Codemagic আর Bitrise mobile-কেন্দ্রিক। এগুলো Mac machine আর signing শুরু থেকেই আরও সহজে সামলায়।
 
 **সম্পর্কিত:** [Q3 — secrets আর caching](#q3) · [Q9 — store upload-এর জন্য Fastlane](#q9) · [Q4 — CI-তে build number](#q4)
@@ -326,7 +326,7 @@ CI run-এর বেশিরভাগ সময় যায় একই file 
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"base64 file কোথায় decode করেন?"* → Job চলার সময়ে runner-এ, তারপর কাজ শেষে মুছে ফেলি। এটা কখনো Git-এ যায় না।
-- *"Log-এ secrets না আসা কীভাবে নিশ্চিত করেন?"* → CI provider log-এ secret value স্বয়ংক্রিয়ভাবে mask করে; নিজে কখনো secret `echo` করবেন না।
+- *"Log-এ secrets না আসা কীভাবে নিশ্চিত করেন?"* → CI provider log-এ secret value নিজে নিজেই mask করে; নিজে কখনো secret `echo` করবেন না।
 
 **সম্পর্কিত:** [Q2 — CI pipeline](#q2) · [Q8 — keystore কী](#q8) · [Q9 — Fastlane match secrets](#q9)
 
@@ -334,12 +334,12 @@ CI run-এর বেশিরভাগ সময় যায় একই file 
 
 ---
 
-## <a id="q4"></a>4. Flutter-এ versioning কীভাবে কাজ করে? `1.0.0+1` format আর CI-তে build number স্বয়ংক্রিয়ভাবে বাড়ানো ব্যাখ্যা করুন।
+## <a id="q4"></a>4. Flutter-এ versioning কীভাবে কাজ করে? `1.0.0+1` format আর CI-তে build number নিজে নিজেই বাড়ানো ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q4)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`pubspec.yaml`-এ version দেখতে এমন — `1.2.3+45`। `+`-এর আগের অংশটা version name, যেটা user store-এ দেখে। `+`-এর পরের অংশটা build number — একটা internal integer, প্রতিটা upload-এ যেটা সবসময় বাড়তে হবে। CI-তে আমি সাধারণত হাতে file edit না করে build number স্বয়ংক্রিয়ভাবে set করি।"
+"`pubspec.yaml`-এ version দেখতে এমন — `1.2.3+45`। `+`-এর আগের অংশটা version name, যেটা user store-এ দেখে। `+`-এর পরের অংশটা build number — একটা internal integer, প্রতিটা upload-এ যেটা সবসময় বাড়তে হবে। CI-তে আমি সাধারণত হাতে file edit না করে build number নিজে নিজেই set করি।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -399,7 +399,7 @@ flutter build appbundle --release \
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Build number দিতে ভুলে গেলে কী হয়?"* → Flutter `pubspec.yaml`-এর টা ব্যবহার করে। Flag শুধু ওটাকে override করে।
-- *"দুই platform কি একই build number ব্যবহার করতে পারে?"* → হ্যাঁ, সমস্যা নেই — প্রতিটা store শুধু *নিজের* ধারাবাহিকতা বাড়ছে কি না তা দেখে।
+- *"দুই platform কি একই build number ব্যবহার করতে পারে?"* → হ্যাঁ, সমস্যা নেই — প্রতিটা store শুধু *নিজের* কাজের ধারা ভালো হচ্ছে কি না তা দেখে।
 
 **সম্পর্কিত:** [Q2 — CI-তে এটার ব্যবহার](#q2) · [Q13 — Play না-বাড়া build reject করে](#q13)
 
@@ -416,14 +416,14 @@ flutter build appbundle --release \
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q5)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Flavors দিয়ে আমি এক codebase থেকে একই app-এর কয়েকটা version build করতে পারি — সাধারণত dev, staging আর prod। প্রতিটা flavor-এর নিজস্ব app ID, নাম, icon আর config থাকতে পারে। Android-এ আমি `build.gradle`-এ `productFlavors` define করি; iOS-এ Xcode scheme আর build configuration বানাই। তারপর `--flavor` দিয়ে run করি।"
+"Flavors দিয়ে আমি এক codebase থেকে একই app-এর কয়েকটা version build করতে পারি — সাধারণত dev, staging আর prod। প্রতিটা flavor-এর নিজের app ID, নাম, icon আর config থাকতে পারে। Android-এ আমি `build.gradle`-এ `productFlavors` define করি; iOS-এ Xcode scheme আর build configuration বানাই। তারপর `--flavor` দিয়ে run করি।"
 
 **এবার পুরোটা বুঝি:**
 
 Flavors-কে ভাবুন **একই recipe, শুধু label আলাদা**। কেক একই, কিন্তু একটা বাক্সে লেখা "Dev" (রান্নাঘরের team-এর স্বাদ নেওয়ার জন্য), একটায় "Staging" (manager-এর অনুমোদনের জন্য), আর একটায় "Prod" (গ্রাহকের জন্য)। App একই, শুধু নাম, icon আর কোন server-এর সাথে কথা বলে সেটা আলাদা — তাই তিনটাই এক phone-এ পাশাপাশি install রাখা যায়।
 
 **ধাপ ১ — Flavors কেন দরকার।**
-Flavors ছাড়া dev আর prod একই app ID নিয়ে কাড়াকাড়ি করে, তাই দুটো একসাথে install করা যায় না। আর প্রতিটা build-এর আগে হাতে API URL বদলাতে হতো — ধীর আর বিপজ্জনক। Flavors এই পার্থক্যটা স্বয়ংক্রিয় আর নিরাপদ করে দেয়।
+Flavors ছাড়া dev আর prod একই app ID নিয়ে কাড়াকাড়ি করে, তাই দুটো একসাথে install করা যায় না। আর প্রতিটা build-এর আগে হাতে API URL বদলাতে হতো — ধীর আর বিপজ্জনক। Flavors এই পার্থক্যটা automatic আর নিরাপদ করে দেয়।
 
 **ধাপ ২ — Android setup (`build.gradle`)।**
 আপনি একটা dimension আর flavor গুলো declare করেন। প্রতিটা flavor আলাদা `applicationIdSuffix` পায় (যাতে app ID আলাদা হয়) আর একটা display নাম পায়।
@@ -497,7 +497,7 @@ flutter build ipa --release --flavor prod -t lib/main_prod.dart
 **ধাপ ৬ — Flavor বনাম `--dart-define` (সাধারণ follow-up)।**
 Flavor একটা **native** ধারণা — এটা platform level-এ app ID, নাম, icon আর native resource বদলায়। `--dart-define` শুধু **compile-time value গুলো Dart code-এ পাঠায়**। সাধারণত আপনি দুটোই ব্যবহার করেন: native পার্থক্যের জন্য flavors, আর API URL-এর মতো Dart-level config-এর জন্য dart-define (দেখুন [Q6](#q6))।
 
-**Interviewer কেন জিজ্ঞেস করে:** তাঁরা নিশ্চিত হতে চান আপনি code copy-paste বা হাতে config edit না করে একাধিক environment সামলাতে পারেন। QA আর CI pipeline আছে এমন যেকোনো team-এর জন্য এটা মৌলিক।
+**Interviewer কেন জিজ্ঞেস করে:** তাঁরা নিশ্চিত হতে চান আপনি code copy-paste বা হাতে config edit না করে একের বেশি environment সামলাতে পারেন। QA আর CI pipeline আছে এমন যেকোনো team-এর জন্য এটা গোড়ার।
 
 **সাধারণ ভুল:** Flavors আর dart-define গুলিয়ে ফেলে বলা "আমি সব কিছুর জন্য dart-define ব্যবহার করি" — dart-define app ID, icon বা native resource বদলাতে পারে না। আরেকটা ভুল হলো Android-এ `flavorDimensions` দিতে ভুলে যাওয়া, ফলে Gradle একটা বিভ্রান্তিকর error দিয়ে fail করে।
 
@@ -516,7 +516,7 @@ Flavor একটা **native** ধারণা — এটা platform level-এ 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q6)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"`--dart-define` key-value জোড়া Dart-এ পাঠায় compile-time constant হিসেবে। Build করার সময় এগুলো binary-র ভেতরে বসে যায় — এগুলো runtime value নয়। আমি এগুলো পড়ি `String.fromEnvironment` আর তার সঙ্গীদের দিয়ে। এগুলো `const` বলে Dart এমনকি এদের উপর নির্ভরশীল code tree-shake করে ফেলতে পারে।"
+"`--dart-define` key-value জোড়া Dart-এ পাঠায় compile-time constant হিসেবে। Build করার সময় এগুলো binary-র ভেতরে বসে যায় — এগুলো runtime value নয়। আমি এগুলো পড়ি `String.fromEnvironment` আর তার সঙ্গীদের দিয়ে। এগুলো `const` বলে Dart এমনকি এদের উপর নির্ভর করে এমন code tree-shake করে ফেলতে পারে।"
 
 **এবার পুরোটা বুঝি:**
 
@@ -724,7 +724,7 @@ Code signing-কে ভাবুন ওষুধের বোতলের **tamp
 আপনার কাছে একটা private key থাকে (গোপন)। আপনি সেটা দিয়ে app sign করেন। Device বা store-এর কাছে আপনার public key থাকে আর সেটা signature check করে। মিলে গেলে app আসল আর অপরিবর্তিত।
 
 **ধাপ ২ — Android: keystore।**
-Keystore (`.jks` বা `.keystore`) হলো একটা file, যেখানে এক বা একাধিক private key থাকে। প্রতিটা key একটা password দিয়ে সুরক্ষিত। আপনি release build করলে Gradle এই keystore-এর একটা key দিয়ে app sign করে। একই app-এর **প্রতিটা update-এ একই keystore ব্যবহার করতেই হবে** — হারিয়ে ফেললে আপনি আর app update করতে পারবেন না (যদি না Play App Signing-এ enroll করা থাকে)।
+Keystore (`.jks` বা `.keystore`) হলো একটা file, যেখানে এক বা একের বেশি private key থাকে। প্রতিটা key একটা password দিয়ে সুরক্ষিত। আপনি release build করলে Gradle এই keystore-এর একটা key দিয়ে app sign করে। একই app-এর **প্রতিটা update-এ একই keystore ব্যবহার করতেই হবে** — হারিয়ে ফেললে আপনি আর app update করতে পারবেন না (যদি না Play App Signing-এ enroll করা থাকে)।
 
 ```bash
 # একটা keystore বানান:
@@ -798,7 +798,7 @@ iOS signing-এ দুটোই লাগে:
 
 **Interviewer কেন জিজ্ঞেস করে:** Junior থেকে mid developer-দের জন্য signing error সবচেয়ে সাধারণ বাধাগুলোর একটা। তাঁরা জানতে চান আপনি এর কাজের নিয়ম বোঝেন কি না, error গুলো সমাধান করতে পারেন কি না, আর team-এর মধ্যে key নিরাপদে সামলাতে পারেন কি না।
 
-**সাধারণ ভুল:** Keystore বা `key.properties` Git-এ commit করা। Play App Signing-এ enroll না করে Android keystore হারিয়ে ফেলা। iOS-এ হাতে হাতে একাধিক distribution certificate বানানো, যেটা সতীর্থদের certificate বাতিল করে দেয় — ঠিক এই ঝামেলাটাই Fastlane match সমাধান করে (দেখুন [Q9](#q9))।
+**সাধারণ ভুল:** Keystore বা `key.properties` Git-এ commit করা। Play App Signing-এ enroll না করে Android keystore হারিয়ে ফেলা। iOS-এ হাতে হাতে একের বেশি distribution certificate বানানো, যেটা সতীর্থদের certificate বাতিল করে দেয় — ঠিক এই ঝামেলাটাই Fastlane match সমাধান করে (দেখুন [Q9](#q9))।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"Play App Signing কী?"* → আসল signing key Google আপনার হয়ে রাখে। আপনি একটা upload key দিয়ে upload করেন, আর Google আবার sign করে। Upload key হারিয়ে গেলে Google সেটা reset করে দিতে পারে — তাই app স্থায়ীভাবে হারান না।
@@ -891,7 +891,7 @@ end
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"CI কীভাবে match repo পায়?"* → এটা একটা private Git repo; CI একটা deploy key দিয়ে clone করে, আর match password (একটা secret) দিয়ে asset গুলো decrypt হয়।
-- *"Fastlane ব্যবহার করা কি বাধ্যতামূলক?"* → না। Codemagic আর Bitrise-ও signing আর upload করতে পারে, আর store-এর জন্য GitHub Actions আছে। Fastlane শুধু সবচেয়ে প্রচলিত cross-tool সমাধান।
+- *"Fastlane ব্যবহার করা কি লাগবেই?"* → না। Codemagic আর Bitrise-ও signing আর upload করতে পারে, আর store-এর জন্য GitHub Actions আছে। Fastlane শুধু সবচেয়ে প্রচলিত cross-tool সমাধান।
 
 **সম্পর্কিত:** [Q8 — এটা কী sign করছে](#q8) · [Q13 — Play track](#q13) · [Q14 — upload_to_testflight](#q14)
 
@@ -904,14 +904,14 @@ end
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q10)
 
 **সংক্ষিপ্ত উত্তর (এটাই বলুন):**
-"Obfuscation compiled app-এ আপনার class আর method-এর নাম বদলে অর্থহীন নাম বসায়, যেমন `aa`, `b0`। এতে কারও পক্ষে app decompile করে আপনার logic পড়া অনেক কঠিন হয়ে যায়। Flutter-এ এটা enable করবেন `--obfuscate` আর `--split-debug-info` দিয়ে। আর জমানো symbol গুলো রেখে দিতেই হবে, যাতে পরে আসল crash report পড়তে পারেন।"
+"Obfuscation compiled app-এ আপনার class আর method-এর নাম বদলে মানে নেই এমন নাম বসায়, যেমন `aa`, `b0`। এতে কারও পক্ষে app decompile করে আপনার logic পড়া অনেক কঠিন হয়ে যায়। Flutter-এ এটা enable করবেন `--obfuscate` আর `--split-debug-info` দিয়ে। আর জমানো symbol গুলো রেখে দিতেই হবে, যাতে পরে আসল crash report পড়তে পারেন।"
 
 **এবার পুরোটা বুঝি:**
 
 Obfuscation-কে ভাবুন এভাবে — একটা machine পাঠানোর আগে **সব তারের label ছিঁড়ে ফেলা**। Machine ঠিকঠাক কাজ করে, কিন্তু যে খুলবে সে সহজে বুঝবে না কোন তার কী করে। Wiring diagram (debug symbol) আপনি নিজের কাছে নিরাপদে রাখেন, যাতে *আপনি* এটা মেরামত করতে পারেন।
 
 **ধাপ ১ — এটা কী করে।**
-Release binary-তে পড়ার মতো নামগুলোকে ছোট অর্থহীন নাম দিয়ে বদলে দেয়।
+Release binary-তে পড়ার মতো নামগুলোকে ছোট মানে নেই এমন নাম দিয়ে বদলে দেয়।
 
 ```
   Before obfuscation:          After obfuscation:
@@ -926,7 +926,7 @@ Release binary-তে পড়ার মতো নামগুলোকে ছ�
   }                            }
 ```
 
-Decompiler এখনো app খুলতে পারবে, কিন্তু code পড়তে অর্থহীন লাগবে — বোঝা অনেক কঠিন।
+Decompiler এখনো app খুলতে পারবে, কিন্তু code পড়তে মানে নেই এমন লাগবে — বোঝা অনেক কঠিন।
 
 **ধাপ ২ — কীভাবে enable করবেন।**
 `--obfuscate` আর `--split-debug-info` একসাথে দিন। দুটোই লাগবে।
@@ -946,7 +946,7 @@ flutter build ipa --release \
 ```
 
 **ধাপ ৩ — `--split-debug-info` কেন লাগে।**
-ওই flag debug symbol গুলোকে আলাদা একটা folder-এ বের করে আনে। এই symbol গুলোই হলো অর্থহীন নাম থেকে আসল নামে ফেরার **map**। Crash report পড়তে এই map লাগবে — না হলে crash report শুধু `a0.b()` দেখাবে আর কিছুই বলবে না।
+ওই flag debug symbol গুলোকে আলাদা একটা folder-এ বের করে আনে। এই symbol গুলোই হলো মানে নেই এমন নাম থেকে আসল নামে ফেরার **map**। Crash report পড়তে এই map লাগবে — না হলে crash report শুধু `a0.b()` দেখাবে আর কিছুই বলবে না।
 
 **ধাপ ৪ — আসল crash decode করা।**
 Obfuscated নাম সহ crash এলে আপনি জমানো map দিয়ে সেটা "symbolize" করেন।
@@ -1032,7 +1032,7 @@ flutter build appbundle --release
 # output: build/app/outputs/bundle/release/app-release.aab
 ```
 
-**ধাপ ৪ — নতুন app-এর জন্য Play কেন AAB বাধ্যতামূলক করে।**
+**ধাপ ৪ — নতুন app-এর জন্য Play কেন AAB দেওয়া বাধ্য করেছে।**
 ২০২১ সালের August থেকে Play সব নতুন app-এর জন্য AAB চায়। মূল কারণ হলো **ছোট download** — ছোট download মানে বেশি মানুষ install শেষ করেন আর কম storage লাগে। Google-এর হিসাবে গড়ে প্রায় 15% size কমে। AAB on-demand feature delivery আর বড় asset delivery-ও সম্ভব করে।
 
 **ধাপ ৫ — কখন এখনো APK দরকার হয়।**
@@ -1043,7 +1043,7 @@ flutter build appbundle --release
 
 **Interviewer কেন জিজ্ঞেস করে:** এটা Android-এর ভিত্তি জ্ঞান। তাঁরা আশা করেন আপনি জানবেন AAB কেন আছে, আর কখন APK বনাম AAB ব্যবহার করবেন। এটা app-size optimization-এর সাথেও যুক্ত, যা install conversion-এ প্রভাব ফেলে।
 
-**সাধারণ ভুল:** APK আর AAB-কে একে অপরের বদলে ব্যবহারযোগ্য ভাবা। AAB device-এ sideload করার চেষ্টা করা (পারবেন না — এটা installable নয়)। নতুন app-এর জন্য Play-তে APK upload করা (reject হবে)। আরেকটা ভুল — বুঝতে না পারা যে AAB-এর জন্য Play App Signing দিয়ে Google-কে আপনার app sign করতে হয়, যা নিয়ে কিছু team দ্বিধায় থাকে।
+**সাধারণ ভুল:** APK আর AAB-কে একে অপরের বদলে ব্যবহার করা যায় এমন ভাবা। AAB device-এ sideload করার চেষ্টা করা (পারবেন না — এটা installable নয়)। নতুন app-এর জন্য Play-তে APK upload করা (reject হবে)। আরেকটা ভুল — বুঝতে না পারা যে AAB-এর জন্য Play App Signing দিয়ে Google-কে আপনার app sign করতে হয়, যা নিয়ে কিছু team দ্বিধায় থাকে।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
 - *"একজন user AAB থেকে আসলে কী পান, সেটা আমি কীভাবে test করব?"* → `bundletool` দিয়ে আপনার AAB থেকে device-specific APK তৈরি করুন, অথবা Play-র internal testing track ব্যবহার করুন।
@@ -1113,7 +1113,7 @@ end
 ```
 
 **ধাপ ৪ — iOS-এর ফাঁদটা (খুব গুরুত্বপূর্ণ)।**
-iOS-এ আপনাকে একটা **ad-hoc** build বিলি করতে হবে, যার provisioning profile-এ প্রতিটা tester-এর device UDID তালিকাভুক্ত থাকে। Firebase তার onboarding flow দিয়ে UDID সংগ্রহ করতে পারে। তবু নতুন tester যোগ হলেই আপনাকে profile আবার তৈরি করে rebuild করতে হবে। UDID সামলানো এড়াতে চাইলে বরং **TestFlight** ব্যবহার করুন (দেখুন [Q14](#q14)) — সেখানে device registration লাগে না।
+iOS-এ আপনাকে একটা **ad-hoc** build বিলি করতে হবে, যার provisioning profile-এ প্রতিটা tester-এর device UDID তালিকাভুক্ত থাকে। Firebase তার onboarding flow দিয়ে UDID জোগাড় করতে পারে। তবু নতুন tester যোগ হলেই আপনাকে profile আবার তৈরি করে rebuild করতে হবে। UDID সামলানো এড়াতে চাইলে বরং **TestFlight** ব্যবহার করুন (দেখুন [Q14](#q14)) — সেখানে device registration লাগে না।
 
 **Interviewer কেন জিজ্ঞেস করে:** QA-র কাছে দ্রুত build পৌঁছানো দ্রুত iteration-এর জন্য খুব জরুরি। তাঁরা দেখতে চান আপনি এর একটা পরিষ্কার উপায় জানেন কি না — চারদিকে APK file email করা নয়।
 
@@ -1184,10 +1184,10 @@ supply(
 
 **Interviewer কেন জিজ্ঞেস করে:** Play release pipeline জানা মানে আপনি পেশাদারভাবে app ship করেছেন। তাঁরা প্রায়ই staged rollout নিয়ে জিজ্ঞেস করেন, আর খারাপ release কীভাবে সামলাবেন সেটাও। Rollout থামাতে পারা operational সচেতনতা দেখায়।
 
-**সাধারণ ভুল:** AAB-এর বদলে APK upload করা (নতুন app-এর জন্য Play AAB চায়)। বুঝতে না পারা যে internal track-এ সর্বোচ্চ 100 tester, তাই বড় QA team-এর জন্য এটা মানানসই নয় — তার জন্য closed testing ব্যবহার করুন। আর upload করার আগে `versionCode` বাড়াতে ভুলে যাওয়া, যাতে upload reject হয়ে যায় (দেখুন [Q4](#q4))।
+**সাধারণ ভুল:** AAB-এর বদলে APK upload করা (নতুন app-এর জন্য Play AAB চায়)। বুঝতে না পারা যে internal track-এ বড়জোর ১০০ জন tester, তাই বড় QA team-এর জন্য এটা মানানসই নয় — তার জন্য closed testing ব্যবহার করুন। আর upload করার আগে `versionCode` বাড়াতে ভুলে যাওয়া, যাতে upload reject হয়ে যায় (দেখুন [Q4](#q4))।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Internal আর closed testing-এর পার্থক্য কী?"* → Internal-এ email দিয়ে সর্বোচ্চ 100 tester, আর সাথে সাথেই পাওয়া যায়। Closed (alpha)-তে অনেক বেশি tester রাখা যায় এবং এটা বৃহত্তর QA-র জন্য, তবু কোনো public review ছাড়াই।
+- *"Internal আর closed testing-এর পার্থক্য কী?"* → Internal-এ email দিয়ে বড়জোর ১০০ জন tester, আর সাথে সাথেই পাওয়া যায়। Closed (alpha)-তে অনেক বেশি tester রাখা যায় এবং এটা বৃহত্তর QA-র জন্য, তবু কোনো public review ছাড়াই।
 - *"খারাপ release কীভাবে roll back করবেন?"* → আসলে কোনো release মুছে ফেলা যায় না, কিন্তু staged rollout থামিয়ে দিয়ে fix সহ নতুন, বেশি version-এর একটা build push করা যায়।
 
 **সম্পর্কিত:** [Q11 — AAB upload](#q11) · [Q4 — versionCode বাড়াতেই হবে](#q4) · [Q9 — supply automation](#q9)
@@ -1267,7 +1267,7 @@ Testing শেষ হলে:
 **সাধারণ ভুল:** ভুলে যাওয়া যে external TestFlight-এর জন্য Beta App Review লাগে। **distribution**-এর বদলে **development** certificate দিয়ে sign করা — upload সফল হয়, কিন্তু processing fail করে। `ExportOptions.plist` না দেওয়া, যার ফলে `flutter build ipa` ভুলভাবে signed archive বানায়।
 
 **যে Follow-up প্রশ্ন আসতে পারে:**
-- *"Internal vs external TestFlight?"* → Internal = আপনার team-এর সর্বোচ্চ 100 জন, review নেই, সাথে সাথে। External = সর্বোচ্চ 10,000 tester, কিন্তু Beta App Review লাগে।
+- *"Internal vs external TestFlight?"* → Internal = আপনার team-এর বড়জোর ১০০ জন, review নেই, সাথে সাথে। External = বড়জোর ১০,০০০ tester, কিন্তু Beta App Review লাগে।
 - *"Phased release কী?"* → Production update ধীরে ধীরে 7 দিনে ছাড়ার Apple-এর উপায়, মাঝপথে থামানোর সুযোগসহ — Google-এর staged rollout-এর সবচেয়ে কাছের জিনিস।
 
 **সম্পর্কিত:** [Q8 — distribution cert ও profile](#q8) · [Q9 — upload_to_testflight](#q9) · [Q12 — Firebase vs TestFlight](#q12)
@@ -1289,7 +1289,7 @@ Interview-এর দিন সকালে এটা পড়ুন। প্�
 |---|---|---|---|
 | Compilation | JIT | AOT (native) | AOT (native) |
 | Hot reload | হ্যাঁ | না | না |
-| গতি | ধীর | বাস্তবসম্মত | দ্রুত |
+| গতি | ধীর | বাস্তব | দ্রুত |
 | কীসের জন্য | code লেখা | গতি মাপা | ship করা |
 
 **Flavor: dev vs staging vs prod**
