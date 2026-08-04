@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Agile foundations**
 1. [The Agile Manifesto](#q1) · *Very common*
@@ -59,9 +58,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The foundations (start here).**
 → [Q1 Agile Manifesto](#q1) · [Q2 Waterfall vs Agile](#q2) · [Q3 Scrum overview](#q3)
@@ -86,8 +84,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. What is the Agile Manifesto?
+## <a id="q1"></a>1. What is the Agile Manifesto?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q1)
 
@@ -129,8 +126,7 @@ Agile isn't "no planning" or "no documentation." It's *less upfront rigidity* an
 
 ---
 
-<a id="q2"></a>
-## 2. What is the difference between Waterfall and Agile? When is each appropriate?
+## <a id="q2"></a>2. What is the difference between Waterfall and Agile? When is each appropriate?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q2)
 
@@ -183,8 +179,7 @@ Requirements → Design → Build → Test → Release
 
 ---
 
-<a id="q3"></a>
-## 3. Explain the Scrum framework (overview).
+## <a id="q3"></a>3. Explain the Scrum framework (overview).
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q3)
 
@@ -222,8 +217,7 @@ Each Sprint is a complete mini-cycle: plan it, build it, show it (Review), impro
 
 ---
 
-<a id="q4"></a>
-## 4. What are the three Scrum roles?
+## <a id="q4"></a>4. What are the three Scrum roles?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q4)
 
@@ -263,8 +257,7 @@ PO = *what* and *why*. Developers = *how* and *how much*. SM = *helps the proces
 
 ---
 
-<a id="q5"></a>
-## 5. What are the Scrum artifacts?
+## <a id="q5"></a>5. What are the Scrum artifacts?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q5)
 
@@ -310,8 +303,7 @@ Product Backlog (everything) → Sprint Backlog (this sprint) → Increment (don
 
 ---
 
-<a id="q6"></a>
-## 6. What is a Sprint, how long is it, and what happens if the goal isn't met?
+## <a id="q6"></a>6. What is a Sprint, how long is it, and what happens if the goal isn't met?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q6)
 
@@ -349,8 +341,7 @@ A consistent Sprint length makes velocity meaningful ([Q13](#q13)) and creates a
 
 ---
 
-<a id="q7"></a>
-## 7. What happens in Sprint Planning?
+## <a id="q7"></a>7. What happens in Sprint Planning?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q7)
 
@@ -387,8 +378,7 @@ A clear **Sprint Goal** and a **Sprint Backlog** everyone agrees is achievable.
 
 ---
 
-<a id="q8"></a>
-## 8. What is the Daily Standup, and what do you say in it?
+## <a id="q8"></a>8. What is the Daily Standup, and what do you say in it?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q8)
 
@@ -428,8 +418,7 @@ It surfaces blockers early and keeps everyone aligned on the Sprint Goal. The fo
 
 ---
 
-<a id="q9"></a>
-## 9. What is the difference between a Sprint Review and a Sprint Retrospective?
+## <a id="q9"></a>9. What is the difference between a Sprint Review and a Sprint Retrospective?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q9)
 
@@ -472,8 +461,7 @@ Honest reflection needs psychological safety. With stakeholders present, people 
 
 ---
 
-<a id="q10"></a>
-## 10. What is Backlog Refinement (grooming)?
+## <a id="q10"></a>10. What is Backlog Refinement (grooming)?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q10)
 
@@ -515,8 +503,7 @@ A "ready" item is clear, small, estimated, and has acceptance criteria — so it
 
 ---
 
-<a id="q11"></a>
-## 11. What is a user story? Explain the format, acceptance criteria, and Definition of Done.
+## <a id="q11"></a>11. What is a user story? Explain the format, acceptance criteria, and Definition of Done.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q11)
 
@@ -570,8 +557,7 @@ A shared checklist the team agrees on, e.g.:
 
 ---
 
-<a id="q12"></a>
-## 12. What are story points, why use them over hours, and what is planning poker?
+## <a id="q12"></a>12. What are story points, why use them over hours, and what is planning poker?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q12)
 
@@ -613,8 +599,7 @@ Voting privately first stops the loudest or most senior person from anchoring ev
 
 ---
 
-<a id="q13"></a>
-## 13. What is sprint velocity, and how is it used for planning?
+## <a id="q13"></a>13. What is sprint velocity, and how is it used for planning?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q13)
 
@@ -652,8 +637,7 @@ At Planning, the team pulls in roughly its velocity worth of work — not more. 
 
 ---
 
-<a id="q14"></a>
-## 14. What is a burndown chart?
+## <a id="q14"></a>14. What is a burndown chart?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q14)
 
@@ -706,8 +690,7 @@ A **burnup** chart shows work *completed* rising toward the total, and can also 
 
 ---
 
-<a id="q15"></a>
-## 15. What is Kanban, how does it differ from Scrum, and what are WIP limits?
+## <a id="q15"></a>15. What is Kanban, how does it differ from Scrum, and what are WIP limits?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q15)
 
@@ -755,8 +738,7 @@ For interrupt-driven or continuous work (bug fixing, support, ops) where fixed S
 
 ---
 
-<a id="q16"></a>
-## 16. How do you handle changing requirements mid-sprint?
+## <a id="q16"></a>16. How do you handle changing requirements mid-sprint?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q16)
 
@@ -792,8 +774,7 @@ Constant mid-Sprint changes mean nothing ever finishes (everything is 80% done).
 
 ---
 
-<a id="q17"></a>
-## 17. What is technical debt, and how do you manage it in a sprint-based team?
+## <a id="q17"></a>17. What is technical debt, and how do you manage it in a sprint-based team?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q17)
 
@@ -832,8 +813,7 @@ Don't say "we want to clean code." Say "this messy module causes most of our bug
 
 ---
 
-<a id="q18"></a>
-## 18. How do you use Jira? Explain epics, stories, tasks, and the board.
+## <a id="q18"></a>18. How do you use Jira? Explain epics, stories, tasks, and the board.
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-18-agile-scrum-bn.md#q18)
 
@@ -876,9 +856,8 @@ The tool serves the team, not the other way around. Update tickets honestly, but
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

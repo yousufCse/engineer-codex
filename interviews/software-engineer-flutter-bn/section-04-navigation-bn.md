@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Navigator 1.0 (imperative stack)**
 1. [Navigator 1.0 — stack, push/pop/pushReplacement/pushAndRemoveUntil/maybePop](#q1) · *Very common*
@@ -56,9 +55,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৭টা প্রশ্ন একসাথে পড়তে হবে না। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -86,8 +84,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Navigator 1.0 ব্যাখ্যা করুন। Stack কীভাবে কাজ করে? `push`, `pop`, `pushReplacement`, `pushAndRemoveUntil`, আর `maybePop` ধাপে ধাপে বলুন।
+## <a id="q1"></a>1. Navigator 1.0 ব্যাখ্যা করুন। Stack কীভাবে কাজ করে? `push`, `pop`, `pushReplacement`, `pushAndRemoveUntil`, আর `maybePop` ধাপে ধাপে বলুন।
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q1)
 
@@ -185,8 +182,7 @@ Navigator.maybePop(context); // নিরাপদ: root-এ থাকলে app
 
 ---
 
-<a id="q2"></a>
-## 2. আগের screen-এ data কীভাবে ফেরত পাঠান? Navigation result await করা কীভাবে কাজ করে?
+## <a id="q2"></a>2. আগের screen-এ data কীভাবে ফেরত পাঠান? Navigation result await করা কীভাবে কাজ করে?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q2)
 
@@ -253,8 +249,7 @@ context.pop('blue');
 
 ---
 
-<a id="q3"></a>
-## 3. Named routes কী? `MaterialApp.routes` আর `onGenerateRoute` কীভাবে কাজ করে?
+## <a id="q3"></a>3. Named routes কী? `MaterialApp.routes` আর `onGenerateRoute` কীভাবে কাজ করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q3)
 
@@ -335,8 +330,7 @@ return MaterialPageRoute(builder: (_) => const NotFoundScreen());
 
 ---
 
-<a id="q4"></a>
-## 4. Navigator 2.0 কেন আনা হলো? এটা কোন সমস্যাগুলো সমাধান করে, যা Navigator 1.0 পারত না?
+## <a id="q4"></a>4. Navigator 2.0 কেন আনা হলো? এটা কোন সমস্যাগুলো সমাধান করে, যা Navigator 1.0 পারত না?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q4)
 
@@ -396,8 +390,7 @@ Navigator(
 
 ---
 
-<a id="q5"></a>
-## 5. Navigator 2.0-এর মূল internals ব্যাখ্যা করুন — `Router`, `RouteInformationParser`, আর `RouterDelegate`। প্রতিটা কী করে?
+## <a id="q5"></a>5. Navigator 2.0-এর মূল internals ব্যাখ্যা করুন — `Router`, `RouteInformationParser`, আর `RouterDelegate`। প্রতিটা কী করে?
 
 > Deeper · Hard — a senior tie-breaker. · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q5)
 
@@ -520,8 +513,7 @@ MaterialApp.router(
 
 ---
 
-<a id="q6"></a>
-## 6. go_router কীভাবে কাজ করে? route declaration, subroutes, path parameters আর query parameters ব্যাখ্যা করুন।
+## <a id="q6"></a>6. go_router কীভাবে কাজ করে? route declaration, subroutes, path parameters আর query parameters ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q6)
 
@@ -614,8 +606,7 @@ final category = state.uri.queryParameters['category']; // 'phones'
 
 ---
 
-<a id="q7"></a>
-## 7. go_router-এ `go()`, `push()`, আর `replace()`-এর মধ্যে পার্থক্য কী?
+## <a id="q7"></a>7. go_router-এ `go()`, `push()`, আর `replace()`-এর মধ্যে পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q7)
 
@@ -671,8 +662,7 @@ Web-এ `push()` এমন একটা screen যোগ করে, যেটা
 
 ---
 
-<a id="q8"></a>
-## 8. go_router-এর `redirect` দিয়ে auth / login guard কীভাবে implement করবেন?
+## <a id="q8"></a>8. go_router-এর `redirect` দিয়ে auth / login guard কীভাবে implement করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q8)
 
@@ -770,8 +760,7 @@ final router = GoRouter(
 
 ---
 
-<a id="q9"></a>
-## 9. go_router-এর `ShellRoute` কী? Persistent bottom navigation bar কীভাবে বানাবেন, আর `StatefulShellRoute` কীভাবে আলাদা?
+## <a id="q9"></a>9. go_router-এর `ShellRoute` কী? Persistent bottom navigation bar কীভাবে বানাবেন, আর `StatefulShellRoute` কীভাবে আলাদা?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q9)
 
@@ -883,8 +872,7 @@ StatefulShellRoute.indexedStack(
 
 ---
 
-<a id="q10"></a>
-## 10. Named routes আর typed routes (go_router_builder)-এর মধ্যে পার্থক্য কী?
+## <a id="q10"></a>10. Named routes আর typed routes (go_router_builder)-এর মধ্যে পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q10)
 
@@ -959,8 +947,7 @@ Typed routes-এর জন্য `build_runner` setup লাগে, একটা
 
 ---
 
-<a id="q11"></a>
-## 11. Screen-এর মধ্যে argument কীভাবে পাঠাবেন? নিরাপদ (typed) উপায় আর অনিরাপদ উপায় কোনটা?
+## <a id="q11"></a>11. Screen-এর মধ্যে argument কীভাবে পাঠাবেন? নিরাপদ (typed) উপায় আর অনিরাপদ উপায় কোনটা?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q11)
 
@@ -1048,8 +1035,7 @@ if (data == null) return const ProductLoaderScreen(); // আবার fetch ক�
 
 ---
 
-<a id="q12"></a>
-## 12. go_router-এ 404 / unknown route কীভাবে handle করেন?
+## <a id="q12"></a>12. go_router-এ 404 / unknown route কীভাবে handle করেন?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q12)
 
@@ -1124,8 +1110,7 @@ redirect: (context, state) {
 
 ---
 
-<a id="q13"></a>
-## 13. Deep linking কী? go_router দিয়ে Android আর iOS-এ এটা কীভাবে configure করেন?
+## <a id="q13"></a>13. Deep linking কী? go_router দিয়ে Android আর iOS-এ এটা কীভাবে configure করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q13)
 
@@ -1217,8 +1202,7 @@ GoRoute(
 
 ---
 
-<a id="q14"></a>
-## 14. `PopScope` কীভাবে কাজ করে? Back button কীভাবে intercept করেন?
+## <a id="q14"></a>14. `PopScope` কীভাবে কাজ করে? Back button কীভাবে intercept করেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q14)
 
@@ -1298,8 +1282,7 @@ class _EditFormScreenState extends State<EditFormScreen> {
 
 ---
 
-<a id="q15"></a>
-## 15. Widget tree-এর বাইরে থেকে কীভাবে navigate করবেন — যেমন Cubit, service, বা repository থেকে?
+## <a id="q15"></a>15. Widget tree-এর বাইরে থেকে কীভাবে navigate করবেন — যেমন Cubit, service, বা repository থেকে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q15)
 
@@ -1377,8 +1360,7 @@ Cubit বা service-এ `context` জমা রাখা বিপজ্জন�
 
 ---
 
-<a id="q16"></a>
-## 16. Nested navigator কখন দরকার হয়? Bottom navigation bar কীভাবে আলাদা navigation stack ব্যবহার করে?
+## <a id="q16"></a>16. Nested navigator কখন দরকার হয়? Bottom navigation bar কীভাবে আলাদা navigation stack ব্যবহার করে?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q16)
 
@@ -1500,8 +1482,7 @@ StatefulShellRoute.indexedStack(
 
 ---
 
-<a id="q17"></a>
-## 17. Screen-এর মাঝে custom page transition / animation কীভাবে বানাবেন?
+## <a id="q17"></a>17. Screen-এর মাঝে custom page transition / animation কীভাবে বানাবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-04-navigation.md#q17)
 
@@ -1574,9 +1555,8 @@ Hero(tag: 'product-42', child: Image.network(url));
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার table গুলো, তারপর এক লাইনের মনে করিয়ে দেওয়া পয়েন্ট।
 

@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. ধীরগতি খুঁজে বের করা আর মাপা**
 1. [Jank কী, আর আপনি এটা কীভাবে খুঁজে পান?](#q1) · *Very common*
@@ -60,9 +59,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৯টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ায়। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** দিতে পারবেন।
 
@@ -90,8 +88,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Flutter-এ jank কেন হয়, আর আপনি এটা কীভাবে খুঁজে পান?
+## <a id="q1"></a>1. Flutter-এ jank কেন হয়, আর আপনি এটা কীভাবে খুঁজে পান?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q1)
 
@@ -165,8 +162,7 @@ Build   →   Layout   →   Paint   →   Composite (raster)
 
 ---
 
-<a id="q2"></a>
-## 2. Flutter DevTools কীভাবে ব্যবহার করেন — Performance, Rebuild, আর Memory tab?
+## <a id="q2"></a>2. Flutter DevTools কীভাবে ব্যবহার করেন — Performance, Rebuild, আর Memory tab?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q2)
 
@@ -231,8 +227,7 @@ void main() {
 
 ---
 
-<a id="q3"></a>
-## 3. Debug mode-এ কেন কখনোই performance মাপা উচিত নয়?
+## <a id="q3"></a>3. Debug mode-এ কেন কখনোই performance মাপা উচিত নয়?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q3)
 
@@ -287,8 +282,7 @@ Emulator আর simulator-এ আসল phone-এর GPU আর CPU-র সী�
 
 ---
 
-<a id="q4"></a>
-## 4. `const` widget কীভাবে অপ্রয়োজনীয় rebuild ঠেকায়?
+## <a id="q4"></a>4. `const` widget কীভাবে অপ্রয়োজনীয় rebuild ঠেকায়?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q4)
 
@@ -354,8 +348,7 @@ DevTools-এ **"Track Widget Rebuilds"** চালু করুন ([Q2](#q2))�
 
 ---
 
-<a id="q5"></a>
-## 5. Performance-এর জন্য helper method-এর চেয়ে ছোট widget class আলাদা করা কেন ভালো?
+## <a id="q5"></a>5. Performance-এর জন্য helper method-এর চেয়ে ছোট widget class আলাদা করা কেন ভালো?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q5)
 
@@ -459,8 +452,7 @@ Column(
 
 ---
 
-<a id="q6"></a>
-## 6. `build()` method-এর golden rule কী?
+## <a id="q6"></a>6. `build()` method-এর golden rule কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q6)
 
@@ -546,8 +538,7 @@ FutureBuilder(future: _userFuture, builder: ...);
 
 ---
 
-<a id="q7"></a>
-## 7. Tree-এর উপরের দিকে `setState` call করা কেন এড়ানো উচিত, আর কীভাবে ঠিক করবেন?
+## <a id="q7"></a>7. Tree-এর উপরের দিকে `setState` call করা কেন এড়ানো উচিত, আর কীভাবে ঠিক করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q7)
 
@@ -661,8 +652,7 @@ ValueListenableBuilder<bool>(
 
 ---
 
-<a id="q8"></a>
-## 8. Provider-এ `Selector` আর `Consumer`-এর পার্থক্য কী, আর `Selector` কেন বেশি performant?
+## <a id="q8"></a>8. Provider-এ `Selector` আর `Consumer`-এর পার্থক্য কী, আর `Selector` কেন বেশি performant?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q8)
 
@@ -733,8 +723,7 @@ builder-এর ভেতরে `child:` parameter আর `child!` খেয়�
 
 ---
 
-<a id="q9"></a>
-## 9. `BlocBuilder`-এ `buildWhen` কীভাবে অপ্রয়োজনীয় rebuild কমায়?
+## <a id="q9"></a>9. `BlocBuilder`-এ `buildWhen` কীভাবে অপ্রয়োজনীয় rebuild কমায়?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q9)
 
@@ -805,8 +794,7 @@ BlocListener<DashboardBloc, DashboardState>(
 
 ---
 
-<a id="q10"></a>
-## 10. search-as-you-type-এর মতো ব্যয়বহুল কাজ আপনি কীভাবে debounce বা throttle করেন?
+## <a id="q10"></a>10. search-as-you-type-এর মতো ব্যয়বহুল কাজ আপনি কীভাবে debounce বা throttle করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q10)
 
@@ -888,8 +876,7 @@ void _onScroll() {
 
 ---
 
-<a id="q11"></a>
-## 11. `ListView` vs `ListView.builder` vs `ListView.separated` vs `ListView.custom` — কোনটা কখন ব্যবহার করবেন, আর performance-এর পার্থক্য কী?
+## <a id="q11"></a>11. `ListView` vs `ListView.builder` vs `ListView.separated` vs `ListView.custom` — কোনটা কখন ব্যবহার করবেন, আর performance-এর পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q11)
 
@@ -966,8 +953,7 @@ ListView.custom(
 
 ---
 
-<a id="q12"></a>
-## 12. Lazy loading আর pagination (কার্যকর infinite scroll) কীভাবে implement করবেন?
+## <a id="q12"></a>12. Lazy loading আর pagination (কার্যকর infinite scroll) কীভাবে implement করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q12)
 
@@ -1073,8 +1059,7 @@ class _InfiniteListState extends State<InfiniteList> {
 
 ---
 
-<a id="q13"></a>
-## 13. Key আর `AutomaticKeepAliveClientMixin` ব্যবহার করে scroll-এর সময়ের সমস্যা কীভাবে এড়াবেন?
+## <a id="q13"></a>13. Key আর `AutomaticKeepAliveClientMixin` ব্যবহার করে scroll-এর সময়ের সমস্যা কীভাবে এড়াবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q13)
 
@@ -1148,8 +1133,7 @@ Keep-alive **memory** দিয়ে **scroll-এর মসৃণতা** ক�
 
 ---
 
-<a id="q14"></a>
-## 14. `RepaintBoundary` কী, কখন এটা যোগ করবেন, আর কখন এটা ক্ষতি করে?
+## <a id="q14"></a>14. `RepaintBoundary` কী, কখন এটা যোগ করবেন, আর কখন এটা ক্ষতি করে?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q14)
 
@@ -1213,8 +1197,7 @@ DevTools-এ **"Show Repaint Rainbow"** চালু করুন ([Q2](#q2))।
 
 ---
 
-<a id="q15"></a>
-## 15. Flutter-এ image কীভাবে optimize করবেন — caching, resizing, WebP, আর `precacheImage`?
+## <a id="q15"></a>15. Flutter-এ image কীভাবে optimize করবেন — caching, resizing, WebP, আর `precacheImage`?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q15)
 
@@ -1283,8 +1266,7 @@ void didChangeDependencies() {
 
 ---
 
-<a id="q16"></a>
-## 16. Shader compilation jank কী, আর এটা কীভাবে ঠিক করবেন?
+## <a id="q16"></a>16. Shader compilation jank কী, আর এটা কীভাবে ঠিক করবেন?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q16)
 
@@ -1336,8 +1318,7 @@ DevTools-এর Performance view-তে একটা ধীর প্রথম f
 
 ---
 
-<a id="q17"></a>
-## 17. Isolate আর `compute()` কী? কোন কাজ আলাদা isolate-এ চালানো উচিত?
+## <a id="q17"></a>17. Isolate আর `compute()` কী? কোন কাজ আলাদা isolate-এ চালানো উচিত?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q17)
 
@@ -1408,8 +1389,7 @@ final products2 = await Isolate.run(() => _parseProducts(response.body));
 
 ---
 
-<a id="q18"></a>
-## 18. Controller আর subscription থেকে memory leak কেন হয়, আর এগুলো কীভাবে dispose করবেন?
+## <a id="q18"></a>18. Controller আর subscription থেকে memory leak কেন হয়, আর এগুলো কীভাবে dispose করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q18)
 
@@ -1479,8 +1459,7 @@ DevTools-এর **Memory tab** ব্যবহার করুন ([Q2](#q2)): s
 
 ---
 
-<a id="q19"></a>
-## 19. App-এর startup time কীভাবে measure করবেন আর কমাবেন?
+## <a id="q19"></a>19. App-এর startup time কীভাবে measure করবেন আর কমাবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-05-performance.md#q19)
 
@@ -1587,9 +1566,8 @@ class _AppShellState extends State<AppShell> {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের review)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের review)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার table, তারপর এক line-এর reminder।
 

@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Everyday commands**
 1. [Core commands (init/clone/status/add/commit/push/pull)](#q1) · *Very common*
@@ -60,9 +59,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The daily basics (start here).**
 → [Q1 Core commands](#q1) · [Q2 Branching](#q2) · [Q3 fetch vs pull](#q3)
@@ -87,8 +85,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. What do `git init`, `clone`, `status`, `add`, `commit`, `push`, and `pull` do?
+## <a id="q1"></a>1. What do `git init`, `clone`, `status`, `add`, `commit`, `push`, and `pull` do?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q1)
 
@@ -136,8 +133,7 @@ Think of a commit as a labeled save point in a video game — you can always go 
 
 ---
 
-<a id="q2"></a>
-## 2. How do you create, switch to, and delete a branch?
+## <a id="q2"></a>2. How do you create, switch to, and delete a branch?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q2)
 
@@ -177,8 +173,7 @@ They let many people work in parallel without stepping on each other, and keep `
 
 ---
 
-<a id="q3"></a>
-## 3. What is the difference between `git fetch` and `git pull`?
+## <a id="q3"></a>3. What is the difference between `git fetch` and `git pull`?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q3)
 
@@ -226,8 +221,7 @@ This updates your current branch immediately. Convenient, but it can create a su
 
 ---
 
-<a id="q4"></a>
-## 4. What is the difference between `git merge` and `git rebase`? When do you use each?
+## <a id="q4"></a>4. What is the difference between `git merge` and `git rebase`? When do you use each?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q4)
 
@@ -280,8 +274,7 @@ merge:                 rebase:
 
 ---
 
-<a id="q5"></a>
-## 5. What causes a merge conflict, and how do you resolve one step by step?
+## <a id="q5"></a>5. What causes a merge conflict, and how do you resolve one step by step?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q5)
 
@@ -337,8 +330,7 @@ Pull/rebase often (small, frequent merges), keep branches short-lived, and keep 
 
 ---
 
-<a id="q6"></a>
-## 6. What is `git cherry-pick`, and when would you use it?
+## <a id="q6"></a>6. What is `git cherry-pick`, and when would you use it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q6)
 
@@ -382,8 +374,7 @@ Cherry-picking the same change onto branches that later merge can create duplica
 
 ---
 
-<a id="q7"></a>
-## 7. What is the difference between `git reset --soft`, `--mixed`, and `--hard`?
+## <a id="q7"></a>7. What is the difference between `git reset --soft`, `--mixed`, and `--hard`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q7)
 
@@ -428,8 +419,7 @@ Like rebase, `reset` changes history — don't reset commits you've already push
 
 ---
 
-<a id="q8"></a>
-## 8. What is `git revert`, and how does it differ from `git reset`?
+## <a id="q8"></a>8. What is `git revert`, and how does it differ from `git reset`?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q8)
 
@@ -478,8 +468,7 @@ This rewrites history, so it's unsafe once others have those commits.
 
 ---
 
-<a id="q9"></a>
-## 9. How do you undo the last commit without losing your changes?
+## <a id="q9"></a>9. How do you undo the last commit without losing your changes?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q9)
 
@@ -521,8 +510,7 @@ Both rewrite history. If you already pushed the commit, amending/resetting means
 
 ---
 
-<a id="q10"></a>
-## 10. What does `git stash` do, and how do you apply stashed changes?
+## <a id="q10"></a>10. What does `git stash` do, and how do you apply stashed changes?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q10)
 
@@ -572,8 +560,7 @@ For short interruptions. For longer pauses, a quick commit (even WIP) on a branc
 
 ---
 
-<a id="q11"></a>
-## 11. How do you use `git log` and `git blame`?
+## <a id="q11"></a>11. How do you use `git log` and `git blame`?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q11)
 
@@ -616,8 +603,7 @@ See a confusing line → `git blame` to find its commit → `git show <commit>` 
 
 ---
 
-<a id="q12"></a>
-## 12. How do you find which commit introduced a bug using `git bisect`?
+## <a id="q12"></a>12. How do you find which commit introduced a bug using `git bisect`?
 
 > Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q12)
 
@@ -660,8 +646,7 @@ If you have a test script, `git bisect run ./test.sh` runs it on each step autom
 
 ---
 
-<a id="q13"></a>
-## 13. What is a detached HEAD state? How does it happen, and how do you recover?
+## <a id="q13"></a>13. What is a detached HEAD state? How does it happen, and how do you recover?
 
 > Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q13)
 
@@ -710,8 +695,7 @@ It's fine for *looking* at an old commit or tag (read-only). Just don't do impor
 
 ---
 
-<a id="q14"></a>
-## 14. What is `.gitignore`, and what are common Flutter entries?
+## <a id="q14"></a>14. What is `.gitignore`, and what are common Flutter entries?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q14)
 
@@ -765,8 +749,7 @@ Adding it to `.gitignore` doesn't remove it from history. You must remove it fro
 
 ---
 
-<a id="q15"></a>
-## 15. Compare Git Flow, GitHub Flow, and Trunk-Based Development.
+## <a id="q15"></a>15. Compare Git Flow, GitHub Flow, and Trunk-Based Development.
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q15)
 
@@ -811,8 +794,7 @@ Adding it to `.gitignore` doesn't remove it from history. You must remove it fro
 
 ---
 
-<a id="q16"></a>
-## 16. What are Conventional Commits, and why do teams adopt them?
+## <a id="q16"></a>16. What are Conventional Commits, and why do teams adopt them?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q16)
 
@@ -858,8 +840,7 @@ The description should say *what changed and why* in the imperative ("add", "fix
 
 ---
 
-<a id="q17"></a>
-## 17. What does it mean to "squash" commits, and when would you do it?
+## <a id="q17"></a>17. What does it mean to "squash" commits, and when would you do it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q17)
 
@@ -898,8 +879,7 @@ Squashing rewrites history. Do it on your own feature branch *before* it's merge
 
 ---
 
-<a id="q18"></a>
-## 18. What are best practices for Pull Requests and code review (as author and reviewer)?
+## <a id="q18"></a>18. What are best practices for Pull Requests and code review (as author and reviewer)?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q18)
 
@@ -939,8 +919,7 @@ Reviews are about the code, not the person. Questions and suggestions keep it co
 
 ---
 
-<a id="q19"></a>
-## 19. How do you handle a hotfix on production while feature branches are in progress?
+## <a id="q19"></a>19. How do you handle a hotfix on production while feature branches are in progress?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-17-git-bn.md#q19)
 
@@ -988,9 +967,8 @@ A hotfix must be tiny and low-risk. Mixing it with unfinished features makes it 
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

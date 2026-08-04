@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. ভিত্তি**
 1. [Clean code কী?](#q1) · *Very common*
@@ -58,9 +57,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — মূল ভিত্তি (এখান থেকে শুরু করুন)।**
 → [Q1 Clean code কী](#q1) · [Q2 Naming](#q2) · [Q3 Clean function](#q3)
@@ -85,8 +83,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Clean code কী, আর বাস্তবে আপনি এটাকে কীভাবে সংজ্ঞায়িত করেন?
+## <a id="q1"></a>1. Clean code কী, আর বাস্তবে আপনি এটাকে কীভাবে সংজ্ঞায়িত করেন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q1)
 
@@ -120,8 +117,7 @@
 
 ---
 
-<a id="q2"></a>
-## 2. Dart-এ ভালো naming convention কোনগুলো, আর একটা নামকে ভালো বানায় কী?
+## <a id="q2"></a>2. Dart-এ ভালো naming convention কোনগুলো, আর একটা নামকে ভালো বানায় কী?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q2)
 
@@ -175,8 +171,7 @@ List<User> getActiveUsers() => users.where((u) => u.isActive).toList();
 
 ---
 
-<a id="q3"></a>
-## 3. Clean function-এর নিয়ম কী — ছোট আকার, একটাই কাজ, কোনো side effect নেই?
+## <a id="q3"></a>3. Clean function-এর নিয়ম কী — ছোট আকার, একটাই কাজ, কোনো side effect নেই?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q3)
 
@@ -231,8 +226,7 @@ bool isPasswordValid(String pw) => pw == stored;
 
 ---
 
-<a id="q4"></a>
-## 4. Single Level of Abstraction principle কী?
+## <a id="q4"></a>4. Single Level of Abstraction principle কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q4)
 
@@ -280,8 +274,7 @@ void checkout(Cart cart) {
 
 ---
 
-<a id="q5"></a>
-## 5. Command-Query Separation (CQS) কী?
+## <a id="q5"></a>5. Command-Query Separation (CQS) কী?
 
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q5)
 
@@ -336,8 +329,7 @@ int get count => _items.length;      // query
 
 ---
 
-<a id="q6"></a>
-## 6. কখন comment লেখা উচিত, আর self-documenting code কী?
+## <a id="q6"></a>6. কখন comment লেখা উচিত, আর self-documenting code কী?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q6)
 
@@ -386,8 +378,7 @@ final cents = (amount * 100).round();
 
 ---
 
-<a id="q7"></a>
-## 7. Consistent formatting কেন গুরুত্বপূর্ণ, আর `dart format` কীভাবে ব্যবহার করেন?
+## <a id="q7"></a>7. Consistent formatting কেন গুরুত্বপূর্ণ, আর `dart format` কীভাবে ব্যবহার করেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q7)
 
@@ -440,8 +431,7 @@ IDE-তে save করার সময় format করান। আর CI-ত�
 
 ---
 
-<a id="q8"></a>
-## 8. Error code খারাপ কেন? Dart-এ exception বনাম result type কখন ব্যবহার করবেন?
+## <a id="q8"></a>8. Error code খারাপ কেন? Dart-এ exception বনাম result type কখন ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q8)
 
@@ -510,8 +500,7 @@ switch (r) {
 
 ---
 
-<a id="q9"></a>
-## 9. `null` return করা ঝুঁকিপূর্ণ কেন, আর Dart-এ এর বিকল্প কী কী?
+## <a id="q9"></a>9. `null` return করা ঝুঁকিপূর্ণ কেন, আর Dart-এ এর বিকল্প কী কী?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q9)
 
@@ -561,8 +550,7 @@ User getUserOrThrow(String id) =>
 
 ---
 
-<a id="q10"></a>
-## 10. Boolean trap কী, আর Dart-এ আপনি এটা কীভাবে এড়ান?
+## <a id="q10"></a>10. Boolean trap কী, আর Dart-এ আপনি এটা কীভাবে এড়ান?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q10)
 
@@ -615,8 +603,7 @@ Named argument আর enum code-কে self-documenting করে তোলে�
 
 ---
 
-<a id="q11"></a>
-## 11. DRY principle কী, আর Flutter-এ আপনি এটা কীভাবে প্রয়োগ করেন?
+## <a id="q11"></a>11. DRY principle কী, আর Flutter-এ আপনি এটা কীভাবে প্রয়োগ করেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q11)
 
@@ -665,8 +652,7 @@ Color, spacing আর text style `ThemeData` বা একটা constants file-
 
 ---
 
-<a id="q12"></a>
-## 12. Boy Scout Rule কী, আর আপনি এটা কীভাবে মেনে চলেন?
+## <a id="q12"></a>12. Boy Scout Rule কী, আর আপনি এটা কীভাবে মেনে চলেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q12)
 
@@ -703,8 +689,7 @@ Scout-রা campsite যেমন পেয়েছিল, তার চেয
 
 ---
 
-<a id="q13"></a>
-## 13. Clean code আর over-engineered code-এর পার্থক্য কী?
+## <a id="q13"></a>13. Clean code আর over-engineered code-এর পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q13)
 
@@ -750,8 +735,7 @@ Clean code মানে "কোনো structure নেই" নয় — এত�
 
 ---
 
-<a id="q14"></a>
-## 14. Team-এ clean code কীভাবে প্রয়োগ করেন? (linters, code review, pair programming)
+## <a id="q14"></a>14. Team-এ clean code কীভাবে প্রয়োগ করেন? (linters, code review, pair programming)
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q14)
 
@@ -785,8 +769,7 @@ Lint rule আর review checklist team হিসেবে ঠিক করে �
 
 ---
 
-<a id="q15"></a>
-## 15. `analysis_options.yaml` কী, আর `flutter_lints` / `very_good_analysis` দিয়ে lint rule কীভাবে setup করেন?
+## <a id="q15"></a>15. `analysis_options.yaml` কী, আর `flutter_lints` / `very_good_analysis` দিয়ে lint rule কীভাবে setup করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-16-clean-code.md#q15)
 
@@ -843,9 +826,8 @@ dart analyze   # অথবা: flutter analyze
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table, তারপর এক line-এর মনে করিয়ে দেওয়া কথাগুলো।
 

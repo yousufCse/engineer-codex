@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. The four pillars of OOP**
 1. [The four pillars — overview](#q1) · *Very common*
@@ -62,9 +61,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 Follow these stages in order. Tick a stage off only when you can give the **short answer** with a real-life example, without looking.
 
@@ -92,8 +90,7 @@ Follow these stages in order. Tick a stage off only when you can give the **shor
 
 ---
 
-<a id="q1"></a>
-## 1. What are the four pillars of Object-Oriented Programming?
+## <a id="q1"></a>1. What are the four pillars of Object-Oriented Programming?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q1)
 
@@ -154,8 +151,7 @@ If `Circle` kept `r` private and exposed only a getter, that is encapsulation �
 
 ---
 
-<a id="q2"></a>
-## 2. What is Encapsulation, how do you implement it in Dart, and why does it matter?
+## <a id="q2"></a>2. What is Encapsulation, how do you implement it in Dart, and why does it matter?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q2)
 
@@ -204,8 +200,7 @@ In Dart, `_` is private to the *library* (the file), not the class. Within the s
 
 ---
 
-<a id="q3"></a>
-## 3. How does Inheritance work in Dart? Explain `extends`, `super`, and `@override`.
+## <a id="q3"></a>3. How does Inheritance work in Dart? Explain `extends`, `super`, and `@override`.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q3)
 
@@ -274,8 +269,7 @@ You can `extends` exactly one class. To reuse code from several sources, use mix
 
 ---
 
-<a id="q4"></a>
-## 4. What is Polymorphism? Explain compile-time vs runtime, and how Dart handles overloading.
+## <a id="q4"></a>4. What is Polymorphism? Explain compile-time vs runtime, and how Dart handles overloading.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q4)
 
@@ -333,8 +327,7 @@ In languages with overloading, picking which overloaded method to call is decide
 
 ---
 
-<a id="q5"></a>
-## 5. What is Abstraction? What's the difference between an `abstract class` and an interface (`implements`) in Dart?
+## <a id="q5"></a>5. What is Abstraction? What's the difference between an `abstract class` and an interface (`implements`) in Dart?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q5)
 
@@ -398,8 +391,7 @@ Every class automatically defines an interface, so you can `implements` any clas
 
 ---
 
-<a id="q6"></a>
-## 6. What is "Composition over Inheritance"? When and why should you prefer it?
+## <a id="q6"></a>6. What is "Composition over Inheritance"? When and why should you prefer it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q6)
 
@@ -454,8 +446,7 @@ Use inheritance for a true, stable "is-a" relationship (every Flutter widget ext
 
 ---
 
-<a id="q7"></a>
-## 7. What is the difference between Mixins, Abstract Classes, and Interfaces in Dart? When do you use each?
+## <a id="q7"></a>7. What is the difference between Mixins, Abstract Classes, and Interfaces in Dart? When do you use each?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q7)
 
@@ -523,8 +514,7 @@ class FakeRepository implements Repository {
 
 ---
 
-<a id="q8"></a>
-## 8. What is the difference between a Class, an Object, and an Instance?
+## <a id="q8"></a>8. What is the difference between a Class, an Object, and an Instance?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q8)
 
@@ -568,8 +558,7 @@ One class, many instances. Each instance has its own data but shares the same st
 
 ---
 
-<a id="q9"></a>
-## 9. What are Coupling and Cohesion? Why do we want low coupling and high cohesion?
+## <a id="q9"></a>9. What are Coupling and Cohesion? Why do we want low coupling and high cohesion?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q9)
 
@@ -627,8 +616,7 @@ These two ideas are the "why" behind most of SOLID (especially [SRP](#q10) and [
 
 ---
 
-<a id="q10"></a>
-## 10. SOLID — S: Single Responsibility Principle (SRP)
+## <a id="q10"></a>10. SOLID — S: Single Responsibility Principle (SRP)
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q10)
 
@@ -687,8 +675,7 @@ Don't read SRP as "one method." Read it as "one responsibility / one reason to c
 
 ---
 
-<a id="q11"></a>
-## 11. SOLID — O: Open/Closed Principle (OCP)
+## <a id="q11"></a>11. SOLID — O: Open/Closed Principle (OCP)
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q11)
 
@@ -742,8 +729,7 @@ Editing tested code risks breaking it. Adding new code (a new class) leaves the 
 
 ---
 
-<a id="q12"></a>
-## 12. SOLID — L: Liskov Substitution Principle (LSP)
+## <a id="q12"></a>12. SOLID — L: Liskov Substitution Principle (LSP)
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q12)
 
@@ -799,8 +785,7 @@ A subclass that throws "not supported" for a parent method (e.g. a read-only lis
 
 ---
 
-<a id="q13"></a>
-## 13. SOLID — I: Interface Segregation Principle (ISP)
+## <a id="q13"></a>13. SOLID — I: Interface Segregation Principle (ISP)
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q13)
 
@@ -860,8 +845,7 @@ Fat interfaces force empty or fake methods, and they couple classes to things th
 
 ---
 
-<a id="q14"></a>
-## 14. SOLID — D: Dependency Inversion Principle (DIP)
+## <a id="q14"></a>14. SOLID — D: Dependency Inversion Principle (DIP)
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q14)
 
@@ -923,8 +907,7 @@ Normally high-level code would directly create low-level details. DIP *inverts* 
 
 ---
 
-<a id="q15"></a>
-## 15. What is the DRY principle?
+## <a id="q15"></a>15. What is the DRY principle?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q15)
 
@@ -964,8 +947,7 @@ Don't merge two pieces of code just because they *look* the same right now. If t
 
 ---
 
-<a id="q16"></a>
-## 16. What is the KISS principle?
+## <a id="q16"></a>16. What is the KISS principle?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q16)
 
@@ -1007,8 +989,7 @@ Both work, but the second is instantly readable. Simple code is a feature.
 
 ---
 
-<a id="q17"></a>
-## 17. What is the YAGNI principle?
+## <a id="q17"></a>17. What is the YAGNI principle?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q17)
 
@@ -1058,8 +1039,7 @@ YAGNI doesn't mean "write careless code." It means don't add *unneeded* flexibil
 
 ---
 
-<a id="q18"></a>
-## 18. What are the different constructor types in Dart?
+## <a id="q18"></a>18. What are the different constructor types in Dart?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q18)
 
@@ -1124,8 +1104,7 @@ class Circle {
 
 ---
 
-<a id="q19"></a>
-## 19. When and why should you use `static` members in Dart?
+## <a id="q19"></a>19. When and why should you use `static` members in Dart?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q19)
 
@@ -1177,8 +1156,7 @@ Static makes code harder to test and mock (you can't easily swap a static call f
 
 ---
 
-<a id="q20"></a>
-## 20. What is covariance and contravariance in Dart?
+## <a id="q20"></a>20. What is covariance and contravariance in Dart?
 
 > Deeper · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q20)
 
@@ -1234,8 +1212,7 @@ Most developers rarely write `covariant` by hand. It shows up in advanced generi
 
 ---
 
-<a id="q21"></a>
-## 21. What is the difference between method overriding and method hiding in Dart?
+## <a id="q21"></a>21. What is the difference between method overriding and method hiding in Dart?
 
 > Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-12-oop-principles-bn.md#q21)
 
@@ -1296,9 +1273,8 @@ If a subclass declares a field with the same name as the parent's, it shadows it
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

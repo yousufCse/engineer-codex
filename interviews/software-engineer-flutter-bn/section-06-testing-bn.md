@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Test-এর ধরন ও strategy**
 1. [তিন ধরনের test — unit, widget, integration](#q1) · *Very common*
@@ -65,9 +64,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৮টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম মেনে চলুন — প্রতিটা আগেরটার উপরে দাঁড়ায়। কোনো পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -95,8 +93,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Flutter test-এর তিনটি ধরন — unit, widget, আর integration — কী, আর কোনটা কখন ব্যবহার করবেন?
+## <a id="q1"></a>1. Flutter test-এর তিনটি ধরন — unit, widget, আর integration — কী, আর কোনটা কখন ব্যবহার করবেন?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q1)
 
@@ -176,8 +173,7 @@ void main() {
 
 ---
 
-<a id="q2"></a>
-## 2. Test pyramid কী, আর unit, widget, আর integration test-এর মধ্যে ভারসাম্য কীভাবে রাখবেন?
+## <a id="q2"></a>2. Test pyramid কী, আর unit, widget, আর integration test-এর মধ্যে ভারসাম্য কীভাবে রাখবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q2)
 
@@ -246,8 +242,7 @@ Integration tests (one or two):
 
 ---
 
-<a id="q3"></a>
-## 3. Test-driven development (TDD) কী, আর Flutter-এ এটা ব্যবহার করবেন কি?
+## <a id="q3"></a>3. Test-driven development (TDD) কী, আর Flutter-এ এটা ব্যবহার করবেন কি?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q3)
 
@@ -309,8 +304,7 @@ test('no discount at or below 1000', () {
 
 ---
 
-<a id="q4"></a>
-## 4. মূল unit testing primitive-গুলো ব্যাখ্যা করুন — `test`, `expect`, `group`, `setUp`, `tearDown`।
+## <a id="q4"></a>4. মূল unit testing primitive-গুলো ব্যাখ্যা করুন — `test`, `expect`, `group`, `setUp`, `tearDown`।
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q4)
 
@@ -401,8 +395,7 @@ tearDownAll(() => closeDb());     // সব test-এর পরে একবা�
 
 ---
 
-<a id="q5"></a>
-## 5. Matcher কী? `equals`, `throwsA`, `isA`, `contains`, আর async matcher ব্যাখ্যা করুন।
+## <a id="q5"></a>5. Matcher কী? `equals`, `throwsA`, `isA`, `contains`, আর async matcher ব্যাখ্যা করুন।
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q5)
 
@@ -482,8 +475,7 @@ await expectLater(counterStream, emitsInOrder([1, 2, 3]));
 
 ---
 
-<a id="q6"></a>
-## 6. Widget testing কীভাবে কাজ করে — `pumpWidget`, `find`, `tap`, `pump`, আর `pumpAndSettle` ব্যাখ্যা করুন?
+## <a id="q6"></a>6. Widget testing কীভাবে কাজ করে — `pumpWidget`, `find`, `tap`, `pump`, আর `pumpAndSettle` ব্যাখ্যা করুন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q6)
 
@@ -574,8 +566,7 @@ testWidgets('Login button enables when the form is valid', (tester) async {
 
 ---
 
-<a id="q7"></a>
-## 7. Finder কীভাবে কাজ করে — `find.byType`, `byKey`, `text`, `byIcon`, আর `widgetWithText`?
+## <a id="q7"></a>7. Finder কীভাবে কাজ করে — `find.byType`, `byKey`, `text`, `byIcon`, আর `widgetWithText`?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q7)
 
@@ -650,8 +641,7 @@ await tester.tap(find.byKey(const Key('login_button')));
 
 ---
 
-<a id="q8"></a>
-## 8. Async code আর time-based logic কীভাবে test করেন — `async` test, `fakeAsync`, আর সময় এগিয়ে নেওয়া?
+## <a id="q8"></a>8. Async code আর time-based logic কীভাবে test করেন — `async` test, `fakeAsync`, আর সময় এগিয়ে নেওয়া?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q8)
 
@@ -748,8 +738,7 @@ testWidgets('Debounced search waits 500ms before calling the API', (tester) asyn
 
 ---
 
-<a id="q9"></a>
-## 9. Mockito দিয়ে mocking কীভাবে কাজ করে — `@GenerateMocks`, `when`/`thenReturn`, আর `verify`?
+## <a id="q9"></a>9. Mockito দিয়ে mocking কীভাবে কাজ করে — `@GenerateMocks`, `when`/`thenReturn`, আর `verify`?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q9)
 
@@ -847,8 +836,7 @@ verifyNoMoreInteractions(mockApi);           // আর কিছুই call হ�
 
 ---
 
-<a id="q10"></a>
-## 10. Mocktail আর Mockito-র মধ্যে পার্থক্য কী, আর কখন আপনি Mocktail বেছে নেবেন?
+## <a id="q10"></a>10. Mocktail আর Mockito-র মধ্যে পার্থক্য কী, আর কখন আপনি Mocktail বেছে নেবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q10)
 
@@ -944,8 +932,7 @@ void main() {
 
 ---
 
-<a id="q11"></a>
-## 11. Fake আর Mock-এর পার্থক্য কী — কোনটা কখন ব্যবহার করবেন?
+## <a id="q11"></a>11. Fake আর Mock-এর পার্থক্য কী — কোনটা কখন ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q11)
 
@@ -1038,8 +1025,7 @@ Do you need to verify HOW the dependency was called?
 
 ---
 
-<a id="q12"></a>
-## 12. `bloc_test` দিয়ে একটা BLoC বা Cubit কীভাবে test করবেন?
+## <a id="q12"></a>12. `bloc_test` দিয়ে একটা BLoC বা Cubit কীভাবে test করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q12)
 
@@ -1144,8 +1130,7 @@ void main() {
 
 ---
 
-<a id="q13"></a>
-## 13. যে screen (widget) একটা Cubit-এর উপর নির্ভর করে, সেটা কীভাবে test করবেন?
+## <a id="q13"></a>13. যে screen (widget) একটা Cubit-এর উপর নির্ভর করে, সেটা কীভাবে test করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q13)
 
@@ -1244,8 +1229,7 @@ Error state-এর ক্ষেত্রে "retry" tap করলে সঠি�
 
 ---
 
-<a id="q14"></a>
-## 14. যে repository একটা HTTP API call করে, সেটা কীভাবে test করবেন — Dio বা `http` কীভাবে mock করবেন?
+## <a id="q14"></a>14. যে repository একটা HTTP API call করে, সেটা কীভাবে test করবেন — Dio বা `http` কীভাবে mock করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q14)
 
@@ -1351,8 +1335,7 @@ class MockApiClient extends Mock implements ApiClient {}  // mock করা খ�
 
 ---
 
-<a id="q15"></a>
-## 15. Golden test কী — কীভাবে এগুলো তৈরি আর update করবেন, আর কখন ব্যবহার করবেন?
+## <a id="q15"></a>15. Golden test কী — কীভাবে এগুলো তৈরি আর update করবেন, আর কখন ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q15)
 
@@ -1439,8 +1422,7 @@ Golden image platform-এর উপর নির্ভর করে। কার
 
 ---
 
-<a id="q16"></a>
-## 16. Flutter-এ integration testing কীভাবে কাজ করে — `integration_test` package আর আসল device-এ চালানো?
+## <a id="q16"></a>16. Flutter-এ integration testing কীভাবে কাজ করে — `integration_test` package আর আসল device-এ চালানো?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q16)
 
@@ -1532,8 +1514,7 @@ flutter test integration_test/app_test.dart -d chrome
 
 ---
 
-<a id="q17"></a>
-## 17. Flutter-এ code coverage কীভাবে তৈরি আর মাপবেন — আর এটা আসলে কী বলে?
+## <a id="q17"></a>17. Flutter-এ code coverage কীভাবে তৈরি আর মাপবেন — আর এটা আসলে কী বলে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q17)
 
@@ -1603,8 +1584,7 @@ test('runs the code', () {
 
 ---
 
-<a id="q18"></a>
-## 18. Codebase বড় হওয়ার সাথে সাথে test-গুলো maintainable রাখেন কীভাবে?
+## <a id="q18"></a>18. Codebase বড় হওয়ার সাথে সাথে test-গুলো maintainable রাখেন কীভাবে?
 
 > Deeper · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-06-testing.md#q18)
 
@@ -1698,9 +1678,8 @@ Maintainability checklist:
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের review)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের review)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার table-গুলো, তারপর এক লাইনের মনে-করিয়ে-দেওয়া পয়েন্টগুলো।
 

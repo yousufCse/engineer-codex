@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. The basics — what a channel is**
 1. [What is a Platform Channel and why is it needed?](#q1) · *Very common*
@@ -55,9 +54,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 14 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -85,8 +83,7 @@ You don't need to study all 14 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What is a Platform Channel and why is it needed?
+## <a id="q1"></a>1. What is a Platform Channel and why is it needed?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q1)
 
@@ -149,8 +146,7 @@ Most common needs (camera, location, shared preferences) already have plugins on
 
 ---
 
-<a id="q2"></a>
-## 2. Which thread do Platform Channel handlers run on? How do you do heavy native work?
+## <a id="q2"></a>2. Which thread do Platform Channel handlers run on? How do you do heavy native work?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q2)
 
@@ -232,8 +228,7 @@ If the heavy work is pure Dart (like parsing a huge JSON the native side sent ba
 
 ---
 
-<a id="q3"></a>
-## 3. How does MethodChannel work? Show calling native code and returning a result (Dart, Kotlin, Swift).
+## <a id="q3"></a>3. How does MethodChannel work? Show calling native code and returning a result (Dart, Kotlin, Swift).
 
 > Very common · Medium — the single most common channel question. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q3)
 
@@ -386,8 +381,7 @@ await _channel.invokeMethod('setBrightness', {'value': 0.8});
 
 ---
 
-<a id="q4"></a>
-## 4. What is the difference between MethodChannel, EventChannel, and BasicMessageChannel?
+## <a id="q4"></a>4. What is the difference between MethodChannel, EventChannel, and BasicMessageChannel?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q4)
 
@@ -437,8 +431,7 @@ Under the hood, all three use the same binary messaging and the same codec famil
 
 ---
 
-<a id="q5"></a>
-## 5. How does EventChannel work for continuous data streams from native? Give a use case.
+## <a id="q5"></a>5. How does EventChannel work for continuous data streams from native? Give a use case.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q5)
 
@@ -580,8 +573,7 @@ Two cleanups must happen. On Dart, cancel the subscription in `dispose()`. On na
 
 ---
 
-<a id="q6"></a>
-## 6. What is BasicMessageChannel? When would you use it instead of MethodChannel?
+## <a id="q6"></a>6. What is BasicMessageChannel? When would you use it instead of MethodChannel?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q6)
 
@@ -664,8 +656,7 @@ It is not deprecated. In fact, Pigeon's generated code uses `BasicMessageChannel
 
 ---
 
-<a id="q7"></a>
-## 7. What data types can cross a channel? How do you handle errors with `PlatformException`?
+## <a id="q7"></a>7. What data types can cross a channel? How do you handle errors with `PlatformException`?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q7)
 
@@ -762,8 +753,7 @@ try {
 
 ---
 
-<a id="q8"></a>
-## 8. What is Dart FFI (`dart:ffi`)? How does it differ from Platform Channels? When would you use it?
+## <a id="q8"></a>8. What is Dart FFI (`dart:ffi`)? How does it differ from Platform Channels? When would you use it?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q8)
 
@@ -860,8 +850,7 @@ An FFI call is synchronous, so a long C function freezes that isolate. If the wo
 
 ---
 
-<a id="q9"></a>
-## 9. How do you write a simple Flutter plugin package? Describe the structure, pubspec, and platform code.
+## <a id="q9"></a>9. How do you write a simple Flutter plugin package? Describe the structure, pubspec, and platform code.
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q9)
 
@@ -1038,8 +1027,7 @@ Because the public API talks to an interface (not directly to a channel), you ca
 
 ---
 
-<a id="q10"></a>
-## 10. What is Pigeon? How does it improve Platform Channel type safety?
+## <a id="q10"></a>10. What is Pigeon? How does it improve Platform Channel type safety?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q10)
 
@@ -1149,8 +1137,7 @@ print(response.name); // "Alice" — typed, no casting, no magic strings
 
 ---
 
-<a id="q11"></a>
-## 11. How do you add a Flutter module to an existing native Android or iOS app (add-to-app)?
+## <a id="q11"></a>11. How do you add a Flutter module to an existing native Android or iOS app (add-to-app)?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q11)
 
@@ -1264,8 +1251,7 @@ Starting a `FlutterEngine` from cold takes a moment. If the Flutter screen opens
 
 ---
 
-<a id="q12"></a>
-## 12. How do you integrate a native SDK (e.g. payment, maps) that has no Flutter plugin?
+## <a id="q12"></a>12. How do you integrate a native SDK (e.g. payment, maps) that has no Flutter plugin?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q12)
 
@@ -1440,8 +1426,7 @@ Register a view factory on each platform: on Android implement `PlatformViewFact
 
 ---
 
-<a id="q13"></a>
-## 13. How do you handle platform-specific UI differences (adaptive design) in Flutter?
+## <a id="q13"></a>13. How do you handle platform-specific UI differences (adaptive design) in Flutter?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q13)
 
@@ -1536,8 +1521,7 @@ Widget build(BuildContext context) {
 
 ---
 
-<a id="q14"></a>
-## 14. How do you check and request permissions (camera, location, notifications) in Flutter?
+## <a id="q14"></a>14. How do you check and request permissions (camera, location, notifications) in Flutter?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-08-platform-channel-bn.md#q14)
 
@@ -1656,9 +1640,8 @@ Don't blast every permission at launch. Ask right when the feature is used (requ
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

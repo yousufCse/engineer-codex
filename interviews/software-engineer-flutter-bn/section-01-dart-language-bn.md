@@ -22,9 +22,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Variables, null safety ও types**
 1. [Null safety — `?`, `!`, `late`, `required`](#q1) · *Very common*
@@ -68,9 +67,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ২৬টা প্রশ্ন একসাথে পড়ার দরকার নেই। নিচের পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ায়। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তরটা** বলতে পারবেন।
 
@@ -98,8 +96,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Dart-এ null safety কী? `?`, `!`, `late`, আর `required` ব্যাখ্যা করুন।
+## <a id="q1"></a>1. Dart-এ null safety কী? `?`, `!`, `late`, আর `required` ব্যাখ্যা করুন।
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q1)
 
@@ -211,8 +208,7 @@ nickname ??= 'Guest';                // ??= = এখন null হলে তবে
 
 ---
 
-<a id="q2"></a>
-## 2. `var`, `dynamic`, `Object`, `final`, আর `const`-এর মধ্যে পার্থক্য কী?
+## <a id="q2"></a>2. `var`, `dynamic`, `Object`, `final`, আর `const`-এর মধ্যে পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q2)
 
@@ -297,8 +293,7 @@ const list = [1, 2, 3];
 
 ---
 
-<a id="q3"></a>
-## 3. `const` constructor কী, আর এটা Flutter-এর performance-এ কীভাবে সাহায্য করে?
+## <a id="q3"></a>3. `const` constructor কী, আর এটা Flutter-এর performance-এ কীভাবে সাহায্য করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q3)
 
@@ -357,8 +352,7 @@ Text('Welcome');
 
 ---
 
-<a id="q4"></a>
-## 4. দুটো object সমান কি না কীভাবে check করবেন? `==`, `hashCode`, আর `identical` ব্যাখ্যা করুন।
+## <a id="q4"></a>4. দুটো object সমান কি না কীভাবে check করবেন? `==`, `hashCode`, আর `identical` ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q4)
 
@@ -436,8 +430,7 @@ BLoC বা Riverpod-এ নতুন state object পুরোনোটার �
 
 ---
 
-<a id="q5"></a>
-## 5. আমরা generics কেন ব্যবহার করি? `<T>` আর bounded generics ব্যাখ্যা করুন।
+## <a id="q5"></a>5. আমরা generics কেন ব্যবহার করি? `<T>` আর bounded generics ব্যাখ্যা করুন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q5)
 
@@ -505,8 +498,7 @@ print(bigger<String>('a', 'z'));  // 'z'
 
 ---
 
-<a id="q6"></a>
-## 6. Dart-এ `Exception` আর `Error`-এর মধ্যে পার্থক্য কী?
+## <a id="q6"></a>6. Dart-এ `Exception` আর `Error`-এর মধ্যে পার্থক্য কী?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q6)
 
@@ -580,8 +572,7 @@ class UserLoadException implements Exception {
 
 ---
 
-<a id="q7"></a>
-## 7. Named, positional আর optional parameter কী? কোনটা কখন ব্যবহার করবেন?
+## <a id="q7"></a>7. Named, positional আর optional parameter কী? কোনটা কখন ব্যবহার করবেন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q7)
 
@@ -638,8 +629,7 @@ createUser(name: 'Sara', isAdmin: true, sendEmail: false); // নিজেই �
 
 ---
 
-<a id="q8"></a>
-## 8. Closure কী? সহজ করে উদাহরণ দিয়ে ব্যাখ্যা করুন।
+## <a id="q8"></a>8. Closure কী? সহজ করে উদাহরণ দিয়ে ব্যাখ্যা করুন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q8)
 
@@ -699,8 +689,7 @@ ElevatedButton(
 
 ---
 
-<a id="q9"></a>
-## 9. Cascade notation (`..`) কী? Method chaining থেকে এটা কীভাবে আলাদা?
+## <a id="q9"></a>9. Cascade notation (`..`) কী? Method chaining থেকে এটা কীভাবে আলাদা?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q9)
 
@@ -757,8 +746,7 @@ paint?..color = Colors.blue; // paint null হলে কিছুই করে �
 
 ---
 
-<a id="q10"></a>
-## 10. `typedef`, spread operator (`...`) আর collection `if`/`for` কী?
+## <a id="q10"></a>10. `typedef`, spread operator (`...`) আর collection `if`/`for` কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q10)
 
@@ -824,8 +812,7 @@ final widgets = [
 
 ---
 
-<a id="q11"></a>
-## 11. Dart-এর constructor ব্যাখ্যা করুন: normal, named, factory, const আর redirecting।
+## <a id="q11"></a>11. Dart-এর constructor ব্যাখ্যা করুন: normal, named, factory, const আর redirecting।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q11)
 
@@ -918,8 +905,7 @@ Object-টা চলার আগেই বানিয়ে ফেলে (স�
 
 ---
 
-<a id="q12"></a>
-## 12. Dart-এ `interface` keyword নেই। তাহলে interface কীভাবে পান? আর `extends`, `implements`, `with`, আর `on`-এর পার্থক্য কী?
+## <a id="q12"></a>12. Dart-এ `interface` keyword নেই। তাহলে interface কীভাবে পান? আর `extends`, `implements`, `with`, আর `on`-এর পার্থক্য কী?
 
 > Very common · Medium — সবচেয়ে সাধারণ Dart OOP প্রশ্ন। · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q12)
 
@@ -1008,8 +994,7 @@ mixin Validating on Form {
 
 ---
 
-<a id="q13"></a>
-## 13. Mixin কী? `with`, `on` ব্যাখ্যা করুন, আর দুটো mixin-এ একই method থাকলে কী হয়?
+## <a id="q13"></a>13. Mixin কী? `with`, `on` ব্যাখ্যা করুন, আর দুটো mixin-এ একই method থাকলে কী হয়?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q13)
 
@@ -1082,8 +1067,7 @@ Mixin মূল class-এর সাথে মিশে যায়, আর স�
 
 ---
 
-<a id="q14"></a>
-## 14. Extension method কী? এটা কী কী করতে পারে না?
+## <a id="q14"></a>14. Extension method কী? এটা কী কী করতে পারে না?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q14)
 
@@ -1150,8 +1134,7 @@ Object thing = 'hi';
 
 ---
 
-<a id="q15"></a>
-## 15. Enhanced enum কী? একটা enum-এ কি field আর method থাকতে পারে?
+## <a id="q15"></a>15. Enhanced enum কী? একটা enum-এ কি field আর method থাকতে পারে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q15)
 
@@ -1226,8 +1209,7 @@ Plan.values.byName('free');  // Plan.free  (text দিয়ে খুঁজে
 
 ---
 
-<a id="q16"></a>
-## 16. Dart 3-এ record কী?
+## <a id="q16"></a>16. Dart 3-এ record কী?
 
 > Very common (Dart 3) · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q16)
 
@@ -1297,8 +1279,7 @@ print((1, 'a') == (1, 'a')); // true, একই value মানে সমান
 
 ---
 
-<a id="q17"></a>
-## 17. Pattern matching, destructuring আর switch expression কী?
+## <a id="q17"></a>17. Pattern matching, destructuring আর switch expression কী?
 
 > Very common (Dart 3) · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q17)
 
@@ -1376,8 +1357,7 @@ if (json case {'token': final String token}) {
 
 ---
 
-<a id="q18"></a>
-## 18. Sealed class কী? আর নতুন class modifier গুলো (`sealed`, `final`, `base`, `interface`) কী?
+## <a id="q18"></a>18. Sealed class কী? আর নতুন class modifier গুলো (`sealed`, `final`, `base`, `interface`) কী?
 
 > Common (Dart 3) · Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q18)
 
@@ -1449,8 +1429,7 @@ String show(Result r) => switch (r) {
 
 ---
 
-<a id="q19"></a>
-## 19. `Future` কী? `async`/`await` কীভাবে কাজ করে? `await` কি app জমিয়ে দেয়?
+## <a id="q19"></a>19. `Future` কী? `async`/`await` কীভাবে কাজ করে? `await` কি app জমিয়ে দেয়?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q19)
 
@@ -1518,8 +1497,7 @@ final results = await Future.wait([fetchA(), fetchB()]);
 
 ---
 
-<a id="q20"></a>
-## 20. Event loop ব্যাখ্যা করুন: microtask queue vs event queue।
+## <a id="q20"></a>20. Event loop ব্যাখ্যা করুন: microtask queue vs event queue।
 
 > Deeper question · Hard — senior-দের জন্য একটা tie-breaker · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q20)
 
@@ -1574,8 +1552,7 @@ Output-এর order:
 
 ---
 
-<a id="q21"></a>
-## 21. `Stream` কী? single-subscription vs broadcast, `StreamController`, আর `StreamBuilder` ব্যাখ্যা করুন।
+## <a id="q21"></a>21. `Stream` কী? single-subscription vs broadcast, `StreamController`, আর `StreamBuilder` ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q21)
 
@@ -1670,8 +1647,7 @@ void dispose() {
 
 ---
 
-<a id="q22"></a>
-## 22. Generator কী — `sync*`/`yield` আর `async*`/`yield*`?
+## <a id="q22"></a>22. Generator কী — `sync*`/`yield` আর `async*`/`yield*`?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q22)
 
@@ -1736,8 +1712,7 @@ Iterable<int> combined() sync* {
 
 ---
 
-<a id="q23"></a>
-## 23. Dart কেন single-threaded? Isolate কী, আর `compute()` / `Isolate.run` কী?
+## <a id="q23"></a>23. Dart কেন single-threaded? Isolate কী, আর `compute()` / `Isolate.run` কী?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q23)
 
@@ -1801,8 +1776,7 @@ Memory share হয় না বলে input আর result isolate-এর ম�
 
 ---
 
-<a id="q24"></a>
-## 24. JIT আর AOT কী? Flutter-এর জন্য এটা কেন গুরুত্বপূর্ণ?
+## <a id="q24"></a>24. JIT আর AOT কী? Flutter-এর জন্য এটা কেন গুরুত্বপূর্ণ?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q24)
 
@@ -1840,8 +1814,7 @@ Debug mode-এ app ধীর চলে, কারণ JIT আর বাড়ত�
 
 ---
 
-<a id="q25"></a>
-## 25. Dart VM কী?
+## <a id="q25"></a>25. Dart VM কী?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q25)
 
@@ -1874,8 +1847,7 @@ Release build-এ compiler অংশটা আর দরকার হয় ন�
 
 ---
 
-<a id="q26"></a>
-## 26. Dart কীভাবে memory manage করে (garbage collection)?
+## <a id="q26"></a>26. Dart কীভাবে memory manage করে (garbage collection)?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-01-dart-language.md#q26)
 
@@ -1923,9 +1895,8 @@ static final _formatter = DateFormat('yyyy-MM-dd');
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার table, তারপর এক লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 

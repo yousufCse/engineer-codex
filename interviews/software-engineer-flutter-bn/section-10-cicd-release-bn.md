@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Build mode আর CI/CD-র মূল কথা**
 1. [Build mode — debug, profile, release](#q1) · *Very common*
@@ -53,9 +52,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৪টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -80,8 +78,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Flutter-এর build mode কী কী? Debug, profile আর release ব্যাখ্যা করুন।
+## <a id="q1"></a>1. Flutter-এর build mode কী কী? Debug, profile আর release ব্যাখ্যা করুন।
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q1)
 
@@ -143,8 +140,7 @@ flutter build ipa --release
 
 ---
 
-<a id="q2"></a>
-## 2. GitHub Actions ব্যবহার করে Flutter-এর জন্য মৌলিক CI pipeline কীভাবে সেট করবেন?
+## <a id="q2"></a>2. GitHub Actions ব্যবহার করে Flutter-এর জন্য মৌলিক CI pipeline কীভাবে সেট করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q2)
 
@@ -266,8 +262,7 @@ Run শেষ হলে build machine-টা মুছে ফেলা হয়
 
 ---
 
-<a id="q3"></a>
-## 3. CI-তে secrets কীভাবে handle করেন, আর Flutter build কীভাবে দ্রুত করেন?
+## <a id="q3"></a>3. CI-তে secrets কীভাবে handle করেন, আর Flutter build কীভাবে দ্রুত করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q3)
 
@@ -339,8 +334,7 @@ CI run-এর বেশিরভাগ সময় যায় একই file 
 
 ---
 
-<a id="q4"></a>
-## 4. Flutter-এ versioning কীভাবে কাজ করে? `1.0.0+1` format আর CI-তে build number স্বয়ংক্রিয়ভাবে বাড়ানো ব্যাখ্যা করুন।
+## <a id="q4"></a>4. Flutter-এ versioning কীভাবে কাজ করে? `1.0.0+1` format আর CI-তে build number স্বয়ংক্রিয়ভাবে বাড়ানো ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q4)
 
@@ -417,8 +411,7 @@ flutter build appbundle --release \
 
 ---
 
-<a id="q5"></a>
-## 5. Flutter flavors কী? Android আর iOS-এ dev / staging / prod কীভাবে setup করেন?
+## <a id="q5"></a>5. Flutter flavors কী? Android আর iOS-এ dev / staging / prod কীভাবে setup করেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q5)
 
@@ -518,8 +511,7 @@ Flavor একটা **native** ধারণা — এটা platform level-এ 
 
 ---
 
-<a id="q6"></a>
-## 6. `--dart-define` কীভাবে কাজ করে? Build-এর সময় variable কীভাবে pass করবেন?
+## <a id="q6"></a>6. `--dart-define` কীভাবে কাজ করে? Build-এর সময় variable কীভাবে pass করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q6)
 
@@ -604,8 +596,7 @@ CI-এর জন্য এটা অনেক পরিষ্কার: প্�
 
 ---
 
-<a id="q7"></a>
-## 7. প্রতি environment-এর জন্য আলাদা API URL, key আর config কীভাবে সামলান?
+## <a id="q7"></a>7. প্রতি environment-এর জন্য আলাদা API URL, key আর config কীভাবে সামলান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q7)
 
@@ -718,8 +709,7 @@ flutter build appbundle --release --dart-define-from-file=env/prod.json
 
 ---
 
-<a id="q8"></a>
-## 8. Code signing ব্যাখ্যা করুন। Android keystore আর iOS certificate ও provisioning profile কী?
+## <a id="q8"></a>8. Code signing ব্যাখ্যা করুন। Android keystore আর iOS certificate ও provisioning profile কী?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q8)
 
@@ -820,8 +810,7 @@ iOS signing-এ দুটোই লাগে:
 
 ---
 
-<a id="q9"></a>
-## 9. Fastlane কী? iOS signing-এর জন্য `match` কীভাবে কাজ করে, আর Android deployment-এর জন্য `supply`?
+## <a id="q9"></a>9. Fastlane কী? iOS signing-এর জন্য `match` কীভাবে কাজ করে, আর Android deployment-এর জন্য `supply`?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q9)
 
@@ -910,8 +899,7 @@ end
 
 ---
 
-<a id="q10"></a>
-## 10. App obfuscation কী? কেন করবেন, আর Flutter-এ কীভাবে enable করবেন?
+## <a id="q10"></a>10. App obfuscation কী? কেন করবেন, আর Flutter-এ কীভাবে enable করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q10)
 
@@ -991,8 +979,7 @@ flutter symbolize \
 
 ---
 
-<a id="q11"></a>
-## 11. Build artifact কী? APK আর AAB-এর পার্থক্য ব্যাখ্যা করুন, আর কেন Google Play AAB পছন্দ করে।
+## <a id="q11"></a>11. Build artifact কী? APK আর AAB-এর পার্থক্য ব্যাখ্যা করুন, আর কেন Google Play AAB পছন্দ করে।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q11)
 
@@ -1068,8 +1055,7 @@ flutter build appbundle --release
 
 ---
 
-<a id="q12"></a>
-## 12. Test build বিলি করার জন্য Firebase App Distribution কীভাবে কাজ করে?
+## <a id="q12"></a>12. Test build বিলি করার জন্য Firebase App Distribution কীভাবে কাজ করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q12)
 
@@ -1143,8 +1129,7 @@ iOS-এ আপনাকে একটা **ad-hoc** build বিলি করত�
 
 ---
 
-<a id="q13"></a>
-## 13. Google Play Store-এ app কীভাবে submit করবেন? Track গুলো ব্যাখ্যা করুন: internal, alpha, beta, production।
+## <a id="q13"></a>13. Google Play Store-এ app কীভাবে submit করবেন? Track গুলো ব্যাখ্যা করুন: internal, alpha, beta, production।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q13)
 
@@ -1211,8 +1196,7 @@ supply(
 
 ---
 
-<a id="q14"></a>
-## 14. Apple App Store-এ app কীভাবে submit করবেন? TestFlight-এর flow বর্ণনা করুন।
+## <a id="q14"></a>14. Apple App Store-এ app কীভাবে submit করবেন? TestFlight-এর flow বর্ণনা করুন।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-10-cicd-release.md#q14)
 
@@ -1292,9 +1276,8 @@ Testing শেষ হলে:
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার টেবিল, তারপর এক লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 

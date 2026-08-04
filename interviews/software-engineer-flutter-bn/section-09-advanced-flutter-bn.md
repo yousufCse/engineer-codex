@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Animations — engine আর তার অংশগুলো**
 1. [`AnimationController` — vsync আর dispose](#q1) · *Very common*
@@ -65,9 +64,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 একসাথে ২০টা প্রশ্নই পড়ার দরকার নেই। এই পর্যায়গুলো ক্রমে অনুসরণ করুন — প্রতিটা পর্যায় আগেরটার উপর দাঁড়ানো। কোনো পর্যায় শেষ ধরবেন তখনই, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -97,8 +95,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. `AnimationController` কী? `vsync` ব্যাখ্যা করুন, আর কেন এটা dispose করতেই হবে বলুন।
+## <a id="q1"></a>1. `AnimationController` কী? `vsync` ব্যাখ্যা করুন, আর কেন এটা dispose করতেই হবে বলুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q1)
 
@@ -179,8 +176,7 @@ Controller একটা ticker ধরে রাখে। Dispose করতে �
 
 ---
 
-<a id="q2"></a>
-## 2. `Tween` কী, আর এটা `AnimationController`-এর সাথে কীভাবে জোড়া লাগে?
+## <a id="q2"></a>2. `Tween` কী, আর এটা `AnimationController`-এর সাথে কীভাবে জোড়া লাগে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q2)
 
@@ -257,8 +253,7 @@ Widget build(BuildContext context) {
 
 ---
 
-<a id="q3"></a>
-## 3. `CurvedAnimation` কী? `Curves` কী, আর easing কীভাবে প্রয়োগ করবেন?
+## <a id="q3"></a>3. `CurvedAnimation` কী? `Curves` কী, আর easing কীভাবে প্রয়োগ করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q3)
 
@@ -335,8 +330,7 @@ void initState() {
 
 ---
 
-<a id="q4"></a>
-## 4. `AnimatedWidget` আর `AnimatedBuilder`-এর পার্থক্য কী, আর কখন কোনটা ব্যবহার করবেন?
+## <a id="q4"></a>4. `AnimatedWidget` আর `AnimatedBuilder`-এর পার্থক্য কী, আর কখন কোনটা ব্যবহার করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q4)
 
@@ -415,8 +409,7 @@ AnimatedBuilder(
 
 ---
 
-<a id="q5"></a>
-## 5. Implicit আর explicit animation-এর পার্থক্য কী, আর কখন কোনটা ব্যবহার করবেন?
+## <a id="q5"></a>5. Implicit আর explicit animation-এর পার্থক্য কী, আর কখন কোনটা ব্যবহার করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q5)
 
@@ -498,8 +491,7 @@ class _SpinnerState extends State<Spinner>
 
 ---
 
-<a id="q6"></a>
-## 6. Staggered animation (কয়েকটা অংশ ভিন্ন ভিন্ন সময়ে নড়ে) কীভাবে বানাবেন?
+## <a id="q6"></a>6. Staggered animation (কয়েকটা অংশ ভিন্ন ভিন্ন সময়ে নড়ে) কীভাবে বানাবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q6)
 
@@ -588,8 +580,7 @@ Widget build(BuildContext context) {
 
 ---
 
-<a id="q7"></a>
-## 7. Route-এর মাঝে `Hero` animation কীভাবে কাজ করে? `tag`-এর শর্তটা কী?
+## <a id="q7"></a>7. Route-এর মাঝে `Hero` animation কীভাবে কাজ করে? `tag`-এর শর্তটা কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q7)
 
@@ -659,8 +650,7 @@ Hero(tag: 'image-${product.id}', child: ...);
 
 ---
 
-<a id="q8"></a>
-## 8. Rive আর Lottie-র মধ্যে পার্থক্য কী, আর কখন কোনটা ব্যবহার করবেন?
+## <a id="q8"></a>8. Rive আর Lottie-র মধ্যে পার্থক্য কী, আর কখন কোনটা ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q8)
 
@@ -743,8 +733,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 
 ---
 
-<a id="q9"></a>
-## 9. `GestureDetector` আর `Listener`-এর মধ্যে পার্থক্য কী? আর gesture arena কী?
+## <a id="q9"></a>9. `GestureDetector` আর `Listener`-এর মধ্যে পার্থক্য কী? আর gesture arena কী?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q9)
 
@@ -824,8 +813,7 @@ GestureDetector(
 
 ---
 
-<a id="q10"></a>
-## 10. Sliver কী, আর এগুলো কেন আছে?
+## <a id="q10"></a>10. Sliver কী, আর এগুলো কেন আছে?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q10)
 
@@ -889,8 +877,7 @@ CustomScrollView(
 
 ---
 
-<a id="q11"></a>
-## 11. `SliverList`, `SliverGrid` আর `SliverFixedExtentList`-এর মধ্যে পার্থক্য কী?
+## <a id="q11"></a>11. `SliverList`, `SliverGrid` আর `SliverFixedExtentList`-এর মধ্যে পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q11)
 
@@ -966,8 +953,7 @@ SliverFixedExtentList(
 
 ---
 
-<a id="q12"></a>
-## 12. `SliverAppBar` কী কাজ করে? `pinned`, `floating`, আর `snap`-এর পার্থক্য কী?
+## <a id="q12"></a>12. `SliverAppBar` কী কাজ করে? `pinned`, `floating`, আর `snap`-এর পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q12)
 
@@ -1039,8 +1025,7 @@ CustomScrollView(
 
 ---
 
-<a id="q13"></a>
-## 13. একাধিক sliver widget একসাথে করতে `CustomScrollView` কীভাবে ব্যবহার করবেন?
+## <a id="q13"></a>13. একাধিক sliver widget একসাথে করতে `CustomScrollView` কীভাবে ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q13)
 
@@ -1133,8 +1118,7 @@ CustomScrollView(
 
 ---
 
-<a id="q14"></a>
-## 14. `CustomPainter` কী? `Canvas`, `Paint`, আর `Path` কীভাবে কাজ করে?
+## <a id="q14"></a>14. `CustomPainter` কী? `Canvas`, `Paint`, আর `Path` কীভাবে কাজ করে?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q14)
 
@@ -1236,8 +1220,7 @@ CustomPaint(
 
 ---
 
-<a id="q15"></a>
-## 15. কখন `CustomPainter` ব্যবহার করবেন, আর কখন widget composition?
+## <a id="q15"></a>15. কখন `CustomPainter` ব্যবহার করবেন, আর কখন widget composition?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q15)
 
@@ -1316,8 +1299,7 @@ class LineChartPainter extends CustomPainter {
 
 ---
 
-<a id="q16"></a>
-## 16. `shouldRepaint` কী কাজ করে, আর `RepaintBoundary` কীভাবে সাহায্য করে?
+## <a id="q16"></a>16. `shouldRepaint` কী কাজ করে, আর `RepaintBoundary` কীভাবে সাহায্য করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q16)
 
@@ -1399,8 +1381,7 @@ RepaintBoundary(
 
 ---
 
-<a id="q17"></a>
-## 17. `Semantics` widget কী, আর screen reader এটা কীভাবে ব্যবহার করে?
+## <a id="q17"></a>17. `Semantics` widget কী, আর screen reader এটা কীভাবে ব্যবহার করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q17)
 
@@ -1475,8 +1456,7 @@ Semantics(
 
 ---
 
-<a id="q18"></a>
-## 18. `ExcludeSemantics` আর `MergeSemantics`-এর মধ্যে পার্থক্য কী?
+## <a id="q18"></a>18. `ExcludeSemantics` আর `MergeSemantics`-এর মধ্যে পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q18)
 
@@ -1552,8 +1532,7 @@ Semantics(
 
 ---
 
-<a id="q19"></a>
-## 19. Flutter-এ accessibility কীভাবে test করবেন?
+## <a id="q19"></a>19. Flutter-এ accessibility কীভাবে test করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q19)
 
@@ -1629,8 +1608,7 @@ DevTools-এর Flutter Inspector widget tree-র পাশে semantics tree �
 
 ---
 
-<a id="q20"></a>
-## 20. ARB file, `flutter_localizations` আর `intl` দিয়ে multi-language support (l10n) কীভাবে implement করবেন?
+## <a id="q20"></a>20. ARB file, `flutter_localizations` আর `intl` দিয়ে multi-language support (l10n) কীভাবে implement করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-09-advanced-flutter.md#q20)
 
@@ -1768,9 +1746,8 @@ class HomePage extends StatelessWidget {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিউ)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিউ)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার তালিকাগুলো, তারপর এক-লাইনের মনে করিয়ে দেওয়া পয়েন্ট।
 

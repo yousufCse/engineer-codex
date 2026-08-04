@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Overview ও requirements**
 1. [SDLC কী? (phase-গুলো)](#q1) · *Very common*
@@ -57,9 +56,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — Lifecycle (এখান থেকে শুরু করুন)।**
 → [Q1 SDLC phase](#q1) · [Q2 Requirements](#q2) · [Q3 HLD বনাম LLD](#q3)
@@ -84,8 +82,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. SDLC কী, আর এর phase-গুলো কী কী?
+## <a id="q1"></a>1. SDLC কী, আর এর phase-গুলো কী কী?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q1)
 
@@ -132,8 +129,7 @@ Requirements → Design → Development → Testing → Deployment → Maintenan
 
 ---
 
-<a id="q2"></a>
-## 2. Requirement gathering কী? Functional বনাম non-functional requirement?
+## <a id="q2"></a>2. Requirement gathering কী? Functional বনাম non-functional requirement?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q2)
 
@@ -179,8 +175,7 @@ Non-functional: "...and loads within 1 second"       (how well)
 
 ---
 
-<a id="q3"></a>
-## 3. System design কী, আর HLD ও LLD-র মধ্যে পার্থক্য কী?
+## <a id="q3"></a>3. System design কী, আর HLD ও LLD-র মধ্যে পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q3)
 
@@ -228,8 +223,7 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 
 ---
 
-<a id="q4"></a>
-## 4. ভালো development practice দেখতে কেমন?
+## <a id="q4"></a>4. ভালো development practice দেখতে কেমন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q4)
 
@@ -268,8 +262,7 @@ HLD পুরো team আর stakeholder-দের একই আকার আর
 
 ---
 
-<a id="q5"></a>
-## 5. Code review-র উদ্দেশ্য কী? আপনি কী কী দেখেন?
+## <a id="q5"></a>5. Code review-র উদ্দেশ্য কী? আপনি কী কী দেখেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q5)
 
@@ -313,8 +306,7 @@ PR ছোট রাখুন, স্পষ্ট description লিখুন, �
 
 ---
 
-<a id="q6"></a>
-## 6. Testing-এর পর্যায়গুলো কী কী? unit, integration, system, আর UAT ব্যাখ্যা করুন।
+## <a id="q6"></a>6. Testing-এর পর্যায়গুলো কী কী? unit, integration, system, আর UAT ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q6)
 
@@ -361,8 +353,7 @@ Developer-রা unit/integration test লেখেন। System testing প্�
 
 ---
 
-<a id="q7"></a>
-## 7. Deployment process কী? Staging বনাম production, আর deployment checklist-এ কী কী থাকে?
+## <a id="q7"></a>7. Deployment process কী? Staging বনাম production, আর deployment checklist-এ কী কী থাকে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q7)
 
@@ -409,8 +400,7 @@ Local (your machine) → Dev → Staging (like production) → Production (real 
 
 ---
 
-<a id="q8"></a>
-## 8. Maintenance দেখতে কেমন? Bug tracking, hotfix, আর versioning কীভাবে সামলান?
+## <a id="q8"></a>8. Maintenance দেখতে কেমন? Bug tracking, hotfix, আর versioning কীভাবে সামলান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q8)
 
@@ -454,8 +444,7 @@ MAJOR (2.4.1 → 3.0.0)  breaking change
 
 ---
 
-<a id="q9"></a>
-## 9. Production bug কীভাবে handle করেন? পুরো প্রক্রিয়াটা বলুন।
+## <a id="q9"></a>9. Production bug কীভাবে handle করেন? পুরো প্রক্রিয়াটা বলুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q9)
 
@@ -498,8 +487,7 @@ User-এর উপর প্রভাব সাথে সাথে কমান:
 
 ---
 
-<a id="q10"></a>
-## 10. শুধু testing-এর সময় নয়, পুরো SDLC জুড়ে quality কীভাবে নিশ্চিত করেন?
+## <a id="q10"></a>10. শুধু testing-এর সময় নয়, পুরো SDLC জুড়ে quality কীভাবে নিশ্চিত করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q10)
 
@@ -541,8 +529,7 @@ Bug যত পর্যায় পার হয়, ঠিক করার খ
 
 ---
 
-<a id="q11"></a>
-## 11. Shift-Left testing কী, আর এটা কেন গুরুত্বপূর্ণ?
+## <a id="q11"></a>11. Shift-Left testing কী, আর এটা কেন গুরুত্বপূর্ণ?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q11)
 
@@ -583,8 +570,7 @@ Code লেখার সময় পাওয়া bug ঠিক করতে 
 
 ---
 
-<a id="q12"></a>
-## 12. DevOps culture কী, আর এটা SDLC-র সাথে কীভাবে সম্পর্কিত?
+## <a id="q12"></a>12. DevOps culture কী, আর এটা SDLC-র সাথে কীভাবে সম্পর্কিত?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q12)
 
@@ -623,8 +609,7 @@ DevOps SDLC-কে এক-মুখী সরলরেখার বদলে এ
 
 ---
 
-<a id="q13"></a>
-## 13. Software project-এ risk management কী?
+## <a id="q13"></a>13. Software project-এ risk management কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q13)
 
@@ -669,8 +654,7 @@ Project চলার সাথে সাথে risk বদলায়। নি
 
 ---
 
-<a id="q14"></a>
-## 14. কী কী document করা উচিত, আর কী কী নিয়ে over-document করা উচিত নয়?
+## <a id="q14"></a>14. কী কী document করা উচিত, আর কী কী নিয়ে over-document করা উচিত নয়?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q14)
 
@@ -714,8 +698,7 @@ Project চলার সাথে সাথে risk বদলায়। নি
 
 ---
 
-<a id="q15"></a>
-## 15. Spike কী, আর কখন এটা ব্যবহার করবেন?
+## <a id="q15"></a>15. Spike কী, আর কখন এটা ব্যবহার করবেন?
 
 > Deeper · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q15)
 
@@ -751,8 +734,7 @@ Spike সাধারণত শেষ হয় একটা recommendation আ�
 
 ---
 
-<a id="q16"></a>
-## 16. Bug, defect আর feature request-এর মধ্যে পার্থক্য কী?
+## <a id="q16"></a>16. Bug, defect আর feature request-এর মধ্যে পার্থক্য কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-19-sdlc.md#q16)
 
@@ -794,9 +776,8 @@ Feature:     "also allow reset via SMS"              → new scope, plan it
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর সকালে এটা পড়ুন। আগে table, তারপর এক লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 

@@ -22,9 +22,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. OOP-এর চারটি স্তম্ভ**
 1. [চারটি স্তম্ভ — সারসংক্ষেপ](#q1) · *Very common*
@@ -61,9 +60,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 এই পর্যায়গুলো ক্রমে অনুসরণ করুন। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বাস্তব উদাহরণসহ বলতে পারবেন।
 
@@ -91,8 +89,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Object-Oriented Programming-এর চারটি স্তম্ভ কী কী?
+## <a id="q1"></a>1. Object-Oriented Programming-এর চারটি স্তম্ভ কী কী?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q1)
 
@@ -153,8 +150,7 @@ void printArea(Shape s) => print(s.area());
 
 ---
 
-<a id="q2"></a>
-## 2. Encapsulation কী, Dart-এ এটা কীভাবে করবেন, আর এটা কেন গুরুত্বপূর্ণ?
+## <a id="q2"></a>2. Encapsulation কী, Dart-এ এটা কীভাবে করবেন, আর এটা কেন গুরুত্বপূর্ণ?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q2)
 
@@ -203,8 +199,7 @@ Dart-এ `_` private হয় *library*-এর জন্য (মানে file-
 
 ---
 
-<a id="q3"></a>
-## 3. Dart-এ Inheritance কীভাবে কাজ করে? `extends`, `super`, আর `@override` ব্যাখ্যা করুন।
+## <a id="q3"></a>3. Dart-এ Inheritance কীভাবে কাজ করে? `extends`, `super`, আর `@override` ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q3)
 
@@ -273,8 +268,7 @@ Constructor-এও `super` ব্যবহার হয় — parent-এর ক
 
 ---
 
-<a id="q4"></a>
-## 4. Polymorphism কী? Compile-time বনাম runtime ব্যাখ্যা করুন, আর Dart overloading কীভাবে সামলায়।
+## <a id="q4"></a>4. Polymorphism কী? Compile-time বনাম runtime ব্যাখ্যা করুন, আর Dart overloading কীভাবে সামলায়।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q4)
 
@@ -332,8 +326,7 @@ void greet([String? name]) {
 
 ---
 
-<a id="q5"></a>
-## 5. Abstraction কী? Dart-এ `abstract class` আর interface (`implements`)-এর মধ্যে পার্থক্য কী?
+## <a id="q5"></a>5. Abstraction কী? Dart-এ `abstract class` আর interface (`implements`)-এর মধ্যে পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q5)
 
@@ -397,8 +390,7 @@ class WalletPayment implements Payment {
 
 ---
 
-<a id="q6"></a>
-## 6. "Composition over Inheritance" কী? কখন আর কেন এটা বেছে নেবেন?
+## <a id="q6"></a>6. "Composition over Inheritance" কী? কখন আর কেন এটা বেছে নেবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q6)
 
@@ -453,8 +445,7 @@ class Duck {
 
 ---
 
-<a id="q7"></a>
-## 7. Dart-এ Mixin, Abstract Class আর Interface-এর পার্থক্য কী? কখন কোনটা ব্যবহার করবেন?
+## <a id="q7"></a>7. Dart-এ Mixin, Abstract Class আর Interface-এর পার্থক্য কী? কখন কোনটা ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q7)
 
@@ -522,8 +513,7 @@ class FakeRepository implements Repository {
 
 ---
 
-<a id="q8"></a>
-## 8. Class, Object আর Instance-এর মধ্যে পার্থক্য কী?
+## <a id="q8"></a>8. Class, Object আর Instance-এর মধ্যে পার্থক্য কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q8)
 
@@ -567,8 +557,7 @@ final b = User('Rahim');  // আরেকটা instance — একই class, �
 
 ---
 
-<a id="q9"></a>
-## 9. Coupling আর Cohesion কী? আমরা কেন low coupling আর high cohesion চাই?
+## <a id="q9"></a>9. Coupling আর Cohesion কী? আমরা কেন low coupling আর high cohesion চাই?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q9)
 
@@ -626,8 +615,7 @@ Low (খারাপ) cohesion: একটা `User` class যেটা email-ও
 
 ---
 
-<a id="q10"></a>
-## 10. SOLID — S: Single Responsibility Principle (SRP)
+## <a id="q10"></a>10. SOLID — S: Single Responsibility Principle (SRP)
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q10)
 
@@ -686,8 +674,7 @@ SRP-কে "একটা method" হিসেবে পড়বেন না।
 
 ---
 
-<a id="q11"></a>
-## 11. SOLID — O: Open/Closed Principle (OCP)
+## <a id="q11"></a>11. SOLID — O: Open/Closed Principle (OCP)
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q11)
 
@@ -741,8 +728,7 @@ Tested code edit করলে সেটা ভাঙার ঝুঁকি থ�
 
 ---
 
-<a id="q12"></a>
-## 12. SOLID — L: Liskov Substitution Principle (LSP)
+## <a id="q12"></a>12. SOLID — L: Liskov Substitution Principle (LSP)
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q12)
 
@@ -798,8 +784,7 @@ void resizeAndCheck(Rectangle r) {
 
 ---
 
-<a id="q13"></a>
-## 13. SOLID — I: Interface Segregation Principle (ISP)
+## <a id="q13"></a>13. SOLID — I: Interface Segregation Principle (ISP)
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q13)
 
@@ -859,8 +844,7 @@ class Human implements Workable, Eatable {  // দুটোই নেয়
 
 ---
 
-<a id="q14"></a>
-## 14. SOLID — D: Dependency Inversion Principle (DIP)
+## <a id="q14"></a>14. SOLID — D: Dependency Inversion Principle (DIP)
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q14)
 
@@ -922,8 +906,7 @@ OrderService(FakeApiClient());   // test করা সহজ, আসল network 
 
 ---
 
-<a id="q15"></a>
-## 15. DRY principle কী?
+## <a id="q15"></a>15. DRY principle কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q15)
 
@@ -963,8 +946,7 @@ double applyDiscount(double price, double rate) => price - (price * rate);
 
 ---
 
-<a id="q16"></a>
-## 16. KISS principle কী?
+## <a id="q16"></a>16. KISS principle কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q16)
 
@@ -1006,8 +988,7 @@ bool isEven(int n) => n % 2 == 0;
 
 ---
 
-<a id="q17"></a>
-## 17. YAGNI principle কী?
+## <a id="q17"></a>17. YAGNI principle কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q17)
 
@@ -1057,8 +1038,7 @@ YAGNI মানে "যেমন তেমন code লেখা" নয়। �
 
 ---
 
-<a id="q18"></a>
-## 18. Dart-এ কী কী ধরনের constructor আছে?
+## <a id="q18"></a>18. Dart-এ কী কী ধরনের constructor আছে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q18)
 
@@ -1123,8 +1103,7 @@ class Circle {
 
 ---
 
-<a id="q19"></a>
-## 19. Dart-এ `static` member কখন আর কেন ব্যবহার করবেন?
+## <a id="q19"></a>19. Dart-এ `static` member কখন আর কেন ব্যবহার করবেন?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q19)
 
@@ -1176,8 +1155,7 @@ Static থাকলে code test আর mock করা কঠিন হয়ে
 
 ---
 
-<a id="q20"></a>
-## 20. Dart-এ covariance আর contravariance কী?
+## <a id="q20"></a>20. Dart-এ covariance আর contravariance কী?
 
 > Deeper · Hard · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q20)
 
@@ -1233,8 +1211,7 @@ class CatVet extends Vet {
 
 ---
 
-<a id="q21"></a>
-## 21. Dart-এ method overriding আর method hiding-এর পার্থক্য কী?
+## <a id="q21"></a>21. Dart-এ method overriding আর method hiding-এর পার্থক্য কী?
 
 > Deeper · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-12-oop-principles.md#q21)
 
@@ -1295,9 +1272,8 @@ Subclass যদি parent-এর সমান নামে একটা field de
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-র দিন সকালে এটা পড়ুন। আগে table, তারপর এক-লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 

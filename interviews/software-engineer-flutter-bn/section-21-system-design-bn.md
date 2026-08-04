@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. মূল Framework**
 1. [Mobile system design প্রশ্নের কাছে কীভাবে যাবেন](#q1) · *Very common*
@@ -52,9 +51,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — পদ্ধতি (এখান থেকে শুরু করুন)।**
 → [Q1 মূল Framework](#q1) · [Q2 REST vs WebSocket](#q2)
@@ -79,8 +77,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Flutter/mobile context-এ system design প্রশ্নের কাছে আপনি কীভাবে যান?
+## <a id="q1"></a>1. Flutter/mobile context-এ system design প্রশ্নের কাছে আপনি কীভাবে যান?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q1)
 
@@ -121,8 +118,7 @@ Mobile system design মানে শুধু backend-এর box আঁকা �
 
 ---
 
-<a id="q2"></a>
-## 2. Live data-র জন্য REST আর WebSocket-এর trade-off কী কী?
+## <a id="q2"></a>2. Live data-র জন্য REST আর WebSocket-এর trade-off কী কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q2)
 
@@ -170,8 +166,7 @@ Mobile system design মানে শুধু backend-এর box আঁকা �
 
 ---
 
-<a id="q3"></a>
-## 3. Flutter-এ একটা real-time chat application design করুন।
+## <a id="q3"></a>3. Flutter-এ একটা real-time chat application design করুন।
 
 > Common · Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q3)
 
@@ -221,8 +216,7 @@ WebSocket সাথে সাথে delivery দেয়, কিন্তু re
 
 ---
 
-<a id="q4"></a>
-## 4. Flutter-এ একটা offline-first news feed design করুন।
+## <a id="q4"></a>4. Flutter-এ একটা offline-first news feed design করুন।
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q4)
 
@@ -279,8 +273,7 @@ Offline-first দ্রুত আর মজবুত UX দেয়। কি�
 
 ---
 
-<a id="q5"></a>
-## 5. Flutter-এ একটা authentication system design করুন (login, token storage, refresh, logout)।
+## <a id="q5"></a>5. Flutter-এ একটা authentication system design করুন (login, token storage, refresh, logout)।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q5)
 
@@ -342,8 +335,7 @@ request → 401 → use refresh token → get new access token → retry origina
 
 ---
 
-<a id="q6"></a>
-## 6. একটা photo upload feature design করুন (chunked upload, progress, retry, compression)।
+## <a id="q6"></a>6. একটা photo upload feature design করুন (chunked upload, progress, retry, compression)।
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q6)
 
@@ -395,8 +387,7 @@ Chunking + retry জটিলতা বাড়ায়। কিন্তু 
 
 ---
 
-<a id="q7"></a>
-## 7. একটা Flutter app-এর জন্য push notification architecture end-to-end design করুন।
+## <a id="q7"></a>7. একটা Flutter app-এর জন্য push notification architecture end-to-end design করুন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q7)
 
@@ -447,8 +438,7 @@ final initial = await FirebaseMessaging.instance.getInitialMessage(); // termina
 
 ---
 
-<a id="q8"></a>
-## 8. একটা shopping cart feature design করুন (state, persistence, backend sync)।
+## <a id="q8"></a>8. একটা shopping cart feature design করুন (state, persistence, backend sync)।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q8)
 
@@ -498,8 +488,7 @@ Optimistic local-first update সাথে সাথে হয় আর offline
 
 ---
 
-<a id="q9"></a>
-## 9. Mobile app architecture-এ scalability-র জন্য কীভাবে design করেন?
+## <a id="q9"></a>9. Mobile app architecture-এ scalability-র জন্য কীভাবে design করেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q9)
 
@@ -543,8 +532,7 @@ Optimistic local-first update সাথে সাথে হয় আর offline
 
 ---
 
-<a id="q10"></a>
-## 10. 50+ screen আর 10+ developer-এর একটা Flutter app কীভাবে architect করবেন?
+## <a id="q10"></a>10. 50+ screen আর 10+ developer-এর একটা Flutter app কীভাবে architect করবেন?
 
 > Common · Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q10)
 
@@ -593,8 +581,7 @@ Modularization শুরুতে setup আর tooling-এর জটিলতা
 
 ---
 
-<a id="q11"></a>
-## 11. অন্য Flutter app যেটা ব্যবহার করবে, এমন plugin বা SDK কীভাবে design করেন?
+## <a id="q11"></a>11. অন্য Flutter app যেটা ব্যবহার করবে, এমন plugin বা SDK কীভাবে design করেন?
 
 > Deeper · Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q11)
 
@@ -648,8 +635,7 @@ class PaymentSdk {
 
 ---
 
-<a id="q12"></a>
-## 12. API versioning কী, আর mobile app-এ breaking API change কীভাবে handle করবেন?
+## <a id="q12"></a>12. API versioning কী, আর mobile app-এ breaking API change কীভাবে handle করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q12)
 
@@ -692,8 +678,7 @@ New app  → /v2/orders  (new fields/behaviour)
 
 ---
 
-<a id="q13"></a>
-## 13. পুরো একটা Flutter app-এ error handling কীভাবে design করবেন — API failure থেকে user-এর চোখে পড়া message পর্যন্ত?
+## <a id="q13"></a>13. পুরো একটা Flutter app-এ error handling কীভাবে design করবেন — API failure থেকে user-এর চোখে পড়া message পর্যন্ত?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-21-system-design.md#q13)
 
@@ -760,9 +745,8 @@ PlatformDispatcher.instance.onError = (error, stack) { crashReporter.record(...)
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিউ)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিউ)
 
 Interview-এর সকালে এটা পড়ুন। আগে table, তারপর এক-লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 

@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. মূল কথা — channel জিনিসটা কী**
 1. [Platform Channel কী আর কেন দরকার?](#q1) · *Very common*
@@ -55,9 +54,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৪টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -85,8 +83,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Platform Channel কী আর কেন দরকার?
+## <a id="q1"></a>1. Platform Channel কী আর কেন দরকার?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q1)
 
@@ -149,8 +146,7 @@ final int level = await channel.invokeMethod('getBatteryLevel');
 
 ---
 
-<a id="q2"></a>
-## 2. Platform Channel handler কোন thread-এ চলে? ভারী native কাজ কীভাবে করবেন?
+## <a id="q2"></a>2. Platform Channel handler কোন thread-এ চলে? ভারী native কাজ কীভাবে করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q2)
 
@@ -232,8 +228,7 @@ func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
 
 ---
 
-<a id="q3"></a>
-## 3. MethodChannel কীভাবে কাজ করে? Native code call করে result ফেরত আনা দেখান (Dart, Kotlin, Swift)।
+## <a id="q3"></a>3. MethodChannel কীভাবে কাজ করে? Native code call করে result ফেরত আনা দেখান (Dart, Kotlin, Swift)।
 
 > Very common · Medium — channel নিয়ে সবচেয়ে বেশি আসা প্রশ্ন। · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q3)
 
@@ -386,8 +381,7 @@ await _channel.invokeMethod('setBrightness', {'value': 0.8});
 
 ---
 
-<a id="q4"></a>
-## 4. MethodChannel, EventChannel, আর BasicMessageChannel-এর মধ্যে পার্থক্য কী?
+## <a id="q4"></a>4. MethodChannel, EventChannel, আর BasicMessageChannel-এর মধ্যে পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q4)
 
@@ -437,8 +431,7 @@ await _channel.invokeMethod('setBrightness', {'value': 0.8});
 
 ---
 
-<a id="q5"></a>
-## 5. Native থেকে একটানা data stream-এর জন্য EventChannel কীভাবে কাজ করে? একটা use case দিন।
+## <a id="q5"></a>5. Native থেকে একটানা data stream-এর জন্য EventChannel কীভাবে কাজ করে? একটা use case দিন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q5)
 
@@ -580,8 +573,7 @@ class AccelerometerStreamHandler: NSObject, FlutterStreamHandler {
 
 ---
 
-<a id="q6"></a>
-## 6. BasicMessageChannel কী? MethodChannel-এর বদলে কখন এটা ব্যবহার করবেন?
+## <a id="q6"></a>6. BasicMessageChannel কী? MethodChannel-এর বদলে কখন এটা ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q6)
 
@@ -664,8 +656,7 @@ BasicMessageChannel ব্যবহার করুন যখন:
 
 ---
 
-<a id="q7"></a>
-## 7. একটা channel দিয়ে কোন কোন data type পার হতে পারে? `PlatformException` দিয়ে error কীভাবে handle করেন?
+## <a id="q7"></a>7. একটা channel দিয়ে কোন কোন data type পার হতে পারে? `PlatformException` দিয়ে error কীভাবে handle করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q7)
 
@@ -762,8 +753,7 @@ try {
 
 ---
 
-<a id="q8"></a>
-## 8. Dart FFI (`dart:ffi`) কী? এটা Platform Channel থেকে কীভাবে আলাদা? কখন এটা ব্যবহার করবেন?
+## <a id="q8"></a>8. Dart FFI (`dart:ffi`) কী? এটা Platform Channel থেকে কীভাবে আলাদা? কখন এটা ব্যবহার করবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q8)
 
@@ -860,8 +850,7 @@ Tip: C header থেকে Dart binding নিজে থেকে তৈরি �
 
 ---
 
-<a id="q9"></a>
-## 9. একটা সহজ Flutter plugin package কীভাবে লিখবেন? structure, pubspec আর platform code বর্ণনা করুন।
+## <a id="q9"></a>9. একটা সহজ Flutter plugin package কীভাবে লিখবেন? structure, pubspec আর platform code বর্ণনা করুন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q9)
 
@@ -1038,8 +1027,7 @@ Public API সরাসরি channel-এর সাথে কথা বলে �
 
 ---
 
-<a id="q10"></a>
-## 10. Pigeon কী? এটা Platform Channel-এর type safety কীভাবে উন্নত করে?
+## <a id="q10"></a>10. Pigeon কী? এটা Platform Channel-এর type safety কীভাবে উন্নত করে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q10)
 
@@ -1149,8 +1137,7 @@ print(response.name); // "Alice" — typed, cast নেই, magic string নে�
 
 ---
 
-<a id="q11"></a>
-## 11. একটা বিদ্যমান native Android বা iOS app-এ Flutter module কীভাবে যোগ করবেন (add-to-app)?
+## <a id="q11"></a>11. একটা বিদ্যমান native Android বা iOS app-এ Flutter module কীভাবে যোগ করবেন (add-to-app)?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q11)
 
@@ -1264,8 +1251,7 @@ present(flutterVC, animated: true)
 
 ---
 
-<a id="q12"></a>
-## 12. যে native SDK-র (যেমন payment, maps) কোনো Flutter plugin নেই, সেটা কীভাবে integrate করবেন?
+## <a id="q12"></a>12. যে native SDK-র (যেমন payment, maps) কোনো Flutter plugin নেই, সেটা কীভাবে integrate করবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q12)
 
@@ -1440,8 +1426,7 @@ Widget build(BuildContext context) {
 
 ---
 
-<a id="q13"></a>
-## 13. Flutter-এ platform-specific UI পার্থক্য (adaptive design) কীভাবে handle করেন?
+## <a id="q13"></a>13. Flutter-এ platform-specific UI পার্থক্য (adaptive design) কীভাবে handle করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q13)
 
@@ -1536,8 +1521,7 @@ Widget build(BuildContext context) {
 
 ---
 
-<a id="q14"></a>
-## 14. Flutter-এ permission (camera, location, notification) কীভাবে check আর request করেন?
+## <a id="q14"></a>14. Flutter-এ permission (camera, location, notification) কীভাবে check আর request করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-08-platform-channel.md#q14)
 
@@ -1656,9 +1640,8 @@ App চালু হওয়ার সময়েই সব permission এক�
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার টেবিলগুলো, তারপর এক লাইনের মনে করিয়ে দেওয়া পয়েন্টগুলো।
 

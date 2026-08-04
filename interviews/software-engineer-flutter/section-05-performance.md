@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Spotting and measuring slowness**
 1. [What is jank, and how do you find it?](#q1) · *Very common*
@@ -60,9 +59,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 19 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -90,8 +88,7 @@ You don't need to study all 19 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What causes jank in Flutter, and how do you find it?
+## <a id="q1"></a>1. What causes jank in Flutter, and how do you find it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q1)
 
@@ -165,8 +162,7 @@ This thread turns the drawing into pixels on the GPU. It gets slow when:
 
 ---
 
-<a id="q2"></a>
-## 2. How do you use Flutter DevTools — the Performance, Rebuild, and Memory tabs?
+## <a id="q2"></a>2. How do you use Flutter DevTools — the Performance, Rebuild, and Memory tabs?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q2)
 
@@ -231,8 +227,7 @@ It shows a live graph of the Dart heap (how much memory is in use). To hunt a le
 
 ---
 
-<a id="q3"></a>
-## 3. Why should you never measure performance in debug mode?
+## <a id="q3"></a>3. Why should you never measure performance in debug mode?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q3)
 
@@ -287,8 +282,7 @@ Emulators and simulators do not have a real phone's GPU and CPU limits. A list m
 
 ---
 
-<a id="q4"></a>
-## 4. How do `const` widgets prevent unnecessary rebuilds?
+## <a id="q4"></a>4. How do `const` widgets prevent unnecessary rebuilds?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q4)
 
@@ -354,8 +348,7 @@ Turn on **"Track Widget Rebuilds"** in DevTools ([Q2](#q2)). The `const` widget'
 
 ---
 
-<a id="q5"></a>
-## 5. Why is extracting small widget classes better than helper methods for performance?
+## <a id="q5"></a>5. Why is extracting small widget classes better than helper methods for performance?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q5)
 
@@ -459,8 +452,7 @@ Column(
 
 ---
 
-<a id="q6"></a>
-## 6. What is the `build()` method's golden rule?
+## <a id="q6"></a>6. What is the `build()` method's golden rule?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q6)
 
@@ -546,8 +538,7 @@ FutureBuilder(future: _userFuture, builder: ...);
 
 ---
 
-<a id="q7"></a>
-## 7. Why should you avoid calling `setState` high in the tree, and how do you fix it?
+## <a id="q7"></a>7. Why should you avoid calling `setState` high in the tree, and how do you fix it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q7)
 
@@ -661,8 +652,7 @@ ValueListenableBuilder<bool>(
 
 ---
 
-<a id="q8"></a>
-## 8. What is the difference between `Selector` and `Consumer` in Provider, and why is `Selector` more performant?
+## <a id="q8"></a>8. What is the difference between `Selector` and `Consumer` in Provider, and why is `Selector` more performant?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q8)
 
@@ -733,8 +723,7 @@ Notice the `child:` parameter and `child!` in the builder. A widget passed as `c
 
 ---
 
-<a id="q9"></a>
-## 9. How does `buildWhen` in `BlocBuilder` reduce unnecessary rebuilds?
+## <a id="q9"></a>9. How does `buildWhen` in `BlocBuilder` reduce unnecessary rebuilds?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q9)
 
@@ -805,8 +794,7 @@ BlocListener<DashboardBloc, DashboardState>(
 
 ---
 
-<a id="q10"></a>
-## 10. How do you debounce or throttle expensive work, like search-as-you-type?
+## <a id="q10"></a>10. How do you debounce or throttle expensive work, like search-as-you-type?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q10)
 
@@ -888,8 +876,7 @@ void _onScroll() {
 
 ---
 
-<a id="q11"></a>
-## 11. `ListView` vs `ListView.builder` vs `ListView.separated` vs `ListView.custom` — when do you use each, and what's the performance difference?
+## <a id="q11"></a>11. `ListView` vs `ListView.builder` vs `ListView.separated` vs `ListView.custom` — when do you use each, and what's the performance difference?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q11)
 
@@ -966,8 +953,7 @@ ListView.custom(
 
 ---
 
-<a id="q12"></a>
-## 12. How do you implement lazy loading and pagination (efficient infinite scroll)?
+## <a id="q12"></a>12. How do you implement lazy loading and pagination (efficient infinite scroll)?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q12)
 
@@ -1073,8 +1059,7 @@ class _InfiniteListState extends State<InfiniteList> {
 
 ---
 
-<a id="q13"></a>
-## 13. How do you avoid problems during scroll using keys and `AutomaticKeepAliveClientMixin`?
+## <a id="q13"></a>13. How do you avoid problems during scroll using keys and `AutomaticKeepAliveClientMixin`?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q13)
 
@@ -1148,8 +1133,7 @@ Keep-alive trades **memory** for **scroll smoothness**. Use it only where the st
 
 ---
 
-<a id="q14"></a>
-## 14. What is `RepaintBoundary`, when should you add it, and when does it hurt?
+## <a id="q14"></a>14. What is `RepaintBoundary`, when should you add it, and when does it hurt?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q14)
 
@@ -1213,8 +1197,7 @@ Also note: Flutter **already** inserts `RepaintBoundary` in some places for you 
 
 ---
 
-<a id="q15"></a>
-## 15. How do you optimize images in Flutter — caching, resizing, WebP, and `precacheImage`?
+## <a id="q15"></a>15. How do you optimize images in Flutter — caching, resizing, WebP, and `precacheImage`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q15)
 
@@ -1283,8 +1266,7 @@ void didChangeDependencies() {
 
 ---
 
-<a id="q16"></a>
-## 16. What is shader compilation jank, and how do you fix it?
+## <a id="q16"></a>16. What is shader compilation jank, and how do you fix it?
 
 > Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q16)
 
@@ -1336,8 +1318,7 @@ In the DevTools Performance view, a slow first frame whose time is spent in shad
 
 ---
 
-<a id="q17"></a>
-## 17. What are isolates and `compute()`? What work should run on a separate isolate?
+## <a id="q17"></a>17. What are isolates and `compute()`? What work should run on a separate isolate?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q17)
 
@@ -1408,8 +1389,7 @@ Rule of thumb: use an isolate for CPU-heavy work that would take more than about
 
 ---
 
-<a id="q18"></a>
-## 18. What causes memory leaks with controllers and subscriptions, and how do you dispose them?
+## <a id="q18"></a>18. What causes memory leaks with controllers and subscriptions, and how do you dispose them?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q18)
 
@@ -1479,8 +1459,7 @@ Use the DevTools **Memory tab** ([Q2](#q2)): snapshot → open and close the scr
 
 ---
 
-<a id="q19"></a>
-## 19. How do you measure and reduce app startup time?
+## <a id="q19"></a>19. How do you measure and reduce app startup time?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-05-performance-bn.md#q19)
 
@@ -1587,9 +1566,8 @@ class _AppShellState extends State<AppShell> {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. The basics every interview starts with**
 1. [What is "state"? Ephemeral vs app state](#q1) · *Very common*
@@ -59,9 +58,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 18 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -89,8 +87,7 @@ You don't need to study all 18 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What is "state" in Flutter? What is the difference between ephemeral and app state?
+## <a id="q1"></a>1. What is "state" in Flutter? What is the difference between ephemeral and app state?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q1)
 
@@ -151,8 +148,7 @@ The same piece of data can change category. A "selected tab" starts ephemeral, b
 
 ---
 
-<a id="q2"></a>
-## 2. How does `setState` work internally? When should you NOT use it?
+## <a id="q2"></a>2. How does `setState` work internally? When should you NOT use it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q2)
 
@@ -245,8 +241,7 @@ Future<void> _load() async {
 
 ---
 
-<a id="q3"></a>
-## 3. Walk me through the `StatefulWidget` lifecycle. Where does state actually live?
+## <a id="q3"></a>3. Walk me through the `StatefulWidget` lifecycle. Where does state actually live?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q3)
 
@@ -323,8 +318,7 @@ Inside `State`, you read the widget's inputs through `widget.something` (for exa
 
 ---
 
-<a id="q4"></a>
-## 4. What does "lifting state up" mean, and why does it stop scaling?
+## <a id="q4"></a>4. What does "lifting state up" mean, and why does it stop scaling?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q4)
 
@@ -388,8 +382,7 @@ State managers solve prop drilling by letting any descendant read shared state d
 
 ---
 
-<a id="q5"></a>
-## 5. How does `InheritedWidget` pass data down, and what does `updateShouldNotify` do?
+## <a id="q5"></a>5. How does `InheritedWidget` pass data down, and what does `updateShouldNotify` do?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q5)
 
@@ -465,8 +458,7 @@ There are two lookups. `dependOnInheritedWidgetOfExactType` subscribes (rebuild 
 
 ---
 
-<a id="q6"></a>
-## 6. Explain Provider — `ChangeNotifier`, `Consumer`, `Selector`, and `ProxyProvider`.
+## <a id="q6"></a>6. Explain Provider — `ChangeNotifier`, `Consumer`, `Selector`, and `ProxyProvider`.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q6)
 
@@ -557,8 +549,7 @@ MultiProvider(
 
 ---
 
-<a id="q7"></a>
-## 7. What is the difference between `context.watch`, `context.read`, and `context.select`?
+## <a id="q7"></a>7. What is the difference between `context.watch`, `context.read`, and `context.select`?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q7)
 
@@ -628,8 +619,7 @@ context.read<T>()       -> read once, NO subscription        (use in callbacks)
 
 ---
 
-<a id="q8"></a>
-## 8. Explain the BLoC pattern — events, states, and streams.
+## <a id="q8"></a>8. Explain the BLoC pattern — events, states, and streams.
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q8)
 
@@ -738,8 +728,7 @@ Because everything flows one way (event in → state out), the logic is predicta
 
 ---
 
-<a id="q9"></a>
-## 9. What is a Cubit? How does it differ from BLoC, and when should you prefer each?
+## <a id="q9"></a>9. What is a Cubit? How does it differ from BLoC, and when should you prefer each?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q9)
 
@@ -818,8 +807,7 @@ bloc.add(Increment()); // must create an event object first
 
 ---
 
-<a id="q10"></a>
-## 10. When do you use `BlocBuilder` vs `BlocListener` vs `BlocConsumer`?
+## <a id="q10"></a>10. When do you use `BlocBuilder` vs `BlocListener` vs `BlocConsumer`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q10)
 
@@ -910,8 +898,7 @@ If it changes pixels → `BlocBuilder`. If it's a one-shot action (navigate, sna
 
 ---
 
-<a id="q11"></a>
-## 11. What do `buildWhen` and `listenWhen` do, and why do they matter for performance?
+## <a id="q11"></a>11. What do `buildWhen` and `listenWhen` do, and why do they matter for performance?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q11)
 
@@ -984,8 +971,7 @@ Imagine search-as-you-type: the bloc emits a new state on every keystroke. Witho
 
 ---
 
-<a id="q12"></a>
-## 12. What is the difference between `emit()` and `setState()`? What happens if you call `emit()` after a Cubit is closed?
+## <a id="q12"></a>12. What is the difference between `emit()` and `setState()`? What happens if you call `emit()` after a Cubit is closed?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q12)
 
@@ -1065,8 +1051,7 @@ Inside a Bloc's `on<Event>` handler, the framework helps: emits after close are 
 
 ---
 
-<a id="q13"></a>
-## 13. Explain Riverpod — how it differs from Provider, its provider types, and `ref.watch` vs `ref.read` vs `ref.listen`.
+## <a id="q13"></a>13. Explain Riverpod — how it differs from Provider, its provider types, and `ref.watch` vs `ref.read` vs `ref.listen`.
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q13)
 
@@ -1187,8 +1172,7 @@ Add `.autoDispose` so a provider is destroyed when nobody is listening — impor
 
 ---
 
-<a id="q14"></a>
-## 14. Explain GetX — controllers, `Obx`, `GetBuilder` — and its trade-offs.
+## <a id="q14"></a>14. Explain GetX — controllers, `Obx`, `GetBuilder` — and its trade-offs.
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q14)
 
@@ -1278,8 +1262,7 @@ GetX shines for solo developers, prototypes, and small apps where speed of build
 
 ---
 
-<a id="q15"></a>
-## 15. How do you model loading, success, and error states cleanly using a sealed union?
+## <a id="q15"></a>15. How do you model loading, success, and error states cleanly using a sealed union?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q15)
 
@@ -1404,8 +1387,7 @@ class AsyncStateWidget<T> extends StatelessWidget {
 
 ---
 
-<a id="q16"></a>
-## 16. How do you share state between two completely unrelated screens?
+## <a id="q16"></a>16. How do you share state between two completely unrelated screens?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q16)
 
@@ -1482,8 +1464,7 @@ A plain global variable shares the value but has no way to tell the UI it change
 
 ---
 
-<a id="q17"></a>
-## 17. How do you choose a state management solution for a project?
+## <a id="q17"></a>17. How do you choose a state management solution for a project?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q17)
 
@@ -1556,8 +1537,7 @@ Don't bring BLoC to a toggle, and don't manage app-wide auth with `setState`. Ov
 
 ---
 
-<a id="q18"></a>
-## 18. How do you test BLoC / Cubit state logic?
+## <a id="q18"></a>18. How do you test BLoC / Cubit state logic?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-03-state-management-bn.md#q18)
 
@@ -1661,9 +1641,8 @@ Don't only test success. Test failures, edge cases (like calling a method after 
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

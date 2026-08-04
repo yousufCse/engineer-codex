@@ -32,9 +32,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Technical leadership**
 1. [Conducting a code review](#q1) · *Very common*
@@ -64,9 +63,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The leadership essentials (start here).**
 → [Q1 Code review](#q1) · [Q3 Disagreement](#q3) · [Q6 Speed vs quality](#q6)
@@ -91,8 +89,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. How do you conduct a code review? What do you look for?
+## <a id="q1"></a>1. How do you conduct a code review? What do you look for?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q1)
 
@@ -135,8 +132,7 @@ Reviews spread knowledge and standards. I point to *why* a pattern is better, no
 
 ---
 
-<a id="q2"></a>
-## 2. How do you mentor junior or mid-level developers?
+## <a id="q2"></a>2. How do you mentor junior or mid-level developers?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q2)
 
@@ -173,8 +169,7 @@ I let them make (safe) mistakes and learn, praise progress, and gradually hand o
 
 ---
 
-<a id="q3"></a>
-## 3. How do you handle a technical disagreement with a teammate or architect?
+## <a id="q3"></a>3. How do you handle a technical disagreement with a teammate or architect?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q3)
 
@@ -210,8 +205,7 @@ The goal is the best outcome *and* a good working relationship. I never make it 
 
 ---
 
-<a id="q4"></a>
-## 4. How do you introduce a new library or technology to your team?
+## <a id="q4"></a>4. How do you introduce a new library or technology to your team?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q4)
 
@@ -248,8 +242,7 @@ Share findings, discuss as a team, and adopt incrementally (one feature first), 
 
 ---
 
-<a id="q5"></a>
-## 5. How do you manage and pay down technical debt?
+## <a id="q5"></a>5. How do you manage and pay down technical debt?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q5)
 
@@ -285,8 +278,7 @@ Code reviews, a strong Definition of Done, tests, and clear standards stop the p
 
 ---
 
-<a id="q6"></a>
-## 6. How do you balance speed of delivery vs code quality?
+## <a id="q6"></a>6. How do you balance speed of delivery vs code quality?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q6)
 
@@ -321,8 +313,7 @@ I make the cost clear to the PO/team: "We can ship Friday with a known limitatio
 
 ---
 
-<a id="q7"></a>
-## 7. How do you make architectural decisions, and how do you document them?
+## <a id="q7"></a>7. How do you make architectural decisions, and how do you document them?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q7)
 
@@ -364,8 +355,7 @@ Six months later, someone asks "why did we do this?" Without an ADR, that knowle
 
 ---
 
-<a id="q8"></a>
-## 8. How do you onboard a new developer to a large Flutter codebase?
+## <a id="q8"></a>8. How do you onboard a new developer to a large Flutter codebase?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q8)
 
@@ -399,8 +389,7 @@ If onboarding revealed missing/confusing docs, fix them — that improves onboar
 
 ---
 
-<a id="q9"></a>
-## 9. How do you review a PR from a developer more senior than you?
+## <a id="q9"></a>9. How do you review a PR from a developer more senior than you?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q9)
 
@@ -440,8 +429,7 @@ A healthy team reviews everyone's code equally. Doing this well also shows confi
 
 ---
 
-<a id="q10"></a>
-## 10. Tell me about yourself (senior-level framing).
+## <a id="q10"></a>10. Tell me about yourself (senior-level framing).
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q10)
 
@@ -477,8 +465,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q11"></a>
-## 11. What is your biggest technical achievement?
+## <a id="q11"></a>11. What is your biggest technical achievement?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q11)
 
@@ -510,8 +497,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q12"></a>
-## 12. Describe a time you led a project from scratch to production.
+## <a id="q12"></a>12. Describe a time you led a project from scratch to production.
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q12)
 
@@ -543,8 +529,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q13"></a>
-## 13. Tell me about a time you fixed a critical production bug.
+## <a id="q13"></a>13. Tell me about a time you fixed a critical production bug.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q13)
 
@@ -576,8 +561,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q14"></a>
-## 14. Describe a time you disagreed with your manager.
+## <a id="q14"></a>14. Describe a time you disagreed with your manager.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q14)
 
@@ -609,8 +593,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q15"></a>
-## 15. Tell me about a time you improved the performance of an app.
+## <a id="q15"></a>15. Tell me about a time you improved the performance of an app.
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q15)
 
@@ -641,8 +624,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q16"></a>
-## 16. Describe a time a project failed. What did you learn?
+## <a id="q16"></a>16. Describe a time a project failed. What did you learn?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q16)
 
@@ -674,8 +656,7 @@ End with energy about the role, which naturally hands the conversation back.
 
 ---
 
-<a id="q17"></a>
-## 17. How do you stay up to date with Flutter and the Dart ecosystem?
+## <a id="q17"></a>17. How do you stay up to date with Flutter and the Dart ecosystem?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q17)
 
@@ -709,8 +690,7 @@ Code reviews, pairing, and team discussions spread knowledge both ways. Teaching
 
 ---
 
-<a id="q18"></a>
-## 18. Why do you want this Senior Flutter role?
+## <a id="q18"></a>18. Why do you want this Senior Flutter role?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q18)
 
@@ -744,8 +724,7 @@ Balance "what I get" with "what I'll contribute." Senior candidates show they'll
 
 ---
 
-<a id="q19"></a>
-## 19. Where do you see yourself in 3–5 years?
+## <a id="q19"></a>19. Where do you see yourself in 3–5 years?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q19)
 
@@ -779,8 +758,7 @@ Frame growth around bigger impact and skills, not just titles: "leading larger p
 
 ---
 
-<a id="q20"></a>
-## 20. What is your greatest technical weakness?
+## <a id="q20"></a>20. What is your greatest technical weakness?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-22-leadership-behavioral-bn.md#q20)
 
@@ -814,9 +792,8 @@ Don't name a weakness that's core to the job (e.g. "I'm bad at Flutter" for a Fl
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. STAR template, tables, then reminders.
 
