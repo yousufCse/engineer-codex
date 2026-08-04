@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. প্রতিদিনের command**
 1. [মূল command (init/clone/status/add/commit/push/pull)](#q1) · *Very common*
@@ -60,9 +59,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — প্রতিদিনের বেসিক (এখান থেকে শুরু করুন)।**
 → [Q1 মূল command](#q1) · [Q2 Branching](#q2) · [Q3 fetch vs pull](#q3)
@@ -87,8 +85,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. `git init`, `clone`, `status`, `add`, `commit`, `push`, আর `pull` কী কাজ করে?
+## <a id="q1"></a>1. `git init`, `clone`, `status`, `add`, `commit`, `push`, আর `pull` কী কাজ করে?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q1)
 
@@ -136,8 +133,7 @@ Commit-কে ভাবুন video game-এর নাম দেওয়া sav
 
 ---
 
-<a id="q2"></a>
-## 2. একটা branch কীভাবে তৈরি করবেন, switch করবেন, আর delete করবেন?
+## <a id="q2"></a>2. একটা branch কীভাবে তৈরি করবেন, switch করবেন, আর delete করবেন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q2)
 
@@ -177,8 +173,7 @@ git push -u origin feature/login  # নতুন branch remote-এ push কর�
 
 ---
 
-<a id="q3"></a>
-## 3. `git fetch` আর `git pull`-এর মধ্যে পার্থক্য কী?
+## <a id="q3"></a>3. `git fetch` আর `git pull`-এর মধ্যে পার্থক্য কী?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q3)
 
@@ -226,8 +221,7 @@ git pull           # = git fetch + git merge origin/<branch>
 
 ---
 
-<a id="q4"></a>
-## 4. `git merge` আর `git rebase`-এর পার্থক্য কী? কোনটা কখন ব্যবহার করবেন?
+## <a id="q4"></a>4. `git merge` আর `git rebase`-এর পার্থক্য কী? কোনটা কখন ব্যবহার করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q4)
 
@@ -280,8 +274,7 @@ merge:                 rebase:
 
 ---
 
-<a id="q5"></a>
-## 5. Merge conflict কেন হয়, আর ধাপে ধাপে কীভাবে সমাধান করবেন?
+## <a id="q5"></a>5. Merge conflict কেন হয়, আর ধাপে ধাপে কীভাবে সমাধান করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q5)
 
@@ -337,8 +330,7 @@ git commit          # (অথবা: rebase করলে git rebase --continue)
 
 ---
 
-<a id="q6"></a>
-## 6. `git cherry-pick` কী, আর কখন এটা ব্যবহার করবেন?
+## <a id="q6"></a>6. `git cherry-pick` কী, আর কখন এটা ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q6)
 
@@ -382,8 +374,7 @@ git cherry-pick a1b2c3d   # ওই একটা commit-এর changes এই bra
 
 ---
 
-<a id="q7"></a>
-## 7. `git reset --soft`, `--mixed`, আর `--hard`-এর পার্থক্য কী?
+## <a id="q7"></a>7. `git reset --soft`, `--mixed`, আর `--hard`-এর পার্থক্য কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q7)
 
@@ -428,8 +419,7 @@ Rebase-এর মতোই `reset` history বদলে দেয় — shared 
 
 ---
 
-<a id="q8"></a>
-## 8. `git revert` কী, আর `git reset`-এর সাথে এর পার্থক্য কী?
+## <a id="q8"></a>8. `git revert` কী, আর `git reset`-এর সাথে এর পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q8)
 
@@ -478,8 +468,7 @@ git reset --hard a1b2c3d   # branch পেছনে সরে যায়; প�
 
 ---
 
-<a id="q9"></a>
-## 9. পরিবর্তন না হারিয়ে শেষ commit undo করবেন কীভাবে?
+## <a id="q9"></a>9. পরিবর্তন না হারিয়ে শেষ commit undo করবেন কীভাবে?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q9)
 
@@ -521,8 +510,7 @@ git add forgotten.dart && git commit --amend --no-edit  # ভুলে যাও
 
 ---
 
-<a id="q10"></a>
-## 10. `git stash` কী করে, আর stash করা পরিবর্তন কীভাবে ফিরিয়ে আনবেন?
+## <a id="q10"></a>10. `git stash` কী করে, আর stash করা পরিবর্তন কীভাবে ফিরিয়ে আনবেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q10)
 
@@ -572,8 +560,7 @@ git stash drop        # একটা stash মুছে দেয়
 
 ---
 
-<a id="q11"></a>
-## 11. `git log` আর `git blame` কীভাবে ব্যবহার করেন?
+## <a id="q11"></a>11. `git log` আর `git blame` কীভাবে ব্যবহার করেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q11)
 
@@ -616,8 +603,7 @@ git blame lib/login.dart          # প্রতিটা line-এ শেষ com
 
 ---
 
-<a id="q12"></a>
-## 12. `git bisect` দিয়ে কোন commit একটা bug এনেছে তা কীভাবে খুঁজবেন?
+## <a id="q12"></a>12. `git bisect` দিয়ে কোন commit একটা bug এনেছে তা কীভাবে খুঁজবেন?
 
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q12)
 
@@ -660,8 +646,7 @@ git bisect reset  # শেষ হলে নিজের branch-এ ফিরে 
 
 ---
 
-<a id="q13"></a>
-## 13. Detached HEAD state কী? এটা কীভাবে হয়, আর কীভাবে recover করবেন?
+## <a id="q13"></a>13. Detached HEAD state কী? এটা কীভাবে হয়, আর কীভাবে recover করবেন?
 
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q13)
 
@@ -710,8 +695,7 @@ git switch -c my-fix
 
 ---
 
-<a id="q14"></a>
-## 14. `.gitignore` কী, আর Flutter-এ সাধারণ entry কোনগুলো?
+## <a id="q14"></a>14. `.gitignore` কী, আর Flutter-এ সাধারণ entry কোনগুলো?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q14)
 
@@ -765,8 +749,7 @@ android/key.properties
 
 ---
 
-<a id="q15"></a>
-## 15. Git Flow, GitHub Flow, আর Trunk-Based Development-এর তুলনা করুন।
+## <a id="q15"></a>15. Git Flow, GitHub Flow, আর Trunk-Based Development-এর তুলনা করুন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q15)
 
@@ -811,8 +794,7 @@ android/key.properties
 
 ---
 
-<a id="q16"></a>
-## 16. Conventional Commits কী, আর দলগুলো কেন এটা নেয়?
+## <a id="q16"></a>16. Conventional Commits কী, আর দলগুলো কেন এটা নেয়?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q16)
 
@@ -858,8 +840,7 @@ Description-এ imperative ভঙ্গিতে বলা উচিত *কী 
 
 ---
 
-<a id="q17"></a>
-## 17. Commit "squash" করা মানে কী, আর কখন এটা করবেন?
+## <a id="q17"></a>17. Commit "squash" করা মানে কী, আর কখন এটা করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q17)
 
@@ -898,8 +879,7 @@ Squash করা history rewrite করে। এটা নিজের feature 
 
 ---
 
-<a id="q18"></a>
-## 18. Pull Request আর code review-এর best practice কী কী (author হিসেবে আর reviewer হিসেবে)?
+## <a id="q18"></a>18. Pull Request আর code review-এর best practice কী কী (author হিসেবে আর reviewer হিসেবে)?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q18)
 
@@ -939,8 +919,7 @@ Review হয় code নিয়ে, মানুষ নিয়ে নয়
 
 ---
 
-<a id="q19"></a>
-## 19. Feature branch-এর কাজ চলার মাঝে production-এ hotfix কীভাবে সামলান?
+## <a id="q19"></a>19. Feature branch-এর কাজ চলার মাঝে production-এ hotfix কীভাবে সামলান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-17-git.md#q19)
 
@@ -988,9 +967,8 @@ Hotfix হতে হবে ছোট আর কম ঝুঁকির। অস�
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table, তারপর এক line-এর মনে করিয়ে দেওয়া কথাগুলো।
 

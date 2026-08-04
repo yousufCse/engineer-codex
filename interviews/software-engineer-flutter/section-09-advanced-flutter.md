@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Animations — the engine and the pieces**
 1. [`AnimationController` — vsync & dispose](#q1) · *Very common*
@@ -65,9 +64,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 20 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -97,8 +95,7 @@ You don't need to study all 20 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What is `AnimationController`? Explain `vsync` and why you must dispose it.
+## <a id="q1"></a>1. What is `AnimationController`? Explain `vsync` and why you must dispose it.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q1)
 
@@ -179,8 +176,7 @@ The controller holds a ticker. If you forget to dispose it, the ticker keeps fir
 
 ---
 
-<a id="q2"></a>
-## 2. What is a `Tween`, and how does it chain with `AnimationController`?
+## <a id="q2"></a>2. What is a `Tween`, and how does it chain with `AnimationController`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q2)
 
@@ -257,8 +253,7 @@ This is the key point. A Tween is just a description of a range. It has no conce
 
 ---
 
-<a id="q3"></a>
-## 3. What is `CurvedAnimation`? What are `Curves`, and how do you apply easing?
+## <a id="q3"></a>3. What is `CurvedAnimation`? What are `Curves`, and how do you apply easing?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q3)
 
@@ -335,8 +330,7 @@ The `In`/`Out` naming tells you which end gets the effect: `bounceIn` bounces at
 
 ---
 
-<a id="q4"></a>
-## 4. What is the difference between `AnimatedWidget` and `AnimatedBuilder`, and when do you use each?
+## <a id="q4"></a>4. What is the difference between `AnimatedWidget` and `AnimatedBuilder`, and when do you use each?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q4)
 
@@ -415,8 +409,7 @@ The `child` you pass to `AnimatedBuilder` is built one time and handed back to y
 
 ---
 
-<a id="q5"></a>
-## 5. What is the difference between implicit and explicit animations, and when do you use each?
+## <a id="q5"></a>5. What is the difference between implicit and explicit animations, and when do you use each?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q5)
 
@@ -498,8 +491,7 @@ Using an explicit controller for a simple color change is over-engineering — m
 
 ---
 
-<a id="q6"></a>
-## 6. How do you build a staggered animation (several parts moving at different times)?
+## <a id="q6"></a>6. How do you build a staggered animation (several parts moving at different times)?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q6)
 
@@ -588,8 +580,7 @@ Now the card fades, then slides, then pops — all from one `forward()` call.
 
 ---
 
-<a id="q7"></a>
-## 7. How does a `Hero` animation work between routes? What is the `tag` requirement?
+## <a id="q7"></a>7. How does a `Hero` animation work between routes? What is the `tag` requirement?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q7)
 
@@ -659,8 +650,7 @@ If the widget looks different on the two screens (say, a different corner radius
 
 ---
 
-<a id="q8"></a>
-## 8. What is the difference between Rive and Lottie, and when would you use each?
+## <a id="q8"></a>8. What is the difference between Rive and Lottie, and when would you use each?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q8)
 
@@ -743,8 +733,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 
 ---
 
-<a id="q9"></a>
-## 9. What is the difference between `GestureDetector` and `Listener`? And what is the gesture arena?
+## <a id="q9"></a>9. What is the difference between `GestureDetector` and `Listener`? And what is the gesture arena?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q9)
 
@@ -824,8 +813,7 @@ GestureDetector(
 
 ---
 
-<a id="q10"></a>
-## 10. What are Slivers, and why do they exist?
+## <a id="q10"></a>10. What are Slivers, and why do they exist?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q10)
 
@@ -889,8 +877,7 @@ CustomScrollView(
 
 ---
 
-<a id="q11"></a>
-## 11. What are the differences between `SliverList`, `SliverGrid`, and `SliverFixedExtentList`?
+## <a id="q11"></a>11. What are the differences between `SliverList`, `SliverGrid`, and `SliverFixedExtentList`?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q11)
 
@@ -966,8 +953,7 @@ SliverFixedExtentList(
 
 ---
 
-<a id="q12"></a>
-## 12. What does `SliverAppBar` do? What is the difference between `pinned`, `floating`, and `snap`?
+## <a id="q12"></a>12. What does `SliverAppBar` do? What is the difference between `pinned`, `floating`, and `snap`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q12)
 
@@ -1039,8 +1025,7 @@ CustomScrollView(
 
 ---
 
-<a id="q13"></a>
-## 13. How do you use `CustomScrollView` to combine multiple sliver widgets?
+## <a id="q13"></a>13. How do you use `CustomScrollView` to combine multiple sliver widgets?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q13)
 
@@ -1133,8 +1118,7 @@ Real screens almost always mix sections — a header, a search field, a grid, a 
 
 ---
 
-<a id="q14"></a>
-## 14. What is `CustomPainter`? How do `Canvas`, `Paint`, and `Path` work?
+## <a id="q14"></a>14. What is `CustomPainter`? How do `Canvas`, `Paint`, and `Path` work?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q14)
 
@@ -1236,8 +1220,7 @@ CustomPaint(
 
 ---
 
-<a id="q15"></a>
-## 15. When should you use `CustomPainter` versus a widget composition approach?
+## <a id="q15"></a>15. When should you use `CustomPainter` versus a widget composition approach?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q15)
 
@@ -1316,8 +1299,7 @@ If you'd need hundreds of tiny widgets (a scatter plot with 10,000 points, a par
 
 ---
 
-<a id="q16"></a>
-## 16. What does `shouldRepaint` do, and how does `RepaintBoundary` help?
+## <a id="q16"></a>16. What does `shouldRepaint` do, and how does `RepaintBoundary` help?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q16)
 
@@ -1399,8 +1381,7 @@ This pairs naturally with custom painting and animations: `shouldRepaint` decide
 
 ---
 
-<a id="q17"></a>
-## 17. What is the `Semantics` widget, and how do screen readers use it?
+## <a id="q17"></a>17. What is the `Semantics` widget, and how do screen readers use it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q17)
 
@@ -1475,8 +1456,7 @@ Semantics(
 
 ---
 
-<a id="q18"></a>
-## 18. What is the difference between `ExcludeSemantics` and `MergeSemantics`?
+## <a id="q18"></a>18. What is the difference between `ExcludeSemantics` and `MergeSemantics`?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q18)
 
@@ -1552,8 +1532,7 @@ Semantics(
 
 ---
 
-<a id="q19"></a>
-## 19. How do you test accessibility in Flutter?
+## <a id="q19"></a>19. How do you test accessibility in Flutter?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q19)
 
@@ -1629,8 +1608,7 @@ The Flutter Inspector in DevTools shows the semantics tree beside the widget tre
 
 ---
 
-<a id="q20"></a>
-## 20. How do you implement multi-language support (l10n) using ARB files, `flutter_localizations`, and `intl`?
+## <a id="q20"></a>20. How do you implement multi-language support (l10n) using ARB files, `flutter_localizations`, and `intl`?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-09-advanced-flutter-bn.md#q20)
 
@@ -1768,9 +1746,8 @@ class HomePage extends StatelessWidget {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Creational patterns** (object কীভাবে তৈরি হয়)
 1. [Singleton](#q1) · *Very common*
@@ -52,9 +51,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 এই পর্যায়গুলো ধরে এগোন। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** আর একটা বাস্তব Flutter উদাহরণ বলতে পারবেন।
 
@@ -79,8 +77,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Singleton
+## <a id="q1"></a>1. Singleton
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q1)
 
@@ -127,8 +124,7 @@ void main() {
 
 ---
 
-<a id="q2"></a>
-## 2. Factory Method
+## <a id="q2"></a>2. Factory Method
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q2)
 
@@ -178,8 +174,7 @@ ButtonFactory.create('ios').render(); // caller concrete class জানে ন�
 
 ---
 
-<a id="q3"></a>
-## 3. Abstract Factory
+## <a id="q3"></a>3. Abstract Factory
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q3)
 
@@ -238,8 +233,7 @@ Theming system আর adaptive UI kit: প্রতি theme/platform-এ এক
 
 ---
 
-<a id="q4"></a>
-## 4. Builder
+## <a id="q4"></a>4. Builder
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q4)
 
@@ -296,8 +290,7 @@ Flutter-এর named parameter আগে থেকেই builder-এর মত�
 
 ---
 
-<a id="q5"></a>
-## 5. Adapter
+## <a id="q5"></a>5. Adapter
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q5)
 
@@ -350,8 +343,7 @@ checkout(StripeAdapter(StripeApi()));
 
 ---
 
-<a id="q6"></a>
-## 6. Decorator
+## <a id="q6"></a>6. Decorator
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q6)
 
@@ -404,8 +396,7 @@ print(order.cost());        // 3.0
 
 ---
 
-<a id="q7"></a>
-## 7. Facade
+## <a id="q7"></a>7. Facade
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q7)
 
@@ -458,8 +449,7 @@ UserFacade().getUserData(); // caller ভেতরের ধাপগুলো �
 
 ---
 
-<a id="q8"></a>
-## 8. Proxy
+## <a id="q8"></a>8. Proxy
 
 > Deeper · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q8)
 
@@ -515,8 +505,7 @@ Lazy-loading image (scroll করে চোখের সামনে এলে �
 
 ---
 
-<a id="q9"></a>
-## 9. Composite
+## <a id="q9"></a>9. Composite
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q9)
 
@@ -570,8 +559,7 @@ Widget tree: একটা `Column` (composite) এমন children রাখে �
 
 ---
 
-<a id="q10"></a>
-## 10. Observer
+## <a id="q10"></a>10. Observer
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q10)
 
@@ -621,8 +609,7 @@ s.value = 5; // A আর B দুজনেই খবর পায়
 
 ---
 
-<a id="q11"></a>
-## 11. Strategy
+## <a id="q11"></a>11. Strategy
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q11)
 
@@ -672,8 +659,7 @@ Checkout(BkashPayment()).process(9.99); // ইচ্ছেমতো strategy ব
 
 ---
 
-<a id="q12"></a>
-## 12. Command
+## <a id="q12"></a>12. Command
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q12)
 
@@ -723,8 +709,7 @@ Editor-এ undo/redo, action queue (যেমন offline action পরে replay
 
 ---
 
-<a id="q13"></a>
-## 13. State
+## <a id="q13"></a>13. State
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q13)
 
@@ -775,8 +760,7 @@ Screen-এর status model করা (loading / loaded / error) — সাধা
 
 ---
 
-<a id="q14"></a>
-## 14. Template Method
+## <a id="q14"></a>14. Template Method
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q14)
 
@@ -827,8 +811,7 @@ CsvProcessor().process(); // fixed কাঠামো চলে, CSV-এর ন�
 
 ---
 
-<a id="q15"></a>
-## 15. Iterator
+## <a id="q15"></a>15. Iterator
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-14-design-patterns.md#q15)
 
@@ -871,9 +854,8 @@ for (final e in evens(6)) print(e); // 0, 2, 4, 6
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table, তারপর এক লাইনের মনে করানো পয়েন্ট।
 

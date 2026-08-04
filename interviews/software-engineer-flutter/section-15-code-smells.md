@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Foundations**
 1. [Code smell vs bug](#q1) · *Very common*
@@ -71,9 +70,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The foundations (start here).**
 → [Q1 Smell vs bug](#q1) · [Q2 Refactor safely](#q2) · [Q15 Extract Method](#q15)
@@ -98,8 +96,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. What is a code smell, and how is it different from a bug?
+## <a id="q1"></a>1. What is a code smell, and how is it different from a bug?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q1)
 
@@ -139,8 +136,7 @@ Smells slow the team down: messy code is hard to read, test, and change, and it 
 
 ---
 
-<a id="q2"></a>
-## 2. How do you refactor safely?
+## <a id="q2"></a>2. How do you refactor safely?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q2)
 
@@ -177,8 +173,7 @@ Add a few "characterization tests" first — tests that lock in the *current* be
 
 ---
 
-<a id="q3"></a>
-## 3. How do you convince a team to refactor old code?
+## <a id="q3"></a>3. How do you convince a team to refactor old code?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q3)
 
@@ -216,8 +211,7 @@ Do it behind tests, in small PRs, and show the before/after improvement. Small w
 
 ---
 
-<a id="q4"></a>
-## 4. What is a Long Method, and how do you fix it?
+## <a id="q4"></a>4. What is a Long Method, and how do you fix it?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q4)
 
@@ -274,8 +268,7 @@ Now `checkout` reads like a summary, and each piece is testable on its own.
 
 ---
 
-<a id="q5"></a>
-## 5. What is a Large Class (God Object), and how do you fix it?
+## <a id="q5"></a>5. What is a Large Class (God Object), and how do you fix it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q5)
 
@@ -321,8 +314,7 @@ Each class now has one reason to change (high cohesion, [SRP](section-12-oop-pri
 
 ---
 
-<a id="q6"></a>
-## 6. What is a Long Parameter List, and how do you fix it?
+## <a id="q6"></a>6. What is a Long Parameter List, and how do you fix it?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q6)
 
@@ -369,8 +361,7 @@ void createUser({required String first, required String last, required Address a
 
 ---
 
-<a id="q7"></a>
-## 7. What are Data Clumps, and how do you fix them?
+## <a id="q7"></a>7. What are Data Clumps, and how do you fix them?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q7)
 
@@ -417,8 +408,7 @@ It removes repetition, makes signatures shorter, and gives a place for related l
 
 ---
 
-<a id="q8"></a>
-## 8. What is Primitive Obsession, and how do you fix it with value objects?
+## <a id="q8"></a>8. What is Primitive Obsession, and how do you fix it with value objects?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q8)
 
@@ -471,8 +461,7 @@ void sendEmail(Email email) {} // now only a valid Email can be passed
 
 ---
 
-<a id="q9"></a>
-## 9. What is Duplicate Code, and how do you fix it?
+## <a id="q9"></a>9. What is Duplicate Code, and how do you fix it?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q9)
 
@@ -512,8 +501,7 @@ Don't merge code just because it *looks* the same today. If two pieces represent
 
 ---
 
-<a id="q10"></a>
-## 10. What are Magic Numbers and Magic Strings, and how do you fix them?
+## <a id="q10"></a>10. What are Magic Numbers and Magic Strings, and how do you fix them?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q10)
 
@@ -558,8 +546,7 @@ if (user.role == Role.admin) {}
 
 ---
 
-<a id="q11"></a>
-## 11. What is Dead Code, and why is it dangerous?
+## <a id="q11"></a>11. What is Dead Code, and why is it dangerous?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q11)
 
@@ -601,8 +588,7 @@ Don't comment it out "just in case" — that's the worst of both worlds. Git kee
 
 ---
 
-<a id="q12"></a>
-## 12. When do comments become a code smell?
+## <a id="q12"></a>12. When do comments become a code smell?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q12)
 
@@ -653,8 +639,7 @@ final cents = (amount * 100).round();
 
 ---
 
-<a id="q13"></a>
-## 13. What is Feature Envy, and how do you fix it?
+## <a id="q13"></a>13. What is Feature Envy, and how do you fix it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q13)
 
@@ -701,8 +686,7 @@ class Customer {
 
 ---
 
-<a id="q14"></a>
-## 14. What is Shotgun Surgery, and how is it different from Divergent Change?
+## <a id="q14"></a>14. What is Shotgun Surgery, and how is it different from Divergent Change?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q14)
 
@@ -743,8 +727,7 @@ They're mirror images: one is too spread out, the other too concentrated.
 
 ---
 
-<a id="q15"></a>
-## 15. Extract Method — how and when?
+## <a id="q15"></a>15. Extract Method — how and when?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q15)
 
@@ -793,8 +776,7 @@ Extract, run tests, repeat. Modern IDEs do "Extract Method" automatically and sa
 
 ---
 
-<a id="q16"></a>
-## 16. Extract Class — how and when?
+## <a id="q16"></a>16. Extract Class — how and when?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q16)
 
@@ -845,8 +827,7 @@ Create the new class, move one field/method at a time, run tests, repeat — sma
 
 ---
 
-<a id="q17"></a>
-## 17. Inline Method — when is a method unnecessary indirection?
+## <a id="q17"></a>17. Inline Method — when is a method unnecessary indirection?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q17)
 
@@ -887,8 +868,7 @@ If the method name adds meaning, is used in many places, or could be overridden,
 
 ---
 
-<a id="q18"></a>
-## 18. Move Method — how and when?
+## <a id="q18"></a>18. Move Method — how and when?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q18)
 
@@ -931,8 +911,7 @@ Copy the method to the target class, adjust references, update callers, run test
 
 ---
 
-<a id="q19"></a>
-## 19. How do you Rename (a method, variable, or class) safely?
+## <a id="q19"></a>19. How do you Rename (a method, variable, or class) safely?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q19)
 
@@ -970,8 +949,7 @@ Plain text replace can change a comment, a string, or a different variable with 
 
 ---
 
-<a id="q20"></a>
-## 20. Introduce Parameter Object — when and how?
+## <a id="q20"></a>20. Introduce Parameter Object — when and how?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q20)
 
@@ -1016,8 +994,7 @@ Once the parameters are an object, you can move related logic onto it (like `day
 
 ---
 
-<a id="q21"></a>
-## 21. Replace Temp with Query — what is it?
+## <a id="q21"></a>21. Replace Temp with Query — what is it?
 
 > Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q21)
 
@@ -1070,8 +1047,7 @@ A query recomputes each time it's called. For cheap calculations that's fine; fo
 
 ---
 
-<a id="q22"></a>
-## 22. Replace Magic Number with Named Constant — how to do it correctly in Dart?
+## <a id="q22"></a>22. Replace Magic Number with Named Constant — how to do it correctly in Dart?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q22)
 
@@ -1115,8 +1091,7 @@ if (attempts > maxLoginAttempts) lockAccount();
 
 ---
 
-<a id="q23"></a>
-## 23. Replace Conditional with Polymorphism — when and how?
+## <a id="q23"></a>23. Replace Conditional with Polymorphism — when and how?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q23)
 
@@ -1173,8 +1148,7 @@ If there are only two cases that rarely change, a simple `if` is clearer. Polymo
 
 ---
 
-<a id="q24"></a>
-## 24. What is the Decompose Conditional refactoring?
+## <a id="q24"></a>24. What is the Decompose Conditional refactoring?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q24)
 
@@ -1225,8 +1199,7 @@ The *intent* (winter vs summer pricing) becomes obvious, and each piece is testa
 
 ---
 
-<a id="q25"></a>
-## 25. What is Consolidate Conditional Expression?
+## <a id="q25"></a>25. What is Consolidate Conditional Expression?
 
 > Deeper · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q25)
 
@@ -1283,8 +1256,7 @@ If the checks are truly independent (different results, side effects), keep them
 
 ---
 
-<a id="q26"></a>
-## 26. What is the Strangler Fig Pattern, and when do you use it?
+## <a id="q26"></a>26. What is the Strangler Fig Pattern, and when do you use it?
 
 > Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-15-code-smells-bn.md#q26)
 
@@ -1329,9 +1301,8 @@ Big-bang rewrites are famous for failing (they take longer than planned and the 
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

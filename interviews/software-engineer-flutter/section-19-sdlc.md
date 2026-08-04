@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Overview & requirements**
 1. [What is SDLC? (the phases)](#q1) · *Very common*
@@ -57,9 +56,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The lifecycle (start here).**
 → [Q1 SDLC phases](#q1) · [Q2 Requirements](#q2) · [Q3 HLD vs LLD](#q3)
@@ -84,8 +82,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. What is SDLC, and what are its phases?
+## <a id="q1"></a>1. What is SDLC, and what are its phases?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q1)
 
@@ -132,8 +129,7 @@ A defined lifecycle catches problems early (cheaper), makes delivery predictable
 
 ---
 
-<a id="q2"></a>
-## 2. What is requirement gathering? Functional vs non-functional requirements?
+## <a id="q2"></a>2. What is requirement gathering? Functional vs non-functional requirements?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q2)
 
@@ -179,8 +175,7 @@ A mistake here is the most expensive kind — building the wrong thing wastes th
 
 ---
 
-<a id="q3"></a>
-## 3. What is system design, and what is the difference between HLD and LLD?
+## <a id="q3"></a>3. What is system design, and what is the difference between HLD and LLD?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q3)
 
@@ -228,8 +223,7 @@ HLD aligns the team and stakeholders on the shape and the big trade-offs. LLD en
 
 ---
 
-<a id="q4"></a>
-## 4. What does good development practice look like?
+## <a id="q4"></a>4. What does good development practice look like?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q4)
 
@@ -268,8 +262,7 @@ These habits catch bugs early (cheap), keep the codebase healthy, and let many p
 
 ---
 
-<a id="q5"></a>
-## 5. What is the purpose of code review? What do you look for?
+## <a id="q5"></a>5. What is the purpose of code review? What do you look for?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q5)
 
@@ -313,8 +306,7 @@ Keep PRs small, write a clear description, self-review first, and make tests pas
 
 ---
 
-<a id="q6"></a>
-## 6. What are the testing phases? Explain unit, integration, system, and UAT.
+## <a id="q6"></a>6. What are the testing phases? Explain unit, integration, system, and UAT.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q6)
 
@@ -361,8 +353,7 @@ Developers write unit/integration tests; QA often drives system testing; the **c
 
 ---
 
-<a id="q7"></a>
-## 7. What is the deployment process? Staging vs production, and what's on a deployment checklist?
+## <a id="q7"></a>7. What is the deployment process? Staging vs production, and what's on a deployment checklist?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q7)
 
@@ -409,8 +400,7 @@ It catches problems that only appear in a production-like setup (real config, da
 
 ---
 
-<a id="q8"></a>
-## 8. What does maintenance look like? How do you handle bug tracking, hotfixes, and versioning?
+## <a id="q8"></a>8. What does maintenance look like? How do you handle bug tracking, hotfixes, and versioning?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q8)
 
@@ -454,8 +444,7 @@ This tells users at a glance how risky an upgrade is.
 
 ---
 
-<a id="q9"></a>
-## 9. How do you handle a production bug? Walk through the process.
+## <a id="q9"></a>9. How do you handle a production bug? Walk through the process.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q9)
 
@@ -498,8 +487,7 @@ Keep stakeholders/users informed during a serious incident — silence is worse 
 
 ---
 
-<a id="q10"></a>
-## 10. How do you ensure quality throughout the SDLC, not just at testing?
+## <a id="q10"></a>10. How do you ensure quality throughout the SDLC, not just at testing?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q10)
 
@@ -541,8 +529,7 @@ The cost of fixing a bug grows roughly 10× each phase it slips. Building qualit
 
 ---
 
-<a id="q11"></a>
-## 11. What is Shift-Left testing, and why is it important?
+## <a id="q11"></a>11. What is Shift-Left testing, and why is it important?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q11)
 
@@ -583,8 +570,7 @@ Faster feedback, fewer production bugs, and developers who own quality (rather t
 
 ---
 
-<a id="q12"></a>
-## 12. What is DevOps culture, and how does it relate to the SDLC?
+## <a id="q12"></a>12. What is DevOps culture, and how does it relate to the SDLC?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q12)
 
@@ -623,8 +609,7 @@ DevOps makes the SDLC a fast, continuous loop instead of a one-way line — code
 
 ---
 
-<a id="q13"></a>
-## 13. What is risk management in a software project?
+## <a id="q13"></a>13. What is risk management in a software project?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q13)
 
@@ -669,8 +654,7 @@ Risks change over the project. Review them regularly (a risk register) and updat
 
 ---
 
-<a id="q14"></a>
-## 14. What should you document, and what should you NOT over-document?
+## <a id="q14"></a>14. What should you document, and what should you NOT over-document?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q14)
 
@@ -714,8 +698,7 @@ Stale docs are worse than none — they mislead. Keep docs close to the code, li
 
 ---
 
-<a id="q15"></a>
-## 15. What is a spike, and when do you use it?
+## <a id="q15"></a>15. What is a spike, and when do you use it?
 
 > Deeper · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q15)
 
@@ -751,8 +734,7 @@ A spike usually ends in a recommendation and a better estimate — and the throw
 
 ---
 
-<a id="q16"></a>
-## 16. What is the difference between a bug, a defect, and a feature request?
+## <a id="q16"></a>16. What is the difference between a bug, a defect, and a feature request?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-19-sdlc-bn.md#q16)
 
@@ -794,9 +776,8 @@ Mislabeling a feature as a "bug" lets scope creep in for free; mislabeling a bug
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. The framework**
 1. [How to approach a mobile system design question](#q1) · *Very common*
@@ -52,9 +51,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The method (start here).**
 → [Q1 The framework](#q1) · [Q2 REST vs WebSocket](#q2)
@@ -79,8 +77,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. How do you approach a system design question in a Flutter/mobile context?
+## <a id="q1"></a>1. How do you approach a system design question in a Flutter/mobile context?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q1)
 
@@ -121,8 +118,7 @@ Think out loud, draw boxes, state assumptions, and name trade-offs ("WebSocket g
 
 ---
 
-<a id="q2"></a>
-## 2. What are the trade-offs between REST and WebSocket for live data?
+## <a id="q2"></a>2. What are the trade-offs between REST and WebSocket for live data?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q2)
 
@@ -170,8 +166,7 @@ Use REST for normal data (profile, orders). Add WebSocket *only* where you need 
 
 ---
 
-<a id="q3"></a>
-## 3. Design a real-time chat application in Flutter.
+## <a id="q3"></a>3. Design a real-time chat application in Flutter.
 
 > Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q3)
 
@@ -221,8 +216,7 @@ WebSocket gives instant delivery but needs reconnection/heartbeat logic and serv
 
 ---
 
-<a id="q4"></a>
-## 4. Design an offline-first news feed in Flutter.
+## <a id="q4"></a>4. Design an offline-first news feed in Flutter.
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q4)
 
@@ -279,8 +273,7 @@ Offline-first gives a fast, resilient UX but adds sync complexity and storage. F
 
 ---
 
-<a id="q5"></a>
-## 5. Design an authentication system in Flutter (login, token storage, refresh, logout).
+## <a id="q5"></a>5. Design an authentication system in Flutter (login, token storage, refresh, logout).
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q5)
 
@@ -342,8 +335,7 @@ Short tokens + refresh add interceptor complexity but greatly reduce the damage 
 
 ---
 
-<a id="q6"></a>
-## 6. Design a photo upload feature (chunked upload, progress, retry, compression).
+## <a id="q6"></a>6. Design a photo upload feature (chunked upload, progress, retry, compression).
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q6)
 
@@ -395,8 +387,7 @@ Chunking + retry adds complexity but is essential for big files on flaky mobile 
 
 ---
 
-<a id="q7"></a>
-## 7. Design push notification architecture end-to-end for a Flutter app.
+## <a id="q7"></a>7. Design push notification architecture end-to-end for a Flutter app.
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q7)
 
@@ -447,8 +438,7 @@ final initial = await FirebaseMessaging.instance.getInitialMessage(); // termina
 
 ---
 
-<a id="q8"></a>
-## 8. Design a shopping cart feature (state, persistence, backend sync).
+## <a id="q8"></a>8. Design a shopping cart feature (state, persistence, backend sync).
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q8)
 
@@ -498,8 +488,7 @@ Optimistic local-first updates feel instant and work offline, at the cost of syn
 
 ---
 
-<a id="q9"></a>
-## 9. How do you design for scalability in a mobile app architecture?
+## <a id="q9"></a>9. How do you design for scalability in a mobile app architecture?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q9)
 
@@ -543,8 +532,7 @@ Optimistic local-first updates feel instant and work offline, at the cost of syn
 
 ---
 
-<a id="q10"></a>
-## 10. How would you architect a Flutter app with 50+ screens and 10+ developers?
+## <a id="q10"></a>10. How would you architect a Flutter app with 50+ screens and 10+ developers?
 
 > Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q10)
 
@@ -593,8 +581,7 @@ Modularization adds upfront setup and tooling complexity. For a small app it's o
 
 ---
 
-<a id="q11"></a>
-## 11. How do you design a plugin or SDK that other Flutter apps will use?
+## <a id="q11"></a>11. How do you design a plugin or SDK that other Flutter apps will use?
 
 > Deeper · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q11)
 
@@ -648,8 +635,7 @@ class PaymentSdk {
 
 ---
 
-<a id="q12"></a>
-## 12. What is API versioning, and how do you handle breaking API changes in a mobile app?
+## <a id="q12"></a>12. What is API versioning, and how do you handle breaking API changes in a mobile app?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q12)
 
@@ -692,8 +678,7 @@ For unavoidable breaking changes (or security), the app can check a minimum supp
 
 ---
 
-<a id="q13"></a>
-## 13. How do you design error handling across an entire Flutter app — from API failure to user-visible message?
+## <a id="q13"></a>13. How do you design error handling across an entire Flutter app — from API failure to user-visible message?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-21-system-design-bn.md#q13)
 
@@ -760,9 +745,8 @@ So even unexpected crashes are logged (scrubbed of secrets, [Q5 Security](sectio
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

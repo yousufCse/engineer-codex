@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Agile-এর ভিত্তি**
 1. [The Agile Manifesto](#q1) · *Very common*
@@ -59,9 +58,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — ভিত্তি (এখান থেকে শুরু করুন)।**
 → [Q1 Agile Manifesto](#q1) · [Q2 Waterfall vs Agile](#q2) · [Q3 Scrum overview](#q3)
@@ -86,8 +84,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Agile Manifesto কী?
+## <a id="q1"></a>1. Agile Manifesto কী?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q1)
 
@@ -129,8 +126,7 @@ Agile মানে "plan নেই" বা "documentation নেই" — এম�
 
 ---
 
-<a id="q2"></a>
-## 2. Waterfall আর Agile-এর পার্থক্য কী? কোনটা কখন উপযুক্ত?
+## <a id="q2"></a>2. Waterfall আর Agile-এর পার্থক্য কী? কোনটা কখন উপযুক্ত?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q2)
 
@@ -183,8 +179,7 @@ Requirements → Design → Build → Test → Release
 
 ---
 
-<a id="q3"></a>
-## 3. Scrum framework ব্যাখ্যা করুন (overview)।
+## <a id="q3"></a>3. Scrum framework ব্যাখ্যা করুন (overview)।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q3)
 
@@ -222,8 +217,7 @@ Product Backlog → [Sprint Planning] → Sprint Backlog
 
 ---
 
-<a id="q4"></a>
-## 4. Scrum-এর তিনটি role কী কী?
+## <a id="q4"></a>4. Scrum-এর তিনটি role কী কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q4)
 
@@ -263,8 +257,7 @@ PO = *কী* আর *কেন*। Developer-রা = *কীভাবে* আ�
 
 ---
 
-<a id="q5"></a>
-## 5. Scrum artifact গুলো কী কী?
+## <a id="q5"></a>5. Scrum artifact গুলো কী কী?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q5)
 
@@ -310,8 +303,7 @@ Product Backlog (everything) → Sprint Backlog (this sprint) → Increment (don
 
 ---
 
-<a id="q6"></a>
-## 6. Sprint কী, কতদিনের হয়, আর goal পূরণ না হলে কী হয়?
+## <a id="q6"></a>6. Sprint কী, কতদিনের হয়, আর goal পূরণ না হলে কী হয়?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q6)
 
@@ -349,8 +341,7 @@ Sprint-এর একটা নির্দিষ্ট দৈর্ঘ্য থ
 
 ---
 
-<a id="q7"></a>
-## 7. Sprint Planning-এ কী হয়?
+## <a id="q7"></a>7. Sprint Planning-এ কী হয়?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q7)
 
@@ -387,8 +378,7 @@ Team তার গড় velocity ([Q13](#q13)) দেখে, যাতে ব�
 
 ---
 
-<a id="q8"></a>
-## 8. Daily Standup কী, আর সেখানে আপনি কী বলেন?
+## <a id="q8"></a>8. Daily Standup কী, আর সেখানে আপনি কী বলেন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q8)
 
@@ -428,8 +418,7 @@ Team তার গড় velocity ([Q13](#q13)) দেখে, যাতে ব�
 
 ---
 
-<a id="q9"></a>
-## 9. Sprint Review আর Sprint Retrospective-এর মধ্যে পার্থক্য কী?
+## <a id="q9"></a>9. Sprint Review আর Sprint Retrospective-এর মধ্যে পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q9)
 
@@ -472,8 +461,7 @@ Team তার গড় velocity ([Q13](#q13)) দেখে, যাতে ব�
 
 ---
 
-<a id="q10"></a>
-## 10. Backlog Refinement (grooming) কী?
+## <a id="q10"></a>10. Backlog Refinement (grooming) কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q10)
 
@@ -515,8 +503,7 @@ Refinement backlog-এর উপরের অংশটা পরিষ্কা�
 
 ---
 
-<a id="q11"></a>
-## 11. User story কী? Format, acceptance criteria আর Definition of Done ব্যাখ্যা করুন।
+## <a id="q11"></a>11. User story কী? Format, acceptance criteria আর Definition of Done ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q11)
 
@@ -570,8 +557,7 @@ Team মিলে ঠিক করা একটা যৌথ checklist, যে�
 
 ---
 
-<a id="q12"></a>
-## 12. Story point কী, ঘণ্টার বদলে কেন এটা ব্যবহার করা হয়, আর planning poker কী?
+## <a id="q12"></a>12. Story point কী, ঘণ্টার বদলে কেন এটা ব্যবহার করা হয়, আর planning poker কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q12)
 
@@ -613,8 +599,7 @@ T-shirt size (S, M, L) বা Fibonacci scale (1, 2, 3, 5, 8, 13)-এর মত�
 
 ---
 
-<a id="q13"></a>
-## 13. Sprint velocity কী, আর planning-এ এটা কীভাবে ব্যবহার হয়?
+## <a id="q13"></a>13. Sprint velocity কী, আর planning-এ এটা কীভাবে ব্যবহার হয়?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q13)
 
@@ -652,8 +637,7 @@ Planning-এ team মোটামুটি তার velocity-র সমান �
 
 ---
 
-<a id="q14"></a>
-## 14. Burndown chart কী?
+## <a id="q14"></a>14. Burndown chart কী?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q14)
 
@@ -706,8 +690,7 @@ points
 
 ---
 
-<a id="q15"></a>
-## 15. Kanban কী, Scrum থেকে এটা কীভাবে আলাদা, আর WIP limit কী?
+## <a id="q15"></a>15. Kanban কী, Scrum থেকে এটা কীভাবে আলাদা, আর WIP limit কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q15)
 
@@ -755,8 +738,7 @@ To Do        In Progress (max 3)     Done
 
 ---
 
-<a id="q16"></a>
-## 16. Sprint-এর মাঝপথে requirement বদলে গেলে আপনি কী করেন?
+## <a id="q16"></a>16. Sprint-এর মাঝপথে requirement বদলে গেলে আপনি কী করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q16)
 
@@ -792,8 +774,7 @@ Sprint-এর মাঝে বারবার পরিবর্তন মান
 
 ---
 
-<a id="q17"></a>
-## 17. Technical debt কী, আর sprint-ভিত্তিক team-এ আপনি এটা কীভাবে সামলান?
+## <a id="q17"></a>17. Technical debt কী, আর sprint-ভিত্তিক team-এ আপনি এটা কীভাবে সামলান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q17)
 
@@ -832,8 +813,7 @@ Sprint-এর মাঝে বারবার পরিবর্তন মান
 
 ---
 
-<a id="q18"></a>
-## 18. আপনি Jira কীভাবে ব্যবহার করেন? Epic, story, task আর board ব্যাখ্যা করুন।
+## <a id="q18"></a>18. আপনি Jira কীভাবে ব্যবহার করেন? Epic, story, task আর board ব্যাখ্যা করুন।
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-18-agile-scrum.md#q18)
 
@@ -876,9 +856,8 @@ Tool team-এর সেবা করে, উল্টোটা নয়। Tick
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table, তারপর এক লাইনের reminder।
 

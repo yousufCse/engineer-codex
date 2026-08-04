@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. ভিত্তি**
 1. [OWASP Mobile Top 10](#q1) · *Common*
@@ -56,9 +55,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — ভিত্তি (এখান থেকে শুরু করুন)।**
 → [Q1 OWASP Top 10](#q1) · [Q2 At rest বনাম in transit](#q2)
@@ -83,8 +81,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. OWASP Mobile Top 10 কী?
+## <a id="q1"></a>1. OWASP Mobile Top 10 কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q1)
 
@@ -126,8 +123,7 @@ OWASP (Open Worldwide Application Security Project) সবচেয়ে সা
 
 ---
 
-<a id="q2"></a>
-## 2. Encryption at rest আর encryption in transit-এর পার্থক্য কী?
+## <a id="q2"></a>2. Encryption at rest আর encryption in transit-এর পার্থক্য কী?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q2)
 
@@ -173,8 +169,7 @@ Device-এ sensitive data অবশ্যই encrypt করা থাকতে �
 
 ---
 
-<a id="q3"></a>
-## 3. Token রাখার জন্য SharedPreferences কেন নিরাপদ নয়? Flutter Secure Storage কীভাবে ব্যবহার করবেন?
+## <a id="q3"></a>3. Token রাখার জন্য SharedPreferences কেন নিরাপদ নয়? Flutter Secure Storage কীভাবে ব্যবহার করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q3)
 
@@ -227,8 +222,7 @@ await storage.delete(key: 'auth_token');
 
 ---
 
-<a id="q4"></a>
-## 4. Flutter-এ API key কখনোই hardcode করা উচিত নয় কেন, আর নিরাপদ বিকল্প কী কী?
+## <a id="q4"></a>4. Flutter-এ API key কখনোই hardcode করা উচিত নয় কেন, আর নিরাপদ বিকল্প কী কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q4)
 
@@ -281,8 +275,7 @@ App → your backend (holds the secret) → third-party API
 
 ---
 
-<a id="q5"></a>
-## 5. Sensitive data log করা কেন বিপজ্জনক, আর এটা কীভাবে আটকাবেন?
+## <a id="q5"></a>5. Sensitive data log করা কেন বিপজ্জনক, আর এটা কীভাবে আটকাবেন?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q5)
 
@@ -337,8 +330,7 @@ Crashlytics/Sentry এমনভাবে setup করুন যেন পাঠ�
 
 ---
 
-<a id="q6"></a>
-## 6. Certificate pinning কী, এটা কেন গুরুত্বপূর্ণ, আর Dio দিয়ে কীভাবে implement করবেন?
+## <a id="q6"></a>6. Certificate pinning কী, এটা কেন গুরুত্বপূর্ণ, আর Dio দিয়ে কীভাবে implement করবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q6)
 
@@ -386,8 +378,7 @@ Certificate-এর মেয়াদ শেষ হয় আর সেগুল
 
 ---
 
-<a id="q7"></a>
-## 7. Man-in-the-Middle (MITM) আক্রমণ কী, আর এটা কীভাবে আটকাবেন?
+## <a id="q7"></a>7. Man-in-the-Middle (MITM) আক্রমণ কী, আর এটা কীভাবে আটকাবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q7)
 
@@ -426,8 +417,7 @@ Charles Proxy বা mitmproxy-র মতো tool একটা MITM নকল �
 
 ---
 
-<a id="q8"></a>
-## 8. Mobile-এর প্রেক্ষাপটে SQL injection কী, আর এটা কীভাবে আটকাবেন?
+## <a id="q8"></a>8. Mobile-এর প্রেক্ষাপটে SQL injection কী, আর এটা কীভাবে আটকাবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q8)
 
@@ -485,8 +475,7 @@ db.query('users', where: 'name = ?', whereArgs: [userInput]); // নিরাপ
 
 ---
 
-<a id="q9"></a>
-## 9. Access token আর refresh token-এর পার্থক্য কী? এগুলো কোথায় রাখেন?
+## <a id="q9"></a>9. Access token আর refresh token-এর পার্থক্য কী? এগুলো কোথায় রাখেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q9)
 
@@ -532,8 +521,7 @@ Refresh token নিজেই invalid/expired হলে user-কে আবার
 
 ---
 
-<a id="q10"></a>
-## 10. Mobile-এর জন্য OAuth 2.0 Authorization Code + PKCE flow ব্যাখ্যা করুন।
+## <a id="q10"></a>10. Mobile-এর জন্য OAuth 2.0 Authorization Code + PKCE flow ব্যাখ্যা করুন।
 
 > Common · Hard · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q10)
 
@@ -574,8 +562,7 @@ Mobile app-এ client secret রাখা যায় না (যে কেউ 
 
 ---
 
-<a id="q11"></a>
-## 11. JWT কী? এর গঠন, কীভাবে verify করবেন, আর এতে কী রাখা যাবে **না** — ব্যাখ্যা করুন।
+## <a id="q11"></a>11. JWT কী? এর গঠন, কীভাবে verify করবেন, আর এতে কী রাখা যাবে **না** — ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q11)
 
@@ -628,8 +615,7 @@ Payload আসলে শুধু Base64-encoded JSON, encrypted নয়। �
 
 ---
 
-<a id="q12"></a>
-## 12. Flutter-এ biometric authentication কীভাবে সামলান?
+## <a id="q12"></a>12. Flutter-এ biometric authentication কীভাবে সামলান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q12)
 
@@ -682,8 +668,7 @@ if (didAuth) {
 
 ---
 
-<a id="q13"></a>
-## 13. Code obfuscation কী, আর Flutter-এ কীভাবে এটা enable করবেন?
+## <a id="q13"></a>13. Code obfuscation কী, আর Flutter-এ কীভাবে এটা enable করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q13)
 
@@ -724,8 +709,7 @@ flutter build ipa --obfuscate --split-debug-info=build/symbols
 
 ---
 
-<a id="q14"></a>
-## 14. Root / jailbreak detection কী, আর basic detection কীভাবে implement করবেন?
+## <a id="q14"></a>14. Root / jailbreak detection কী, আর basic detection কীভাবে implement করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q14)
 
@@ -768,8 +752,7 @@ Detection একটা **ইঁদুর-বিড়ালের খেলা**
 
 ---
 
-<a id="q15"></a>
-## 15. Deep link hijacking কী, আর Flutter-এ deep link কীভাবে নিরাপদ করবেন?
+## <a id="q15"></a>15. Deep link hijacking কী, আর Flutter-এ deep link কীভাবে নিরাপদ করবেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-20-mobile-security.md#q15)
 
@@ -807,9 +790,8 @@ Deep link-এর জন্য `go_router`-এর মতো router ব্যব�
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table, তারপর এক-লাইনের মনে করিয়ে দেওয়া কথাগুলো।
 

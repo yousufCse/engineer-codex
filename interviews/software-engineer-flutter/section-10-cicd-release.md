@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Build modes & CI/CD basics**
 1. [Build modes — debug, profile, release](#q1) · *Very common*
@@ -53,9 +52,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 14 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -80,8 +78,7 @@ You don't need to study all 14 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What are Flutter's build modes? Explain debug, profile, and release.
+## <a id="q1"></a>1. What are Flutter's build modes? Explain debug, profile, and release.
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q1)
 
@@ -143,8 +140,7 @@ flutter build ipa --release
 
 ---
 
-<a id="q2"></a>
-## 2. How do you set up a basic CI pipeline for Flutter using GitHub Actions?
+## <a id="q2"></a>2. How do you set up a basic CI pipeline for Flutter using GitHub Actions?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q2)
 
@@ -266,8 +262,7 @@ When the run finishes, the build machine is destroyed. So you must **upload the 
 
 ---
 
-<a id="q3"></a>
-## 3. How do you handle secrets in CI, and how do you speed up Flutter builds?
+## <a id="q3"></a>3. How do you handle secrets in CI, and how do you speed up Flutter builds?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q3)
 
@@ -339,8 +334,7 @@ Most of a CI run is re-downloading the same files. Cache them.
 
 ---
 
-<a id="q4"></a>
-## 4. How does Flutter versioning work? Explain the `1.0.0+1` format and auto-incrementing the build number in CI.
+## <a id="q4"></a>4. How does Flutter versioning work? Explain the `1.0.0+1` format and auto-incrementing the build number in CI.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q4)
 
@@ -417,8 +411,7 @@ flutter build appbundle --release \
 
 ---
 
-<a id="q5"></a>
-## 5. What are Flutter flavors? How do you set up dev / staging / prod on Android and iOS?
+## <a id="q5"></a>5. What are Flutter flavors? How do you set up dev / staging / prod on Android and iOS?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q5)
 
@@ -518,8 +511,7 @@ A flavor is a **native** concept — it changes the app ID, name, icon, and nati
 
 ---
 
-<a id="q6"></a>
-## 6. How does `--dart-define` work? How do you pass variables at build time?
+## <a id="q6"></a>6. How does `--dart-define` work? How do you pass variables at build time?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q6)
 
@@ -604,8 +596,7 @@ This is much cleaner for CI: you keep one file per environment, and CI can write
 
 ---
 
-<a id="q7"></a>
-## 7. How do you manage different API URLs, keys, and configs per environment?
+## <a id="q7"></a>7. How do you manage different API URLs, keys, and configs per environment?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q7)
 
@@ -718,8 +709,7 @@ Both share the same principle: **one centralized config**, and **secrets injecte
 
 ---
 
-<a id="q8"></a>
-## 8. Explain code signing. What are an Android keystore and iOS certificates & provisioning profiles?
+## <a id="q8"></a>8. Explain code signing. What are an Android keystore and iOS certificates & provisioning profiles?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q8)
 
@@ -820,8 +810,7 @@ iOS signing needs both:
 
 ---
 
-<a id="q9"></a>
-## 9. What is Fastlane? How does `match` work for iOS signing, and `supply` for Android deployment?
+## <a id="q9"></a>9. What is Fastlane? How does `match` work for iOS signing, and `supply` for Android deployment?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q9)
 
@@ -910,8 +899,7 @@ end
 
 ---
 
-<a id="q10"></a>
-## 10. What is app obfuscation? Why do it, and how do you enable it in Flutter?
+## <a id="q10"></a>10. What is app obfuscation? Why do it, and how do you enable it in Flutter?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q10)
 
@@ -991,8 +979,7 @@ It does **not** encrypt strings. A literal like `const apiKey = 'secret123'` is 
 
 ---
 
-<a id="q11"></a>
-## 11. What is a build artifact? Explain the difference between APK and AAB, and why Google Play prefers AAB.
+## <a id="q11"></a>11. What is a build artifact? Explain the difference between APK and AAB, and why Google Play prefers AAB.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q11)
 
@@ -1068,8 +1055,7 @@ Since August 2021, Play requires AAB for all new apps. The main reason is **smal
 
 ---
 
-<a id="q12"></a>
-## 12. How does Firebase App Distribution work for distributing test builds?
+## <a id="q12"></a>12. How does Firebase App Distribution work for distributing test builds?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q12)
 
@@ -1143,8 +1129,7 @@ On iOS you must distribute an **ad-hoc** build whose provisioning profile lists 
 
 ---
 
-<a id="q13"></a>
-## 13. How do you submit an app to the Google Play Store? Explain the tracks: internal, alpha, beta, production.
+## <a id="q13"></a>13. How do you submit an app to the Google Play Store? Explain the tracks: internal, alpha, beta, production.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q13)
 
@@ -1211,8 +1196,7 @@ supply(
 
 ---
 
-<a id="q14"></a>
-## 14. How do you submit an app to the Apple App Store? Describe the TestFlight flow.
+## <a id="q14"></a>14. How do you submit an app to the Apple App Store? Describe the TestFlight flow.
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-10-cicd-release-bn.md#q14)
 
@@ -1292,9 +1276,8 @@ Once testing is done:
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

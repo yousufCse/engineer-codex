@@ -23,9 +23,8 @@ Each pattern is tagged with how often it is asked (**Very common / Common / Deep
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Creational patterns** (how objects are made)
 1. [Singleton](#q1) · *Very common*
@@ -52,9 +51,8 @@ Each pattern is tagged with how often it is asked (**Very common / Common / Deep
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 Follow these stages. Tick a stage off only when you can give the **short answer** and a real Flutter example, without looking.
 
@@ -79,8 +77,7 @@ Follow these stages. Tick a stage off only when you can give the **short answer*
 
 ---
 
-<a id="q1"></a>
-## 1. Singleton
+## <a id="q1"></a>1. Singleton
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q1)
 
@@ -127,8 +124,7 @@ void main() {
 
 ---
 
-<a id="q2"></a>
-## 2. Factory Method
+## <a id="q2"></a>2. Factory Method
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q2)
 
@@ -178,8 +174,7 @@ ButtonFactory.create('ios').render(); // caller doesn't know the concrete class
 
 ---
 
-<a id="q3"></a>
-## 3. Abstract Factory
+## <a id="q3"></a>3. Abstract Factory
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q3)
 
@@ -238,8 +233,7 @@ Theming systems and adaptive UI kits: one factory per theme/platform produces a 
 
 ---
 
-<a id="q4"></a>
-## 4. Builder
+## <a id="q4"></a>4. Builder
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q4)
 
@@ -296,8 +290,7 @@ Flutter's named parameters already give a builder-like experience (`Container(pa
 
 ---
 
-<a id="q5"></a>
-## 5. Adapter
+## <a id="q5"></a>5. Adapter
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q5)
 
@@ -350,8 +343,7 @@ Wrapping a third-party SDK (payments, analytics, a database) behind your own int
 
 ---
 
-<a id="q6"></a>
-## 6. Decorator
+## <a id="q6"></a>6. Decorator
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q6)
 
@@ -404,8 +396,7 @@ The entire widget tree is decorator-style: `GestureDetector(child: Padding(child
 
 ---
 
-<a id="q7"></a>
-## 7. Facade
+## <a id="q7"></a>7. Facade
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q7)
 
@@ -458,8 +449,7 @@ A repository is often a facade over several data sources (API + cache + database
 
 ---
 
-<a id="q8"></a>
-## 8. Proxy
+## <a id="q8"></a>8. Proxy
 
 > Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q8)
 
@@ -515,8 +505,7 @@ Lazy-loading images (load only when scrolled into view), a caching proxy that re
 
 ---
 
-<a id="q9"></a>
-## 9. Composite
+## <a id="q9"></a>9. Composite
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q9)
 
@@ -570,8 +559,7 @@ The widget tree: a `Column` (composite) holds children that may be leaves (`Text
 
 ---
 
-<a id="q10"></a>
-## 10. Observer
+## <a id="q10"></a>10. Observer
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q10)
 
@@ -621,8 +609,7 @@ s.value = 5; // both A and B are notified
 
 ---
 
-<a id="q11"></a>
-## 11. Strategy
+## <a id="q11"></a>11. Strategy
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q11)
 
@@ -672,8 +659,7 @@ Swappable repositories (real vs fake), different validation strategies for forms
 
 ---
 
-<a id="q12"></a>
-## 12. Command
+## <a id="q12"></a>12. Command
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q12)
 
@@ -723,8 +709,7 @@ Undo/redo in editors, action queues (e.g. offline actions replayed later), and F
 
 ---
 
-<a id="q13"></a>
-## 13. State
+## <a id="q13"></a>13. State
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q13)
 
@@ -775,8 +760,7 @@ Modeling screen status (loading / loaded / error) — often done with sealed cla
 
 ---
 
-<a id="q14"></a>
-## 14. Template Method
+## <a id="q14"></a>14. Template Method
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q14)
 
@@ -827,8 +811,7 @@ CsvProcessor().process(); // runs the fixed skeleton with CSV-specific steps
 
 ---
 
-<a id="q15"></a>
-## 15. Iterator
+## <a id="q15"></a>15. Iterator
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-14-design-patterns-bn.md#q15)
 
@@ -871,9 +854,8 @@ Every `for-in` loop, `ListView.builder`'s item access, and chained collection me
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Table first, then one-line reminders.
 

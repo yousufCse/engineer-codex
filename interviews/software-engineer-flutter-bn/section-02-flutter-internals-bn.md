@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. তিনটি tree ও widget identity**
 1. [তিনটি tree — Widget, Element, RenderObject](#q1) · *Very common*
@@ -68,9 +67,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ২৩টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন — প্রতিটা আগেরটার উপরে দাঁড়িয়ে আছে। একটা পর্যায় তখনই টিক দিন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -98,8 +96,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Flutter-এর তিনটি tree ব্যাখ্যা করুন — Widget, Element, আর RenderObject। Flutter-এর তিনটাই কেন দরকার?
+## <a id="q1"></a>1. Flutter-এর তিনটি tree ব্যাখ্যা করুন — Widget, Element, আর RenderObject। Flutter-এর তিনটাই কেন দরকার?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q1)
 
@@ -162,8 +159,7 @@ Render object জানে তার নিজের size আর position, আ�
 
 ---
 
-<a id="q2"></a>
-## 2. Flutter widget-গুলো immutable কেন? প্রতি frame-এ নতুন widget বানালে কি memory নষ্ট হয় না?
+## <a id="q2"></a>2. Flutter widget-গুলো immutable কেন? প্রতি frame-এ নতুন widget বানালে কি memory নষ্ট হয় না?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q2)
 
@@ -216,8 +212,7 @@ Rebuild সস্তা বলে আপনার এর সাথে লড়�
 
 ---
 
-<a id="q3"></a>
-## 3. Flutter-এ Keys কী? ValueKey, ObjectKey, UniqueKey, GlobalKey আর LocalKey কখন ব্যবহার করবেন?
+## <a id="q3"></a>3. Flutter-এ Keys কী? ValueKey, ObjectKey, UniqueKey, GlobalKey আর LocalKey কখন ব্যবহার করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q3)
 
@@ -301,8 +296,7 @@ AnimatedSwitcher(
 
 ---
 
-<a id="q4"></a>
-## 4. Flutter কীভাবে ঠিক করে একটা widget reuse করবে না rebuild করবে? (Reconciliation)
+## <a id="q4"></a>4. Flutter কীভাবে ঠিক করে একটা widget reuse করবে না rebuild করবে? (Reconciliation)
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q4)
 
@@ -354,8 +348,7 @@ Reuse করলে ব্যয়বহুল render object-গুলো থে
 
 ---
 
-<a id="q5"></a>
-## 5. StatelessWidget আর StatefulWidget-এর পার্থক্য কী? ভেতরে কী আলাদা?
+## <a id="q5"></a>5. StatelessWidget আর StatefulWidget-এর পার্থক্য কী? ভেতরে কী আলাদা?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q5)
 
@@ -421,8 +414,7 @@ class _CounterState extends State<Counter> {
 
 ---
 
-<a id="q6"></a>
-## 6. পুরো StatefulWidget lifecycle ধাপে ধাপে বলুন। কোন method কখন call হয়, আর সেখানে আপনি কী করেন?
+## <a id="q6"></a>6. পুরো StatefulWidget lifecycle ধাপে ধাপে বলুন। কোন method কখন call হয়, আর সেখানে আপনি কী করেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q6)
 
@@ -505,8 +497,7 @@ class _MyWidgetState extends State<MyWidget>
 
 ---
 
-<a id="q7"></a>
-## 7. `setState` আসলে কী করে? এটা শুধু "screen refresh করা" নয় কেন?
+## <a id="q7"></a>7. `setState` আসলে কী করে? এটা শুধু "screen refresh করা" নয় কেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q7)
 
@@ -559,8 +550,7 @@ Future<void> load() async {
 
 ---
 
-<a id="q8"></a>
-## 8. BuildContext কী? `initState` শেষ হওয়ার আগে এটা ব্যবহার করা যায় না কেন?
+## <a id="q8"></a>8. BuildContext কী? `initState` শেষ হওয়ার আগে এটা ব্যবহার করা যায় না কেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q8)
 
@@ -622,8 +612,7 @@ Future<void> go() async {
 
 ---
 
-<a id="q9"></a>
-## 9. InheritedWidget কী? এটা কীভাবে নিচে data পাঠায়, আর Provider কীভাবে এর উপরে তৈরি?
+## <a id="q9"></a>9. InheritedWidget কী? এটা কীভাবে নিচে data পাঠায়, আর Provider কীভাবে এর উপরে তৈরি?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q9)
 
@@ -692,8 +681,7 @@ ChangeNotifierProvider<CartModel>(
 
 ---
 
-<a id="q10"></a>
-## 10. একটা `const` constructor কীভাবে widget rebuild আটকায়? Tree-র স্তরে `const` মানে কী?
+## <a id="q10"></a>10. একটা `const` constructor কীভাবে widget rebuild আটকায়? Tree-র স্তরে `const` মানে কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q10)
 
@@ -752,8 +740,7 @@ class _ParentState extends State<Parent> {
 
 ---
 
-<a id="q11"></a>
-## 11. RepaintBoundary কী? এটা কীভাবে repaint কমায়, আর কখন এটা যোগ করা উচিত?
+## <a id="q11"></a>11. RepaintBoundary কী? এটা কীভাবে repaint কমায়, আর কখন এটা যোগ করা উচিত?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q11)
 
@@ -807,8 +794,7 @@ Column(children: [
 
 ---
 
-<a id="q12"></a>
-## 12. Flutter কীভাবে 60/120fps ধরে? UI thread আর raster thread কী?
+## <a id="q12"></a>12. Flutter কীভাবে 60/120fps ধরে? UI thread আর raster thread কী?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q12)
 
@@ -869,8 +855,7 @@ void onTap() async {
 
 ---
 
-<a id="q13"></a>
-## 13. Flutter-এর layout নিয়মটা ব্যাখ্যা করুন: "constraints নিচে যায়, size উপরে আসে, parent position ঠিক করে।" একটা উদাহরণ দিয়ে দেখান।
+## <a id="q13"></a>13. Flutter-এর layout নিয়মটা ব্যাখ্যা করুন: "constraints নিচে যায়, size উপরে আসে, parent position ঠিক করে।" একটা উদাহরণ দিয়ে দেখান।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q13)
 
@@ -926,8 +911,7 @@ Constraints একবার নিচে যায় আর size একবা�
 
 ---
 
-<a id="q14"></a>
-## 14. BoxConstraints কী? tight বনাম loose ব্যাখ্যা করুন, আর "unbounded" মানে কী বলুন।
+## <a id="q14"></a>14. BoxConstraints কী? tight বনাম loose ব্যাখ্যা করুন, আর "unbounded" মানে কী বলুন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q14)
 
@@ -995,8 +979,7 @@ ListView(children: [
 
 ---
 
-<a id="q15"></a>
-## 15. "RenderFlex overflowed" কেন হয়, আর আপনি এটা কীভাবে ঠিক করেন?
+## <a id="q15"></a>15. "RenderFlex overflowed" কেন হয়, আর আপনি এটা কীভাবে ঠিক করেন?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q15)
 
@@ -1069,8 +1052,7 @@ SingleChildScrollView(
 
 ---
 
-<a id="q16"></a>
-## 16. MediaQuery আর LayoutBuilder-এর মধ্যে পার্থক্য কী? কোনটা কখন ব্যবহার করবেন?
+## <a id="q16"></a>16. MediaQuery আর LayoutBuilder-এর মধ্যে পার্থক্য কী? কোনটা কখন ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q16)
 
@@ -1141,8 +1123,7 @@ LayoutBuilder(
 
 ---
 
-<a id="q17"></a>
-## 17. Flutter-এর rendering pipeline বর্ণনা করুন। একটা tap থেকে screen-এর pixel পর্যন্ত একটা frame কীভাবে যায়?
+## <a id="q17"></a>17. Flutter-এর rendering pipeline বর্ণনা করুন। একটা tap থেকে screen-এর pixel পর্যন্ত একটা frame কীভাবে যায়?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q17)
 
@@ -1197,8 +1178,7 @@ ElevatedButton(
 
 ---
 
-<a id="q18"></a>
-## 18. Impeller কী, আর এটা Skia থেকে কীভাবে আলাদা? Flutter কেন এতে সরে এল?
+## <a id="q18"></a>18. Impeller কী, আর এটা Skia থেকে কীভাবে আলাদা? Flutter কেন এতে সরে এল?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q18)
 
@@ -1255,8 +1235,7 @@ flutter run --no-enable-impeller  # জোর করে Skia
 
 ---
 
-<a id="q19"></a>
-## 19. Hot Reload, Hot Restart আর Full Restart-এর মধ্যে পার্থক্য কী? কোনটা কী reset করে?
+## <a id="q19"></a>19. Hot Reload, Hot Restart আর Full Restart-এর মধ্যে পার্থক্য কী? কোনটা কী reset করে?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q19)
 
@@ -1317,8 +1296,7 @@ Hot Reload `main()`-এর বদল, global initializer, আগেই চলে
 
 ---
 
-<a id="q20"></a>
-## 20. pub.dev কী? pubspec.yaml কীভাবে dependency manage করে, আর `^`, `>=`, আর `==` কীভাবে কাজ করে?
+## <a id="q20"></a>20. pub.dev কী? pubspec.yaml কীভাবে dependency manage করে, আর `^`, `>=`, আর `==` কীভাবে কাজ করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q20)
 
@@ -1394,8 +1372,7 @@ flutter pub upgrade     # constraint-এর ভেতরে upgrade
 
 ---
 
-<a id="q21"></a>
-## 21. Flutter-এর SDK channel কী কী — stable, beta আর master? Production-এ কোনটা ব্যবহার করা উচিত?
+## <a id="q21"></a>21. Flutter-এর SDK channel কী কী — stable, beta আর master? Production-এ কোনটা ব্যবহার করা উচিত?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q21)
 
@@ -1450,8 +1427,7 @@ Channel হলো একটা *release track*; version হলো একটা *
 
 ---
 
-<a id="q22"></a>
-## 22. Flutter-এর তিনটি architecture layer — Embedder, Engine আর Framework — ব্যাখ্যা করুন। এরা একে অপরের সাথে কীভাবে কথা বলে?
+## <a id="q22"></a>22. Flutter-এর তিনটি architecture layer — Embedder, Engine আর Framework — ব্যাখ্যা করুন। এরা একে অপরের সাথে কীভাবে কথা বলে?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q22)
 
@@ -1516,8 +1492,7 @@ final level = await platform.invokeMethod('getBatteryLevel');
 
 ---
 
-<a id="q23"></a>
-## 23. Flutter আর Dart একসাথে কীভাবে কাজ করে? Dart VM কীভাবে embed করা হয়, আর Dart কীভাবে native code-এ পৌঁছায় (JIT বনাম AOT)?
+## <a id="q23"></a>23. Flutter আর Dart একসাথে কীভাবে কাজ করে? Dart VM কীভাবে embed করা হয়, আর Dart কীভাবে native code-এ পৌঁছায় (JIT বনাম AOT)?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-02-flutter-internals.md#q23)
 
@@ -1577,9 +1552,8 @@ ui.PlatformDispatcher.instance.views.first.render(scene); // engine-এর হ�
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (আগের রাতের review)
+# <a id="cheatsheet"></a>Cheat Sheet (আগের রাতের review)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে দ্রুত তুলনার table-গুলো, তারপর এক লাইনের reminder-গুলো।
 

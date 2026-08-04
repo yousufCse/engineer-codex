@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. ভিত্তি**
 1. [Code smell বনাম bug](#q1) · *Very common*
@@ -71,9 +70,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — ভিত্তি (এখান থেকেই শুরু করুন)।**
 → [Q1 Smell বনাম bug](#q1) · [Q2 নিরাপদে refactor](#q2) · [Q15 Extract Method](#q15)
@@ -98,8 +96,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Code smell কী, আর এটা bug থেকে কীভাবে আলাদা?
+## <a id="q1"></a>1. Code smell কী, আর এটা bug থেকে কীভাবে আলাদা?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q1)
 
@@ -139,8 +136,7 @@ Smell team-এর গতি কমিয়ে দেয়: এলোমেল�
 
 ---
 
-<a id="q2"></a>
-## 2. আপনি কীভাবে নিরাপদে refactor করেন?
+## <a id="q2"></a>2. আপনি কীভাবে নিরাপদে refactor করেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q2)
 
@@ -177,8 +173,7 @@ Refactoring শুধু code-এর *আকার* বদলায়। Input 
 
 ---
 
-<a id="q3"></a>
-## 3. পুরোনো code refactor করতে team-কে কীভাবে রাজি করান?
+## <a id="q3"></a>3. পুরোনো code refactor করতে team-কে কীভাবে রাজি করান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q3)
 
@@ -216,8 +211,7 @@ Test-এর আড়ালে কাজটা করুন, ছোট PR-এ �
 
 ---
 
-<a id="q4"></a>
-## 4. Long Method কী, আর এটা কীভাবে ঠিক করবেন?
+## <a id="q4"></a>4. Long Method কী, আর এটা কীভাবে ঠিক করবেন?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q4)
 
@@ -274,8 +268,7 @@ double _applyDiscount(double total) => total > 100 ? total * 0.9 : total;
 
 ---
 
-<a id="q5"></a>
-## 5. Large Class (God Object) কী, আর এটা কীভাবে ঠিক করবেন?
+## <a id="q5"></a>5. Large Class (God Object) কী, আর এটা কীভাবে ঠিক করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q5)
 
@@ -321,8 +314,7 @@ class EmailService { void sendWelcome(User u) {/* email */} }
 
 ---
 
-<a id="q6"></a>
-## 6. Long Parameter List কী, আর এটা কীভাবে ঠিক করবেন?
+## <a id="q6"></a>6. Long Parameter List কী, আর এটা কীভাবে ঠিক করবেন?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q6)
 
@@ -369,8 +361,7 @@ void createUser({required String first, required String last, required Address a
 
 ---
 
-<a id="q7"></a>
-## 7. Data Clumps কী, আর এগুলো কীভাবে ঠিক করবেন?
+## <a id="q7"></a>7. Data Clumps কী, আর এগুলো কীভাবে ঠিক করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q7)
 
@@ -417,8 +408,7 @@ void book(DateRange range) {}
 
 ---
 
-<a id="q8"></a>
-## 8. Primitive Obsession কী, আর value object দিয়ে এটা কীভাবে ঠিক করবেন?
+## <a id="q8"></a>8. Primitive Obsession কী, আর value object দিয়ে এটা কীভাবে ঠিক করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q8)
 
@@ -471,8 +461,7 @@ void sendEmail(Email email) {} // এখন শুধু বৈধ Email-ই প
 
 ---
 
-<a id="q9"></a>
-## 9. Duplicate Code কী, আর এটা কীভাবে ঠিক করবেন?
+## <a id="q9"></a>9. Duplicate Code কী, আর এটা কীভাবে ঠিক করবেন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q9)
 
@@ -512,8 +501,7 @@ double applyDiscount(double price, double rate) => price - (price * rate);
 
 ---
 
-<a id="q10"></a>
-## 10. Magic Number আর Magic String কী, আর এগুলো কীভাবে ঠিক করবেন?
+## <a id="q10"></a>10. Magic Number আর Magic String কী, আর এগুলো কীভাবে ঠিক করবেন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q10)
 
@@ -558,8 +546,7 @@ if (user.role == Role.admin) {}
 
 ---
 
-<a id="q11"></a>
-## 11. Dead Code কী, আর এটা কেন বিপজ্জনক?
+## <a id="q11"></a>11. Dead Code কী, আর এটা কেন বিপজ্জনক?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q11)
 
@@ -601,8 +588,7 @@ if (false) { doThing(); }   // এখানে পৌঁছানো যায�
 
 ---
 
-<a id="q12"></a>
-## 12. Comment কখন একটা code smell হয়ে যায়?
+## <a id="q12"></a>12. Comment কখন একটা code smell হয়ে যায়?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q12)
 
@@ -653,8 +639,7 @@ final cents = (amount * 100).round();
 
 ---
 
-<a id="q13"></a>
-## 13. Feature Envy কী, আর এটা কীভাবে ঠিক করবেন?
+## <a id="q13"></a>13. Feature Envy কী, আর এটা কীভাবে ঠিক করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q13)
 
@@ -701,8 +686,7 @@ class Customer {
 
 ---
 
-<a id="q14"></a>
-## 14. Shotgun Surgery কী, আর Divergent Change থেকে এটা কীভাবে আলাদা?
+## <a id="q14"></a>14. Shotgun Surgery কী, আর Divergent Change থেকে এটা কীভাবে আলাদা?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q14)
 
@@ -743,8 +727,7 @@ class Customer {
 
 ---
 
-<a id="q15"></a>
-## 15. Extract Method — কীভাবে আর কখন?
+## <a id="q15"></a>15. Extract Method — কীভাবে আর কখন?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q15)
 
@@ -793,8 +776,7 @@ Extract করুন, test চালান, আবার করুন। আধ�
 
 ---
 
-<a id="q16"></a>
-## 16. Extract Class — কীভাবে আর কখন?
+## <a id="q16"></a>16. Extract Class — কীভাবে আর কখন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q16)
 
@@ -845,8 +827,7 @@ class Phone {
 
 ---
 
-<a id="q17"></a>
-## 17. Inline Method — একটা method কখন অপ্রয়োজনীয় indirection?
+## <a id="q17"></a>17. Inline Method — একটা method কখন অপ্রয়োজনীয় indirection?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q17)
 
@@ -887,8 +868,7 @@ Method-এর নাম যদি অর্থ যোগ করে, অনেক
 
 ---
 
-<a id="q18"></a>
-## 18. Move Method — কীভাবে আর কখন?
+## <a id="q18"></a>18. Move Method — কীভাবে আর কখন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q18)
 
@@ -931,8 +911,7 @@ Method-টা target class-এ copy করুন, reference ঠিক করু�
 
 ---
 
-<a id="q19"></a>
-## 19. কোনো method, variable বা class কীভাবে নিরাপদে Rename করবেন?
+## <a id="q19"></a>19. কোনো method, variable বা class কীভাবে নিরাপদে Rename করবেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q19)
 
@@ -970,8 +949,7 @@ var activeUsers = users.where((u) => u.active).toList();
 
 ---
 
-<a id="q20"></a>
-## 20. Introduce Parameter Object — কখন আর কীভাবে?
+## <a id="q20"></a>20. Introduce Parameter Object — কখন আর কীভাবে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q20)
 
@@ -1016,8 +994,7 @@ Parameter-গুলো একবার object হয়ে গেলে, সম�
 
 ---
 
-<a id="q21"></a>
-## 21. Replace Temp with Query — এটা কী?
+## <a id="q21"></a>21. Replace Temp with Query — এটা কী?
 
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q21)
 
@@ -1070,8 +1047,7 @@ Query প্রতিবার call করলে আবার হিসাব �
 
 ---
 
-<a id="q22"></a>
-## 22. Replace Magic Number with Named Constant — Dart-এ এটা সঠিকভাবে কীভাবে করবেন?
+## <a id="q22"></a>22. Replace Magic Number with Named Constant — Dart-এ এটা সঠিকভাবে কীভাবে করবেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q22)
 
@@ -1115,8 +1091,7 @@ if (attempts > maxLoginAttempts) lockAccount();
 
 ---
 
-<a id="q23"></a>
-## 23. Replace Conditional with Polymorphism — কখন আর কীভাবে?
+## <a id="q23"></a>23. Replace Conditional with Polymorphism — কখন আর কীভাবে?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q23)
 
@@ -1173,8 +1148,7 @@ double pay(Employee e) => e.pay(); // conditional আর নেই
 
 ---
 
-<a id="q24"></a>
-## 24. Decompose Conditional refactoring কী?
+## <a id="q24"></a>24. Decompose Conditional refactoring কী?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q24)
 
@@ -1225,8 +1199,7 @@ double _summerCharge(int qty) => qty * summerRate;
 
 ---
 
-<a id="q25"></a>
-## 25. Consolidate Conditional Expression কী?
+## <a id="q25"></a>25. Consolidate Conditional Expression কী?
 
 > Deeper · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q25)
 
@@ -1283,8 +1256,7 @@ check-গুলো যদি সত্যিই আলাদা হয় (আ�
 
 ---
 
-<a id="q26"></a>
-## 26. Strangler Fig Pattern কী, আর কখন ব্যবহার করেন?
+## <a id="q26"></a>26. Strangler Fig Pattern কী, আর কখন ব্যবহার করেন?
 
 > Deeper · Medium · [🇬🇧 English](../software-engineer-flutter/section-15-code-smells.md#q26)
 
@@ -1329,9 +1301,8 @@ Big-bang rewrite ব্যর্থ হওয়ার জন্য বিখ্
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের review)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের review)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে টেবিলগুলো, তারপর এক লাইনের মনে রাখার কথা।
 

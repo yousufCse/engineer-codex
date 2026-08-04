@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Test types & strategy**
 1. [Three test types — unit, widget, integration](#q1) · *Very common*
@@ -65,9 +64,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 18 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -95,8 +93,7 @@ You don't need to study all 18 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What are the three types of Flutter tests — unit, widget, and integration — and when do you use each?
+## <a id="q1"></a>1. What are the three types of Flutter tests — unit, widget, and integration — and when do you use each?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q1)
 
@@ -176,8 +173,7 @@ void main() {
 
 ---
 
-<a id="q2"></a>
-## 2. What is the test pyramid, and how do you balance unit, widget, and integration tests?
+## <a id="q2"></a>2. What is the test pyramid, and how do you balance unit, widget, and integration tests?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q2)
 
@@ -246,8 +242,7 @@ Integration tests (one or two):
 
 ---
 
-<a id="q3"></a>
-## 3. What is test-driven development (TDD), and would you use it in Flutter?
+## <a id="q3"></a>3. What is test-driven development (TDD), and would you use it in Flutter?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q3)
 
@@ -309,8 +304,7 @@ Because you call your own code before it exists, you feel awkward APIs early. If
 
 ---
 
-<a id="q4"></a>
-## 4. Explain the core unit testing primitives — `test`, `expect`, `group`, `setUp`, `tearDown`.
+## <a id="q4"></a>4. Explain the core unit testing primitives — `test`, `expect`, `group`, `setUp`, `tearDown`.
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q4)
 
@@ -401,8 +395,7 @@ tearDownAll(() => closeDb());     // runs ONCE after all tests
 
 ---
 
-<a id="q5"></a>
-## 5. What are matchers? Explain `equals`, `throwsA`, `isA`, `contains`, and async matchers.
+## <a id="q5"></a>5. What are matchers? Explain `equals`, `throwsA`, `isA`, `contains`, and async matchers.
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q5)
 
@@ -482,8 +475,7 @@ await expectLater(counterStream, emitsInOrder([1, 2, 3]));
 
 ---
 
-<a id="q6"></a>
-## 6. How does widget testing work — explain `pumpWidget`, `find`, `tap`, `pump`, and `pumpAndSettle`?
+## <a id="q6"></a>6. How does widget testing work — explain `pumpWidget`, `find`, `tap`, `pump`, and `pumpAndSettle`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q6)
 
@@ -574,8 +566,7 @@ testWidgets('Login button enables when the form is valid', (tester) async {
 
 ---
 
-<a id="q7"></a>
-## 7. How do finders work — `find.byType`, `byKey`, `text`, `byIcon`, and `widgetWithText`?
+## <a id="q7"></a>7. How do finders work — `find.byType`, `byKey`, `text`, `byIcon`, and `widgetWithText`?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q7)
 
@@ -650,8 +641,7 @@ Use `.first` / `.last` / `.at(index)` only when keys would be noisy and the orde
 
 ---
 
-<a id="q8"></a>
-## 8. How do you test async code and time-based logic — `async` tests, `fakeAsync`, and advancing time?
+## <a id="q8"></a>8. How do you test async code and time-based logic — `async` tests, `fakeAsync`, and advancing time?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q8)
 
@@ -748,8 +738,7 @@ testWidgets('Debounced search waits 500ms before calling the API', (tester) asyn
 
 ---
 
-<a id="q9"></a>
-## 9. How does mocking with Mockito work — `@GenerateMocks`, `when`/`thenReturn`, and `verify`?
+## <a id="q9"></a>9. How does mocking with Mockito work — `@GenerateMocks`, `when`/`thenReturn`, and `verify`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q9)
 
@@ -847,8 +836,7 @@ verifyNoMoreInteractions(mockApi);           // nothing else was called
 
 ---
 
-<a id="q10"></a>
-## 10. How does Mocktail differ from Mockito, and when would you choose it?
+## <a id="q10"></a>10. How does Mocktail differ from Mockito, and when would you choose it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q10)
 
@@ -944,8 +932,7 @@ void main() {
 
 ---
 
-<a id="q11"></a>
-## 11. What is the difference between a Fake and a Mock — when do you use each?
+## <a id="q11"></a>11. What is the difference between a Fake and a Mock — when do you use each?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q11)
 
@@ -1038,8 +1025,7 @@ Do you need to verify HOW the dependency was called?
 
 ---
 
-<a id="q12"></a>
-## 12. How do you test a BLoC or Cubit using `bloc_test`?
+## <a id="q12"></a>12. How do you test a BLoC or Cubit using `bloc_test`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q12)
 
@@ -1144,8 +1130,7 @@ void main() {
 
 ---
 
-<a id="q13"></a>
-## 13. How do you test a screen (widget) that depends on a Cubit?
+## <a id="q13"></a>13. How do you test a screen (widget) that depends on a Cubit?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q13)
 
@@ -1244,8 +1229,7 @@ If you hand-roll `class MockUserCubit extends Mock implements UserCubit {}`, you
 
 ---
 
-<a id="q14"></a>
-## 14. How do you test a repository that calls an HTTP API — how do you mock Dio or `http`?
+## <a id="q14"></a>14. How do you test a repository that calls an HTTP API — how do you mock Dio or `http`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q14)
 
@@ -1351,8 +1335,7 @@ class MockApiClient extends Mock implements ApiClient {}  // trivial to mock
 
 ---
 
-<a id="q15"></a>
-## 15. What are golden tests — how do you create and update them, and when should you use them?
+## <a id="q15"></a>15. What are golden tests — how do you create and update them, and when should you use them?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q15)
 
@@ -1439,8 +1422,7 @@ Golden images depend on the platform, because fonts render slightly differently 
 
 ---
 
-<a id="q16"></a>
-## 16. How does integration testing work in Flutter — the `integration_test` package and running on real devices?
+## <a id="q16"></a>16. How does integration testing work in Flutter — the `integration_test` package and running on real devices?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q16)
 
@@ -1532,8 +1514,7 @@ flutter test integration_test/app_test.dart -d chrome
 
 ---
 
-<a id="q17"></a>
-## 17. How do you generate and measure code coverage in Flutter — and what does it really tell you?
+## <a id="q17"></a>17. How do you generate and measure code coverage in Flutter — and what does it really tell you?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q17)
 
@@ -1603,8 +1584,7 @@ A typical pipeline runs tests with coverage, filters generated files, enforces a
 
 ---
 
-<a id="q18"></a>
-## 18. How do you keep tests maintainable as the codebase grows?
+## <a id="q18"></a>18. How do you keep tests maintainable as the codebase grows?
 
 > Deeper · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-06-testing-bn.md#q18)
 
@@ -1698,9 +1678,8 @@ Maintainability checklist:
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

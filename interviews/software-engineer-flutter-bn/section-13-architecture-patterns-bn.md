@@ -22,9 +22,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Layer আর separation**
 1. [Layered Architecture](#q1) · *Very common*
@@ -52,9 +51,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন। একটা পর্যায় তখনই টিক দিন যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন আর layer-গুলো আঁকতে পারবেন।
 
@@ -79,8 +77,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Layered Architecture কী, আর একটা mobile app-এ সাধারণত কোন কোন layer থাকে?
+## <a id="q1"></a>1. Layered Architecture কী, আর একটা mobile app-এ সাধারণত কোন কোন layer থাকে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q1)
 
@@ -127,8 +124,7 @@
 
 ---
 
-<a id="q2"></a>
-## 2. Flutter-এ Clean Architecture ব্যাখ্যা করুন — ৩টি layer আর dependency rule।
+## <a id="q2"></a>2. Flutter-এ Clean Architecture ব্যাখ্যা করুন — ৩টি layer আর dependency rule।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q2)
 
@@ -202,8 +198,7 @@ Clean Architecture boilerplate বাড়ায় (interface, use case, model
 
 ---
 
-<a id="q3"></a>
-## 3. "Separation of Concerns" কী? Flutter-এ একটা violation আর তার সমাধানের উদাহরণ দিন।
+## <a id="q3"></a>3. "Separation of Concerns" কী? Flutter-এ একটা violation আর তার সমাধানের উদাহরণ দিন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q3)
 
@@ -280,8 +275,7 @@ class UserScreen extends StatelessWidget {
 
 ---
 
-<a id="q4"></a>
-## 4. MVC (Model-View-Controller) কী?
+## <a id="q4"></a>4. MVC (Model-View-Controller) কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q4)
 
@@ -322,8 +316,7 @@ Flutter-এর widget reactive — এরা state থেকে rebuild হয�
 
 ---
 
-<a id="q5"></a>
-## 5. MVVM কী, আর Cubit/BLoC এর সাথে কীভাবে মেলে?
+## <a id="q5"></a>5. MVVM কী, আর Cubit/BLoC এর সাথে কীভাবে মেলে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q5)
 
@@ -382,8 +375,7 @@ Flutter reactive: UI state থেকে rebuild হয়। ওই state ধর
 
 ---
 
-<a id="q6"></a>
-## 6. MVP (Model-View-Presenter) কী, আর এটা MVVM থেকে কীভাবে আলাদা?
+## <a id="q6"></a>6. MVP (Model-View-Presenter) কী, আর এটা MVVM থেকে কীভাবে আলাদা?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q6)
 
@@ -448,8 +440,7 @@ Flutter-এর পুরো model হলো "state থেকে rebuild", যে
 
 ---
 
-<a id="q7"></a>
-## 7. Repository Pattern কী, এটা কোন সমস্যা সমাধান করে, আর Clean Architecture-এ এটা কীভাবে বসে?
+## <a id="q7"></a>7. Repository Pattern কী, এটা কোন সমস্যা সমাধান করে, আর Clean Architecture-এ এটা কীভাবে বসে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q7)
 
@@ -508,8 +499,7 @@ Domain-এর হাতে থাকে *interface* (তাই Domain খাঁ�
 
 ---
 
-<a id="q8"></a>
-## 8. Use Case (Interactor) pattern কী? কখন এটা কাজে লাগে, আর কখন এটা বাড়াবাড়ি?
+## <a id="q8"></a>8. Use Case (Interactor) pattern কী? কখন এটা কাজে লাগে, আর কখন এটা বাড়াবাড়ি?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q8)
 
@@ -561,8 +551,7 @@ Use case যদি শুধু `repo.getUser(id)` call করে আর কি�
 
 ---
 
-<a id="q9"></a>
-## 9. Dependency Injection কী, আমরা কেন এটা ব্যবহার করি, আর `get_it` এটা কীভাবে implement করে?
+## <a id="q9"></a>9. Dependency Injection কী, আমরা কেন এটা ব্যবহার করি, আর `get_it` এটা কীভাবে implement করে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q9)
 
@@ -627,8 +616,7 @@ final cubit = sl<UserCubit>();
 
 ---
 
-<a id="q10"></a>
-## 10. Service Locator আর Dependency Injection-এর মধ্যে পার্থক্য কী? এর trade-off কী কী?
+## <a id="q10"></a>10. Service Locator আর Dependency Injection-এর মধ্যে পার্থক্য কী? এর trade-off কী কী?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q10)
 
@@ -680,8 +668,7 @@ class OrderService {
 
 ---
 
-<a id="q11"></a>
-## 11. Event-driven architecture কী, আর BLoC এই ধারণাটা কীভাবে ব্যবহার করে?
+## <a id="q11"></a>11. Event-driven architecture কী, আর BLoC এই ধারণাটা কীভাবে ব্যবহার করে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q11)
 
@@ -743,8 +730,7 @@ Cubit স্পষ্ট event বাদ দেয় আর সরাসরি 
 
 ---
 
-<a id="q12"></a>
-## 12. মোবাইল টিমের জন্য Monorepo আর Multi-repo-র trade-off কী কী?
+## <a id="q12"></a>12. মোবাইল টিমের জন্য Monorepo আর Multi-repo-র trade-off কী কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q12)
 
@@ -787,8 +773,7 @@ Flutter টিমগুলো প্রায়ই `melos` দিয়ে mono
 
 ---
 
-<a id="q13"></a>
-## 13. Flutter-এ modular architecture (feature package) কী, আর বড় টিমগুলো কেন এটা নেয়?
+## <a id="q13"></a>13. Flutter-এ modular architecture (feature package) কী, আর বড় টিমগুলো কেন এটা নেয়?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q13)
 
@@ -836,8 +821,7 @@ packages/
 
 ---
 
-<a id="q14"></a>
-## 14. নতুন একটা Flutter project-এর জন্য কোন architecture ব্যবহার করবেন, সেটা কীভাবে ঠিক করেন?
+## <a id="q14"></a>14. নতুন একটা Flutter project-এর জন্য কোন architecture ব্যবহার করবেন, সেটা কীভাবে ঠিক করেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-13-architecture-patterns.md#q14)
 
@@ -881,9 +865,8 @@ packages/
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতে দেখার জন্য)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতে দেখার জন্য)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table-গুলো, তারপর এক লাইনের reminder-গুলো।
 

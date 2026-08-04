@@ -26,9 +26,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Complexity (Big-O)**
 1. [Big-O notation — time complexity](#q1) · *Very common*
@@ -71,9 +70,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need all 23 at once. Follow these stages in order. Tick a stage off only when you can give the **short answer** and write the code without looking.
 
@@ -101,8 +99,7 @@ You don't need all 23 at once. Follow these stages in order. Tick a stage off on
 
 ---
 
-<a id="q1"></a>
-## 1. What is Big-O notation and why does it matter?
+## <a id="q1"></a>1. What is Big-O notation and why does it matter?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q1)
 
@@ -173,8 +170,7 @@ void printPairs(List<int> a) {
 
 ---
 
-<a id="q2"></a>
-## 2. What is space complexity, and how is it different from time complexity?
+## <a id="q2"></a>2. What is space complexity, and how is it different from time complexity?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q2)
 
@@ -236,8 +232,7 @@ Often you can make something faster by using more memory, or save memory by spen
 
 ---
 
-<a id="q3"></a>
-## 3. How do Dart Lists (arrays) work internally, and what are the time complexities?
+## <a id="q3"></a>3. How do Dart Lists (arrays) work internally, and what are the time complexities?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q3)
 
@@ -298,8 +293,7 @@ list.removeAt(0);  // shifts everything back → O(n)
 
 ---
 
-<a id="q4"></a>
-## 4. What is a Linked List, how is it different from an array, and what are the trade-offs?
+## <a id="q4"></a>4. What is a Linked List, how is it different from an array, and what are the trade-offs?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q4)
 
@@ -369,8 +363,7 @@ Node<T>? getAt<T>(Node<T>? head, int index) {
 
 ---
 
-<a id="q5"></a>
-## 5. What is a Stack, how does it work, and how do you implement one in Dart?
+## <a id="q5"></a>5. What is a Stack, how does it work, and how do you implement one in Dart?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q5)
 
@@ -435,8 +428,7 @@ bool isBalanced(String s) {
 
 ---
 
-<a id="q6"></a>
-## 6. What is a Queue, how is it different from a Stack, and how do you use it in Dart?
+## <a id="q6"></a>6. What is a Queue, how is it different from a Stack, and how do you use it in Dart?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q6)
 
@@ -488,8 +480,7 @@ A List can do `add` (back) in O(1), but `removeAt(0)` (front) is O(n) because ev
 
 ---
 
-<a id="q7"></a>
-## 7. How does Dart's `Map` (HashMap) work internally, and what are the time complexities?
+## <a id="q7"></a>7. How does Dart's `Map` (HashMap) work internally, and what are the time complexities?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q7)
 
@@ -552,8 +543,7 @@ print(m[const Point(1, 2)]); // 'A' — works because == and hashCode are correc
 
 ---
 
-<a id="q8"></a>
-## 8. What is a Set, how is it different from a List, and when should you use it?
+## <a id="q8"></a>8. What is a Set, how is it different from a List, and when should you use it?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q8)
 
@@ -620,8 +610,7 @@ print(a.difference(b));   // {1}
 
 ---
 
-<a id="q9"></a>
-## 9. What is a Binary Tree, and how do BFS and DFS traversals work?
+## <a id="q9"></a>9. What is a Binary Tree, and how do BFS and DFS traversals work?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q9)
 
@@ -695,8 +684,7 @@ Both are **O(n)** time (every node once). Space: BFS uses O(width) for the queue
 
 ---
 
-<a id="q10"></a>
-## 10. What is a Graph, how do you represent one, and how do BFS/DFS work on it?
+## <a id="q10"></a>10. What is a Graph, how do you represent one, and how do BFS/DFS work on it?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q10)
 
@@ -778,8 +766,7 @@ Both BFS and DFS are **O(V + E)** — every node and every edge is looked at onc
 
 ---
 
-<a id="q11"></a>
-## 11. How does Binary Search work, and when can you use it?
+## <a id="q11"></a>11. How does Binary Search work, and when can you use it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q11)
 
@@ -833,8 +820,7 @@ The two classic bugs: using `<` instead of `<=` in the loop, and computing `mid`
 
 ---
 
-<a id="q12"></a>
-## 12. Explain Bubble, Insertion, Merge, and Quick Sort — approach and complexity.
+## <a id="q12"></a>12. Explain Bubble, Insertion, Merge, and Quick Sort — approach and complexity.
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q12)
 
@@ -915,8 +901,7 @@ Choose a pivot, move smaller items left and bigger items right, then sort each s
 
 ---
 
-<a id="q13"></a>
-## 13. What is the Two Pointers technique, and when do you use it?
+## <a id="q13"></a>13. What is the Two Pointers technique, and when do you use it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q13)
 
@@ -981,8 +966,7 @@ Look for: a **sorted** list, finding **pairs**, comparing **both ends**, or **in
 
 ---
 
-<a id="q14"></a>
-## 14. What is the Sliding Window technique, and when should you use it?
+## <a id="q14"></a>14. What is the Sliding Window technique, and when should you use it?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q14)
 
@@ -1044,8 +1028,7 @@ Look for: "subarray/substring", "consecutive", "of size k", "longest/shortest ra
 
 ---
 
-<a id="q15"></a>
-## 15. How does recursion work? Explain the base case, the call stack, and tail recursion.
+## <a id="q15"></a>15. How does recursion work? Explain the base case, the call stack, and tail recursion.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q15)
 
@@ -1100,8 +1083,7 @@ int factorialTail(int n, [int acc = 1]) {
 
 ---
 
-<a id="q16"></a>
-## 16. What is Dynamic Programming, and what is the difference between memoization and tabulation?
+## <a id="q16"></a>16. What is Dynamic Programming, and what is the difference between memoization and tabulation?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q16)
 
@@ -1166,8 +1148,7 @@ int fibTab(int n) {
 
 ---
 
-<a id="q17"></a>
-## 17. Write a function that reverses a string.
+## <a id="q17"></a>17. Write a function that reverses a string.
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q17)
 
@@ -1218,8 +1199,7 @@ Some characters (emojis, accented letters) are made of multiple code units, and 
 
 ---
 
-<a id="q18"></a>
-## 18. Write a function to check if a string is a palindrome.
+## <a id="q18"></a>18. Write a function to check if a string is a palindrome.
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q18)
 
@@ -1279,8 +1259,7 @@ This is O(n) space because it builds a reversed copy. The two-pointer version is
 
 ---
 
-<a id="q19"></a>
-## 19. Write a function to find all duplicate elements in a list.
+## <a id="q19"></a>19. Write a function to find all duplicate elements in a list.
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q19)
 
@@ -1339,8 +1318,7 @@ Map<int, int> counts(List<int> nums) {
 
 ---
 
-<a id="q20"></a>
-## 20. Write FizzBuzz.
+## <a id="q20"></a>20. Write FizzBuzz.
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q20)
 
@@ -1397,8 +1375,7 @@ void fizzBuzz2(int n) {
 
 ---
 
-<a id="q21"></a>
-## 21. Compute the nth Fibonacci number — iterative, recursive, and memoized.
+## <a id="q21"></a>21. Compute the nth Fibonacci number — iterative, recursive, and memoized.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q21)
 
@@ -1467,8 +1444,7 @@ int fibMemo(int n, [Map<int, int>? memo]) {
 
 ---
 
-<a id="q22"></a>
-## 22. Two Sum — find two indices whose values add up to a target.
+## <a id="q22"></a>22. Two Sum — find two indices whose values add up to a target.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q22)
 
@@ -1518,8 +1494,7 @@ We spend O(n) extra memory (the Map) to save time (O(n²) → O(n)). That trade 
 
 ---
 
-<a id="q23"></a>
-## 23. Find the maximum value in a list without using `max()`.
+## <a id="q23"></a>23. Find the maximum value in a list without using `max()`.
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-11-data-structure-bn.md#q23)
 
@@ -1574,9 +1549,8 @@ int? findMaxOrNull(List<int> nums) {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Tables first, then one-line reminders.
 

@@ -26,9 +26,8 @@ claude --resume abbeebc0-c14d-4e25-a217-43bcb48442f4
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Complexity (Big-O)**
 1. [Big-O notation — time complexity](#q1) · *Very common*
@@ -71,9 +70,8 @@ claude --resume abbeebc0-c14d-4e25-a217-43bcb48442f4
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ২৩টা প্রশ্ন একসাথে লাগবে না। এই পর্যায়গুলো ক্রম অনুযায়ী শেষ করুন। একটা পর্যায় তখনই টিক দিন, যখন আপনি **সংক্ষিপ্ত উত্তর** বলতে পারবেন আর না দেখে code লিখতে পারবেন।
 
@@ -101,8 +99,7 @@ claude --resume abbeebc0-c14d-4e25-a217-43bcb48442f4
 
 ---
 
-<a id="q1"></a>
-## 1. Big-O notation কী, আর এটা কেন গুরুত্বপূর্ণ?
+## <a id="q1"></a>1. Big-O notation কী, আর এটা কেন গুরুত্বপূর্ণ?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q1)
 
@@ -173,8 +170,7 @@ void printPairs(List<int> a) {
 
 ---
 
-<a id="q2"></a>
-## 2. Space complexity কী, আর এটা time complexity থেকে কীভাবে আলাদা?
+## <a id="q2"></a>2. Space complexity কী, আর এটা time complexity থেকে কীভাবে আলাদা?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q2)
 
@@ -236,8 +232,7 @@ int factorial(int n) {
 
 ---
 
-<a id="q3"></a>
-## 3. Dart-এর List (array) ভেতরে ভেতরে কীভাবে কাজ করে, আর এর time complexity কী কী?
+## <a id="q3"></a>3. Dart-এর List (array) ভেতরে ভেতরে কীভাবে কাজ করে, আর এর time complexity কী কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q3)
 
@@ -298,8 +293,7 @@ list.removeAt(0);  // সব আবার পিছনে সরে → O(n)
 
 ---
 
-<a id="q4"></a>
-## 4. Linked List কী, array থেকে এটা কীভাবে আলাদা, আর এর trade-off কী কী?
+## <a id="q4"></a>4. Linked List কী, array থেকে এটা কীভাবে আলাদা, আর এর trade-off কী কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q4)
 
@@ -369,8 +363,7 @@ Node<T>? getAt<T>(Node<T>? head, int index) {
 
 ---
 
-<a id="q5"></a>
-## 5. Stack কী, এটা কীভাবে কাজ করে, আর Dart-এ কীভাবে একটা বানাবেন?
+## <a id="q5"></a>5. Stack কী, এটা কীভাবে কাজ করে, আর Dart-এ কীভাবে একটা বানাবেন?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q5)
 
@@ -435,8 +428,7 @@ bool isBalanced(String s) {
 
 ---
 
-<a id="q6"></a>
-## 6. Queue কী, Stack থেকে এটা কীভাবে আলাদা, আর Dart-এ কীভাবে ব্যবহার করবেন?
+## <a id="q6"></a>6. Queue কী, Stack থেকে এটা কীভাবে আলাদা, আর Dart-এ কীভাবে ব্যবহার করবেন?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q6)
 
@@ -488,8 +480,7 @@ List `add` (পেছনে) করতে পারে O(1)-এ, কিন্ত
 
 ---
 
-<a id="q7"></a>
-## 7. Dart-এর `Map` (HashMap) ভেতরে কীভাবে কাজ করে, আর এর time complexity কী কী?
+## <a id="q7"></a>7. Dart-এর `Map` (HashMap) ভেতরে কীভাবে কাজ করে, আর এর time complexity কী কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q7)
 
@@ -552,8 +543,7 @@ print(m[const Point(1, 2)]); // 'A' — কাজ করে কারণ == আ�
 
 ---
 
-<a id="q8"></a>
-## 8. Set কী, List থেকে এটা কীভাবে আলাদা, আর কখন ব্যবহার করবেন?
+## <a id="q8"></a>8. Set কী, List থেকে এটা কীভাবে আলাদা, আর কখন ব্যবহার করবেন?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q8)
 
@@ -620,8 +610,7 @@ print(a.difference(b));   // {1}
 
 ---
 
-<a id="q9"></a>
-## 9. Binary Tree কী, আর BFS ও DFS traversal কীভাবে কাজ করে?
+## <a id="q9"></a>9. Binary Tree কী, আর BFS ও DFS traversal কীভাবে কাজ করে?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q9)
 
@@ -695,8 +684,7 @@ void bfs(TreeNode? root) {
 
 ---
 
-<a id="q10"></a>
-## 10. Graph কী, একে কীভাবে represent করবেন, আর তাতে BFS/DFS কীভাবে কাজ করে?
+## <a id="q10"></a>10. Graph কী, একে কীভাবে represent করবেন, আর তাতে BFS/DFS কীভাবে কাজ করে?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q10)
 
@@ -778,8 +766,7 @@ BFS আর DFS দুটোই **O(V + E)** — প্রতিটি node আ�
 
 ---
 
-<a id="q11"></a>
-## 11. Binary Search কীভাবে কাজ করে, আর কখন এটা ব্যবহার করা যায়?
+## <a id="q11"></a>11. Binary Search কীভাবে কাজ করে, আর কখন এটা ব্যবহার করা যায়?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q11)
 
@@ -833,8 +820,7 @@ Binary search শুধু sorted data-তে কাজ করে। Data sorted
 
 ---
 
-<a id="q12"></a>
-## 12. Bubble, Insertion, Merge, আর Quick Sort ব্যাখ্যা করুন — পদ্ধতি আর complexity।
+## <a id="q12"></a>12. Bubble, Insertion, Merge, আর Quick Sort ব্যাখ্যা করুন — পদ্ধতি আর complexity।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q12)
 
@@ -915,8 +901,7 @@ List<int> _merge(List<int> l, List<int> r) {
 
 ---
 
-<a id="q13"></a>
-## 13. Two Pointers technique কী, আর কখন এটা ব্যবহার করবেন?
+## <a id="q13"></a>13. Two Pointers technique কী, আর কখন এটা ব্যবহার করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q13)
 
@@ -981,8 +966,7 @@ int removeDuplicates(List<int> sorted) {
 
 ---
 
-<a id="q14"></a>
-## 14. Sliding Window technique কী, আর কখন এটা ব্যবহার করা উচিত?
+## <a id="q14"></a>14. Sliding Window technique কী, আর কখন এটা ব্যবহার করা উচিত?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q14)
 
@@ -1044,8 +1028,7 @@ int longestUniqueSubstring(String s) {
 
 ---
 
-<a id="q15"></a>
-## 15. Recursion কীভাবে কাজ করে? Base case, call stack, আর tail recursion ব্যাখ্যা করুন।
+## <a id="q15"></a>15. Recursion কীভাবে কাজ করে? Base case, call stack, আর tail recursion ব্যাখ্যা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q15)
 
@@ -1100,8 +1083,7 @@ int factorialTail(int n, [int acc = 1]) {
 
 ---
 
-<a id="q16"></a>
-## 16. Dynamic Programming কী, আর memoization ও tabulation-এর পার্থক্য কী?
+## <a id="q16"></a>16. Dynamic Programming কী, আর memoization ও tabulation-এর পার্থক্য কী?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q16)
 
@@ -1166,8 +1148,7 @@ int fibTab(int n) {
 
 ---
 
-<a id="q17"></a>
-## 17. একটা function লিখুন যেটা একটা string reverse করে।
+## <a id="q17"></a>17. একটা function লিখুন যেটা একটা string reverse করে।
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q17)
 
@@ -1218,8 +1199,7 @@ String reverseManual(String s) {
 
 ---
 
-<a id="q18"></a>
-## 18. একটা function লিখুন যেটা check করে string-টা palindrome কি না।
+## <a id="q18"></a>18. একটা function লিখুন যেটা check করে string-টা palindrome কি না।
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q18)
 
@@ -1279,8 +1259,7 @@ bool isPalindromeSimple(String s) => s == s.split('').reversed.join();
 
 ---
 
-<a id="q19"></a>
-## 19. একটা function লিখুন যেটা একটা list-এর সব duplicate element খুঁজে বের করে।
+## <a id="q19"></a>19. একটা function লিখুন যেটা একটা list-এর সব duplicate element খুঁজে বের করে।
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q19)
 
@@ -1339,8 +1318,7 @@ Map<int, int> counts(List<int> nums) {
 
 ---
 
-<a id="q20"></a>
-## 20. FizzBuzz লিখুন।
+## <a id="q20"></a>20. FizzBuzz লিখুন।
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q20)
 
@@ -1397,8 +1375,7 @@ void fizzBuzz2(int n) {
 
 ---
 
-<a id="q21"></a>
-## 21. n-তম Fibonacci সংখ্যা বের করুন — iterative, recursive, আর memoized।
+## <a id="q21"></a>21. n-তম Fibonacci সংখ্যা বের করুন — iterative, recursive, আর memoized।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q21)
 
@@ -1467,8 +1444,7 @@ int fibMemo(int n, [Map<int, int>? memo]) {
 
 ---
 
-<a id="q22"></a>
-## 22. Two Sum — এমন দুটো index বের করুন যাদের মান যোগ করলে target হয়।
+## <a id="q22"></a>22. Two Sum — এমন দুটো index বের করুন যাদের মান যোগ করলে target হয়।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q22)
 
@@ -1518,8 +1494,7 @@ List<int>? twoSum(List<int> nums, int target) {
 
 ---
 
-<a id="q23"></a>
-## 23. `max()` ব্যবহার না করে list-এর সবচেয়ে বড় মান বের করুন।
+## <a id="q23"></a>23. `max()` ব্যবহার না করে list-এর সবচেয়ে বড় মান বের করুন।
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-11-data-structure.md#q23)
 
@@ -1574,9 +1549,8 @@ int? findMaxOrNull(List<int> nums) {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের review)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের review)
 
 Interview-এর দিন সকালে এটা পড়ুন। আগে table, তারপর এক লাইনের মনে করিয়ে দেওয়া কথা।
 

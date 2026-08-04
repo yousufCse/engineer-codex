@@ -23,9 +23,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. যে basic দিয়ে প্রতিটা interview শুরু হয়**
 1. ["State" কী? Ephemeral vs app state](#q1) · *Very common*
@@ -59,9 +58,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৮টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়ানো। একটা পর্যায় তখনই শেষ ধরবেন যখন না দেখে **সংক্ষিপ্ত উত্তরটা** দিতে পারবেন।
 
@@ -89,8 +87,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. Flutter-এ "state" কী? Ephemeral আর app state-এর পার্থক্য কী?
+## <a id="q1"></a>1. Flutter-এ "state" কী? Ephemeral আর app state-এর পার্থক্য কী?
 
 > Very common · Easy · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q1)
 
@@ -151,8 +148,7 @@ class _FaqTileState extends State<FaqTile> {
 
 ---
 
-<a id="q2"></a>
-## 2. `setState` ভেতরে কীভাবে কাজ করে? কখন এটা ব্যবহার করবেন না?
+## <a id="q2"></a>2. `setState` ভেতরে কীভাবে কাজ করে? কখন এটা ব্যবহার করবেন না?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q2)
 
@@ -245,8 +241,7 @@ Future<void> _load() async {
 
 ---
 
-<a id="q3"></a>
-## 3. `StatefulWidget`-এর lifecycle ধাপে ধাপে বলুন। State আসলে কোথায় থাকে?
+## <a id="q3"></a>3. `StatefulWidget`-এর lifecycle ধাপে ধাপে বলুন। State আসলে কোথায় থাকে?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q3)
 
@@ -323,8 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 ---
 
-<a id="q4"></a>
-## 4. "Lifting state up" মানে কী, আর এটা কেন scale করা বন্ধ করে দেয়?
+## <a id="q4"></a>4. "Lifting state up" মানে কী, আর এটা কেন scale করা বন্ধ করে দেয়?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q4)
 
@@ -388,8 +382,7 @@ State manager prop drilling সমাধান করে এভাবে — য
 
 ---
 
-<a id="q5"></a>
-## 5. `InheritedWidget` কীভাবে data নিচে পাঠায়, আর `updateShouldNotify` কী করে?
+## <a id="q5"></a>5. `InheritedWidget` কীভাবে data নিচে পাঠায়, আর `updateShouldNotify` কী করে?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q5)
 
@@ -465,8 +458,7 @@ final theme = ThemeInherited.of(context);
 
 ---
 
-<a id="q6"></a>
-## 6. Provider ব্যাখ্যা করুন — `ChangeNotifier`, `Consumer`, `Selector`, আর `ProxyProvider`।
+## <a id="q6"></a>6. Provider ব্যাখ্যা করুন — `ChangeNotifier`, `Consumer`, `Selector`, আর `ProxyProvider`।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q6)
 
@@ -557,8 +549,7 @@ MultiProvider(
 
 ---
 
-<a id="q7"></a>
-## 7. `context.watch`, `context.read`, আর `context.select`-এর পার্থক্য কী?
+## <a id="q7"></a>7. `context.watch`, `context.read`, আর `context.select`-এর পার্থক্য কী?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q7)
 
@@ -628,8 +619,7 @@ context.read<T>()       -> read once, NO subscription        (use in callbacks)
 
 ---
 
-<a id="q8"></a>
-## 8. BLoC pattern ব্যাখ্যা করুন — event, state, আর stream।
+## <a id="q8"></a>8. BLoC pattern ব্যাখ্যা করুন — event, state, আর stream।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q8)
 
@@ -738,8 +728,7 @@ bloc v8-এর আগে আপনি একটা বড় `mapEventToState` m
 
 ---
 
-<a id="q9"></a>
-## 9. Cubit কী? এটা BLoC থেকে কীভাবে আলাদা, আর কোনটা কখন পছন্দ করবেন?
+## <a id="q9"></a>9. Cubit কী? এটা BLoC থেকে কীভাবে আলাদা, আর কোনটা কখন পছন্দ করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q9)
 
@@ -818,8 +807,7 @@ bloc.add(Increment()); // আগে একটা event object বানাতে
 
 ---
 
-<a id="q10"></a>
-## 10. `BlocBuilder` vs `BlocListener` vs `BlocConsumer` — কোনটা কখন ব্যবহার করবেন?
+## <a id="q10"></a>10. `BlocBuilder` vs `BlocListener` vs `BlocConsumer` — কোনটা কখন ব্যবহার করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q10)
 
@@ -910,8 +898,7 @@ Pixel বদলালে → `BlocBuilder`। এককালীন action হ�
 
 ---
 
-<a id="q11"></a>
-## 11. `buildWhen` আর `listenWhen` কী কাজ করে, আর performance-এর জন্য এগুলো কেন গুরুত্বপূর্ণ?
+## <a id="q11"></a>11. `buildWhen` আর `listenWhen` কী কাজ করে, আর performance-এর জন্য এগুলো কেন গুরুত্বপূর্ণ?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q11)
 
@@ -984,8 +971,7 @@ search-as-you-type-এর কথা ভাবুন: প্রতিটা keyst
 
 ---
 
-<a id="q12"></a>
-## 12. `emit()` আর `setState()`-এর পার্থক্য কী? Cubit close হয়ে যাওয়ার পরে `emit()` call করলে কী হয়?
+## <a id="q12"></a>12. `emit()` আর `setState()`-এর পার্থক্য কী? Cubit close হয়ে যাওয়ার পরে `emit()` call করলে কী হয়?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q12)
 
@@ -1065,8 +1051,7 @@ Bloc-এর `on<Event>` handler-এর ভেতরে framework সাহায
 
 ---
 
-<a id="q13"></a>
-## 13. Riverpod ব্যাখ্যা করুন — এটা Provider থেকে কীভাবে আলাদা, এর provider ধরনগুলো কী, আর `ref.watch` vs `ref.read` vs `ref.listen`।
+## <a id="q13"></a>13. Riverpod ব্যাখ্যা করুন — এটা Provider থেকে কীভাবে আলাদা, এর provider ধরনগুলো কী, আর `ref.watch` vs `ref.read` vs `ref.listen`।
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q13)
 
@@ -1187,8 +1172,7 @@ return userAsync.when(
 
 ---
 
-<a id="q14"></a>
-## 14. GetX ব্যাখ্যা করুন — controllers, `Obx`, `GetBuilder` — আর এর trade-off কী কী?
+## <a id="q14"></a>14. GetX ব্যাখ্যা করুন — controllers, `Obx`, `GetBuilder` — আর এর trade-off কী কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q14)
 
@@ -1278,8 +1262,7 @@ GetX ভালো কাজ করে একা কাজ করা developer, p
 
 ---
 
-<a id="q15"></a>
-## 15. Sealed union দিয়ে loading, success আর error state কীভাবে পরিষ্কারভাবে model করবেন?
+## <a id="q15"></a>15. Sealed union দিয়ে loading, success আর error state কীভাবে পরিষ্কারভাবে model করবেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q15)
 
@@ -1404,8 +1387,7 @@ class AsyncStateWidget<T> extends StatelessWidget {
 
 ---
 
-<a id="q16"></a>
-## 16. সম্পূর্ণ সম্পর্কহীন দুটি screen-এর মধ্যে state কীভাবে share করবেন?
+## <a id="q16"></a>16. সম্পূর্ণ সম্পর্কহীন দুটি screen-এর মধ্যে state কীভাবে share করবেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q16)
 
@@ -1482,8 +1464,7 @@ class CatalogScreen extends ConsumerWidget {
 
 ---
 
-<a id="q17"></a>
-## 17. একটা project-এর জন্য state management solution কীভাবে বাছাই করেন?
+## <a id="q17"></a>17. একটা project-এর জন্য state management solution কীভাবে বাছাই করেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q17)
 
@@ -1556,8 +1537,7 @@ final cartProvider = NotifierProvider<CartNotifier, CartState>(CartNotifier.new)
 
 ---
 
-<a id="q18"></a>
-## 18. BLoC / Cubit-এর state logic কীভাবে test করেন?
+## <a id="q18"></a>18. BLoC / Cubit-এর state logic কীভাবে test করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-03-state-management.md#q18)
 
@@ -1661,9 +1641,8 @@ group('AuthBloc', () {
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিউ)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিউ)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার table, তারপর এক লাইনের মনে করিয়ে দেওয়া পয়েন্ট।
 

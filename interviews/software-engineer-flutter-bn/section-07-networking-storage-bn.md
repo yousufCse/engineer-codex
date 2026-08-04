@@ -25,9 +25,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. HTTP client আর configuration**
 1. [`http` package বনাম Dio](#q1) · *Very common*
@@ -65,9 +64,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 ১৬টা প্রশ্ন একসাথে পড়ার দরকার নেই। এই পর্যায়গুলো ক্রম অনুযায়ী অনুসরণ করুন — প্রতিটা আগেরটার উপর দাঁড়িয়ে আছে। একটা পর্যায় তখনই শেষ ধরুন, যখন না দেখে **সংক্ষিপ্ত উত্তর** বলতে পারবেন।
 
@@ -95,8 +93,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. `http` package আর Dio-র মধ্যে পার্থক্য কী? Production-এ সাধারণত Dio কেন বেছে নেওয়া হয়?
+## <a id="q1"></a>1. `http` package আর Dio-র মধ্যে পার্থক্য কী? Production-এ সাধারণত Dio কেন বেছে নেওয়া হয়?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q1)
 
@@ -178,8 +175,7 @@ final response = await dio.get('/users');
 
 ---
 
-<a id="q2"></a>
-## 2. Timeout আর retry strategy কীভাবে ঠিক করেন? Connect timeout আর receive timeout-এর মধ্যে পার্থক্য কী?
+## <a id="q2"></a>2. Timeout আর retry strategy কীভাবে ঠিক করেন? Connect timeout আর receive timeout-এর মধ্যে পার্থক্য কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q2)
 
@@ -290,8 +286,7 @@ class RetryInterceptor extends Interceptor {
 
 ---
 
-<a id="q3"></a>
-## 3. Dio interceptor কীভাবে কাজ করে? auth token কীভাবে inject করবেন, আর 401 এলে token refresh ও retry queue কীভাবে সামলাবেন?
+## <a id="q3"></a>3. Dio interceptor কীভাবে কাজ করে? auth token কীভাবে inject করবেন, আর 401 এলে token refresh ও retry queue কীভাবে সামলাবেন?
 
 > Very common · Medium–Hard — networking নিয়ে ক্লাসিক বাস্তব প্রশ্ন। · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q3)
 
@@ -440,8 +435,7 @@ dio.interceptors.add(LogInterceptor()); // auth token যোগ করার প
 
 ---
 
-<a id="q4"></a>
-## 4. Dio-তে global error handling কীভাবে করেন? `DioException`-এর type-গুলো কী কী?
+## <a id="q4"></a>4. Dio-তে global error handling কীভাবে করেন? `DioException`-এর type-গুলো কী কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q4)
 
@@ -557,8 +551,7 @@ Failure typed বলে screen সেটার উপর switch করতে প
 
 ---
 
-<a id="q5"></a>
-## 5. REST আর GraphQL-এর পার্থক্য কী? Mobile-এ trade-off কী কী?
+## <a id="q5"></a>5. REST আর GraphQL-এর পার্থক্য কী? Mobile-এ trade-off কী কী?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q5)
 
@@ -635,8 +628,7 @@ final result = await client.query(
 
 ---
 
-<a id="q6"></a>
-## 6. Either / Result pattern কী? Layer-এর মাঝে exception ছোড়ার চেয়ে এটা কেন ভালো?
+## <a id="q6"></a>6. Either / Result pattern কী? Layer-এর মাঝে exception ছোড়ার চেয়ে এটা কেন ভালো?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q6)
 
@@ -754,8 +746,7 @@ class UserCubit extends Cubit<UserState> {
 
 ---
 
-<a id="q7"></a>
-## 7. Flutter-এ JSON কীভাবে parse করেন? manual parsing, `json_serializable`, আর `freezed`-এর তুলনা করুন।
+## <a id="q7"></a>7. Flutter-এ JSON কীভাবে parse করেন? manual parsing, `json_serializable`, আর `freezed`-এর তুলনা করুন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q7)
 
@@ -878,8 +869,7 @@ final tags = (json['tags'] as List<dynamic>)
 
 ---
 
-<a id="q8"></a>
-## 8. Certificate pinning কী, এটা কেন গুরুত্বপূর্ণ, আর Flutter-এ এটা কীভাবে করবেন?
+## <a id="q8"></a>8. Certificate pinning কী, এটা কেন গুরুত্বপূর্ণ, আর Flutter-এ এটা কীভাবে করবেন?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q8)
 
@@ -959,8 +949,7 @@ Dart-এর `SecurityContext` সীমিত (বিশেষ করে public 
 
 ---
 
-<a id="q9"></a>
-## 9. Internet connection না থাকলে কীভাবে সুন্দরভাবে সামলান?
+## <a id="q9"></a>9. Internet connection না থাকলে কীভাবে সুন্দরভাবে সামলান?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q9)
 
@@ -1085,8 +1074,7 @@ BlocBuilder<ConnectivityCubit, ConnectivityStatus>(
 
 ---
 
-<a id="q10"></a>
-## 10. `SharedPreferences` কী জমা রাখে? এটা কি thread-safe, আর এর সীমা কী কী?
+## <a id="q10"></a>10. `SharedPreferences` কী জমা রাখে? এটা কি thread-safe, আর এর সীমা কী কী?
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q10)
 
@@ -1154,8 +1142,7 @@ await prefs.setString('cached_user', jsonEncode(user.toJson()));
 
 ---
 
-<a id="q11"></a>
-## 11. Hive কী? Box আর TypeAdapter কী, আর কখন SharedPreferences-এর বদলে Hive বেছে নেন?
+## <a id="q11"></a>11. Hive কী? Box আর TypeAdapter কী, আর কখন SharedPreferences-এর বদলে Hive বেছে নেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q11)
 
@@ -1264,8 +1251,7 @@ Custom object লাগলে, encryption লাগলে, ~20টির বে�
 
 ---
 
-<a id="q12"></a>
-## 12. SQLite / Drift কখন দরকার হয়, আর Drift-এ basic query কীভাবে লেখেন?
+## <a id="q12"></a>12. SQLite / Drift কখন দরকার হয়, আর Drift-এ basic query কীভাবে লেখেন?
 
 > Common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q12)
 
@@ -1383,8 +1369,7 @@ Schema বদলালে (একটা column যোগ করলে) `schemaVe
 
 ---
 
-<a id="q13"></a>
-## 13. `flutter_secure_storage` ভেতরে কী ব্যবহার করে, আর কখন এটা ব্যবহার করা উচিত?
+## <a id="q13"></a>13. `flutter_secure_storage` ভেতরে কী ব্যবহার করে, আর কখন এটা ব্যবহার করা উচিত?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q13)
 
@@ -1462,8 +1447,7 @@ class SecureTokenStorage {
 
 ---
 
-<a id="q14"></a>
-## 14. Flutter-এ local data কীভাবে encrypt করেন?
+## <a id="q14"></a>14. Flutter-এ local data কীভাবে encrypt করেন?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q14)
 
@@ -1569,8 +1553,7 @@ Key runtime-এ generate করুন, সেগুলো `flutter_secure_storag
 
 ---
 
-<a id="q15"></a>
-## 15. Flutter-এ offline-first architecture কীভাবে implement করবেন?
+## <a id="q15"></a>15. Flutter-এ offline-first architecture কীভাবে implement করবেন?
 
 > Common · Hard · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q15)
 
@@ -1704,8 +1687,7 @@ class SyncManager {
 
 ---
 
-<a id="q16"></a>
-## 16. Local cached data-কে server-এর সাথে sync-এ রাখবেন কীভাবে?
+## <a id="q16"></a>16. Local cached data-কে server-এর সাথে sync-এ রাখবেন কীভাবে?
 
 > Deeper question · Hard · [🇬🇧 English](../software-engineer-flutter/section-07-networking-storage.md#q16)
 
@@ -1814,9 +1796,8 @@ Response:
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। প্রথমে দ্রুত তুলনার table-গুলো, তারপর এক লাইনের মনে করিয়ে দেওয়া পয়েন্টগুলো।
 

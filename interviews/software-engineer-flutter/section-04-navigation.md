@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Navigator 1.0 (the imperative stack)**
 1. [Navigator 1.0 — the stack, push/pop/pushReplacement/pushAndRemoveUntil/maybePop](#q1) · *Very common*
@@ -56,9 +55,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 17 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -86,8 +84,7 @@ You don't need to study all 17 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. Explain Navigator 1.0. How does the stack work? Walk through `push`, `pop`, `pushReplacement`, `pushAndRemoveUntil`, and `maybePop`.
+## <a id="q1"></a>1. Explain Navigator 1.0. How does the stack work? Walk through `push`, `pop`, `pushReplacement`, `pushAndRemoveUntil`, and `maybePop`.
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q1)
 
@@ -185,8 +182,7 @@ Navigator.maybePop(context); // safe: won't blow away the app on the root
 
 ---
 
-<a id="q2"></a>
-## 2. How do you pass data back to the previous screen? How does awaiting a navigation result work?
+## <a id="q2"></a>2. How do you pass data back to the previous screen? How does awaiting a navigation result work?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q2)
 
@@ -253,8 +249,7 @@ context.pop('blue');
 
 ---
 
-<a id="q3"></a>
-## 3. What are named routes? How do `MaterialApp.routes` and `onGenerateRoute` work?
+## <a id="q3"></a>3. What are named routes? How do `MaterialApp.routes` and `onGenerateRoute` work?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q3)
 
@@ -335,8 +330,7 @@ return MaterialPageRoute(builder: (_) => const NotFoundScreen());
 
 ---
 
-<a id="q4"></a>
-## 4. Why was Navigator 2.0 introduced? What problems does it solve that Navigator 1.0 couldn't?
+## <a id="q4"></a>4. Why was Navigator 2.0 introduced? What problems does it solve that Navigator 1.0 couldn't?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q4)
 
@@ -396,8 +390,7 @@ Navigator(
 
 ---
 
-<a id="q5"></a>
-## 5. Explain the core Navigator 2.0 internals — `Router`, `RouteInformationParser`, and `RouterDelegate`. What does each do?
+## <a id="q5"></a>5. Explain the core Navigator 2.0 internals — `Router`, `RouteInformationParser`, and `RouterDelegate`. What does each do?
 
 > Deeper · Hard — a senior tie-breaker. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q5)
 
@@ -520,8 +513,7 @@ Writing all three classes by hand is a lot of boilerplate and easy to get wrong.
 
 ---
 
-<a id="q6"></a>
-## 6. How does go_router work? Explain route declaration, subroutes, path parameters, and query parameters.
+## <a id="q6"></a>6. How does go_router work? Explain route declaration, subroutes, path parameters, and query parameters.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q6)
 
@@ -614,8 +606,7 @@ A simple rule: **path parameters identify *which* thing** (which product), **que
 
 ---
 
-<a id="q7"></a>
-## 7. In go_router, what is the difference between `go()`, `push()`, and `replace()`?
+## <a id="q7"></a>7. In go_router, what is the difference between `go()`, `push()`, and `replace()`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q7)
 
@@ -671,8 +662,7 @@ On web, `push()` adds a screen that isn't fully described by the URL. If the use
 
 ---
 
-<a id="q8"></a>
-## 8. How do you implement an auth / login guard with go_router's `redirect`?
+## <a id="q8"></a>8. How do you implement an auth / login guard with go_router's `redirect`?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q8)
 
@@ -770,8 +760,7 @@ final router = GoRouter(
 
 ---
 
-<a id="q9"></a>
-## 9. What is go_router's `ShellRoute`? How do you build a persistent bottom navigation bar, and how is `StatefulShellRoute` different?
+## <a id="q9"></a>9. What is go_router's `ShellRoute`? How do you build a persistent bottom navigation bar, and how is `StatefulShellRoute` different?
 
 > Very common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q9)
 
@@ -883,8 +872,7 @@ StatefulShellRoute.indexedStack(
 
 ---
 
-<a id="q10"></a>
-## 10. What is the difference between named routes and typed routes (go_router_builder)?
+## <a id="q10"></a>10. What is the difference between named routes and typed routes (go_router_builder)?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q10)
 
@@ -959,8 +947,7 @@ Typed routes add `build_runner` setup, a generated file, and more boilerplate pe
 
 ---
 
-<a id="q11"></a>
-## 11. How do you pass arguments between screens? What is the safe (typed) way versus the unsafe way?
+## <a id="q11"></a>11. How do you pass arguments between screens? What is the safe (typed) way versus the unsafe way?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q11)
 
@@ -1048,8 +1035,7 @@ if (data == null) return const ProductLoaderScreen(); // re-fetch fallback
 
 ---
 
-<a id="q12"></a>
-## 12. How do you handle 404 / unknown routes in go_router?
+## <a id="q12"></a>12. How do you handle 404 / unknown routes in go_router?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q12)
 
@@ -1124,8 +1110,7 @@ redirect: (context, state) {
 
 ---
 
-<a id="q13"></a>
-## 13. What is deep linking? How do you configure it for Android and iOS with go_router?
+## <a id="q13"></a>13. What is deep linking? How do you configure it for Android and iOS with go_router?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q13)
 
@@ -1217,8 +1202,7 @@ A custom scheme like `myapp://product/42` is easy but unverified and won't open 
 
 ---
 
-<a id="q14"></a>
-## 14. How does `PopScope` work? How do you intercept the back button?
+## <a id="q14"></a>14. How does `PopScope` work? How do you intercept the back button?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q14)
 
@@ -1298,8 +1282,7 @@ The old `WillPopScope` returned a `Future<bool>` to allow or block the pop. That
 
 ---
 
-<a id="q15"></a>
-## 15. How do you navigate from outside the widget tree — for example, from a Cubit, service, or repository?
+## <a id="q15"></a>15. How do you navigate from outside the widget tree — for example, from a Cubit, service, or repository?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q15)
 
@@ -1377,8 +1360,7 @@ Saving a `context` in a Cubit or service is dangerous — once that widget is di
 
 ---
 
-<a id="q16"></a>
-## 16. When do you need nested navigators? How does a bottom navigation bar use separate navigation stacks?
+## <a id="q16"></a>16. When do you need nested navigators? How does a bottom navigation bar use separate navigation stacks?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q16)
 
@@ -1500,8 +1482,7 @@ StatefulShellRoute.indexedStack(
 
 ---
 
-<a id="q17"></a>
-## 17. How do you create custom page transitions / animations between screens?
+## <a id="q17"></a>17. How do you create custom page transitions / animations between screens?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-04-navigation-bn.md#q17)
 
@@ -1574,9 +1555,8 @@ Use durations around 200–350 ms and the same style across the app. Long or mis
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

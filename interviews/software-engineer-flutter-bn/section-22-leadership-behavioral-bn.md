@@ -32,9 +32,8 @@
 
 ---
 
-<a id="toc"></a>
 
-## সূচিপত্র
+## <a id="toc"></a>সূচিপত্র
 
 **A. Technical leadership**
 1. [Code review করা](#q1) · *Very common*
@@ -64,9 +63,8 @@
 
 ---
 
-<a id="study-plan"></a>
 
-## ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
+## <a id="study-plan"></a>ধাপে ধাপে প্রস্তুতি (পড়ার পরিকল্পনা)
 
 **পর্যায় ১ — Leadership-এর মূল জিনিসগুলো (এখান থেকে শুরু করুন)।**
 → [Q1 Code review](#q1) · [Q3 মতভেদ](#q3) · [Q6 গতি বনাম মান](#q6)
@@ -91,8 +89,7 @@
 
 ---
 
-<a id="q1"></a>
-## 1. আপনি কীভাবে code review করেন? কী কী খোঁজেন?
+## <a id="q1"></a>1. আপনি কীভাবে code review করেন? কী কী খোঁজেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q1)
 
@@ -135,8 +132,7 @@ Review জ্ঞান আর standard ছড়িয়ে দেয়। আ
 
 ---
 
-<a id="q2"></a>
-## 2. আপনি junior বা mid-level developer-দের কীভাবে mentor করেন?
+## <a id="q2"></a>2. আপনি junior বা mid-level developer-দের কীভাবে mentor করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q2)
 
@@ -173,8 +169,7 @@ Review জ্ঞান আর standard ছড়িয়ে দেয়। আ
 
 ---
 
-<a id="q3"></a>
-## 3. Teammate বা architect-এর সাথে technical মতভেদ কীভাবে সামলান?
+## <a id="q3"></a>3. Teammate বা architect-এর সাথে technical মতভেদ কীভাবে সামলান?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q3)
 
@@ -210,8 +205,7 @@ Review জ্ঞান আর standard ছড়িয়ে দেয়। আ
 
 ---
 
-<a id="q4"></a>
-## 4. আপনি team-এ নতুন library বা technology কীভাবে introduce করেন?
+## <a id="q4"></a>4. আপনি team-এ নতুন library বা technology কীভাবে introduce করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q4)
 
@@ -248,8 +242,7 @@ Review জ্ঞান আর standard ছড়িয়ে দেয়। আ
 
 ---
 
-<a id="q5"></a>
-## 5. Technical debt আপনি কীভাবে manage করেন আর শোধ করেন?
+## <a id="q5"></a>5. Technical debt আপনি কীভাবে manage করেন আর শোধ করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q5)
 
@@ -285,8 +278,7 @@ Code review, শক্ত Definition of Done, test, আর পরিষ্কা
 
 ---
 
-<a id="q6"></a>
-## 6. Delivery-র গতি আর code quality-র মধ্যে ভারসাম্য কীভাবে রাখেন?
+## <a id="q6"></a>6. Delivery-র গতি আর code quality-র মধ্যে ভারসাম্য কীভাবে রাখেন?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q6)
 
@@ -321,8 +313,7 @@ Code review, শক্ত Definition of Done, test, আর পরিষ্কা
 
 ---
 
-<a id="q7"></a>
-## 7. আপনি architectural সিদ্ধান্ত কীভাবে নেন, আর সেগুলো কীভাবে document করেন?
+## <a id="q7"></a>7. আপনি architectural সিদ্ধান্ত কীভাবে নেন, আর সেগুলো কীভাবে document করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q7)
 
@@ -364,8 +355,7 @@ Why:      consistency + testability outweigh extra boilerplate
 
 ---
 
-<a id="q8"></a>
-## 8. বড় একটা Flutter codebase-এ নতুন developer-কে কীভাবে onboard করেন?
+## <a id="q8"></a>8. বড় একটা Flutter codebase-এ নতুন developer-কে কীভাবে onboard করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q8)
 
@@ -399,8 +389,7 @@ Onboarding-এ যদি doc-এর ঘাটতি বা গোলমাল �
 
 ---
 
-<a id="q9"></a>
-## 9. আপনার চেয়ে বেশি senior একজন developer-এর PR আপনি কীভাবে review করেন?
+## <a id="q9"></a>9. আপনার চেয়ে বেশি senior একজন developer-এর PR আপনি কীভাবে review করেন?
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q9)
 
@@ -440,8 +429,7 @@ Senior-রাও ভুল করেন, আর তাঁরা আসল review
 
 ---
 
-<a id="q10"></a>
-## 10. নিজের সম্পর্কে বলুন (senior-level framing)।
+## <a id="q10"></a>10. নিজের সম্পর্কে বলুন (senior-level framing)।
 
 > Very common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q10)
 
@@ -477,8 +465,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q11"></a>
-## 11. আপনার সবচেয়ে বড় technical achievement কী?
+## <a id="q11"></a>11. আপনার সবচেয়ে বড় technical achievement কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q11)
 
@@ -510,8 +497,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q12"></a>
-## 12. এমন একটা সময়ের কথা বলুন যখন আপনি শূন্য থেকে production পর্যন্ত একটা project lead করেছেন।
+## <a id="q12"></a>12. এমন একটা সময়ের কথা বলুন যখন আপনি শূন্য থেকে production পর্যন্ত একটা project lead করেছেন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q12)
 
@@ -543,8 +529,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q13"></a>
-## 13. এমন একটা সময়ের কথা বলুন যখন আপনি একটা critical production bug ঠিক করেছেন।
+## <a id="q13"></a>13. এমন একটা সময়ের কথা বলুন যখন আপনি একটা critical production bug ঠিক করেছেন।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q13)
 
@@ -576,8 +561,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q14"></a>
-## 14. এমন একটা সময়ের কথা বলুন যখন আপনার manager-এর সাথে আপনার মতের অমিল হয়েছিল।
+## <a id="q14"></a>14. এমন একটা সময়ের কথা বলুন যখন আপনার manager-এর সাথে আপনার মতের অমিল হয়েছিল।
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q14)
 
@@ -609,8 +593,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q15"></a>
-## 15. এমন একটা সময়ের কথা বলুন যখন আপনি একটা app-এর performance ভালো করেছেন।
+## <a id="q15"></a>15. এমন একটা সময়ের কথা বলুন যখন আপনি একটা app-এর performance ভালো করেছেন।
 
 > Common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q15)
 
@@ -641,8 +624,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q16"></a>
-## 16. এমন একটা সময়ের কথা বলুন যখন একটা project ব্যর্থ হয়েছিল। আপনি কী শিখলেন?
+## <a id="q16"></a>16. এমন একটা সময়ের কথা বলুন যখন একটা project ব্যর্থ হয়েছিল। আপনি কী শিখলেন?
 
 > Very common · Medium–Hard · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q16)
 
@@ -674,8 +656,7 @@ Role নিয়ে উৎসাহ দেখিয়ে শেষ করু�
 
 ---
 
-<a id="q17"></a>
-## 17. Flutter আর Dart ecosystem-এর সাথে আপনি কীভাবে হালনাগাদ থাকেন?
+## <a id="q17"></a>17. Flutter আর Dart ecosystem-এর সাথে আপনি কীভাবে হালনাগাদ থাকেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q17)
 
@@ -709,8 +690,7 @@ Code review, pairing আর team আলোচনা দুই দিকেই �
 
 ---
 
-<a id="q18"></a>
-## 18. এই Senior Flutter role-টা আপনি কেন চান?
+## <a id="q18"></a>18. এই Senior Flutter role-টা আপনি কেন চান?
 
 > Common · Easy–Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q18)
 
@@ -744,8 +724,7 @@ Code review, pairing আর team আলোচনা দুই দিকেই �
 
 ---
 
-<a id="q19"></a>
-## 19. ৩–৫ বছর পরে নিজেকে কোথায় দেখেন?
+## <a id="q19"></a>19. ৩–৫ বছর পরে নিজেকে কোথায় দেখেন?
 
 > Common · Easy · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q19)
 
@@ -779,8 +758,7 @@ Code review, pairing আর team আলোচনা দুই দিকেই �
 
 ---
 
-<a id="q20"></a>
-## 20. আপনার সবচেয়ে বড় technical দুর্বলতা কী?
+## <a id="q20"></a>20. আপনার সবচেয়ে বড় technical দুর্বলতা কী?
 
 > Very common · Medium · [🇬🇧 English](../software-engineer-flutter/section-22-leadership-behavioral.md#q20)
 
@@ -814,9 +792,8 @@ Code review, pairing আর team আলোচনা দুই দিকেই �
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (শেষ রাতের রিভিশন)
+# <a id="cheatsheet"></a>Cheat Sheet (শেষ রাতের রিভিশন)
 
 Interview-এর দিন সকালে এটা পড়ুন। STAR template, table, তারপর মনে রাখার কথা।
 

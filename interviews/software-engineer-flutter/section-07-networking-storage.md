@@ -25,9 +25,8 @@ This section covers **two areas**: **Networking** (talking to a server) and **Lo
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. HTTP clients & configuration**
 1. [`http` package vs Dio](#q1) · *Very common*
@@ -65,9 +64,8 @@ This section covers **two areas**: **Networking** (talking to a server) and **Lo
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 You don't need to study all 16 questions at once. Follow these stages in order — each one builds on the last. Tick a stage off only when you can give the **short answer** without looking.
 
@@ -95,8 +93,7 @@ You don't need to study all 16 questions at once. Follow these stages in order �
 
 ---
 
-<a id="q1"></a>
-## 1. What is the difference between the `http` package and Dio? Why is Dio usually preferred in production?
+## <a id="q1"></a>1. What is the difference between the `http` package and Dio? Why is Dio usually preferred in production?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q1)
 
@@ -178,8 +175,7 @@ For a tiny app, a script, or a package that doesn't want a big dependency, `http
 
 ---
 
-<a id="q2"></a>
-## 2. How do you set timeouts and a retry strategy? What is the difference between connect timeout and receive timeout?
+## <a id="q2"></a>2. How do you set timeouts and a retry strategy? What is the difference between connect timeout and receive timeout?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q2)
 
@@ -290,8 +286,7 @@ class RetryInterceptor extends Interceptor {
 
 ---
 
-<a id="q3"></a>
-## 3. How do Dio interceptors work? How do you inject an auth token, and handle a 401 with token refresh and a retry queue?
+## <a id="q3"></a>3. How do Dio interceptors work? How do you inject an auth token, and handle a 401 with token refresh and a retry queue?
 
 > Very common · Medium–Hard — the classic real-world networking question. · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q3)
 
@@ -440,8 +435,7 @@ dio.interceptors.add(LogInterceptor()); // runs after auth has added the token
 
 ---
 
-<a id="q4"></a>
-## 4. How do you do global error handling in Dio? What are the `DioException` types?
+## <a id="q4"></a>4. How do you do global error handling in Dio? What are the `DioException` types?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q4)
 
@@ -557,8 +551,7 @@ Because the failure is typed, the screen can switch on it and show the right mes
 
 ---
 
-<a id="q5"></a>
-## 5. What is the difference between REST and GraphQL? What are the trade-offs on mobile?
+## <a id="q5"></a>5. What is the difference between REST and GraphQL? What are the trade-offs on mobile?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q5)
 
@@ -635,8 +628,7 @@ final result = await client.query(
 
 ---
 
-<a id="q6"></a>
-## 6. What is the Either / Result pattern? Why is it better than throwing exceptions across layers?
+## <a id="q6"></a>6. What is the Either / Result pattern? Why is it better than throwing exceptions across layers?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q6)
 
@@ -754,8 +746,7 @@ Most teams use `fpdart` (or the older `dartz`) for a battle-tested `Either` with
 
 ---
 
-<a id="q7"></a>
-## 7. How do you parse JSON in Flutter? Compare manual parsing, `json_serializable`, and `freezed`.
+## <a id="q7"></a>7. How do you parse JSON in Flutter? Compare manual parsing, `json_serializable`, and `freezed`.
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q7)
 
@@ -878,8 +869,7 @@ With `json_serializable` / `freezed`, this nested parsing is generated for you a
 
 ---
 
-<a id="q8"></a>
-## 8. What is certificate pinning, why does it matter, and how do you do it in Flutter?
+## <a id="q8"></a>8. What is certificate pinning, why does it matter, and how do you do it in Flutter?
 
 > Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q8)
 
@@ -959,8 +949,7 @@ Pin **two** keys: the live one and a backup. If you ever need to rotate keys in 
 
 ---
 
-<a id="q9"></a>
-## 9. How do you handle no internet connection gracefully?
+## <a id="q9"></a>9. How do you handle no internet connection gracefully?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q9)
 
@@ -1085,8 +1074,7 @@ BlocBuilder<ConnectivityCubit, ConnectivityStatus>(
 
 ---
 
-<a id="q10"></a>
-## 10. What does `SharedPreferences` store? Is it thread-safe, and what are its limits?
+## <a id="q10"></a>10. What does `SharedPreferences` store? Is it thread-safe, and what are its limits?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q10)
 
@@ -1154,8 +1142,7 @@ await prefs.setString('cached_user', jsonEncode(user.toJson()));
 
 ---
 
-<a id="q11"></a>
-## 11. What is Hive? What are boxes and TypeAdapters, and when do you prefer it over SharedPreferences?
+## <a id="q11"></a>11. What is Hive? What are boxes and TypeAdapters, and when do you prefer it over SharedPreferences?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q11)
 
@@ -1264,8 +1251,7 @@ Custom objects, encryption needed, more than ~20 values, large datasets that nee
 
 ---
 
-<a id="q12"></a>
-## 12. When do you need SQLite / Drift, and how do you write basic queries in Drift?
+## <a id="q12"></a>12. When do you need SQLite / Drift, and how do you write basic queries in Drift?
 
 > Common · Medium–Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q12)
 
@@ -1383,8 +1369,7 @@ When you change the schema (add a column), bump `schemaVersion` and write a `Mig
 
 ---
 
-<a id="q13"></a>
-## 13. What does `flutter_secure_storage` use under the hood, and when should you use it?
+## <a id="q13"></a>13. What does `flutter_secure_storage` use under the hood, and when should you use it?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q13)
 
@@ -1462,8 +1447,7 @@ Large datasets, frequently-accessed data (encryption per read/write is slow), or
 
 ---
 
-<a id="q14"></a>
-## 14. How do you encrypt local data in Flutter?
+## <a id="q14"></a>14. How do you encrypt local data in Flutter?
 
 > Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q14)
 
@@ -1569,8 +1553,7 @@ Generate keys at runtime, store them in `flutter_secure_storage`, use a unique I
 
 ---
 
-<a id="q15"></a>
-## 15. How do you implement an offline-first architecture in Flutter?
+## <a id="q15"></a>15. How do you implement an offline-first architecture in Flutter?
 
 > Common · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q15)
 
@@ -1704,8 +1687,7 @@ class SyncManager {
 
 ---
 
-<a id="q16"></a>
-## 16. How do you keep local cached data in sync with the server?
+## <a id="q16"></a>16. How do you keep local cached data in sync with the server?
 
 > Deeper question · Hard · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-07-networking-storage-bn.md#q16)
 
@@ -1814,9 +1796,8 @@ When the same item changed in two places:
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. First the quick comparison tables, then the one-line reminders.
 

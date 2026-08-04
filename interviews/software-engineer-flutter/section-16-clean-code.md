@@ -23,9 +23,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="toc"></a>
 
-## Table of Contents
+## <a id="toc"></a>Table of Contents
 
 **A. Foundations**
 1. [What is clean code?](#q1) · *Very common*
@@ -58,9 +57,8 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="study-plan"></a>
 
-## How to prepare gradually (study plan)
+## <a id="study-plan"></a>How to prepare gradually (study plan)
 
 **Stage 1 — The basics (start here).**
 → [Q1 What is clean code](#q1) · [Q2 Naming](#q2) · [Q3 Clean functions](#q3)
@@ -85,8 +83,7 @@ Each question is tagged with how often it is asked (**Very common / Common / Dee
 
 ---
 
-<a id="q1"></a>
-## 1. What is clean code, and how do you define it in practice?
+## <a id="q1"></a>1. What is clean code, and how do you define it in practice?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q1)
 
@@ -120,8 +117,7 @@ Can a new teammate read a function and understand it in a few seconds, without a
 
 ---
 
-<a id="q2"></a>
-## 2. What are good naming conventions in Dart, and what makes a name good?
+## <a id="q2"></a>2. What are good naming conventions in Dart, and what makes a name good?
 
 > Very common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q2)
 
@@ -175,8 +171,7 @@ List<User> getActiveUsers() => users.where((u) => u.isActive).toList();
 
 ---
 
-<a id="q3"></a>
-## 3. What are the rules for clean functions — small size, one job, no side effects?
+## <a id="q3"></a>3. What are the rules for clean functions — small size, one job, no side effects?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q3)
 
@@ -231,8 +226,7 @@ Fewer is easier. Zero, one, or two parameters are ideal; more is a smell ([Long 
 
 ---
 
-<a id="q4"></a>
-## 4. What is the Single Level of Abstraction principle?
+## <a id="q4"></a>4. What is the Single Level of Abstraction principle?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q4)
 
@@ -280,8 +274,7 @@ Now `checkout` reads as a clear sequence of high-level steps; the loop lives ins
 
 ---
 
-<a id="q5"></a>
-## 5. What is Command-Query Separation (CQS)?
+## <a id="q5"></a>5. What is Command-Query Separation (CQS)?
 
 > Deeper · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q5)
 
@@ -336,8 +329,7 @@ Some well-known methods break CQS on purpose (e.g. `list.removeLast()` removes *
 
 ---
 
-<a id="q6"></a>
-## 6. When should you write comments, and what is self-documenting code?
+## <a id="q6"></a>6. When should you write comments, and what is self-documenting code?
 
 > Very common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q6)
 
@@ -386,8 +378,7 @@ Good comments capture intent, warnings, business rules, and public API docs (`//
 
 ---
 
-<a id="q7"></a>
-## 7. Why does consistent formatting matter, and how do you use `dart format`?
+## <a id="q7"></a>7. Why does consistent formatting matter, and how do you use `dart format`?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q7)
 
@@ -440,8 +431,7 @@ Format on save in your IDE, and run a format check in CI so unformatted code can
 
 ---
 
-<a id="q8"></a>
-## 8. Why are error codes bad? When should you use exceptions vs result types in Dart?
+## <a id="q8"></a>8. Why are error codes bad? When should you use exceptions vs result types in Dart?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q8)
 
@@ -510,8 +500,7 @@ switch (r) {
 
 ---
 
-<a id="q9"></a>
-## 9. Why is returning `null` risky, and what are the alternatives in Dart?
+## <a id="q9"></a>9. Why is returning `null` risky, and what are the alternatives in Dart?
 
 > Common · Easy–Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q9)
 
@@ -561,8 +550,7 @@ Use a nullable type *deliberately* (and handle it), or a result type ([Q8](#q8))
 
 ---
 
-<a id="q10"></a>
-## 10. What is the Boolean trap, and how do you avoid it in Dart?
+## <a id="q10"></a>10. What is the Boolean trap, and how do you avoid it in Dart?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q10)
 
@@ -615,8 +603,7 @@ Named arguments and enums make code self-documenting and survive change (you can
 
 ---
 
-<a id="q11"></a>
-## 11. What is the DRY principle, and how do you apply it in Flutter?
+## <a id="q11"></a>11. What is the DRY principle, and how do you apply it in Flutter?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q11)
 
@@ -665,8 +652,7 @@ Don't force two pieces of code together just because they look alike today. If t
 
 ---
 
-<a id="q12"></a>
-## 12. What is the Boy Scout Rule, and how do you practice it?
+## <a id="q12"></a>12. What is the Boy Scout Rule, and how do you practice it?
 
 > Common · Easy · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q12)
 
@@ -703,8 +689,7 @@ Don't turn a one-line bug fix into a 500-line refactor — that bloats the PR an
 
 ---
 
-<a id="q13"></a>
-## 13. What is the difference between clean code and over-engineered code?
+## <a id="q13"></a>13. What is the difference between clean code and over-engineered code?
 
 > Very common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q13)
 
@@ -750,8 +735,7 @@ Clean code isn't "no structure" — it has the *right* amount. The skill is matc
 
 ---
 
-<a id="q14"></a>
-## 14. How do you enforce clean code in a team? (linters, code review, pair programming)
+## <a id="q14"></a>14. How do you enforce clean code in a team? (linters, code review, pair programming)
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q14)
 
@@ -785,8 +769,7 @@ Agree on the lint rules and review checklist as a team, so feedback is about the
 
 ---
 
-<a id="q15"></a>
-## 15. What is `analysis_options.yaml`, and how do you set up lint rules with `flutter_lints` / `very_good_analysis`?
+## <a id="q15"></a>15. What is `analysis_options.yaml`, and how do you set up lint rules with `flutter_lints` / `very_good_analysis`?
 
 > Common · Medium · [🇧🇩 বাংলা](../software-engineer-flutter-bn/section-16-clean-code-bn.md#q15)
 
@@ -843,9 +826,8 @@ Start from a package, then enable/disable specific rules by team agreement. Trea
 
 ---
 
-<a id="cheatsheet"></a>
 
-# Cheat Sheet (last-night review)
+# <a id="cheatsheet"></a>Cheat Sheet (last-night review)
 
 Read this the morning of your interview. Table first, then one-line reminders.
 
