@@ -3,6 +3,10 @@
 
 > **ভাষা নীতি:** সমস্ত ব্যাখ্যা বাংলায়, Technical Term সমূহ English-এ অপরিবর্তিত।
 
+> **প্রথমবার setup করছো?** এই গাইড Concept ও Code নিয়ে। Firebase Project খোলা, `google-services.json`,
+> APNs `.p8` key, Xcode capability — এই ধাপগুলোর জন্য আগে পড়ো →
+> [firebase-push-setup-guide.md](./firebase-push-setup-guide.md)
+
 ---
 
 ## 📋 Table of Contents

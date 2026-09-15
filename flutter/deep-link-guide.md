@@ -1,21 +1,18 @@
-# 🔗 Flutter Deep Link: সম্পূর্ণ শেখার গাইড
-### Basic থেকে Advanced — বাংলায় সহজ ভাষায়
+# Flutter Deep Link — সম্পূর্ণ গাইড
 
-> 📌 **লক্ষ্য:** এই গাইডটি পড়ার পর তুমি Flutter app-এ Deep Link implement করতে সম্পূর্ণ সক্ষম হবে।  
-> 🛠 **Version:** Flutter 3.x | go_router 14.x | app_links 6.x
+**Custom Scheme · Android App Links · iOS Universal Links · go_router**
+
+> **ভাষা নীতি:** ব্যাখ্যা বাংলায়, Technical Term English-এ অপরিবর্তিত।
+> **Version:** Flutter 3.x · go_router 14.x · app_links 6.x
 
 ---
 
-## ⏱ ৫ মিনিটের Quick Start
+## Quick Start
 
-পুরো গাইড পড়ার আগে একটা deep link নিজের চোখে কাজ করতে দেখো। এই টুকু করলেই একটা `myapp://` link তোমার app খুলবে।
+একটা `myapp://` link দিয়ে app খোলা — সবচেয়ে ছোট পথ।
 
-**১. package যোগ করো:**
-```bash
-flutter pub add app_links
-```
+**১. Manifest-এ intent-filter যোগ করো** (`android/app/src/main/AndroidManifest.xml`, `<activity>`-র ভেতরে):
 
-**২. `AndroidManifest.xml`-এ `<activity>`-র ভেতরে এই intent-filter যোগ করো:**
 ```xml
 <intent-filter>
     <action android:name="android.intent.action.VIEW"/>
@@ -23,478 +20,268 @@ flutter pub add app_links
     <category android:name="android.intent.category.BROWSABLE"/>
     <data android:scheme="myapp"/>
 </intent-filter>
+
+<meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
 ```
 
-**৩. `main.dart`-এ link শোনো:**
+**২. go_router যোগ করো:**
+
+```bash
+flutter pub add go_router
+```
+
 ```dart
-final appLinks = AppLinks();
-appLinks.uriLinkStream.listen((uri) {
-  debugPrint('Deep link এলো: $uri'); // → myapp://products/123
-});
+final router = GoRouter(routes: [
+  GoRoute(path: '/', builder: (c, s) => const HomeScreen()),
+  GoRoute(
+    path: '/products/:id',
+    builder: (c, s) => ProductScreen(id: s.pathParameters['id']!),
+  ),
+]);
+
+// MaterialApp নয় — MaterialApp.router
+MaterialApp.router(routerConfig: router);
 ```
 
-**৪. test করো:**
+**৩. Test করো:**
+
 ```bash
 adb shell am start -a android.intent.action.VIEW \
   -d "myapp://products/123" com.example.your_app
 ```
 
-Console-এ `Deep link এলো: myapp://products/123` দেখলে — তুমি প্রস্তুত! 🎉  
-এবার নিচ থেকে production-ready setup (verification, go_router, auth guard) ধাপে ধাপে শেখো।
+ProductScreen খুললে setup ঠিক আছে।
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 | # | বিষয় |
-|---|-------|
-| 1 | [Deep Link কী এবং কেন দরকার?](#১-deep-link-কী-এবং-কেন-দরকার) |
-| 2 | [Deep Link এর প্রকারভেদ](#২-deep-link-এর-প্রকারভেদ) |
-| 3 | [Deep Link কীভাবে কাজ করে?](#৩-deep-link-কীভাবে-কাজ-করে) |
-| 4 | [Prerequisites ও Project Setup](#৪-prerequisites-ও-project-setup) |
-| 5 | [Android Setup](#৫-android-setup) |
-| 6 | [iOS Setup](#৬-ios-setup) |
-| 7 | [Flutter Packages](#৭-flutter-packages) |
-| 8 | [Basic Implementation — app_links](#৮-basic-implementation--app_links) |
-| 9 | [go_router দিয়ে Deep Link Handling](#৯-go_router-দিয়ে-deep-link-handling) |
-| 10 | [Advanced: Dynamic Routes ও Parameters](#১০-advanced-dynamic-routes-ও-parameters) |
-| 11 | [Advanced: Authentication Guard ও Redirects](#১১-advanced-authentication-guard-ও-redirects) |
-| 12 | [Deep Link Testing](#১২-deep-link-testing) |
-| 13 | [Troubleshooting ও Common Errors](#১৩-troubleshooting-ও-common-errors) |
-| 14 | [Complete Real-world Example](#১৪-complete-real-world-example) |
-| 15 | [Quick Reference Card](#১৫-quick-reference-card) |
+|---|---|
+| ১ | [Deep Link কী এবং কেন দরকার](#১-deep-link-কী-এবং-কেন-দরকার) |
+| ২ | [তিন প্রকার Deep Link](#২-তিন-প্রকার-deep-link) |
+| ৩ | [কীভাবে কাজ করে](#৩-কীভাবে-কাজ-করে) |
+| ৪ | [দুটো পদ্ধতি — কোনটা বেছে নেবে](#৪-দুটো-পদ্ধতি--কোনটা-বেছে-নেবে) |
+| ৫ | [Android Setup](#৫-android-setup) |
+| ৬ | [iOS Setup](#৬-ios-setup) |
+| ৭ | [go_router Configuration](#৭-go_router-configuration) |
+| ৮ | [app_links — Manual Handling](#৮-app_links--manual-handling) |
+| ৯ | [Authentication Guard ও Redirect](#৯-authentication-guard-ও-redirect) |
+| ১০ | [Testing](#১০-testing) |
+| ১১ | [Troubleshooting](#১১-troubleshooting) |
+| ১২ | [Quick Reference](#১২-quick-reference) |
 
 ---
 
-## ১. Deep Link কী এবং কেন দরকার?
+## ১. Deep Link কী এবং কেন দরকার
 
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** Deep Link আসলে কী, সাধারণ web link-এর সাথে এর পার্থক্য
-> কোথায়, আর কোন কোন বাস্তব ক্ষেত্রে এটা দরকার হয় — তা স্পষ্ট বুঝতে।
-
-### সহজ ভাষায় Deep Link
-
-মনে করো, তুমি WhatsApp-এ একটা product-এর link পেলে:
-
-```
-https://shop.example.com/products/123
-```
-
-তুমি ঐ link-এ click করলে — browser না খুলে সরাসরি **ShopApp** open হয়ে গেল  
-এবং **product #123** এর page-এ চলে গেল। এটাই হলো **Deep Link**।
-
-> একটা URL যেটা তোমার app-এর একটা নির্দিষ্ট screen/page-এ directly নিয়ে যায়।
-
-### Normal Link vs Deep Link
+একটা URL যেটা browser না খুলে সরাসরি তোমার app-এর নির্দিষ্ট screen-এ নিয়ে যায়।
 
 ```
 Normal Web Link:
-  Browser খোলে → Website load হয় → Web Page দেখায়
+  Link → Browser খোলে → Website load হয়
 
 Deep Link:
-  Link Click → App installed আছে? ─── হ্যাঁ ──→ App-এর specific screen
-                      │
-                      না
-                      ↓
-               App Store / Play Store
+  Link → App installed? ── হ্যাঁ ──→ App-এর নির্দিষ্ট screen
+                │
+                না ──→ Browser বা App Store
 ```
-
-### কেন দরকার?
 
 | ব্যবহার | উদাহরণ |
-|---------|---------|
-| 📢 Marketing Campaign | Email/SMS-এ link দিয়ে specific offer page-এ নিয়ে যাওয়া |
-| 🤝 Social Sharing | Friend-কে specific content share করা |
-| 🔔 Push Notification | Notification click করলে সঠিক screen-এ নিয়ে যাওয়া |
-| 🎁 Referral System | Referral link → app install + automatic onboarding |
-| 💳 Payment Return | Payment gateway থেকে app-এ ফিরে আসা |
-| 🔗 Cross-app Linking | অন্য app থেকে তোমার app-এ specific content খোলা |
+|---|---|
+| Push Notification | Notification tap করলে সঠিক screen |
+| Marketing campaign | Email/SMS-এর link → নির্দিষ্ট offer page |
+| Social sharing | বন্ধুকে একটা product share করা |
+| Referral | Referral link → install + automatic onboarding |
+| Payment return | Payment gateway থেকে app-এ ফেরা |
+| OAuth callback | Google/Facebook login-এর পরে app-এ ফেরা |
 
 ---
 
-## ২. Deep Link এর প্রকারভেদ
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** তিন ধরনের deep link (Custom Scheme, App Links,
-> Universal Links) আলাদা করতে আর তোমার project-এ কোনটা লাগবে তা বেছে নিতে।
-
-Flutter-এ মূলত **৩ ধরনের** Deep Link আছে:
+## ২. তিন প্রকার Deep Link
 
 ```
-Deep Link Types
-├── 1. Custom URL Scheme
-│       └── myapp://products/123
-│
-├── 2. App Links  [Android Only]
-│       └── https://shop.example.com/products/123
-│
-└── 3. Universal Links  [iOS Only]
-        └── https://shop.example.com/products/123
+১. Custom URL Scheme       myapp://products/123          Android + iOS
+২. App Links               https://shop.example.com/...  Android (verified)
+৩. Universal Links         https://shop.example.com/...  iOS (verified)
 ```
 
----
+App Links আর Universal Links আসলে একই জিনিসের দুই platform-এর নাম — একই `https://` URL, দুই দিকে আলাদা verification পদ্ধতি।
 
-### ২.১ Custom URL Scheme
-
-সবচেয়ে পুরনো এবং সহজ পদ্ধতি। App নিজের একটা scheme তৈরি করে।
-
-```
-Format:   scheme://host/path?query
-Example:  myapp://products/123
-          myapp://profile/john
-          myapp://checkout?cart=abc&promo=SAVE10
-```
-
-✅ **সুবিধা:** Setup করা সহজ, সব Android/iOS version-এ কাজ করে  
-❌ **অসুবিধা:** Security কম — যে কোনো app এই scheme claim করতে পারে, browser-এ কাজ করে না
-
----
-
-### ২.২ App Links (Android — Verified)
-
-Android 6.0+ এ HTTP/HTTPS URL দিয়ে কাজ করে। Google verify করে যে তুমিই domain-এর owner।
-
-```
-Format:   https://yourdomain.com/path
-Example:  https://shop.example.com/products/123
-```
-
-✅ **সুবিধা:** Secure, browser-এও fallback করে, Android verified  
-❌ **অসুবিধা:** Server-এ `assetlinks.json` রাখতে হয়, HTTPS লাগে
-
----
-
-### ২.৩ Universal Links (iOS — Apple Verified)
-
-iOS 9+ এ HTTP/HTTPS URL দিয়ে কাজ করে। Apple verify করে।
-
-```
-Format:   https://yourdomain.com/path
-Example:  https://shop.example.com/products/123
-```
-
-✅ **সুবিধা:** Secure, seamless user experience, iOS verified  
-❌ **অসুবিধা:** `apple-app-site-association` file server-এ রাখতে হয়
-
----
-
-### তুলনামূলক চার্ট
-
-| Feature | Custom URL Scheme | App Links (Android) | Universal Links (iOS) |
-|---------|:-----------------:|:-------------------:|:---------------------:|
+| Feature | Custom Scheme | App Links (Android) | Universal Links (iOS) |
+|---|:---:|:---:|:---:|
 | Protocol | `myapp://` | `https://` | `https://` |
-| Security | 🔴 কম | 🟢 বেশি | 🟢 বেশি |
-| Browser Fallback | ❌ নেই | ✅ আছে | ✅ আছে |
-| Server Verification File | ❌ লাগে না | ✅ assetlinks.json | ✅ apple-app-site-association |
-| Android Support | ✅ | ✅ | ❌ |
-| iOS Support | ✅ | ❌ | ✅ |
-| Min OS Version | যেকোনো | Android 6.0+ | iOS 9+ |
+| Security | কম | বেশি | বেশি |
+| Browser fallback | নেই | আছে | আছে |
+| Server-এ file লাগে | না | `assetlinks.json` | `apple-app-site-association` |
+| Min OS | যেকোনো | Android 6.0+ | iOS 9+ |
+
+**Custom Scheme-এর দুর্বলতা:** যেকোনো app একই scheme claim করতে পারে। দুটো app `myapp://` claim করলে Android ইউজারকে জিজ্ঞেস করে, iOS-এ কোনটা খুলবে তার নিশ্চয়তা নেই। তাই **sensitive কাজে (OAuth callback, payment return) custom scheme-এর উপর ভরসা করা যায় না** — verified https link ব্যবহার করো।
+
+**বাস্তব পরামর্শ:** production-এ দুটোই রাখো। `https://` মূল পথ, `myapp://` fallback ও internal ব্যবহারের জন্য।
 
 ---
 
-## ৩. Deep Link কীভাবে কাজ করে?
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** link click থেকে screen খোলা পর্যন্ত পুরো flow বুঝতে,
-> আর সবচেয়ে গুরুত্বপূর্ণ — **Cold Start vs Warm Start** কেন আলাদাভাবে handle করতে হয় তা ধরতে।
-
-### সম্পূর্ণ Flow
+## ৩. কীভাবে কাজ করে
 
 ```mermaid
 flowchart TD
-    A[🔗 User একটা Link-এ Click করে] --> B{App Installed?}
-    B -->|হ্যাঁ| C{Link Type?}
-    B -->|না| D[Browser বা App Store খোলে]
-
-    C -->|Custom Scheme myapp://| E[OS সরাসরি App Launch করে]
-    C -->|App Links / Universal Links https://| F{Domain Verified?}
-
+    A[User একটা link-এ click করে] --> B{App installed?}
+    B -->|না| C[Browser বা App Store]
+    B -->|হ্যাঁ| D{Link type?}
+    D -->|myapp://| E[OS সরাসরি app launch করে]
+    D -->|https://| F{Domain verified?}
     F -->|হ্যাঁ| E
-    F -->|না| G[Browser-এ Website খোলে]
-
-    E --> H[Flutter App Starts]
-    H --> I{Cold Start or Warm Start?}
-
-    I -->|Cold Start — App বন্ধ ছিল| J[getInitialLink দিয়ে URL পাও]
-    I -->|Warm Start — App চালু ছিল| K[uriLinkStream-এ URL আসে]
-
-    J --> L[URL Parse করো]
-    K --> L
-
-    L --> M[go_router বা Navigator-এ navigate করো]
-    M --> N[✅ সঠিক Screen দেখাও]
+    F -->|না| G[Browser-এ website খোলে]
+    E --> H{App আগে থেকে চালু ছিল?}
+    H -->|না — Cold Start| I[Launch intent থেকে URI]
+    H -->|হ্যাঁ — Warm Start| J[নতুন intent / stream event]
+    I --> K[go_router সঠিক screen দেখায়]
+    J --> K
 ```
+
+### Cold Start বনাম Warm Start
+
+```
+Cold Start   App বন্ধ ছিল       link → app চালু হয় → launch URI পড়তে হয়
+Warm Start   App background-এ   link → app সামনে আসে → নতুন intent আসে
+```
+
+দুটো আলাদা code path। **অনেক app-এ warm start কাজ করে কিন্তু cold start করে না** — কারণ cold start-এর URI টা app চালু হওয়ার আগেই এসে যায়, আর কোড সেটা পড়ার আগেই navigation শুরু হয়ে যায়।
+
+Flutter-এর built-in deep linking ([পদ্ধতি ১](#৪-দুটো-পদ্ধতি--কোনটা-বেছে-নেবে)) দুটোই নিজে সামলায়। `app_links` ব্যবহার করলে তোমাকে দুটোই আলাদা করে handle করতে হবে।
 
 ---
 
-### Android-এ কীভাবে কাজ করে
+## ৪. দুটো পদ্ধতি — কোনটা বেছে নেবে
 
-```
-User clicks: https://shop.com/products/123
-         │
-         ▼
-Android OS Intent System চালু হয়
-         │
-         ▼
-AndroidManifest.xml-এ intent-filter মিলিয়ে দেখে
-         │
-         ▼
-Flutter App Start → MainActivity → FlutterEngine → Dart Code
-         │
-         ▼
-app_links package URI receive করে
-         │
-         ▼
-go_router URI parse করে সঠিক screen-এ navigate করে
+Flutter-এ deep link handle করার দুটো পথ আছে। **একটাই বেছে নাও।**
+
+### পদ্ধতি ১ — Flutter Built-in (recommended)
+
+Flutter নিজেই incoming URI ধরে সরাসরি Router API-তে (go_router) পাঠায়। কোনো extra package লাগে না।
+
+চালু করতে হয় এভাবে:
+
+```xml
+<!-- Android: AndroidManifest.xml, <activity>-র ভেতরে -->
+<meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
 ```
 
-### iOS-এ কীভাবে কাজ করে
-
-```
-User clicks: https://shop.com/products/123
-         │
-         ▼
-iOS URL handling system চালু হয়
-         │
-         ▼
-apple-app-site-association file verify করে
-         │
-         ▼
-AppDelegate → application(_:continue:restorationHandler:)
-         │
-         ▼
-Flutter Engine URI receive করে
-         │
-         ▼
-go_router screen দেখায়
+```xml
+<!-- iOS: ios/Runner/Info.plist -->
+<key>FlutterDeepLinkingEnabled</key>
+<true/>
 ```
 
-### ⚠️ Cold Start vs Warm Start — দুটো আলাদাভাবে handle করতে হবে!
+তারপর `MaterialApp.router` + go_router — URL সরাসরি route-এ map হয়ে যায়। Cold start ও warm start দুটোই Flutter সামলায়।
 
-```
-Cold Start (App বন্ধ ছিল):
-  Link Click ──→ App Launch ──→ getInitialLink() ──→ Navigate
+**কখন ব্যবহার করবে:** URL সরাসরি screen-এ map হলে। অর্থাৎ বেশিরভাগ app।
 
-Warm Start (App background-এ ছিল):
-  Link Click ──→ App Foreground-এ আসে ──→ uriLinkStream ──→ Navigate
-```
+### পদ্ধতি ২ — app_links package
 
----
-
-## ৪. Prerequisites ও Project Setup
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** নতুন project তৈরি করে দরকারি package গুলো যোগ করতে আর
-> একটা পরিচ্ছন্ন folder structure দাঁড় করাতে।
-
-### তোমার কী লাগবে
-
-- [ ] Flutter SDK (3.0 বা তার উপরে)
-- [ ] Android Studio বা VS Code
-- [ ] Android Emulator বা Physical Device (API 21+)
-- [ ] iOS Simulator বা Physical Device (iOS 9+)
-- [ ] একটা domain নাম (App Links / Universal Links-এর জন্য)
-- [ ] HTTPS-enabled server (App Links / Universal Links-এর জন্য)
-
-### নতুন Project তৈরি করো
+`app_links` তোমাকে raw `Uri` object দেয়। তুমি নিজে সিদ্ধান্ত নাও কী করবে।
 
 ```bash
-flutter create deep_link_demo
-cd deep_link_demo
+flutter pub add app_links
 ```
 
-### pubspec.yaml — Packages যোগ করো
+**কখন দরকার:**
 
-```yaml
-name: deep_link_demo
-description: Flutter Deep Link Demo
+- URI-কে route-এ পাঠানোর আগে বদলাতে হবে (যেমন `myapp://p/123` → `/products/123`)
+- Navigate করার আগে API call লাগবে (referral code redeem, token validate)
+- Link-এ analytics event পাঠাতে হবে
+- go_router ব্যবহার করছো না
 
-environment:
-  sdk: '>=3.0.0 <4.0.0'
+> **সতর্কতা:** দুটো পদ্ধতি একসাথে চালু রাখলে একই link দুইবার handle হতে পারে — screen দুইবার push হবে বা flicker করবে। `app_links` ব্যবহার করলে `flutter_deeplinking_enabled` / `FlutterDeepLinkingEnabled` **দিও না**।
 
-dependencies:
-  flutter:
-    sdk: flutter
-
-  # Deep Link listening — incoming URI capture করতে
-  app_links: ^6.0.0
-
-  # Routing — URL-based navigation-এর জন্য
-  go_router: ^14.0.0
-
-  # State management (optional কিন্তু recommended)
-  provider: ^6.1.0
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.0
-
-flutter:
-  uses-material-design: true
-```
-
-```bash
-flutter pub get
-```
-
-### Recommended Project Structure
-
-```
-deep_link_demo/
-├── android/
-│   └── app/src/main/
-│       └── AndroidManifest.xml       ← Android deep link config
-├── ios/
-│   └── Runner/
-│       ├── Info.plist                ← iOS URL scheme config
-│       └── Runner.entitlements       ← Universal Links config
-├── lib/
-│   ├── main.dart                     ← App entry point
-│   ├── app.dart                      ← MaterialApp.router
-│   ├── router/
-│   │   └── app_router.dart           ← go_router config
-│   ├── services/
-│   │   ├── auth_service.dart         ← Auth state
-│   │   └── deep_link_service.dart    ← Deep link handling logic
-│   └── screens/
-│       ├── home_screen.dart
-│       ├── product_screen.dart
-│       ├── profile_screen.dart
-│       ├── login_screen.dart
-│       └── not_found_screen.dart
-└── pubspec.yaml
-```
+এই গাইডের Android ও iOS setup (§৫, §৬) দুই পদ্ধতিতেই একই — শুধু ঐ একটা meta-data / plist key-এর পার্থক্য।
 
 ---
 
 ## ৫. Android Setup
 
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+### ৫.১ Custom URL Scheme
 
-> 🎯 **এই section শেষে তুমি পারবে:** Android-এ Custom Scheme আর verified App Links দুটোই
-> setup করতে, এবং `assetlinks.json` দিয়ে domain ownership verify করাতে।  
-> 🍏 *শুধু iOS নিয়ে কাজ করলে এই section skip করে [৬. iOS Setup](#৬-ios-setup)-এ যাও।*
-
-### ৫.১ Custom URL Scheme (myapp://)
-
-`android/app/src/main/AndroidManifest.xml` ফাইল খোলো:
+`android/app/src/main/AndroidManifest.xml`:
 
 ```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application
-        android:label="deep_link_demo"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+<activity
+    android:name=".MainActivity"
+    android:exported="true"
+    android:launchMode="singleTop"
+    android:theme="@style/LaunchTheme"
+    android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+    android:hardwareAccelerated="true"
+    android:windowSoftInputMode="adjustResize">
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+    </intent-filter>
 
-            <!-- Normal App Launch -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+    <!-- Custom scheme: myapp://... -->
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="myapp"/>
+    </intent-filter>
 
-            <!-- ✅ Custom URL Scheme: myapp://... -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="myapp"/>
-            </intent-filter>
-
-        </activity>
-    </application>
-</manifest>
+    <!-- পদ্ধতি ১ ব্যবহার করলে -->
+    <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+</activity>
 ```
 
-> 💡 **`android:launchMode="singleTask"`** — এটা না দিলে deep link click করলে app-এর  
-> multiple instance তৈরি হয়! এই attribute MUST।
+> **`launchMode` নিয়ে ভুল ধারণা:** Flutter template-এর default `singleTop`-ই ঠিক। `singleTop` থাকলে app সামনে থাকা অবস্থায় নতুন link এলে নতুন instance না বানিয়ে চলতি activity-তেই intent যায়। এটা বদলে `singleTask` করার দরকার নেই — করলে task ও back stack-এর behaviour বদলে যায়। `launchMode` একদম না দিলে (`standard`) প্রতিটা link নতুন instance বানাবে — সেটাই আসল সমস্যা।
 
-**Test করো:**
+**Test:**
+
 ```bash
 adb shell am start -a android.intent.action.VIEW \
-  -d "myapp://products/123" \
-  com.example.deep_link_demo
+  -d "myapp://products/123" com.example.your_app
 ```
 
----
+### ৫.২ App Links (verified https)
 
-### ৫.২ App Links Setup (HTTPS — Verified)
-
-App Links Android-এ `https://` URL-কে app-এ handle করতে দেয়।
-
-`AndroidManifest.xml`-এ নতুন `intent-filter` যোগ করো:
+একই `<activity>`-তে আরেকটা intent-filter:
 
 ```xml
-<!-- ✅ App Links: https://shop.example.com/... -->
 <intent-filter android:autoVerify="true">
     <action android:name="android.intent.action.VIEW"/>
     <category android:name="android.intent.category.DEFAULT"/>
     <category android:name="android.intent.category.BROWSABLE"/>
-    <data
-        android:scheme="https"
-        android:host="shop.example.com"/>
-</intent-filter>
-
-<!-- নির্দিষ্ট path prefix-এর জন্য আলাদা filter -->
-<intent-filter android:autoVerify="true">
-    <action android:name="android.intent.action.VIEW"/>
-    <category android:name="android.intent.category.DEFAULT"/>
-    <category android:name="android.intent.category.BROWSABLE"/>
-    <data
-        android:scheme="https"
-        android:host="shop.example.com"
-        android:pathPrefix="/products"/>
+    <data android:scheme="https" android:host="shop.example.com"/>
 </intent-filter>
 ```
 
-> ⚠️ **`android:autoVerify="true"`** — এটা ছাড়া App Links কাজ করবে না!  
-> এটা Android-কে বলে যে assetlinks.json দিয়ে verify করতে হবে।
+`android:autoVerify="true"` ছাড়া Android `assetlinks.json` খুঁজবেই না, আর link browser-এ চলে যাবে।
 
-**`<data>` tag-এর সব attributes:**
+**`<data>` tag-এর attribute:**
 
 ```
-android:scheme       → "https" অথবা "http"
-android:host         → "shop.example.com"
-android:port         → "8080" (optional, default 80/443)
-android:path         → "/products/123"  (exact match)
-android:pathPrefix   → "/products"      (prefix দিয়ে শুরু)
-android:pathPattern  → "/products/.*"   (regex pattern)
-android:pathAdvancedPattern → (Android 12+ এ advanced regex)
+android:scheme      "https"
+android:host        "shop.example.com"
+android:path        "/products/123"     exact match
+android:pathPrefix  "/products"         এই দিয়ে শুরু
+android:pathPattern "/products/.*"      simple pattern
 ```
 
----
+Path না দিলে ঐ host-এর **সব** URL app-এ যাবে। শুধু কিছু path চাইলে `pathPrefix` দাও।
 
-### ৫.৩ assetlinks.json — Domain Ownership Proof
+### ৫.৩ assetlinks.json
 
-এই file ছাড়া App Links কাজ করবে না!  
-Android OS এই file দেখে verify করে যে তুমিই domain-এর owner।
+Android এই file দেখে যাচাই করে যে domain-টা সত্যিই তোমার।
 
-**File location (server-এ রাখতে হবে):**
-```
-https://shop.example.com/.well-known/assetlinks.json
-```
+**জায়গা:** `https://shop.example.com/.well-known/assetlinks.json`
 
-**File content:**
 ```json
 [
   {
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.example.deep_link_demo",
+      "package_name": "com.example.your_app",
       "sha256_cert_fingerprints": [
         "AB:CD:EF:12:34:56:78:90:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11"
       ]
@@ -503,169 +290,131 @@ https://shop.example.com/.well-known/assetlinks.json
 ]
 ```
 
-**SHA256 Fingerprint বের করার উপায়:**
+**Fingerprint বের করা:**
 
 ```bash
-# ১. Debug keystore (Development-এর জন্য)
-keytool -list -v \
-  -keystore ~/.android/debug.keystore \
-  -alias androiddebugkey \
-  -storepass android \
-  -keypass android
+# Debug keystore
+keytool -list -v -keystore ~/.android/debug.keystore \
+  -alias androiddebugkey -storepass android | grep SHA256
 
-# ২. Release keystore (Production-এর জন্য)
-keytool -list -v \
-  -keystore /path/to/your/release.keystore \
-  -alias your-key-alias \
-  -storepass your-store-password
+# নিজের release keystore
+keytool -list -v -keystore /path/to/release.keystore \
+  -alias your-key-alias | grep SHA256
 ```
 
-Output-এ এই part টা খুঁজো এবং copy করো:
+> **সবচেয়ে সাধারণ production bug:** Play Store-এ App Bundle (`.aab`) দিলে Google **নিজের key দিয়ে আবার sign করে** (Play App Signing)। তখন ইউজারের ফোনে থাকা app-এর fingerprint তোমার local release keystore-এর fingerprint নয়। শুধু local fingerprint দিলে App Links **production-এ কাজ করবে না, অথচ debug-এ ঠিক চলবে**।
+>
+> সমাধান — Play Console → তোমার app → **Test and release → Setup → App signing** → সেখান থেকে **App signing key certificate**-এর SHA-256 কপি করো, আর সেটাও `sha256_cert_fingerprints` array-তে যোগ করো।
+>
+> Array-তে একাধিক fingerprint দেওয়া যায়। Debug, upload key আর Play signing key — তিনটাই রাখলে সব build-এ কাজ করবে।
+
+**File serve করার নিয়ম:**
+
 ```
-SHA256: AB:CD:EF:12:34:...  ← colon (:) সহ copy করো
+HTTPS হতে হবে (valid certificate, self-signed নয়)
+Content-Type: application/json
+কোনো redirect চলবে না — সরাসরি 200 দিতে হবে
 ```
 
-**Server Nginx config:**
+Nginx:
+
 ```nginx
-location /.well-known/ {
+location = /.well-known/assetlinks.json {
     default_type application/json;
-    add_header Content-Type "application/json";
+    alias /var/www/well-known/assetlinks.json;
 }
 ```
 
-**Verification করো:**
-```bash
-# Device-এ verify status দেখো
-adb shell pm get-app-links com.example.deep_link_demo
+**Verification যাচাই (Android 12+):**
 
-# Expected output:
-# Domain: shop.example.com  → 1024 (verified ✅)
-# Domain: shop.example.com  → 0    (not verified ❌)
+```bash
+adb shell pm get-app-links com.example.your_app
+# verified হলে domain-এর পাশে "verified" দেখাবে
+
+# আবার verify করাও
+adb shell pm verify-app-links --re-verify com.example.your_app
 ```
 
-অথবা Google-এর official tool:  
-👉 https://developers.google.com/digital-asset-links/tools/generator
+Android 11 বা নিচে এই command নেই — সেখানে `adb shell dumpsys package d` দিয়ে দেখতে হয়।
+
+Online tool: https://developers.google.com/digital-asset-links/tools/generator
 
 ---
 
 ## ৬. iOS Setup
 
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+### ৬.১ Custom URL Scheme
 
-> 🎯 **এই section শেষে তুমি পারবে:** iOS-এ Custom Scheme আর Universal Links setup করতে,
-> এবং `apple-app-site-association` (AASA) file ঠিকভাবে server-এ রাখতে।  
-> 🤖 *শুধু Android নিয়ে কাজ করলে এই section skip করে [৭. Flutter Packages](#৭-flutter-packages)-এ যাও।*
-
-### ৬.১ Custom URL Scheme (iOS)
-
-`ios/Runner/Info.plist` ফাইল খোলো এবং যোগ করো:
+`ios/Runner/Info.plist`:
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <!-- ... existing entries ... -->
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>com.example.yourApp</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>myapp</string>
+        </array>
+    </dict>
+</array>
 
-    <!-- ✅ Custom URL Scheme -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLName</key>
-            <string>com.example.deepLinkDemo</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>myapp</string>
-            </array>
-        </dict>
-    </array>
-
-</dict>
-</plist>
+<!-- পদ্ধতি ১ ব্যবহার করলে -->
+<key>FlutterDeepLinkingEnabled</key>
+<true/>
 ```
 
-**Test করো (iOS Simulator):**
+**Test:**
+
 ```bash
 xcrun simctl openurl booted "myapp://products/123"
 ```
 
----
+### ৬.২ Universal Links
 
-### ৬.২ Universal Links Setup (iOS)
-
-**Step 1: Xcode-এ Associated Domains যোগ করো**
+**Step 1 — Xcode-এ Associated Domains:**
 
 ```
-Xcode → Runner (target) → Signing & Capabilities
-      → "+ Capability" button click করো
-      → "Associated Domains" search করো এবং add করো
-      → "+ " button দিয়ে entry যোগ করো:
-
-  applinks:shop.example.com
+Xcode → Runner target → Signing & Capabilities
+→ "+ Capability" → Associated Domains
+→ entry যোগ করো:  applinks:shop.example.com
 ```
 
-এটা automatically `ios/Runner/Runner.entitlements` file-এ যোগ হবে:
+`ios/Runner/Runner.entitlements`-এ এটা যোগ হবে:
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>com.apple.developer.associated-domains</key>
-    <array>
-        <string>applinks:shop.example.com</string>
-        <!-- একাধিক domain হলে: -->
-        <string>applinks:api.example.com</string>
-    </array>
-</dict>
-</plist>
+<key>com.apple.developer.associated-domains</key>
+<array>
+    <string>applinks:shop.example.com</string>
+</array>
 ```
 
----
+`applinks:` prefix বাধ্যতামূলক। `https://` লিখবে না, শুধু domain।
 
-### ৬.৩ apple-app-site-association (AASA) File
+> Associated Domains capability-র জন্য paid Apple Developer account লাগে। Free provisioning-এ এই capability যোগ করা যায় না।
 
-এই file তোমার server-এ রাখতে হবে।
+**Step 2 — AASA file server-এ রাখো:**
 
-> ⚠️ **Important:** এই file-এর কোনো `.json` extension নেই! শুধু `apple-app-site-association`
-
-**File location (server-এ):**
 ```
 https://shop.example.com/.well-known/apple-app-site-association
 ```
 
-**File content (iOS 13+ এর জন্য নতুন format):**
+> **ফাইলের নামে কোনো extension নেই।** `.json` লাগাবে না।
+
 ```json
 {
   "applinks": {
     "details": [
       {
-        "appIDs": ["TEAMID.com.example.deepLinkDemo"],
+        "appIDs": ["TEAMID.com.example.yourApp"],
         "components": [
-          {
-            "/": "/products/*",
-            "comment": "Product detail pages"
-          },
-          {
-            "/": "/profile/*",
-            "comment": "User profile pages"
-          },
-          {
-            "/": "/orders/*",
-            "comment": "Order pages"
-          },
-          {
-            "/": "/search",
-            "comment": "Search page"
-          },
-          {
-            "/": "NOT /admin/*",
-            "comment": "Exclude admin pages"
-          }
+          { "/": "/products/*", "comment": "Product pages" },
+          { "/": "/orders/*",   "comment": "Order pages" },
+          { "/": "/search",     "comment": "Search" },
+          { "/": "NOT /admin/*", "comment": "Admin বাদ" }
         ]
       }
     ]
@@ -673,1859 +422,582 @@ https://shop.example.com/.well-known/apple-app-site-association
 }
 ```
 
-**Older format (iOS 12 এবং তার নিচে):**
+iOS 12 বা নিচে support করতে হলে পুরনো `paths` format-ও একই ফাইলে রাখা যায়:
+
 ```json
 {
   "applinks": {
     "apps": [],
     "details": [
       {
-        "appID": "TEAMID.com.example.deepLinkDemo",
-        "paths": [
-          "/products/*",
-          "/profile/*",
-          "/orders/*",
-          "NOT /admin/*"
-        ]
+        "appID": "TEAMID.com.example.yourApp",
+        "paths": ["/products/*", "/orders/*", "/search", "NOT /admin/*"]
       }
     ]
   }
 }
 ```
 
-**TEAMID কোথায় পাবো:**
-```
-Apple Developer Console (developer.apple.com)
-  → Account
-  → Membership Details
-  → Team ID (10 character code, যেমন: ABCD123456)
-```
+**Team ID:** developer.apple.com → Account → Membership details → Team ID (১০ অক্ষর)।
 
-**Path rules বোঝার সহজ উপায়:**
-```
-"/products/*"    → /products/ দিয়ে শুরু যেকোনো path ✅
-"/products/123"  → শুধু এই exact path ✅
-"*"              → সব path ✅
-"NOT /admin/*"   → /admin/ বাদে বাকি সব ✅
-```
+**Serve করার নিয়ম:**
 
-**Server headers (required):**
 ```
+HTTPS, port 443, valid certificate
 Content-Type: application/json
+কোনো redirect চলবে না
 ```
+
+> **AASA cache — টেস্ট করার সময় এখানেই সবাই আটকায়।** Apple-এর CDN তোমার AASA ফাইল cache করে রাখে, আর device-ও install-এর সময় একবার পড়ে রেখে দেয়। ফাইল বদলালে সাথে সাথে effect পড়ে না।
+>
+> Test করার সময়:
+> 1. App uninstall করে আবার install করো — device তখন নতুন করে AASA পড়ে।
+> 2. অথবা device-এ Settings → Developer → **Associated Domains Development** চালু করো। তখন device Apple-এর CDN বাদ দিয়ে সরাসরি তোমার server থেকে ফাইল আনে।
 
 ---
 
-## ৭. Flutter Packages
+## ৭. go_router Configuration
 
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** কোন package কী কাজে লাগে তা বুঝতে এবং `app_links` ও
-> `go_router`-এর মূল API গুলো চিনতে।
-
-### কোন Package কখন ব্যবহার করবো?
-
-```
-Deep Link Package Ecosystem
-│
-├── app_links  ✅ Recommended (Modern)
-│     ├── Android App Links support
-│     ├── iOS Universal Links support
-│     ├── Custom URL Scheme support
-│     └── Null-safe, actively maintained
-│
-├── uni_links  (পুরনো, legacy projects-এ আছে)
-│     └── app_links-এর পুরনো version-এর মতো
-│
-└── go_router  ✅ Must Use (Routing Layer)
-      ├── URL-based declarative routing
-      ├── Deep link automatic handling
-      ├── Named routes
-      ├── Path & query parameters
-      └── Redirect / guards support
+```bash
+flutter pub add go_router
 ```
 
-### app_links এর Core API
+### Router
 
-```dart
-final AppLinks appLinks = AppLinks();
-
-// ১. Initial link — Cold Start
-Uri? initialUri = await appLinks.getInitialLink();
-
-// ২. Stream — Warm Start
-Stream<Uri> stream = appLinks.uriLinkStream;
-
-// ৩. String version (যদি Uri না চাও)
-String? initialString = await appLinks.getInitialLinkString();
-Stream<String> stringStream = appLinks.stringLinkStream;
-```
-
-### go_router এর Core API
-
-```dart
-// Router তৈরি করো
-final router = GoRouter(routes: [...]);
-
-// Navigate করো
-context.go('/products/123');      // replace
-context.push('/products/123');    // push (back button কাজ করে)
-context.pop();                    // back
-
-// Named route
-context.goNamed('product', pathParameters: {'id': '123'});
-
-// Query parameters সহ
-context.go('/search?q=flutter');
-```
-
----
-
-## ৮. Basic Implementation — app_links
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** `app_links` দিয়ে cold start ও warm start দুই ক্ষেত্রেই
-> incoming URI ধরতে এবং URI-এর প্রতিটা অংশ (scheme, host, path, query) আলাদা করতে।
-
-### Step-by-step: সবচেয়ে সহজ implementation
-
-**`lib/main.dart`:**
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:app_links/app_links.dart';
-import 'dart:async';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  // app_links এর instance
-  final AppLinks _appLinks = AppLinks();
-
-  // Stream subscription — dispose-এ cancel করবো
-  StreamSubscription<Uri>? _linkSubscription;
-
-  // Current page track করতে
-  String _currentPage = 'Home';
-
-  @override
-  void initState() {
-    super.initState();
-    _initDeepLinks();
-  }
-
-  Future<void> _initDeepLinks() async {
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // ১. COLD START — App বন্ধ ছিল, link দিয়ে খুলেছে
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    try {
-      final Uri? initialUri = await _appLinks.getInitialLink();
-      if (initialUri != null) {
-        debugPrint('Cold Start Link: $initialUri');
-        _handleDeepLink(initialUri);
-      }
-    } catch (e) {
-      debugPrint('Error getting initial link: $e');
-    }
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // ২. WARM START — App চালু ছিল, নতুন link এলো
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    _linkSubscription = _appLinks.uriLinkStream.listen(
-      (Uri uri) {
-        debugPrint('Warm Start Link: $uri');
-        _handleDeepLink(uri);
-      },
-      onError: (Object err) {
-        debugPrint('Deep link stream error: $err');
-      },
-    );
-  }
-
-  void _handleDeepLink(Uri uri) {
-    // URI-এর সব অংশ দেখো
-    debugPrint('━━━━━━━━━━━━━━━━━━━━');
-    debugPrint('Scheme:  ${uri.scheme}');
-    debugPrint('Host:    ${uri.host}');
-    debugPrint('Path:    ${uri.path}');
-    debugPrint('Segments: ${uri.pathSegments}');
-    debugPrint('Query:   ${uri.queryParameters}');
-    debugPrint('Fragment: ${uri.fragment}');
-    debugPrint('━━━━━━━━━━━━━━━━━━━━');
-
-    // Path অনুযায়ী navigate করো
-    _navigateTo(uri);
-  }
-
-  void _navigateTo(Uri uri) {
-    final path = uri.path;
-
-    if (path.startsWith('/products/') || uri.host == 'products') {
-      final productId = uri.pathSegments.last;
-      setState(() => _currentPage = 'Product #$productId');
-
-    } else if (path.startsWith('/profile/') || uri.host == 'profile') {
-      final username = uri.pathSegments.last;
-      setState(() => _currentPage = 'Profile: $username');
-
-    } else if (path == '/search' || uri.host == 'search') {
-      final query = uri.queryParameters['q'] ?? '';
-      setState(() => _currentPage = 'Search: "$query"');
-
-    } else {
-      setState(() => _currentPage = 'Home');
-    }
-  }
-
-  @override
-  void dispose() {
-    // ⚠️ Memory leak এড়াতে cancel করো!
-    _linkSubscription?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Deep Link Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Deep Link Demo'),
-          backgroundColor: Colors.deepPurple,
-          foregroundColor: Colors.white,
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.link, size: 64, color: Colors.deepPurple),
-              const SizedBox(height: 16),
-              const Text('Current Page:', style: TextStyle(fontSize: 16)),
-              const SizedBox(height: 8),
-              Text(
-                _currentPage,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-```
-
-### URI কী কী তথ্য রাখে?
-
-```
-URL: myapp://shop.example.com/products/123?color=red&size=M#details
-
-uri.scheme          → "myapp"
-uri.host            → "shop.example.com"
-uri.path            → "/products/123"
-uri.pathSegments    → ["products", "123"]
-uri.queryParameters → {"color": "red", "size": "M"}
-uri.fragment        → "details"
-uri.toString()      → পুরো URL string
-
-────────────────────────────────────────
-URL: https://shop.example.com/products/123?color=red
-
-uri.scheme          → "https"
-uri.host            → "shop.example.com"
-uri.path            → "/products/123"
-uri.pathSegments    → ["products", "123"]
-uri.queryParameters → {"color": "red"}
-```
-
----
-
-## ৯. go_router দিয়ে Deep Link Handling
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** manual parsing বাদ দিয়ে `go_router` দিয়ে declarative
-> routing করতে এবং deep link-কে সরাসরি সঠিক screen-এ map করতে।
-
-### কেন go_router ব্যবহার করবো?
-
-```
-Without go_router:
-  URI আসে → manually parse করো → manually navigate করো
-  (জটিল, error-prone)
-
-With go_router:
-  URI আসে → go_router.go(path) → automatically সঠিক screen
-  (clean, declarative, maintainable)
-```
-
-### go_router এর Route Matching
-
-```mermaid
-flowchart LR
-    A[Deep Link URI] --> B[go_router]
-    B --> C{Route Match?}
-    C -->|path: /| D[HomeScreen]
-    C -->|path: /products/:id| E[ProductScreen]
-    C -->|path: /profile/:username| F[ProfileScreen]
-    C -->|path: /search| G[SearchScreen]
-    C -->|কোনো match নেই| H[NotFoundScreen]
-```
-
-### Step 1: Screens তৈরি করো
-
-**`lib/screens/home_screen.dart`:**
-```dart
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('🏠 Home')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Welcome!', style: TextStyle(fontSize: 24)),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => context.go('/products/123'),
-              child: const Text('Product 123 দেখো'),
-            ),
-            ElevatedButton(
-              onPressed: () => context.go('/profile/john_doe'),
-              child: const Text('Profile দেখো'),
-            ),
-            ElevatedButton(
-              onPressed: () => context.go('/search?q=flutter'),
-              child: const Text('Search করো'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
-
-**`lib/screens/product_screen.dart`:**
-```dart
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-class ProductScreen extends StatelessWidget {
-  final String productId;
-  final String? color;
-  final String? size;
-
-  const ProductScreen({
-    super.key,
-    required this.productId,
-    this.color,
-    this.size,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('📦 Product #$productId'),
-        leading: BackButton(onPressed: () => context.go('/')),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Product ID: $productId',
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            if (color != null)
-              Text('Color: $color', style: const TextStyle(fontSize: 16)),
-            if (size != null)
-              Text('Size: $size', style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 16),
-            const Text(
-              '🎉 Deep Link দিয়ে এই page-এ এসেছো!',
-              style: TextStyle(color: Colors.green, fontSize: 14),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
-
-**`lib/screens/not_found_screen.dart`:**
-```dart
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-class NotFoundScreen extends StatelessWidget {
-  const NotFoundScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('404 — Not Found')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('😕', style: TextStyle(fontSize: 64)),
-            const SizedBox(height: 16),
-            const Text('এই page খুঁজে পাওয়া যায়নি।'),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => context.go('/'),
-              child: const Text('Home-এ ফিরে যাও'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
-
-> 💡 **`ProfileScreen` ও `SearchScreen`** — উপরের `ProductScreen`-এর মতোই সহজ। নিচের router-এ
-> এদের ব্যবহার করা হয়েছে, তাই copy করার আগে এই দুটো screen নিজে তৈরি করে নাও (একটা constructor
-> parameter — `username` / `query` — নাও আর `Text`-এ দেখাও)।
-
-### Step 2: Router Configuration
-
-**`lib/router/app_router.dart`:**
+`lib/router/app_router.dart`:
 
 ```dart
 import 'package:go_router/go_router.dart';
-import '../screens/home_screen.dart';
-import '../screens/product_screen.dart';
-import '../screens/not_found_screen.dart';
 
-// ─────────────────────────────────────────
-// Global router instance
-// ─────────────────────────────────────────
 final GoRouter appRouter = GoRouter(
-  // App start হলে কোন screen দেখাবে
   initialLocation: '/',
-
-  // Development-এ route logs দেখতে
-  debugLogDiagnostics: true,
+  debugLogDiagnostics: true,   // development-এ route log দেখতে
 
   routes: [
-
-    // ─── Home ───────────────────────────
     GoRoute(
       path: '/',
       name: 'home',
       builder: (context, state) => const HomeScreen(),
     ),
 
-    // ─── Product ─────────────────────────
-    // URL: /products/123
-    // URL: /products/123?color=red&size=M
+    // /products/123?color=red
     GoRoute(
       path: '/products/:productId',
       name: 'product',
-      builder: (context, state) {
-        // :productId → path parameter
-        final productId = state.pathParameters['productId']!;
-        // ?color=red → query parameter
-        final color = state.uri.queryParameters['color'];
-        final size  = state.uri.queryParameters['size'];
-
-        return ProductScreen(
-          productId: productId,
-          color: color,
-          size: size,
-        );
-      },
+      builder: (context, state) => ProductScreen(
+        productId: state.pathParameters['productId']!,
+        color: state.uri.queryParameters['color'],
+      ),
     ),
 
-    // ─── Profile ─────────────────────────
-    // URL: /profile/john_doe
-    GoRoute(
-      path: '/profile/:username',
-      name: 'profile',
-      builder: (context, state) {
-        final username = state.pathParameters['username']!;
-        return ProfileScreen(username: username);
-      },
-    ),
-
-    // ─── Search ──────────────────────────
-    // URL: /search?q=flutter&category=books
+    // /search?q=flutter
     GoRoute(
       path: '/search',
       name: 'search',
-      builder: (context, state) {
-        final query    = state.uri.queryParameters['q'] ?? '';
-        final category = state.uri.queryParameters['category'];
-        return SearchScreen(query: query, category: category);
-      },
+      builder: (context, state) => SearchScreen(
+        query: state.uri.queryParameters['q'] ?? '',
+      ),
     ),
-
   ],
 
-  // কোনো route match না হলে
   errorBuilder: (context, state) => const NotFoundScreen(),
 );
 ```
 
-### Step 3: MaterialApp.router দিয়ে সংযুক্ত করো
-
-**`lib/main.dart`:**
+### App-এ যুক্ত করা
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:app_links/app_links.dart';
-import 'router/app_router.dart';
-import 'dart:async';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final AppLinks _appLinks = AppLinks();
-  StreamSubscription<Uri>? _linkSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _initDeepLinks();
-  }
-
-  Future<void> _initDeepLinks() async {
-    // Cold Start
-    final initialUri = await _appLinks.getInitialLink();
-    if (initialUri != null) {
-      _navigateFromUri(initialUri);
-    }
-
-    // Warm Start
-    _linkSubscription = _appLinks.uriLinkStream.listen(_navigateFromUri);
-  }
-
-  void _navigateFromUri(Uri uri) {
-    // Custom scheme (myapp://) হলে path extract করো
-    String path;
-
-    if (uri.scheme != 'https' && uri.scheme != 'http') {
-      // myapp://products/123 → /products/123
-      path = '/${uri.host}${uri.path}';
-    } else {
-      // https://shop.example.com/products/123 → /products/123
-      path = uri.path;
-    }
-
-    if (path.isEmpty) path = '/';
-
-    // Query string preserve করো
-    final query = uri.query.isNotEmpty ? '?${uri.query}' : '';
-
-    debugPrint('Navigating to: $path$query');
-    appRouter.go('$path$query');
-  }
-
-  @override
-  void dispose() {
-    _linkSubscription?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(   // ← .router ব্যবহার করো, normal নয়!
-      title: 'Deep Link Demo',
-      routerConfig: appRouter,   // ← go_router config দাও
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-    );
-  }
-}
+MaterialApp.router(          // MaterialApp নয়
+  routerConfig: appRouter,
+);
 ```
 
-### go_router Navigation এর সব পদ্ধতি
+`MaterialApp` ব্যবহার করলে deep link কখনোই কাজ করবে না — Router API-ই deep link পায়।
+
+### Path vs Query Parameter
+
+```
+Path parameter    /products/123
+                  route: /products/:productId
+                  read : state.pathParameters['productId']
+                  কখন : resource-এর unique id বা slug
+
+Query parameter   /products?category=shoes&sort=price
+                  route: /products
+                  read : state.uri.queryParameters['category']
+                  কখন : filter, sort, optional value
+```
+
+### Navigation
 
 ```dart
-// ১. go() — Stack replace করে (back button কাজ করে না)
-context.go('/products/123');
-
-// ২. push() — Stack-এ add করে (back button কাজ করে ✅)
-context.push('/products/123');
-
-// ৩. pushReplacement() — Current screen replace করে
+context.go('/products/123');       // stack replace করে
+context.push('/products/123');     // stack-এ যোগ করে, back কাজ করে
 context.pushReplacement('/login');
-
-// ৪. pop() — আগের screen-এ ফিরে যাও
 context.pop();
 
-// ৫. Named route-এ go
-context.goNamed(
-  'product',
+context.goNamed('product',
   pathParameters: {'productId': '123'},
   queryParameters: {'color': 'red'},
 );
 
-// ৬. Extra data pass করো (URL-এ দেখা যাবে না)
+// URL-এ দেখা যায় না এমন data
 context.push('/products/123', extra: {'fromEmail': true});
-
-// Extra data পড়তে:
-final extra = state.extra as Map<String, dynamic>?;
+// পড়তে: state.extra as Map<String, dynamic>?
 ```
 
----
-
-## ১০. Advanced: Dynamic Routes ও Parameters
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-> 🎯 **এই section শেষে তুমি পারবে:** nested routes ও ShellRoute (persistent bottom nav)
-> বানাতে, আর path parameter বনাম query parameter কখন কোনটা ব্যবহার করতে হয় তা বুঝতে।
+> `extra` deep link দিয়ে আসে না — এটা শুধু app-এর ভেতরের navigation-এ কাজ করে। Deep link-এ যা লাগবে সব URL-এ থাকতে হবে।
 
 ### Nested Routes
 
-Child routes parent-এর path inherit করে।
+Child route parent-এর path-এর সাথে যুক্ত হয়:
 
 ```dart
-final GoRouter router = GoRouter(
+GoRoute(
+  path: '/products',
+  builder: (c, s) => const ProductListScreen(),
   routes: [
     GoRoute(
-      path: '/',
-      builder: (c, s) => const HomeScreen(),
-
-      routes: [                            // ← nested routes
-
-        GoRoute(
-          path: 'products',               // Full path: /products
-          builder: (c, s) => const ProductListScreen(),
-
-          routes: [
-            GoRoute(
-              path: ':productId',         // Full path: /products/:productId
-              builder: (c, s) {
-                return ProductScreen(
-                  productId: s.pathParameters['productId']!,
-                );
-              },
-              routes: [
-                GoRoute(
-                  path: 'reviews',        // Full path: /products/:productId/reviews
-                  builder: (c, s) => ReviewScreen(
-                    productId: s.pathParameters['productId']!,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-
-        GoRoute(
-          path: 'profile',                // Full path: /profile
-          builder: (c, s) => const ProfileScreen(),
-        ),
-
-      ],
-    ),
-  ],
-);
-```
-
-**এই nested routes দিয়ে কোন URL গুলো কাজ করবে:**
-```
-/                          → HomeScreen
-/products                  → ProductListScreen
-/products/123              → ProductScreen (productId: 123)
-/products/123/reviews      → ReviewScreen (productId: 123)
-/profile                   → ProfileScreen
-```
-
-### ShellRoute — Bottom Navigation Bar সহ
-
-ShellRoute ব্যবহার করলে navigation bar persistent থাকে।
-
-```dart
-final GoRouter router = GoRouter(
-  routes: [
-
-    // ─── Shell: Bottom Nav সহ screens ─────
-    ShellRoute(
-      builder: (context, state, child) {
-        return MainScaffold(child: child); // Bottom nav wrapper
-      },
+      path: ':productId',            // /products/:productId
+      builder: (c, s) => ProductScreen(id: s.pathParameters['productId']!),
       routes: [
         GoRoute(
-          path: '/',
-          builder: (c, s) => const HomeScreen(),
-        ),
-        GoRoute(
-          path: '/cart',
-          builder: (c, s) => const CartScreen(),
-        ),
-        GoRoute(
-          path: '/profile',
-          builder: (c, s) => const ProfileScreen(),
+          path: 'reviews',           // /products/:productId/reviews
+          builder: (c, s) => ReviewScreen(id: s.pathParameters['productId']!),
         ),
       ],
     ),
-
-    // ─── Shell-এর বাইরে (full screen) ──────
-    GoRoute(
-      path: '/products/:id',
-      builder: (c, s) => ProductScreen(
-        productId: s.pathParameters['id']!,
-      ),
-    ),
-
-    GoRoute(
-      path: '/login',
-      builder: (c, s) => const LoginScreen(),
-    ),
-
   ],
-);
+),
+```
 
-// Bottom Nav Wrapper
-class MainScaffold extends StatelessWidget {
-  final Widget child;
-  const MainScaffold({super.key, required this.child});
+Nested route-এর সুবিধা: `/products/123/reviews`-এ deep link দিয়ে ঢুকলে back চাপলে `/products/123`-এ যাবে, সরাসরি home-এ নয়।
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          switch (index) {
-            case 0: context.go('/'); break;
-            case 1: context.go('/cart'); break;
-            case 2: context.go('/profile'); break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
+### ShellRoute — persistent bottom nav
+
+```dart
+ShellRoute(
+  builder: (context, state, child) => MainScaffold(child: child),
+  routes: [
+    GoRoute(path: '/',        builder: (c, s) => const HomeScreen()),
+    GoRoute(path: '/cart',    builder: (c, s) => const CartScreen()),
+    GoRoute(path: '/profile', builder: (c, s) => const ProfileScreen()),
+  ],
+),
+
+// Shell-এর বাইরে — full screen, bottom nav ছাড়া
+GoRoute(
+  path: '/products/:id',
+  builder: (c, s) => ProductScreen(id: s.pathParameters['id']!),
+),
+```
+
+`MainScaffold` হলো `Scaffold(body: child, bottomNavigationBar: ...)` — nav bar tap-এ `context.go('/cart')` ডাকে।
+
+---
+
+## ৮. app_links — Manual Handling
+
+শুধু [পদ্ধতি ২](#৪-দুটো-পদ্ধতি--কোনটা-বেছে-নেবে) নিলে এই অংশ। `flutter_deeplinking_enabled` তখন দেবে না।
+
+### Core API
+
+```dart
+final appLinks = AppLinks();
+
+Uri? initial = await appLinks.getInitialLink();   // cold start
+Stream<Uri> stream = appLinks.uriLinkStream;      // warm start
+```
+
+### Service
+
+`lib/services/deep_link_service.dart`:
+
+```dart
+import 'dart:async';
+import 'package:app_links/app_links.dart';
+import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
+
+class DeepLinkService {
+  DeepLinkService(this._router);
+
+  final GoRouter _router;
+  final AppLinks _appLinks = AppLinks();
+  StreamSubscription<Uri>? _subscription;
+
+  Future<void> init() async {
+    // Cold start — app বন্ধ ছিল
+    try {
+      final initial = await _appLinks.getInitialLink();
+      if (initial != null) _process(initial);
+    } catch (e) {
+      debugPrint('Initial link error: $e');
+    }
+
+    // Warm start — app চালু ছিল
+    _subscription = _appLinks.uriLinkStream.listen(
+      _process,
+      onError: (Object e) => debugPrint('Link stream error: $e'),
     );
   }
+
+  void _process(Uri uri) {
+    final path  = _buildPath(uri);
+    final query = uri.query.isNotEmpty ? '?${uri.query}' : '';
+    debugPrint('Deep link → $path$query');
+    _router.go('$path$query');
+  }
+
+  /// myapp://products/123  → host="products", path="/123"  → /products/123
+  /// https://shop.com/products/123                          → /products/123
+  String _buildPath(Uri uri) {
+    if (uri.scheme == 'http' || uri.scheme == 'https') {
+      return uri.path.isEmpty ? '/' : uri.path;
+    }
+    final combined = '/${uri.host}${uri.path}';
+    return combined == '/' ? '/' : combined;
+  }
+
+  void dispose() => _subscription?.cancel();
 }
 ```
 
-### Path vs Query Parameters — পার্থক্য
+`_buildPath` কেন দরকার: custom scheme-এ `myapp://products/123`-এর `uri.path` হয় `/123`, আর `products` চলে যায় `uri.host`-এ। শুধু `uri.path` দিলে route মিলবে না।
 
+### main.dart-এ যুক্ত করা
+
+```dart
+class _MyAppState extends State<MyApp> {
+  late final DeepLinkService _deepLinks;
+
+  @override
+  void initState() {
+    super.initState();
+    _deepLinks = DeepLinkService(appRouter);
+
+    // Router attach হওয়ার পরে init করো
+    WidgetsBinding.instance.addPostFrameCallback((_) => _deepLinks.init());
+  }
+
+  @override
+  void dispose() {
+    _deepLinks.dispose();      // না করলে memory leak
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      MaterialApp.router(routerConfig: appRouter);
+}
 ```
-──────────────────────────────────────────────────────
-Path Parameter:
-──────────────────────────────────────────────────────
-URL:   /products/123
-Route: /products/:productId
-Read:  state.pathParameters['productId']   → "123"
 
-কখন ব্যবহার করবো: Resource-এর unique identifier (id, slug)
+> **Cold start-এ দুইবার navigate হলে:** `app_links`-এর কোনো কোনো version-এ initial link `uriLinkStream`-এও একবার আসে, ফলে `getInitialLink()` মিলিয়ে দুইবার navigate হয়। Log-এ একই URL দুইবার দেখলে `getInitialLink()`-এর অংশটা বাদ দিয়ে শুধু stream রাখো, অথবা শেষ handle করা URI মনে রেখে একই URI পরপর দুইবার এলে দ্বিতীয়বার বাদ দাও।
 
-──────────────────────────────────────────────────────
-Query Parameter:
-──────────────────────────────────────────────────────
-URL:   /products?category=shoes&sort=price
-Route: /products
-Read:  state.uri.queryParameters['category']  → "shoes"
-       state.uri.queryParameters['sort']      → "price"
+### URI Parse Cheat Sheet
 
-কখন ব্যবহার করবো: Filters, sorting, optional params
+```dart
+Uri.parse("myapp://products/123?color=red#top");
+//  scheme "myapp"  host "products"  path "/123"
+//  pathSegments ["123"]  queryParameters {"color":"red"}  fragment "top"
 
-──────────────────────────────────────────────────────
-উভয়ই একসাথে:
-──────────────────────────────────────────────────────
-URL:   /products/123?color=red&size=M
-Route: /products/:productId
-Read:  state.pathParameters['productId']      → "123"
-       state.uri.queryParameters['color']     → "red"
-       state.uri.queryParameters['size']      → "M"
+Uri.parse("https://shop.com/products/123?color=red");
+//  scheme "https"  host "shop.com"  path "/products/123"
+//  pathSegments ["products","123"]  queryParameters {"color":"red"}
 ```
 
 ---
 
-## ১১. Advanced: Authentication Guard ও Redirects
+## ৯. Authentication Guard ও Redirect
 
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
+কেউ deep link দিয়ে protected page-এ (`/orders/456`) এলে আগে login করাতে হবে, তারপর সে যেখানে যেতে চেয়েছিল সেখানে পাঠাতে হবে।
 
-> 🎯 **এই section শেষে তুমি পারবে:** protected page-এ deep link এলে user-কে আগে login করানো,
-> তারপর সে যেখানে যেতে চেয়েছিল ঠিক সেখানে ফেরত পাঠানো।
-
-> 📦 **নতুন dependency:** এখান থেকে আমরা state management-এর জন্য `provider` ব্যবহার করব
-> (`pubspec.yaml`-এ আগেই যোগ করা আছে)। আগের সহজ example গুলোতে `setState` ছিল — এখন
-> `AuthService`-এর state পুরো app জুড়ে লাগবে বলে `ChangeNotifier` + `provider` ব্যবহার করছি।
-
-### কেন দরকার?
-
-Deep link করে কেউ যদি protected page-এ আসে (যেমন `/orders/456`), তাহলে তাকে আগে login করাতে হবে। Login-এর পরে সে originally যেখানে যেতে চেয়েছিল সেখানে পাঠাতে হবে।
-
-### Flow Diagram
-
-```mermaid
-flowchart TD
-    A[Deep Link: myapp://orders/456] --> B[go_router receives /orders/456]
-    B --> C[redirect function চালে]
-    C --> D{User logged in?}
-    D -->|হ্যাঁ| E[✅ OrderScreen দেখাও]
-    D -->|না| F["/login?redirect=%2Forders%2F456"]
-    F --> G[LoginScreen দেখাও]
-    G --> H[User credentials দেয়]
-    H --> I[Login success]
-    I --> J[redirect param decode করো]
-    J --> K[context.go /orders/456]
-    K --> E
-```
-
-### AuthService তৈরি করো
-
-**`lib/services/auth_service.dart`:**
+### AuthService
 
 ```dart
-import 'package:flutter/foundation.dart';
-
 class AuthService extends ChangeNotifier {
   bool _isLoggedIn = false;
-  String? _userId;
-  String? _userName;
-
   bool get isLoggedIn => _isLoggedIn;
-  String? get userId => _userId;
-  String? get userName => _userName;
 
-  // Login (real app-এ API call করবে)
   Future<void> login(String email, String password) async {
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 1));
-
+    // API call
     _isLoggedIn = true;
-    _userId = 'user_123';
-    _userName = email.split('@').first;
-
-    notifyListeners(); // ← router refresh হবে
+    notifyListeners();        // router refresh হবে
   }
 
-  // Logout
   void logout() {
     _isLoggedIn = false;
-    _userId = null;
-    _userName = null;
     notifyListeners();
   }
 }
 ```
 
-### Router-এ Guard যোগ করো
-
-**`lib/router/app_router.dart` (updated):**
+### Router-এ guard
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../services/auth_service.dart';
-import '../screens/screens.dart';
-
-GoRouter createAppRouter(AuthService authService) {
+GoRouter createAppRouter(AuthService auth) {
   return GoRouter(
     initialLocation: '/',
-    debugLogDiagnostics: true,
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // AuthService change হলে router rebuild হবে
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    refreshListenable: authService,
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // Redirect — প্রতিটা navigation-এর আগে চলে
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    redirect: (BuildContext context, GoRouterState state) {
-      final isLoggedIn = authService.isLoggedIn;
-      final currentLocation = state.matchedLocation;
-
-      // Protected routes list
-      const protectedRoutes = [
-        '/cart',
-        '/orders',
-        '/profile',
-        '/checkout',
-      ];
-
-      // এই location কি protected?
-      final isProtected = protectedRoutes.any(
-        (route) => currentLocation.startsWith(route),
-      );
-
-      // Protected page + not logged in → Login-এ পাঠাও
-      if (!isLoggedIn && isProtected) {
-        // Original destination encode করো
-        final destination = Uri.encodeComponent(state.uri.toString());
-        return '/login?redirect=$destination';
-      }
-
-      // Already logged in + login page-এ → Home-এ পাঠাও
-      if (isLoggedIn && currentLocation == '/login') {
-        return '/';
-      }
-
-      // null মানে redirect করো না, এগিয়ে যাও
-      return null;
-    },
-
-    routes: [
-      GoRoute(path: '/', name: 'home',
-        builder: (c, s) => const HomeScreen()),
-
-      GoRoute(path: '/products/:id', name: 'product',
-        builder: (c, s) => ProductScreen(
-          productId: s.pathParameters['id']!,
-          color: s.uri.queryParameters['color'],
-        )),
-
-      GoRoute(path: '/search', name: 'search',
-        builder: (c, s) => SearchScreen(
-          query: s.uri.queryParameters['q'] ?? '',
-        )),
-
-      // Protected routes
-      GoRoute(path: '/cart', name: 'cart',
-        builder: (c, s) => const CartScreen()),
-
-      GoRoute(path: '/orders/:orderId', name: 'order',
-        builder: (c, s) => OrderScreen(
-          orderId: s.pathParameters['orderId']!,
-        )),
-
-      GoRoute(path: '/profile', name: 'profile',
-        builder: (c, s) => const ProfileScreen()),
-
-      // Login — redirect param নিয়ে কাজ করে
-      GoRoute(
-        path: '/login',
-        name: 'login',
-        builder: (context, state) {
-          final redirectTo = state.uri.queryParameters['redirect'];
-          return LoginScreen(redirectTo: redirectTo);
-        },
-      ),
-    ],
-
-    errorBuilder: (c, s) => const NotFoundScreen(),
-  );
-}
-```
-
-### LoginScreen — redirect handling সহ
-
-**`lib/screens/login_screen.dart`:**
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import '../services/auth_service.dart';
-
-class LoginScreen extends StatefulWidget {
-  final String? redirectTo;
-
-  const LoginScreen({super.key, this.redirectTo});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _emailController    = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isLoading = false;
-
-  Future<void> _login() async {
-    setState(() => _isLoading = true);
-
-    try {
-      await context.read<AuthService>().login(
-        _emailController.text,
-        _passwordController.text,
-      );
-
-      if (!mounted) return;
-
-      // Login-এর পরে original destination-এ যাও
-      if (widget.redirectTo != null) {
-        // Decode করো এবং navigate করো
-        final destination = Uri.decodeComponent(widget.redirectTo!);
-        context.go(destination);
-      } else {
-        context.go('/');
-      }
-
-    } catch (e) {
-      setState(() => _isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed: $e')),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('🔐 Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (widget.redirectTo != null) ...[
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                  '🔒 এই page দেখতে login করতে হবে।',
-                  style: TextStyle(color: Colors.orange),
-                ),
-              ),
-              const SizedBox(height: 24),
-            ],
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _login,
-                child: _isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Login'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-}
-```
-
----
-
-## ১২. Deep Link Testing
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-### Android Testing
-
-#### Method 1: adb command (সবচেয়ে সহজ)
-
-```bash
-# ─── Custom URL Scheme ─────────────────────────────
-adb shell am start \
-  -a android.intent.action.VIEW \
-  -d "myapp://products/123" \
-  com.example.deep_link_demo
-
-# ─── App Links (HTTPS) ─────────────────────────────
-adb shell am start \
-  -a android.intent.action.VIEW \
-  -d "https://shop.example.com/products/123" \
-  com.example.deep_link_demo
-
-# ─── Query Parameters সহ ───────────────────────────
-adb shell am start \
-  -a android.intent.action.VIEW \
-  -d "myapp://products/123?color=red&size=M" \
-  com.example.deep_link_demo
-
-# ─── Search ────────────────────────────────────────
-adb shell am start \
-  -a android.intent.action.VIEW \
-  -d "myapp://search?q=flutter+books" \
-  com.example.deep_link_demo
-
-# ─── Protected route ───────────────────────────────
-adb shell am start \
-  -a android.intent.action.VIEW \
-  -d "myapp://orders/456" \
-  com.example.deep_link_demo
-```
-
-#### Method 2: Emulator Browser থেকে
-
-Emulator-এর Chrome browser address bar-এ type করো:
-```
-myapp://products/123
-```
-
-#### Method 3: App Links Verification Status
-
-```bash
-# Verification status দেখো
-adb shell pm get-app-links com.example.deep_link_demo
-
-# Force re-verify করো
-adb shell pm set-app-links \
-  --package com.example.deep_link_demo \
-  0 shop.example.com
-
-adb shell pm verify-app-links \
-  --re-verify com.example.deep_link_demo
-```
-
----
-
-### iOS Testing
-
-#### Method 1: xcrun simctl (Simulator)
-
-```bash
-# ─── Custom URL Scheme ─────────────────────────────
-xcrun simctl openurl booted "myapp://products/123"
-
-# ─── Universal Links ───────────────────────────────
-xcrun simctl openurl booted "https://shop.example.com/products/123"
-
-# ─── Query Parameters সহ ───────────────────────────
-xcrun simctl openurl booted "myapp://products/123?color=red"
-
-# ─── Search ────────────────────────────────────────
-xcrun simctl openurl booted "myapp://search?q=flutter"
-```
-
-#### Method 2: Safari Simulator থেকে
-
-Safari address bar-এ লিখো:
-```
-myapp://products/123
-```
-
-> ⚠️ Universal Links Simulator-এ সবসময় কাজ নাও করতে পারে।  
-> Real device-এ test করাই ভালো।
-
----
-
-### Testing Checklist
-
-```
-Android
-  ✅ Custom Scheme cold start (app বন্ধ ছিল)
-  ✅ Custom Scheme warm start (app চালু ছিল)
-  ✅ App Links cold start
-  ✅ App Links warm start
-  ✅ Query parameters parse হচ্ছে কিনা
-  ✅ Protected route → login redirect হচ্ছে কিনা
-  ✅ Login পরে original destination-এ যাচ্ছে কিনা
-  ✅ Invalid route → 404 দেখাচ্ছে কিনা
-  ✅ assetlinks.json verified (adb pm get-app-links)
-
-iOS
-  ✅ Custom Scheme cold start
-  ✅ Custom Scheme warm start
-  ✅ Universal Links (real device-এ)
-  ✅ Query parameters parse হচ্ছে কিনা
-  ✅ Protected route → login redirect হচ্ছে কিনা
-  ✅ AASA file accessible (curl দিয়ে)
-```
-
----
-
-## ১৩. Troubleshooting ও Common Errors
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
----
-
-### ❌ সমস্যা ১: Android App Links কাজ করছে না (Browser খুলছে)
-
-**কারণ:** `assetlinks.json` সঠিক নেই বা accessible নয়।
-
-```bash
-# ১. File accessible কিনা দেখো
-curl https://shop.example.com/.well-known/assetlinks.json
-
-# ২. Content-Type header ঠিক আছে কিনা
-curl -I https://shop.example.com/.well-known/assetlinks.json
-# → Content-Type: application/json
-
-# ৩. SHA256 fingerprint মিলছে কিনা
-keytool -list -v -keystore ~/.android/debug.keystore \
-  -alias androiddebugkey -storepass android | grep SHA256
-
-# ৪. Package name ঠিক আছে কিনা
-# assetlinks.json-এর package_name এবং app-এর applicationId মিলতে হবে
-```
-
-**সমাধান:**
-- `assetlinks.json`-এ correct SHA256 fingerprint দাও
-- File সঠিক URL-এ accessible কিনা নিশ্চিত করো
-- `android:autoVerify="true"` দেওয়া আছে কিনা দেখো
-
----
-
-### ❌ সমস্যা ২: App Multiple Times Open হচ্ছে
-
-**কারণ:** `launchMode` দেওয়া নেই।
-
-```xml
-<!-- ❌ ভুল — launchMode নেই -->
-<activity android:name=".MainActivity" android:exported="true">
-
-<!-- ✅ সঠিক -->
-<activity
-    android:name=".MainActivity"
-    android:exported="true"
-    android:launchMode="singleTask">
-```
-
----
-
-### ❌ সমস্যা ৩: Cold Start-এ Link পাওয়া যাচ্ছে না
-
-**কারণ:** Widget build হওয়ার আগেই `getInitialLink()` call হচ্ছে।
-
-```dart
-// ❌ ভুল
-@override
-void initState() {
-  super.initState();
-  _initDeepLinks(); // Widget তৈরির সময়ই call হচ্ছে
-}
-
-// ✅ সঠিক — Widget bind হওয়ার পরে call করো
-@override
-void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    _initDeepLinks();
-  });
-}
-```
-
----
-
-### ❌ সমস্যা ৪: iOS Universal Links কাজ করছে না
-
-```bash
-# ১. AASA file accessible কিনা
-curl https://shop.example.com/.well-known/apple-app-site-association
-
-# ২. JSON valid কিনা
-curl https://shop.example.com/.well-known/apple-app-site-association | python3 -m json.tool
-```
-
-**Checklist:**
-```
-□ File-এর নাম: apple-app-site-association (extension নেই!)
-□ Content-Type: application/json
-□ Team ID ঠিক আছে (TEAMID.bundle.id format)
-□ Associated Domains-এ: applinks:yourdomain.com (applinks: prefix আছে?)
-□ Xcode-এ Signing Certificate valid আছে কিনা
-□ Real device-এ test করো (Simulator-এ সবসময় কাজ নাও করতে পারে)
-```
-
----
-
-### ❌ সমস্যা ৫: Custom Scheme-এ Path Empty আসছে
-
-```dart
-// URL: myapp://products/123
-// কিছু ক্ষেত্রে uri.path → "" হয়
-
-void _navigateFromUri(Uri uri) {
-  String path;
-
-  if (uri.scheme != 'https' && uri.scheme != 'http') {
-    // ✅ host + path combine করো
-    // myapp://products/123 → host="products", path="/123"
-    final host = uri.host.isNotEmpty ? uri.host : '';
-    final uriPath = uri.path;
-    path = '/$host$uriPath';
-    // Result: /products/123 ✅
-  } else {
-    path = uri.path;
-  }
-
-  if (path.isEmpty || path == '/') path = '/';
-
-  final query = uri.query.isNotEmpty ? '?${uri.query}' : '';
-  appRouter.go('$path$query');
-}
-```
-
----
-
-### ❌ সমস্যা ৬: go_router-এ Deep Link Navigate হচ্ছে না
-
-```dart
-// ❌ ভুল — MaterialApp ব্যবহার করছো
-return MaterialApp(
-  home: HomeScreen(),
-);
-
-// ✅ সঠিক — MaterialApp.router ব্যবহার করো
-return MaterialApp.router(
-  routerConfig: appRouter,
-);
-```
-
----
-
-### ❌ সমস্যা ৭: Stream Subscription Dispose হচ্ছে না
-
-```dart
-// ❌ ভুল — memory leak!
-class _MyAppState extends State<MyApp> {
-  StreamSubscription? _sub;
-
-  @override
-  void initState() {
-    super.initState();
-    _sub = appLinks.uriLinkStream.listen(...);
-    // dispose নেই!
-  }
-}
-
-// ✅ সঠিক
-class _MyAppState extends State<MyApp> {
-  StreamSubscription? _sub;
-
-  @override
-  void initState() {
-    super.initState();
-    _sub = appLinks.uriLinkStream.listen(...);
-  }
-
-  @override
-  void dispose() {
-    _sub?.cancel(); // ← এটা MUST
-    super.dispose();
-  }
-}
-```
-
----
-
-## ১৪. Complete Real-world Example
-
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-### E-commerce App — সম্পূর্ণ Implementation
-
-এই section-এ একটা পূর্ণাঙ্গ E-commerce App-এর deep link implementation দেখাবো।
-
-### Supported Deep Links
-
-```
-myapp://                           → Home
-myapp://products/123               → Product Detail
-myapp://products/123?color=red     → Product (নির্দিষ্ট color)
-myapp://category/shoes             → Shoes Category
-myapp://search?q=running+shoes     → Search Results
-myapp://cart                       → Cart (login required)
-myapp://orders/456                 → Order Detail (login required)
-myapp://profile                    → My Profile (login required)
-myapp://promo/SUMMER2024           → Promo Landing Page
-```
-
-### Complete File Structure
-
-```
-lib/
-├── main.dart
-├── app.dart
-├── router/
-│   └── app_router.dart
-├── services/
-│   ├── auth_service.dart
-│   └── deep_link_service.dart
-└── screens/
-    ├── home_screen.dart
-    ├── product_screen.dart
-    ├── category_screen.dart
-    ├── search_screen.dart
-    ├── cart_screen.dart
-    ├── order_screen.dart
-    ├── profile_screen.dart
-    ├── promo_screen.dart
-    ├── login_screen.dart
-    └── not_found_screen.dart
-```
-
-### `lib/services/deep_link_service.dart`
-
-```dart
-import 'dart:async';
-import 'package:app_links/app_links.dart';
-import 'package:flutter/foundation.dart';
-import 'package:go_router/go_router.dart';
-
-/// Deep Link Service — Singleton pattern
-class DeepLinkService {
-  static final DeepLinkService _instance = DeepLinkService._internal();
-  factory DeepLinkService() => _instance;
-  DeepLinkService._internal();
-
-  final AppLinks _appLinks = AppLinks();
-  StreamSubscription<Uri>? _subscription;
-  GoRouter? _router;
-
-  // Router inject করো (main.dart থেকে call করবো)
-  void setRouter(GoRouter router) {
-    _router = router;
-  }
-
-  Future<void> init() async {
-    // ── Cold Start ──────────────────────────
-    try {
-      final initialUri = await _appLinks.getInitialLink();
-      if (initialUri != null) {
-        debugPrint('🔗 Initial Deep Link: $initialUri');
-        _processUri(initialUri);
-      }
-    } catch (e) {
-      debugPrint('❌ Initial link error: $e');
-    }
-
-    // ── Warm Start ──────────────────────────
-    _subscription = _appLinks.uriLinkStream.listen(
-      (uri) {
-        debugPrint('🔗 Incoming Deep Link: $uri');
-        _processUri(uri);
-      },
-      onError: (e) => debugPrint('❌ Link stream error: $e'),
-    );
-  }
-
-  void _processUri(Uri uri) {
-    if (_router == null) {
-      debugPrint('⚠️ Router not set!');
-      return;
-    }
-
-    final path = _buildPath(uri);
-    final query = uri.query.isNotEmpty ? '?${uri.query}' : '';
-    final fullPath = '$path$query';
-
-    debugPrint('📍 Navigating to: $fullPath');
-    _router!.go(fullPath);
-  }
-
-  String _buildPath(Uri uri) {
-    // Custom scheme: myapp://products/123 → /products/123
-    if (uri.scheme != 'https' && uri.scheme != 'http') {
-      final host = uri.host.isNotEmpty ? uri.host : '';
-      final path = uri.path;
-      final combined = '/$host$path';
-      return combined.isEmpty ? '/' : combined;
-    }
-    // HTTPS: সরাসরি path
-    final path = uri.path;
-    return path.isEmpty ? '/' : path;
-  }
-
-  void dispose() {
-    _subscription?.cancel();
-  }
-}
-```
-
-### `lib/router/app_router.dart` (Complete)
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../services/auth_service.dart';
-import '../screens/home_screen.dart';
-import '../screens/product_screen.dart';
-import '../screens/category_screen.dart';
-import '../screens/search_screen.dart';
-import '../screens/cart_screen.dart';
-import '../screens/order_screen.dart';
-import '../screens/profile_screen.dart';
-import '../screens/promo_screen.dart';
-import '../screens/login_screen.dart';
-import '../screens/not_found_screen.dart';
-
-GoRouter createAppRouter(AuthService authService) {
-  return GoRouter(
-    initialLocation: '/',
-    debugLogDiagnostics: true,
-    refreshListenable: authService,
+    refreshListenable: auth,        // auth বদলালে redirect আবার চলবে
 
     redirect: (context, state) {
-      final isLoggedIn = authService.isLoggedIn;
       final loc = state.matchedLocation;
+      const protected = ['/cart', '/orders', '/profile', '/checkout'];
+      final isProtected = protected.any(loc.startsWith);
 
-      const protectedRoutes = ['/cart', '/orders', '/profile'];
-      final isProtected = protectedRoutes.any((r) => loc.startsWith(r));
-
-      if (!isLoggedIn && isProtected) {
+      if (!auth.isLoggedIn && isProtected) {
         final dest = Uri.encodeComponent(state.uri.toString());
         return '/login?redirect=$dest';
       }
-      if (isLoggedIn && loc == '/login') return '/';
-      return null;
+      if (auth.isLoggedIn && loc == '/login') return '/';
+      return null;                  // null = redirect করো না
     },
 
     routes: [
-      GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (c, s) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: '/products/:productId',
-        name: 'product',
-        builder: (c, s) => ProductScreen(
-          productId: s.pathParameters['productId']!,
-          color: s.uri.queryParameters['color'],
-          size:  s.uri.queryParameters['size'],
-        ),
-      ),
-      GoRoute(
-        path: '/category/:slug',
-        name: 'category',
-        builder: (c, s) => CategoryScreen(
-          slug: s.pathParameters['slug']!,
-        ),
-      ),
-      GoRoute(
-        path: '/search',
-        name: 'search',
-        builder: (c, s) => SearchScreen(
-          query: s.uri.queryParameters['q'] ?? '',
-        ),
-      ),
-      GoRoute(
-        path: '/cart',
-        name: 'cart',
-        builder: (c, s) => const CartScreen(),
-      ),
+      GoRoute(path: '/', builder: (c, s) => const HomeScreen()),
       GoRoute(
         path: '/orders/:orderId',
-        name: 'order',
-        builder: (c, s) => OrderScreen(
-          orderId: s.pathParameters['orderId']!,
-        ),
-      ),
-      GoRoute(
-        path: '/profile',
-        name: 'profile',
-        builder: (c, s) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/promo/:code',
-        name: 'promo',
-        builder: (c, s) => PromoScreen(
-          code: s.pathParameters['code']!,
-        ),
+        builder: (c, s) => OrderScreen(orderId: s.pathParameters['orderId']!),
       ),
       GoRoute(
         path: '/login',
-        name: 'login',
         builder: (c, s) => LoginScreen(
           redirectTo: s.uri.queryParameters['redirect'],
         ),
       ),
     ],
-
     errorBuilder: (c, s) => const NotFoundScreen(),
   );
 }
 ```
 
-### `lib/main.dart` (Final Complete)
+`refreshListenable` না দিলে login-এর পরে router নিজে থেকে আবার redirect চালাবে না — ইউজার login screen-এ আটকে থাকবে।
+
+### Login-এর পরে ফেরত পাঠানো
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'services/auth_service.dart';
-import 'services/deep_link_service.dart';
-import 'router/app_router.dart';
-import 'package:go_router/go_router.dart';
+Future<void> _login() async {
+  await context.read<AuthService>().login(email, password);
+  if (!mounted) return;
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => AuthService(),
-      child: const MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late final GoRouter _router;
-  final _deepLinkService = DeepLinkService();
-
-  @override
-  void initState() {
-    super.initState();
-
-    // AuthService থেকে router তৈরি করো
-    final authService = context.read<AuthService>();
-    _router = createAppRouter(authService);
-
-    // DeepLinkService-এ router inject করো
-    _deepLinkService.setRouter(_router);
-
-    // Widget build হওয়ার পরে init করো
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _deepLinkService.init();
-    });
-  }
-
-  @override
-  void dispose() {
-    _deepLinkService.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Shop App',
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-      ),
-    );
-  }
+  final target = widget.redirectTo;
+  context.go(target != null ? Uri.decodeComponent(target) : '/');
 }
 ```
 
-### Complete Architecture Flow
-
-```mermaid
-flowchart TD
-    A[📱 User clicks deep link] --> B[OS receives URL]
-    B --> C{Platform?}
-
-    C -->|Android| D{Link type?}
-    D -->|myapp://| E[intent-filter matches]
-    D -->|https://| F{assetlinks.json OK?}
-    F -->|Yes ✅| E
-    F -->|No ❌| G[Browser খোলে]
-
-    C -->|iOS| H{Link type?}
-    H -->|myapp://| I[CFBundleURLSchemes matches]
-    H -->|https://| J{AASA file OK?}
-    J -->|Yes ✅| I
-    J -->|No ❌| K[Browser খোলে]
-
-    E --> L[Flutter App Starts]
-    I --> L
-
-    L --> M{First time launch?}
-    M -->|Cold Start| N[getInitialLink]
-    M -->|Warm Start| O[uriLinkStream]
-
-    N --> P[DeepLinkService._processUri]
-    O --> P
-
-    P --> Q[_buildPath — URI → /path]
-    Q --> R[router.go /path?query]
-
-    R --> S[go_router redirect check]
-    S --> T{Auth required?}
-    T -->|Yes + Not logged in| U["/login?redirect=..."]
-    T -->|No / Logged in| V{Route match?}
-
-    U --> W[User logs in]
-    W --> X[go original destination]
-    X --> V
-
-    V -->|/products/:id| Y[ProductScreen ✅]
-    V -->|/orders/:id| Z[OrderScreen ✅]
-    V -->|/search| AA[SearchScreen ✅]
-    V -->|unknown| BB[NotFoundScreen 404]
-```
+> **Redirect parameter যাচাই করো।** `redirect` query parameter ইউজারের দেওয়া input — কেউ `/login?redirect=https://evil.com` বানিয়ে পাঠাতে পারে। শুধু `/` দিয়ে শুরু হওয়া internal path গ্রহণ করো, বাইরের URL নয়:
+>
+> ```dart
+> final decoded = Uri.decodeComponent(target);
+> final safe = decoded.startsWith('/') && !decoded.startsWith('//');
+> context.go(safe ? decoded : '/');
+> ```
+>
+> `//evil.com` বাদ দেওয়া জরুরি — এটা protocol-relative URL, browser context-এ বাইরের site-এ নিয়ে যায়।
 
 ---
 
-## ১৫. Quick Reference Card
+## ১০. Testing
 
-[⬆️ TOC-এ ফিরে যাও](#-table-of-contents)
-
-### Android Setup Checklist
-
-```
-AndroidManifest.xml:
-  ✅ android:launchMode="singleTask"
-  ✅ Custom Scheme intent-filter (android:scheme="myapp")
-  ✅ App Links intent-filter (android:autoVerify="true")
-
-Server:
-  ✅ https://domain.com/.well-known/assetlinks.json
-  ✅ Correct SHA256 fingerprint
-  ✅ Correct package_name
-  ✅ Content-Type: application/json
-```
-
-### iOS Setup Checklist
-
-```
-Info.plist:
-  ✅ CFBundleURLTypes → CFBundleURLSchemes → ["myapp"]
-
-Xcode Capabilities:
-  ✅ Associated Domains: applinks:yourdomain.com
-
-Server:
-  ✅ https://domain.com/.well-known/apple-app-site-association
-  ✅ Correct appIDs: TEAMID.bundle.id
-  ✅ Correct paths
-  ✅ Content-Type: application/json
-  ✅ No .json extension on filename!
-```
-
-### Flutter Code Checklist
-
-```
-pubspec.yaml:
-  ✅ app_links: ^6.0.0
-  ✅ go_router: ^14.0.0
-
-main.dart:
-  ✅ MaterialApp.router (not MaterialApp)
-  ✅ routerConfig: appRouter
-  ✅ getInitialLink() — cold start
-  ✅ uriLinkStream — warm start
-  ✅ StreamSubscription cancel in dispose()
-
-app_router.dart:
-  ✅ All routes defined
-  ✅ errorBuilder for 404
-  ✅ redirect for auth guard
-  ✅ refreshListenable: authService
-```
-
-### adb / xcrun Test Commands
+### Android
 
 ```bash
-# Android — Custom Scheme
+# Custom scheme
 adb shell am start -a android.intent.action.VIEW \
-  -d "myapp://products/123" com.example.app
+  -d "myapp://products/123" com.example.your_app
 
-# Android — App Links
+# App Links
 adb shell am start -a android.intent.action.VIEW \
-  -d "https://shop.example.com/products/123" com.example.app
+  -d "https://shop.example.com/products/123" com.example.your_app
 
-# iOS — Custom Scheme
+# Query parameter সহ
+adb shell am start -a android.intent.action.VIEW \
+  -d "myapp://search?q=flutter+books" com.example.your_app
+```
+
+Cold start test করতে আগে app বন্ধ করো: `adb shell am force-stop com.example.your_app`
+
+**Verification status (Android 12+):**
+
+```bash
+adb shell pm get-app-links com.example.your_app
+adb shell pm verify-app-links --re-verify com.example.your_app
+```
+
+> **Chrome-এর address bar-এ `myapp://...` টাইপ করে test করা যায় না** — Chrome custom scheme-কে search query ধরে নেয়। HTML page-এ একটা `<a href="myapp://products/123">` link বানিয়ে সেখান থেকে tap করো, অথবা `adb` ব্যবহার করো।
+
+### iOS
+
+```bash
 xcrun simctl openurl booted "myapp://products/123"
-
-# iOS — Universal Links
 xcrun simctl openurl booted "https://shop.example.com/products/123"
 ```
 
-### URI Parse Cheat Sheet
+> **Universal Links Simulator-এ ভরসা করা যায় না।** AASA verification আর CDN cache Simulator-এ আলাদা আচরণ করে। Universal Link সবসময় real device-এ test করো।
+>
+> আরেকটা কথা: **একই domain-এর page থেকে link-এ tap করলে Universal Link কাজ করে না** — Apple ইচ্ছাকৃতভাবে এটা বন্ধ রাখে। Safari-র address bar-এ URL টাইপ করলেও app খুলবে না। Notes app বা Messages-এ link পাঠিয়ে সেখান থেকে tap করে test করো।
+
+### Test Checklist
+
+| কেস | Android | iOS |
+|---|:---:|:---:|
+| Custom scheme — cold start | ☐ | ☐ |
+| Custom scheme — warm start | ☐ | ☐ |
+| Verified https — cold start | ☐ | ☐ |
+| Verified https — warm start | ☐ | ☐ |
+| Query parameter parse হচ্ছে | ☐ | ☐ |
+| Protected route → login redirect | ☐ | ☐ |
+| Login-এর পরে original destination | ☐ | ☐ |
+| অজানা path → 404 screen | ☐ | ☐ |
+| Release build-এ সব কেস | ☐ | ☐ |
+
+Release build আলাদা করে test করো — App Links-এর fingerprint debug আর release-এ আলাদা।
+
+---
+
+## ১১. Troubleshooting
+
+### App Links কাজ করছে না, browser খুলছে
+
+ক্রম মেনে দেখো:
+
+```bash
+# ১. File পাওয়া যাচ্ছে?
+curl -sI https://shop.example.com/.well-known/assetlinks.json
+#    200 হতে হবে, 301/302 নয়
+#    Content-Type: application/json
+
+# ২. JSON valid?
+curl -s https://shop.example.com/.well-known/assetlinks.json | python3 -m json.tool
+
+# ৩. Fingerprint মিলছে?
+keytool -list -v -keystore ~/.android/debug.keystore \
+  -alias androiddebugkey -storepass android | grep SHA256
+
+# ৪. Verification status
+adb shell pm get-app-links com.example.your_app
+```
+
+আর দেখো:
+- `android:autoVerify="true"` আছে কিনা
+- `package_name` আর app-এর `applicationId` এক কিনা
+- **Play Store build হলে Play App Signing-এর fingerprint যোগ করা আছে কিনা** ([৫.৩](#৫৩-assetlinksjson))
+
+### iOS Universal Links কাজ করছে না
+
+```bash
+curl -sI https://shop.example.com/.well-known/apple-app-site-association
+# 200, Content-Type: application/json, redirect নেই
+```
+
+- ফাইলের নামে `.json` extension নেই তো?
+- `appIDs` ফরম্যাট `TEAMID.bundle.id` ঠিক আছে?
+- Entitlements-এ `applinks:` prefix সহ domain আছে?
+- App uninstall করে reinstall করেছো? (AASA cache — [৬.২](#৬২-universal-links))
+- Real device-এ test করছো, Simulator-এ নয়?
+- একই domain-এর page থেকে tap করছো না তো? (কাজ করবে না)
+
+### App একাধিকবার খুলছে / screen দুইবার আসছে
+
+তিনটা কারণ:
+
+1. `<activity>`-তে `launchMode` নেই (`standard` হয়ে গেছে)। Flutter template-এর `singleTop` ফিরিয়ে আনো।
+2. **`flutter_deeplinking_enabled` আর `app_links` দুটোই চালু** — একই link দুই পথে handle হচ্ছে। একটা বাদ দাও ([§৪](#৪-দুটো-পদ্ধতি--কোনটা-বেছে-নেবে))।
+3. `app_links`-এ initial link stream-এও আসছে ([§৮](#৮-app_links--manual-handling)-এর সতর্কতা)।
+
+### Cold start-এ link কাজ করে না, warm start-এ করে
+
+`app_links` ব্যবহার করছো, আর router attach হওয়ার আগেই `router.go()` ডাকা হচ্ছে। `addPostFrameCallback`-এর ভেতরে `init()` ডাকো:
 
 ```dart
-Uri uri = Uri.parse("myapp://products/123?color=red#section1");
+WidgetsBinding.instance.addPostFrameCallback((_) => _deepLinks.init());
+```
 
-uri.scheme          // "myapp"
-uri.host            // "products"
-uri.path            // "/123"
-uri.pathSegments    // ["123"]
-uri.queryParameters // {"color": "red"}
-uri.fragment        // "section1"
+পদ্ধতি ১ (built-in) ব্যবহার করলে এই সমস্যা হয় না — Flutter নিজেই সঠিক সময়ে URI পাঠায়।
 
-Uri uri2 = Uri.parse("https://shop.com/products/123?color=red");
-uri2.scheme         // "https"
-uri2.host           // "shop.com"
-uri2.path           // "/products/123"
-uri2.pathSegments   // ["products", "123"]
-uri2.queryParameters // {"color": "red"}
+### Custom scheme-এ path খালি আসছে
+
+`myapp://products/123`-এ `uri.path` হয় `/123`, `products` থাকে `uri.host`-এ। `_buildPath()` দিয়ে জোড়া লাগাও ([§৮](#৮-app_links--manual-handling))।
+
+### Deep link কিছুই করছে না
+
+`MaterialApp` ব্যবহার করছো কিনা দেখো। `MaterialApp.router` + `routerConfig` না হলে Router API deep link পায় না।
+
+### Stream subscription leak
+
+`dispose()`-এ `_subscription?.cancel()` ডাকতেই হবে। না করলে widget মুছে গেলেও listener বেঁচে থাকে, আর মৃত router-এ navigate করার চেষ্টা করে।
+
+---
+
+## ১২. Quick Reference
+
+### Android checklist
+
+```
+AndroidManifest.xml
+  launchMode="singleTop"  (Flutter default — বদলিও না)
+  Custom scheme intent-filter (android:scheme="myapp")
+  App Links intent-filter (android:autoVerify="true")
+  meta-data flutter_deeplinking_enabled  (পদ্ধতি ১ হলে)
+
+Server
+  https://domain/.well-known/assetlinks.json
+  Content-Type: application/json, redirect নেই
+  package_name সঠিক
+  SHA-256: debug + upload key + Play App Signing key
+```
+
+### iOS checklist
+
+```
+Info.plist
+  CFBundleURLTypes → CFBundleURLSchemes → ["myapp"]
+  FlutterDeepLinkingEnabled = true   (পদ্ধতি ১ হলে)
+
+Xcode
+  Associated Domains capability
+  applinks:yourdomain.com
+
+Server
+  https://domain/.well-known/apple-app-site-association
+  ফাইলের নামে extension নেই
+  Content-Type: application/json, redirect নেই
+  appIDs: TEAMID.bundle.id
+```
+
+### Flutter checklist
+
+```
+MaterialApp.router + routerConfig   (MaterialApp নয়)
+errorBuilder — 404
+redirect + refreshListenable — auth guard
+পদ্ধতি ২ হলে: getInitialLink (cold) + uriLinkStream (warm)
+                dispose()-এ subscription cancel
+```
+
+### Test commands
+
+```bash
+# Android
+adb shell am force-stop com.example.app          # cold start-এর আগে
+adb shell am start -a android.intent.action.VIEW \
+  -d "myapp://products/123" com.example.app
+adb shell pm get-app-links com.example.app       # Android 12+
+
+# iOS
+xcrun simctl openurl booted "myapp://products/123"
+# Universal Link — real device, Messages/Notes থেকে tap
 ```
 
 ---
 
-> 🎉 **অভিনন্দন!** তুমি Flutter Deep Link-এর সম্পূর্ণ A-to-Z শিখে ফেলেছো!  
-> এখন implement করো এবং নিজে test করো।
+## References
 
----
+- [Flutter — Deep linking](https://docs.flutter.dev/ui/navigation/deep-linking)
+- [go_router](https://pub.dev/packages/go_router)
+- [app_links](https://pub.dev/packages/app_links)
+- [Android App Links](https://developer.android.com/training/app-links)
+- [Apple — Supporting universal links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app)
+- [Digital Asset Links generator](https://developers.google.com/digital-asset-links/tools/generator)
 
-### 📚 Official References
-
-- [Flutter Deep Linking Docs](https://docs.flutter.dev/ui/navigation/deep-linking)
-- [go_router Documentation](https://pub.dev/packages/go_router)
-- [app_links Package](https://pub.dev/packages/app_links)
-- [Android App Links Guide](https://developer.android.com/training/app-links)
-- [iOS Universal Links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app)
-- [Digital Asset Links Tool](https://developers.google.com/digital-asset-links/tools/generator)
-- [Apple App Site Association Validator](https://branch.io/resources/aasa-validator/)
-
----
-
-*এই গাইড Flutter Official Documentation, go_router Documentation এবং app_links Package Documentation অবলম্বনে লেখা হয়েছে।*
-
-*সর্বশেষ আপডেট: Flutter 3.x | go_router 14.x | app_links 6.x*
+**সম্পর্কিত:** [firebase-push-setup-guide.md](./firebase-push-setup-guide.md) · [notification_background_guide.md](./notification_background_guide.md)
