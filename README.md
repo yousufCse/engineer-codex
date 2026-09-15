@@ -37,6 +37,7 @@ engineer-codex/
 │
 ├── 📁 flutter/                         # Flutter guides & best practices
 │   ├── barrel-imports-guides.md
+│   ├── deep-link-guide.md
 │   ├── firebase-push-setup-guide.md
 │   ├── flavor-setup-guide.md
 │   ├── flutter-form-validation.md
@@ -46,6 +47,7 @@ engineer-codex/
 │   ├── global-error-handling.md
 │   ├── notification_background_guide.md
 │   ├── responsive-ui-strategy.md
+│   ├── ui-and-motion.md
 │   └── widget-extraction-guide.md
 │
 ├── 📁 backend/
