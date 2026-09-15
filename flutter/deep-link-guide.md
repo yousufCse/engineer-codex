@@ -841,15 +841,15 @@ xcrun simctl openurl booted "https://shop.example.com/products/123"
 
 | কেস | Android | iOS |
 |---|:---:|:---:|
-| Custom scheme — cold start | ☐ | ☐ |
-| Custom scheme — warm start | ☐ | ☐ |
-| Verified https — cold start | ☐ | ☐ |
-| Verified https — warm start | ☐ | ☐ |
-| Query parameter parse হচ্ছে | ☐ | ☐ |
-| Protected route → login redirect | ☐ | ☐ |
-| Login-এর পরে original destination | ☐ | ☐ |
-| অজানা path → 404 screen | ☐ | ☐ |
-| Release build-এ সব কেস | ☐ | ☐ |
+| Custom scheme — cold start | [ ] | [ ] |
+| Custom scheme — warm start | [ ] | [ ] |
+| Verified https — cold start | [ ] | [ ] |
+| Verified https — warm start | [ ] | [ ] |
+| Query parameter parse হচ্ছে | [ ] | [ ] |
+| Protected route → login redirect | [ ] | [ ] |
+| Login-এর পরে original destination | [ ] | [ ] |
+| অজানা path → 404 screen | [ ] | [ ] |
+| Release build-এ সব কেস | [ ] | [ ] |
 
 Release build আলাদা করে test করো — App Links-এর fingerprint debug আর release-এ আলাদা।
 

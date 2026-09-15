@@ -31,7 +31,7 @@ Imagine you have 20 screens. Each screen calls an API. Each API can fail with:
 Without a global system, every screen must do this manually:
 
 ```dart
-// ❌ BAD: repeated in EVERY screen
+// BAD: repeated in EVERY screen
 BlocListener<SomeCubit, SomeState>(
   listener: (context, state) {
     state.maybeWhen(
@@ -73,7 +73,7 @@ That is **20 screens × the same error handling code**. If you want to change th
 
 ## Three Approaches Compared
 
-### Approach A: Global ErrorCubit + Top-Level BlocListener ⭐
+### Approach A: Global ErrorCubit + Top-Level BlocListener
 
 **How it works:** Create a singleton `GlobalErrorCubit`. Any cubit in the app can push a `Failure` into it. A single `BlocListener` at the top of the widget tree listens and shows the right dialog.
 

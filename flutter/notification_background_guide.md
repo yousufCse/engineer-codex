@@ -1,4 +1,4 @@
-# 📱 Notification & Background Task — সম্পূর্ণ গাইড
+# Notification & Background Task — সম্পূর্ণ গাইড
 ### Flutter Telemedicine Developer-দের জন্য — Production-Grade In-Depth Reference
 
 > **ভাষা নীতি:** সমস্ত ব্যাখ্যা বাংলায়, Technical Term সমূহ English-এ অপরিবর্তিত।
@@ -9,7 +9,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 ### Part 1 — Abstract / Generic Concepts
 - [1.1 Notification কী এবং কেন দরকার?](#11-notification-কী-এবং-কেন-দরকার)
@@ -196,9 +196,9 @@ FCM হলো Google-এর free push notification service। এটি Android 
 
 | Message Type | `notification` field | `data` field | App State |
 |---|---|---|---|
-| **Notification Message** | ✅ আছে | ❌ নেই | App dead-এও দেখায় |
-| **Data Message** | ❌ নেই | ✅ আছে | App running থাকলে handle করে |
-| **Combined Message** | ✅ আছে | ✅ আছে | Background-এ OS দেখায়, Foreground-এ App handle করে |
+| **Notification Message** | আছে | নেই | App dead-এও দেখায় |
+| **Data Message** | নেই | আছে | App running থাকলে handle করে |
+| **Combined Message** | আছে | আছে | Background-এ OS দেখায়, Foreground-এ App handle করে |
 
 ### FCM Priority
 
@@ -207,7 +207,7 @@ priority: "high"    ──▶  Doze mode ভেঙে deliver হয় (তা�
 priority: "normal"  ──▶  Device active থাকলে deliver হয়
 ```
 
-> ⚠️ **Android 13+ caveat:** যদি app বারবার high-priority message পাঠায় কিন্তু notification না দেখায়, Android OS সেই app-এর high-priority FCM messages downgrade করতে পারে। তাই high-priority শুধু সত্যিকারের urgent notification-এ ব্যবহার করুন।
+> **Android 13+ caveat:** যদি app বারবার high-priority message পাঠায় কিন্তু notification না দেখায়, Android OS সেই app-এর high-priority FCM messages downgrade করতে পারে। তাই high-priority শুধু সত্যিকারের urgent notification-এ ব্যবহার করুন।
 
 **Telemedicine-এ সবসময় `priority: "high"` ব্যবহার করুন।**
 
@@ -259,10 +259,10 @@ User একটি 50MB MRI report upload করতে শুরু করল।
 Upload হতে 2 মিনিট লাগবে।
 User upload চলাকালীন অন্য app-এ গেল।
 
-❌ Background Task ছাড়া:
+Background Task ছাড়া:
    App background-এ গেলেই upload cancel হয়ে যাবে!
 
-✅ Background Task দিয়ে:
+Background Task দিয়ে:
    Upload চলতে থাকবে, complete হলে notification দেবে।
 ```
 
@@ -465,9 +465,9 @@ NotificationCompat.Builder
   User প্রতিটি channel আলাদাভাবে control করতে পারে।
 
 Example:
-  ✅ "Appointment" channel — চালু রাখা
-  ✅ "Video Call" channel — চালু রাখা
-  ❌ "Promotions" channel — বন্ধ করা
+  "Appointment" channel — চালু রাখা
+  "Video Call" channel — চালু রাখা
+  "Promotions" channel — বন্ধ করা
 ```
 
 ### Telemedicine App-এর Channels
@@ -523,7 +523,7 @@ IMPORTANCE_NONE     ──▶ Notification দেখায় না
 IMPORTANCE_MIN      ──▶ Status bar-এ শুধু icon
 IMPORTANCE_LOW      ──▶ Sound/vibration নেই, list-এ দেখায়
 IMPORTANCE_DEFAULT  ──▶ Sound আছে, heads-up নেই
-IMPORTANCE_HIGH     ──▶ Sound + Heads-up popup ✅ (Vibration: channel-এ enableVibration(true) না দিলে গ্যারান্টি নেই)
+IMPORTANCE_HIGH ──▶ Sound + Heads-up popup (Vibration: channel-এ enableVibration(true) না দিলে গ্যারান্টি নেই)
 IMPORTANCE_MAX      ──▶ (HIGH-এর সমান আচরণ করে; Google recommend করে HIGH ব্যবহার করতে)
 ```
 
@@ -538,7 +538,7 @@ IMPORTANCE_MAX      ──▶ (HIGH-এর সমান আচরণ করে; 
 │  IMPORTANCE_HIGH — Heads-up Notification                     │
 │                                                              │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │  📞 Dr. Rahman wants to start your consultation     │   │
+│  │  Dr. Rahman wants to start your consultation        │   │
 │  │     Telemedicine App           Accept  Decline      │   │
 │  └──────────────────────────────────────────────────────┘   │
 │  (Screen-এর উপরে popup হয়, interrupt করে)                  │
@@ -574,10 +574,10 @@ Android-এ background task-এর জন্য বিভিন্ন mechanism 
 │  MECHANISM           │  USE CASE                           │
 ├──────────────────────┼──────────────────────────────────────┤
 │  WorkManager         │  Guaranteed, deferrable tasks        │
-│  (Recommended ✅)    │  Log sync, token refresh             │
+│  (Recommended)       │  Log sync, token refresh             │
 ├──────────────────────┼──────────────────────────────────────┤
 │  Foreground Service  │  Long-running, user-visible tasks   │
-│  (File Upload ✅)    │  File upload, music playback         │
+│  (File Upload)       │  File upload, music playback         │
 ├──────────────────────┼──────────────────────────────────────┤
 │  JobScheduler        │  System-condition-based tasks        │
 │  (WorkManager        │  (WorkManager এটি internally ব্যবহার│
@@ -610,7 +610,7 @@ flowchart LR
     D --> F[Execute Worker]
     E --> F
     F --> G{Success?}
-    G -->|Yes| H[Done ✅]
+    G -->|Yes| H[Done ]
     G -->|No| I[Retry with\nBackoff]
     I --> F
 ```
@@ -689,14 +689,14 @@ Foreground Service-এ OS promise করে:
 ### Foreground Service কখন ব্যবহার করবে?
 
 ```
-✅ ব্যবহার করো যখন:
+ব্যবহার করো যখন:
   1. কাজটি দীর্ঘ সময় লাগে (1 মিনিটের বেশি)
   2. User-কে progress দেখাতে হবে (upload %, call duration)
   3. কাজ interrupt হলে সমস্যা হবে (file upload, video call)
   4. Real-time কাজ (GPS tracking, live audio/video)
   5. Network টানতে হবে দীর্ঘ সময়
 
-❌ ব্যবহার করো না যখন:
+ব্যবহার করো না যখন:
   1. ছোট এক-বারের কাজ (log send, token refresh) → WorkManager
   2. শুধু নির্দিষ্ট সময়ে reminder → AlarmManager
   3. User জানার দরকার নেই → WorkManager
@@ -706,7 +706,7 @@ Foreground Service-এ OS promise করে:
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  📤  Uploading MRI Report                       │
+│   Uploading MRI Report                          │
 │      Telemedicine                    [Cancel]   │
 │  ████████████░░░░░░░░  65% (32.5 MB / 50 MB)   │
 └─────────────────────────────────────────────────┘
@@ -758,12 +758,12 @@ Android 14 (API 34) থেকে foreground service-এর **type** declare ক�
 <!--
   camera          → ক্যামেরা ব্যবহার করলে
   connectedDevice → Bluetooth/USB device
-  dataSync        → File upload/download ✅ (আমাদের ক্ষেত্রে)
+  dataSync → File upload/download (আমাদের ক্ষেত্রে)
   health          → Health/fitness tracking
   location        → GPS tracking
-  mediaPlayback   → Music/video playback ✅ (YouTube-style)
+  mediaPlayback → Music/video playback (YouTube-style)
   mediaProjection → Screen recording
-  microphone      → Audio recording ✅ (Voice call)
+  microphone → Audio recording (Voice call)
   phoneCall       → Phone call
   remoteMessaging → Messaging
   shortService    → দ্রুত শেষ হওয়া কাজ (max 3 min)
@@ -777,18 +777,18 @@ Android 14 (API 34) থেকে foreground service-এর **type** declare ক�
 ```
 Example 1 — File Upload (dataSync):
   User 100MB MRI scan upload করছে।
-  Notification: "📤 Uploading MRI Scan... 45%"
+  Notification: " Uploading MRI Scan... 45%"
   Cancel button আছে।
   App close করলেও চলে।
 
 Example 2 — Video Call (microphone + camera):
   Doctor-এর সাথে video consultation চলছে।
-  Notification: "📹 Video call with Dr. Rahman — 12:34"
+  Notification: " Video call with Dr. Rahman — 12:34"
   User অন্য app খুলতে পারে, call চলবে।
 
 Example 3 — Location Tracking (location):
   Ambulance-এর real-time location track করছে।
-  Notification: "📍 Live tracking active"
+  Notification: " Live tracking active"
   App background-এ থেকেও location update পাঠাচ্ছে।
 ```
 
@@ -833,11 +833,11 @@ Foreground Service মানে:
 │                        │  (setForeground দিলে  │                        │
 │                        │  বেশি)                 │                        │
 ├────────────────────────┼───────────────────────┼────────────────────────┤
-│  Network constraint    │  ✅ সহজেই দেওয়া যায়   │  ❌ নিজে handle করো    │
+│  Network constraint    │  সহজেই দেওয়া যায়      │  নিজে handle করো       │
 ├────────────────────────┼───────────────────────┼────────────────────────┤
-│  Retry automatic?      │  ✅ হ্যাঁ, built-in    │  ❌ নিজে লিখতে হবে    │
+│  Retry automatic?      │  হ্যাঁ, built-in       │  নিজে লিখতে হবে       │
 ├────────────────────────┼───────────────────────┼────────────────────────┤
-│  Device restart        │  ✅ Task survive করে   │  ❌ Service restart     │
+│  Device restart        │  Task survive করে      │  Service restart        │
 │  সার্ভাইভ করে?        │                        │  করতে হবে              │
 ├────────────────────────┼───────────────────────┼────────────────────────┤
 │  Progress দেখানো?      │  কঠিন                 │  সহজ (notification     │
@@ -861,11 +861,11 @@ flowchart TD
     B -->|হ্যাঁ, দেখা উচিত| C{কাজ কতক্ষণ\nলাগবে?}
     B -->|না, দেখার দরকার নেই| D{Exact timing\nদরকার?}
     
-    C -->|দীর্ঘ সময়\n> 10 min| E[Foreground Service ✅]
-    C -->|স্বল্প সময়\n< 10 min| F[WorkManager with\nsetForeground ✅]
+    C -->|দীর্ঘ সময়\n> 10 min| E[Foreground Service ]
+    C -->|স্বল্প সময়\n< 10 min| F[WorkManager with\nsetForeground ]
     
-    D -->|না, system decide করুক| G[WorkManager ✅]
-    D -->|হ্যাঁ, exact time| H[AlarmManager ✅]
+    D -->|না, system decide করুক| G[WorkManager ]
+    D -->|হ্যাঁ, exact time| H[AlarmManager ]
     
     E --> I[Video Call\nFile Upload\nMusic Play\nGPS Track]
     G --> J[Token Refresh\nLog Sync\nCache Clean]
@@ -885,9 +885,9 @@ setForegroundAsync(ForegroundInfo(
 ));
 
 // এই পদ্ধতিতে:
-// ✅ WorkManager-এর retry, constraint সব পাবে
-// ✅ Foreground Service-এর OS protection পাবে
-// ❌ কিন্তু বেশি complex code
+// WorkManager-এর retry, constraint সব পাবে
+// Foreground Service-এর OS protection পাবে
+// কিন্তু বেশি complex code
 ```
 
 **সুপারিশ:** যদি WorkManager-এর constraints (network, battery) দরকার হয় AND দীর্ঘ সময় লাগে — তাহলে `setForeground()` সহ WorkManager ব্যবহার করো। নইলে সরাসরি Foreground Service।
@@ -911,14 +911,14 @@ Android device idle থাকলে battery বাঁচাতে **Doze Mode** 
 │  0 min ─────────────────────────────────────────▶          │
 │         │                                                   │
 │    ~কিছুক্ষণ পর: Light Doze শুরু (সময় device-ভেদে ভিন্ন) │
-│         │  Network: ✅ (কম)  Alarm: ✅ (restricted)        │
+│         │  Network: (কম)  Alarm: (restricted)              │
 │         │                                                   │
 │    আরও পরে: Deep Doze শুরু (সময় officially documented নয়) │
-│         │  Network: ❌        Alarm: ❌                      │
-│         │  FCM High Priority: ✅ (একমাত্র exception)        │
+│         │  Network:        Alarm:                            │
+│         │  FCM High Priority: (একমাত্র exception)           │
 │         │                                                   │
 │    Maintenance Window (মাঝেমধ্যে):                          │
-│         │  Network: ✅ (কিছুক্ষণ)  Tasks run               │
+│         │  Network: (কিছুক্ষণ)  Tasks run                  │
 │         │                                                   │
 │    User touches device: Doze exit                           │
 └─────────────────────────────────────────────────────────────┘
@@ -928,9 +928,9 @@ Android device idle থাকলে battery বাঁচাতে **Doze Mode** 
 
 ```
 FCM message-এ priority: "high" দিলে:
-  ✅ Doze mode-এও device wake up করে
-  ✅ Network briefly available হয়
-  ✅ Notification deliver হয়
+  Doze mode-এও device wake up করে
+  Network briefly available হয়
+  Notification deliver হয়
 
 এজন্য appointment confirmation-এ সবসময় high priority দিন।
 ```
@@ -1042,14 +1042,14 @@ Android কাজ করে এভাবে:
 
 Solution:
   Foreground Service চালু হবে
-  Notification: "📤 Uploading MRI... 34%"
+  Notification: " Uploading MRI... 34%"
   Upload চলতে থাকবে
-  Complete হলে: "✅ Upload Complete"
+  Complete হলে: " Upload Complete"
 
 কেন WorkManager নয়?
-  ✗ WorkManager 50MB upload করতে গেলে progress notification update কঠিন
-  ✗ System যেকোনো সময় defer করতে পারে
-  ✗ User দেখতে পাবে না কী হচ্ছে
+  WorkManager 50MB upload করতে গেলে progress notification update কঠিন
+  System যেকোনো সময় defer করতে পারে
+  User দেখতে পাবে না কী হচ্ছে
 ```
 
 ### Scenario 3 — রাত ১১টার Appointment Reminder
@@ -1065,9 +1065,9 @@ Solution:
   App বন্ধ থাকলেও notification আসবে
 
 কেন Foreground Service নয়?
-  ✗ সারারাত service চালু রাখা battery waste
-  ✗ User-এর experience খারাপ
-  ✓ AlarmManager/zonedSchedule perfect এই কাজে
+  সারারাত service চালু রাখা battery waste
+  User-এর experience খারাপ
+  AlarmManager/zonedSchedule perfect এই কাজে
 ```
 
 ### Scenario 4 — FCM Token প্রতিদিন Refresh করা
@@ -1082,9 +1082,9 @@ Solution:
   Constraint: network connected
 
 কেন Foreground Service নয়?
-  ✗ User দেখার দরকার নেই
-  ✗ Background-এ quietly করলেই হবে
-  ✓ WorkManager guaranteed execution দেবে
+  User দেখার দরকার নেই
+  Background-এ quietly করলেই হবে
+  WorkManager guaranteed execution দেবে
 ```
 
 ---
@@ -1187,8 +1187,8 @@ iOS-এ notification দেখাতে **user permission** নিতেই হ�
 flowchart TD
     A[App First Launch] --> B[Request Permission]
     B --> C{iOS System Dialog}
-    C -->|Allow| D[Authorized ✅\nAll notifications work]
-    C -->|Don't Allow| E[Denied ❌\nNo notifications]
+    C -->|Allow| D[Authorized \nAll notifications work]
+    C -->|Don't Allow| E[Denied \nNo notifications]
     E --> F[User goes to\nSettings > App > Notifications]
     F --> G[Manually enable]
     G --> D
@@ -1214,10 +1214,10 @@ UNUserNotificationCenter.current().requestAuthorization(
 
 ```
 Critical Alert:
-  ✅ Do Not Disturb (DND) mode ভেঙে sound বাজায়
-  ✅ মধ্যরাতেও notification যায়
-  ❌ Apple-এর special permission দরকার (entitlement)
-  ✅ Medical/Healthcare apps পায় (application করতে হয়)
+  Do Not Disturb (DND) mode ভেঙে sound বাজায়
+  মধ্যরাতেও notification যায়
+  Apple-এর special permission দরকার (entitlement)
+  Medical/Healthcare apps পায় (application করতে হয়)
 
 Telemedicine app-এ incoming video call-এর জন্য এটি কাজে আসে।
 ```
@@ -1228,7 +1228,7 @@ Telemedicine app-এ incoming video call-এর জন্য এটি কাজ
 iOS notification-এ iOS style Action button যোগ করা যায়:
 
 ┌──────────────────────────────────────────────────────┐
-│  📅  Dr. Rahman has confirmed your appointment       │
+│   Dr. Rahman has confirmed your appointment          │
 │      Tomorrow, 10:00 AM                              │
 │  ┌──────────────────┐  ┌──────────────────────────┐ │
 │  │   View Details   │  │      Reschedule           │ │
@@ -1324,19 +1324,19 @@ BGTaskScheduler.shared.register(
 ┌─────────────────────────────────────────────────────────────┐
 │                  iOS EXECUTION LIMITS                       │
 ├──────────────────────────┬──────────────────────────────────┤
-│  Background URLSession   │  No time limit ✅                │
+│  Background URLSession   │  No time limit                   │
 │  (File Upload)           │  iOS manages the transfer        │
 ├──────────────────────────┼──────────────────────────────────┤
-│  BGAppRefreshTask        │  ~30 seconds ⚠️ (community       │
+│  BGAppRefreshTask        │  ~30 seconds (community          │
 │                          │  estimate; Apple officially       │
 │                          │  এই limit document করেনি)        │
 ├──────────────────────────┼──────────────────────────────────┤
-│  BGProcessingTask        │  Few minutes (variable) ⚠️       │
+│  BGProcessingTask        │  Few minutes (variable)          │
 ├──────────────────────────┼──────────────────────────────────┤
-│  Background fetch        │  ~30 seconds ⚠️                  │
+│  Background fetch        │  ~30 seconds                     │
 │  (legacy)                │                                  │
 ├──────────────────────────┼──────────────────────────────────┤
-│  VoIP push handler       │  ~30 seconds ⚠️                  │
+│  VoIP push handler       │  ~30 seconds                     │
 └──────────────────────────┴──────────────────────────────────┘
 ```
 
@@ -1353,12 +1353,12 @@ iOS-এ large file upload-এর **একমাত্র সঠিক উপা�
 ```
 Normal URLSession:
   App → Network → Server
-  App kill হলে upload cancel ❌
+  App kill হলে upload cancel
 
 Background URLSession:
   App → NSURLSession Daemon (OS process) → Network → Server
-  App kill হলেও OS upload চালিয়ে যায় ✅
-  Upload complete হলে App wake up করে ✅
+  App kill হলেও OS upload চালিয়ে যায়
+  Upload complete হলে App wake up করে
 ```
 
 ```
@@ -1423,11 +1423,11 @@ Kill না করার guarantee:
 
 ```
 Low Power Mode চালু হলে:
-  ❌ Background App Refresh বন্ধ হয়
-  ❌ Push notification delay হতে পারে
-  ❌ Background fetch কম frequent হয়
-  ✅ FCM High Priority push আসে (APNs delivers)
-  ✅ Background URLSession চলতে থাকে
+  Background App Refresh বন্ধ হয়
+  Push notification delay হতে পারে
+  Background fetch কম frequent হয়
+  FCM High Priority push আসে (APNs delivers)
+  Background URLSession চলতে থাকে
 ```
 
 ---
@@ -1503,8 +1503,8 @@ iOS-এ কী হয়:
     আমাদের নিজে flutter_local_notifications দিয়ে দেখাতে হবে
 
 সহজ মনে রাখার উপায়:
-  iOS + Background = OS দেখায় ✅
-  iOS + Foreground = আমরা দেখাই (নিজে code করতে হবে) ✅
+  iOS + Background = OS দেখায়
+  iOS + Foreground = আমরা দেখাই (নিজে code করতে হবে)
 ```
 
 ### Scenario 2 — iOS-এ 100MB File Upload
@@ -1512,13 +1512,13 @@ iOS-এ কী হয়:
 ```
 সমস্যা:
   Normal HTTP upload দিয়ে করলে:
-  User অন্য app-এ গেলে → iOS app suspend → Upload cancel ❌
+  User অন্য app-এ গেলে → iOS app suspend → Upload cancel
 
 সমাধান — Background URLSession:
   Upload শুরু হয় → OS একটি আলাদা daemon process চালায়
-  App suspend হলেও daemon চলতে থাকে ✅
-  Upload শেষ হলে iOS app-কে wake করে ✅
-  AppDelegate-এ handleEventsForBackgroundURLSession() call হয় ✅
+  App suspend হলেও daemon চলতে থাকে
+  Upload শেষ হলে iOS app-কে wake করে
+  AppDelegate-এ handleEventsForBackgroundURLSession() call হয়
 
 flutter package:
   dio বা http দিয়ে সরাসরি background URLSession হয় না।
@@ -1556,10 +1556,10 @@ Flutter-এ workmanager package iOS-এ BGAppRefreshTask ব্যবহার �
 
 সমাধান — VoIP Push (PushKit):
   Apple-এর বিশেষ push system শুধু VoIP-এর জন্য
-  Device immediately wake হয় — কোনো delay নেই ✅
+  Device immediately wake হয় — কোনো delay নেই
   iOS CallKit-এর সাথে integration করলে
-  Native incoming call screen দেখায় ✅
-  App killed থাকলেও call আসে ✅
+  Native incoming call screen দেখায়
+  App killed থাকলেও call আসে
 
 Flutter:
   flutter_callkit_incoming package ব্যবহার করো
@@ -1689,7 +1689,7 @@ void main() async {
   runApp(MyApp());
 }
 
-// ⚠️ IMPORTANT: এটি অবশ্যই top-level function হতে হবে
+// IMPORTANT: এটি অবশ্যই top-level function হতে হবে
 // class method বা lambda হলে কাজ করবে না
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -2055,7 +2055,7 @@ static Future<void> showUploadComplete({
 }) async {
   await _plugin.show(
     notificationId,
-    'Upload Complete ✅',
+    'Upload Complete ',
     '$fileName has been uploaded successfully',
     NotificationDetails(
       android: AndroidNotificationDetails(
@@ -2084,10 +2084,10 @@ Flutter-এ background task বোঝতে হলে **Isolate** বুঝত�
 কিন্তু একসাথে একাধিক Isolate চলতে পারে — shared memory নেই।
 
 প্রতিটি Isolate:
-  ✅ নিজের memory আছে
-  ✅ নিজের event loop আছে
-  ❌ অন্য isolate-এর memory সরাসরি access করতে পারে না
-  ✅ Message passing (SendPort/ReceivePort) দিয়ে communicate করে
+  নিজের memory আছে
+  নিজের event loop আছে
+  অন্য isolate-এর memory সরাসরি access করতে পারে না
+  Message passing (SendPort/ReceivePort) দিয়ে communicate করে
 
 Main Isolate:
   UI render করে
@@ -2117,11 +2117,11 @@ Main Isolate                    Background Isolate
 // FCM Background Handler একটি আলাদা Isolate-এ চলে
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // ⚠️ এটি Main Isolate নয়!
-  // ⚠️ এখানে Flutter widget/UI access করা যাবে না
-  // ✅ Firebase initialize করতে হবে আবার
-  // ✅ SharedPreferences/local DB access করা যাবে
-  // ✅ HTTP request করা যাবে
+  // এটি Main Isolate নয়!
+  // এখানে Flutter widget/UI access করা যাবে না
+  // Firebase initialize করতে হবে আবার
+  // SharedPreferences/local DB access করা যাবে
+  // HTTP request করা যাবে
 
   await Firebase.initializeApp(...);
 
@@ -2145,14 +2145,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 ```
 Use Case:
-  ✅ Real-time appointment status check
-  ✅ Video call state monitor
-  ✅ Large file upload with progress
-  ✅ WebSocket/long-polling connection maintain
+  Real-time appointment status check
+  Video call state monitor
+  Large file upload with progress
+  WebSocket/long-polling connection maintain
 
 কখন করবে না:
-  ❌ Simple one-time task → WorkManager/BGTaskScheduler ভালো
-  ❌ Scheduled reminder → flutter_local_notifications ভালো
+  Simple one-time task → WorkManager/BGTaskScheduler ভালো
+  Scheduled reminder → flutter_local_notifications ভালো
 ```
 
 ### Setup
@@ -2252,7 +2252,7 @@ void main() async {
   runApp(MyApp());
 }
 
-// ⚠️ Top-level function — class-এর বাইরে
+// Top-level function — class-এর বাইরে
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
@@ -2345,10 +2345,10 @@ Flutter-এ Foreground Service তৈরি করার **দুটো পদ�
 
 ```
 কখন ব্যবহার করবে:
-  ✅ File upload with progress
-  ✅ Video call state monitor
-  ✅ WebSocket/real-time connection
-  ✅ Cross-platform (Android + iOS একসাথে)
+  File upload with progress
+  Video call state monitor
+  WebSocket/real-time connection
+  Cross-platform (Android + iOS একসাথে)
 ```
 
 **Step 1: Dependencies যোগ করো**
@@ -2447,7 +2447,7 @@ Future<void> initializeBackgroundService() async {
 **Step 5: Background Handler লেখো (Top-level function)**
 
 ```dart
-// ⚠️ এটি অবশ্যই top-level function হতে হবে — class-এর বাইরে
+// এটি অবশ্যই top-level function হতে হবে — class-এর বাইরে
 // কারণ এটি একটি আলাদা Isolate-এ চলবে
 
 @pragma('vm:entry-point')
@@ -2642,9 +2642,9 @@ class UploadController {
 
 ```
 কখন দরকার হতে পারে:
-  ✅ খুব custom behavior দরকার
-  ✅ Android-specific feature (e.g., foreground service type: phoneCall)
-  ✅ Native library integrate করতে হবে (WebRTC, etc.)
+  খুব custom behavior দরকার
+  Android-specific feature (e.g., foreground service type: phoneCall)
+  Native library integrate করতে হবে (WebRTC, etc.)
 
 এটি complex — সাধারণ ক্ষেত্রে flutter_background_service যথেষ্ট।
 ```
@@ -2702,10 +2702,10 @@ class NativeUploadService {
 │  বিষয়                 │  flutter_background_      │  Native Platform    │
 │                        │  service                  │  Channel            │
 ├────────────────────────┼──────────────────────────┼─────────────────────┤
-│  সহজতা                 │  সহজ ✅                   │  কঠিন ❌            │
-│  Cross-platform        │  Android + iOS ✅          │  Android only       │
-│  Customization         │  মাঝারি                  │  সম্পূর্ণ control ✅ │
-│  Production readiness  │  ✅                        │  ✅                 │
+│  সহজতা                 │  সহজ                      │  কঠিন               │
+│  Cross-platform        │  Android + iOS             │  Android only       │
+│  Customization         │  মাঝারি                  │  সম্পূর্ণ control    │
+│  Production readiness  │                            │                     │
 │  Maintenance           │  Package update নির্ভর   │  নিজে maintain      │
 └────────────────────────┴──────────────────────────┴─────────────────────┘
 
@@ -2975,9 +2975,9 @@ void callbackDispatcher() {
 ```
 Google Drive App-এ তুমি কী দেখো?
   File upload শুরু করলে notification আসে:
-  "📤 Uploading family_photo.jpg"
+  " Uploading family_photo.jpg"
   তুমি অন্য app-এ চলে গেলেও upload চলে।
-  Upload শেষে notification: "✅ Upload complete"
+  Upload শেষে notification: " Upload complete"
 
 এর পেছনে Android-এ যা হয়:
   ┌───────────────────────────────────────────────┐
@@ -3045,7 +3045,7 @@ class DriveStyleUploadManager {
     _service.on('uploadComplete').listen((event) {
       _isListening = false;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('✅ ${event?['fileName']} uploaded!')),
+        SnackBar(content: Text(' ${event?['fileName']} uploaded!')),
       );
     });
 
@@ -3053,7 +3053,7 @@ class DriveStyleUploadManager {
     _service.on('uploadError').listen((event) {
       _isListening = false;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('❌ Upload failed: ${event?['error']}')),
+        SnackBar(content: Text(' Upload failed: ${event?['error']}')),
       );
     });
   }
@@ -3079,7 +3079,7 @@ Video call app-এ দুটো challenge আছে:
 ```
 Zoom/WhatsApp Video Call-এ কী হয়?
   Call চলাকালীন User notification bar টেনে নামে।
-  WhatsApp-এ দেখে: "📹 Video call — 5:23"
+  WhatsApp-এ দেখে: " Video call — 5:23"
   YouTube খোলে।
   Call চলতে থাকে।
 
@@ -3106,7 +3106,7 @@ void onVideoCallServiceStart(ServiceInstance service) async {
   if (service is AndroidServiceInstance) {
     // Call active থাকার notification
     service.setForegroundNotificationInfo(
-      title: '📹 Video Call Active',
+      title: ' Video Call Active',
       content: 'Tap to return to call',
     );
   }
@@ -3292,7 +3292,7 @@ sequenceDiagram
 
     Note over Doctor,Patient: Call in Progress
     Doctor-->>Doctor: App minimize করতে পারে
-    Doctor-->>Doctor: Foreground Service চলছে\n"📹 Video call active"
+    Doctor-->>Doctor: Foreground Service চলছে\n" Video call active"
     Patient-->>Patient: একই — Foreground Service চলছে
 
     Note over Doctor,Patient: Call Ends
@@ -3321,7 +3321,7 @@ sequenceDiagram
 │ Service চলে (OS kill করে না) │ Service চলে (VoIP mode)          │
 ├──────────────────────────────┼──────────────────────────────────┤
 │ Call notification:           │ Call notification:               │
-│ "📹 Video call — 5:23"       │ Native iOS call bar              │
+│ "Video call — 5:23"          │ Native iOS call bar              │
 │ Tap → app-এ ফিরে যাও        │ Tap → app-এ ফিরে যাও            │
 └──────────────────────────────┴──────────────────────────────────┘
 ```
@@ -3387,7 +3387,7 @@ public function confirm(Request $request, Appointment $appointment)
 
     $this->fcmService->send(
         token: $patientToken,
-        title: 'Appointment Confirmed! ✅',
+        title: 'Appointment Confirmed! ',
         body: "Dr. {$appointment->doctor->name} confirmed your appointment",
         data: [
             'action'         => 'view_appointment',
@@ -3445,7 +3445,7 @@ class NotificationNavigator {
 
 ## 4.11 Production Checklist
 
-### ✅ Notification Production Checklist
+### Notification Production Checklist
 
 ```
 ANDROID:
@@ -3468,7 +3468,7 @@ iOS:
   □ AppDelegate background URL session handler
 ```
 
-### ✅ Background Task Production Checklist
+### Background Task Production Checklist
 
 ```
 FILE UPLOAD:
@@ -3501,7 +3501,7 @@ GENERAL:
   □ App kill → notification tap → correct screen test
 ```
 
-### ✅ Common Mistakes এবং Solutions
+### Common Mistakes এবং Solutions
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -3624,30 +3624,30 @@ Flutter-এ background task handle করার জন্য বেশ কয়
 **মূল বৈশিষ্ট্য:**
 
 ```
-✅ Guaranteed execution (device restart হলেও task survive করে)
-✅ Constraint-based (network, battery, charging শর্ত দেওয়া যায়)
-✅ One-time এবং periodic task উভয়ই support করে
-✅ Cross-platform (Android + iOS)
-✅ System-managed timing (battery-friendly, OS batches করে চালায়)
+Guaranteed execution (device restart হলেও task survive করে)
+Constraint-based (network, battery, charging শর্ত দেওয়া যায়)
+One-time এবং periodic task উভয়ই support করে
+Cross-platform (Android + iOS)
+System-managed timing (battery-friendly, OS batches করে চালায়)
 
-❌ Immediate execution guarantee নেই (OS সময়মতো চালায়)
-❌ Long-running tasks-এ সীমাবদ্ধতা (~10 min Android, ~30s iOS)
-❌ Progress notification দেখানো কঠিন
-❌ iOS-এ task scheduling OS নিজে নিয়ন্ত্রণ করে
+Immediate execution guarantee নেই (OS সময়মতো চালায়)
+Long-running tasks-এ সীমাবদ্ধতা (~10 min Android, ~30s iOS)
+Progress notification দেখানো কঠিন
+iOS-এ task scheduling OS নিজে নিয়ন্ত্রণ করে
 ```
 
 **কখন ব্যবহার করবে:**
 
 ```
-✅ FCM token server-এ প্রতিদিন sync করা
-✅ Analytics/logs background-এ send করা
-✅ Cache cleanup, old record delete
-✅ Appointment data background sync (network আসলে)
-✅ Database maintenance
+FCM token server-এ প্রতিদিন sync করা
+Analytics/logs background-এ send করা
+Cache cleanup, old record delete
+Appointment data background sync (network আসলে)
+Database maintenance
 
-❌ File upload with progress — flutter_background_service ভালো
-❌ Video call চালু রাখা — flutter_background_service ভালো
-❌ Exact time-এ চালাতে হলে — flutter_local_notifications ভালো
+File upload with progress — flutter_background_service ভালো
+Video call চালু রাখা — flutter_background_service ভালো
+Exact time-এ চালাতে হলে — flutter_local_notifications ভালো
 ```
 
 **Internal কীভাবে কাজ করে (Android):**
@@ -3693,7 +3693,7 @@ void main() async {
   runApp(MyApp());
 }
 
-// ⚠️ Top-level function — class-এর বাইরে, @pragma দিতে হবে
+// Top-level function — class-এর বাইরে, @pragma দিতে হবে
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
@@ -3729,30 +3729,30 @@ void callbackDispatcher() {
 **মূল বৈশিষ্ট্য:**
 
 ```
-✅ Long-running persistent background service
-✅ Android Foreground Service — OS kill করতে পারে না
-✅ iOS background execution support
-✅ Main isolate ↔ Background isolate communication (invoke/on event system)
-✅ setForegroundNotificationInfo() দিয়ে notification live update
-✅ Cross-platform (Android + iOS)
+Long-running persistent background service
+Android Foreground Service — OS kill করতে পারে না
+iOS background execution support
+Main isolate ↔ Background isolate communication (invoke/on event system)
+setForegroundNotificationInfo() দিয়ে notification live update
+Cross-platform (Android + iOS)
 
-❌ Setup তুলনামূলক জটিল
-❌ iOS-এ OS কখনো background suspend করতে পারে
-❌ Package ভারী (heavy)
-❌ Configuration বেশি
+Setup তুলনামূলক জটিল
+iOS-এ OS কখনো background suspend করতে পারে
+Package ভারী (heavy)
+Configuration বেশি
 ```
 
 **কখন ব্যবহার করবে:**
 
 ```
-✅ File upload with live progress notification
-✅ Video call background-এ চালু রাখা (microphone + camera)
-✅ Real-time appointment status WebSocket maintain করা
-✅ GPS location continuous tracking
-✅ User-visible যেকোনো দীর্ঘ background operation
+File upload with live progress notification
+Video call background-এ চালু রাখা (microphone + camera)
+Real-time appointment status WebSocket maintain করা
+GPS location continuous tracking
+User-visible যেকোনো দীর্ঘ background operation
 
-❌ ছোট ছোট scheduled task → workmanager ভালো
-❌ শুধু file upload/download → background_downloader সহজ
+ছোট ছোট scheduled task → workmanager ভালো
+শুধু file upload/download → background_downloader সহজ
 ```
 
 **Internal Architecture:**
@@ -3809,7 +3809,7 @@ Future<void> _uploadWithProgress(
   // Foreground notification শুরু করো
   if (service is AndroidServiceInstance) {
     service.setForegroundNotificationInfo(
-      title: '📤 Uploading $fileName',
+      title: ' Uploading $fileName',
       content: 'Starting...',
     );
   }
@@ -3827,7 +3827,7 @@ Future<void> _uploadWithProgress(
     // Notification update
     if (service is AndroidServiceInstance) {
       service.setForegroundNotificationInfo(
-        title: '📤 Uploading $fileName',
+        title: ' Uploading $fileName',
         content: '$progress% — ${_formatMB(uploadedBytes)} / ${_formatMB(totalBytes)}',
       );
     }
@@ -3854,15 +3854,15 @@ Future<void> _uploadWithProgress(
 **মূল বৈশিষ্ট্য:**
 
 ```
-✅ Simple TaskHandler class-based API (implement করতে হয়)
-✅ Android Foreground Service নির্ভরযোগ্য implementation
-✅ iOS background task support
-✅ Notification customization সহজ
-✅ flutter_background_service-এর চেয়ে simpler setup
-✅ Notification action buttons built-in
+Simple TaskHandler class-based API (implement করতে হয়)
+Android Foreground Service নির্ভরযোগ্য implementation
+iOS background task support
+Notification customization সহজ
+flutter_background_service-এর চেয়ে simpler setup
+Notification action buttons built-in
 
-❌ Communication ভিন্ন (ReceivePort ব্যবহার করে, invoke/on নয়)
-❌ Community size flutter_background_service-এর চেয়ে কম
+Communication ভিন্ন (ReceivePort ব্যবহার করে, invoke/on নয়)
+Community size flutter_background_service-এর চেয়ে কম
 ```
 
 **flutter_background_service vs flutter_foreground_task:**
@@ -3877,7 +3877,7 @@ Future<void> _uploadWithProgress(
 ├──────────────────────────┼──────────────────────────┼──────────────────────────┤
 │  Setup জটিলতা            │  মাঝারি                  │  তুলনামূলক সহজ           │
 ├──────────────────────────┼──────────────────────────┼──────────────────────────┤
-│  iOS Support             │  ✅ ভালো                 │  ✅ আছে                  │
+│  iOS Support             │  ভালো                    │  আছে                     │
 ├──────────────────────────┼──────────────────────────┼──────────────────────────┤
 │  Notification Update     │  setForeground           │  FlutterForegroundTask   │
 │                          │  NotificationInfo()      │  .updateService()        │
@@ -3885,7 +3885,7 @@ Future<void> _uploadWithProgress(
 │  Communication           │  invoke() / on()         │  sendDataToTask() +      │
 │                          │  event stream            │  ReceivePort             │
 ├──────────────────────────┼──────────────────────────┼──────────────────────────┤
-│  Notification Buttons    │  manual setup            │  ✅ built-in support     │
+│  Notification Buttons    │  manual setup            │  built-in support        │
 ├──────────────────────────┼──────────────────────────┼──────────────────────────┤
 │  কখন choose করবে?       │  Cross-platform, complex │  Simple handler pattern, │
 │                          │  background service      │  Android-primary         │
@@ -3925,7 +3925,7 @@ class MRIUploadTaskHandler extends TaskHandler {
   Future<void> _startUpload(String filePath) async {
     // Upload logic...
     FlutterForegroundTask.updateService(
-      notificationTitle: '📤 Uploading MRI Report',
+      notificationTitle: ' Uploading MRI Report',
       notificationText: '65% complete',
     );
     // Main app-কে result পাঠাও
@@ -3973,7 +3973,7 @@ void startCallback() {
 Future<void> startUploadService(String filePath) async {
   await FlutterForegroundTask.startService(
     serviceId: 256,
-    notificationTitle: '📤 Preparing upload...',
+    notificationTitle: ' Preparing upload...',
     notificationText: 'Please wait',
     notificationButtons: [
       const NotificationButton(id: 'cancel_btn', text: 'Cancel'),
@@ -3990,14 +3990,14 @@ Future<void> startUploadService(String filePath) async {
 
 ```
 বেছে নাও যদি:
-  ✅ TaskHandler pattern (class-based OOP style) পছন্দ করো
-  ✅ Simpler, cleaner setup চাও
-  ✅ Notification buttons (Cancel, Pause) সহজে চাও
-  ✅ Android Foreground Service-ই মূল target
+  TaskHandler pattern (class-based OOP style) পছন্দ করো
+  Simpler, cleaner setup চাও
+  Notification buttons (Cancel, Pause) সহজে চাও
+  Android Foreground Service-ই মূল target
 
 এড়িয়ে চলো যদি:
-  ❌ Complex event-based bidirectional communication দরকার
-  ❌ iOS cross-platform behavior গুরুত্বপূর্ণ কাজে নির্ভর করতে হবে
+  Complex event-based bidirectional communication দরকার
+  iOS cross-platform behavior গুরুত্বপূর্ণ কাজে নির্ভর করতে হবে
 ```
 
 ---
@@ -4009,16 +4009,16 @@ Future<void> startUploadService(String filePath) async {
 **মূল বৈশিষ্ট্য:**
 
 ```
-✅ Native background transfer (Android: WorkManager TaskWorker, iOS: Background URLSession)
-✅ App kill হলেও upload/download OS নিজে চালিয়ে যায়
-✅ Resume support built-in (network গেলে pause, ফিরলে resume)
-✅ Progress tracking সহজ
-✅ Queue management (একাধিক file একসাথে manage করে)
-✅ Notification automatic (OS দেয়)
-✅ API খুব সহজ — flutter_background_service-এর চেয়ে অনেক সহজ
+Native background transfer (Android: WorkManager TaskWorker, iOS: Background URLSession)
+App kill হলেও upload/download OS নিজে চালিয়ে যায়
+Resume support built-in (network গেলে pause, ফিরলে resume)
+Progress tracking সহজ
+Queue management (একাধিক file একসাথে manage করে)
+Notification automatic (OS দেয়)
+API খুব সহজ — flutter_background_service-এর চেয়ে অনেক সহজ
 
-❌ শুধু upload/download কাজে ব্যবহার করা যায়
-❌ Custom background logic রাখা যায় না
+শুধু upload/download কাজে ব্যবহার করা যায়
+Custom background logic রাখা যায় না
 ```
 
 **কেন এটি আলাদা — সবচেয়ে গুরুত্বপূর্ণ পার্থক্য:**
@@ -4035,10 +4035,10 @@ background_downloader:
   iOS: NSURLSession background (separate OS process — App-এর বাইরে)
 
   ফলে:
-  ✅ App kill হলেও OS নিজে transfer complete করে
-  ✅ App kill হলেও resume হয়
-  ✅ Chunking, retry OS নিজেই handle করে
-  ✅ Battery usage অনেক কম
+  App kill হলেও OS নিজে transfer complete করে
+  App kill হলেও resume হয়
+  Chunking, retry OS নিজেই handle করে
+  Battery usage অনেক কম
 ```
 
 **Setup ও Usage:**
@@ -4056,15 +4056,15 @@ class MedicalDocumentUploader {
     // Notification configure করো
     await _downloader.configureNotification(
       running: const TaskNotification(
-        '📤 Uploading',
+        ' Uploading',
         '{filename}: {progress}%',
       ),
       complete: const TaskNotification(
-        '✅ Upload Complete',
+        ' Upload Complete',
         '{filename} uploaded successfully',
       ),
       error: const TaskNotification(
-        '❌ Upload Failed',
+        ' Upload Failed',
         '{filename} upload failed',
       ),
       progressBar: true,
@@ -4124,20 +4124,20 @@ class MedicalDocumentUploader {
 │  বিষয়                     │  background_downloader    │  flutter_background_      │
 │                            │                           │  service                  │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Transfer engine           │ OS native process ✅      │ App Dart process          │
+│  Transfer engine           │ OS native process         │ App Dart process          │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  App kill-এও চলে          │ ✅ সবসময়                  │ ⚠️ Foreground Service     │
+│  App kill-এও চলে          │ সবসময়                     │ Foreground Service        │
 │                            │                           │ থাকলেই চলে               │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Resume support            │ ✅ Built-in               │ ❌ নিজে implement         │
+│  Resume support            │ Built-in                  │ নিজে implement            │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Progress notification     │ ✅ Automatic              │ Manual update করতে হয়   │
+│  Progress notification     │ Automatic                 │ Manual update করতে হয়   │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Custom background logic   │ ❌ Only upload/download   │ ✅ যেকোনো কাজ করা যায়   │
+│  Custom background logic   │ Only upload/download      │ যেকোনো কাজ করা যায়      │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  API সহজতা                 │ ✅ খুব সহজ                │ মাঝারি                    │
+│  API সহজতা                 │ খুব সহজ                   │ মাঝারি                    │
 ├────────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Battery impact            │ ✅ কম (OS manages)        │ বেশি (Dart process)       │
+│  Battery impact            │ কম (OS manages)           │ বেশি (Dart process)       │
 └────────────────────────────┴───────────────────────────┴───────────────────────────┘
 
 সুপারিশ:
@@ -4154,26 +4154,26 @@ class MedicalDocumentUploader {
 **মূল বৈশিষ্ট্য:**
 
 ```
-✅ Exact time-based execution (নির্দিষ্ট সময়ে কাজ চালায়)
-⚠️ Restart-এ alarm survive করে না — BOOT_COMPLETED BroadcastReceiver দিয়ে reschedule করতে হবে
-✅ Simple callback API
+Exact time-based execution (নির্দিষ্ট সময়ে কাজ চালায়)
+Restart-এ alarm survive করে না — BOOT_COMPLETED BroadcastReceiver দিয়ে reschedule করতে হবে
+Simple callback API
 
-❌ Android only — iOS support নেই
-❌ Android 12 (API 31)+: SCHEDULE_EXACT_ALARM permission — user grant দরকার, revocable
+Android only — iOS support নেই
+Android 12 (API 31)+: SCHEDULE_EXACT_ALARM permission — user grant দরকার, revocable
    Android 13 (API 33)+: USE_EXACT_ALARM permission — auto-granted, user-revocable নয়
-❌ Battery-intensive হতে পারে (exact alarm CPU wake করে)
-❌ বেশিরভাগ ক্ষেত্রে workmanager বা flutter_local_notifications দিয়েই কাজ হয়
+Battery-intensive হতে পারে (exact alarm CPU wake করে)
+বেশিরভাগ ক্ষেত্রে workmanager বা flutter_local_notifications দিয়েই কাজ হয়
 ```
 
 **কখন ব্যবহার করবে:**
 
 ```
-✅ Android-only feature যেখানে exact millisecond timing দরকার
-✅ flutter_local_notifications যথেষ্ট না হলে
+Android-only feature যেখানে exact millisecond timing দরকার
+flutter_local_notifications যথেষ্ট না হলে
 
-❌ Cross-platform reminder → flutter_local_notifications (zonedSchedule) ভালো
-❌ Deferrable background task → workmanager ভালো
-❌ Appointment reminder → flutter_local_notifications ভালো
+Cross-platform reminder → flutter_local_notifications (zonedSchedule) ভালো
+Deferrable background task → workmanager ভালো
+Appointment reminder → flutter_local_notifications ভালো
 ```
 
 > **মনে রাখো:** বেশিরভাগ production app-এ `flutter_local_notifications`-এর `zonedSchedule()` বা `workmanager`-এর `PeriodicTask` দিয়ে কাজ হয়ে যায়। `android_alarm_manager_plus` খুব নির্দিষ্ট Android-only use case-এ দরকার।
@@ -4187,27 +4187,27 @@ class MedicalDocumentUploader {
 **মূল বৈশিষ্ট্য:**
 
 ```
-✅ No external package — Flutter SDK-এ built-in
-✅ Heavy computation UI freeze ছাড়াই করা যায়
-✅ compute() helper — সহজ one-shot use
-✅ Cross-platform
+No external package — Flutter SDK-এ built-in
+Heavy computation UI freeze ছাড়াই করা যায়
+compute() helper — সহজ one-shot use
+Cross-platform
 
-❌ App বন্ধ হলে isolate বন্ধ হয়ে যায় — true background নয়
-❌ OS কোনো guarantee দেয় না
-❌ Shared memory নেই (message passing দিয়ে communicate করতে হয়)
+App বন্ধ হলে isolate বন্ধ হয়ে যায় — true background নয়
+OS কোনো guarantee দেয় না
+Shared memory নেই (message passing দিয়ে communicate করতে হয়)
 ```
 
 **কখন ব্যবহার করবে:**
 
 ```
-✅ Image compression/resizing (MRI thumbnail generate করা)
-✅ Large JSON parsing (বড় API response parse করা)
-✅ PDF generation (prescription PDF বানানো)
-✅ Encryption/Decryption
-✅ File compression
+Image compression/resizing (MRI thumbnail generate করা)
+Large JSON parsing (বড় API response parse করা)
+PDF generation (prescription PDF বানানো)
+Encryption/Decryption
+File compression
 
-❌ App background-এ গেলেও চলা দরকার → অন্য package ব্যবহার করো
-❌ Simple API call → সাধারণ async/await যথেষ্ট
+App background-এ গেলেও চলা দরকার → অন্য package ব্যবহার করো
+Simple API call → সাধারণ async/await যথেষ্ট
 ```
 
 **Usage:**
@@ -4218,7 +4218,7 @@ Future<Uint8List> compressMRIImage(String imagePath) async {
   return await compute(_compressImageInIsolate, imagePath);
 }
 
-// ⚠️ Top-level function — Isolate-এ run হয়
+// Top-level function — Isolate-এ run হয়
 Uint8List _compressImageInIsolate(String imagePath) {
   final bytes = File(imagePath).readAsBytesSync();
   // compression logic...
@@ -4249,27 +4249,27 @@ void _pdfWorker(List<dynamic> args) {
 │  Feature                 │  work    │  fbs     │  fft     │  bgd     │  aamp    │  Isolate │
 │                          │  manager │  (1)     │  (2)     │  (3)     │  (4)     │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Android Support         │ ✅       │ ✅       │ ✅       │ ✅       │ ✅       │ ✅       │
-│  iOS Support             │ ✅       │ ✅       │ ✅       │ ✅       │ ❌       │ ✅       │
+│  Android Support         │          │          │          │          │          │          │
+│  iOS Support             │          │          │          │          │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  App Kill-এও চলে        │ ✅       │ ✅(AS)   │ ✅(AS)   │ ✅(OS)   │ ✅       │ ❌       │
-│                          │          │ ⚠️(iOS)  │ ⚠️(iOS)  │          │          │          │
+│  App Kill-এও চলে        │          │(AS)      │(AS)      │(OS)      │          │          │
+│                          │          │(iOS)     │(iOS)     │          │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Guaranteed Execution    │ ✅       │ ⚠️       │ ⚠️       │ ✅(file) │ ✅       │ ❌       │
+│  Guaranteed Execution    │          │          │          │(file)    │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Progress Notification   │ কঠিন    │ ✅       │ ✅       │ ✅(auto) │ ❌       │ ❌       │
+│  Progress Notification   │ কঠিন    │          │          │(auto)    │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  File Upload/Download    │ ⚠️       │ ✅       │ ✅       │ ✅✅     │ ❌       │ ❌       │
+│  File Upload/Download    │          │          │          │          │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Custom Background Logic │ ✅       │ ✅✅     │ ✅✅     │ ❌       │ ❌       │ ✅       │
+│  Custom Background Logic │          │          │          │          │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Periodic Task           │ ✅       │ ✅(timer)│ ✅(timer)│ ❌       │ ✅       │ ❌       │
+│  Periodic Task           │          │(timer)   │(timer)   │          │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Battery Friendly        │ ✅✅     │ ⚠️       │ ⚠️       │ ✅       │ ⚠️       │ ✅       │
+│  Battery Friendly        │          │          │          │          │          │          │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
 │  Setup জটিলতা            │ মাঝারি  │ জটিল     │ সহজ      │ সহজ      │ সহজ      │ সহজ      │
 ├──────────────────────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-│  Exact Time Schedule     │ ❌       │ ❌       │ ❌       │ ❌       │ ✅       │ ❌       │
+│  Exact Time Schedule     │          │          │          │          │          │          │
 └──────────────────────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘
 
 (1) fbs  = flutter_background_service
@@ -4287,18 +4287,18 @@ AS = Android Foreground Service (reliable)
 flowchart TD
     A[Background কাজ করতে হবে] --> B{শুধু file\nupload/download?}
 
-    B -- হ্যাঁ --> C[background_downloader\n✅ সবচেয়ে সহজ ও নির্ভরযোগ্য]
+    B -- হ্যাঁ --> C[background_downloader\n সবচেয়ে সহজ ও নির্ভরযোগ্য]
 
     B -- না --> D{User progress দেখবে?\nদীর্ঘ সময় লাগবে?\nApp kill-এও চলবে?}
 
     D -- হ্যাঁ --> E{API style পছন্দ?}
 
-    E -- Event stream invoke/on --> F[flutter_background_service\n✅ Complex, cross-platform]
-    E -- Class-based TaskHandler --> G[flutter_foreground_task\n✅ Simpler, Android-primary]
+    E -- Event stream invoke/on --> F[flutter_background_service\n Complex, cross-platform]
+    E -- Class-based TaskHandler --> G[flutter_foreground_task\n Simpler, Android-primary]
 
     D -- না --> H{Guaranteed execution,\nshort task, scheduled,\nuser দেখবে না?}
 
-    H -- হ্যাঁ --> I[workmanager\n✅ Battery-friendly]
+    H -- হ্যাঁ --> I[workmanager\n Battery-friendly]
 
     H -- না --> J{Exact time-এ\nAndroid-only?}
 
