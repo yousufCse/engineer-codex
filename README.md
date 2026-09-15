@@ -16,7 +16,7 @@ Whether you are preparing for interviews, mastering backend development, diving 
 
 | Section | Description |
 |--------|-------------|
-| 🐦 **Flutter** | Flutter guides: theming, forms, flavors, lint rules, notifications, responsive UI & more |
+| 🐦 **Flutter** | Flutter guides: theming, forms, flavors, lint rules, push notification setup, deep links, responsive UI & more |
 | 🖥️ **Backend** | MERN/Node.js full course — Express, PostgreSQL, Prisma, MongoDB, NestJS, Auth, Testing, Deployment |
 | 🎤 **Interviews** | Flutter, Software Engineering & Leadership interview prep (22 sections) |
 | 📚 **Book Notes** | Clean Code, Design Patterns, OOAD, Refactoring & Software Engineering Body of Knowledge |
@@ -37,6 +37,7 @@ engineer-codex/
 │
 ├── 📁 flutter/                         # Flutter guides & best practices
 │   ├── barrel-imports-guides.md
+│   ├── firebase-push-setup-guide.md
 │   ├── flavor-setup-guide.md
 │   ├── flutter-form-validation.md
 │   ├── flutter-gen.md
