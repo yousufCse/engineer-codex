@@ -44,7 +44,7 @@ Flavors let you build multiple variants of your app from a single codebase — e
 
 ```dart
 void main() {
-  // Manually change this before every build 🤦
+  // Manually change this before every build
   const apiUrl = 'https://dev-api.example.com';
   runApp(MyApp());
 }

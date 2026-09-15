@@ -1039,12 +1039,12 @@ Backend-এ Firebase Admin SDK (Node, Python, PHP, Java) ব্যবহার �
 
 | # | অবস্থা | কী হওয়া উচিত | Android | iOS |
 |---|---|---|---|---|
-| 1 | Foreground | `onMessage` চলবে, তুমি notification দেখাবে | ☐ | ☐ |
-| 2 | Background | System notification দেখাবে | ☐ | ☐ |
-| 3 | Terminated | System notification দেখাবে | ☐ | ☐ |
-| 4 | Background থেকে tap | `onMessageOpenedApp` → সঠিক screen | ☐ | ☐ |
-| 5 | Terminated থেকে tap | `getInitialMessage()` → সঠিক screen | ☐ | ☐ |
-| 6 | Release build | উপরের পাঁচটাই আবার | ☐ | ☐ |
+| 1 | Foreground | `onMessage` চলবে, তুমি notification দেখাবে | [ ] | [ ] |
+| 2 | Background | System notification দেখাবে | [ ] | [ ] |
+| 3 | Terminated | System notification দেখাবে | [ ] | [ ] |
+| 4 | Background থেকে tap | `onMessageOpenedApp` → সঠিক screen | [ ] | [ ] |
+| 5 | Terminated থেকে tap | `getInitialMessage()` → সঠিক screen | [ ] | [ ] |
+| 6 | Release build | উপরের পাঁচটাই আবার | [ ] | [ ] |
 
 ```
 Foreground   → app স্ক্রিনে খোলা
