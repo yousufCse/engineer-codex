@@ -24,6 +24,7 @@ Whether you are preparing for interviews, mastering backend development, diving 
 | **Software Engineering Mastery** | 7-phase mastery guide from requirements to career growth |
 | **Tech Lead** | Flutter mobile tech lead guide and Scrum tech lead guide |
 | **CI/CD** | Complete CI/CD course notes for Flutter engineers |
+| **App Stores** | Google Play and Apple developer accounts: personal and organization |
 | **iOS** | iOS distribution guide |
 | **OS** | Operating system mastery notes |
 | **Prompts** | AI prompts for Flutter projects, core widgets & tech document fact-checking |
@@ -83,6 +84,9 @@ engineer-codex/
 ├── tech-lead/                        # Tech lead resources
 │   ├── flutter_mobile_tech_lead.md
 │   └── scrum-techlead-guide-bn.md
+│
+├── app-stores/                       # Google Play and Apple developer accounts
+│   └── developer-accounts-guide.md
 │
 ├── ci-cd/                            # CI/CD course for Flutter engineers
 ├── ios/                              # iOS distribution guide
