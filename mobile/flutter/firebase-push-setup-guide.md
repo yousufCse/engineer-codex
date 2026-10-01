@@ -9,7 +9,7 @@
 | বিষয় | কোথায় |
 |---|---|
 | Setup — Console, config file, native config, প্রথম push | এই গাইড |
-| Concept, Background Task, Foreground Service, বড় file upload | [notification_background_guide.md](./notification_background_guide.md) |
+| Concept, Background Task, Foreground Service, বড় file upload | [notification-background-guide.md](./notification-background-guide.md) |
 | Notification tap করে সঠিক screen-এ যাওয়া | [deep-link-guide.md](./deep-link-guide.md) |
 
 ---
@@ -417,7 +417,7 @@ Android 8 (Oreo) থেকে প্রতিটা notification একটা Ch
 
 > **সতর্কতা:** Channel-এর setting একবার তৈরি হয়ে গেলে কোড দিয়ে বদলানো যায় না। ইউজার app আনইনস্টল না করা পর্যন্ত পুরনো setting-ই থাকে। Setting বদলাতে হলে **নতুন id দিয়ে নতুন channel** বানাতে হয়।
 
-বিস্তারিত → [notification_background_guide.md — 2.2](./notification_background_guide.md#22-notification-channel--বিস্তারিত)
+বিস্তারিত → [notification-background-guide.md — 2.2](./notification-background-guide.md#22-notification-channel--বিস্তারিত)
 
 ---
 
@@ -456,7 +456,7 @@ Debug-এ চলে কিন্তু release APK-তে notification আসে
 
 **২. Battery optimization** — Xiaomi, Oppo, Vivo, Realme-র ফোনে app বন্ধ থাকলে system নিজে FCM আটকায়। এটা Android-এর নিয়ম নয়, ওদের নিজস্ব। ইউজারকে Settings → Battery → App → "No restriction" করতে বলতে হয়।
 
-বিস্তারিত → [notification_background_guide.md — 2.8](./notification_background_guide.md#28-android-battery-optimization--doze-mode)
+বিস্তারিত → [notification-background-guide.md — 2.8](./notification-background-guide.md#28-android-battery-optimization--doze-mode)
 
 ---
 
@@ -1008,7 +1008,7 @@ curl -X POST \
 
 **নিয়ম:** ইউজারকে কিছু দেখাতে চাইলে `notification` + `data` দুটোই পাঠাও। `data` দিয়ে বলো tap-এর পরে কোন screen খুলবে।
 
-বিস্তারিত → [notification_background_guide.md — 1.3](./notification_background_guide.md#13-fcm-firebase-cloud-messaging--deep-dive)
+বিস্তারিত → [notification-background-guide.md — 1.3](./notification-background-guide.md#13-fcm-firebase-cloud-messaging--deep-dive)
 
 ---
 
@@ -1257,7 +1257,7 @@ service-account*.json
 ## আরও পড়ো
 
 **এই repo-তে**
-- [notification_background_guide.md](./notification_background_guide.md) — Notification ও Background Task-এর গভীর গাইড
+- [notification-background-guide.md](./notification-background-guide.md) — Notification ও Background Task-এর গভীর গাইড
 - [deep-link-guide.md](./deep-link-guide.md) — Notification tap করে সঠিক screen-এ নেওয়া
 - [flavor-setup-guide.md](./flavor-setup-guide.md) — Dev/Prod আলাদা Firebase project
 

@@ -3106,6 +3106,6 @@ Tech Lead-রা প্রায়ই নিজেকে ভুলে যায
 ---
 
 *আরও গভীরে যেতে চাইলে এই repo-তে দেখুন —*
-[SEG-deep-bn-v3.md](SEG-deep-bn-v3.md) *(পুরো বইয়ের গভীর সংস্করণ),*
-[scrum-techlead-guide-bn.md](scrum-techlead-guide-bn.md) *(Scrum ও process),*
-[flutter_mobile_tech_lead.md](flutter_mobile_tech_lead.md) *(Flutter টিমের জন্য)*
+[software-engineers-guidebook-deep-bn.md](software-engineers-guidebook-deep-bn.md) *(পুরো বইয়ের গভীর সংস্করণ),*
+[scrum-techlead-guide-bn.md](../../tech-lead/scrum-techlead-guide-bn.md) *(Scrum ও process),*
+[flutter-mobile-tech-lead.md](../../tech-lead/flutter-mobile-tech-lead.md) *(Flutter টিমের জন্য)*

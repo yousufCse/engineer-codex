@@ -7146,7 +7146,7 @@ flowchart TD
 
 **এই রিপোজিটরির সম্পর্কিত নোট:**
 
-- [refactoring.md](./refactoring.md) — Refactoring-এর পূর্ণ বাংলা রেফারেন্স (26 smells + 80 techniques), Ch 8 ও Ch 23-এর সাথে সরাসরি সম্পর্কিত।
+- [refactoring.md](../refactoring/refactoring.md) — Refactoring-এর পূর্ণ বাংলা রেফারেন্স (26 smells + 80 techniques), Ch 8 ও Ch 23-এর সাথে সরাসরি সম্পর্কিত।
 
 [↑ সূচিপত্রে ফিরুন](#toc)
 

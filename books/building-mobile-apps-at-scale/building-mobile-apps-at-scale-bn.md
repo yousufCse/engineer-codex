@@ -3370,8 +3370,8 @@ App size নিজে থেকে বাড়ে, তাই এর উপর �
 
 **এই রিপোজিটরির সম্পর্কিত নোট:**
 
-- [software-enginners-guidebook-bn.md](./software-enginners-guidebook-bn.md) — একই লেখকের ক্যারিয়ার-বইয়ের বাংলা রিক্যাপ কম্প্যানিয়ন (testing, architecture, reliability অধ্যায়গুলো এই বইয়ের Ch16–Ch24, Ch34-এর সাথে সম্পর্কিত)।
-- [refactoring.md](./refactoring.md) — Refactoring-এর পূর্ণ বাংলা রেফারেন্স (code quality, Ch35-এর সাথে সম্পর্কিত)।
+- [software-engineers-guidebook-recap-bn.md](../software-engineers-guidebook/software-engineers-guidebook-recap-bn.md) — একই লেখকের ক্যারিয়ার-বইয়ের বাংলা রিক্যাপ কম্প্যানিয়ন (testing, architecture, reliability অধ্যায়গুলো এই বইয়ের Ch16–Ch24, Ch34-এর সাথে সম্পর্কিত)।
+- [refactoring.md](../refactoring/refactoring.md) — Refactoring-এর পূর্ণ বাংলা রেফারেন্স (code quality, Ch35-এর সাথে সম্পর্কিত)।
 
 [↑ সূচিপত্রে ফিরুন](#toc)
 

@@ -16,18 +16,16 @@ Whether you are preparing for interviews, mastering backend development, diving 
 
 | Section | Description |
 |---|---|
-| **Flutter** | Flutter guides: theming, forms, flavors, lint rules, push notification setup, deep links, responsive UI & more |
-| **Backend** | MERN/Node.js full course — Express, PostgreSQL, Prisma, MongoDB, NestJS, Auth, Testing, Deployment |
-| **Interviews** | Flutter, Software Engineering & Leadership interview prep (22 sections) |
-| **Book Notes** | Clean Code, Design Patterns, OOAD, Refactoring & Software Engineering Body of Knowledge |
-| **Networking** | Deep-dive networking books and complete networking course notes |
-| **Software Engineering Mastery** | 7-phase mastery guide from requirements to career growth |
-| **Tech Lead** | Flutter mobile tech lead guide and Scrum tech lead guide |
-| **CI/CD** | Complete CI/CD course notes for Flutter engineers |
-| **App Stores** | Google Play and Apple developer accounts: personal and organization |
-| **iOS** | iOS distribution guide |
-| **OS** | Operating system mastery notes |
-| **Prompts** | AI prompts for Flutter projects, core widgets & tech document fact-checking |
+| **Mobile** | Flutter guides (theming, forms, flavors, lint rules, push notifications, deep links, responsive UI & more) and app release: store developer accounts, Play Store upload, iOS distribution, CI/CD course |
+| **Backend** | MERN/Node.js full course (Express, PostgreSQL, Prisma, MongoDB, NestJS, Auth, Testing, Deployment) and a full-stack web deployment guide |
+| **CS Fundamentals** | Data structures & algorithms, networking and operating system notes |
+| **Interviews** | Flutter software engineer interview prep (22 sections, English & Bangla) and a Cracking the Coding Interview guide in Bangla |
+| **Books** | Full book explanations, chapter by chapter: The Software Engineer's Guidebook, Refactoring, Building Mobile Apps at Scale |
+| **My Notes** | My own short notes: Clean Code, Design Patterns, OOAD, Refactoring |
+| **Tech Lead** | Flutter mobile tech lead guide, Scrum to tech lead guide, and the 7-phase Software Engineering Mastery series |
+| **Projects** | Project build guides (Pharmacy SaaS, Tokri, Note App backend, Telemedicine) and app ideas |
+| **AI** | Agentic software development guide and AI prompts |
+| **Resources** | Reading lists, book roadmap and the software engineering body of knowledge |
 
 ---
 
@@ -36,62 +34,69 @@ Whether you are preparing for interviews, mastering backend development, diving 
 ```
 engineer-codex/
 │
-├── flutter/                          # Flutter guides & best practices
-│   ├── barrel-imports-guides.md
-│   ├── deep-link-guide.md
-│   ├── firebase-push-setup-guide.md
-│   ├── flavor-setup-guide.md
-│   ├── flutter-form-validation.md
-│   ├── flutter-gen.md
-│   ├── flutter-lint-rules.md
-│   ├── flutter-theme-system.md
-│   ├── global-error-handling.md
-│   ├── notification_background_guide.md
-│   ├── responsive-ui-strategy.md
-│   ├── ui-and-motion.md
-│   └── widget-extraction-guide.md
+├── mobile/
+│   ├── flutter/                          # Flutter guides & best practices
+│   │   ├── barrel-imports-guides.md
+│   │   ├── deep-link-guide.md
+│   │   ├── firebase-push-setup-guide.md
+│   │   ├── flavor-setup-guide.md
+│   │   ├── flutter-form-validation.md
+│   │   ├── flutter-gen.md
+│   │   ├── flutter-lint-rules.md
+│   │   ├── flutter-theme-system.md
+│   │   ├── global-error-handling.md
+│   │   ├── notification-background-guide.md
+│   │   ├── responsive-ui-strategy.md
+│   │   ├── ui-and-motion.md
+│   │   └── widget-extraction-guide.md
+│   └── release/                          # Ship apps to the stores
+│       ├── developer-accounts-guide.md
+│       ├── playstore-upload-guide-document-scanner.md
+│       ├── ios-distribution-guide.md
+│       └── cicd-complete-course-flutter-engineers.md
 │
 ├── backend/
-│   └── mern-bn/                      # Full MERN/Node.js backend course (18 chapters)
+│   ├── mern-bn/                          # Full MERN/Node.js backend course (18 chapters)
+│   └── deployment/                       # Full-stack web deployment guide
 │
-├── interviews/                       # Interview preparation
-│   ├── flutter/                      # 10 sections: Dart, Core, State, Navigation, Performance...
-│   ├── software-engineering/         # 11 sections: DSA, OOP, Architecture, Design Patterns...
-│   ├── leadership/                   # Senior leadership & behavioral
-│   └── CTCL-learning-guide-with-claude.md
+├── cs-fundamentals/
+│   ├── dsa/                              # Data structures & algorithms (Bangla)
+│   ├── networking/                       # Networking deep dives & complete networking book
+│   └── os/                               # Operating system mastery
 │
-├── book-notes/                       # Software engineering book summaries
-│   ├── clean-code/
-│   ├── design-patterns/              # Design Patterns, OOAD, OO Design & Patterns
+├── interviews/
+│   ├── cracking-the-coding-interview/    # CTCI guide in Bangla
+│   ├── software-engineer-flutter/        # 22 sections + cheat sheet (English)
+│   └── software-engineer-flutter-bn/     # Same 22 sections in Bangla
+│
+├── books/                                # Full book explanations, chapter by chapter
+│   ├── building-mobile-apps-at-scale/
 │   ├── refactoring/
-│   └── software-engineering-body-of-knowledge.md
+│   └── software-engineers-guidebook/     # Recap, deep version, Part IV (The Pragmatic Tech Lead)
 │
-├── networking/                       # Networking concepts & complete course
-│   ├── networking-deep-dive-bn.md
-│   ├── networking-mastering-book.md
-│   └── complete-networking-book-bn/
+├── my-notes/                             # My own short notes
+│   ├── clean-code/
+│   ├── design-patterns/                  # Design Patterns, OOAD, OO Design & Patterns
+│   ├── refactoring/
+│   └── others.md
 │
-├── software-engineering-mastery-bn/  # 7-phase SE mastery guide
-│   ├── phase1-requirements-engineering.md
-│   ├── phase2-system-analysis-design.md
-│   ├── phase3-project-planning.md
-│   ├── phase4-development-oversight.md
-│   ├── phase5-delivery-beyond.md
-│   ├── phase6-team-leadership-managemenr.md
-│   ├── phase7-career-growth.md
-│   └── telemedicine-product-to-deployment.md
+├── tech-lead/                            # Growing into and working as a tech lead
+│   ├── flutter-mobile-tech-lead.md
+│   ├── scrum-techlead-guide-bn.md
+│   └── software-engineering-mastery-bn/  # 7-phase SE mastery series
 │
-├── tech-lead/                        # Tech lead resources
-│   ├── flutter_mobile_tech_lead.md
-│   └── scrum-techlead-guide-bn.md
+├── projects/                             # Project build guides & app ideas
+│   ├── pharmacy-saas-build-guide.md
+│   ├── tokri-build-guide.md
+│   ├── note-app-backend-bn.md
+│   ├── telemedicine-product-to-deployment.md
+│   └── asset-free-app-ideas-research.md
 │
-├── app-stores/                       # Google Play and Apple developer accounts
-│   └── developer-accounts-guide.md
+├── ai/
+│   ├── agentic-software-development-bn.md
+│   └── prompts/                          # AI prompts for Flutter projects & doc fact-checking
 │
-├── ci-cd/                            # CI/CD course for Flutter engineers
-├── ios/                              # iOS distribution guide
-├── os/                               # Operating system mastery
-├── prompts/                          # AI prompts for productivity
+├── resources/                            # Reading lists, book roadmap, SE body of knowledge
 └── README.md
 ```
 
