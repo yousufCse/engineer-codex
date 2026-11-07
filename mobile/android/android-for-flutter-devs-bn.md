@@ -2,7 +2,7 @@
 
 > যিনি Flutter ভালো জানেন, অনেক আগে Java আর Activity দিয়ে Android করেছেন, কিন্তু Kotlin আর Jetpack Compose আসার পরে আর করেননি — তাঁর জন্য।
 > এটা interview-এর প্রশ্নোত্তর না, **শেখার গাইড**। প্রতিটা জিনিস আগে Flutter-এ আপনি যেভাবে করেন সেভাবে দেখানো, তারপর Android-এ ঠিক সেই কাজটা।
-> শেখা শেষ হলে অনুশীলনের জন্য আছে [Android Interview Prep](../../interviews/software-engineer-android-bn/android-interview-prep-bn.md)।
+> শেখা শেষ হলে অনুশীলনের জন্য আছে [Android Interview Prep](../../interviews/software-engineer-flutter-android-bn/android-interview-prep-bn.md)।
 
 ---
 
@@ -3458,7 +3458,7 @@ Flavor × build type = **build variant**: `devDebug`, `devRelease`, `prodDebug`,
 2. Phone ঘোরালে বা process মরলে এটা টিকবে?
 3. এটা কোন thread-এ চলছে?
 
-এই তিন প্রশ্নের উত্তর মুখে বলতে পারলে আপনি interview-এর জন্য তৈরি। শেষে [Android Interview Prep](../../interviews/software-engineer-android-bn/android-interview-prep-bn.md) খুলে প্রশ্নগুলো জোরে জোরে বলে অনুশীলন করুন — ওখানে প্রতিটা উত্তর বাংলা আর English-এ আছে।
+এই তিন প্রশ্নের উত্তর মুখে বলতে পারলে আপনি interview-এর জন্য তৈরি। শেষে [Android Interview Prep](../../interviews/software-engineer-flutter-android-bn/android-interview-prep-bn.md) খুলে প্রশ্নগুলো জোরে জোরে বলে অনুশীলন করুন — ওখানে প্রতিটা উত্তর বাংলা আর English-এ আছে।
 
 [উপরে ফিরুন](#toc)
 
