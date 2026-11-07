@@ -16,7 +16,7 @@ Whether you are preparing for interviews, mastering backend development, diving 
 
 | Section | Description |
 |---|---|
-| **Mobile** | Flutter guides (theming, forms, flavors, lint rules, push notifications, deep links, responsive UI & more) and app release: store developer accounts, Play Store upload, iOS distribution, CI/CD course |
+| **Mobile** | Flutter guides (theming, forms, flavors, lint rules, push notifications, deep links, responsive UI & more), a Bangla guide to modern Android (Kotlin, coroutines, Compose) for Flutter developers, and app release: store developer accounts, Play Store upload, iOS distribution, CI/CD course |
 | **Backend** | MERN/Node.js full course (Express, PostgreSQL, Prisma, MongoDB, NestJS, Auth, Testing, Deployment) and a full-stack web deployment guide |
 | **CS Fundamentals** | Data structures & algorithms, networking and operating system notes |
 | **Interviews** | Flutter software engineer interview prep (22 sections, English & Bangla), a senior Android interview guide in Bangla (69 questions, Kotlin to system design), and a Cracking the Coding Interview guide in Bangla |
@@ -35,6 +35,7 @@ Whether you are preparing for interviews, mastering backend development, diving 
 engineer-codex/
 │
 ├── mobile/
+│   ├── android/                          # Modern Android through Flutter eyes (Bangla)
 │   ├── flutter/                          # Flutter guides & best practices
 │   │   ├── barrel-imports-guides.md
 │   │   ├── deep-link-guide.md
