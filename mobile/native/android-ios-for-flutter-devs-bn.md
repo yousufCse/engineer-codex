@@ -1,25 +1,60 @@
 # Flutter-এর চোখে Android আর iOS — শেখার গাইড (বাংলা)
 
-> যিনি Flutter ভালো জানেন, অনেক আগে Java আর Activity দিয়ে Android করেছেন, কিন্তু Kotlin আর Jetpack Compose আসার পরে আর করেননি — তাঁর জন্য।
-> এটা interview-এর প্রশ্নোত্তর না, **শেখার গাইড**। প্রতিটা জিনিস আগে Flutter-এ আপনি যেভাবে করেন সেভাবে দেখানো, তারপর Android-এ ঠিক সেই কাজটা।
-> বইয়ে দুইটা খণ্ড: **খণ্ড ১ — Android** (অধ্যায় ০–১৪) আর **খণ্ড ২ — [iOS](#part-ios)** (iOS ০–১৩)। দুই খণ্ডই একই ছাঁচে, একই Notes app দিয়ে লেখা।
-> শেখা শেষ হলে অনুশীলনের জন্য আছে [Flutter + Android + iOS Interview Prep](../../interviews/software-engineer-flutter-android-ios-bn/flutter-android-ios-interview-prep-bn.md)।
+> এই বই তাঁর জন্য, যিনি Flutter ভালো জানেন। অনেক আগে Java আর Activity দিয়ে Android করেছেন। কিন্তু Kotlin আর Jetpack Compose আসার পরে আর Android করেননি।
+> এটা interview-এর প্রশ্ন-উত্তর না, এটা একটা **শেখার গাইড**। প্রতিটা জিনিস আগে দেখানো হয়েছে Flutter-এ আপনি যেভাবে করেন। তারপর দেখানো হয়েছে Android-এ ঠিক সেই কাজটা কীভাবে হয়।
+> বইয়ে দুইটা খণ্ড: **খণ্ড ১ — Android** (অধ্যায় ০–১৪) আর **খণ্ড ২ — [iOS](#part-ios)** (iOS ০–১৩)। দুই খণ্ডই একই ধাঁচে লেখা, আর দুটোতেই একই Notes app-এর উদাহরণ।
+> শেখা শেষ হলে practice করার জন্য আছে [Flutter + Android + iOS Interview Prep](../../interviews/software-engineer-flutter-android-ios-bn/flutter-android-ios-interview-prep-bn.md)।
 
 ---
 
 ## <a id="preface"></a>শুরুর কথা
 
-ধরুন আপনি বহু বছর একটা শহরে গাড়ি চালিয়েছেন। রাস্তা চেনেন, নিয়ম জানেন, কোন মোড়ে জ্যাম হয় সেটাও জানেন। এখন আপনাকে পাশের শহরে যেতে হবে। গাড়ি চালানো আপনাকে নতুন করে শিখতে হবে না। শিখতে হবে শুধু রাস্তার নাম, কোথায় কোন নিয়ম আলাদা, আর কোন গলিতে না ঢোকাই ভালো।
+Flutter থেকে Android-এ এলে আপনাকে সব নতুন করে শিখতে হবে না। State, async, architecture, declarative UI, test — এগুলো আপনি আগে থেকেই জানেন। নতুন শিখতে হবে শুধু তিনটা জিনিস: Android-এ এগুলোর নাম কী, কোথায় নিয়ম আলাদা, আর কোন ভুলগুলো এড়িয়ে চলতে হয়।
 
-Flutter থেকে Android-এ আসা ঠিক এরকম। State, async, architecture, declarative UI, test — এগুলো আপনি আগে থেকেই জানেন। এই বই আপনাকে নতুন শহরের মানচিত্র দেবে। প্রতিটা নতুন নামের পাশে লেখা থাকবে, আপনার শহরে এটাকে কী বলে।
+এই বই প্রতিটা Android জিনিসের পাশে লিখে দেবে, Flutter-এ এটাকে কী বলে।
 
-আর একটা মজার কথা: আপনি এই শহরে আগেও এসেছেন। প্রতিটা Flutter app Android-এর ভেতরেই চলে। শুধু এতদিন জানালার কাচ দিয়ে দেখেছেন। এবার দরজা খুলে ভেতরে ঢুকবেন।
+আরেকটা কথা: আপনি Android আগেও ব্যবহার করেছেন। প্রতিটা Flutter app Android-এর ভেতরেই চলে। এতদিন Flutter আর plugin সেই Android অংশটা আপনার কাছ থেকে লুকিয়ে রেখেছিল। এবার সেটা সরাসরি নিজে লিখবেন।
+
+---
+
+## <a id="big-picture"></a>আগে এটা পড়ুন — এক পাতায় পুরো ছবি
+
+বইয়ের বাকি সব কিছু এই এক পাতার ওপর দাঁড়িয়ে। কোথাও গুলিয়ে গেলে এখানে ফিরে আসুন।
+
+```
+┌──────────── Android বা iOS (OS) ────────────────┐
+│  app চালু আর বন্ধ, permission, notification,     │
+│  background কাজ, storage — সব OS নিয়ন্ত্রণ করে   │
+│                                                  │
+│   ┌──────── আপনার Flutter app ────────┐          │
+│   │  Embedder  ← OS আর engine-এর যোগাযোগ │          │
+│   │  Engine    ← Dart চালায়, screen আঁকে  │          │
+│   │  Dart code ← আপনার UI আর logic       │          │
+│   │  Plugin    ← native API ডাকে          │          │
+│   └────────────────────────────────────┘          │
+└──────────────────────────────────────────────────┘
+```
+
+**ছয়টা মূল কথা:**
+
+1. **App-এর জীবন OS নিয়ন্ত্রণ করে।** App কখন চালু হবে আর কখন বন্ধ হবে, কোন permission পাবে, notification, background কাজ — সব Android বা iOS ঠিক করে।
+2. **Native app-এর UI আঁকে OS নিজে।** Android-এ আপনি Compose দিয়ে UI লেখেন, iOS-এ SwiftUI দিয়ে। Screen-এ pixel বানায় OS-এর নিজের renderer।
+3. **Flutter app-ও একটা native app।** Android-এ এর একটাই Activity (`FlutterActivity`), iOS-এ একটা `FlutterViewController`। OS শুধু আঁকার জন্য একটা surface দেয়। সেই surface-এ Flutter-এর engine নিজে প্রতিটা pixel আঁকে।
+4. **Flutter-এর তিন অংশ।** আপনার Dart code ঠিক করে কী দেখাবে। Engine (C++) সেই Dart code চালায় আর screen আঁকে। Embedder OS থেকে touch, lifecycle আর surface নিয়ে engine-কে দেয়।
+5. **Native কাজের জন্য plugin।** Camera, notification বা location লাগলে Dart platform channel দিয়ে plugin-কে message পাঠায়। Plugin-এর Kotlin বা Swift code OS-এর API ডাকে, তারপর ফল আবার Dart-এ পাঠায়।
+6. **দুই ভাষা, দুই runtime।** Android-এ Kotlin চলে ART-এ, যেটা phone-এর OS-এর অংশ। Dart চলে Dart runtime-এ, যেটা app নিজের ভেতরে (engine-এ) নিয়ে আসে। iOS-এ Swift আগেই machine code-এ compile হয়ে থাকে। Build-এর সময় Gradle (Android) বা Xcode (iOS) সব অংশ জুড়ে একটা app বানায়।
+
+**সারকথা:** OS app চালায় আর native ক্ষমতা দেয়। Flutter নিজের engine দিয়ে UI আঁকে। Native কিছু লাগলে plugin দিয়ে OS-এর API ডাকে।
+
+এই বইয়ে আপনি শিখবেন, plugin যে native কাজগুলো লুকিয়ে রাখত, সেগুলো native-এ নিজে কীভাবে করতে হয় — আগে Android (খণ্ড ১), তারপর iOS (খণ্ড ২)। ভেতরের পুরো যন্ত্রের বিস্তারিত আছে [অধ্যায় ১৩](#ch13) (Android) আর [iOS ১২](#ios12)-এ।
+
+[উপরে ফিরুন](#toc)
 
 ---
 
 ## <a id="how-to-read"></a>কীভাবে পড়বেন
 
-**প্রতিটা বিষয় একই ছাঁচে লেখা,** যাতে কিছুদূর পড়ার পরে চোখ নিজেই জানে কোথায় কী খুঁজতে হবে:
+**প্রতিটা বিষয় একই ধাঁচে লেখা।** তাই কয়েকটা বিষয় পড়ার পরে আপনি নিজেই জানবেন, কোথায় কী খুঁজতে হবে:
 
 | অংশ | কী থাকে |
 |---|---|
@@ -28,22 +63,22 @@ Flutter থেকে Android-এ আসা ঠিক এরকম। State, asyn
 | **Android-এ একই কাজ** | ঠিক সেই কাজ, Kotlin-এ |
 | **কী মিলল, কী আলাদা** | পাশাপাশি তুলনা |
 | **ভেতরে কীভাবে কাজ করে** | ধাপে ধাপে, যেখানে দরকার |
-| **Best approach** | আজকের দিনে কোনটা নেবেন, আর কেন — একটাই উত্তর |
-| **ফাঁদ** | যেখানে Flutter থেকে আসা মানুষ আটকায় |
+| **Best approach** | আজকে কোনটা নেবেন, আর কেন — একটাই উত্তর |
+| **ফাঁদ** | Flutter থেকে আসা মানুষ সাধারণত যেখানে ভুল করে |
 
-প্রতিটা অধ্যায়ের শেষে দুইটা ছোট box: **মনে রাখুন** (তিন-চারটা মূল কথা) আর **Interview-এ এক কথায়** (বাংলা আর English)। Revision-এর দিন শুধু এই box-গুলো পড়লেই পুরো বইটা মনে পড়বে।
+প্রতিটা অধ্যায়ের শেষে দুইটা ছোট box আছে। একটা **মনে রাখুন** — তিন-চারটা মূল কথা। আরেকটা **Interview-এ এক কথায়** — বাংলা আর English-এ। Revision-এর দিন শুধু এই box-গুলো পড়লেই পুরো বইটা মনে পড়ে যাবে।
 
-**পুরো বইয়ে একটাই উদাহরণ — একটা Notes app।** Note-এর list, একটা note খোলা, নতুন note লেখা, database-এ রাখা, server-এর সাথে sync। প্রতিটা অধ্যায় এই app-এর একটা অংশ। তাই নতুন উদাহরণ মাথায় নিতে হবে না। শুধু দেখবেন, Flutter-এ যে Notes app বানাতেন, Android-এ সেটা কীভাবে হয়।
+**পুরো বইয়ে একটাই উদাহরণ — একটা Notes app।** App-টায় আছে note-এর list, একটা note খোলা, নতুন note লেখা, database-এ রাখা, আর server-এর সাথে sync। প্রতিটা অধ্যায় এই app-এর একটা অংশ বানায়। তাই প্রতি অধ্যায়ে নতুন উদাহরণ মাথায় নিতে হবে না। আপনি শুধু দেখবেন, Flutter-এ যে Notes app বানাতেন, Android-এ সেটা কীভাবে বানানো হয়।
 
-**ক্রমে পড়ুন।** অধ্যায় ০ সবচেয়ে জরুরি — এটা বুঝলে বাকি সব জায়গামতো বসবে। শেষে একটা [Flutter → Android অভিধান](#dictionary) আছে, revision-এর জন্য।
+**শুরু থেকে ক্রম ধরে পড়ুন।** অধ্যায় ০ সবচেয়ে জরুরি। এটা বুঝলে বাকি সব সহজে মাথায় বসে যাবে। বইয়ের শেষে revision-এর জন্য একটা [Flutter → Android অভিধান](#dictionary) আছে।
 
-> **Version নিয়ে:** লেখা নভেম্বর ২০২৬-এ, Kotlin 2.x, Compose BOM আর Android 16/17 মাথায় রেখে। Library-র নাম আর API স্থির, কিন্তু version number বদলায়। Dependency দেওয়ার সময় [developer.android.com](https://developer.android.com) থেকে সর্বশেষ version নিন। Code-এ version-এর জায়গায় `x.x` লেখা।
+> **Version নিয়ে:** বইটা লেখা নভেম্বর ২০২৬-এ। তখনকার Kotlin 2.x, Compose BOM আর Android 16/17 ধরে লেখা। Library-র নাম আর API সহজে বদলায় না, কিন্তু version number প্রায়ই বদলায়। তাই dependency যোগ করার সময় [developer.android.com](https://developer.android.com) থেকে একদম নতুন version নিন। Code-এ version-এর জায়গায় `x.x` লেখা আছে।
 
 ---
 
 ## <a id="toc"></a>সূচিপত্র
 
-- [শুরুর কথা](#preface) · [কীভাবে পড়বেন](#how-to-read)
+- [শুরুর কথা](#preface) · [আগে এটা পড়ুন — এক পাতায় পুরো ছবি](#big-picture) · [কীভাবে পড়বেন](#how-to-read)
 
 **অধ্যায় ০ — বড় ছবি (আগে এটা)**
 - [০. Android একটা পূর্ণ framework, Flutter একটা UI toolkit](#ch0)
@@ -122,25 +157,25 @@ Flutter থেকে Android-এ আসা ঠিক এরকম। State, asyn
 
 ## <a id="ch0"></a>০. Android একটা পূর্ণ framework, Flutter একটা UI toolkit
 
-**এক লাইনে:** Flutter শুধু UI আঁকে আর Dart চালায়। বাকি সবকিছু — app চালু হওয়া, lifecycle, permission, notification, background কাজ, database — Android-এর। Flutter-এ এগুলো আপনি plugin দিয়ে ব্যবহার করতেন। Plugin-এর ভেতরে যে Android code ছিল, সেটাই এখন আপনি নিজে লিখবেন।
+**এক লাইনে:** Flutter শুধু UI আঁকে আর Dart code চালায়। বাকি সব কাজ Android-এর — app চালু হওয়া, lifecycle, permission, notification, background কাজ, database। Flutter-এ এগুলো আপনি plugin দিয়ে ব্যবহার করতেন। Plugin-এর ভেতরে যে Android code ছিল, এখন সেটাই আপনি নিজে লিখবেন।
 
-এই অধ্যায়টা বুঝলে বাকি গাইড সহজ হয়ে যাবে।
+এই অধ্যায়টা ভালো করে বুঝলে বাকি গাইড সহজ হয়ে যাবে।
 
 ### <a id="ch0-1"></a>০.১ আপনার Flutter app আসলে একটা Android app
 
-আপনার যেকোনো Flutter project-এর `android/` folder খুলুন। ওটা একটা **পুরো Android project।** ভেতরে এই file-টা পাবেন:
+আপনার যেকোনো Flutter project-এর `android/` folder খুলুন। ওটা নিজেই একটা **পুরো Android project।** ভেতরে এই file-টা পাবেন:
 
 ```kotlin
 // android/app/src/main/kotlin/com/byteonyx/notes/MainActivity.kt
 class MainActivity : FlutterActivity()
 ```
 
-এই এক লাইনই সব। যখন user app খোলে:
+পুরো file-এ শুধু এই এক লাইন। User যখন app খোলে, তখন এই ধাপগুলো হয়:
 
 1. Android একটা process চালু করে আর `MainActivity` তৈরি করে — যেকোনো Android app-এর মতোই।
-2. `FlutterActivity` একটা **FlutterEngine** চালু করে। Engine-এর ভেতরে Dart VM চলে, আর আপনার `main()` call হয়।
-3. Activity পুরো screen-এ একটা surface রাখে। Flutter সেই surface-এ নিজের widget নিজে আঁকে (Skia বা Impeller দিয়ে)। Android-এর button বা text-এর কোনোটাই ব্যবহার করে না।
-4. Camera, notification, file-এর মতো কিছু লাগলে Dart code **platform channel** দিয়ে Android-এর Kotlin বা Java code-কে বলে। Plugin মানে এটাই: একদিকে Dart API, অন্যদিকে Android (আর iOS) code।
+2. `FlutterActivity` একটা **FlutterEngine** চালু করে। এই engine-এর ভেতরে Dart VM চলে। তারপর আপনার `main()` call হয়।
+3. Activity পুরো screen জুড়ে একটা আঁকার জায়গা রাখে — একে surface বলে। Flutter সেই surface-এ নিজের widget নিজেই আঁকে (Skia বা Impeller দিয়ে)। Android-এর নিজের button বা text-এর কোনোটাই Flutter ব্যবহার করে না।
+4. Camera, notification বা file-এর মতো কিছু লাগলে Dart code Android-এর Kotlin বা Java code-কে কাজটা করতে বলে। এই কথা বলা হয় **platform channel** দিয়ে — Dart আর native code-এর মাঝে message পাঠানোর একটা পথ। Plugin মানে এটাই: একদিকে Dart API, অন্যদিকে Android (আর iOS) code।
 
 ```
 ┌─────────────────────────────── Android process ───────────────────────────────┐
@@ -159,7 +194,7 @@ class MainActivity : FlutterActivity()
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-আরও কিছু জিনিস যা আপনি Flutter-এ থেকেও আসলে Android-এরটাই ব্যবহার করতেন:
+আরও কিছু জিনিস আছে, যেগুলো Flutter-এ থেকেও আপনি আসলে Android-এরটাই ব্যবহার করতেন:
 
 | Flutter-এ আপনি যা করতেন | আসলে কী ছিল |
 |---|---|
@@ -172,19 +207,19 @@ class MainActivity : FlutterActivity()
 | `flutter_secure_storage` (Android-এ) | Android Keystore |
 | `sqflite` | Android-এর SQLite |
 
-**তাই আপনি শূন্য থেকে শুরু করছেন না।** Android-এর অর্ধেক জিনিস আপনি আগেই ব্যবহার করেছেন, শুধু plugin-এর আড়ালে। এখন আড়ালটা সরিয়ে দেখবেন।
+**তাই আপনি শূন্য থেকে শুরু করছেন না।** Android-এর অর্ধেক জিনিস আপনি আগেই ব্যবহার করেছেন। শুধু সেগুলো plugin-এর আড়ালে লুকানো ছিল। এখন আড়ালটা সরিয়ে সরাসরি দেখবেন।
 
-পার্থক্য দুইটা জায়গায়:
-- **UI:** Flutter নিজে আঁকে। Native Android-এ UI-ও Android-এর — Jetpack Compose (আগে XML View)।
-- **ভাষা আর runtime:** Dart VM-এর জায়গায় Kotlin, যেটা Android-এর ART runtime-এ চলে।
+আসল পার্থক্য দুইটা জায়গায়:
+- **UI:** Flutter-এ UI Flutter নিজে আঁকে। Native Android-এ UI-ও Android-এর নিজের — এখন Jetpack Compose, আগে ছিল XML View।
+- **ভাষা আর runtime:** Dart VM-এর জায়গায় এখন Kotlin। Kotlin চলে Android-এর ART runtime-এ। ART হলো phone-এর ভেতরের সেই engine, যেটা Kotlin/Java code চালায়।
 
-App খোলা থেকে pixel পর্যন্ত, আর build চাপলে কী হয় — ভেতরের পুরো গল্প [অধ্যায় ১৩](#ch13)-এ।
+App খোলা থেকে screen-এ pixel আসা পর্যন্ত কী হয়, আর build চাপলে কী হয় — ভেতরের পুরো গল্প আছে [অধ্যায় ১৩](#ch13)-এ।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch0-2"></a>০.২ Android-এর স্তরগুলো
 
-Android হলো একটা পুরো operating system আর তার উপরে app বানানোর framework। নিচ থেকে উপরে:
+Android নিজে একটা পুরো operating system। তার ওপরে app বানানোর একটা framework-ও আছে। নিচের ছবিটা কয়েকটা স্তর (layer) দেখায়। নিচ থেকে ওপরে পড়ুন:
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -204,18 +239,18 @@ Android হলো একটা পুরো operating system আর তার �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-আপনার জন্য জরুরি দুইটা স্তর:
+এর মধ্যে আপনার জন্য জরুরি দুইটা স্তর:
 
-- **Android framework (SDK):** phone-এর Android version-এর সাথে আসে। তাই Android 14-এর phone-এ Android 14-এর API, Android 10-এর phone-এ Android 10-এর। নতুন API ব্যবহার করলে পুরনো phone-এর কথা ভাবতে হয় (`minSdk`)।
-- **Jetpack (AndroidX):** Google-এর library, যেগুলো আপনার app-এর সাথে bundle হয়। তাই phone-এর version যা-ই হোক, একই আচরণ। আধুনিক Android-এর প্রায় সব কিছু এখানে: Compose, Room, ViewModel। Flutter-এ pub.dev-এর official package-গুলোর মতো ভাবুন, কিন্তু Google-এর নিজের।
+- **Android framework (SDK):** এটা phone-এর Android version-এর সাথেই আসে। তাই Android 14-এর phone-এ পাবেন Android 14-এর API, আর Android 10-এর phone-এ Android 10-এর API। তাই নতুন কোনো API ব্যবহার করলে পুরনো phone-এর কথাও ভাবতে হয়। আপনার app সবচেয়ে পুরনো কোন version-এ চলবে, সেটা বলে দেয় `minSdk`।
+- **Jetpack (AndroidX):** এগুলো Google-এর library। এগুলো আপনার app-এর ভেতরেই ঢুকে যায় (bundle হয়)। তাই phone-এর Android version যা-ই হোক, সব phone-এ এগুলো একইভাবে কাজ করে। নতুন Android-এর প্রায় সব কিছু এখানেই: Compose, Room, ViewModel। এগুলোকে pub.dev-এর official package-এর মতো ভাবতে পারেন — শুধু পার্থক্য হলো, এগুলো Google-এর নিজের বানানো।
 
-**নিয়ম:** কোনো কাজের জন্য Jetpack-এ library থাকলে সেটা নিন, সরাসরি পুরনো framework API না। যেমন `NotificationCompat` (Jetpack) নিন, শুধু `Notification` না — Compat class-গুলো পুরনো Android version-এর পার্থক্য নিজে সামলায়।
+**নিয়ম:** কোনো কাজের জন্য Jetpack-এ library থাকলে সেটাই নিন। সরাসরি পুরনো framework API নেবেন না। যেমন শুধু `Notification` না নিয়ে `NotificationCompat` (Jetpack) নিন। কারণ Compat class-গুলো পুরনো আর নতুন Android version-এর পার্থক্য নিজেই সামলে নেয়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch0-3"></a>০.৩ পুরো framework-এর মানচিত্র
 
-এটা গাইডের সবচেয়ে কাজের table। বাম দিকে কাজটা, মাঝে আজকের দিনে Android-এ যেটা নেবেন, ডানে Flutter-এ আপনি যেটা নিতেন।
+এটা পুরো গাইডের সবচেয়ে কাজের table। বাম দিকে আছে কাজটা। তারপর আছে আজকে Android-এ যেটা নেবেন। পরের কলামে পুরনো Android-এর জিনিস, যা চিনে রাখা ভালো। আর একদম ডানে, Flutter-এ আপনি যেটা নিতেন।
 
 | কাজ | Android — আজকের best choice | পুরনো Android (চিনে রাখুন) | Flutter-এ |
 |---|---|---|---|
@@ -243,23 +278,23 @@ Android হলো একটা পুরো operating system আর তার �
 | Unit test | JUnit + `runTest` + Turbine | JUnit | `test`, `bloc_test` |
 | UI test | Compose UI test | Espresso | `testWidgets` |
 
-**পুরনো কলামটা কেন:** Interview-এ, আর পুরনো project-এ এগুলো দেখবেন। আপনি যখন Java-তে Android করতেন, তখন সম্ভবত `AsyncTask`, `RecyclerView`, একাধিক Activity, `SharedPreferences` ব্যবহার করেছেন। নতুন code-এ মাঝের কলাম।
+**পুরনো কলামটা কেন রাখা হলো:** Interview-এ আর পুরনো project-এ এগুলো দেখবেন। আপনি যখন Java-তে Android করতেন, তখন সম্ভবত `AsyncTask`, `RecyclerView`, একাধিক Activity আর `SharedPreferences` ব্যবহার করেছেন। তবে নতুন code লিখবেন "আজকের best choice" কলাম দিয়ে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch0-4"></a>০.৪ মাথায় রাখার তিনটা বদল
 
-**১. Platform এখন সরাসরি আপনার হাতে।** Flutter-এ plugin আপনার হয়ে Android-এর নিয়ম মানত। এখন আপনি নিজে মানবেন: কোন Android version-এ কোন permission লাগে, background-এ কী চালানো যায়, notification channel। কাজ একটু বেশি, কিন্তু কোনো plugin-এর bug-এর জন্য আর আটকে থাকবেন না।
+**১. Platform এখন সরাসরি আপনার হাতে।** Flutter-এ plugin আপনার হয়ে Android-এর নিয়মগুলো মানত। এখন সেগুলো আপনাকেই মানতে হবে। যেমন: কোন Android version-এ কোন permission লাগে, background-এ কী চালানো যায়, notification channel কীভাবে বানাতে হয়। কাজ একটু বেশি। কিন্তু কোনো plugin-এর bug-এর জন্য আর আটকে থাকতে হবে না।
 
-**২. Main thread আটকানো যাবে না, আর thread এখন আসল।** Dart-এ সব code একটা thread-এ চলে, আর `await` thread আটকায় না। Kotlin-এ অনেকগুলো আসল thread আছে, আর তারা memory শেয়ার করে। ভারী কাজ অন্য thread-এ পাঠানো খুব সহজ। কিন্তু main thread-এ ৫ সেকেন্ডের বেশি কিছু আটকে থাকলে system "App isn't responding" (ANR) dialog দেখায়। [অধ্যায় ২](#ch2)-এ বিস্তারিত।
+**২. Main thread আটকানো যাবে না, আর thread এখন আসল।** Dart-এ সব code একটা thread-এ চলে, আর `await` সেই thread আটকায় না। Kotlin-এ অনেকগুলো আসল thread আছে। মানে কয়েকটা কাজ সত্যিই একই সময়ে পাশাপাশি চলে। আর এই thread-গুলো একই memory share করে। ভারী কাজ অন্য thread-এ পাঠানো তাই খুব সহজ। কিন্তু main thread ৫ সেকেন্ডের বেশি আটকে থাকলে system একটা "App isn't responding" (ANR) dialog দেখায়। বিস্তারিত আছে [অধ্যায় ২](#ch2)-এ।
 
-**৩. Screen যেকোনো সময় মরে যেতে পারে।** Flutter-এ rotation হলে widget শুধু rebuild হয়, `State` object বেঁচে থাকে। Android-এ rotation, dark mode বদল, ভাষা বদল হলে Activity পুরো destroy হয়ে নতুন তৈরি হয়। আর app background-এ থাকলে system পুরো process মেরে ফেলতে পারে। তাই প্রথম দিন থেকেই ভাবতে হয়, state কোথায় রাখবেন। [অধ্যায় ৫](#ch5)-এ বিস্তারিত।
+**৩. Screen যেকোনো সময় মরে যেতে পারে।** Flutter-এ phone ঘোরালে (rotation) widget শুধু rebuild হয়, কিন্তু `State` object বেঁচে থাকে। Android-এ তা না। Rotation, dark mode বদল বা ভাষা বদল হলে Activity পুরোটা destroy হয়, তারপর নতুন করে তৈরি হয়। আবার app background-এ থাকলে system পুরো process-টাই মেরে ফেলতে পারে। তখন memory-তে যা ছিল সব হারিয়ে যায়। তাই প্রথম দিন থেকেই ভাবতে হয়, state কোথায় রাখবেন। বিস্তারিত আছে [অধ্যায় ৫](#ch5)-এ।
 
 > **মনে রাখুন**
-> - আপনার প্রতিটা Flutter app একটা `FlutterActivity`-ওয়ালা Android app। Plugin মানে Android code।
+> - আপনার প্রতিটা Flutter app আসলে একটা Android app, যার ভেতরে একটা `FlutterActivity` আছে। Plugin-এর ভেতরে আছে Android code।
 > - Flutter নিজে শুধু UI আঁকে আর Dart চালায়। বাকি সব Android framework-এর।
-> - Jetpack হলো app-এর সাথে আসা Google-এর library। আধুনিক Android-এর প্রায় সব এখানে।
-> - তিনটা বদল: platform নিজের হাতে, আসল thread, আর screen বা process যেকোনো সময় মরতে পারে।
+> - Jetpack হলো Google-এর library, যেটা app-এর ভেতরে ঢুকে যায়। নতুন Android-এর প্রায় সব কিছু এখানে।
+> - তিনটা বদল মাথায় রাখুন: platform এখন নিজের হাতে, thread এখন আসল, আর screen বা process যেকোনো সময় মরে যেতে পারে।
 
 > **Interview-এ এক কথায়**
 > - *বাংলায়:* "Flutter একটা UI toolkit, যেটা Android-এর ভেতরে একটা Activity-তে চলে আর নিজের renderer দিয়ে আঁকে। Lifecycle, permission, background কাজ — এগুলো সবসময় Android-এরই। তাই Flutter-এ plugin-এর আড়ালে যা ব্যবহার করতাম, native-এ সেগুলো সরাসরি ব্যবহার করি।"
@@ -271,13 +306,13 @@ Android হলো একটা পুরো operating system আর তার �
 
 ## <a id="ch1"></a>১. Kotlin — Dart-এর পাশে
 
-Dart আর Kotlin যেন দুই চাচাতো ভাই। একজন Google-এর বাড়িতে বড় হয়েছে, আরেকজন JetBrains-এর। দুজনেই statically typed, দুজনেই null-safe, দুজনেই lambda আর extension ভালোবাসে। প্রথম দিনের Kotlin code পড়লে আপনার মনে হবে, "আরে, এ তো প্রায় Dart, শুধু semicolon নেই আর type পেছনে বসে।"
+Dart আর Kotlin দেখতে অনেকটা একই রকম। Dart বানিয়েছে Google, আর Kotlin বানিয়েছে JetBrains। দুটোই statically typed, দুটোই null-safe। দুটোতেই lambda আর extension খুব বেশি ব্যবহার হয়। প্রথম দিনের Kotlin code পড়লে আপনার মনে হবে, "আরে, এ তো প্রায় Dart, শুধু semicolon নেই আর type পেছনে বসে।"
 
-এই অধ্যায়ে আমরা Notes app-এর model আর ছোট ছোট helper লিখব — প্রতিটা আগে Dart-এ, তারপর Kotlin-এ।
+এই অধ্যায়ে আমরা Notes app-এর model আর ছোট ছোট helper লিখব। প্রতিটা আগে Dart-এ দেখব, তারপর Kotlin-এ।
 
 ### <a id="ch1-1"></a>১.১ Variable আর type
 
-**এক লাইনে:** `final` হলো `val`, `var` হলো `var`, আর type নামের পরে বসে।
+**এক লাইনে:** Dart-এর `final` হলো Kotlin-এর `val`, আর `var` হলো `var`। Type লেখা হয় নামের পরে।
 
 **Flutter-এ আপনি যেভাবে লেখেন:**
 
@@ -303,16 +338,16 @@ val label = if (count > 0) "$count টা note" else "কোনো note নে�
 
 | Dart | Kotlin | খেয়াল করুন |
 |---|---|---|
-| `final` | `val` | একবার assign |
+| `final` | `val` | মাত্র একবার value দেওয়া যায় |
 | `var` | `var` | |
 | `const` | `const val` | শুধু primitive আর `String`, আর শুধু top-level বা `object`-এ |
 | `String name` | `name: String` | type পরে |
-| `int`, `double`, `bool` | `Int`, `Double`, `Boolean` | বড় হাতের। `Long`, `Float`-ও আছে |
+| `int`, `double`, `bool` | `Int`, `Double`, `Boolean` | নাম বড় হাতের অক্ষরে শুরু। `Long`, `Float`-ও আছে |
 | `? :` ternary | `if ... else` | Kotlin-এ `if` নিজেই value দেয় |
-| `dynamic` | নেই | কাছাকাছি `Any?`, কিন্তু ব্যবহারের আগে cast লাগে |
+| `dynamic` | নেই | সবচেয়ে কাছের হলো `Any?`, কিন্তু ব্যবহার করার আগে cast করতে হয় |
 | `typedef` | `typealias` | |
 
-**Kotlin-এ প্রায় সবকিছুই expression।** `if`, `when`, `try` — সবাই value ফেরত দেয়। Dart 3-এর switch expression যেমন:
+**Kotlin-এ প্রায় সবকিছুই expression।** Expression মানে যেটা একটা value ফেরত দেয়। `if`, `when`, `try` — সবাই value দেয়। ঠিক Dart 3-এর switch expression-এর মতো:
 
 ```dart
 final color = switch (note.priority) {
@@ -330,7 +365,7 @@ val color = when (note.priority) {
 val words = try { body.split(" ").size } catch (e: Exception) { 0 }
 ```
 
-**ফাঁদ:** Number নিজে থেকে বদলায় না। Dart-এ `int` অনেক জায়গায় `double` হয়ে যায়। Kotlin-এ `Int` কখনো নিজে `Long` বা `Double` হয় না — `toLong()`, `toDouble()` লিখতে হয়। প্রথম সপ্তাহে বিরক্ত লাগবে, তারপর বুঝবেন কত bug আটকাচ্ছে।
+**ফাঁদ:** Number-এর type নিজে থেকে বদলায় না। Dart-এ `int` অনেক জায়গায় নিজেই `double` হয়ে যায়। Kotlin-এ `Int` কখনো নিজে থেকে `Long` বা `Double` হয় না। আপনাকে `toLong()` বা `toDouble()` লিখে বদলাতে হয়। প্রথম সপ্তাহে এটা বিরক্ত লাগবে। পরে বুঝবেন, এটা কত bug আটকে দিচ্ছে।
 
 **Loop:**
 
@@ -345,7 +380,7 @@ repeat(3) { println("হ্যালো") }
 
 ### <a id="ch1-2"></a>১.২ Null safety
 
-**এক লাইনে:** Dart-এ যা শিখেছেন, প্রায় হুবহু তাই। শুধু দুইটা চিহ্নের নাম আলাদা।
+**এক লাইনে:** Dart-এ যা শিখেছেন, প্রায় পুরোটাই একই। শুধু দুইটা চিহ্ন আলাদা।
 
 **Flutter-এ:**
 
@@ -363,7 +398,7 @@ val length = body?.length ?: 0       // ?? → ?:  (এর নাম Elvis opera
 val sure = body!!.length             // !  → !!
 ```
 
-**Smart cast** — Dart-এর type promotion:
+**Smart cast** — এটা Dart-এর type promotion-এর মতো। Null check করার পরে compiler নিজেই ধরে নেয়, value-টা আর null না:
 
 ```kotlin
 fun preview(body: String?): String {
@@ -373,16 +408,16 @@ fun preview(body: String?): String {
 ```
 
 **কী আলাদা:**
-- Smart cast কাজ করে local `val`-এ, আর এমন property-তে যেটা মাঝখানে বদলাতে পারে না। Class-এর `var` property-তে কাজ করে না, কারণ check আর ব্যবহারের মাঝে অন্য thread সেটা বদলে দিতে পারে। Dart-এ এই সমস্যা নেই, কারণ Dart-এ একটাই thread। সমাধান: আগে local-এ নিন — `val current = note ?: return`।
-- **Java থেকে আসা value-র কোনো গ্যারান্টি নেই।** Java-তে `?` নেই, তাই Kotlin Java-র return value-কে `String!` ধরে, মানে "জানি না"। Android SDK-র অনেক পুরনো অংশ Java-তে লেখা। সেখান থেকে value এলে নিজে null ধরে নিন।
+- Smart cast কাজ করে local `val`-এ। আর এমন property-তে, যেটা check আর ব্যবহারের মাঝে বদলাতে পারে না। Class-এর `var` property-তে এটা কাজ করে না। কারণ আপনি check করার পরে, ব্যবহার করার আগেই, অন্য কোনো thread সেটা বদলে দিতে পারে। Dart-এ এই সমস্যা নেই, কারণ Dart-এ একটাই thread। সমাধান: value-টা আগে একটা local variable-এ নিন — `val current = note ?: return`।
+- **Java থেকে আসা value-র কোনো গ্যারান্টি নেই।** Java-তে `?` নেই। তাই Java-র return value-কে Kotlin `String!` ধরে। এর মানে "এটা null হতে পারে কি না, জানি না"। Android SDK-র অনেক পুরনো অংশ Java-তে লেখা। তাই সেখান থেকে value এলে ধরে নিন, এটা null হতে পারে।
 
-**Best approach:** `!!` প্রায় কখনো না। লিখতে ইচ্ছা হলে থামুন — সাধারণত model-টাই ভুল, অথবা `?:` দিয়ে একটা default দেওয়া উচিত।
+**Best approach:** `!!` প্রায় কখনোই লিখবেন না। লিখতে ইচ্ছা হলে একটু থামুন। সাধারণত হয় model-টাই ভুল বানানো, নয়তো `?:` দিয়ে একটা default value দেওয়া উচিত।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-3"></a>১.৩ Function আর lambda
 
-**এক লাইনে:** Dart-এর মতোই, কিন্তু named argument সবার জন্য খোলা, আর শেষ lambda-কে parentheses-এর বাইরে লেখা যায়।
+**এক লাইনে:** প্রায় Dart-এর মতোই। শুধু দুইটা পার্থক্য: যেকোনো argument নাম দিয়ে দেওয়া যায়, আর শেষের lambda-টা ব্র্যাকেটের বাইরে লেখা যায়।
 
 **Flutter-এ:**
 
@@ -404,10 +439,10 @@ notes.filter { it.isPinned }.map { it.title }      // একটা parameter হ
 ```
 
 **কী আলাদা:**
-- Dart-এ named parameter-এর জন্য `{}` আর `required` লাগে। Kotlin-এ সব parameter-ই call করার সময় নাম দিয়ে দেওয়া যায়। Default না থাকলেই সেটা required।
-- `void` হলো `Unit`। কখনো return করে না এমন function (সবসময় throw করে) ফেরত দেয় `Nothing` — Dart-এর `Never`।
+- Dart-এ named parameter-এর জন্য `{}` আর `required` লাগে। Kotlin-এ call করার সময় যেকোনো parameter-কে নাম দিয়ে দেওয়া যায়। যে parameter-এর default value নেই, সেটা দিতেই হবে (required)।
+- Dart-এর `void` হলো Kotlin-এর `Unit`। আর যে function কখনো return করে না (যেমন সবসময় throw করে), তার return type `Nothing` — Dart-এর `Never`-এর মতো।
 
-**Trailing lambda — Compose বোঝার চাবি।** শেষ parameter function হলে সেটা `()`-এর বাইরে লেখা যায়। আর সেটাই একমাত্র parameter হলে `()`-ও বাদ।
+**Trailing lambda — Compose বুঝতে এটা সবচেয়ে জরুরি।** কোনো function-এর শেষ parameter যদি নিজেই একটা function হয়, তাহলে সেটা `()`-এর বাইরে লেখা যায়। আর সেটাই যদি একমাত্র parameter হয়, তাহলে `()`-ও লিখতে হয় না।
 
 ```kotlin
 fun onEachNote(action: (Note) -> Unit) { notes.forEach(action) }
@@ -425,9 +460,9 @@ Column {
 }
 ```
 
-`Column { ... }` আসলে `Column(content = { ... })`। `Button(...) { Text("Save") }` আসলে `Button(onClick = ..., content = { Text("Save") })`। Flutter-এর `child:` আর `children:`-এর জায়গায় এটাই। এই এক নিয়ম বুঝলে Compose আর অদ্ভুত লাগবে না।
+`Column { ... }` আসলে `Column(content = { ... })`। আর `Button(...) { Text("Save") }` আসলে `Button(onClick = ..., content = { Text("Save") })`। Flutter-এ আপনি `child:` আর `children:` দিয়ে যা করতেন, Compose-এ এটা দিয়েই সেই কাজ হয়। এই একটা নিয়ম বুঝলে Compose আর অদ্ভুত লাগবে না।
 
-**Lambda with receiver** — block-এর ভেতরে `this` একটা নির্দিষ্ট object:
+**Lambda with receiver** — এখানে block-এর ভেতরে `this` মানে একটা নির্দিষ্ট object। তাই সেই object-এর function সরাসরি call করা যায়:
 
 ```kotlin
 val text = buildString {        // ভেতরে this = StringBuilder
@@ -436,13 +471,13 @@ val text = buildString {        // ভেতরে this = StringBuilder
 }
 ```
 
-Gradle-এর `android { ... }`, Compose-এর `LazyColumn { items(...) }` — সব এই জিনিস। তাই সেখানে এমন function call করা যায়, যেগুলো বাইরে নেই।
+Gradle-এর `android { ... }` আর Compose-এর `LazyColumn { items(...) }` — দুটোই lambda with receiver। তাই এসব block-এর ভেতরে এমন function call করা যায়, যেগুলো block-এর বাইরে নেই।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-4"></a>১.৪ Class
 
-**এক লাইনে:** Constructor class-এর নামের পাশেই বসে, আর property, getter, setter মিলে এক জিনিস।
+**এক লাইনে:** Constructor বসে class-এর নামের ঠিক পাশে। আর property লিখলেই তার getter আর setter পাওয়া যায় — তিনটা মিলে একটাই জিনিস।
 
 **Flutter-এ:**
 
@@ -471,7 +506,7 @@ class Note(
 }
 ```
 
-Constructor, তিনটা field, default value — সব প্রথম কয়েক লাইনে। Validation লাগলে `init`:
+Constructor, তিনটা field আর default value — সব প্রথম কয়েক লাইনেই। Value ঠিক আছে কি না check করতে চাইলে (validation) `init` block লিখুন:
 
 ```kotlin
 class Note(val id: String, val title: String) {
@@ -481,7 +516,7 @@ class Note(val id: String, val title: String) {
 }
 ```
 
-**Setter-এ logic** — `field` হলো আসল storage:
+**Setter-এ logic** — এখানে `field` মানে property-র আসল value যেখানে জমা থাকে:
 
 ```kotlin
 var title: String = ""
@@ -497,14 +532,14 @@ var title: String = ""
 | `protected` | এই class আর subclass | নেই |
 | `internal` | একই Gradle module | নেই |
 
-**Inheritance default-এ বন্ধ।** এটা Dart থেকে আসা মানুষকে প্রথমে অবাক করে। Dart-এ যেকোনো class extend করা যায়। Kotlin-এ class default-এ `final`। Extend করতে দিতে `open` লিখতে হয়, override করার method-ও `open`:
+**Inheritance default-এ বন্ধ।** Dart থেকে আসা মানুষ এতে প্রথমে অবাক হয়। Dart-এ যেকোনো class extend করা যায়। কিন্তু Kotlin-এ class default-এ `final`। কাউকে extend করতে দিতে চাইলে class-এ `open` লিখতে হয়। আর যে method override করা যাবে, সেটাতেও `open` লাগে:
 
 ```kotlin
 open class BaseRepository { open fun refresh() {} }
 class NotesRepository : BaseRepository() { override fun refresh() {} }
 ```
 
-**Interface আর mixin।** Kotlin-এর interface-এ default method লেখা যায়, কিন্তু field (state) রাখা যায় না। Dart-এর `mixin`-এর মতো state-সহ behavior জুড়তে Kotlin delegation ব্যবহার করে ([১.৯](#ch1-9))।
+**Interface আর mixin।** Kotlin-এর interface-এ default method লেখা যায়। কিন্তু field (state) রাখা যায় না। Dart-এর `mixin` দিয়ে আপনি state-সহ behavior জুড়তেন। Kotlin-এ সেই কাজ হয় delegation দিয়ে — মানে কাজটা অন্য একটা object-কে দিয়ে দেওয়া ([১.৯](#ch1-9))।
 
 ```kotlin
 interface Syncable {
@@ -513,13 +548,13 @@ interface Syncable {
 }
 ```
 
-**Best approach:** Inheritance-এর চেয়ে composition। ছোট interface আর constructor-এ dependency — আপনার clean architecture-এর অভ্যাসটাই এখানে চলবে।
+**Best approach:** Inheritance-এর বদলে composition নিন। মানে subclass না বানিয়ে, দরকারি object-গুলো class-এর ভেতরে রাখুন। Interface ছোট রাখুন, আর dependency নিন constructor-এ। আপনার clean architecture-এর অভ্যাসটাই এখানে কাজে লাগবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-5"></a>১.৫ Model class: `data`, `sealed`, `enum`
 
-**এক লাইনে:** `freezed` দিয়ে যা যা বানাতেন, Kotlin-এ সেগুলো ভাষার ভেতরেই আছে।
+**এক লাইনে:** `freezed` দিয়ে যা যা বানাতেন, Kotlin-এ সেগুলো ভাষার মধ্যেই আছে। আলাদা package লাগে না।
 
 **Flutter-এ (freezed):**
 
@@ -544,9 +579,9 @@ println(note)                                // Note(id=1, title=বাজার
 val (id, title) = note                       // destructuring
 ```
 
-`data class` নিজে `equals`, `hashCode`, `toString`, `copy` বানায় — শুধু primary constructor-এর property দিয়ে।
+`data class` নিজেই `equals`, `hashCode`, `toString` আর `copy` বানিয়ে দেয়। তবে শুধু primary constructor-এর property দিয়ে — মানে class-এর নামের পাশের ব্র্যাকেটে যেগুলো লেখা।
 
-**ফাঁদ:** `copy()` shallow। ভেতরে `MutableList` থাকলে নতুন আর পুরনো note একই list শেয়ার করে। তাই model-এ সবসময় `val` আর read-only `List`।
+**ফাঁদ:** `copy()` shallow copy করে। মানে ভেতরের object-গুলো নতুন করে বানায় না। তাই ভেতরে একটা `MutableList` থাকলে নতুন আর পুরনো note একই list share করে। এজন্য model-এ সবসময় `val` আর read-only `List` রাখুন।
 
 **Sealed — Dart 3-এর মতোই:**
 
@@ -575,9 +610,9 @@ val text = when (result) {
 }
 ```
 
-- `when`-এ `else` দেবেন না। তাহলে নতুন case যোগ করলে compiler সব জায়গা দেখিয়ে দেবে — Dart-এর exhaustive switch-এর মতো।
-- Kotlin-এ `sealed class` আর `sealed interface` দুটোই আছে। সাধারণত `sealed interface` নিন। সব case-এ common field লাগলে `sealed class`।
-- Data ছাড়া case-এর জন্য `data object` — সুন্দর `toString()` দেয়।
+- `when`-এ `else` দেবেন না। তাহলে পরে নতুন case যোগ করলে, যেসব জায়গায় সেটা handle করা হয়নি, compiler সব দেখিয়ে দেবে — Dart-এর exhaustive switch-এর মতো।
+- Kotlin-এ `sealed class` আর `sealed interface` দুটোই আছে। সাধারণত `sealed interface` নিন। সব case-এ একই field লাগলে তখন `sealed class` নিন।
+- যে case-এ কোনো data নেই, তার জন্য `data object` নিন। এটা পড়ার মতো একটা `toString()` দেয়।
 
 **Enum:**
 
@@ -590,9 +625,9 @@ Priority.entries              // Dart: Priority.values
 Priority.valueOf("HIGH")      // Dart: Priority.values.byName('high')
 ```
 
-**Best approach:** সব case-এর গঠন একই → `enum`। Case-গুলো আলাদা data রাখে → `sealed interface`। Plain data → `data class`।
+**Best approach:** সব case দেখতে একই রকম হলে → `enum`। প্রতিটা case আলাদা আলাদা data রাখলে → `sealed interface`। শুধু সাধারণ data হলে → `data class`।
 
-**`value class` — Dart-এর extension type:**
+**`value class` — Dart-এর extension type-এর মতো।** এটা একটা সাধারণ value-কে নিজের একটা type দেয়, যাতে দুইটা id ভুল করে বদলাবদলি না হয়:
 
 ```kotlin
 @JvmInline value class NoteId(val raw: String)
@@ -604,7 +639,7 @@ fun open(id: NoteId) { }      // ভুল করে UserId দিলে compile
 
 ### <a id="ch1-6"></a>১.৬ `static`, singleton, factory
 
-**এক লাইনে:** Kotlin-এ `static` keyword নেই। তার জায়গায় `companion object`, `object` আর top-level function।
+**এক লাইনে:** Kotlin-এ `static` keyword নেই। তার বদলে আছে `companion object`, `object` আর top-level function।
 
 **Flutter-এ:**
 
@@ -637,20 +672,20 @@ object Analytics {                    // পুরো singleton, এক লা�
 Analytics.log("note_created")
 ```
 
-**Top-level function খুব সাধারণ।** Dart-এর মতোই, সবকিছু class-এ ঢোকাতে হয় না:
+**Top-level function খুব বেশি ব্যবহার হয়।** Dart-এর মতোই, সবকিছু class-এর ভেতরে ঢোকাতে হয় না:
 
 ```kotlin
 // NoteFormat.kt
 fun formatDate(millis: Long): String = ...
 ```
 
-**Best approach:** নিজে `object` singleton কম বানান। Repository বা service singleton লাগলে Hilt-কে `@Singleton` দিয়ে বানাতে দিন ([৮.৫](#ch8-5)) — তাহলে test-এ বদলানো যায়।
+**Best approach:** নিজে `object` দিয়ে singleton কম বানান। Repository বা service-এর singleton লাগলে Hilt-কে `@Singleton` দিয়ে বানাতে দিন ([৮.৫](#ch8-5))। তাহলে test-এ আসলটার জায়গায় অন্য একটা বসানো যায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-7"></a>১.৭ Extension আর scope function
 
-**এক লাইনে:** Extension Dart-এর মতোই। Scope function হলো Dart-এর cascade (`..`)-এর বড় পরিবার।
+**এক লাইনে:** Extension একদম Dart-এর মতোই। Scope function হলো কয়েকটা ছোট function, যেগুলো একটা object নিয়ে একটা block চালায়। Dart-এর cascade (`..`) যে কাজ করে, এরা সেটা আর তার চেয়েও বেশি কাজ করে।
 
 **Flutter-এ:**
 
@@ -678,19 +713,19 @@ val paint = Paint().apply {          // Dart-এর .. cascade
 }
 ```
 
-Dart-এর মতোই extension static ভাবে resolve হয়, আর class-এর private জিনিস দেখতে পায় না।
+Dart-এর মতোই extension static ভাবে resolve হয়। মানে কোন extension call হবে, সেটা compile time-এ variable-এর type দেখে ঠিক হয়। আর extension class-এর private জিনিস দেখতে পায় না।
 
-**পাঁচটা scope function — দুইটা প্রশ্নে মনে রাখুন:**
+**পাঁচটা scope function আছে। দুইটা প্রশ্ন দিয়ে এদের মনে রাখুন:**
 1. Block-এর ভেতরে object-কে কী নামে পাই — `this` না `it`?
 2. Block কী ফেরত দেয় — object নিজে, না lambda-র ফল?
 
 | Function | ভেতরে | ফেরত | কখন |
 |---|---|---|---|
-| `apply` | `this` | object | বানিয়ে configure করা — cascade |
-| `also` | `it` | object | পাশের কাজ: log, check |
-| `let` | `it` | ফল | nullable-এর উপর কাজ |
-| `run` | `this` | ফল | object-এর উপর কয়েক কাজ করে একটা ফল |
-| `with` | `this` | ফল | `run`-এর মতো, extension না |
+| `apply` | `this` | object | object বানিয়ে সাজানো (configure) — cascade-এর মতো |
+| `also` | `it` | object | পাশের ছোট কাজ: log, check |
+| `let` | `it` | ফল | nullable value-এর উপর কাজ |
+| `run` | `this` | ফল | object-এর উপর কয়েকটা কাজ করে একটা ফল বের করা |
+| `with` | `this` | ফল | `run`-এর মতোই, কিন্তু extension function না |
 
 ```kotlin
 note.body?.let { body -> showPreview(body) }          // Dart: if (note.body case final body?) ...
@@ -699,13 +734,13 @@ val saved = repository.save(note)
     .also { Log.d("Notes", "saved ${it.id}") }
 ```
 
-**ফাঁদ:** একটার ভেতরে আরেকটা scope function দেবেন না। দুই স্তর হলেই `this` আর `it` গুলিয়ে যায়। তখন সাধারণ variable নিন।
+**ফাঁদ:** একটা scope function-এর ভেতরে আরেকটা দেবেন না। দুই স্তর হলেই `this` আর `it` কোনটা কী, গুলিয়ে যায়। তখন একটা সাধারণ variable নিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-8"></a>১.৮ Collection
 
-**এক লাইনে:** Operator প্রায় একই। কিন্তু Kotlin-এ "পড়া যায়" আর "বদলানো যায়" দুইটা আলাদা type।
+**এক লাইনে:** Operator প্রায় একই। কিন্তু Kotlin-এ "শুধু পড়া যায়" আর "বদলানোও যায়" — এই দুইটা আলাদা type।
 
 **Flutter-এ:**
 
@@ -744,24 +779,24 @@ val (pinned, others) = notes.partition { it.isPinned }
 val latest = notes.maxByOrNull { it.updatedAt }
 ```
 
-**Lazy না eager:** Dart-এর `where`/`map` lazy — শেষে `toList()` করলে তবে চলে। Kotlin-এর `List`-এর `filter`/`map` সাথে সাথে নতুন list বানায়। Dart-এর মতো lazy চাইলে `asSequence()`:
+**Lazy না eager:** Dart-এর `where`/`map` lazy। মানে শেষে `toList()` করলে তখনই কাজটা চলে। Kotlin-এর `List`-এর `filter`/`map` eager। মানে সাথে সাথেই একটা নতুন list বানায়। Dart-এর মতো lazy চাইলে `asSequence()` ব্যবহার করুন:
 
 ```kotlin
 val firstTen = hugeList.asSequence().filter { it.isPinned }.map { it.title }.take(10).toList()
 ```
 
-**Best approach:** বাইরে সবসময় `List` দিন, ভেতরে দরকার হলে `MutableList`। ছোট list-এ সাধারণ operator, অনেক বড় data বা লম্বা chain হলে `Sequence`।
+**Best approach:** Class-এর বাইরে সবসময় `List` দিন। ভেতরে দরকার হলে `MutableList` রাখুন। ছোট list-এ সাধারণ operator-ই যথেষ্ট। Data অনেক বড় হলে, বা operator-এর chain লম্বা হলে, `Sequence` নিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-9"></a>১.৯ `late`, `lateinit`, `lazy`, `by`
 
-**এক লাইনে:** Dart-এর `late`-এর দুইটা রূপ Kotlin-এ আলাদা দুইটা জিনিস: `lateinit` আর `lazy`।
+**এক লাইনে:** Dart-এর `late` দুইভাবে ব্যবহার হয়। Kotlin-এ এই দুইটা আলাদা জিনিস: `lateinit` আর `lazy`।
 
 | Dart | Kotlin | কী হয় |
 |---|---|---|
-| `late Database db;` | `lateinit var db: Database` | আপনি পরে assign করবেন। আগে পড়লে exception। বারবার assign করা যায়। |
-| `late final formatter = DateFormat('dd MMM');` | `val formatter by lazy { DateTimeFormatter.ofPattern("dd MMM") }` | প্রথম পড়ার সময় একবার তৈরি, তারপর সেটাই। বদলানো যায় না। |
+| `late Database db;` | `lateinit var db: Database` | Value আপনি পরে দেবেন। তার আগে পড়লে exception হয়। বারবার value দেওয়া যায়। |
+| `late final formatter = DateFormat('dd MMM');` | `val formatter by lazy { DateTimeFormatter.ofPattern("dd MMM") }` | প্রথমবার পড়ার সময় একবার তৈরি হয়। তারপর সবসময় সেটাই। বদলানো যায় না। |
 
 ```kotlin
 class NotesActivity : ComponentActivity() {
@@ -771,10 +806,10 @@ class NotesActivity : ComponentActivity() {
 }
 ```
 
-- `lateinit` শুধু `var`-এ, আর `Int`/`Boolean`-এ চলে না। কারণ ভেতরে "এখনো set হয়নি" বোঝাতে null রাখা হয়, আর JVM-এর primitive null রাখতে পারে না।
-- `lazy` default-এ thread-safe — দুই thread একসাথে প্রথমবার পড়লেও block একবারই চলে।
+- `lateinit` শুধু `var`-এ চলে, আর `Int`/`Boolean`-এ চলে না। কারণ "এখনো set হয়নি" বোঝাতে ভেতরে null রাখা হয়। কিন্তু JVM-এর primitive type null রাখতে পারে না।
+- `lazy` default-এ thread-safe। মানে দুইটা thread একসাথে প্রথমবার পড়লেও block একবারই চলে।
 
-**`by` — delegation, Android-এ সব জায়গায়।** `by` মানে "এই property-র কাজ ওকে দিয়ে দিলাম":
+**`by` — delegation, Android-এ সব জায়গায় দেখবেন।** `by` মানে "এই property-র কাজটা ওকে দিয়ে দিলাম":
 
 ```kotlin
 val viewModel: NotesViewModel by viewModels()            // প্রথম access-এ ViewModel
@@ -782,33 +817,33 @@ var title by mutableStateOf("")                          // Compose: পড়�
 val isDark by settings.isDark.collectAsStateWithLifecycle(false)
 ```
 
-Class-এর উপরেও `by` — Dart-এর `mixin`-এর জায়গায়:
+পুরো class-এও `by` দেওয়া যায়। Dart-এ যেখানে `mixin` নিতেন, এখানে এটা নিন:
 
 ```kotlin
 class NotesRepository(logger: Logger) : Logger by logger    // Logger-এর সব method logger-কে দিল
 ```
 
-**Best approach:** Value বাইরে থেকে আসে (Hilt, `onCreate()`) → `lateinit`। নিজেই বানাতে পারেন, শুধু দেরিতে → `lazy`। তবে সবচেয়ে ভালো হলো constructor-এ নেওয়া — তখন দুটোর কোনোটাই লাগে না।
+**Best approach:** Value বাইরে থেকে আসলে (Hilt, `onCreate()`) → `lateinit`। Value নিজেই বানাতে পারলে, শুধু একটু পরে → `lazy`। তবে সবচেয়ে ভালো হলো value-টা constructor-এ নেওয়া। তখন এই দুটোর কোনোটাই লাগে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch1-10"></a>১.১০ Java-র সাথে
 
-আপনি আগে Java-তে Android করেছেন, তাই পুরনো code পড়তে এটা কাজে লাগবে। Kotlin আর Java একই project-এ পাশাপাশি থাকে, একে অপরকে সরাসরি call করে।
+আপনি আগে Java-তে Android করেছেন। তাই পুরনো code পড়তে এই অংশটা কাজে লাগবে। Kotlin আর Java একই project-এ পাশাপাশি থাকতে পারে। একটা আরেকটাকে সরাসরি call করতে পারে।
 
-- **Getter/setter property হয়ে যায়:** Java-র `note.getTitle()` Kotlin-এ `note.title`।
-- **এক-method interface-এ lambda:** `button.setOnClickListener { save() }`। Java-তে এটার জন্য anonymous class লাগত।
-- **Checked exception নেই:** Java-র `throws IOException` Kotlin-এ ধরতে বাধ্য না। সুবিধা, কিন্তু ভুলে যাওয়ার ঝুঁকিও।
-- **Java থেকে Kotlin call করতে:** `@JvmStatic` (companion-এর function-কে আসল static বানায়), `@JvmField` (getter ছাড়া field), `@JvmOverloads` (default parameter-এর জন্য overload)।
+- **Getter/setter property হয়ে যায়:** Java-র `note.getTitle()` Kotlin-এ লেখা হয় `note.title`।
+- **এক method-এর interface-এ lambda দেওয়া যায়:** `button.setOnClickListener { save() }`। Java-তে এর জন্য একটা anonymous class লিখতে হতো।
+- **Checked exception নেই:** Java-র `throws IOException` Kotlin-এ ধরা বাধ্যতামূলক না। এটা সুবিধা। কিন্তু ঝুঁকিও আছে — exception ধরতে ভুলে যেতে পারেন।
+- **Java থেকে Kotlin call করতে এগুলো লাগে:** `@JvmStatic` (companion-এর function-কে আসল static বানায়), `@JvmField` (getter ছাড়া সরাসরি field দেয়), `@JvmOverloads` (default parameter-এর জন্য আলাদা আলাদা overload বানায়)।
 
-Android Studio-তে Java file খুলে **Code → Convert Java File to Kotlin File** দিলে নিজে থেকে রূপান্তর হয়। পুরনো Java code দেখে Kotlin শেখার এটা দারুণ উপায়। শুধু ফলাফলে যে `!!` আসে, সেগুলো হাতে ঠিক করুন।
+Android Studio-তে Java file খুলে **Code → Convert Java File to Kotlin File** দিলে file-টা নিজে থেকেই Kotlin-এ বদলে যায়। পুরনো Java code দেখে Kotlin শেখার এটা দারুণ উপায়। শুধু বদলানো code-এ যেসব `!!` আসে, সেগুলো হাতে ঠিক করে নিন।
 
 > **মনে রাখুন**
 > - `final` → `val`, `??` → `?:`, `!` → `!!`, `switch` → `when`, `void` → `Unit`।
 > - `freezed`-এর কাজ `data class` আর `sealed interface` করে, code generation ছাড়া।
 > - `static` নেই — `companion object`, `object` আর top-level function।
-> - Class default-এ `final`। Collection read-only আর mutable আলাদা।
-> - Trailing lambda বুঝলে Compose বোঝা সহজ।
+> - Class default-এ `final`। Collection-এর read-only আর mutable type আলাদা।
+> - Trailing lambda বুঝলে Compose বোঝা সহজ হয়।
 
 > **Interview-এ এক কথায়**
 > - *বাংলায়:* "Dart থেকে Kotlin-এ আসা সহজ ছিল, কারণ null safety আর type system প্রায় একই। আমার কাছে Kotlin-এর সবচেয়ে কাজের জিনিস হলো data class, sealed interface দিয়ে exhaustive `when`, আর read-only collection — এগুলো ভুল state compile time-এই আটকে দেয়।"
@@ -820,15 +855,19 @@ Android Studio-তে Java file খুলে **Code → Convert Java File to Kot
 
 ## <a id="ch2"></a>২. Async — Future আর Stream থেকে Coroutine আর Flow
 
-Flutter-এ async লেখা আপনার কাছে শ্বাস নেওয়ার মতো সহজ: `async`, `await`, `Stream`, `StreamBuilder`। Kotlin-এর coroutine প্রথমে একটু ভারী শোনায় — scope, dispatcher, job, structured concurrency। কিন্তু একবার বুঝলে দেখবেন, এগুলো সব একটা প্রশ্নের উত্তর দেয়, যেটা Dart-এ আপনাকে কখনো ভাবতে হয়নি: **"এই কাজটা কোন thread-এ চলবে, আর কখন থামবে?"**
+Flutter-এ async লেখা আপনার কাছে খুব সহজ: `async`, `await`, `Stream`, `StreamBuilder`। Kotlin-এর coroutine প্রথমে একটু কঠিন মনে হয়, কারণ নতুন নাম অনেক — scope, dispatcher, job, structured concurrency। কিন্তু এগুলো সব আসলে একটা প্রশ্নের উত্তর দেয়। Dart-এ এই প্রশ্নটা আপনাকে কখনো ভাবতে হয়নি: **"এই কাজটা কোন thread-এ চলবে, আর কখন থামবে?"**
 
 তাই এই অধ্যায় শুরু হচ্ছে thread দিয়ে।
 
 ### <a id="ch2-1"></a>২.১ সবচেয়ে বড় পার্থক্য: thread
 
-**Dart-এর জগৎ:** একটা isolate, তাতে একটা thread, একটা event loop। `await` দিলে আপনার function থামে, event loop অন্য কাজ ধরে, তারপর ফল এলে আবার আপনার function চলে। কখনো দুইটা Dart code একই মুহূর্তে একই memory ছোঁয় না। তাই lock নেই, race condition প্রায় নেই। ভারী CPU কাজের জন্য আলাদা isolate, যেটা memory শেয়ার করে না — message পাঠিয়ে কথা বলে।
+**Dart-এ যেভাবে চলে:**
+- একটা isolate-এ একটা thread আর একটা event loop থাকে।
+- `await` দিলে আপনার function থামে। Event loop তখন অন্য কাজ করে। ফল এলে আবার আপনার function চলে।
+- দুইটা Dart code কখনো একই মুহূর্তে একই memory ছোঁয় না। তাই lock লাগে না, race condition প্রায় হয়ই না। (Race condition মানে দুইটা কাজ একসাথে একই data বদলাতে গিয়ে ভুল ফল হওয়া।)
+- ভারী CPU কাজের জন্য আলাদা isolate নেন। সেটা memory share করে না, message পাঠিয়ে কথা বলে।
 
-**Kotlin-এর জগৎ:** অনেকগুলো আসল thread, আর সবাই একই memory দেখে। Coroutine হলো thread-এর উপরে একটা হালকা কাজ — থামতে পারে, আবার চলতে পারে, আর দরকার হলে এক thread থেকে আরেক thread-এ সরে যেতে পারে।
+**Kotlin-এ যেভাবে চলে:** অনেকগুলো আসল thread থাকে, আর সবাই একই memory দেখে। Coroutine হলো thread-এর উপরে চলা একটা হালকা কাজ। এটা মাঝপথে থামতে পারে, পরে আবার চলতে পারে। দরকার হলে এক thread থেকে আরেক thread-এ সরেও যেতে পারে।
 
 ```
 Dart                                   Kotlin
@@ -842,18 +881,18 @@ isolate (একটা thread)                  Main thread ── UI, ছোট 
 আলাদা isolate ─ আলাদা memory
 ```
 
-এর দুইটা ফল, দুটোই মনে গেঁথে রাখুন:
+এর দুইটা ফল আছে। দুটোই ভালো করে মনে রাখুন:
 
 1. **ভারী কাজ অন্য thread-এ পাঠানো খুব সহজ।** Isolate-এর মতো data copy করতে হয় না।
-2. **Shared mutable state এখন সত্যিকারের ঝুঁকি।** দুইটা coroutine দুই thread-এ একই `MutableList` বা `var` বদলালে data নষ্ট হতে পারে। Dart-এ এই bug হয়ই না। তাই Kotlin-এ immutable data, `StateFlow.update {}`, বা `Mutex` লাগে।
+2. **Shared mutable state এখন সত্যিকারের ঝুঁকি।** মানে যে data কয়েকটা thread একসাথে দেখে আর বদলাতে পারে। দুইটা coroutine দুই thread থেকে একই `MutableList` বা `var` বদলালে data নষ্ট হতে পারে। Dart-এ এই bug হয়ই না। তাই Kotlin-এ immutable data, `StateFlow.update {}`, বা `Mutex` লাগে। (Mutex একটা lock — এক সময়ে একটা coroutine-কেই ঢুকতে দেয়।)
 
-আর সবার উপরে: **main thread আটকানো যাবে না।** Network, disk, বড় হিসাব main thread-এ চালালে UI জমে যায়, আর ৫ সেকেন্ডে ANR আসে।
+আর সবচেয়ে জরুরি নিয়ম: **main thread আটকানো যাবে না।** Network, disk বা বড় হিসাব main thread-এ চালালে UI আটকে যায়। ৫ সেকেন্ড আটকে থাকলে ANR আসে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch2-2"></a>২.২ `Future` → `suspend`
 
-**এক লাইনে:** যে function অপেক্ষা করে, Dart-এ সেটা `Future` ফেরত দেয়। Kotlin-এ সেটা `suspend` function, আর সরাসরি ফল ফেরত দেয়।
+**এক লাইনে:** যে function কোনো কিছুর জন্য অপেক্ষা করে, Dart-এ সেটা `Future` ফেরত দেয়। Kotlin-এ সেটাকে `suspend` function বানানো হয়। আর সেটা সরাসরি ফল ফেরত দেয়।
 
 **Flutter-এ:**
 
@@ -886,9 +925,14 @@ val note = loadNote("42")              // await লেখা লাগে না
 | `await loadNote()` | `loadNote()` — সাধারণ call-এর মতো দেখায় |
 | `await` যেকোনো `async` function-এ | Suspend function call করা যায় শুধু আরেকটা suspend function বা coroutine-এর ভেতর থেকে |
 
-Android Studio বাম পাশে একটা ছোট চিহ্ন দেখায়, কোন লাইনে coroutine থামতে পারে। `await` না থাকায় এটাই আপনার চোখ।
+কোন লাইনে coroutine থামতে পারে, Android Studio সেটা বাম পাশে একটা ছোট চিহ্ন দিয়ে দেখায়। Kotlin-এ `await` লেখা থাকে না। তাই এই চিহ্ন দেখেই বুঝবেন, কোথায় থামে।
 
-**ভেতরে কীভাবে কাজ করে:** Compiler প্রতিটা suspend function-কে একটা state machine বানায়। প্রতিটা থামার জায়গা একটা ধাপ। থামার সময় local variable একটা `Continuation` object-এ রাখা হয়, আর ফল এলে সেখান থেকে আবার চলে। Dart-এর `async` function-ও ভেতরে প্রায় একই কাজ করে। তাই হাজারটা coroutine চালানো যায় — প্রতিটার জন্য আলাদা thread লাগে না।
+**ভেতরে কীভাবে কাজ করে:**
+1. Compiler প্রতিটা suspend function-কে একটা state machine-এ বদলে দেয়। মানে function-টা কয়েকটা ধাপে ভাগ হয়। প্রতিটা থামার জায়গা একটা ধাপ।
+2. থামার সময় local variable-গুলো একটা `Continuation` object-এ জমা রাখা হয়।
+3. ফল এলে ঠিক সেই জায়গা থেকে function আবার চলে।
+
+Dart-এর `async` function-ও ভেতরে প্রায় একই কাজ করে। এজন্যই হাজারটা coroutine একসাথে চালানো যায়। প্রতিটার জন্য আলাদা thread লাগে না।
 
 [উপরে ফিরুন](#toc)
 
@@ -930,7 +974,7 @@ suspend fun loadDashboard(): Dashboard = coroutineScope {
 | `coroutineScope { }` | block-এর ফল | `Future.wait`-এর চারপাশের function |
 | `runBlocking { }` | block-এর ফল | (নেই) — thread আটকায়, শুধু `main()` আর পুরনো test-এ |
 
-**খেয়াল করুন:** `launch` আর `async` চালু করতে একটা **scope** লাগে (`viewModelScope.launch`)। Dart-এ যেকোনো জায়গা থেকে `Future` চালু করা যায়। Kotlin-এ প্রতিটা coroutine-এর একটা মালিক থাকে। কেন — পরের অংশে।
+**খেয়াল করুন:** `launch` আর `async` চালু করতে একটা **scope** লাগে (`viewModelScope.launch`)। Dart-এ যেকোনো জায়গা থেকে `Future` চালু করা যায়। কিন্তু Kotlin-এ প্রতিটা coroutine-এর একটা মালিক থাকে। কেন থাকে, সেটা পরের অংশে।
 
 [উপরে ফিরুন](#toc)
 
@@ -965,7 +1009,7 @@ class _NoteScreenState extends State<NoteScreen> {
 }
 ```
 
-চালু করা `Future` কেউ থামায় না। তাই `mounted` check, আর প্রতিটা subscription হাতে cancel।
+একবার চালু করা `Future` কেউ থামায় না। তাই `mounted` check করতে হয়, আর প্রতিটা subscription হাতে cancel করতে হয়।
 
 **Kotlin-এ scope এটা নিজে করে:**
 
@@ -980,7 +1024,7 @@ class NoteViewModel(private val repo: NotesRepository) : ViewModel() {
 }
 ```
 
-`mounted` check নেই, `dispose`-এ cancel নেই। ViewModel clear হলে `viewModelScope` বন্ধ হয়, আর তার ভেতরের সব coroutine বাতিল।
+এখানে `mounted` check নেই, `dispose`-এ cancel-ও নেই। ViewModel clear হলে `viewModelScope` বন্ধ হয়ে যায়। তখন তার ভেতরের সব coroutine নিজে থেকেই বাতিল হয়।
 
 | Scope | কখন বন্ধ হয় | Flutter-এ কাছাকাছি |
 |---|---|---|
@@ -992,9 +1036,9 @@ class NoteViewModel(private val repo: NotesRepository) : ViewModel() {
 1. প্রতিটা coroutine একটা parent-এর ভেতরে চলে।
 2. Parent বাতিল হলে সব child বাতিল।
 3. Parent শেষ হয় না, যতক্ষণ সব child শেষ না হয়।
-4. একটা child fail করলে parent জানে। সাধারণ scope-এ তখন বাকি child-রাও বাতিল হয়। `SupervisorJob` থাকলে বাকিরা চলতে থাকে — `viewModelScope` এটাই ব্যবহার করে, তাই একটা request fail করলে ViewModel-এর অন্য কাজ থামে না।
+4. একটা child fail করলে parent সেটা জানতে পারে। সাধারণ scope-এ তখন বাকি child-রাও বাতিল হয়। কিন্তু `SupervisorJob` থাকলে বাকিরা চলতে থাকে। `viewModelScope` এটাই ব্যবহার করে। তাই একটা request fail করলেও ViewModel-এর অন্য কাজ থামে না।
 
-**ফাঁদ:** `GlobalScope` ব্যবহার করবেন না। এটা কারো সাথে বাঁধা না, তাই কখনো থামে না — Dart-এর থামানো যায় না এমন `Future`-এর সমস্যা ফিরিয়ে আনে। App-ব্যাপী কাজ লাগলে Application-এ নিজের একটা scope বানিয়ে Hilt দিয়ে inject করুন।
+**ফাঁদ:** `GlobalScope` ব্যবহার করবেন না। এর কোনো মালিক নেই, তাই এটা কখনো থামে না। মানে Dart-এর সেই পুরনো সমস্যা ফিরে আসে — চালু হওয়া `Future`-এর মতো, কাজটা আর থামানো যায় না। পুরো app জুড়ে চলা কাজ লাগলে Application-এ নিজের একটা scope বানান, আর Hilt দিয়ে inject করুন।
 
 [উপরে ফিরুন](#toc)
 
@@ -1014,7 +1058,7 @@ final notes = await Isolate.run(() => parseHugeJson(raw));     // বা compute
 val notes = withContext(Dispatchers.Default) { parseHugeJson(raw) }
 ```
 
-Data copy নেই, message passing নেই। কারণ সব thread একই memory দেখে।
+এখানে data copy করতে হয় না, message-ও পাঠাতে হয় না। কারণ সব thread একই memory দেখে।
 
 | Dispatcher | কোথায় | কী কাজে |
 |---|---|---|
@@ -1022,7 +1066,7 @@ Data copy নেই, message passing নেই। কারণ সব thread এ
 | `Dispatchers.IO` | IO-র জন্য বড় thread pool | Network, file, database — যেখানে বেশিরভাগ সময় অপেক্ষা |
 | `Dispatchers.Default` | CPU core-এর সমান thread | JSON parse, sort, image — CPU-র কাজ |
 
-**Main-safe নিয়ম:** প্রতিটা suspend function নিজেই ঠিক করবে কোন dispatcher লাগে। তাহলে caller যেকোনো thread থেকে নিশ্চিন্তে call করতে পারে।
+**Main-safe নিয়ম:** Main-safe মানে main thread থেকে call করলেও UI আটকায় না। নিয়মটা হলো: প্রতিটা suspend function নিজেই ঠিক করবে, তার কোন dispatcher লাগে। তাহলে যে call করে, সে যেকোনো thread থেকে চিন্তা ছাড়াই call করতে পারে।
 
 ```kotlin
 class NotesRepository(
@@ -1035,15 +1079,15 @@ class NotesRepository(
 }
 ```
 
-**Best approach:** Retrofit আর Room-এর suspend function আগে থেকেই main-safe — এগুলোকে `withContext(Dispatchers.IO)`-এ মোড়াবেন না। নিজের file বা CPU কাজে `withContext` দিন। আর dispatcher constructor-এ নিন, যাতে test-এ test dispatcher দেওয়া যায়।
+**Best approach:** Retrofit আর Room-এর suspend function আগে থেকেই main-safe। তাই এগুলোকে আবার `withContext(Dispatchers.IO)`-এর ভেতরে রাখবেন না। নিজের file-এর কাজ বা CPU-র কাজে `withContext` দিন। আর dispatcher constructor-এ নিন, যাতে test-এ একটা test dispatcher দেওয়া যায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch2-6"></a>২.৬ Cancellation
 
-**এক লাইনে:** Coroutine-কে জোর করে থামানো হয় না। সে নিজে থামার জায়গায় দেখে, তাকে বাতিল করা হয়েছে কি না।
+**এক লাইনে:** Coroutine-কে জোর করে থামানো হয় না। প্রতিটা থামার জায়গায় সে নিজে check করে, তাকে বাতিল করা হয়েছে কি না।
 
-Dart-এ `Future` বাতিলই করা যায় না। Kotlin-এ যায়, কিন্তু coroutine-এর সহযোগিতা লাগে। প্রতিটা suspend call (`delay`, network, `withContext`) নিজে check করে। লম্বা CPU loop-এ suspend call না থাকলে আপনি নিজে check করুন:
+Dart-এ `Future` বাতিলই করা যায় না। Kotlin-এ যায়, কিন্তু coroutine-কেও এতে অংশ নিতে হয়। প্রতিটা suspend call (`delay`, network, `withContext`) নিজে থেকেই check করে। কিন্তু লম্বা CPU loop-এ কোনো suspend call না থাকলে, check-টা আপনাকে নিজে করতে হবে:
 
 ```kotlin
 suspend fun reindex(notes: List<Note>) = withContext(Dispatchers.Default) {
@@ -1054,7 +1098,7 @@ suspend fun reindex(notes: List<Note>) = withContext(Dispatchers.Default) {
 }
 ```
 
-**ভেতরে কীভাবে:** বাতিল করলে coroutine-এর পরের suspend point-এ একটা `CancellationException` throw হয়। এই exception উপরে উঠে coroutine শেষ করে দেয়। এজন্যই পরের অংশের নিয়মটা জরুরি।
+**ভেতরে কীভাবে:** Suspend point মানে যে লাইনে coroutine থামতে পারে। Coroutine বাতিল করলে তার পরের suspend point-এ একটা `CancellationException` throw হয়। এই exception উপরে উঠে গিয়ে coroutine শেষ করে দেয়। এজন্যই পরের অংশের নিয়মটা জরুরি।
 
 [উপরে ফিরুন](#toc)
 
@@ -1082,10 +1126,10 @@ viewModelScope.launch {
 }
 ```
 
-দেখতে একই। কিন্তু তিনটা নিয়ম নতুন:
+দেখতে একই রকম। কিন্তু তিনটা নিয়ম নতুন:
 
-1. **`launch`-এর ভেতরে না ধরা exception app crash করায়।** Dart-এ না ধরা `Future` error শুধু log হয় (zone-এর error handler-এ)। Kotlin-এ সেটা thread-এর uncaught exception — crash। `async`-এ exception থাকে `.await()` পর্যন্ত।
-2. **`CancellationException` কখনো গিলবেন না।** `catch (e: Exception)` দিয়ে সব ধরলে এটাও ধরা পড়ে, আর coroutine বাতিল হওয়ার পরেও চলতে থাকে। নির্দিষ্ট exception ধরুন (`IOException`, `HttpException`)। সব ধরতেই হলে আগে আলাদা করে ছেড়ে দিন:
+1. **`launch`-এর ভেতরে কেউ না ধরলে exception app crash করায়।** Dart-এ না ধরা `Future` error শুধু log হয় (zone-এর error handler-এ)। কিন্তু Kotlin-এ সেটা thread-এর uncaught exception হয়ে যায়, মানে app crash করে। `async`-এ exception জমা থাকে, আর `.await()` call করলে তখন বের হয়।
+2. **`CancellationException` কখনো গিলবেন না।** মানে এটা ধরে চুপ করে রেখে দেবেন না। `catch (e: Exception)` দিয়ে সব ধরলে এটাও ধরা পড়ে। তখন coroutine বাতিল হওয়ার পরেও চলতে থাকে। তাই নির্দিষ্ট exception ধরুন (`IOException`, `HttpException`)। সব exception ধরতেই হলে, আগে এটাকে আলাদা করে ধরে আবার throw করুন:
 
 ```kotlin
 } catch (e: CancellationException) {
@@ -1095,7 +1139,7 @@ viewModelScope.launch {
 }
 ```
 
-3. **`runCatching { }` সাবধানে।** এটাও `CancellationException` ধরে। Suspend code-এ ব্যবহার করলে উপরের মতো আবার throw করুন।
+3. **`runCatching { }` সাবধানে ব্যবহার করুন।** এটাও `CancellationException` ধরে ফেলে। Suspend code-এ ব্যবহার করলে উপরের মতো সেটা আবার throw করুন।
 
 [উপরে ফিরুন](#toc)
 
@@ -1144,9 +1188,9 @@ viewModelScope.launch {
 | `StreamController.broadcast()` | `SharedFlow` |
 | `StreamBuilder` | `collectAsStateWithLifecycle()` ([৬.৭](#ch6-7)) |
 
-**ভেতরে কীভাবে — cold মানে কী:** `countdown(10)` লিখলে কিছুই চলে না। শুধু একটা "রেসিপি" তৈরি হয়। `collect` call করলে তখন `flow { }` block চলে। দুইজন collect করলে block দুইবার চলে, দুইজন আলাদা countdown পায়। Network call-এর flow দুইবার collect করলে দুইটা request যায়।
+**ভেতরে কীভাবে — cold মানে কী:** `countdown(10)` লিখলে কিছুই চলে না। শুধু flow-টা কী করবে, তার বর্ণনা তৈরি হয়। `collect` call করলে তখন `flow { }` block চলে। দুইজন collect করলে block দুইবার চলে, দুইজন আলাদা countdown পায়। Network call-এর flow দুইবার collect করলে দুইটা request যায়।
 
-**ফাঁদ:** `collect` নিজেই suspend করে, flow শেষ না হওয়া পর্যন্ত। তাই একই coroutine-এ দুইটা `collect` পরপর লিখলে দ্বিতীয়টা কখনো চলে না। প্রতিটা collect আলাদা `launch`-এ রাখুন।
+**ফাঁদ:** Flow শেষ না হওয়া পর্যন্ত `collect` সেখানেই থেমে থাকে। তাই একই coroutine-এ দুইটা `collect` পরপর লিখলে দ্বিতীয়টা কখনো চলে না, যদি প্রথম flow শেষ না হয়। তাই প্রতিটা collect আলাদা `launch`-এ রাখুন।
 
 **কোন thread-এ — `flowOn`:**
 
@@ -1157,13 +1201,13 @@ repo.observeNotes()
     .collect { show(it) }            // collect হয় caller-এর thread-এ
 ```
 
-**Room আর DataStore সরাসরি `Flow` দেয়।** Database বদলালে নতুন value নিজে থেকে আসে — drift-এর `.watch()`-এর মতো। Notes app-এর list screen ঠিক এভাবেই বানানো হবে।
+**Room আর DataStore সরাসরি `Flow` দেয়।** Database-এ data বদলালে নতুন value নিজে থেকেই চলে আসে — drift-এর `.watch()`-এর মতো। Notes app-এর list screen ঠিক এভাবেই বানানো হবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch2-9"></a>২.৯ `ValueNotifier` → `StateFlow`
 
-**এক লাইনে:** `StateFlow` হলো সবসময় একটা current value রাখা hot stream — `ValueNotifier` আর Bloc-এর state stream মিলিয়ে।
+**এক লাইনে:** `StateFlow` হলো একটা hot stream, যেটা সবসময় একটা current value ধরে রাখে। Hot মানে কেউ না শুনলেও এর value থাকে। এটা `ValueNotifier` আর Bloc-এর state stream — দুটো মিলিয়ে একটা জিনিস।
 
 **Flutter-এ:**
 
@@ -1197,7 +1241,7 @@ Text("$count")
 | দ্রুত অনেক value এলে | মাঝখানেরগুলো বাদ, শুধু শেষটা (conflation) | buffer অনুযায়ী |
 | কাজ | UI state | কয়েকজনকে event broadcast |
 
-**কেন `update {}`, `value = value + 1` না:** দুইটা coroutine দুই thread-এ একসাথে পড়ল, দুজনেই নিজের হিসাব লিখল — একজনের কাজ হারিয়ে গেল। `update {}` লেখার আগে দেখে নেয় মাঝখানে value বদলেছে কি না, বদলালে আবার চেষ্টা করে। Dart-এ একটা thread বলে এটা কখনো ভাবতে হয়নি।
+**কেন `update {}`, `value = value + 1` না:** ধরুন দুইটা coroutine দুই thread থেকে একই সময়ে value পড়ল। দুজনেই নিজের হিসাব করে লিখল। তখন একজনের কাজ হারিয়ে যায়। `update {}` লেখার আগে দেখে নেয়, মাঝখানে value বদলেছে কি না। বদলালে আবার চেষ্টা করে। Dart-এ thread একটাই, তাই এটা কখনো ভাবতে হয়নি।
 
 **Cold flow থেকে StateFlow — `stateIn`:**
 
@@ -1210,7 +1254,7 @@ val notes: StateFlow<List<Note>> = repo.observeNotes()
     )
 ```
 
-`WhileSubscribed(5_000)` মানে: কেউ না শুনলে ৫ সেকেন্ড পর database query বন্ধ করো। Rotation-এ এক মুহূর্তের জন্য কেউ শোনে না — তখন query আবার শুরু হয় না। কিন্তু app background-এ গেলে কাজ সত্যিই থামে।
+`WhileSubscribed(5_000)` মানে: কেউ না শুনলে ৫ সেকেন্ড পর database query বন্ধ করো। Rotation-এর সময় অল্প সময়ের জন্য কেউ শোনে না। কিন্তু ৫ সেকেন্ড পার হয় না, তাই query বন্ধ হয়ে আবার নতুন করে শুরু হয় না। আর app background-এ গেলে ৫ সেকেন্ড পরে কাজ সত্যিই থামে।
 
 [উপরে ফিরুন](#toc)
 
@@ -1245,7 +1289,7 @@ val results: StateFlow<List<Note>> = query
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 ```
 
-প্রায় লাইন ধরে ধরে মিলে যায়। `debounce` আর `flatMapLatest`-এর জন্য `@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)` লাগে। নামে "experimental" থাকলেও বহু বছর ধরে production-এ সাধারণভাবে ব্যবহার হয়।
+দুই পাশ প্রায় লাইন ধরে ধরে মিলে যায়। `debounce` আর `flatMapLatest`-এর জন্য `@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)` লাগে। নামে "experimental" থাকলেও এগুলো বহু বছর ধরে production-এ নিয়মিত ব্যবহার হচ্ছে।
 
 [উপরে ফিরুন](#toc)
 
@@ -1263,10 +1307,10 @@ val results: StateFlow<List<Note>> = query
 | UI-তে Flow পড়া | `collectAsStateWithLifecycle()` |
 | পুরনো callback API-কে suspend বানানো | `suspendCancellableCoroutine` / `callbackFlow` |
 
-শেষ লাইনটা interview-এ প্রায়ই আসে: পুরনো listener-ভিত্তিক API (location update, Firebase listener)-কে `callbackFlow { }` দিয়ে Flow বানানো যায়। Dart-এ `StreamController` দিয়ে callback-কে stream বানানোর মতো।
+শেষ লাইনটা interview-এ প্রায়ই আসে। পুরনো যে API listener দিয়ে চলে (location update, Firebase listener), তাকে `callbackFlow { }` দিয়ে Flow বানানো যায়। Dart-এ যেমন `StreamController` দিয়ে callback-কে stream বানাতেন, ঠিক তেমন।
 
 > **মনে রাখুন**
-> - Dart-এ একটা thread, Kotlin-এ অনেক thread আর shared memory। এটাই সব পার্থক্যের মূল।
+> - Dart-এ একটা thread। Kotlin-এ অনেক thread, আর তারা memory share করে। সব পার্থক্য এখান থেকেই আসে।
 > - `Future` → `suspend fun`, `Stream` → `Flow`, `ValueNotifier` → `StateFlow`, `Isolate.run` → `withContext(Dispatchers.Default)`।
 > - প্রতিটা coroutine-এর একটা scope আছে। Scope বন্ধ হলে কাজ নিজে থামে — `mounted` check বা `cancel()` লাগে না।
 > - `CancellationException` গিলবেন না। `GlobalScope` না।
@@ -1278,12 +1322,14 @@ val results: StateFlow<List<Note>> = query
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ch3"></a>৩. Project আর Gradle — `pubspec.yaml`-এর জায়গায়
 
-Flutter-এ `pubspec.yaml` একটা শান্ত জায়গা। নাম, version, কয়েকটা dependency, ব্যস। Android-এর Gradle প্রথম দেখায় একটা জঙ্গলের মতো লাগে। ভয়ের কিছু নেই — আপনার Flutter project-এর `android/` folder-এ এই জঙ্গল সবসময় ছিল। এখন শুধু এর ম্যাপটা চিনে নেব।
+Flutter-এ `pubspec.yaml` খুব সোজা একটা file। নাম, version, কয়েকটা dependency — এই তো। Android-এর Gradle প্রথম দেখায় জটিল লাগে, কারণ এতে অনেক file আর অনেক setting। ভয় পাওয়ার কিছু নেই। আপনার Flutter project-এর `android/` folder-এ এই file-গুলো সবসময়ই ছিল। এখন শুধু কোন file কী কাজ করে, সেটা চিনে নেব।
 
-**এক লাইনে:** `pubspec.yaml`-এর কাজ তিনটা file ভাগ করে নেয়: `settings.gradle.kts` (কোন module আছে), `libs.versions.toml` (version), আর `app/build.gradle.kts` (dependency আর app-এর setting)।
+**এক লাইনে:** Flutter-এ `pubspec.yaml` একাই যে কাজ করে, Android-এ সেটা তিনটা file ভাগ করে করে:
+- `settings.gradle.kts` — project-এ কোন কোন module আছে।
+- `libs.versions.toml` — সব library-র version।
+- `app/build.gradle.kts` — dependency আর app-এর setting।
 
 ### Folder-এর চেহারা, Flutter-এর পাশে
 
@@ -1316,7 +1362,7 @@ dev_dependencies:
   bloc_test: ^9.1.0
 ```
 
-**Android-এ — দুই ধাপে।** আগে catalog-এ নাম আর version:
+**Android-এ কাজটা দুই ধাপে হয়।** প্রথমে catalog file-এ library-র নাম আর version লিখে রাখেন:
 
 ```toml
 # gradle/libs.versions.toml
@@ -1337,7 +1383,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ksp = { id = "com.google.devtools.ksp", version = "x.x.x" }
 ```
 
-তারপর module-এ ব্যবহার:
+তারপর module-এর file-এ সেই নাম ধরে ব্যবহার করেন:
 
 ```kotlin
 // app/build.gradle.kts
@@ -1351,17 +1397,17 @@ dependencies {
 }
 ```
 
-**কী মিলল, কী আলাদা:**
+**কোথায় মিল, কোথায় আলাদা:**
 
 | Flutter | Android |
 |---|---|
 | `dependencies:` | `implementation(...)` |
 | `dev_dependencies:` | `testImplementation(...)`, `debugImplementation(...)` |
-| `build_runner` + generator package | `ksp(...)` — compile-এর সময় নিজে চলে, আলাদা command লাগে না |
-| Flutter SDK version সব widget-এর version ঠিক করে | **BOM** — Compose-এর সব library-র মিলানো version একটা সংখ্যায় |
-| `flutter pub get` | Gradle sync (Android Studio-র হাতি চিহ্ন) |
+| `build_runner` + generator package | `ksp(...)` — compile-এর সময় নিজে নিজে চলে, আলাদা command দিতে হয় না |
+| Flutter SDK-র version-ই সব widget-এর version ঠিক করে দেয় | **BOM** — একটা সংখ্যা দিলেই Compose-এর সব library-র মিলানো version চলে আসে |
+| `flutter pub get` | Gradle sync (Android Studio-তে হাতির ছবিওয়ালা button) |
 
-**KSP** — `build_runner`-এর জায়গায়। Room, Hilt, Moshi এর মতো library annotation দেখে code বানায়। Flutter-এ আপনাকে `dart run build_runner build` চালাতে হতো। এখানে build-এর সময় নিজে চলে। পুরনো project-এ `kapt` দেখবেন — একই কাজ, কিন্তু ধীর। নতুন code-এ KSP।
+**KSP** হলো `build_runner`-এর বদলি। Room, Hilt, Moshi-র মতো library আপনার code-এর annotation দেখে নিজে code বানিয়ে দেয়। এই কাজটাই KSP করে। Flutter-এ এর জন্য আপনাকে হাতে `dart run build_runner build` চালাতে হতো। এখানে build-এর সময় এটা নিজেই চলে। পুরনো project-এ `kapt` দেখবেন। ওটাও একই কাজ করে, কিন্তু ধীরে। নতুন code-এ KSP নিন।
 
 ### তিনটা SDK সংখ্যা
 
@@ -1382,23 +1428,27 @@ android {
 
 | সংখ্যা | মানে |
 |---|---|
-| `minSdk` | এর নিচের Android-এ install হবে না |
-| `compileSdk` | কোন SDK-র API দেখে compile হবে। নতুন API ব্যবহার করতে এটা বাড়াতে হয়। |
-| `targetSdk` | কোন Android version-এর নিয়ম মেনে app চলবে। Play Store প্রতি বছর এটা বাড়াতে বাধ্য করে, আর বাড়ালে নতুন behavior চালু হয়। |
+| `minSdk` | এর চেয়ে পুরনো Android-এ app install হবে না |
+| `compileSdk` | কোন SDK-র API দেখে code compile হবে। নতুন API ব্যবহার করতে চাইলে এটা বাড়াতে হয়। |
+| `targetSdk` | App কোন Android version-এর নিয়ম মেনে চলবে। Play Store প্রতি বছর এটা বাড়াতে বলে। আর বাড়ালে সেই version-এর নতুন behavior চালু হয়ে যায়। |
 
-Flutter-এ এগুলো `android/app/build.gradle`-এ `flutter.minSdkVersion` ধরনের default দিয়ে থাকত। এখন এগুলো আপনার সিদ্ধান্ত।
+Flutter-এ এগুলো `android/app/build.gradle`-এ default হিসেবে বসানো থাকত, যেমন `flutter.minSdkVersion`। এখন কোনটা কত হবে, সেটা আপনি নিজে ঠিক করবেন।
 
-**Best approach:** নতুন project Android Studio-র "Empty Activity" template দিয়ে খুলুন। Version catalog, Compose, Kotlin DSL সব আগে থেকে সাজানো থাকে। Gradle হাতে শুরু থেকে লেখার দরকার নেই।
+**Best approach:** নতুন project খুলুন Android Studio-র "Empty Activity" template দিয়ে। এতে version catalog, Compose, Kotlin DSL — সব আগে থেকেই সাজানো থাকে। Gradle file একদম শুরু থেকে হাতে লিখতে হয় না।
 
-**Module:** বড় app-এ একটা `app`-এর বদলে অনেক module: `:core:database`, `:feature:notes`। Flutter-এ `packages/` folder-এ local package রাখার মতো। লাভ: বদলানো module-ই শুধু আবার build হয়, আর `internal` দিয়ে ভেতরের জিনিস লুকানো যায়। শেখার সময় একটা module যথেষ্ট।
+**Module:** বড় app-এ শুধু একটা `app` module থাকে না, অনেকগুলো module থাকে। যেমন `:core:database`, `:feature:notes`। এটা Flutter-এ `packages/` folder-এ local package রাখার মতো। এতে দুইটা লাভ:
+- যে module বদলেছে, শুধু সেটাই আবার build হয়।
+- `internal` দিয়ে module-এর ভেতরের জিনিস বাইরে থেকে লুকিয়ে রাখা যায়।
+
+শেখার সময় একটা module-ই যথেষ্ট।
 
 > **মনে রাখুন**
-> - `pubspec.yaml` → `libs.versions.toml` + `build.gradle.kts`। `build_runner` → KSP।
-> - BOM একটা সংখ্যায় সব Compose library-র version মেলায়।
-> - `minSdk`, `compileSdk`, `targetSdk` তিনটা আলাদা জিনিস। `targetSdk` বাড়ানো মানে নতুন নিয়ম চালু।
+> - `pubspec.yaml`-এর বদলে `libs.versions.toml` + `build.gradle.kts`। `build_runner`-এর বদলে KSP।
+> - BOM একটা সংখ্যা দিয়েই সব Compose library-র version মিলিয়ে দেয়।
+> - `minSdk`, `compileSdk`, `targetSdk` তিনটা আলাদা জিনিস। `targetSdk` বাড়ালে নতুন নিয়ম চালু হয়।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "আমি version catalog দিয়ে সব dependency এক জায়গায় রাখি, Compose-এ BOM ব্যবহার করি, আর code generation-এ KSP নিই, কারণ kapt-এর চেয়ে দ্রুত। `targetSdk` বাড়ানোর আগে সেই version-এর behavior change পড়ে test করি।"
+> - *বাংলায়:* "আমি সব dependency version catalog-এ এক জায়গায় রাখি। Compose-এর জন্য BOM ব্যবহার করি। Code generation-এর জন্য KSP নিই, কারণ এটা kapt-এর চেয়ে দ্রুত। `targetSdk` বাড়ানোর আগে আমি ওই version-এ কী কী behavior বদলেছে সেটা পড়ি, তারপর test করি।"
 > - *English:* "I keep dependencies in a version catalog, use the BOM for Compose, and use KSP for code generation because it's faster than kapt. Before raising `targetSdk`, I read that version's behavior changes and test them."
 
 [উপরে ফিরুন](#toc)
@@ -1407,11 +1457,13 @@ Flutter-এ এগুলো `android/app/build.gradle`-এ `flutter.minSdkVersio
 
 ## <a id="ch4"></a>৪. App-এর component: Application, Activity, Manifest, Context
 
-আপনি যখন Java-তে Android করতেন, তখন প্রতিটা screen ছিল একটা Activity, আর Activity থেকে Activity-তে `startActivity` দিয়ে লাফাতেন। আজ ছবিটা বদলেছে, আর অনেকটা Flutter-এর দিকে এসেছে: একটা Activity, তার ভেতরে পুরো app। কিন্তু Activity, Manifest, Context — এই ভিতগুলো আগের মতোই আছে। এগুলো ছাড়া কোনো Android app নড়তেই পারে না।
+আপনি যখন Java-তে Android লিখতেন, তখন প্রতিটা screen ছিল একটা করে Activity। এক screen থেকে আরেক screen-এ যেতেন `startActivity` দিয়ে। এখন ছবিটা বদলে গেছে, আর অনেকটা Flutter-এর মতো হয়ে গেছে: একটাই Activity, আর তার ভেতরে পুরো app। তবে Activity, Manifest, Context — এই মূল জিনিসগুলো আগের মতোই আছে। এগুলো ছাড়া কোনো Android app চলতেই পারে না।
 
 ### <a id="ch4-1"></a>৪.১ চালু হওয়া: `main()` থেকে Activity
 
-**এক লাইনে:** Flutter-এর `main()` + `runApp()`-এর কাজ Android-এ দুই জায়গায় ভাগ হয়: `Application` (app-ব্যাপী setup) আর `MainActivity` (UI বসানো)।
+**এক লাইনে:** Flutter-এ `main()` আর `runApp()` যে কাজ করে, Android-এ সেটা দুই জায়গায় ভাগ হয়ে যায়:
+- `Application` — পুরো app-এর জন্য একবারের setup।
+- `MainActivity` — UI বসানো।
 
 **Flutter-এ:**
 
@@ -1454,19 +1506,19 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-**ভেতরে কীভাবে কাজ করে:**
-1. User icon-এ tap করে। System একটা Linux process চালু করে।
-2. Process-এ প্রথমে `Application` তৈরি হয় — একটাই, process যতক্ষণ বাঁচে।
-3. Manifest-এ যে Activity "launcher" হিসেবে লেখা, সেটা তৈরি হয়, `onCreate()` চলে।
-4. `setContent { }` Compose UI বসায়।
+**ভেতরে কী হয়, ধাপে ধাপে:**
+1. User app-এর icon-এ tap করে। System তখন একটা Linux process চালু করে।
+2. Process-এর ভেতরে সবার আগে `Application` তৈরি হয়। এটা একটাই থাকে, process যতক্ষণ বেঁচে থাকে ততক্ষণ।
+3. Manifest-এ যে Activity-কে "launcher" বলে লেখা আছে, সেটা তৈরি হয়। তারপর তার `onCreate()` চলে।
+4. `setContent { }` Compose-এর UI screen-এ বসিয়ে দেয়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch4-2"></a>৪.২ Manifest
 
-**এক লাইনে:** Manifest হলো app-এর পরিচয়পত্র। System app চালানোর আগে এটা পড়ে।
+**এক লাইনে:** Manifest একটা XML file। এতে app নিজের সম্পর্কে system-কে সব জানায়। App চালানোর আগে system এই file পড়ে নেয়।
 
-Flutter-এ আপনি এই file-এ permission যোগ করতেন — `android/app/src/main/AndroidManifest.xml`। একই file:
+Flutter-এ permission যোগ করতে আপনি এই file-টাই খুলতেন — `android/app/src/main/AndroidManifest.xml`। এটা সেই একই file:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -1492,30 +1544,32 @@ Flutter-এ আপনি এই file-এ permission যোগ করতেন �
 </manifest>
 ```
 
-- **কী কী থাকে:** কোন component আছে, কোন permission চায়, কোন link বা intent ধরতে পারে।
-- **Library-র manifest মিশে যায়।** Flutter-এ plugin-এর permission নিজে থেকে আপনার manifest-এ চলে আসত — এটাই manifest merger। Android Studio-তে Manifest খুলে নিচের **Merged Manifest** tab-এ শেষ রূপ দেখুন। কোন library কোন permission ঢুকিয়েছে, সেটা এখানে ধরা পড়ে।
-- **`android:exported="true"`** মানে অন্য app এই Activity চালু করতে পারে। Launcher Activity-তে লাগবেই। বাকি জায়গায় দরকার না থাকলে `false` — এটা security-র ব্যাপার।
+- **এতে কী থাকে:** app-এ কোন কোন component আছে, কোন permission চায়, আর কোন link বা intent ধরতে পারে। (Intent মানে system-এর কাছে পাঠানো একটা অনুরোধ, যেমন "এই link খোলো"।)
+- **Library-র manifest আপনার manifest-এর সাথে মিশে যায়।** Flutter-এ plugin-এর permission নিজে থেকেই আপনার manifest-এ চলে আসত। এই মেশানোর কাজটাকেই manifest merger বলে। শেষে manifest দেখতে কেমন হলো, সেটা দেখতে Android Studio-তে Manifest খুলে নিচের **Merged Manifest** tab-এ যান। কোন library কোন permission ঢুকিয়েছে, সেটা এখানেই ধরা পড়ে।
+- **`android:exported="true"`** মানে অন্য app-ও এই Activity চালু করতে পারবে। Launcher Activity-তে এটা লাগবেই। অন্য জায়গায় দরকার না থাকলে `false` দিন। এটা security-র ব্যাপার।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch4-3"></a>৪.৩ চারটা component
 
-**এক লাইনে:** Android app চারটা জিনিস দিয়ে তৈরি, আর চারটাই Manifest-এ লিখতে হয়। Flutter-এ এদের প্রত্যেকটা কোনো না কোনো plugin চালাত।
+**এক লাইনে:** একটা Android app চার রকম জিনিস দিয়ে তৈরি। চারটাই Manifest-এ লিখে দিতে হয়। Flutter-এ এদের প্রত্যেকটার কাজ কোনো না কোনো plugin করে দিত।
 
 | Component | কাজ | Notes app-এ উদাহরণ | Flutter-এ কে করত |
 |---|---|---|---|
 | **Activity** | একটা window বা screen | `MainActivity` — পুরো app | `FlutterActivity` |
-| **Service** | UI ছাড়া কাজ | Note-এর voice recording চলছে | `audio_service` ধরনের plugin |
-| **BroadcastReceiver** | System-এর ঘটনা শোনা | Phone restart হলে reminder আবার বসানো | `android_alarm_manager_plus` |
-| **ContentProvider** | অন্য app-কে data দেওয়া; file share | Note-এর ছবি অন্য app-এ share (`FileProvider`) | `share_plus` |
+| **Service** | UI ছাড়া পেছনে কাজ করা | Note-এর জন্য voice recording চলছে | `audio_service`-এর মতো plugin |
+| **BroadcastReceiver** | System-এ কিছু ঘটলে সেই খবর শোনা | Phone restart হলে reminder আবার set করা | `android_alarm_manager_plus` |
+| **ContentProvider** | অন্য app-কে data দেওয়া; file share করা | Note-এর ছবি অন্য app-এ share করা (`FileProvider`) | `share_plus` |
 
-**Single-Activity:** আগে প্রতিটা screen আলাদা Activity ছিল — আপনি সম্ভবত সেভাবেই করেছেন। এখন একটা Activity, আর তার ভেতরে Compose-এর navigation দিয়ে সব screen। ঠিক Flutter-এর মতো, যেখানে একটা `FlutterActivity`-র ভেতরে Navigator সব route চালায়। মাঝে একটা যুগ ছিল, যখন একটা Activity-র ভেতরে **Fragment** দিয়ে screen বানানো হতো। পুরনো project-এ Fragment দেখবেন — এর নিজের lifecycle আছে, আর এর view, Fragment-এর আগেই destroy হয়। নতুন Compose app-এ Fragment প্রায় লাগে না।
+**Single-Activity:** আগে প্রতিটা screen ছিল আলাদা একটা Activity। আপনিও সম্ভবত সেভাবেই লিখেছেন। এখন একটাই Activity থাকে। তার ভেতরে Compose-এর navigation দিয়ে সব screen চলে। ঠিক Flutter-এর মতো — সেখানেও একটা `FlutterActivity`-র ভেতরে Navigator সব route চালায়।
+
+মাঝখানে একটা সময় ছিল, যখন একটা Activity-র ভেতরে **Fragment** দিয়ে screen বানানো হতো। পুরনো project-এ Fragment দেখবেন। Fragment-এর নিজের lifecycle আছে। আর Fragment-এর view, Fragment-এর আগেই destroy হয়ে যায়। নতুন Compose app-এ Fragment প্রায় লাগেই না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch4-4"></a>৪.৪ Context — `BuildContext` না
 
-**এক লাইনে:** নাম একই রকম, কিন্তু কাজ একদম আলাদা। `BuildContext` হলো widget tree-তে একটা ঠিকানা। Android-এর `Context` হলো system-এর দরজা।
+**এক লাইনে:** নাম দেখতে একই রকম, কিন্তু কাজ একদম আলাদা। `BuildContext` হলো widget tree-তে আপনার widget-এর ঠিকানা। Android-এর `Context` দিয়ে আপনি system-এর জিনিস ব্যবহার করেন — resource, system service, file, অন্য screen চালু করা।
 
 **Flutter-এ `BuildContext` দিয়ে যা করেন:**
 
@@ -1534,23 +1588,25 @@ context.startActivity(intent)                                // অন্য scr
 context.filesDir                                             // app-এর নিজের folder
 ```
 
-Compose-এ Theme খোঁজার কাজ করে `CompositionLocal` ([৬.৮](#ch6-8)), আর Context পেতে `LocalContext.current`।
+Compose-এ tree-র ওপর থেকে Theme খোঁজার কাজটা করে `CompositionLocal` ([৬.৮](#ch6-8))। আর Context দরকার হলে `LocalContext.current` দিয়ে পান।
 
-**দুই রকম Context — গুলিয়ে ফেললে memory leak:**
+**Context দুই রকম। গুলিয়ে ফেললে memory leak হয়:**
 
 | | Activity context | Application context |
 |---|---|---|
-| কতদিন বাঁচে | Activity যতক্ষণ — rotation-এ মরে | Process যতক্ষণ |
-| Theme জানে | হ্যাঁ | না |
-| কোথায় | UI, dialog, theme লাগে এমন কাজ | Singleton, repository, database |
+| কতদিন বাঁচে | Activity যতক্ষণ আছে — phone ঘোরালে মরে যায় | Process যতক্ষণ আছে |
+| Theme জানে কি না | হ্যাঁ | না |
+| কোথায় ব্যবহার | UI, dialog, যেখানে theme লাগে | Singleton, repository, database |
 
-**ফাঁদ:** যে object Activity-র চেয়ে বেশিদিন বাঁচে (singleton, ViewModel, static field), সে কখনো Activity context ধরে রাখবে না। ধরে রাখলে rotation-এর পরে পুরনো Activity আর তার পুরো screen memory-তে আটকে থাকে। Flutter-এ `BuildContext` dispose-এর পরে ব্যবহার করলে error আসে। Android-এ কোনো error আসে না, শুধু চুপচাপ memory খেয়ে যায়। খুঁজে পেতে LeakCanary library ব্যবহার করুন।
+**ফাঁদ:** কিছু object Activity-র চেয়ে বেশিদিন বাঁচে — যেমন singleton, ViewModel, static field। এরা কখনো Activity context ধরে রাখবে না। ধরে রাখলে কী হয়? Phone ঘোরালে পুরনো Activity-র কাজ শেষ হয়ে যায়। কিন্তু singleton তখনও তাকে ধরে আছে, তাই system তাকে memory থেকে মুছতে পারে না। পুরনো Activity আর তার পুরো screen memory-তে আটকে থাকে।
+
+Flutter-এ dispose হওয়ার পরে `BuildContext` ব্যবহার করলে error আসে, তাই ভুলটা চোখে পড়ে। Android-এ কোনো error আসে না। App শুধু চুপচাপ memory খেতে থাকে। এই ধরনের leak খুঁজতে LeakCanary library ব্যবহার করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch4-5"></a>৪.৫ পুরনো View system — যা আপনি জানতেন
 
-Interview-এ আর পুরনো code-এ এটা আসবে, তাই এক নজরে চিনে রাখুন। আপনি যখন Java-তে Android করতেন, UI লেখা হতো এভাবে:
+Interview-এ আর পুরনো code-এ এটা আসবেই। তাই একবার চোখ বুলিয়ে চিনে রাখুন। আপনি যখন Java-তে Android লিখতেন, তখন UI লেখা হতো এভাবে:
 
 ```xml
 <!-- res/layout/item_note.xml -->
@@ -1573,21 +1629,25 @@ binding.title.text = note.title           // হাতে UI বদলানো 
 | `FrameLayout` | `Box` | `Stack` |
 | `ConstraintLayout` | `ConstraintLayout` (Compose-এও আছে), বা সাধারণ Row/Column | (নেই) |
 | `RecyclerView` + `Adapter` + `ViewHolder` + `DiffUtil` | `LazyColumn` + `items(key = )` | `ListView.builder` |
-| `view.text = x` হাতে বদলানো | State বদলালে নিজে | `setState` |
+| `view.text = x` — হাতে বদলানো | State বদলালে নিজে বদলায় | `setState` |
 | `findViewById` / ViewBinding | (লাগে না) | (লাগে না) |
 
-**বড় পার্থক্য:** View system imperative — আপনি view-কে বলেন "এখন এই text দেখাও"। Compose আর Flutter declarative — আপনি বলেন "state এই হলে UI এরকম দেখায়"। Flutter-এর চিন্তা তাই Compose-এ সরাসরি চলে।
+**বড় পার্থক্য:** View system হলো imperative। মানে আপনি view-কে হুকুম দেন: "এখন এই text দেখাও।" Compose আর Flutter হলো declarative। মানে আপনি শুধু বলে দেন: "state এরকম হলে UI দেখতে এরকম হবে।" তাই Flutter-এ আপনি যেভাবে ভাবেন, Compose-এ ঠিক সেভাবেই ভাবতে পারবেন।
 
-Compose আর View একসাথেও চলে: পুরনো screen-এ `ComposeView` দিয়ে Compose বসানো যায়, আর Compose-এর ভেতরে `AndroidView` দিয়ে পুরনো View (যেমন MapView)। Flutter-এর `AndroidView` (platform view)-এর মতো।
+Compose আর পুরনো View একসাথেও চলতে পারে:
+- পুরনো screen-এর ভেতরে Compose বসাতে `ComposeView`।
+- Compose-এর ভেতরে পুরনো View (যেমন MapView) বসাতে `AndroidView`।
+
+এটা Flutter-এর `AndroidView` (platform view)-এর মতো।
 
 > **মনে রাখুন**
-> - `main()` + `runApp()` → `Application` + `MainActivity.setContent { }`।
-> - Manifest = পরিচয়পত্র। Library-র manifest আপনার manifest-এ মেশে।
-> - চারটা component: Activity, Service, BroadcastReceiver, ContentProvider।
-> - `Context` ≠ `BuildContext`। লম্বা-জীবনের object-এ Activity context না।
+> - `main()` + `runApp()`-এর বদলে `Application` + `MainActivity.setContent { }`।
+> - Manifest-এ app নিজের সব তথ্য system-কে জানায়। Library-র manifest আপনার manifest-এর সাথে মিশে যায়।
+> - Component চারটা: Activity, Service, BroadcastReceiver, ContentProvider।
+> - `Context` আর `BuildContext` এক জিনিস না। যে object অনেকদিন বাঁচে, তাতে Activity context রাখবেন না।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "আমি single-Activity architecture নিই — একটা Activity, ভেতরে Compose navigation দিয়ে সব screen, Flutter-এর মতোই। Context নিয়ে আমি সাবধান থাকি: ViewModel বা singleton-এ কখনো Activity context রাখি না, লাগলে application context দিই।"
+> - *বাংলায়:* "আমি single-Activity architecture ব্যবহার করি। একটাই Activity, আর তার ভেতরে Compose navigation দিয়ে সব screen — Flutter-এর মতোই। Context নিয়ে আমি সাবধান থাকি। ViewModel বা singleton-এ কখনো Activity context রাখি না। ওখানে Context লাগলে application context দিই।"
 > - *English:* "I use a single-Activity architecture — one Activity with all screens in Compose navigation, much like Flutter. I'm careful with Context: I never keep an Activity context in a ViewModel or singleton; if I need one there, I use the application context."
 
 [উপরে ফিরুন](#toc)
@@ -1596,11 +1656,17 @@ Compose আর View একসাথেও চলে: পুরনো screen-এ 
 
 ## <a id="ch5"></a>৫. Lifecycle, rotation আর process death
 
-এই অধ্যায়টা Flutter developer-দের জন্য Android-এর সবচেয়ে বড় ধাক্কা। Flutter-এ phone ঘোরালে কিছুই হয় না — layout বদলায়, `State` বেঁচে থাকে, user-এর লেখা অর্ধেক note যেমন ছিল তেমন থাকে। Android-এ phone ঘোরালে আপনার Activity মরে যায়, আর নতুন একটা জন্মায়। আর app background-এ থাকলে system পুরো app মেরে দিতে পারে — কোনো খবর না দিয়ে। শুনে ভয় লাগে, কিন্তু নিয়মগুলো জানলে সমাধান সহজ।
+Flutter developer-রা Android-এ এসে সবচেয়ে বড় ধাক্কা খায় এই অধ্যায়ের বিষয়ে। Flutter-এ phone ঘোরালে তেমন কিছুই হয় না। Layout বদলায়, কিন্তু `State` বেঁচে থাকে। User-এর অর্ধেক লেখা note যেমন ছিল তেমনই থাকে।
+
+Android-এ ব্যাপারটা আলাদা:
+- Phone ঘোরালে আপনার Activity মরে যায়, আর তার জায়গায় নতুন একটা Activity তৈরি হয়।
+- App background-এ থাকলে system কোনো খবর না দিয়েই পুরো app বন্ধ করে দিতে পারে।
+
+শুনে ভয় লাগে। কিন্তু নিয়মগুলো জানা থাকলে সমাধান সহজ।
 
 ### <a id="ch5-1"></a>৫.১ App lifecycle
 
-**এক লাইনে:** `didChangeAppLifecycleState`-এর জায়গায় Android-এ `Lifecycle` — Activity-রও আছে, পুরো process-এরও আছে।
+**এক লাইনে:** Flutter-এর `didChangeAppLifecycleState`-এর বদলে Android-এ আছে `Lifecycle`। এটা প্রতিটা Activity-র আলাদা আছে, আবার পুরো process-এরও একটা আছে।
 
 **Flutter-এ:**
 
@@ -1634,7 +1700,7 @@ LifecycleResumeEffect(Unit) {           // screen সামনে এলে
 }
 ```
 
-**Activity-র ধাপগুলো, Flutter-এর পাশে:**
+**Activity-র ধাপগুলো, Flutter-এর পাশে রেখে:**
 
 ```
 onCreate()   ─ তৈরি হলো                        (Flutter: engine চালু, initState)
@@ -1646,55 +1712,65 @@ onStop()     ─ আর দেখা যাচ্ছে না (home চাপ�
 onDestroy()  ─ শেষ — back চাপা, বা configuration change                 (detached)
 ```
 
-- **STARTED** = দেখা যাচ্ছে। UI-র data collect করার সঠিক সময়। `collectAsStateWithLifecycle()` ঠিক এটাই মানে।
-- **RESUMED** = সামনে আর focus-এ। Camera, sensor-এর মতো জিনিস এখানে চালু করুন।
-- `onStop()`-এর পরে system যেকোনো সময় process মারতে পারে। তাই জরুরি জিনিস তার আগেই save করুন।
+- **STARTED** মানে screen দেখা যাচ্ছে। UI-র জন্য data collect করার ঠিক সময় এটাই। `collectAsStateWithLifecycle()` ঠিক এই নিয়মে চলে।
+- **RESUMED** মানে screen সবার সামনে আর focus পাচ্ছে। Camera বা sensor-এর মতো জিনিস এই অবস্থায় চালু করুন।
+- `onStop()`-এর পরে system যেকোনো সময় process বন্ধ করে দিতে পারে। তাই জরুরি জিনিস তার আগেই save করে ফেলুন।
 
-পুরো app foreground-এ না background-এ — শুধু এটা জানতে `ProcessLifecycleOwner` (Flutter-এর app-level lifecycle-এর আরও কাছাকাছি)।
+শুধু জানতে চান পুরো app foreground-এ আছে নাকি background-এ? তাহলে `ProcessLifecycleOwner` ব্যবহার করুন। এটা Flutter-এর app-level lifecycle-এর সাথে বেশি মেলে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch5-2"></a>৫.২ Rotation-এ Activity মরে যায়
 
-**এক লাইনে:** Rotation, dark mode, ভাষা, font size, window size বদলালে Android Activity-কে destroy করে নতুন করে তৈরি করে। এর নাম **configuration change**।
+**এক লাইনে:** Phone ঘোরালে, dark mode চালু করলে, ভাষা বা font size বদলালে, বা window-এর মাপ বদলালে Android পুরনো Activity destroy করে নতুন একটা বানায়। একে বলে **configuration change**।
 
-**কেন Android এটা করে:** নতুন configuration-এর জন্য আলাদা resource লাগতে পারে — landscape-এর আলাদা layout, অন্য ভাষার string, dark theme-এর রং। পুরো Activity নতুন করে বানালে সব resource নতুন করে load হয়। Flutter নিজে এসব সামলায়, তাই আপনাকে কখনো ভাবতে হয়নি।
+**Android এটা কেন করে:** নতুন configuration-এ আলাদা resource লাগতে পারে। যেমন landscape-এর জন্য আলাদা layout, অন্য ভাষার string, dark theme-এর রং। পুরো Activity নতুন করে বানালে সব resource নতুন করে load হয়ে যায়। Flutter এসব নিজেই সামলায়। তাই আপনাকে এটা নিয়ে কখনো ভাবতে হয়নি।
 
-**কী হারায়:** Activity-র field, আর composable-এর `remember` করা state।
+**কী হারায়:** Activity-র field, আর composable-এ `remember` দিয়ে রাখা state।
 
-**কী বাঁচে:** ViewModel। কারণ Activity destroy হওয়ার সময় system জানে এটা configuration change, তাই Activity-র `ViewModelStore` (সব ViewModel রাখা একটা map) নতুন Activity-কে দিয়ে দেয়। নতুন Activity একই ViewModel পায়। User সত্যিই back চেপে বের হলে তখন store clear হয়, আর ViewModel-এর `onCleared()` চলে।
+**কী বেঁচে থাকে:** ViewModel। কারণটা ধাপে ধাপে:
+1. প্রতিটা Activity-র একটা `ViewModelStore` থাকে। এটা একটা map, যেখানে ওই Activity-র সব ViewModel রাখা থাকে।
+2. Activity destroy হওয়ার সময় system জানে যে এটা configuration change।
+3. তাই system এই store-টা ফেলে না দিয়ে নতুন Activity-কে দিয়ে দেয়।
+4. ফলে নতুন Activity আগের ViewModel-টাই ফেরত পায়।
 
-**নিজে দেখুন:** Notes app-এ একটা `remember { mutableStateOf("") }` দিয়ে text field বানান, কিছু লিখুন, phone ঘোরান — লেখা মুছে যাবে। তারপর `rememberSaveable` দিন — থাকবে।
+User সত্যি সত্যি back চেপে screen থেকে বের হয়ে গেলে তখন store মুছে ফেলা হয় (clear হয়)। তখন ViewModel-এর `onCleared()` চলে।
+
+**নিজে দেখুন:** Notes app-এ `remember { mutableStateOf("") }` দিয়ে একটা text field বানান। কিছু লিখুন, তারপর phone ঘোরান। লেখাটা মুছে যাবে। এবার এর বদলে `rememberSaveable` দিন। এবার লেখাটা থেকে যাবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch5-3"></a>৫.৩ State কোথায় রাখবেন
 
-এটা পুরো অধ্যায়ের সারাংশ। এক table-এ:
+পুরো অধ্যায়ের সারকথা এই এক table-এ:
 
-| State | কোথায় | Rotation-এ | Process death-এ | Flutter-এ |
+| State | কোথায় রাখবেন | Rotation-এ | Process death-এ | Flutter-এ |
 |---|---|---|---|---|
 | ছোট UI state (dropdown খোলা কি না) | `remember` | হারায় | হারায় | `State`-এর field |
-| হারানো যাবে না এমন UI state (লেখা text, selected tab) | `rememberSaveable` | থাকে | থাকে | `RestorationMixin` |
+| যে UI state হারানো চলবে না (লেখা text, বেছে নেওয়া tab) | `rememberSaveable` | থাকে | থাকে | `RestorationMixin` |
 | Screen-এর state আর logic | `ViewModel` | থাকে | হারায় | Cubit |
-| ViewModel-এর ছোট জরুরি state (search query, edit করা note-এর id) | `SavedStateHandle` | থাকে | থাকে | (নেই) |
+| ViewModel-এর ছোট কিন্তু জরুরি state (search query, যে note edit হচ্ছে তার id) | `SavedStateHandle` | থাকে | থাকে | (নেই) |
 | আসল data | Room, DataStore, server | থাকে | থাকে | drift, shared_preferences |
 
-**Best approach:** আসল data সবসময় database-এ। ViewModel সেখান থেকে পড়ে। আর user-এর হাতের কাজ (অর্ধেক লেখা note, search) `SavedStateHandle` বা `rememberSaveable`-এ। তাহলে কোনো পরিস্থিতিতেই user-এর কাজ হারায় না।
+**Best approach:**
+- আসল data সবসময় database-এ রাখুন। ViewModel সেখান থেকে পড়বে।
+- User হাতে যে কাজ করছে (অর্ধেক লেখা note, search), সেটা রাখুন `SavedStateHandle` বা `rememberSaveable`-এ।
+
+তাহলে যা-ই ঘটুক, user-এর কাজ হারাবে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch5-4"></a>৫.৪ Process death
 
-**এক লাইনে:** App background-এ থাকলে memory-র জন্য system পুরো process মেরে ফেলতে পারে। User ফিরে এলে Android app-কে ঠিক আগের screen-এ খোলে, কিন্তু memory-র সব কিছু নতুন আর খালি।
+**এক লাইনে:** App background-এ থাকলে, memory খালি করার জন্য system পুরো process বন্ধ করে দিতে পারে। User ফিরে এলে Android app-কে ঠিক আগের screen-এ খোলে। কিন্তু memory-তে যা ছিল, সব নতুন আর খালি।
 
-**গল্পটা এরকম:**
-1. User Notes app-এ একটা note লিখছে। অর্ধেক লিখে camera খুলল ছবি তুলতে।
-2. Camera app অনেক memory চাইল। System আপনার background-এ থাকা process মেরে দিল। কোনো callback আসে না।
-3. User ছবি তুলে ফিরে এল। System নতুন process চালু করল, আর **সরাসরি note লেখার screen** খুলল, back stack-সহ — যেন কিছুই হয়নি।
-4. কিন্তু ViewModel নতুন, singleton নতুন, static variable খালি। শুধু `rememberSaveable` আর `SavedStateHandle`-এ রাখা জিনিস ফেরত আসে।
+**ঘটনাটা এরকম:**
+1. User Notes app-এ একটা note লিখছে। অর্ধেক লিখে ছবি তুলতে camera খুলল।
+2. Camera app অনেক memory চাইল। তাই system আপনার background-এ থাকা process বন্ধ করে দিল। আপনার code-এ কোনো callback আসে না, তাই আপনি টেরও পান না।
+3. User ছবি তুলে ফিরে এল। System নতুন একটা process চালু করল। তারপর **সরাসরি note লেখার screen** খুলল, আগের back stack-সহ — যেন কিছুই হয়নি।
+4. কিন্তু ভেতরে সব নতুন। ViewModel নতুন, singleton নতুন, static variable খালি। শুধু `rememberSaveable` আর `SavedStateHandle`-এ রাখা জিনিসগুলো ফেরত আসে।
 
-Flutter-এ এটা সাধারণত app-এর "cold start" হিসেবে ঘটে, আর বেশিরভাগ app শুরু থেকে খোলে। Android-এ native app-এর কাছে system আশা করে, সে ঠিক আগের জায়গা থেকে চলবে।
+Flutter app-এ এটা সাধারণত "cold start"-এর মতো দেখায়, আর বেশিরভাগ app একদম শুরু থেকে খোলে। কিন্তু native Android app-এর কাছে system আশা করে, app ঠিক যেখানে ছিল সেখান থেকেই আবার চলবে।
 
 ```kotlin
 @HiltViewModel
@@ -1712,24 +1788,24 @@ class EditNoteViewModel @Inject constructor(
 ```
 
 **ফাঁদ:**
-- **বড় data Bundle-এ রাখবেন না।** `SavedStateHandle` আর `rememberSaveable` Bundle-এ save হয়, যার সীমা আছে (পুরো transaction মিলিয়ে মোটামুটি ১ MB)। Note-এর list না, শুধু id আর অর্ধেক লেখা text। List database থেকে আবার আসবে।
-- **"Splash-এ সব load করি, বাকিরা singleton থেকে পড়ে"** — এই pattern process death-এ crash করে। কারণ app সরাসরি ভেতরের screen-এ খোলে, splash চলেই না।
+- **বড় data Bundle-এ রাখবেন না।** `SavedStateHandle` আর `rememberSaveable` তাদের data Bundle নামের একটা জিনিসে save করে। Bundle-এর একটা সীমা আছে — পুরো transaction মিলিয়ে মোটামুটি ১ MB। তাই note-এর পুরো list রাখবেন না। শুধু id আর অর্ধেক লেখা text রাখুন। List পরে database থেকে আবার চলে আসবে।
+- **"Splash screen-এ সব load করি, বাকি screen-গুলো singleton থেকে পড়ে"** — এই pattern process death-এর পরে crash করে। কারণ app তখন সরাসরি ভেতরের screen-এ খোলে। Splash screen চলেই না, তাই singleton খালি থাকে।
 
 **নিজে test করুন:**
-1. App চালান, একটা note-এ কিছু লিখুন, তারপর home চাপুন।
-2. Terminal-এ চালান: `adb shell am kill com.byteonyx.notes`
+1. App চালান। একটা note-এ কিছু লিখুন। তারপর home button চাপুন।
+2. Terminal-এ এটা চালান: `adb shell am kill com.byteonyx.notes`
 3. Recent apps থেকে app-টা আবার খুলুন।
 
-যা যা হারাল, সেগুলোই bug। Developer options-এ **"Don't keep activities"** চালু করেও প্রায় একই ধরনের test করা যায়।
+যা যা হারিয়ে গেল, সেগুলো সবই bug। Developer options-এ **"Don't keep activities"** চালু করেও প্রায় একই রকম test করা যায়।
 
 > **মনে রাখুন**
-> - Rotation-এ Activity মরে, ViewModel বাঁচে। Process death-এ দুজনেই মরে।
-> - `remember` < `rememberSaveable` < ViewModel < `SavedStateHandle` < database — কোনটা কতটা টেকে।
-> - Bundle-এ শুধু ছোট জিনিস। বড় data database থেকে।
-> - `adb shell am kill` দিয়ে প্রতিটা screen test করুন।
+> - Phone ঘোরালে Activity মরে, কিন্তু ViewModel বাঁচে। Process death-এ দুটোই মরে।
+> - কোনটা কতটা টেকে, কম থেকে বেশি: `remember` < `rememberSaveable` < ViewModel < `SavedStateHandle` < database।
+> - Bundle-এ শুধু ছোট জিনিস রাখুন। বড় data আসবে database থেকে।
+> - প্রতিটা screen `adb shell am kill` দিয়ে test করুন।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Configuration change-এ ViewModel বাঁচে, কারণ ViewModelStore নতুন Activity-কে দেওয়া হয়। কিন্তু process death-এ ViewModel-ও যায়। তাই আমি আসল data database-এ রাখি, আর user-এর অর্ধেক কাজ — যেমন draft বা search query — `SavedStateHandle`-এ। আর `adb shell am kill` দিয়ে test করি।"
+> - *বাংলায়:* "Configuration change-এ ViewModel বেঁচে থাকে, কারণ ViewModelStore নতুন Activity-কে দিয়ে দেওয়া হয়। কিন্তু process death-এ ViewModel-ও চলে যায়। তাই আমি আসল data database-এ রাখি। আর user-এর অর্ধেক করা কাজ — যেমন draft বা search query — রাখি `SavedStateHandle`-এ। এটা আমি `adb shell am kill` দিয়ে test করি।"
 > - *English:* "A ViewModel survives configuration changes because the ViewModelStore is handed to the new Activity, but it doesn't survive process death. So I keep real data in the database and the user's in-progress work, like a draft or a search query, in `SavedStateHandle`. I test it with `adb shell am kill`."
 
 [উপরে ফিরুন](#toc)
@@ -1738,13 +1814,13 @@ class EditNoteViewModel @Inject constructor(
 
 ## <a id="ch6"></a>৬. Jetpack Compose — Widget-এর জায়গায় Composable
 
-এবার আসল আনন্দের অধ্যায়। আপনি যখন Java-তে Android করতেন, UI মানে ছিল XML, `findViewById`, আর হাতে হাতে `textView.setText()`। Compose এসে সেই পুরো জগৎ বাদ দিয়েছে, আর যে পথে এসেছে সেটা আপনার খুব চেনা: **UI = f(state)।** State বদলান, framework নিজে UI-র দরকারি অংশ আবার আঁকবে।
+এবার সবচেয়ে মজার অধ্যায়। আপনি যখন Java-তে Android লিখতেন, তখন UI মানে ছিল XML, `findViewById`, আর হাতে হাতে `textView.setText()`। Compose এসে এই পুরো পদ্ধতি বাদ দিয়ে দিয়েছে। আর নতুন যে পথ নিয়েছে, সেটা আপনার খুব চেনা: **UI = f(state)।** মানে, UI হলো state-এর একটা function। আপনি state বদলান। UI-র যে অংশ বদলানো দরকার, framework নিজেই সেটা আবার এঁকে দেবে।
 
-এই অধ্যায়ে আপনার Flutter-এর অভিজ্ঞতা সবচেয়ে বেশি কাজে লাগবে। প্রায় প্রতিটা widget-এর একটা জোড়া এখানে আছে।
+এই অধ্যায়ে আপনার Flutter-এর অভিজ্ঞতা সবচেয়ে বেশি কাজে লাগবে। প্রায় প্রতিটা widget-এর একটা জোড়া এখানে পাবেন।
 
 ### <a id="ch6-1"></a>৬.১ Widget → Composable
 
-**এক লাইনে:** Widget class আর তার `build()`-এর জায়গায় একটা function, যার মাথায় `@Composable`।
+**এক লাইনে:** Widget class আর তার `build()`-এর বদলে এখানে একটা সাধারণ function লেখেন। শুধু তার মাথায় `@Composable` বসিয়ে দেন।
 
 **Flutter-এ:**
 
@@ -1777,37 +1853,39 @@ fun NoteCard(note: Note, onClick: () -> Unit, modifier: Modifier = Modifier) {
 }
 ```
 
-**কী মিলল, কী আলাদা:**
+**কোথায় মিল, কোথায় আলাদা:**
 
 | Flutter | Compose |
 |---|---|
 | Widget class + `build()` | `@Composable` function |
-| `build()` widget ফেরত দেয় | Composable কিছু ফেরত দেয় না — call করলেই UI-তে বসে যায় |
+| `build()` একটা widget ফেরত দেয় | Composable কিছুই ফেরত দেয় না — call করলেই UI-তে বসে যায় |
 | constructor parameter | function parameter |
-| `child:` / `children:` | trailing lambda — `Card { ... }` |
-| `const` দিয়ে rebuild এড়ানো | Compiler নিজে বোঝে কোন function skip করা যায় |
-| `StatelessWidget` | parameter নেওয়া সাধারণ composable |
+| `child:` / `children:` | শেষের lambda (trailing lambda) — `Card { ... }` |
+| `const` দিয়ে rebuild এড়ানো | কোন function skip করা যায়, compiler নিজেই বুঝে নেয় |
+| `StatelessWidget` | parameter নেয় এমন সাধারণ composable |
 | `StatefulWidget` | ভেতরে `remember { mutableStateOf() }` ([৬.৫](#ch6-5)) |
 | `Key` | `key(id) { }`, list-এ `items(key = { it.id })` |
 
-**নামের নিয়ম:** UI বসায় এমন composable — বড় হাতের noun: `NoteCard`। Value ফেরত দেয় এমন — ছোট হাতের: `rememberScrollState()`।
+**নামের নিয়ম:**
+- যে composable UI বসায়, তার নাম বড় হাতের অক্ষরে শুরু হয়, আর সেটা একটা noun: `NoteCard`।
+- যে composable একটা value ফেরত দেয়, তার নাম ছোট হাতের অক্ষরে শুরু হয়: `rememberScrollState()`।
 
-**কোথা থেকে call করা যায়:** শুধু আরেকটা composable-এর ভেতর থেকে। `onClick`-এর ভেতর থেকে না — ওটা সাধারণ lambda। Flutter-এ `onPressed`-এর ভেতরে widget বানিয়ে লাভ নেই, এখানে compiler-ই আটকায়।
+**কোথা থেকে call করা যায়:** শুধু আরেকটা composable-এর ভেতর থেকে। `onClick`-এর ভেতর থেকে না, কারণ ওটা একটা সাধারণ lambda। Flutter-এ `onPressed`-এর ভেতরে widget বানালে কোনো লাভ হয় না, কিন্তু কেউ আটকায়ও না। এখানে compiler নিজেই আটকে দেয়।
 
-**ভেতরে কীভাবে কাজ করে — তিন phase:** প্রতিটা frame-এ Compose তিন ধাপে কাজ করে, Flutter-এর build → layout → paint-এর মতো:
-1. **Composition** — কী দেখাবে (আপনার function চলে)
-2. **Layout** — মাপ আর জায়গা
-3. **Drawing** — আঁকা
+**ভেতরে কী হয় — তিনটা phase:** প্রতিটা frame-এ Compose তিন ধাপে কাজ করে। এটা Flutter-এর build → layout → paint-এর মতো:
+1. **Composition** — কী দেখাবে, সেটা ঠিক হয়। এই সময় আপনার function চলে।
+2. **Layout** — প্রতিটা জিনিসের মাপ আর জায়গা ঠিক হয়।
+3. **Drawing** — screen-এ আঁকা হয়।
 
-State কোন phase-এ পড়া হচ্ছে, তার উপর নির্ভর করে বাকি phase skip হতে পারে। Performance-এ এটা কাজে লাগবে ([৬.১৩](#ch6-13))।
+State কোন phase-এ পড়া হচ্ছে, তার ওপর ঠিক হয় কোন phase আবার চালাতে হবে আর কোনটা বাদ দেওয়া যাবে। Performance-এর সময় এটা কাজে লাগবে ([৬.১৩](#ch6-13))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-2"></a>৬.২ Layout
 
-**এক লাইনে:** `Column`, `Row` একই নামে আছে। `Stack` হলো `Box`। আর `Expanded`, `Padding`, `SizedBox` সব Modifier হয়ে গেছে।
+**এক লাইনে:** `Column` আর `Row` একই নামে আছে। `Stack`-এর নাম এখানে `Box`। আর `Expanded`, `Padding`, `SizedBox` — এগুলো সব এখন Modifier।
 
-**Notes app-এর একটা header, দুই পাশে:**
+**Notes app-এর একটা header, দুই framework-এ পাশাপাশি:**
 
 ```dart
 Padding(
@@ -1874,15 +1952,15 @@ Scaffold(
 }
 ```
 
-**ফাঁদ:** নতুন Android-এ (targetSdk 35+) app default-এ পুরো screen জুড়ে আঁকে — status bar আর navigation bar-এর নিচেও (edge-to-edge)। `innerPadding` না দিলে content bar-এর নিচে ঢাকা পড়বে। Flutter-এর `SafeArea` যে কাজ করত, এখানে `innerPadding` সেই কাজ করে।
+**ফাঁদ:** নতুন Android-এ (targetSdk 35+) app default হিসেবে পুরো screen জুড়ে আঁকে। Status bar আর navigation bar-এর নিচেও আঁকে। একে edge-to-edge বলে। তাই `innerPadding` না দিলে আপনার content ওই bar-গুলোর নিচে ঢাকা পড়ে যাবে। Flutter-এ `SafeArea` যে কাজ করত, এখানে `innerPadding` সেই কাজ করে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-3"></a>৬.৩ Wrapper widget → Modifier
 
-**এক লাইনে:** Flutter-এ padding, size, রং, tap — প্রতিটার জন্য একটা wrapper widget। Compose-এ এগুলো সব একটা chain: **Modifier**।
+**এক লাইনে:** Flutter-এ padding, size, রং, tap — প্রতিটার জন্য একটা করে wrapper widget লাগে। Compose-এ এগুলো সব একটা chain-এ লেখা হয়। এর নাম **Modifier**।
 
-**Flutter-এ — গভীর tree:**
+**Flutter-এ — অনেক স্তরের tree:**
 
 ```dart
 GestureDetector(
@@ -1895,7 +1973,7 @@ GestureDetector(
 )
 ```
 
-**Compose-এ — একটা লাইন:**
+**Compose-এ — একটা chain:**
 
 ```kotlin
 Text(
@@ -1907,22 +1985,25 @@ Text(
 )
 ```
 
-**ক্রম গুরুত্বপূর্ণ** — Modifier বাইরে থেকে ভেতরে কাজ করে, ঠিক Flutter-এর wrapper-এর মতো:
+**কোনটা আগে, কোনটা পরে — এটা গুরুত্বপূর্ণ।** Modifier বাইরে থেকে ভেতরের দিকে কাজ করে, ঠিক Flutter-এর wrapper-এর মতো:
 
 ```kotlin
 Modifier.padding(16.dp).background(Color.Yellow)   // = Padding(child: Container(color: yellow))
 Modifier.background(Color.Yellow).padding(16.dp)   // = Container(color: yellow, padding: 16)
 ```
 
-প্রথমটায় হলুদ অংশ ছোট, চারপাশে ফাঁকা। দ্বিতীয়টায় ফাঁকটাও হলুদ। একইভাবে `clickable` আগে দিলে tap-এর জায়গা বড়, পরে দিলে ছোট।
+- প্রথম লাইনে হলুদ অংশটা ছোট। তার চারপাশে ফাঁকা জায়গা।
+- দ্বিতীয় লাইনে ফাঁকা জায়গাটাও হলুদ।
 
-**Best approach — modifier parameter-এর নিয়ম:** প্রতিটা reusable composable একটা `modifier: Modifier = Modifier` নেবে, আর সেটা নিজের root element-এ প্রথমে লাগাবে। তাহলে caller বাইরে থেকে size, padding দিতে পারে। Compose-এর সবচেয়ে মানা convention এটা — code review-এ এটা না থাকলে প্রশ্ন আসবে।
+`clickable`-এর বেলাতেও একই কথা। আগে দিলে tap করার জায়গা বড় হয়। পরে দিলে ছোট হয়।
+
+**Best approach — modifier parameter-এর নিয়ম:** যে composable বারবার ব্যবহার হবে, সেটা একটা `modifier: Modifier = Modifier` parameter নেবে। আর এটা নিজের সবচেয়ে বাইরের (root) element-এ সবার আগে লাগাবে। তাহলে যে call করছে, সে বাইরে থেকে size বা padding দিতে পারবে। Compose-এ এটাই সবচেয়ে বেশি মানা নিয়ম। Code review-এ এটা না থাকলে প্রশ্ন উঠবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-4"></a>৬.৪ `ListView.builder` → `LazyColumn`
 
-**এক লাইনে:** `LazyColumn` শুধু screen-এ দেখা item-গুলো বানায় — ঠিক `ListView.builder`-এর মতো। পুরনো Android-এর `RecyclerView` + Adapter + ViewHolder-এর পুরো ঝামেলা এখানে এক function-এ।
+**এক লাইনে:** `LazyColumn` শুধু screen-এ যে item-গুলো দেখা যাচ্ছে, সেগুলোই বানায় — ঠিক `ListView.builder`-এর মতো। পুরনো Android-এ এর জন্য `RecyclerView` + Adapter + ViewHolder — অনেক ঝামেলা লাগত। এখানে সব এক function-এ হয়ে যায়।
 
 **Flutter-এ:**
 
@@ -1959,17 +2040,17 @@ LazyColumn(
 | `ScrollController` | `rememberLazyListState()` |
 | `SingleChildScrollView(child: Column)` | `Column(Modifier.verticalScroll(rememberScrollState()))` |
 
-- `LazyColumn`-এর `{ }`-এর ভেতরে composable না, একটা DSL — তাই সেখানে `item {}` আর `items()`।
-- **`key` দিন।** না দিলে item সরলে তার state (যেমন expand করা কি না) ভুল item-এ চলে যায়, আর animation ভুল হয় — Flutter-এ `Key` না দেওয়ার সমস্যার মতোই।
-- আলাদা ধরনের item থাকলে `contentType` দিন — Compose তখন ভেতরের জিনিস ভালোভাবে reuse করতে পারে।
+- `LazyColumn`-এর `{ }`-এর ভেতরে আপনি সরাসরি composable লেখেন না। ওটা একটা ছোট আলাদা ভাষা (DSL)। তাই সেখানে `item {}` আর `items()` ব্যবহার করতে হয়।
+- **`key` দিন।** না দিলে কী হয়? কোনো item জায়গা বদলালে তার state (যেমন expand করা আছে কি না) ভুল item-এ চলে যায়। Animation-ও ভুল হয়। Flutter-এ `Key` না দিলে যে সমস্যা হয়, এটাও তেমন।
+- List-এ আলাদা আলাদা ধরনের item থাকলে `contentType` দিন। তাহলে Compose ভেতরের জিনিস আরও ভালোভাবে আবার ব্যবহার (reuse) করতে পারে।
 
-**ফাঁদ:** `LazyColumn`-এর ভেতরে একই দিকের আরেকটা `LazyColumn` দেবেন না — crash করে, কারণ ভেতরেরটা অসীম উচ্চতা পায়। Flutter-এ `ListView`-এর ভেতরে `ListView` দিলে "unbounded height" error-এর মতো।
+**ফাঁদ:** `LazyColumn`-এর ভেতরে একই দিকে scroll করা আরেকটা `LazyColumn` দেবেন না। এতে app crash করে। কারণ ভেতরেরটা অসীম উচ্চতা পায়। Flutter-এ `ListView`-এর ভেতরে `ListView` দিলে যে "unbounded height" error আসে, এটা সেরকম।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-5"></a>৬.৫ `setState` → `mutableStateOf`
 
-**এক লাইনে:** `StatefulWidget`-এর field + `setState`-এর জায়গায় `remember { mutableStateOf() }`। Value বদলালেই UI আবার আঁকা হয়, আলাদা call লাগে না।
+**এক লাইনে:** `StatefulWidget`-এর field আর `setState`-এর বদলে এখানে `remember { mutableStateOf() }`। Value বদলালেই UI আবার আঁকা হয়। আলাদা করে কিছু call করতে হয় না।
 
 **Flutter-এ:**
 
@@ -2008,34 +2089,36 @@ fun PinButton() {
 }
 ```
 
-দুইটা আলাদা জিনিস একসাথে কাজ করছে:
+এখানে দুইটা আলাদা জিনিস একসাথে কাজ করছে:
 
-- **`mutableStateOf(false)`** — একটা observable box। Compose মনে রাখে, কোন composable এই box পড়েছে। Value বদলালে শুধু তারাই আবার চলে।
-- **`remember { }`** — box-টাকে বাঁচিয়ে রাখে। Flutter-এ `State` object নিজেই বাঁচে, তাই field থেকে যায়। Compose-এ function বারবার চলে। `remember` ছাড়া প্রতিবার নতুন box হতো, আর `pinned` সবসময় `false` থাকত।
+- **`mutableStateOf(false)`** — একটা state object, যার value বদলালে Compose টের পায় (observable)। কোন কোন composable এর value পড়েছে, Compose সেটা মনে রাখে। Value বদলালে শুধু সেই composable-গুলোই আবার চলে।
+- **`remember { }`** — এই state object-টাকে বারবার চলার মাঝে বাঁচিয়ে রাখে। Flutter-এ `State` object নিজেই বেঁচে থাকে, তাই তার field-ও থেকে যায়। কিন্তু Compose-এ function বারবার চলে। `remember` না দিলে প্রতিবার নতুন একটা state object তৈরি হতো। তখন `pinned` সবসময় `false` থাকত।
 
-**ভেতরে কীভাবে কাজ করে — recomposition বনাম rebuild:**
+**ভেতরে কী হয় — recomposition বনাম rebuild:** (Composable আবার চলাকে recomposition বলে।)
 
 | | Flutter | Compose |
 |---|---|---|
-| কে আবার চলে | `setState` যে widget-এ, তার `build()` আর নিচের subtree | শুধু যে composable box-টা পড়েছে, আর যার parameter বদলেছে |
-| Skip কীভাবে | `const`, ছোট widget-এ ভাগ করা | Compiler: parameter আগের মতো থাকলে skip |
-| ক্রম | ধারাবাহিক | যেকোনো ক্রমে, বারবার, মাঝপথে বাতিলও হতে পারে |
+| কে আবার চলে | যে widget-এ `setState` হলো, তার `build()` আর তার নিচের পুরো subtree | শুধু যে composable ওই state পড়েছে, আর যার parameter বদলেছে |
+| Skip কীভাবে হয় | `const` দিয়ে, বা widget ছোট ছোট ভাগ করে | Compiler দেখে: parameter আগের মতো থাকলে skip |
+| কোন ক্রমে চলে | একটার পর একটা, ক্রম মেনে | যেকোনো ক্রমে, বারবার, এমনকি মাঝপথে বাতিলও হতে পারে |
 
-শেষ লাইনটা থেকে সবচেয়ে জরুরি নিয়ম: **composable-এর body-তে side effect দেবেন না।** Network call, analytics, বাইরের variable বদলানো সরাসরি body-তে লিখলে প্রতিটা recomposition-এ চলবে — হয়তো সেকেন্ডে ৬০ বার। Flutter-এ `build()`-এ API call না করার নিয়মটা এখানে আরও কড়া। Side effect-এর জন্য আলাদা API ([৬.৭](#ch6-7))।
+শেষ লাইনটা থেকেই সবচেয়ে জরুরি নিয়মটা আসে: **composable-এর body-তে side effect দেবেন না।** Side effect মানে এমন কাজ যা function-এর বাইরে কিছু বদলায় — network call, analytics, বাইরের কোনো variable বদলানো। এগুলো সরাসরি body-তে লিখলে প্রতিটা recomposition-এ চলবে। হয়তো সেকেন্ডে ৬০ বার! Flutter-এ `build()`-এর ভেতরে API call না করার যে নিয়ম, এখানে সেটা আরও কড়া। Side effect-এর জন্য আলাদা API আছে ([৬.৭](#ch6-7))।
 
-**`rememberSaveable`** — rotation আর process death-এও বাঁচে ([৫.৩](#ch5-3)):
+**`rememberSaveable`** — এটা phone ঘোরালে আর process death-এর পরেও বেঁচে থাকে ([৫.৩](#ch5-3)):
 
 ```kotlin
 var draft by rememberSaveable { mutableStateOf("") }
 ```
 
-**ফাঁদ — list state:** `mutableStateOf(mutableListOf<Note>())`-এ `add()` করলে Compose বুঝতে পারে না, কারণ box-এর ভেতরের list object একই থাকে। Flutter-এ list-এ `add` করে `setState` না দেওয়ার মতো। নতুন list দিন (`notes = notes + newNote`), অথবা `mutableStateListOf()`।
+**ফাঁদ — list state:** ধরুন `mutableStateOf(mutableListOf<Note>())` লিখলেন, তারপর list-এ `add()` করলেন। Compose এটা টের পায় না। কারণ state-এর ভেতরের list object-টা একই আছে, শুধু তার ভেতরে একটা item বেড়েছে। Flutter-এ list-এ `add` করে `setState` না দিলে যেমন হয়, তেমন। সমাধান দুইটা:
+- পুরো নতুন একটা list দিন: `notes = notes + newNote`।
+- অথবা `mutableStateListOf()` ব্যবহার করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-6"></a>৬.৬ Lifting state up
 
-**এক লাইনে:** Flutter-এর "lift state up" Compose-এ **state hoisting** — composable নিজে state না রেখে value আর callback নেয়।
+**এক লাইনে:** Flutter-এ যাকে "lift state up" বলেন, Compose-এ তাকে বলে **state hoisting**। মানে composable নিজের ভেতরে state রাখে না। বাইরে থেকে value আর callback নেয়।
 
 **Flutter-এ:**
 
@@ -2063,25 +2146,25 @@ fun PinButton(
 }
 ```
 
-একই চিন্তা, একই লাভ: stateless composable reuse, preview আর test করা সহজ। এই pattern-এর নাম **unidirectional data flow (UDF)** — state উপর থেকে নিচে, event নিচ থেকে উপরে। Bloc-এ আপনি ঠিক এটাই করতেন: state `BlocBuilder` দিয়ে নিচে, event `add()` দিয়ে উপরে।
+চিন্তাটা একই, লাভও একই। Stateless composable সহজে বারবার ব্যবহার করা যায়, আর এর preview আর test করাও সহজ। এই pattern-এর নাম **unidirectional data flow (UDF)**, মানে data একদিকেই চলে: state ওপর থেকে নিচে নামে, event নিচ থেকে ওপরে ওঠে। Bloc-এ আপনি ঠিক এটাই করতেন: state `BlocBuilder` দিয়ে নিচে আসত, event `add()` দিয়ে ওপরে যেত।
 
-**কতটা উপরে তুলবেন:** যারা এই state পড়ে বা বদলায়, তাদের সবচেয়ে কাছের common parent পর্যন্ত। Business logic থাকলে (note save করা) ViewModel পর্যন্ত ([৮](#ch8))।
+**State কতটা ওপরে তুলবেন:** যারা এই state পড়ে বা বদলায়, তাদের সবার সবচেয়ে কাছের common parent পর্যন্ত। আর যদি business logic থাকে (যেমন note save করা), তাহলে ViewModel পর্যন্ত তুলুন ([৮](#ch8))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-7"></a>৬.৭ `initState`, `dispose`, `StreamBuilder`
 
-**এক লাইনে:** Widget-এর lifecycle method-এর জায়গায় Compose-এ "effect" — composable screen-এ এলে চলে, চলে গেলে পরিষ্কার হয়।
+**এক লাইনে:** Widget-এর lifecycle method-এর বদলে Compose-এ আছে "effect"। Composable screen-এ এলে effect চলে। চলে গেলে effect নিজেই পরিষ্কার হয়ে যায়।
 
 | Flutter | Compose | কখন চলে |
 |---|---|---|
-| `initState`-এ async কাজ | `LaunchedEffect(Unit) { }` | প্রথম screen-এ এলে, একবার। ভেতরে suspend code চলে। |
-| `didUpdateWidget` (id বদলালে) | `LaunchedEffect(noteId) { }` | Key বদলালে আগেরটা বাতিল, নতুন করে চলে |
-| `initState` + `dispose` | `DisposableEffect(key) { onDispose { } }` | কিছু register, পরে unregister |
-| `onPressed`-এ async কাজ | `rememberCoroutineScope()` → `scope.launch { }` | Callback থেকে coroutine |
-| `StreamBuilder` | `flow.collectAsStateWithLifecycle()` | Flow → state |
-| `FutureBuilder` | `produceState { value = load() }` | Suspend কাজের ফল → state |
-| হাতে cache করা হিসাব | `derivedStateOf { }` | অন্য state থেকে হিসাব, যেটা কম বদলায় |
+| `initState`-এ async কাজ | `LaunchedEffect(Unit) { }` | প্রথমবার screen-এ এলে, একবার। ভেতরে suspend code চালানো যায়। |
+| `didUpdateWidget` (id বদলালে) | `LaunchedEffect(noteId) { }` | Key বদলালে আগের কাজ বাতিল হয়, তারপর নতুন করে চলে |
+| `initState` + `dispose` | `DisposableEffect(key) { onDispose { } }` | কিছু register করা, পরে unregister করা |
+| `onPressed`-এ async কাজ | `rememberCoroutineScope()` → `scope.launch { }` | Callback থেকে coroutine চালানো |
+| `StreamBuilder` | `flow.collectAsStateWithLifecycle()` | Flow থেকে state |
+| `FutureBuilder` | `produceState { value = load() }` | Suspend কাজের ফল থেকে state |
+| হাতে cache করে রাখা হিসাব | `derivedStateOf { }` | অন্য state থেকে বের করা হিসাব, যেটা কম বদলায় |
 
 **Flutter-এ:**
 
@@ -2101,7 +2184,7 @@ class _NoteScreenState extends State<NoteScreen> {
 }
 ```
 
-**Compose-এ — দুইটা method এক effect-এ:**
+**Compose-এ — দুইটা method একটা effect-এই হয়ে যায়:**
 
 ```kotlin
 @Composable
@@ -2116,20 +2199,20 @@ fun NoteScreen(noteId: String, viewModel: NoteViewModel) {
 }
 ```
 
-**`derivedStateOf` কখন:** input অনেক ঘন ঘন বদলায়, ফল কম বদলায়। Scroll position প্রতি pixel-এ বদলায়, কিন্তু "উপরে যাও" button দেখাবে কি না, বদলায় একবার:
+**`derivedStateOf` কখন লাগে:** যখন input খুব ঘন ঘন বদলায়, কিন্তু ফল কম বদলায়। যেমন scroll position প্রতি pixel-এ বদলায়। কিন্তু "উপরে যাও" button দেখাবে কি না — সেটা বদলায় মাত্র একবার:
 
 ```kotlin
 val listState = rememberLazyListState()
 val showScrollToTop by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
 ```
 
-**Best approach:** Screen-এর data load ViewModel-এর `init` বা `stateIn`-এ করুন, `LaunchedEffect`-এ না। `LaunchedEffect`-এ load করলে rotation-এ আবার load হয়, কারণ composable নতুন করে screen-এ আসে। `LaunchedEffect` রাখুন UI-র কাজের জন্য: snackbar দেখানো, animation শুরু, focus দেওয়া।
+**Best approach:** Screen-এর data load করুন ViewModel-এর `init` বা `stateIn`-এ, `LaunchedEffect`-এ না। কেন? `LaunchedEffect`-এ load করলে phone ঘোরালে data আবার load হবে। কারণ তখন composable নতুন করে screen-এ আসে। `LaunchedEffect` রাখুন শুধু UI-র কাজের জন্য: snackbar দেখানো, animation শুরু করা, focus দেওয়া।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-8"></a>৬.৮ `InheritedWidget` → `CompositionLocal`
 
-**এক লাইনে:** Tree-র উপর থেকে data নিচে পাঠানো — `Theme.of(context)`, Provider-এর মতো — Compose-এ `CompositionLocal` দিয়ে।
+**এক লাইনে:** Tree-র ওপর থেকে data নিচে পাঠানো — যেমন `Theme.of(context)` বা Provider করে — Compose-এ এই কাজ হয় `CompositionLocal` দিয়ে।
 
 **Flutter-এ:**
 
@@ -2152,17 +2235,21 @@ CompositionLocalProvider(LocalAnalytics provides analytics) {
 val analytics = LocalAnalytics.current
 ```
 
-Built-in কিছু: `LocalContext`, `LocalLifecycleOwner`, `LocalDensity`, `LocalConfiguration`। `MaterialTheme` নিজেও ভেতরে এটাই ব্যবহার করে।
+কিছু আগে থেকেই বানানো আছে: `LocalContext`, `LocalLifecycleOwner`, `LocalDensity`, `LocalConfiguration`। `MaterialTheme` নিজেও ভেতরে ভেতরে এটাই ব্যবহার করে।
 
-**ফাঁদ:** এটা DI-র বিকল্প না। Repository বা ViewModel এটা দিয়ে পাঠাবেন না — তখন কোন composable কীসের উপর নির্ভর করে, signature দেখে বোঝা যায় না। এটা theme, density-র মতো "পরিবেশ"-এর জন্য। Business জিনিস parameter বা Hilt দিয়ে।
+**ফাঁদ:** এটা DI-এর বদলি না। Repository বা ViewModel এটা দিয়ে পাঠাবেন না। পাঠালে কোন composable কীসের ওপর চলে, সেটা function-এর signature দেখে আর বোঝা যায় না। এটা শুধু theme, density-র মতো "চারপাশের পরিবেশ"-এর জন্য। Business-এর জিনিস দিন parameter দিয়ে, বা Hilt দিয়ে।
 
-`compositionLocalOf` বনাম `staticCompositionLocalOf`: প্রথমটায় value বদলালে শুধু যারা পড়েছে তারা আবার চলে। দ্বিতীয়টায় পুরো subtree, কিন্তু পড়ার খরচ কম। প্রায় কখনো বদলায় না এমন জিনিসে `static`।
+`compositionLocalOf` বনাম `staticCompositionLocalOf`:
+- প্রথমটায় value বদলালে শুধু যারা value-টা পড়েছে, তারাই আবার চলে।
+- দ্বিতীয়টায় value বদলালে নিচের পুরো subtree আবার চলে। কিন্তু value পড়ার খরচ কম।
+
+যে জিনিস প্রায় কখনোই বদলায় না, তার জন্য `static`-টা নিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-9"></a>৬.৯ Theme
 
-**এক লাইনে:** Material 3-এর token-এর নাম Flutter আর Compose-এ প্রায় হুবহু এক। আপনার theme system সরাসরি চলে আসবে।
+**এক লাইনে:** Material 3-এর token-গুলোর (রং, font-এর নাম) নাম Flutter আর Compose-এ প্রায় হুবহু এক। তাই আপনার theme system প্রায় সরাসরি চলে আসবে।
 
 **Flutter-এ:**
 
@@ -2191,18 +2278,18 @@ MaterialTheme.typography.titleLarge
 | Flutter | Compose |
 |---|---|
 | `ThemeData` | `MaterialTheme(colorScheme, typography, shapes)` |
-| `ColorScheme.fromSeed` | নিজের `lightColorScheme(...)`, বা Android 12+ এ wallpaper থেকে `dynamicLightColorScheme(context)` |
+| `ColorScheme.fromSeed` | নিজে বানানো `lightColorScheme(...)`, বা Android 12+ এ wallpaper থেকে রং নিতে `dynamicLightColorScheme(context)` |
 | `Theme.of(context)` | `MaterialTheme.colorScheme` / `.typography` |
-| `ThemeExtension` | নিজের `CompositionLocal` |
+| `ThemeExtension` | নিজের বানানো `CompositionLocal` |
 | `MediaQuery.platformBrightnessOf` | `isSystemInDarkTheme()` |
 
-**ফাঁদ:** `res/values/themes.xml`-এও একটা theme থাকে। সেটা শুধু window-এর — Compose চালু হওয়ার আগের মুহূর্তের background আর splash। Compose-এর রং আসে `MaterialTheme` থেকে। দুই জায়গার রং না মিললে app খোলার সময় এক ঝলক অন্য রং দেখা যায়।
+**ফাঁদ:** `res/values/themes.xml`-এও একটা theme থাকে। সেটা শুধু window-এর জন্য — মানে Compose চালু হওয়ার ঠিক আগের মুহূর্তের background আর splash। Compose-এর ভেতরের রং আসে `MaterialTheme` থেকে। এই দুই জায়গার রং না মিললে app খোলার সময় এক ঝলক অন্য রং দেখা যায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-10"></a>৬.১০ TextField
 
-**এক লাইনে:** Flutter-এ `TextEditingController` text রাখে। Compose-এর সাধারণ `TextField`-এ text রাখেন আপনি — value দেন, `onValueChange`-এ নতুন value নেন।
+**এক লাইনে:** Flutter-এ text রাখে `TextEditingController`। Compose-এর সাধারণ `TextField`-এ text রাখেন আপনি নিজে। আপনি value দেন, আর `onValueChange`-এ নতুন value হাতে পান।
 
 **Flutter-এ:**
 
@@ -2226,16 +2313,16 @@ OutlinedTextField(
 )
 ```
 
-- **ফাঁদ:** `onValueChange`-এ value বসাতে ভুলে গেলে field-এ কিছুই লেখা যায় না। Flutter থেকে আসা সবাই প্রথম দিন এখানে আটকায়।
-- **ফাঁদ:** ViewModel-এ text রাখলে update synchronous রাখুন। Async করে (debounce বা network-এর পরে) value ফেরত দিলে cursor লাফায়, অক্ষর হারায়।
-- **নতুন API:** `rememberTextFieldState()` আর `TextFieldState`-ভিত্তিক `TextField` — এটা `TextEditingController`-এর অনেক কাছাকাছি, আর উপরের cursor সমস্যা নেই। নতুন code-এ এটা দেখে নিন।
-- Focus: `FocusNode` → `FocusRequester`। Keyboard বন্ধ: `LocalFocusManager.current.clearFocus()`।
+- **ফাঁদ:** `onValueChange`-এ নতুন value বসাতে ভুলে গেলে field-এ কিছুই লেখা যাবে না। Flutter থেকে আসা প্রায় সবাই প্রথম দিন এখানে আটকে যায়।
+- **ফাঁদ:** Text যদি ViewModel-এ রাখেন, তাহলে update synchronous রাখুন, মানে সাথে সাথে value বসান। Async করে value ফেরত দিলে (debounce বা network-এর পরে) cursor লাফায়, অক্ষর হারিয়ে যায়।
+- **নতুন API:** `rememberTextFieldState()` আর `TextFieldState` দিয়ে চলা `TextField`। এটা `TextEditingController`-এর অনেক কাছাকাছি। আর ওপরের cursor-এর সমস্যাটা এতে নেই। নতুন code-এ এটা দেখে নিন।
+- Focus: `FocusNode`-এর বদলে `FocusRequester`। Keyboard বন্ধ করতে: `LocalFocusManager.current.clearFocus()`।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-11"></a>৬.১১ Animation
 
-**এক লাইনে:** Flutter-এর implicit animation-এর মতোই — target value বদলান, animation নিজে হয়।
+**এক লাইনে:** এটা Flutter-এর implicit animation-এর মতোই। আপনি শুধু target value বদলান। Animation নিজে নিজে হয়।
 
 **Flutter-এ:**
 
@@ -2268,13 +2355,13 @@ AnimatedVisibility(visible = showHint) { Hint() }
 | `AnimatedList` | `LazyColumn`-এর item-এ `Modifier.animateItem()` |
 | `Curves.easeInOut` | `tween(300, easing = FastOutSlowInEasing)`, `spring()` |
 
-Compose-এর default প্রায়ই `spring()` — physics-ভিত্তিক, তাই মাঝপথে target বদলালেও মসৃণভাবে ঘুরে যায়।
+Compose-এ default animation প্রায়ই `spring()`। এটা physics-এর নিয়মে চলে। তাই animation-এর মাঝপথে target বদলালেও সুন্দরভাবে নতুন দিকে ঘুরে যায়, ঝাঁকি লাগে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-12"></a>৬.১২ Hot reload নেই: Preview
 
-**এক লাইনে:** Flutter-এর মতো পুরো hot reload Compose-এ নেই। এটাই সবচেয়ে বড় অভ্যাসের বদল। তার জায়গায় `@Preview`।
+**এক লাইনে:** Flutter-এর মতো পুরো hot reload Compose-এ নেই। অভ্যাসের দিক থেকে এটাই সবচেয়ে বড় বদল। তার বদলে আছে `@Preview`।
 
 ```kotlin
 @Preview(showBackground = true)
@@ -2285,45 +2372,48 @@ private fun NoteCardPreview() {
 }
 ```
 
-- **Preview** — Android Studio-তে app না চালিয়েই composable দেখা, light-dark, বড় font, ছোট screen পাশাপাশি। ভালো চলে stateless composable-এ। এটাই state hoisting-এর আরেক বড় লাভ — যে composable ViewModel চায়, তার preview বানানো কঠিন।
-- **Live Edit** — চলমান app-এ কিছু বদল সাথে সাথে দেখায়। Text, রং, সংখ্যা বদলে ভালো কাজ করে, কিন্তু Flutter-এর hot reload-এর মতো সব জায়গায় না।
-- **Layout Inspector** — Flutter DevTools-এর widget inspector। এখানে recomposition count দেখা যায়: কোন composable কতবার আবার চলছে।
+- **Preview** — app না চালিয়েই Android Studio-র ভেতরে composable দেখা যায়। Light আর dark, বড় font, ছোট screen — সব পাশাপাশি দেখা যায়। Stateless composable-এ এটা সবচেয়ে ভালো চলে। State hoisting-এর এটা আরেকটা বড় লাভ। যে composable ViewModel চায়, তার preview বানানো কঠিন।
+- **Live Edit** — app চলার সময় কিছু বদল সাথে সাথে দেখায়। Text, রং বা সংখ্যা বদলালে ভালো কাজ করে। কিন্তু Flutter-এর hot reload-এর মতো সব জায়গায় কাজ করে না।
+- **Layout Inspector** — এটা Flutter DevTools-এর widget inspector-এর মতো। এখানে recomposition count দেখা যায়, মানে কোন composable কতবার আবার চলছে।
 
-**Best approach:** প্রতিটা screen-কে দুই ভাগে লিখুন: `NotesRoute` (ViewModel নেয়) আর `NotesScreen` (শুধু state আর callback নেয়)। Preview আর test হবে `NotesScreen`-এর ([৮.৩](#ch8-3))।
+**Best approach:** প্রতিটা screen দুই ভাগে লিখুন:
+- `NotesRoute` — এটা ViewModel নেয়।
+- `NotesScreen` — এটা শুধু state আর callback নেয়।
+
+Preview আর test লিখবেন `NotesScreen`-এর জন্য ([৮.৩](#ch8-3))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch6-13"></a>৬.১৩ Performance
 
-শুরুতে এই কয়েকটা নিয়ম মানলেই বেশিরভাগ সমস্যা থাকে না:
+শুরুতে এই কয়েকটা নিয়ম মানলেই বেশিরভাগ সমস্যা আর হয় না:
 
-1. **Release build-এ মাপুন।** Debug-এ Compose অনেক ধীর। Flutter-এ profile mode-এ মাপার মতো।
-2. **List-এ `key`** ([৬.৪](#ch6-4))।
-3. **দামি হিসাব `remember` করুন:** `val sorted = remember(notes) { notes.sortedBy { it.title } }`। নইলে প্রতি recomposition-এ sort।
-4. **ঘন ঘন বদলানো state যত দেরিতে সম্ভব পড়ুন।** Scroll বা animation-এর value দিয়ে position বদলাতে lambda modifier: `Modifier.offset { IntOffset(0, offset.roundToInt()) }`। Value তখন পড়া হয় layout phase-এ, composition আবার চলে না।
-5. **Immutable state।** UI state-এ `data class` আর `val`। Kotlin 2.0.20 থেকে "strong skipping" default চালু, তাই এখন বেশিরভাগ ক্ষেত্রে skip নিজেই ঠিকমতো হয়। Flutter-এ immutable state রাখার অভ্যাস এখানেও সঠিক।
-6. **Baseline Profile।** App-এর গুরুত্বপূর্ণ code আগে থেকে compile করিয়ে রাখে। Compose app-এর প্রথম launch আর scroll-এ বড় পার্থক্য আনে।
+1. **Release build-এ মাপুন।** Debug build-এ Compose অনেক ধীর চলে। Flutter-এ যেমন profile mode-এ মাপেন, তেমন।
+2. **List-এ `key` দিন** ([৬.৪](#ch6-4))।
+3. **ভারী হিসাব `remember` করে রাখুন:** `val sorted = remember(notes) { notes.sortedBy { it.title } }`। না রাখলে প্রতিটা recomposition-এ আবার sort হবে।
+4. **যে state ঘন ঘন বদলায়, সেটা যত দেরিতে পারেন পড়ুন।** Scroll বা animation-এর value দিয়ে position বদলাতে lambda modifier ব্যবহার করুন: `Modifier.offset { IntOffset(0, offset.roundToInt()) }`। তখন value পড়া হয় layout phase-এ। ফলে composition আবার চলে না।
+5. **Immutable state রাখুন।** UI state-এ `data class` আর `val` ব্যবহার করুন। Kotlin 2.0.20 থেকে "strong skipping" default হিসেবে চালু। তাই এখন বেশিরভাগ সময় skip নিজেই ঠিকমতো হয়। Flutter-এ immutable state রাখার যে অভ্যাস, এখানেও সেটাই ঠিক।
+6. **Baseline Profile।** এটা app-এর গুরুত্বপূর্ণ code আগে থেকেই compile করিয়ে রাখে। এতে Compose app-এর প্রথম launch আর scroll অনেক ভালো হয়।
 
 > **মনে রাখুন**
-> - Widget → `@Composable` function। `child` → trailing lambda। Wrapper widget → Modifier, আর Modifier-এর ক্রম গুরুত্বপূর্ণ।
-> - `setState` → `remember { mutableStateOf() }`। `remember` না দিলে state হারায়।
-> - Body-তে side effect না — `LaunchedEffect`, `DisposableEffect`, `rememberCoroutineScope`।
-> - State hoisting = lift state up = UDF। Route আর Screen আলাদা।
-> - Hot reload নেই, Preview আছে।
+> - Widget-এর বদলে `@Composable` function। `child`-এর বদলে trailing lambda। Wrapper widget-এর বদলে Modifier — আর Modifier কোন ক্রমে লিখছেন, সেটা গুরুত্বপূর্ণ।
+> - `setState`-এর বদলে `remember { mutableStateOf() }`। `remember` না দিলে state হারিয়ে যায়।
+> - Body-তে side effect দেবেন না। তার জন্য আছে `LaunchedEffect`, `DisposableEffect`, `rememberCoroutineScope`।
+> - State hoisting, lift state up আর UDF — একই চিন্তা। Route আর Screen আলাদা রাখুন।
+> - Hot reload নেই, কিন্তু Preview আছে।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Compose-এর চিন্তা Flutter-এর মতোই — UI হলো state-এর function। আমি screen-কে stateless রাখি, state hoist করি, আর side effect শুধু effect API-তে দিই, কারণ recomposition যেকোনো সময়, বারবার হতে পারে। Performance-এ list-এ key দিই, দামি হিসাব remember করি, আর release build-এ মাপি।"
+> - *বাংলায়:* "Compose-এর চিন্তা Flutter-এর মতোই — UI হলো state-এর function। আমি screen-কে stateless রাখি আর state hoist করি। Side effect শুধু effect API-তে দিই, কারণ recomposition যেকোনো সময়, বারবার হতে পারে। Performance-এর জন্য list-এ key দিই, ভারী হিসাব remember করি, আর release build-এ মাপি।"
 > - *English:* "Compose thinks like Flutter — UI is a function of state. I keep screens stateless, hoist state, and put side effects only in effect APIs, because recomposition can happen at any time and many times. For performance, I add keys to lists, remember expensive work, and measure on a release build."
 
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ch7"></a>৭. Navigation — `go_router`-এর জায়গায়
 
-আগে Android-এ নতুন screen মানে নতুন Activity আর `startActivity(intent)`। Data পাঠাতে `intent.putExtra()`, ফল আনতে `onActivityResult`। এখন সেই দিন শেষ। একটা Activity-র ভেতরে route table, ঠিক `go_router`-এর মতো।
+আগে Android-এ নতুন screen খুলতে হলে নতুন একটা Activity বানাতেন, আর `startActivity(intent)` call করতেন। Data পাঠাতেন `intent.putExtra()` দিয়ে। ফল ফেরত আনতেন `onActivityResult` দিয়ে। এখন আর এভাবে করা হয় না। এখন app-এ একটাই Activity থাকে। তার ভেতরে একটা route table থাকে, ঠিক `go_router`-এর মতো।
 
-**এক লাইনে:** `GoRouter`-এর route list → `NavHost`। `context.push()` → `navController.navigate()`। Path string-এর বদলে type-safe Kotlin class।
+**এক লাইনে:** `GoRouter`-এর route list-এর জায়গায় আসে `NavHost`। `context.push()`-এর জায়গায় `navController.navigate()`। আর path string-এর বদলে route হয় একটা Kotlin class, যার type compiler check করে (type-safe)।
 
 **Flutter-এ (go_router):**
 
@@ -2367,28 +2457,28 @@ fun NotesNavHost(navController: NavHostController = rememberNavController()) {
 | `state.pathParameters['id']!` | `entry.toRoute<NoteDetail>().noteId` — type-safe |
 | `context.push()` / `go()` | `navController.navigate(route)` |
 | `context.pop()` | `navController.popBackStack()` |
-| `redirect` (login check) | start destination বদলানো, বা ViewModel-এ check করে navigate |
+| `redirect` (login check) | start destination বদলে দিন, বা ViewModel-এ check করে navigate করুন |
 | `StatefulShellRoute` (bottom nav) | `NavigationBar` + nested graph, `saveState` / `restoreState` |
 | `PopScope` | `BackHandler { }` |
 
 **কী আলাদা:**
-- **Route হলো Kotlin class।** Argument-এর type compiler check করে। `int` চাইলে `String` দিতে পারবেন না। go_router-এর typed route-এর মতো, কিন্তু code generation ছাড়া।
-- **প্রতিটা destination-এর নিজের ViewModel scope।** `NoteDetail` screen-এ `hiltViewModel()` নিলে সেই ViewModel ওই screen-এর। Screen back stack থেকে বের হলে ViewModel clear। ViewModel-এর ভেতরে argument পড়া: `savedStateHandle.toRoute<NoteDetail>()`।
-- **System back button।** Android-এ system back (button বা gesture) আছে, iOS-এ নেই। Navigation library নিজে সামলায়। "Save না করে বের হবেন?" dialog লাগলে `BackHandler { }` — Flutter-এর `PopScope`।
+- **Route হলো একটা Kotlin class।** Argument-এর type compiler check করে। যেখানে `int` চাই, সেখানে `String` দিলে code compile-ই হবে না। go_router-এর typed route-এর মতো, কিন্তু এখানে code generation লাগে না।
+- **প্রতিটা destination (মানে প্রতিটা screen)-এর নিজের ViewModel থাকে।** `NoteDetail` screen-এ `hiltViewModel()` call করলে যে ViewModel পাবেন, সেটা শুধু ওই screen-এর। Screen-টা back stack থেকে বের হয়ে গেলে তার ViewModel-ও মুছে যায় (clear হয়)। ViewModel-এর ভেতর থেকে argument পড়তে চাইলে লিখুন `savedStateHandle.toRoute<NoteDetail>()`।
+- **System back button।** Android-এ system-এর নিজের একটা back আছে (button বা gesture)। iOS-এ এমন কিছু নেই। এই back-টা Navigation library নিজেই সামলায়। কিন্তু ধরুন back চাপলে "Save না করে বের হবেন?" dialog দেখাতে চান। তখন `BackHandler { }` লিখুন। এটা Flutter-এর `PopScope`-এর মতো।
 
 **Best approach:**
-- Screen-কে `navController` দেবেন না, শুধু callback (`onNoteClick`)। Navigation logic এক জায়গায় থাকে, screen preview আর test করা যায়। Flutter-এ widget-এর ভেতরে সরাসরি `context.go()` না লিখে callback দেওয়ার মতো।
-- **Argument-এ শুধু id পাঠান, পুরো object না।** Argument Bundle-এ save হয়, যার সীমা আছে, আর process death-এর পরে পুরনো object ফেরত আসতে পারে। Id নিয়ে repository থেকে load করুন।
+- Screen-এর হাতে `navController` দেবেন না। শুধু একটা callback দিন (`onNoteClick`)। এতে navigation-এর সব logic এক জায়গায় থাকে। আর screen-টা আলাদা করে preview আর test করা যায়। Flutter-এ widget-এর ভেতরে সরাসরি `context.go()` না লিখে বাইরে থেকে callback দেওয়ার মতোই।
+- **Argument-এ শুধু id পাঠান, পুরো object না।** Argument একটা Bundle-এ save হয়, আর Bundle-এর মাপের সীমা আছে। তাছাড়া system app মেরে ফেলে আবার চালু করলে (process death) পুরনো object ফেরত আসতে পারে। তাই শুধু id পাঠান, আর screen-এ সেই id দিয়ে repository থেকে data load করুন।
 
-**Navigation 3:** ২০২৫-এর শেষে Navigation 3 নামে নতুন library stable হয়েছে। এখানে back stack একটা সাধারণ list, যেটা আপনি নিজে রাখেন আর বদলান (`rememberNavBackStack`, `NavDisplay`)। Flutter-এর Navigator 2.0-এর `pages` list-এর ধারণার কাছাকাছি। নতুন project-এ দুটোই দেখবেন। শিখতে Navigation Compose দিয়ে শুরু করুন, তারপর Nav3।
+**Navigation 3:** ২০২৫-এর শেষে Navigation 3 নামে একটা নতুন library stable হয়েছে। এখানে back stack একটা সাধারণ list। List-টা আপনি নিজেই রাখেন আর নিজেই বদলান (`rememberNavBackStack`, `NavDisplay`)। ধারণাটা Flutter-এর Navigator 2.0-এর `pages` list-এর কাছাকাছি। নতুন project-এ দুটোই দেখতে পাবেন। শেখার সময় আগে Navigation Compose দিয়ে শুরু করুন, তারপর Nav3 দেখুন।
 
 > **মনে রাখুন**
 > - `GoRouter` → `NavHost`, path → `@Serializable` class, `push` → `navigate`।
-> - প্রতিটা destination-এর নিজের ViewModel।
-> - Screen-এ callback দিন, `navController` না। Argument-এ শুধু id।
+> - প্রতিটা destination-এর নিজের ViewModel থাকে।
+> - Screen-কে callback দিন, `navController` দেবেন না। Argument-এ শুধু id পাঠান।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "আমি single-Activity-তে Navigation Compose নিই, type-safe route দিয়ে। Screen-কে navController না দিয়ে callback দিই, আর argument-এ শুধু id পাঠাই, যাতে process death-এর পরেও data repository থেকে ঠিকঠাক আসে।"
+> - *বাংলায়:* "আমি একটাই Activity রাখি (single-Activity), আর তাতে Navigation Compose ব্যবহার করি, type-safe route দিয়ে। Screen-কে navController দিই না, callback দিই। Argument-এ শুধু id পাঠাই। তাই system app মেরে আবার চালু করলেও (process death) data repository থেকে ঠিকঠাক আসে।"
 > - *English:* "I use Navigation Compose in a single Activity with type-safe routes. I pass callbacks to screens instead of the navController, and only pass ids as arguments, so after process death the data still comes correctly from the repository."
 
 [উপরে ফিরুন](#toc)
@@ -2397,7 +2487,7 @@ fun NotesNavHost(navController: NavHostController = rememberNavController()) {
 
 ## <a id="ch8"></a>৮. Architecture — Cubit থেকে ViewModel, `get_it` থেকে Hilt
 
-আপনি Flutter-এ clean architecture ব্যবহার করেন। এই অধ্যায়ে তাই কোনো নতুন দর্শন নেই। Presentation, domain, data — layer একই। শুধু প্রতিটা layer-এর ইট আলাদা। Cubit-এর জায়গায় ViewModel, `get_it`-এর জায়গায় Hilt। আর একটা নতুন জিনিস: Android-এর ViewModel lifecycle জানে, Cubit জানত না।
+আপনি Flutter-এ clean architecture ব্যবহার করেন। তাই এই অধ্যায়ে নতুন করে কোনো ধারণা শিখতে হবে না। Presentation, domain, data — layer-গুলো একই থাকে। শুধু প্রতিটা layer যে জিনিস দিয়ে বানানো, সেগুলো আলাদা। Cubit-এর জায়গায় ViewModel, `get_it`-এর জায়গায় Hilt। একটাই নতুন জিনিস আছে: Android-এর ViewModel lifecycle জানে। মানে screen কখন চালু, কখন বন্ধ — সেটা সে বোঝে। Cubit এটা বুঝত না।
 
 ### <a id="ch8-1"></a>৮.১ Layer একই থাকে
 
@@ -2418,13 +2508,18 @@ data/                                  data/
 di/injection.dart    (get_it)          di/DataModule.kt   (Hilt)
 ```
 
-**UseCase নিয়ে একটা কথা:** Google-এর architecture guide-এ domain layer **optional**। যে UseCase শুধু একটা repository method forward করে, সেটা বাড়তি layer। Business rule আছে, দুইটা repository মেলাতে হয়, বা কয়েকটা ViewModel একই logic চায় — তখনই UseCase বানান। এটা আপনার clean architecture-এর বিরুদ্ধে না, শুধু "প্রতিটা call-এ একটা UseCase" নিয়মটা এখানে চলে না।
+**UseCase নিয়ে একটা কথা:** Google-এর architecture guide বলে, domain layer **optional** — না রাখলেও চলে। কোনো UseCase যদি শুধু একটা repository method-কে ডেকে দেয়, আর কিছু না করে, তাহলে সেটা বাড়তি layer। UseCase বানান শুধু এই তিন ক্ষেত্রে:
+- ভেতরে কোনো business rule আছে।
+- দুইটা repository-র data একসাথে মেলাতে হয়।
+- কয়েকটা ViewModel-এর একই logic লাগে।
+
+এটা আপনার clean architecture-এর বিরুদ্ধে না। শুধু "প্রতিটা call-এর জন্য একটা UseCase" — এই নিয়মটা এখানে চলে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch8-2"></a>৮.২ Cubit → ViewModel
 
-**এক লাইনে:** ViewModel হলো Cubit, কিন্তু rotation-এ বাঁচে, আর নিজের coroutine scope নিয়ে আসে।
+**এক লাইনে:** ViewModel দেখতে Cubit-এর মতোই। তফাত দুইটা: screen ঘোরালে (rotation) ViewModel হারায় না, টিকে থাকে। আর সে নিজের coroutine scope সাথে নিয়ে আসে।
 
 **Flutter-এ:**
 
@@ -2505,13 +2600,13 @@ class NotesViewModel @Inject constructor(
 |---|---|
 | `Cubit<NotesState>` | `ViewModel` + `StateFlow<NotesUiState>` |
 | `emit(state.copyWith(...))` | `_state.update { it.copy(...) }`, বা `combine` + `stateIn` |
-| `close()`-এ subscription cancel | লাগে না — `viewModelScope` নিজে বন্ধ হয় |
-| Widget dispose হলে Cubit-ও যায় | Rotation-এ বাঁচে, screen সত্যিই বন্ধ হলে যায় |
+| `close()`-এ subscription cancel করতে হয় | লাগে না — `viewModelScope` নিজেই বন্ধ হয় |
+| Widget dispose হলে Cubit-ও চলে যায় | Rotation-এ টিকে থাকে, screen সত্যিই বন্ধ হলে তবেই যায় |
 | freezed state | `data class` |
 
-**দুই ধরনের লেখা ViewModel-এ:**
-- **`combine` + `stateIn`** (উপরের মতো): state যখন বেশিরভাগ অন্য flow থেকে আসে — database, settings। Declarative, আর `WhileSubscribed` দিয়ে background-এ query নিজে থামে।
-- **`MutableStateFlow` + `update {}`**: state যখন মূলত user-এর কাজে বদলায় — form, wizard। Cubit-এর `emit(copyWith)`-এর সবচেয়ে কাছের রূপ:
+**ViewModel দুইভাবে লেখা যায়:**
+- **`combine` + `stateIn`** (উপরের উদাহরণের মতো): যখন state-এর বেশিরভাগটা অন্য flow থেকে আসে — যেমন database বা settings। এখানে আপনি শুধু বলে দেন state কী থেকে তৈরি হবে (declarative)। আর `WhileSubscribed` থাকায় app background-এ গেলে query নিজেই থেমে যায়।
+- **`MutableStateFlow` + `update {}`**: যখন state মূলত user-এর কাজে বদলায় — যেমন form বা কয়েক ধাপের wizard। Cubit-এর `emit(copyWith)`-এর সবচেয়ে কাছের রূপ এটা:
 
 ```kotlin
 private val _uiState = MutableStateFlow(EditNoteUiState())
@@ -2521,14 +2616,14 @@ fun onTitleChange(title: String) = _uiState.update { it.copy(title = title) }
 ```
 
 **ফাঁদ:**
-- ViewModel-এ `Context`, View বা Activity রাখবেন না। ViewModel Activity-র চেয়ে বেশিদিন বাঁচে, তাই leak। String resource লাগলে UI-তে resolve করুন।
-- `MutableStateFlow` বাইরে public রাখবেন না। তখন UI নিজে state বদলাতে পারে, UDF ভাঙে। Cubit-এ `emit` যেমন বাইরে থেকে call করা যায় না, তেমন।
+- ViewModel-এ `Context`, View বা Activity রাখবেন না। ViewModel Activity-র চেয়ে বেশিদিন বাঁচে। তাই Activity চলে গেলেও ViewModel তাকে ধরে রাখে, আর memory leak হয়। String resource লাগলে সেটা UI-তে বসে বের করুন (resolve করুন)।
+- `MutableStateFlow`-কে বাইরে public রাখবেন না। রাখলে UI নিজেই state বদলে ফেলতে পারে। তখন UDF ভেঙে যায় — মানে state শুধু ViewModel থেকে নিচে নামবে, আর event শুধু UI থেকে ওপরে উঠবে, এই নিয়মটা আর থাকে না। Cubit-এ যেমন `emit` বাইরে থেকে call করা যায় না, এখানেও তেমন রাখুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch8-3"></a>৮.৩ `BlocBuilder` → `collectAsStateWithLifecycle`
 
-**এক লাইনে:** ViewModel-এর `StateFlow` Compose-এ পড়া হয় `collectAsStateWithLifecycle()` দিয়ে। Route-Screen ভাগ করে লিখুন।
+**এক লাইনে:** Compose-এ ViewModel-এর `StateFlow` পড়া হয় `collectAsStateWithLifecycle()` দিয়ে। আর UI-কে দুই ভাগে লিখুন: Route আর Screen।
 
 **Flutter-এ:**
 
@@ -2566,15 +2661,19 @@ fun NotesScreen(state: NotesUiState, onNoteClick: (String) -> Unit, onDelete: (S
 }
 ```
 
-`NotesRoute` = Flutter-এর `NotesPage` (provider বসায়)। `NotesScreen` = `NotesView` (শুধু দেখায়)।
+`NotesRoute` হলো Flutter-এর `NotesPage`-এর মতো — সে provider বসায়। `NotesScreen` হলো `NotesView`-এর মতো — সে শুধু দেখায়।
 
-**কেন `WithLifecycle`:** সাধারণ `collectAsState()` app background-এ গেলেও collect করতে থাকে। `collectAsStateWithLifecycle()` screen STARTED-এর নিচে গেলে থামে, ফিরলে আবার শুরু করে। `stateIn(WhileSubscribed(5_000))`-এর সাথে মিলে background-এ database query পর্যন্ত থেমে যায়। Flutter-এ `BlocBuilder` app background-এ গেলেও stream শুনতে থাকে।
+**কেন `WithLifecycle`:**
+- সাধারণ `collectAsState()` app background-এ গেলেও collect করতেই থাকে।
+- `collectAsStateWithLifecycle()` screen আর দেখা না গেলে (STARTED অবস্থার নিচে নামলে) collect থামিয়ে দেয়। Screen ফিরে এলে আবার শুরু করে।
+- এর সাথে ViewModel-এ `stateIn(WhileSubscribed(5_000))` থাকলে আরও ভালো। তখন background-এ database query পর্যন্ত থেমে যায়।
+- তুলনা করুন: Flutter-এ `BlocBuilder` app background-এ গেলেও stream শুনতে থাকে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch8-4"></a>৮.৪ `BlocListener` → one-off event
 
-**এক লাইনে:** Snackbar, navigation-এর মতো "একবার ঘটবে" কাজ — Google-এর পরামর্শ হলো এগুলোকেও state হিসেবে রাখা।
+**এক লাইনে:** কিছু কাজ শুধু একবার ঘটে — যেমন snackbar দেখানো বা অন্য screen-এ যাওয়া। Google বলে, এগুলোকেও state হিসেবে রাখুন।
 
 **Flutter-এ:**
 
@@ -2602,13 +2701,13 @@ LaunchedEffect(state.error) {
 }
 ```
 
-**কেন state, `SharedFlow` বা `Channel` না:** Event stream-এ পাঠালে, ঠিক সেই মুহূর্তে কেউ না শুনলে (rotation চলছে, app background-এ) event হারাতে পারে। State হারায় না — UI ফিরে এসে দেখে, error এখনো আছে, দেখায়, তারপর clear করে। অনেক team তবু `Channel` ব্যবহার করে। দুটোই দেখবেন, শুধু trade-off-টা জানুন।
+**কেন state, `SharedFlow` বা `Channel` না:** Event-কে stream-এ পাঠালে একটা সমস্যা আছে। ঠিক সেই মুহূর্তে কেউ না শুনলে event হারিয়ে যেতে পারে — যেমন তখন rotation চলছে, বা app background-এ। State এভাবে হারায় না। UI ফিরে এসে দেখে, error এখনো আছে। তখন সেটা দেখায়, তারপর clear করে দেয়। তবু অনেক team `Channel` ব্যবহার করে। Project-এ দুটোই দেখবেন। শুধু কোনটায় কী লাভ, কী ক্ষতি (trade-off) — সেটা জেনে রাখুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch8-5"></a>৮.৫ `get_it` → Hilt
 
-**এক লাইনে:** Hilt হলো compile time-এ বানানো DI। `injectable`-এর annotation-এর মতো দেখতে, কিন্তু ভুল dependency build-এই ধরা পড়ে।
+**এক লাইনে:** Hilt একটা DI library। কোন class-এ কী dependency যাবে, সেই code সে compile-এর সময়েই বানিয়ে ফেলে। দেখতে `injectable`-এর annotation-এর মতো। কিন্তু কোনো dependency ভুল হলে app চালানোর আগেই, build-এর সময় ধরা পড়ে।
 
 **Flutter-এ (get_it + injectable):**
 
@@ -2670,25 +2769,27 @@ class NotesViewModel @Inject constructor(private val repo: NotesRepository) : Vi
 | `@lazySingleton` / `@singleton` | `@Singleton` |
 | `@LazySingleton(as: Interface)` | `@Binds` |
 | `@module` + method | `@Module` + `@Provides` |
-| `configureDependencies()` | `@HiltAndroidApp` (code compile-এর সময় তৈরি) |
+| `configureDependencies()` | `@HiltAndroidApp` (দরকারি code compile-এর সময় তৈরি হয়) |
 | `getIt<NotesCubit>()` | `hiltViewModel()` |
 | scope / environment | Component: `SingletonComponent`, `ViewModelComponent`, `ActivityComponent` |
-| `@Environment('test')` | test-এ `@TestInstallIn` দিয়ে module বদলানো |
+| `@Environment('test')` | test-এ `@TestInstallIn` দিয়ে module বদলে দিন |
 
-**`@Binds` বনাম `@Provides`:** নিজের class, যার constructor-এ `@Inject` আছে, আর interface-এর সাথে জুড়তে হবে → `@Binds`। Library-র class (Retrofit, OkHttp, Room), যেটার constructor আপনার না → `@Provides`।
+**`@Binds` বনাম `@Provides`:**
+- Class-টা আপনার নিজের, তার constructor-এ `@Inject` আছে, আর তাকে একটা interface-এর সাথে জুড়তে হবে → `@Binds`।
+- Class-টা কোনো library-র (Retrofit, OkHttp, Room), তাই তার constructor-এ আপনি হাত দিতে পারেন না → `@Provides`।
 
 **Best approach:**
-- Scope ভেবে দিন। OkHttp, Retrofit, database, repository — `@Singleton`। বাকিরা unscoped (প্রতিবার নতুন)। সবকিছু singleton করলে memory আর lock-এর খরচ বাড়ে।
-- Interface তখনই, যখন লাগে — test-এ fake দেবেন, বা দুইটা implementation আছে। নইলে শুধু `@Inject constructor` দেওয়া class-ই যথেষ্ট, `@Binds` লাগে না।
+- প্রতিটা জিনিসের scope (কতদিন একই instance থাকবে) ভেবে ঠিক করুন। OkHttp, Retrofit, database, repository — এগুলো `@Singleton`। বাকিগুলো unscoped রাখুন, মানে প্রতিবার নতুন instance। সবকিছু singleton করলে memory বেশি লাগে, আর lock-এর খরচও বাড়ে।
+- Interface বানান শুধু যখন সত্যিই লাগে — যেমন test-এ fake দিতে হবে, বা দুইটা আলাদা implementation আছে। নইলে `@Inject constructor` দেওয়া একটা class-ই যথেষ্ট। তখন `@Binds`-ও লাগে না।
 
 > **মনে রাখুন**
-> - Layer একই। Cubit → ViewModel, freezed state → data class, `get_it` → Hilt।
-> - ViewModel rotation-এ বাঁচে আর নিজে coroutine বন্ধ করে।
-> - `BlocBuilder` → `collectAsStateWithLifecycle()`। Route (ViewModel নেয়) আর Screen (stateless) আলাদা।
-> - One-off event state হিসেবে রাখুন, দেখানোর পরে clear।
+> - Layer একই থাকে। Cubit → ViewModel, freezed state → data class, `get_it` → Hilt।
+> - ViewModel rotation-এ টিকে থাকে, আর নিজের coroutine নিজেই বন্ধ করে।
+> - `BlocBuilder` → `collectAsStateWithLifecycle()`। Route (যে ViewModel নেয়) আর Screen (যার নিজের state নেই) আলাদা রাখুন।
+> - একবারের event-ও state হিসেবে রাখুন। দেখানো হয়ে গেলে clear করুন।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "আমি UDF মানি: প্রতিটা screen-এর ViewModel একটা immutable UiState দেয় StateFlow হিসেবে, UI সেটা lifecycle-aware ভাবে collect করে, আর event function call হিসেবে পাঠায়। DI-তে Hilt নিই — Flutter-এ injectable যা করত, তাই, কিন্তু ভুল compile time-এ ধরা পড়ে। UseCase শুধু তখন বানাই, যখন সত্যিই business logic আছে।"
+> - *বাংলায়:* "আমি UDF মানি। প্রতিটা screen-এর ViewModel একটা immutable UiState দেয়, StateFlow হিসেবে। UI সেটা lifecycle মেনে collect করে। আর user-এর event ViewModel-এ পাঠায় function call করে। DI-তে Hilt নিই। Flutter-এ injectable যা করত, Hilt তাই করে — কিন্তু ভুল থাকলে compile-এর সময়েই ধরা পড়ে। UseCase বানাই শুধু তখন, যখন সত্যিই business logic আছে।"
 > - *English:* "I follow UDF: each screen's ViewModel exposes one immutable UiState as a StateFlow, the UI collects it in a lifecycle-aware way, and sends events as function calls. For DI I use Hilt — it does what injectable did in Flutter, but errors show up at compile time. I add a UseCase only when there is real business logic."
 
 [উপরে ফিরুন](#toc)
@@ -2697,11 +2798,11 @@ class NotesViewModel @Inject constructor(private val repo: NotesRepository) : Vi
 
 ## <a id="ch9"></a>৯. Data — network, JSON, database, storage
 
-এই অধ্যায়ের প্রতিটা জিনিসের একটা Flutter যমজ আছে। আর মজার কথা হলো, অনেক Flutter package আসলে এই Android library-গুলো দেখেই বানানো — Flutter-এর `retrofit` package-এর নামই তার প্রমাণ। তাই এখানে আপনি সবচেয়ে দ্রুত চলবেন।
+এই অধ্যায়ের প্রতিটা Android জিনিসের মতো একটা package Flutter-এও আছে। মজার কথা হলো, অনেক Flutter package আসলে এই Android library-গুলো দেখেই বানানো। Flutter-এর `retrofit` package-এর নামটাই তার প্রমাণ। তাই এই অধ্যায়টা আপনার সবচেয়ে তাড়াতাড়ি শেষ হবে।
 
 ### <a id="ch9-1"></a>৯.১ `dio` → Retrofit + OkHttp
 
-**এক লাইনে:** Retrofit হলো API-কে একটা interface হিসেবে লেখার library। OkHttp হলো তার নিচের HTTP client — dio-র interceptor-এর কাজ এখানে।
+**এক লাইনে:** Retrofit দিয়ে আপনি API-টা একটা interface হিসেবে লেখেন। OkHttp হলো তার নিচে বসা HTTP client। dio-র interceptor-এর কাজ এখানে OkHttp করে।
 
 **Flutter-এ (dio + retrofit package):**
 
@@ -2751,22 +2852,26 @@ val okHttp = OkHttpClient.Builder()
 
 | dio / retrofit (Dart) | Retrofit + OkHttp |
 |---|---|
-| `@RestApi` abstract class + generated `_NotesApi` | `interface` — Retrofit runtime-এ নিজে বানায়, code generation নেই |
-| `Future<List<NoteDto>>` | `suspend fun ...: List<NoteDto>` — নিজে background-এ চলে |
+| `@RestApi` abstract class + generated `_NotesApi` | `interface` — app চলার সময় (runtime-এ) Retrofit নিজেই এর implementation বানায়, code generation লাগে না |
+| `Future<List<NoteDto>>` | `suspend fun ...: List<NoteDto>` — নিজে থেকেই background-এ চলে |
 | `InterceptorsWrapper` | OkHttp `Interceptor` |
-| `onError`-এ 401 ধরে refresh | `Authenticator` — শুধু 401-এর জন্য বানানো |
+| `onError`-এ 401 ধরে refresh | `Authenticator` — এটা শুধু 401 সামলানোর জন্যই বানানো |
 | `DioException` | `IOException` (network), `HttpException` (4xx/5xx) |
 | `LogInterceptor` | `HttpLoggingInterceptor` |
 
-**Token refresh — `Authenticator`:** Server 401 দিলে OkHttp নিজে `Authenticator`-কে ডাকে। সেখানে নতুন token নিয়ে নতুন request ফেরত দিলে OkHttp আবার পাঠায়। একসাথে পাঁচটা request 401 পেলে পাঁচবার refresh যাতে না হয়, `synchronized` দিয়ে একবারই refresh করুন, আর check করুন অন্য কেউ ইতিমধ্যে token বদলে দিয়েছে কি না।
+**Token refresh — `Authenticator`:**
+- Server 401 দিলে OkHttp নিজেই `Authenticator`-কে ডাকে।
+- সেখানে আপনি নতুন token আনেন, আর নতুন token দিয়ে একটা নতুন request ফেরত দেন। OkHttp সেই request আবার পাঠায়।
+- ধরুন একসাথে পাঁচটা request 401 পেল। তখন পাঁচবার refresh হওয়া ঠিক না। তাই `synchronized` দিয়ে refresh একবারই করুন।
+- Refresh করার আগে check করুন, অন্য কোনো request এর মধ্যেই token বদলে দিয়েছে কি না।
 
-**Best approach:** Repository-তে Retrofit-এর exception ধরে নিজের error type-এ বদলান। ViewModel যেন Retrofit বা `HttpException` না চেনে — ঠিক যেমন Flutter-এ `DioException` repository-র বাইরে যেতে দিতেন না।
+**Best approach:** Retrofit-এর exception repository-তেই ধরুন, আর নিজের বানানো error type-এ বদলে দিন। ViewModel যেন Retrofit বা `HttpException` চেনেই না। Flutter-এ যেমন `DioException`-কে repository-র বাইরে যেতে দিতেন না, ঠিক তেমন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-2"></a>৯.২ `json_serializable` → kotlinx.serialization
 
-**এক লাইনে:** `@JsonSerializable` + `build_runner`-এর জায়গায় `@Serializable` — compiler plugin নিজে code বানায়, আলাদা command লাগে না।
+**এক লাইনে:** `@JsonSerializable` + `build_runner`-এর জায়গায় শুধু `@Serializable` লিখুন। Kotlin compiler-এর একটা plugin নিজেই দরকারি code বানিয়ে দেয়। আলাদা কোনো command চালাতে হয় না।
 
 **Flutter-এ:**
 
@@ -2809,18 +2914,18 @@ Retrofit.Builder()
 | `@JsonKey(name:)` | `@SerialName()` |
 | `@JsonKey(defaultValue:)` | Kotlin-এর default value |
 | `fromJson` / `toJson` factory | `decodeFromString` / `encodeToString` |
-| `build_runner build` | লাগে না — compile-এর সময় নিজে |
-| অজানা key — সাধারণত চুপচাপ বাদ | default-এ **error** — তাই `ignoreUnknownKeys = true` |
+| `build_runner build` | লাগে না — compile-এর সময় নিজেই হয় |
+| অজানা key — সাধারণত চুপচাপ বাদ পড়ে | default-এ **error** দেয় — তাই `ignoreUnknownKeys = true` দিন |
 
 **ফাঁদ:**
-- **`ignoreUnknownKeys = true` দিন।** নইলে server একটা নতুন field যোগ করলেই পুরনো app crash।
-- **Gson এড়িয়ে চলুন।** পুরনো project-এ Gson দেখবেন। Gson constructor call না করেই object বানায়, তাই Kotlin-এর non-null field-এ null চলে আসে আর default value বসে না — পরে কোথাও অদ্ভুত crash। নতুন code-এ kotlinx.serialization বা Moshi।
+- **`ignoreUnknownKeys = true` দিন।** না দিলে server JSON-এ একটা নতুন field যোগ করলেই পুরনো app crash করবে।
+- **Gson এড়িয়ে চলুন।** পুরনো project-এ Gson দেখতে পাবেন। Gson object বানায় constructor call না করেই। ফলে দুইটা সমস্যা হয়: Kotlin-এর non-null field-এ null ঢুকে যায়, আর default value বসে না। তারপর app-এর অন্য কোথাও অদ্ভুত crash হয়। নতুন code-এ kotlinx.serialization বা Moshi ব্যবহার করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-3"></a>৯.৩ `drift` / `sqflite` → Room
 
-**এক লাইনে:** Room হলো SQLite-এর উপর Google-এর library — drift-এর সবচেয়ে কাছের আত্মীয়। Table class, DAO, compile time-এ check হওয়া SQL, আর live query যেটা `Flow` দেয়।
+**এক লাইনে:** Room হলো SQLite-এর ওপর বানানো Google-এর library। drift-এর সাথে এর মিল সবচেয়ে বেশি। এখানেও আছে table class, DAO, SQL যেটা compile-এর সময়েই check হয়, আর live query যেটা `Flow` দেয়।
 
 **Flutter-এ (drift):**
 
@@ -2883,14 +2988,14 @@ fun provideDb(@ApplicationContext context: Context): AppDatabase =
 
 | drift | sqflite | Room |
 |---|---|---|
-| `Table` class | হাতে `CREATE TABLE` | `@Entity` data class |
+| `Table` class | হাতে লেখা `CREATE TABLE` | `@Entity` data class |
 | Database class-এর method | `db.query()` | `@Dao` interface |
-| Dart DSL বা `.drift` file-এ SQL | raw SQL string | `@Query("SQL")` — compile time-এ check |
+| Dart DSL বা `.drift` file-এ SQL | raw SQL string | `@Query("SQL")` — compile-এর সময় check হয় |
 | `.watch()` → `Stream` | (নেই) | `Flow` return type |
 | `schemaVersion` + `MigrationStrategy` | `onUpgrade` | `version` + `Migration` / `@AutoMigration` |
 | `build_runner` | — | KSP |
 
-**ভেতরে কীভাবে — live query:** `Flow` ফেরত দেওয়া query-কে Room মনে রাখে, সে কোন table পড়ে। ওই table-এ insert, update বা delete হলে Room query আবার চালায় আর নতুন list emit করে। Notes app-এ নতুন note save করলে list screen নিজে থেকে update হয় — আপনাকে কিছু করতে হয় না।
+**ভেতরে কীভাবে কাজ করে — live query:** কোনো query `Flow` ফেরত দিলে Room মনে রাখে, query-টা কোন table পড়ে। পরে ওই table-এ insert, update বা delete হলে Room query-টা আবার চালায়। তারপর নতুন list emit করে। তাই Notes app-এ নতুন note save করলে list screen নিজে থেকেই update হয়। আপনাকে আলাদা করে কিছু করতে হয় না।
 
 **Migration — সাবধান:**
 
@@ -2906,18 +3011,18 @@ Room.databaseBuilder(context, AppDatabase::class.java, "notes.db")
     .build()
 ```
 
-- Schema বদলালে `version` বাড়ান আর migration দিন। সাধারণ বদলে (নতুন column) `@AutoMigration` নিজেই কাজ করে।
-- Migration ছাড়া version বাড়ালে app crash করে।
-- **`fallbackToDestructiveMigration()` দিলে crash হয় না, কিন্তু user-এর সব local data মুছে যায়।** Notes app-এ এর মানে user-এর সব note হারানো। Production-এ এটা প্রায় কখনো না।
-- Room-এর `exportSchema` চালু রাখুন আর schema file git-এ রাখুন — migration test আর `@AutoMigration` এটা দেখে কাজ করে।
+- Table-এর গঠন (schema) বদলালে `version` বাড়ান, আর একটা migration দিন। ছোট বদলে (যেমন নতুন column) `@AutoMigration` নিজেই কাজটা করে দেয়।
+- Migration না দিয়ে শুধু version বাড়ালে app crash করে।
+- **`fallbackToDestructiveMigration()` দিলে crash হয় না, কিন্তু user-এর সব local data মুছে যায়।** Notes app-এ এর মানে, user-এর সব note হারিয়ে যাবে। Production app-এ এটা প্রায় কখনোই দেবেন না।
+- Room-এর `exportSchema` চালু রাখুন, আর schema file git-এ রাখুন। Migration test আর `@AutoMigration` এই file দেখেই কাজ করে।
 
-**Best approach:** Database-কে **source of truth** বানান। UI সবসময় Room-এর `Flow` দেখে। Network শুধু Room-কে update করে ([৯.৮](#ch9-8))।
+**Best approach:** Database-কে **source of truth** বানান — মানে data-র আসল ঠিকানা হবে database। UI সবসময় Room-এর `Flow` দেখবে। Network শুধু Room-কে update করবে ([৯.৮](#ch9-8))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-4"></a>৯.৪ `shared_preferences` → DataStore
 
-**এক লাইনে:** ছোট settings রাখার জায়গা। DataStore পুরোপুরি async, আর `Flow` দেয়।
+**এক লাইনে:** ছোট ছোট settings রাখার জায়গা। DataStore-এর সব কাজ async, আর সে value দেয় `Flow` হিসেবে।
 
 **Flutter-এ:**
 
@@ -2940,31 +3045,36 @@ suspend fun setSortByDate(value: Boolean) {
 }
 ```
 
-**কী আলাদা:** Flutter-এর `getBool` একবার পড়ে। DataStore-এর `data` একটা `Flow` — setting বদলালে সব জায়গায় নিজে থেকে নতুন value যায়। তাই "sort by date" বদলালে list screen নিজে আবার sort হয়, কাউকে জানাতে হয় না।
+**কী আলাদা:** Flutter-এর `getBool` value একবারই পড়ে। কিন্তু DataStore-এর `data` একটা `Flow`। Setting বদলালে যেখানে যেখানে এটা শোনা হচ্ছে, সব জায়গায় নতুন value নিজে থেকেই পৌঁছে যায়। তাই "sort by date" বদলালে list screen নিজেই আবার sort হয়। কাউকে আলাদা করে জানাতে হয় না।
 
-**পুরনো `SharedPreferences` কেন না:** এটা প্রথম read-এ main thread-এ disk পড়ত, আর `apply()`-এর লেখা Activity বন্ধের সময় main thread আটকাতে পারত — ANR। DataStore এসব সমস্যা ছাড়া।
+**পুরনো `SharedPreferences` কেন না:** এর দুইটা সমস্যা ছিল। প্রথমবার পড়ার সময় এটা main thread-এ বসে disk পড়ত। আর `apply()` দিয়ে লেখা data, Activity বন্ধ হওয়ার সময় main thread আটকে দিতে পারত। Main thread বেশিক্ষণ আটকে থাকলে system "App isn't responding" দেখায় — একে ANR বলে। DataStore-এ এই সমস্যাগুলো নেই।
 
-**Best approach:** ছোট key-value settings → DataStore Preferences। Structured বা বড় data → Room। DataStore-কে Hilt-এ singleton রাখুন — একই file-এর জন্য দুইটা DataStore instance বানালে exception আসে।
+**Best approach:**
+- ছোট key-value settings → DataStore Preferences।
+- গোছানো (structured) বা বড় data → Room।
+- DataStore-কে Hilt-এ singleton রাখুন। একই file-এর জন্য দুইটা DataStore instance বানালে exception আসে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-5"></a>৯.৫ `flutter_secure_storage` → Keystore
 
-**এক লাইনে:** Token বা secret plain text-এ রাখা যাবে না। Android Keystore-এ একটা key রাখুন, আর সেই key দিয়ে encrypt করে data রাখুন।
+**এক লাইনে:** Token বা secret সাধারণ লেখা (plain text) হিসেবে রাখা যাবে না। Android Keystore-এ একটা key রাখুন। তারপর সেই key দিয়ে data encrypt করে রাখুন।
 
-Flutter-এর `flutter_secure_storage` Android-এ ঠিক এটাই করে — ভেতরে Keystore। এখন আপনি নিজে করবেন:
+Flutter-এর `flutter_secure_storage` Android-এ ঠিক এটাই করে — ভেতরে Keystore ব্যবহার করে। এখন কাজটা আপনি নিজে করবেন:
 
-- **Keystore** একটা key রাখে, যেটা device থেকে বের করা যায় না। অনেক phone-এ এটা আলাদা secure hardware-এ থাকে। App key ব্যবহার করতে পারে, কিন্তু key-টা পড়তে পারে না।
-- **Tink** (Google-এর crypto library) দিয়ে সেই key ব্যবহার করে data encrypt করুন, তারপর DataStore-এ রাখুন।
-- পুরনো `EncryptedSharedPreferences` এখন **deprecated** — নতুন code-এ না।
+- **Keystore** একটা key রাখে। এই key device থেকে বের করা যায় না। অনেক phone-এ key-টা একটা আলাদা secure hardware-এ থাকে। App key দিয়ে কাজ করাতে পারে, কিন্তু key-টা নিজে পড়তে পারে না।
+- **Tink** হলো Google-এর crypto library। Tink দিয়ে সেই key ব্যবহার করে data encrypt করুন। তারপর encrypt করা data DataStore-এ রাখুন।
+- পুরনো `EncryptedSharedPreferences` এখন **deprecated**। নতুন code-এ এটা ব্যবহার করবেন না।
 
-**ফাঁদ:** Encrypt করা data-ও device-এর backup-এ যেতে পারে, কিন্তু key backup-এ যায় না। নতুন phone-এ restore হলে data আছে, key নেই — decrypt করা যাবে না। তাই token-এর মতো জিনিস backup থেকে বাদ দিন (Manifest-এর backup rules), আর decrypt fail হলে user-কে আবার login করতে দিন।
+**ফাঁদ:** Encrypt করা data device-এর backup-এ চলে যেতে পারে। কিন্তু key কখনো backup-এ যায় না। তাই নতুন phone-এ backup restore করলে data থাকবে, কিন্তু key থাকবে না — data আর decrypt করা যাবে না। এজন্য দুইটা কাজ করুন:
+- Token-এর মতো জিনিস backup থেকে বাদ দিন (Manifest-এর backup rules দিয়ে)।
+- Decrypt fail করলে app crash না করিয়ে user-কে আবার login করতে দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-6"></a>৯.৬ Image: `cached_network_image` → Coil
 
-**এক লাইনে:** Network image load, cache, আর resize — Coil-এর `AsyncImage`।
+**এক লাইনে:** Network থেকে ছবি load করা, cache করা, আর মাপমতো ছোট করা — এই সব কাজ করে Coil-এর `AsyncImage`।
 
 ```dart
 CachedNetworkImage(imageUrl: note.imageUrl, placeholder: (_, __) => const Shimmer(), fit: BoxFit.cover);
@@ -2980,13 +3090,13 @@ AsyncImage(
 )
 ```
 
-Coil memory আর disk দুই জায়গায় cache করে, আর view-এর মাপ অনুযায়ী ছবি ছোট করে load করে — তাই 4000px ছবি 64dp thumbnail-এ পুরো memory খায় না। পুরনো project-এ Glide দেখবেন, একই কাজ।
+Coil ছবি cache করে দুই জায়গায় — memory-তে আর disk-এ। আর view যত বড়, ছবিটা ঠিক তত ছোট করে load করে। তাই 64dp-এর একটা thumbnail-এ 4000px-এর ছবি দেখালেও পুরো ছবির memory লাগে না। পুরনো project-এ Glide দেখতে পাবেন। Glide-ও একই কাজ করে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-7"></a>৯.৭ Pagination → Paging 3
 
-**এক লাইনে:** লম্বা list পাতা ধরে load করা — `infinite_scroll_pagination`-এর `PagingController`-এর কাজ Android-এ Paging 3 library করে।
+**এক লাইনে:** লম্বা list একবারে না এনে পাতা পাতা করে load করা। Flutter-এ এই কাজ করত `infinite_scroll_pagination`-এর `PagingController`। Android-এ করে Paging 3 library।
 
 **Flutter-এ:**
 
@@ -3034,15 +3144,15 @@ LazyColumn {
 }
 ```
 
-- `PagingSource` = আপনার page request listener।
-- `cachedIn(viewModelScope)` না দিলে rotation-এ সব পাতা আবার load হয়।
-- Offline-first-এর জন্য `RemoteMediator` আছে: network থেকে পাতা এনে Room-এ রাখে, আর UI Room থেকে পাতা পড়ে।
+- `PagingSource` হলো Flutter-এর সেই page request listener-এর মতো।
+- `cachedIn(viewModelScope)` না দিলে screen ঘোরালেই (rotation) সব পাতা আবার load হয়।
+- Offline-first app-এর জন্য আছে `RemoteMediator`। এটা network থেকে পাতা এনে Room-এ রাখে। আর UI পাতা পড়ে Room থেকে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch9-8"></a>৯.৮ সব একসাথে: offline-first repository
 
-এবার পুরো অধ্যায় এক জায়গায় জোড়া লাগাই। Notes app-এর repository, Flutter আর Android-এ একই নকশায়:
+এবার পুরো অধ্যায়টা এক জায়গায় জুড়ে দেখি। নিচে Notes app-এর repository। Flutter-এ আর Android-এ এর নকশা একই:
 
 ```kotlin
 class NotesRepositoryImpl @Inject constructor(
@@ -3071,17 +3181,22 @@ UI  ◄── Flow ── Room (source of truth) ◄── upsert ── Retrofi
                       └── save() সাথে সাথে লেখে; sync পরে WorkManager দিয়ে
 ```
 
-**কেন এই নকশা:** Internet না থাকলেও app কাজ করে। Save সাথে সাথে দেখা যায়। আর দুই জায়গা থেকে data আসার ঝামেলা নেই — UI শুধু database চেনে। Flutter-এ drift + dio দিয়ে আপনি হয়তো ঠিক এটাই বানিয়েছেন।
+**কেন এই নকশা:**
+- Internet না থাকলেও app কাজ করে।
+- Save করার সাথে সাথে user সেটা দেখতে পায়।
+- Data দুই জায়গা থেকে আসে না, তাই কোনটা ঠিক — সেই ঝামেলা নেই। UI শুধু database চেনে।
+
+Flutter-এ drift + dio দিয়ে আপনি হয়তো ঠিক এটাই বানিয়েছেন।
 
 > **মনে রাখুন**
-> - dio → Retrofit + OkHttp। Interceptor একই, token refresh-এ `Authenticator`।
-> - json_serializable → kotlinx.serialization, `ignoreUnknownKeys = true`। Gson না।
+> - dio → Retrofit + OkHttp। Interceptor একই রকম। Token refresh করুন `Authenticator`-এ।
+> - json_serializable → kotlinx.serialization, সাথে `ignoreUnknownKeys = true`। Gson না।
 > - drift → Room। `Flow` query = `.watch()`। Destructive migration মানে user-এর data মুছে যাওয়া।
 > - shared_preferences → DataStore। Secret → Keystore + Tink।
 > - Database = source of truth।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "আমার data layer offline-first: Room হলো source of truth, UI তার Flow দেখে, আর network শুধু database update করে। Network-এ Retrofit আর OkHttp, token refresh `Authenticator` দিয়ে, JSON-এ kotlinx.serialization। Flutter-এ drift আর dio দিয়ে একই নকশা করতাম, তাই ধারণাটা আমার কাছে নতুন না।"
+> - *বাংলায়:* "আমার data layer offline-first। Room হলো source of truth। UI তার Flow দেখে, আর network শুধু database update করে। Network-এর জন্য Retrofit আর OkHttp নিই। Token refresh করি `Authenticator` দিয়ে। JSON-এ kotlinx.serialization। Flutter-এ drift আর dio দিয়ে একই নকশা বানাতাম, তাই ধারণাটা আমার কাছে নতুন না।"
 > - *English:* "My data layer is offline-first: Room is the source of truth, the UI observes its Flow, and the network only updates the database. I use Retrofit and OkHttp, with token refresh in an `Authenticator`, and kotlinx.serialization for JSON. I built the same design in Flutter with drift and dio, so the idea isn't new to me."
 
 [উপরে ফিরুন](#toc)
@@ -3090,11 +3205,11 @@ UI  ◄── Flow ── Room (source of truth) ◄── upsert ── Retrofi
 
 ## <a id="ch10"></a>১০. Plugin-এর পেছনের Android — background, notification, permission, intent
 
-Flutter-এ এই অধ্যায়ের সবকিছু আপনি এক লাইনের plugin call দিয়ে সেরেছেন: `Workmanager().registerOneOffTask()`, `Permission.camera.request()`, `launchUrl()`। আর কখনো কখনো plugin ঠিকমতো কাজ করত না — নির্দিষ্ট Android version-এ notification আসত না, background task চলত না। কারণটা সবসময় ছিল নিচের Android-এর কোনো নিয়ম। এই অধ্যায়ে সেই নিয়মগুলোর মুখোমুখি হব।
+Flutter-এ এই অধ্যায়ের সবকিছু আপনি এক লাইনের plugin call দিয়ে সেরেছেন: `Workmanager().registerOneOffTask()`, `Permission.camera.request()`, `launchUrl()`। কখনো কখনো plugin ঠিকমতো কাজ করত না। কোনো Android version-এ notification আসত না, বা background task চলত না। এর কারণ সবসময় ছিল Android-এর কোনো নিয়ম, যেটা plugin-এর নিচে কাজ করে। এই অধ্যায়ে সেই নিয়মগুলো দেখব।
 
 ### <a id="ch10-1"></a>১০.১ `workmanager` → WorkManager
 
-**এক লাইনে:** Flutter-এর `workmanager` plugin আসলে Android-এর WorkManager-কেই চালায়। App বন্ধ হলেও, phone restart হলেও যে কাজ শেষ হতে হবে, তার জন্য এটা।
+**এক লাইনে:** Flutter-এর `workmanager` plugin ভেতরে Android-এর WorkManager-কেই call করে। কিছু কাজ আছে যেটা app বন্ধ হলেও, phone restart হলেও শেষ হতেই হবে। সেই কাজের জন্য WorkManager।
 
 **Flutter-এ:**
 
@@ -3134,7 +3249,7 @@ WorkManager.getInstance(context)
     .enqueueUniqueWork("sync-notes", ExistingWorkPolicy.KEEP, request)
 ```
 
-**কী মিলল:** নাম, constraint, unique work — সব একই, কারণ plugin এই API-রই একটা পাতলা আবরণ। পার্থক্য শুধু: Flutter-এ background-এ আলাদা Dart isolate চালু করতে `callbackDispatcher` লাগত। Native-এ worker সাধারণ Kotlin class।
+**কী মিলল:** নাম, constraint, unique work — সব একই। কারণ plugin নিজে প্রায় কিছুই করে না, শুধু এই API-কে call করে। পার্থক্য একটাই। Flutter-এ background-এ Dart code চালাতে আলাদা একটা isolate চালু করতে হতো, তাই `callbackDispatcher` লাগত। Native-এ worker একটা সাধারণ Kotlin class।
 
 **কোন কাজে কী:**
 
@@ -3146,25 +3261,25 @@ WorkManager.getInstance(context)
 | ঠিক নির্দিষ্ট সময়ে (reminder) | `AlarmManager` — exact alarm-এ আলাদা permission |
 
 **ফাঁদ — Flutter-এ আপনি যেগুলোর জন্য plugin-কে দোষ দিতেন:**
-- **ঠিক কখন চলবে, তার নিশ্চয়তা নেই।** Doze আর battery-র নিয়মে system কাজ পিছিয়ে দেয়। Periodic work-এর সর্বনিম্ন interval ১৫ মিনিট।
-- একটা worker সাধারণত প্রায় ১০ মিনিট পর্যন্ত চলতে পারে। আরও লম্বা হলে `setForeground()` দিয়ে notification দেখাতে হয়।
-- **User Settings থেকে force stop করলে** WorkManager-এর কাজও বাতিল, আর app আবার না খোলা পর্যন্ত কিছু চলে না।
-- কিছু phone কোম্পানি (বিশেষ করে কিছু চীনা brand) নিজেরা আরও কড়া battery নিয়ম দেয়। এটা Android-এর বাইরের সমস্যা, plugin-এর না।
+- **কাজটা ঠিক কখন চলবে, তা বলা যায় না।** Phone অনেকক্ষণ পড়ে থাকলে system battery বাঁচাতে Doze mode-এ যায়। Doze আর অন্য battery নিয়মের কারণে system কাজ পিছিয়ে দেয়। Periodic work অন্তত ১৫ মিনিট পরপর চলে, এর কম interval দেওয়া যায় না।
+- একটা worker সাধারণত প্রায় ১০ মিনিট পর্যন্ত চলতে পারে। কাজ এর চেয়ে লম্বা হলে `setForeground()` দিয়ে একটা notification দেখাতে হয়।
+- **User Settings থেকে app force stop করলে** WorkManager-এর কাজও বাতিল হয়ে যায়। User আবার app না খোলা পর্যন্ত কিছুই চলে না।
+- কিছু phone কোম্পানি (বিশেষ করে কিছু চীনা brand) নিজেরাই আরও কড়া battery নিয়ম বসায়। এটা Android-এর নিয়মের বাইরের সমস্যা। Plugin-এর দোষ না।
 - Hilt-এর dependency worker-এ দিতে `@HiltWorker` আর `@AssistedInject` লাগে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch10-2"></a>১০.২ Service
 
-**এক লাইনে:** UI ছাড়া চলা কাজ। এখন প্রায় সবসময় **foreground service** — notification দেখিয়ে, user-কে জানিয়ে।
+**এক লাইনে:** Service হলো এমন কাজ, যেটা কোনো UI ছাড়া চলে। এখন প্রায় সবসময় এটা হয় **foreground service** — মানে একটা notification দেখিয়ে, user-কে জানিয়ে চলে।
 
-পুরনো দিনে (আপনার Java-র সময়ে) background service যখন খুশি চালানো যেত। এখন নিয়ম কড়া:
+আগে (আপনার Java-র সময়ে) background service যখন খুশি চালানো যেত। এখন নিয়ম অনেক কড়া:
 
 - Android 8 থেকে background-এ service চালানো প্রায় বন্ধ।
 - Android 14 থেকে প্রতিটা foreground service-এর একটা **type** ঘোষণা করতে হয় (`dataSync`, `mediaPlayback`, `location`, `microphone`...), আর type অনুযায়ী আলাদা permission।
 - Background থেকে foreground service চালু করা অনেক ক্ষেত্রে নিষেধ।
 
-**Best approach:** আগে দেখুন WorkManager দিয়ে হয় কি না। Foreground service শুধু তখন, যখন user সত্যিই এখনই কাজটা দেখছে বা শুনছে — Notes app-এ voice note recording চলার সময়, যেমন।
+**Best approach:** আগে দেখুন কাজটা WorkManager দিয়ে হয় কি না। Foreground service নিন শুধু তখন, যখন user ঠিক এখনই কাজটা দেখছে বা শুনছে। যেমন Notes app-এ voice note record হওয়ার সময়।
 
 [উপরে ফিরুন](#toc)
 
@@ -3205,10 +3320,13 @@ val notification = NotificationCompat.Builder(context, "reminders")
 NotificationManagerCompat.from(context).notify(note.id.hashCode(), notification)
 ```
 
-- **Channel:** user প্রতিটা channel আলাদা বন্ধ করতে পারে। একবার তৈরি হলে channel-এর importance code দিয়ে আর বদলানো যায় না — user-এর হাতে চলে যায়। তাই প্রথমবারেই ঠিক করে দিন।
-- **Android 13+-এ notification-এর জন্য runtime permission লাগে** (`POST_NOTIFICATIONS`)। না চাইলে কিছুই দেখাবে না। Flutter-এ "notification আসে না" bug-এর বড় একটা কারণ এটা ছিল।
-- **`PendingIntent`** = system-কে "পরে আমার হয়ে এই intent চালাও" বলার অনুমতি। সবসময় `FLAG_IMMUTABLE`, যদি না সত্যিই mutable লাগে। আলাদা note-এর জন্য আলাদা request code (`note.id.hashCode()`) দিন, নইলে একটা আরেকটাকে overwrite করে।
-- **FCM:** "notification" message app background-এ থাকলে system নিজে দেখায়, আপনার `onMessageReceived` call হয় না। "data" message সবসময় আপনার code-এ আসে। `firebase_messaging`-এ আপনি যে পার্থক্য দেখেছেন, সেটা এখান থেকেই।
+- **Channel:** User প্রতিটা channel আলাদা করে বন্ধ করতে পারে। একবার channel তৈরি হয়ে গেলে code দিয়ে তার importance আর বাড়ানো যায় না (user নিজে না বদলালে শুধু কমানো যায়)। আসল নিয়ন্ত্রণ তখন user-এর, Settings থেকে। তাই প্রথমবারেই importance ঠিক করে দিন।
+- **Android 13+-এ notification দেখাতে runtime permission লাগে** (`POST_NOTIFICATIONS`)। Permission না চাইলে কোনো notification দেখাবে না। Flutter-এ "notification আসে না" bug-এর একটা বড় কারণ ছিল এটা।
+- **`PendingIntent`** দিয়ে আপনি system-কে অনুমতি দেন, যাতে পরে system আপনার app-এর হয়ে এই intent চালাতে পারে। সবসময় `FLAG_IMMUTABLE` দিন, যদি না সত্যিই mutable লাগে। প্রতিটা note-এর জন্য আলাদা request code দিন (`note.id.hashCode()`)। নইলে একটা PendingIntent আরেকটাকে overwrite করে দেয়।
+- **FCM:** FCM-এ দুই রকম message আছে।
+  - "notification" message: app background-এ থাকলে system নিজেই এটা দেখায়। তখন আপনার `onMessageReceived` call হয় না।
+  - "data" message: এটা সবসময় আপনার code-এ আসে।
+  - `firebase_messaging`-এ আপনি যে পার্থক্য দেখেছেন, সেটা এখান থেকেই আসে।
 
 [উপরে ফিরুন](#toc)
 
@@ -3240,14 +3358,18 @@ fun AttachPhotoButton(onGranted: () -> Unit) {
 ```
 
 **কী আলাদা:**
-- Flutter-এ `await` করে ফল পেতেন। এখানে ফল আসে callback-এ — কারণ permission dialog চলার সময় আপনার Activity মরে আবার জন্মাতে পারে। Launcher সেটা নিজে সামলায়।
-- **"Permanently denied" বলে সরাসরি কোনো API নেই।** User দুইবার "না" বললে system আর dialog দেখায় না। `shouldShowRequestPermissionRationale()` বলে, এখন কারণ বোঝানোর সময় কি না। `permission_handler` এই সব মিলিয়ে `isPermanentlyDenied` অনুমান করত। Native-এ আপনি নিজে করবেন — "না" বলার পরে rationale `false` হলে Settings-এ পাঠানোর পথ দিন।
-- Permission দুই জায়গায়: Manifest-এ `<uses-permission>`, আর "dangerous" permission (camera, location, notification) runtime-এ চাওয়া।
+- Flutter-এ `await` করে ফল পেতেন। এখানে ফল আসে একটা callback-এ। কারণ permission dialog খোলা থাকার সময় আপনার Activity destroy হয়ে আবার নতুন করে তৈরি হতে পারে। তখনও যেন ফল ঠিক জায়গায় আসে, launcher সেটা নিজেই সামলায়।
+- **"Permanently denied" জানার জন্য সরাসরি কোনো API নেই।**
+  - User দুইবার "না" বললে system আর dialog দেখায় না।
+  - `shouldShowRequestPermissionRationale()` বলে দেয়, এখন user-কে কারণ বোঝানো উচিত কি না।
+  - `permission_handler` এসব মিলিয়ে আন্দাজ করত, `isPermanentlyDenied` কি না।
+  - Native-এ এটা আপনি নিজে করবেন। User "না" বলার পরে rationale যদি `false` হয়, তাহলে user-কে Settings-এ যাওয়ার একটা পথ দিন।
+- Permission দুই জায়গায় লাগে। এক, Manifest-এ `<uses-permission>` লেখা। দুই, "dangerous" permission (camera, location, notification) app চলার সময় (runtime-এ) user-এর কাছে চাওয়া।
 
 **Best approach — আগে দেখুন permission লাগেই কি না:**
 - ছবি বাছাই → **Photo Picker** (`PickVisualMedia`)। কোনো storage permission লাগে না।
 - File বাছাই → `OpenDocument`। Permission লাগে না।
-- শুধু একটা ছবি তোলা → `TakePicture` contract দিয়ে camera app-কে বলা। Manifest-এ CAMERA declare না করলে permission লাগে না (declare করলে তখন লাগে)।
+- শুধু একটা ছবি তোলা → `TakePicture` contract দিয়ে camera app-কে ছবি তুলতে বলুন। Manifest-এ CAMERA declare না করলে কোনো permission লাগে না। কিন্তু declare করলে তখন permission লাগে।
 
 ```kotlin
 val pickImage = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -3286,27 +3408,26 @@ context.startActivity(Intent.createChooser(send, "Note share করুন"))
 ```
 
 - **Explicit intent:** নির্দিষ্ট class চালু করে — নিজের app-এর ভেতরে (`Intent(context, MainActivity::class.java)`)।
-- **Implicit intent:** "এই কাজটা যে পারে" — browser, share, dialer। কে খুলবে, system বা user ঠিক করে।
-- **ফাঁদ:** Android 11+-এ অন্য কোনো app installed আছে কি না জানতে চাইলে Manifest-এ `<queries>` লাগে। নইলে আপনার app অন্য app-কে "দেখতে" পায় না। `url_launcher`-এর `canLaunchUrl` false দেওয়ার একটা পরিচিত কারণ এটা।
-- **Deep link / App Links:** বাইরের link থেকে app-এর নির্দিষ্ট screen খোলা — Manifest-এ `intent-filter` আর Navigation-এ `deepLinks`। `https` link সরাসরি app-এ খুলতে website-এ `assetlinks.json` লাগে, যেখানে Play-এর app signing key-র SHA-256 দিতে হয়।
+- **Implicit intent:** নির্দিষ্ট class না বলে শুধু কাজটা বলে — "এই কাজটা যে পারে, সে করুক"। যেমন browser, share, dialer। কোন app খুলবে, সেটা system বা user ঠিক করে।
+- **ফাঁদ:** Android 11+-এ অন্য কোনো app install করা আছে কি না জানতে চাইলে Manifest-এ `<queries>` লাগে। না দিলে আপনার app অন্য app-এর খবর পায় না। `url_launcher`-এর `canLaunchUrl` false দেওয়ার একটা পরিচিত কারণ এটা।
+- **Deep link / App Links:** বাইরের কোনো link থেকে app-এর নির্দিষ্ট screen খোলা। এর জন্য Manifest-এ `intent-filter` আর Navigation-এ `deepLinks` লাগে। `https` link যদি browser-এ না গিয়ে সরাসরি app-এ খুলতে চান, তাহলে website-এ একটা `assetlinks.json` file রাখতে হয়। সেই file-এ Play-এর app signing key-র SHA-256 দিতে হয়।
 
 > **মনে রাখুন**
-> - Flutter-এর background, notification, permission, url plugin সবাই এই Android API-গুলোই চালায়।
-> - Background কাজ → WorkManager। চলবে, কিন্তু ঠিক কখন, নিশ্চয়তা নেই।
+> - Flutter-এর background, notification, permission, url plugin — সবাই ভেতরে এই Android API-গুলোই call করে।
+> - Background কাজ → WorkManager। কাজ চলবে, কিন্তু ঠিক কখন চলবে, তা বলা যায় না।
 > - Notification: channel, Android 13+ permission, `FLAG_IMMUTABLE`।
 > - Permission: Activity Result API। আগে দেখুন permission ছাড়া উপায় আছে কি না (Photo Picker)।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Flutter-এ background আর notification plugin দিয়ে করতাম, কিন্তু সমস্যা হলে সবসময় নিচের Android নিয়মই কারণ ছিল — Doze, notification permission, foreground service type। Native-এ deferrable কাজে WorkManager নিই, permission-এ Activity Result API, আর যেখানে সম্ভব permission ছাড়া উপায় বেছে নিই, যেমন Photo Picker।"
+> - *বাংলায়:* "Flutter-এ background কাজ আর notification plugin দিয়ে করতাম। কিন্তু কিছু ভাঙলে কারণ সবসময় ছিল plugin-এর নিচের কোনো Android নিয়ম — Doze, notification permission, বা foreground service type। Native-এ যে কাজ একটু পরে হলেও চলে (deferrable), তাতে WorkManager নিই। Permission-এ Activity Result API নিই। আর যেখানে পারি, permission ছাড়া উপায় বেছে নিই, যেমন Photo Picker।"
 > - *English:* "In Flutter I used plugins for background work and notifications, but whenever something broke, the cause was always an Android rule underneath — Doze, the notification permission, foreground service types. In native, I use WorkManager for deferrable work, the Activity Result API for permissions, and pick permission-free options like the Photo Picker when I can."
 
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ch11"></a>১১. Testing
 
-Test লেখার দর্শন আপনি জানেন: fake ভালো, mock কম, behaviour test করুন। এখানে শুধু হাতিয়ারগুলোর নাম বদলায়।
+Test কীভাবে লিখতে হয়, সেটা আপনি আগে থেকেই জানেন: fake বেশি, mock কম, আর code কী করে (behaviour) সেটা test করুন। Android-এও নিয়ম একই। শুধু tool-গুলোর নাম আলাদা।
 
 | Flutter | Android |
 |---|---|
@@ -3359,11 +3480,11 @@ class NotesViewModelTest {
 }
 ```
 
-- **`runTest`** = `fake_async`। `delay(5_000)` সাথে সাথে শেষ।
-- **`MainDispatcherRule`** একটা ছোট JUnit rule, যেটা `Dispatchers.Main`-কে test dispatcher দিয়ে বদলায়। JVM test-এ আসল main thread নেই, তাই এটা ছাড়া `viewModelScope` crash করে। এর code Android-এর official testing guide-এ আছে — copy করে নিন।
-- **Turbine** = `bloc_test`-এর `expect` list, কিন্তু এক এক করে: `awaitItem()`।
-- **ফাঁদ:** `stateIn(WhileSubscribed)` দিয়ে বানানো flow-এর `.value` সরাসরি পড়লে কেউ subscribe না করায় initial value-ই থাকে। তাই Turbine দিয়ে collect করুন।
-- Test-এর নাম backtick-এ বাক্যের মতো লেখা যায়।
+- **`runTest`** হলো Flutter-এর `fake_async`-এর মতো। এখানে সময় নকল (virtual)। তাই `delay(5_000)` লিখলেও test অপেক্ষা করে না, সাথে সাথে শেষ হয়।
+- **`MainDispatcherRule`** একটা ছোট JUnit rule। এটা `Dispatchers.Main`-এর জায়গায় একটা test dispatcher বসিয়ে দেয়। কারণ JVM-এ চলা test-এ আসল main thread থাকে না। এই rule না দিলে `viewModelScope` crash করে। এর code Android-এর official testing guide-এ আছে — সেখান থেকে copy করে নিন।
+- **Turbine** কাজ করে `bloc_test`-এর `expect` list-এর মতো। পার্থক্য হলো, এখানে state একটা একটা করে নেন: `awaitItem()` দিয়ে।
+- **ফাঁদ:** কোনো flow যদি `stateIn(WhileSubscribed)` দিয়ে বানানো হয়, তাহলে কেউ subscribe না করলে সেটা চালুই হয় না। তখন সরাসরি `.value` পড়লে আপনি শুধু শুরুর (initial) value পাবেন। তাই Turbine দিয়ে collect করে পড়ুন।
+- Kotlin-এ test-এর নাম backtick-এর ভেতরে পুরো বাক্যের মতো লেখা যায়।
 
 ### `testWidgets` → Compose UI test
 
@@ -3392,15 +3513,15 @@ class PinButtonTest {
 }
 ```
 
-Compose test **semantics tree** দিয়ে খোঁজে — text, content description, বা `Modifier.testTag("id")`। এটা সেই tree, যেটা TalkBack (screen reader) ব্যবহার করে। তাই ভালো accessibility দিলে test লেখাও সহজ হয়। **Robolectric** দিলে এই test-ও device ছাড়া JVM-এ, দ্রুত চলে।
+Compose test screen-এর জিনিস খোঁজে **semantics tree** দিয়ে। এই tree-তে প্রতিটা node-এর পরিচয় থাকে: তার text, content description, বা `Modifier.testTag("id")`। TalkBack (screen reader) ঠিক এই tree-টাই পড়ে। তাই app-এ accessibility ভালো দিলে test লেখাও সহজ হয়ে যায়। আর **Robolectric** ব্যবহার করলে এই UI test-ও device ছাড়া, JVM-এ, দ্রুত চলে।
 
 > **মনে রাখুন**
-> - `bloc_test` → `runTest` + Turbine। `MainDispatcherRule` লাগবেই।
-> - `testWidgets` → `createComposeRule()`। খোঁজা semantics দিয়ে।
-> - Fake আগে, mock পরে — Flutter-এর মতোই।
+> - `bloc_test`-এর জায়গায় `runTest` + Turbine। সাথে `MainDispatcherRule` লাগবেই।
+> - `testWidgets`-এর জায়গায় `createComposeRule()`। Node খুঁজবেন semantics দিয়ে।
+> - আগে fake, দরকার হলে তবেই mock — Flutter-এর মতোই।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "ViewModel test করি `runTest` আর Turbine দিয়ে, main dispatcher বদলানোর rule সহ, আর repository-র জায়গায় fake দিই। Compose-এ stateless screen রাখি বলে UI test সহজ — semantics দিয়ে node খুঁজি, Robolectric-এ JVM-এ চালাই।"
+> - *বাংলায়:* "ViewModel test করি `runTest` আর Turbine দিয়ে। সাথে একটা rule দিই, যেটা main dispatcher বদলে দেয়। আসল repository-র বদলে একটা fake দিই। আমার Compose screen-গুলো stateless, তাই UI test সহজ। Semantics দিয়ে node খুঁজি, আর Robolectric দিয়ে JVM-এ চালাই।"
 > - *English:* "I test ViewModels with `runTest` and Turbine, with a rule that replaces the main dispatcher, and a fake instead of the real repository. Because my Compose screens are stateless, UI tests are easy — I find nodes by semantics and run them on the JVM with Robolectric."
 
 [উপরে ফিরুন](#toc)
@@ -3409,7 +3530,7 @@ Compose test **semantics tree** দিয়ে খোঁজে — text, conten
 
 ## <a id="ch12"></a>১২. Flavor, R8, release
 
-এখানে আপনি আসলে পুরনো বাড়িতে ফিরছেন। Flutter-এ flavor বানাতে আপনি `android/app/build.gradle`-এ যা লিখেছিলেন, সেটাই native Android-এর flavor।
+এই অধ্যায়টা আপনার চেনা জায়গা। Flutter-এ flavor বানাতে আপনি `android/app/build.gradle`-এ কিছু লাইন লিখেছিলেন। Native Android-এর flavor ঠিক ওই জিনিসটাই।
 
 **Flutter-এ flavor:** `flutter run --flavor dev`, আর `android/app/build.gradle`-এ:
 
@@ -3458,21 +3579,33 @@ android {
 | `--obfuscate --split-debug-info` | R8 + `mapping.txt` |
 | `flutter build appbundle` | `./gradlew bundleProdRelease` |
 
-Flavor × build type = **build variant**: `devDebug`, `devRelease`, `prodDebug`, `prodRelease`।
+প্রতিটা flavor-এর সাথে প্রতিটা build type জোড়া লাগে। এই জোড়াকে বলে **build variant**। এখানে চারটা: `devDebug`, `devRelease`, `prodDebug`, `prodRelease`।
 
-**R8 — release-এ crash-এর এক নম্বর কারণ:** R8 না-ব্যবহৃত class আর method মুছে দেয়, আর নাম ছোট করে (`a`, `b`)। কিন্তু reflection দিয়ে যে class ব্যবহার হয়, R8 সেটা দেখতে পায় না। ফলে debug-এ সব ঠিক, release-এ crash। সমাধান `proguard-rules.pro`-তে `-keep` rule। kotlinx.serialization, Retrofit, Room-এর মতো ভালো library নিজের rule নিজে দেয়। Flutter app-এও plugin-এর Java/Kotlin code R8-এর ভেতর দিয়ে যায় — তাই Flutter-এ release-only crash-এর অভিজ্ঞতা থাকলে কারণ এটাই ছিল।
+**R8 — release-এ crash-এর এক নম্বর কারণ।** R8 release build-এ দুইটা কাজ করে:
 
-**Best approach:** প্রতিটা release-এর আগে release build install করে চালান। Play Console-এ `mapping.txt` upload করুন, নইলে crash report-এর stack trace পড়া যাবে না।
+1. যে class আর method কোথাও ব্যবহার হয় না, সেগুলো মুছে দেয়।
+2. বাকিগুলোর নাম ছোট করে দেয় (`a`, `b`)।
 
-**Signing আর Play:** আপনি জানেন — Play App Signing-এ Google আসল key রাখে, আপনি upload key দিয়ে sign করেন। App Links-এর `assetlinks.json`-এ app signing key-র SHA-256 দিন, upload key-র না। আর Play প্রতি বছর `targetSdk`-এর নিচের সীমা বাড়ায় — বাড়ানোর আগে সেই Android version-এর behavior change পড়ুন।
+সমস্যা হলো reflection। কোনো library যদি চলার সময় নাম ধরে class খোঁজে (reflection), R8 সেটা আগে থেকে দেখতে পায় না। ফলে R8 ওই class মুছে দেয় বা তার নাম বদলে দেয়। তাই debug-এ সব ঠিক চলে, কিন্তু release-এ crash করে।
+
+সমাধান হলো `proguard-rules.pro`-তে একটা `-keep` rule লেখা। এই rule R8-কে বলে "এই class-টা রেখে দাও"। kotlinx.serialization, Retrofit, Room-এর মতো ভালো library নিজের rule নিজেই সাথে দিয়ে দেয়।
+
+Flutter app-এও plugin-এর Java/Kotlin code R8-এর ভেতর দিয়ে যায়। তাই Flutter-এ কখনো শুধু release-এ crash দেখে থাকলে, কারণ সম্ভবত এটাই ছিল।
+
+**Best approach:** প্রতিটা release-এর আগে release build phone-এ install করে চালিয়ে দেখুন। আর Play Console-এ `mapping.txt` upload করুন। এই file-এ লেখা থাকে কোন ছোট নাম আসলে কোন class। এটা না দিলে crash report-এর stack trace পড়া যাবে না।
+
+**Signing আর Play:** এটা আপনি জানেন। Play App Signing-এ আসল key থাকে Google-এর কাছে। আপনি sign করেন upload key দিয়ে।
+
+- App Links-এর `assetlinks.json`-এ app signing key-র SHA-256 দিন। Upload key-র SHA-256 না।
+- Play ঠিক করে দেয়, `targetSdk` কমপক্ষে কত হতে হবে। এই সংখ্যাটা প্রতি বছর বাড়ে। আপনার app-এর targetSdk বাড়ানোর আগে সেই Android version-এ কী কী behavior বদলেছে, সেটা পড়ে নিন।
 
 > **মনে রাখুন**
-> - Flutter-এর flavor = Android-এর `productFlavors`। একই file, একই জিনিস।
-> - `--dart-define` → `buildConfigField`।
-> - R8 = release-only crash-এর প্রধান কারণ। Release build চালিয়ে দেখুন, `mapping.txt` upload করুন।
+> - Flutter-এর flavor আর Android-এর `productFlavors` একই জিনিস, একই file-এ।
+> - `--dart-define`-এর জায়গায় Android-এ `buildConfigField`।
+> - শুধু release-এ crash হলে প্রথম সন্দেহ R8। Release build চালিয়ে দেখুন, আর `mapping.txt` upload করুন।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Flutter-এ flavor করতে আমি আগেই Android-এর productFlavors লিখেছি, তাই build variant আমার চেনা। Release-এ R8 চালু রাখি, প্রতিবার release build চালিয়ে test করি, আর mapping file upload করি যাতে crash পড়া যায়।"
+> - *বাংলায়:* "Flutter-এ flavor বানাতে গিয়ে আমি আগেই Android-এর productFlavors লিখেছি। তাই build variant আমার চেনা। Release-এ R8 চালু রাখি। প্রতিবার release build চালিয়ে test করি। আর mapping file upload করি, যাতে crash report পড়া যায়।"
 > - *English:* "I already wrote Android productFlavors to set up flavors in Flutter, so build variants are familiar to me. In release I keep R8 on, test the release build every time, and upload the mapping file so crashes are readable."
 
 [উপরে ফিরুন](#toc)
@@ -3481,13 +3614,19 @@ Flavor × build type = **build variant**: `devDebug`, `devRelease`, `prodDebug`,
 
 ## <a id="ch13"></a>১৩. ইঞ্জিনের ভেতরে — tap থেকে pixel, code থেকে APK
 
-এতক্ষণ আমরা গাড়ি চালানো শিখলাম। এবার bonnet খুলব।
+এতক্ষণ আমরা দেখলাম কোন API দিয়ে কী লিখতে হয়। এবার দেখব, সেই code phone-এর ভেতরে আসলে কীভাবে চলে।
 
-Senior interview-এ সবচেয়ে বেশি আলাদা করে দেয় এই প্রশ্নগুলো: app খুললে ভেতরে কী হয়? একটা লেখা screen-এ আসে কীভাবে? Build চাপলে কী হয়? এখানে নতুন কোনো library নেই। আছে শুধু ভেতরের যন্ত্র, আর প্রতিটা অংশে Flutter আর native Android পাশাপাশি। এই অধ্যায় বুঝলে [অধ্যায় ০](#ch0)-এর বড় ছবিটা একদম পরিষ্কার হয়ে যাবে।
+Senior interview-এ এই তিনটা প্রশ্ন প্রায়ই আসে। আর এগুলোর উত্তরেই senior আর junior আলাদা হয়ে যায়:
+
+1. App খুললে ভেতরে কী কী হয়?
+2. একটা লেখা screen-এ আসে কীভাবে?
+3. Build চাপলে কী হয়?
+
+এই অধ্যায়ে নতুন কোনো library নেই। আছে শুধু app চলার সময় ভেতরে কোন অংশ কী কাজ করে, সেটা। প্রতিটা অংশে Flutter আর native Android পাশাপাশি দেখাব। ধীরে পড়ুন, ধাপে ধাপে। এই অধ্যায় বুঝলে [অধ্যায় ০](#ch0)-এর বড় ছবিটা একদম পরিষ্কার হয়ে যাবে।
 
 ### <a id="ch13-1"></a>১৩.১ "UI toolkit" আর "Everything is a widget" — কেন বলা হয়
 
-**এক লাইনে:** Flutter শুধু UI বানানোর যন্ত্রপাতি দেয় — widget, layout, আঁকা, gesture, animation, text। OS-এর বাকি সব কাজের জন্য সে host platform-এর ওপর নির্ভর করে। তাই এটা একটা toolkit, পুরো OS framework না।
+**এক লাইনে:** Flutter শুধু UI বানানোর জিনিসপত্র দেয় — widget, layout, আঁকা, gesture, animation, text। OS-এর বাকি সব কাজ করে দেয় যে platform-এর ওপর Flutter চলছে (host platform — এখানে Android)। তাই Flutter একটা UI toolkit — শুধু UI বানানোর library আর engine। এটা পুরো OS framework না।
 
 **কে কী দেয়:**
 
@@ -3499,9 +3638,9 @@ Senior interview-এ সবচেয়ে বেশি আলাদা কর�
 | Process চালু করা আর মারা | Android (system_server, Zygote) |
 | Lifecycle | Android। Flutter শুধু শোনে (`AppLifecycleState`) |
 | Permission, notification, background কাজ, camera | Android। Flutter-এ plugin দিয়ে |
-| Window, keyboard (IME), accessibility (TalkBack) | Android। Flutter এদের সাথে সেতু বানায় |
+| Window, keyboard (IME), accessibility (TalkBack) | Android। Flutter শুধু এদের সাথে তথ্য আদান-প্রদান করে |
 
-**Flutter-এর নিজের তিন স্তর:**
+**Flutter-এর নিজের তিনটা স্তর (layer):** ওপরের স্তরে আপনার code। মাঝে C++-এ লেখা engine। নিচে embedder — যে অংশটা OS-এর সাথে কথা বলে।
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -3514,9 +3653,17 @@ Senior interview-এ সবচেয়ে বেশি আলাদা কর�
 └──────────────────────────────────────────────────────────┘
 ```
 
-Embedder বদলালেই একই toolkit iOS আর desktop-এ চলে (web-এ C++ engine-এর জায়গায় browser-এর জন্য আলাদা করে লেখা engine চলে)। Toolkit portable হয় এজন্যই। আর Android হলো উল্টো: পুরো OS, তার ওপর framework, তার ভেতরে নিজের UI system।
+শুধু নিচের embedder-টা বদলে দিলেই একই toolkit iOS আর desktop-এ চলে। (Web-এ একটু আলাদা: সেখানে C++ engine-এর বদলে browser-এর জন্য আলাদা করে লেখা একটা engine চলে।) এজন্যই Flutter এক platform থেকে আরেক platform-এ সহজে যায় (portable)।
 
-**"Everything is a widget" মানে কী।** পুরনো Android View-এ padding, click, background, alpha — সবই একটা View-এর property। `View` class নিজেই হাজার হাজার লাইনের। আর ক্ষমতা আসে inheritance থেকে: `TextView` → `Button` → `CompoundButton` → `CheckBox`। Flutter-এ প্রতিটা কাজ একটা আলাদা ছোট widget। একটার ভেতরে আরেকটা বসিয়ে (composition) বড় জিনিস বানান।
+Android ঠিক উল্টো। Android নিজেই একটা পুরো OS। তার ওপরে framework আছে, আর সেই framework-এর ভেতরে Android-এর নিজের UI system আছে।
+
+**"Everything is a widget" মানে কী।** আগে পুরনো Android View কীভাবে কাজ করত, সেটা দেখি:
+
+- Padding, click, background, alpha — সবই একটা View-এর property।
+- তাই `View` class নিজেই হাজার হাজার লাইনের বিশাল একটা class।
+- নতুন ক্ষমতা আসে inheritance থেকে: `TextView` → `Button` → `CompoundButton` → `CheckBox`।
+
+Flutter-এ উল্টো। প্রতিটা কাজের জন্য একটা আলাদা ছোট widget। Padding-এর জন্য একটা, click-এর জন্য একটা, রঙের জন্য একটা। একটার ভেতরে আরেকটা বসিয়ে বড় জিনিস বানান — একে বলে composition।
 
 একই note card, তিনভাবে:
 
@@ -3559,17 +3706,30 @@ Text(
 )
 ```
 
-**কেন এই design:** একটাই ধারণা শিখলেই হয়। যেকোনো টুকরো বদলানো যায়। আর ছোট ছোট widget হলে rebuild সস্তা থাকে। দাম হলো nesting গভীর হয়ে যায়। Compose এখানে মাঝামাঝি: UI-টা composable, কিন্তু padding, click, background-এর মতো সাজসজ্জা Modifier-এ।
+**কেন এই design:**
 
-**Senior-এর সূক্ষ্ম কথা:** কথাটা ১০০% সত্য না। Widget শুধু config। `State`, `Element`, `RenderObject`, `AnimationController`, `ThemeData` — এগুলো widget না। সঠিকভাবে বললে: "UI-র প্রতিটা অংশ widget দিয়ে বর্ণনা করা হয়"।
+- শিখতে হয় একটাই ধারণা — সবকিছু widget।
+- যেকোনো একটা টুকরো খুলে অন্যটা বসানো যায়।
+- Widget ছোট ছোট হলে rebuild করা সস্তা থাকে।
 
-**ফাঁদ:** "Flutter native widget-কে wrap করে" বলা। ভুল — Flutter প্রতিটা pixel নিজে আঁকে। Android জানেই না screen-এ একটা button আছে।
+এর দাম হলো, nesting অনেক গভীর হয়ে যায়। Compose এখানে মাঝামাঝি পথ নিয়েছে। UI-টা composable দিয়ে বানানো। কিন্তু padding, click, background-এর মতো সাজসজ্জা যায় Modifier-এ।
+
+**Senior-এর সূক্ষ্ম কথা:** "Everything is a widget" কথাটা ১০০% সত্য না। Widget আসলে শুধু একটা config — কী দেখাতে হবে তার বর্ণনা। `State`, `Element`, `RenderObject`, `AnimationController`, `ThemeData` — এগুলো widget না। ঠিকভাবে বললে: "UI-র প্রতিটা অংশ widget দিয়ে বর্ণনা করা হয়।"
+
+**ফাঁদ:** অনেকে বলে "Flutter native widget-কে wrap করে"। এটা ভুল। Flutter Android-এর button ব্যবহার করে না। প্রতিটা pixel Flutter নিজে আঁকে। Android জানেই না যে screen-এ একটা button আছে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch13-2"></a>১৩.২ তিনটা runtime: JVM, ART আর Dart
 
-**এক লাইনে:** Computer-এ build চালায় **JVM**। Phone-এ Kotlin আর Java চালায় **ART**। Dart চালায় **Dart runtime** — debug-এ JIT-সহ পুরো VM, release-এ শুধু আগে থেকে compile করা machine code।
+**এক লাইনে:** আপনার computer-এ build চালায় **JVM**। Phone-এ Kotlin আর Java code চালায় **ART**। আর Dart code চালায় **Dart runtime**। Debug-এ এটা JIT-সহ পুরো একটা VM। Release-এ এটা শুধু আগে থেকে compile করা machine code চালায়।
+
+**আগে চারটা শব্দ পরিষ্কার করি:**
+
+- **Runtime** — যে program আপনার code-কে চালায়। Code নিজে চলে না, কেউ একজন চালায়।
+- **VM (virtual machine)** — এক ধরনের runtime। এটা এমন code পড়ে চালায়, যেটা CPU সরাসরি বোঝে না (যেমন bytecode)।
+- **JIT (just-in-time)** — app চলার সময়ই code-কে machine code-এ বদলানো। সুবিধা: code বদলে সাথে সাথে চালানো যায় (hot reload)।
+- **AOT (ahead-of-time)** — app চালানোর আগেই, build-এর সময় code-কে machine code-এ বদলে রাখা। সুবিধা: app খুললেই দ্রুত চলে।
 
 | কোথায় | Runtime | কী চালায় |
 |---|---|---|
@@ -3579,12 +3739,15 @@ Text(
 | Phone, debug build | Dart VM, JIT সহ | আপনার Dart code। Hot reload এজন্যই সম্ভব। |
 | Phone, release build | Dart runtime, JIT ছাড়া | `libapp.so`-এর machine code |
 
-**"Java runtime" — দুইটা আলাদা জিনিস গুলিয়ে যায়:**
+**"Java runtime" বললে দুইটা আলাদা জিনিস গুলিয়ে যায়:**
 
-- **JVM** Java bytecode (`.class`) চালায়, আপনার computer-এ। Gradle JVM-এর ওপর চলে। তাই Flutter project-ও JDK ছাড়া Android build করতে পারে না। নতুন Android Gradle Plugin-এর জন্য JDK 17 বা তার নতুন লাগে। Flutter default-এ Android Studio-র সাথে আসা JDK (JBR) নেয়। কোনটা নিচ্ছে, তা `flutter doctor -v`-এ দেখবেন। বদলাতে চাইলে `flutter config --jdk-dir <path>`।
-- **ART** phone-এ চলে। এটা Java bytecode চালায় না, চালায় `.dex`। **Android-এ কোনো JVM নেই।**
+- **JVM** চলে আপনার computer-এ। এটা Java bytecode (`.class` file) চালায়।
+  - Gradle নিজে JVM-এর ওপর চলে। তাই Flutter project-ও JDK ছাড়া Android build করতে পারে না।
+  - নতুন Android Gradle Plugin-এর জন্য JDK 17 বা তার নতুন version লাগে।
+  - Flutter নিজে থেকে Android Studio-র সাথে আসা JDK (JBR) ব্যবহার করে। কোন JDK নিচ্ছে, সেটা `flutter doctor -v` চালালে দেখবেন। বদলাতে চাইলে `flutter config --jdk-dir <path>`।
+- **ART** চলে phone-এ। এটা Java bytecode চালায় না। এটা চালায় `.dex` — Android-এর নিজের bytecode format। **Android phone-এ কোনো JVM নেই।**
 
-**Kotlin code-এর যাত্রা:**
+**Kotlin code-এর যাত্রা:** আপনার .kt file কীভাবে phone-এ চলা পর্যন্ত যায়, নিচের ছবিতে দেখুন। প্রথমে kotlinc (Kotlin compiler) এটাকে .class বানায়। তারপর D8 বা R8 সেটাকে dex বানায়। শেষে phone-এ ART সেটা চালায়।
 
 ```
 .kt ──kotlinc──► .class (JVM bytecode) ──D8 / R8──► classes.dex ──phone-এ──► ART
@@ -3593,47 +3756,81 @@ Text(
                                                                 └ AOT (dex2oat): profile দেখে, phone idle থাকলে
 ```
 
-Baseline Profile দিলে গুরুত্বপূর্ণ code install-এর সময়ই AOT হয়ে যায়। তাই প্রথম launch থেকেই দ্রুত।
+ART একটা method-কে তিনভাবে চালাতে পারে, ছবির ডান দিকে যেমন দেখানো:
 
-**Dart code-এর যাত্রা:**
+1. **Interpreter** — শুরুতে code লাইন ধরে ধরে পড়ে চালায়। এটা সবচেয়ে ধীর।
+2. **JIT** — যে method বারবার চলে, app চলার সময়ই সেটাকে machine code বানিয়ে নেয়।
+3. **AOT (dex2oat)** — phone যখন অলস থাকে (যেমন রাতে charge-এ), তখন ART দেখে কোন code বেশি চলে (profile)। সেগুলো আগে থেকেই machine code বানিয়ে রাখে।
+
+Baseline Profile হলো আপনার দেওয়া একটা তালিকা: "এই code-গুলো গুরুত্বপূর্ণ"। এটা দিলে ওই code app install-এর সময়ই AOT হয়ে যায়। তাই app প্রথমবার খোলার সময় থেকেই দ্রুত চলে।
+
+**Dart code-এর যাত্রা:** Dart-এ debug আর release-এর পথ আলাদা। দুই পথেই প্রথম ধাপ একই: frontend_server আপনার .dart file-কে kernel-এ বদলায়। Kernel (.dill file) হলো Dart code-এর একটা মাঝামাঝি রূপ — machine code না, কিন্তু আর source code-ও না।
 
 ```
 debug:   .dart ──frontend_server──► kernel (.dill) ──phone-এ──► Dart VM, JIT     ← hot reload
 release: .dart ──frontend_server──► kernel ──gen_snapshot──► libapp.so (ARM machine code)
 ```
 
-**মজার কথা: একটা Flutter app-এ দুইটা runtime পাশাপাশি চলে।** একই process-এ ART আর Dart runtime থাকে, যাদের heap আলাদা আর garbage collector-ও আলাদা। Dart-এর object ART দেখে না, ART-এর object-ও Dart দেখে না। কথা হয় message দিয়ে (platform channel), অথবা FFI/JNI দিয়ে। এজন্যই channel দিয়ে বড় image পাঠানো দামি — data serialize করে copy হয়। আর Android Studio-র Memory Profiler-এ Dart-এর heap Java heap হিসেবে দেখায় না। ওটা দেখতে DevTools-এর Memory tab লাগে।
+- **Debug:** phone-এ kernel যায়। Dart VM সেটা JIT দিয়ে চালায়। তাই code বদলালে নতুন kernel পাঠিয়ে দিলেই চলে — এটাই hot reload।
+- **Release:** gen_snapshot kernel-কে আগেই ARM machine code বানিয়ে libapp.so file-এ রাখে (AOT)। Phone-এ শুধু এই তৈরি machine code চলে।
 
-**ফাঁদ:** "Dart code ART-এ চলে" বা "Android-এ JVM আছে" — দুইটাই ভুল।
+**মজার কথা: একটা Flutter app-এ দুইটা runtime পাশাপাশি চলে।** একই process-এর ভেতরে ART আর Dart runtime দুইটাই থাকে। কিন্তু তারা একে অপরের জিনিস দেখতে পায় না:
+
+- দুইজনের heap (object রাখার memory) আলাদা।
+- দুইজনের garbage collector-ও আলাদা।
+- Dart-এর object ART দেখে না। ART-এর object-ও Dart দেখে না।
+
+তাহলে তারা কথা বলে কীভাবে? Message পাঠিয়ে (platform channel), অথবা FFI/JNI দিয়ে।
+
+এর দুইটা ফল আছে:
+
+1. Channel দিয়ে বড় image পাঠানো দামি। কারণ data-টা serialize করে (bytes-এ বদলে) অন্য পাশে copy করতে হয়।
+2. Android Studio-র Memory Profiler-এ Dart-এর heap Java heap হিসেবে দেখায় না। Dart-এর memory দেখতে DevTools-এর Memory tab লাগে।
+
+**ফাঁদ:** "Dart code ART-এ চলে" — ভুল। "Android-এ JVM আছে" — এটাও ভুল।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch13-3"></a>১৩.৩ App খুললে কী হয় — tap থেকে প্রথম frame
 
-**এক লাইনে:** Launcher system-কে বলে, system Zygote থেকে একটা নতুন process fork করে, সেই process-এ Application আর Activity তৈরি হয়, আর প্রথম frame আঁকা হলে splash সরে যায়। Flutter app-এ এর মাঝে একটা ধাপ বেশি: engine চালু করে Dart-এর `main()` চালানো।
+**এক লাইনে:** আপনি icon-এ tap করলে চারটা জিনিস পরপর ঘটে:
 
-**সব app-এর জন্য একই পথ:**
+1. Launcher system-কে বলে "এই app খোলো"।
+2. System, Zygote থেকে একটা নতুন process বানায় (fork করে)।
+3. সেই process-এ Application আর Activity তৈরি হয়।
+4. প্রথম frame আঁকা হলে splash সরে যায়।
 
-1. **Tap।** Launcher নিজেও একটা app। সে `startActivity(intent)` ডাকে। Intent-এ লেখা থাকে: "এই package-এর LAUNCHER activity খোলো"।
-2. **Binder।** Call যায় `system_server` process-এ, ActivityTaskManager-এর কাছে। Binder হলো Android-এ এক process থেকে আরেক process-এ কথা বলার পথ।
-3. **আগে splash।** Process তৈরি হওয়ার আগেই system Activity-র theme দেখে একটা starting window দেখায়, যাতে tap-এর সাথে সাথে user কিছু দেখে। Flutter-এ এটাই আপনার `android/app/src/main/res/values/styles.xml`-এর `LaunchTheme`।
-4. **Zygote fork।** Process নেই, তাই system Zygote-কে fork করতে বলে। Zygote phone চালু হওয়ার সময় তৈরি একটা process। ART আর হাজার হাজার framework class সে আগে থেকেই load করে রেখেছে। Fork মানে এর একটা copy, আর memory share হয় copy-on-write-এ। তাই একটা তৈরি runtime খুব দ্রুত পাওয়া যায়।
-5. **`ActivityThread.main()`।** এটাই নতুন process-এর আসল `main()`। এটা main thread-এ Looper চালু করে — Dart-এর event loop-এর মতো একটা message queue। তারপর system-কে জানায় "আমি তৈরি"।
-6. **Application।** ক্রমটা এমন: `Application.attachBaseContext` → সব `ContentProvider.onCreate` → `Application.onCreate`। Firebase-এর মতো SDK এখানে ContentProvider দিয়ে নিজেকে init করে।
-7. **Activity।** `MainActivity` তৈরি হয়, তারপর `onCreate` → `onStart` → `onResume`। একটা window তৈরি হয়ে WindowManager-এ যোগ হয়।
-8. **প্রথম frame।** পরের vsync-এ measure → layout → draw। RenderThread GPU দিয়ে আঁকে, আর SurfaceFlinger সেটা screen-এ বসায়। এরপর splash সরে যায়।
+Flutter app-এ ধাপ ৩ আর ৪-এর মাঝে একটা বাড়তি ধাপ আছে: engine চালু করা, তারপর Dart-এর `main()` চালানো।
 
-**ধাপ ৭-এ এসে দুই পথ আলাদা হয়:**
+**সব app-এর জন্য একই পথ (ধাপে ধাপে):**
 
-- **Native (Compose):** `onCreate`-এ `setContent { }`। Compose UI tree তৈরি হয়, তারপর প্রথম frame।
-- **Flutter:** `MainActivity : FlutterActivity`-এর `onCreate`-এ:
-  1. একটা `FlutterEngine` তৈরি হয় (বা cache থেকে নেওয়া হয়)। `libflutter.so` load হয় — C++-এ লেখা engine।
-  2. Engine নিজের thread বানায়: **platform thread** (এটাই Android-এর main thread; Flutter 3.29 থেকে Dart code-ও এখানে চলে), **raster thread** (GPU-র কাজ), আর **I/O thread** (image decode-এর মতো কাজ)।
-  3. `libapp.so` খুঁজে নেয় — আপনার compile করা Dart code।
-  4. `configureFlutterEngine`-এ `GeneratedPluginRegistrant` সব plugin register করে। Plugin-এর Kotlin অংশ এখানে তৈরি হয়।
-  5. একটা `FlutterView` তৈরি হয়। ভেতরে আছে একটা `SurfaceView` — Android-এর কাছে চাওয়া একটা খালি জানালা, যেখানে engine নিজে আঁকবে।
-  6. Dart entrypoint চলে: আপনার `main()` → `runApp()` → widget tree।
-  7. Engine প্রথম frame আঁকে। ততক্ষণ Flutter Android-কে আঁকতে দেয় না, তাই splash থেকে যায়। Frame আঁকা হলেই splash সরে।
+1. **Tap।** Launcher (home screen) নিজেও একটা সাধারণ app। আপনি tap করলে সে `startActivity(intent)` ডাকে। Intent-এ লেখা থাকে: "এই package-এর LAUNCHER activity-টা খোলো"।
+2. **Binder।** এই call যায় `system_server` নামের process-এ, ActivityTaskManager-এর কাছে। Android-এ প্রতিটা app আলাদা process-এ চলে। এক process আরেক process-এর সাথে কথা বলে Binder দিয়ে।
+3. **আগে splash।** App-এর process তৈরি হতে একটু সময় লাগে। তাই system অপেক্ষা করে না। সে Activity-র theme দেখে আগেই একটা starting window (splash) দেখিয়ে দেয়, যাতে tap করার সাথে সাথে user কিছু দেখে। Flutter-এ এটাই আপনার `android/app/src/main/res/values/styles.xml` file-এর `LaunchTheme`।
+4. **Zygote fork।** App-এর process এখনো নেই। তাই system Zygote-কে বলে একটা copy বানাতে (fork)।
+   - Zygote একটা বিশেষ process। Phone চালু হওয়ার সময়ই এটা তৈরি হয়।
+   - ART আর হাজার হাজার framework class সে আগে থেকেই load করে বসে আছে।
+   - Fork মানে এই process-এর একটা copy বানানো। Memory সাথে সাথে copy হয় না। দুইজন একই memory ভাগ করে। কেউ কিছু বদলালে তখন শুধু সেই অংশ copy হয় — একে বলে copy-on-write।
+   - ফলে নতুন app একটা তৈরি runtime খুব দ্রুত পেয়ে যায়।
+5. **`ActivityThread.main()`।** এটাই নতুন process-এর আসল `main()`। এটা main thread-এ একটা Looper চালু করে। Looper হলো একটা message queue — Dart-এর event loop-এর মতো। Main thread সারাজীবন এই queue থেকে একটা একটা কাজ নিয়ে করে। তারপর process system-কে জানায়: "আমি তৈরি"।
+6. **Application।** এখানে তিনটা জিনিস এই ক্রমে চলে: `Application.attachBaseContext` → সব `ContentProvider.onCreate` → `Application.onCreate`। Firebase-এর মতো SDK এই ContentProvider ধাপে চুপচাপ নিজেকে চালু (init) করে নেয়।
+7. **Activity।** `MainActivity` তৈরি হয়। তারপর চলে `onCreate` → `onStart` → `onResume`। একটা window তৈরি হয়, আর সেটা WindowManager-এ যোগ হয়।
+8. **প্রথম frame।** Screen নিয়মিত একটা সংকেত দেয়, "নতুন frame দাও" — একে বলে vsync। পরের vsync-এ measure → layout → draw হয়। RenderThread GPU দিয়ে ছবিটা আঁকে। SurfaceFlinger সেটা screen-এ বসায়। এরপর splash সরে যায়।
+
+**ধাপ ৭-এ এসে Compose আর Flutter-এর পথ আলাদা হয়ে যায়:**
+
+- **Native (Compose):** `onCreate`-এর ভেতরে `setContent { }` চলে। Compose UI tree তৈরি হয়। তারপর প্রথম frame আঁকা হয়।
+- **Flutter:** `MainActivity : FlutterActivity`-এর `onCreate`-এর ভেতরে এই সাতটা কাজ হয়:
+  1. একটা `FlutterEngine` তৈরি হয় (অথবা আগে বানিয়ে রাখা cache থেকে নেওয়া হয়)। এখানে `libflutter.so` load হয়। এটাই C++-এ লেখা Flutter engine।
+  2. Engine নিজের কয়েকটা thread বানায়:
+     - **platform thread** — এটা আসলে Android-এর main thread। Flutter 3.29 থেকে আপনার Dart code-ও এই thread-এই চলে।
+     - **raster thread** — GPU-র কাজ করে।
+     - **I/O thread** — image decode-এর মতো ভারী কাজ করে।
+  3. Engine `libapp.so` খুঁজে নেয়। এটাই আপনার compile করা Dart code।
+  4. `configureFlutterEngine`-এর ভেতরে `GeneratedPluginRegistrant` সব plugin register করে। Plugin-এর Kotlin অংশ এখানেই তৈরি হয়।
+  5. একটা `FlutterView` তৈরি হয়। এর ভেতরে একটা `SurfaceView` থাকে। এটা Android-এর কাছ থেকে নেওয়া একটা খালি আঁকার জায়গা (surface)। Android এখানে কিছু আঁকে না। Engine এখানে নিজে আঁকবে।
+  6. Dart-এর শুরুর বিন্দু (entrypoint) চলে: আপনার `main()` → `runApp()` → widget tree।
+  7. Engine প্রথম frame আঁকে। যতক্ষণ এই frame তৈরি না হয়, ততক্ষণ Flutter Android-কে আঁকতে দেয় না। তাই splash screen-এ থেকে যায়। Frame আঁকা হলেই splash সরে যায়।
 
 ```
  tap
@@ -3663,20 +3860,27 @@ Launcher ──Binder──► system_server (ActivityTaskManager)
                 SurfaceFlinger → screen, splash সরে
 ```
 
-**Cold, warm, hot:**
-- **Cold:** process নেই। উপরের পুরো পথ।
-- **Warm:** process আছে, কিন্তু Activity নেই। ধাপ ৪–৬ বাদ যায়।
-- **Hot:** Activity আছে, শুধু সামনে আনা হয়।
+**Cold, warm, hot start — তিন রকম চালু হওয়া:**
+- **Cold:** app-এর process নেই। ওপরের পুরো পথ চলে।
+- **Warm:** process আছে, কিন্তু Activity নেই। তাই ধাপ ৪–৬ বাদ যায়।
+- **Hot:** Activity-ও আছে। শুধু সেটাকে সামনে আনা হয়।
 
-Flutter-এর cold start একটু ভারী। Engine load হয়, Dart চালু হয়, আর প্রথম frame-এর আগে `main()`-এ `runApp`-এর আগের সব `await` শেষ হতে হয়।
+Flutter-এর cold start native-এর চেয়ে একটু ভারী। কারণ বাড়তি তিনটা কাজ হয়: engine load হয়, Dart চালু হয়, আর প্রথম frame-এর আগে `main()`-এর ভেতরে `runApp`-এর আগের সব `await` শেষ হতে হয়।
 
-**ফাঁদ:** `main()`-এ `runApp`-এর আগে Firebase, database, remote config সব `await` করা। তাতে splash অনেকক্ষণ আটকে থাকে। Native-এ একই ভুল হয় `Application.onCreate`-এ। দুই জায়গাতেই নিয়ম একই: প্রথম frame-এর আগে শুধু যা না হলেই নয়, বাকিটা পরে।
+**ফাঁদ:** অনেকে `main()`-এ `runApp`-এর আগেই Firebase, database, remote config — সব `await` করে। তাতে splash অনেকক্ষণ আটকে থাকে। Native-এ একই ভুল হয় `Application.onCreate`-এ। দুই জায়গাতেই নিয়ম একই: প্রথম frame-এর আগে শুধু সেটুকু করুন, যেটা ছাড়া একদমই চলে না। বাকিটা পরে করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch13-4"></a>১৩.৪ একটা লেখা screen-এ আসা: `Text('আজকের নোট')`
 
-**এক লাইনে:** দুই দিকেই একই চার ধাপ — বর্ণনা, মাপ, আঁকার নির্দেশ, GPU। পার্থক্য শুধু কে আঁকে: Flutter-এ Flutter-এর নিজের engine, আর native-এ Android-এর নিজের renderer।
+**এক লাইনে:** Flutter আর Compose — দুই দিকেই একই চারটা ধাপ:
+
+1. **বর্ণনা** — কী দেখাতে হবে।
+2. **মাপ** — লেখাটা কত বড়, কোথায় বসবে।
+3. **আঁকার নির্দেশ** — কী কোথায় আঁকতে হবে, তার একটা তালিকা।
+4. **GPU** — সেই তালিকা ধরে আসল pixel আঁকা।
+
+পার্থক্য শুধু কে আঁকে। Flutter-এ আঁকে Flutter-এর নিজের engine। Native-এ আঁকে Android-এর নিজের renderer।
 
 **Flutter-এ:**
 
@@ -3686,10 +3890,14 @@ const Text('আজকের নোট')
 
 1. **Widget।** `Text` একটা `StatelessWidget`। তার `build()` ফেরত দেয় `RichText`।
 2. **Element আর RenderObject।** `RichText`-এর জন্য একটা element তৈরি হয়, আর সে একটা `RenderParagraph` বানায়। `Text` নিজে কিছু আঁকে না, আঁকে `RenderParagraph`।
-3. **Layout।** Parent constraint দেয়, যেমন "সর্বোচ্চ ৩৬০ চওড়া"। `RenderParagraph` engine-কে লেখাটা মাপতে বলে। Engine font খোঁজে, তারপর HarfBuzz দিয়ে **shaping** করে। বাংলার জন্য এটা খুব জরুরি: "ন" আর "ো" মিলে "নো" হয়, আর যুক্তাক্ষরও এখানেই তৈরি হয়। তারপর line ভাঙে আর size ফেরত দেয়।
-4. **Paint।** `RenderParagraph.paint()` canvas-এ লেখে "এই জায়গায় এই paragraph আঁকো"। এটা আসল আঁকা না। এটা একটা নির্দেশের তালিকা (display list), যেটা একটা layer-এর ভেতরে থাকে।
-5. **Raster।** Layer tree raster thread-এ যায়। Impeller glyph-গুলো একটা texture-এ রাখে (glyph atlas)। তারপর GPU-কে Vulkan command দেয়: "এই texture থেকে এই অক্ষরগুলো এখানে বসাও"।
-6. **Screen।** GPU `FlutterView`-এর surface-এর buffer-এ আঁকে। SurfaceFlinger সেই buffer-কে status bar আর বাকিদের সাথে মিলিয়ে display-এ পাঠায়।
+3. **Layout।** Parent একটা সীমা (constraint) দেয়, যেমন "সবচেয়ে বেশি ৩৬০ চওড়া হতে পারবে"। `RenderParagraph` তখন engine-কে বলে লেখাটা মাপতে। Engine এই কাজগুলো করে:
+   - ঠিক font খুঁজে বের করে।
+   - HarfBuzz দিয়ে **shaping** করে। Shaping মানে কোন অক্ষরের পাশে কোনটা বসবে, আর মিলে কী আকার নেবে, তা ঠিক করা। বাংলার জন্য এটা খুব জরুরি: "ন" আর "ো" মিলে "নো" হয়। যুক্তাক্ষরও এই ধাপেই তৈরি হয়।
+   - লেখা লম্বা হলে লাইন ভাঙে।
+   - শেষে লেখাটার মাপ (size) ফেরত দেয়।
+4. **Paint।** `RenderParagraph.paint()` canvas-এ লেখে: "এই জায়গায় এই paragraph আঁকো"। এখানে কিন্তু আসলে কিছু আঁকা হয় না। শুধু নির্দেশের একটা তালিকা তৈরি হয় — একে বলে display list। এই তালিকা একটা layer-এর ভেতরে রাখা থাকে।
+5. **Raster।** Raster মানে নির্দেশ থেকে আসল pixel বানানো। Layer tree এবার raster thread-এ যায়। Impeller প্রতিটা অক্ষরের ছবি (glyph) একটা বড় ছবিতে (texture) জমা রাখে — একে বলে glyph atlas। তারপর GPU-কে Vulkan command পাঠায়: "এই texture থেকে এই অক্ষরগুলো নিয়ে এখানে বসাও"।
+6. **Screen।** GPU ছবিটা আঁকে `FlutterView`-এর surface-এর buffer-এ। Buffer মানে memory-তে রাখা একটা পুরো ছবি। SurfaceFlinger এই buffer-কে status bar আর বাকি সব window-এর সাথে মিলিয়ে display-এ পাঠায়।
 
 **Compose-এ:**
 
@@ -3697,11 +3905,11 @@ const Text('আজকের নোট')
 Text("আজকের নোট")
 ```
 
-1. **Composition।** Compose runtime function-টা চালায় আর ফল মনে রাখে (slot table-এ)। UI tree-তে একটা `LayoutNode` বসায়, সাথে text-এর জন্য একটা modifier node।
-2. **Measure আর layout।** Compose Android-এর নিজের text system ডাকে: `StaticLayout`, যার ভেতরে Minikin আর HarfBuzz। Font আসে phone-এর system font থেকে (বাংলার জন্য Noto Sans Bengali), যদি না আপনি নিজের font দেন।
-3. **Draw।** Android `Canvas`-এ text আঁকা হয়। এটাও আসলে recording — `AndroidComposeView`-এর `RenderNode`-এ একটা display list।
-4. **RenderThread।** Main thread-এর কাজ শেষ হলে Android-এর renderer **HWUI** নিজের আলাদা thread-এ (RenderThread) display list পড়ে। তারপর Skia দিয়ে GPU command বানায় (OpenGL ES বা Vulkan)।
-5. **Screen।** Window-এর surface-এ আঁকা হয় → SurfaceFlinger → display।
+1. **Composition।** Compose runtime আপনার function-টা চালায়, আর ফলটা মনে রাখে। এই মনে রাখার জায়গাকে বলে slot table। তারপর UI tree-তে একটা `LayoutNode` বসায়। সাথে text-এর জন্য একটা modifier node-ও বসায়।
+2. **Measure আর layout।** লেখা মাপতে Compose Android-এর নিজের text system ডাকে। সেটা হলো `StaticLayout`, যার ভেতরে Minikin আর HarfBuzz কাজ করে। Font আসে phone-এর system font থেকে (বাংলার জন্য Noto Sans Bengali)। তবে আপনি নিজের font দিলে সেটাই ব্যবহার হয়।
+3. **Draw।** Android `Canvas`-এ text আঁকা হয়। এখানেও আসলে কিছু আঁকা হয় না, শুধু নির্দেশ লিখে রাখা হয় (recording)। এই display list থাকে `AndroidComposeView`-এর `RenderNode`-এ।
+4. **RenderThread।** Main thread-এর কাজ শেষ হলে Android-এর renderer **HWUI** কাজ শুরু করে। এটা চলে নিজের আলাদা thread-এ, যার নাম RenderThread। HWUI display list পড়ে, তারপর Skia দিয়ে GPU command বানায় (OpenGL ES বা Vulkan)।
+5. **Screen।** ছবিটা window-এর surface-এ আঁকা হয় → SurfaceFlinger → display।
 
 **পাশাপাশি:**
 
@@ -3716,20 +3924,25 @@ Text("আজকের নোট")
 | GPU-তে পাঠায় | Impeller (Vulkan / OpenGL ES) | HWUI → Skia (OpenGL ES / Vulkan) |
 | শেষে | SurfaceFlinger | SurfaceFlinger |
 
-**এখান থেকে বড় শিক্ষা:** Android জানে না যে Flutter-এর screen-এ একটা "Text" আছে। ওর কাছে শুধু pixel। এজন্যই TalkBack-এর জন্য Flutter আলাদা একটা semantics tree বানিয়ে Android-কে দেয়। আর Google Map বা WebView-এর মতো native View বসাতে Platform View লাগে। Compose-এর এই সমস্যা নেই, কারণ সে Android-এর নিজের UI system-এর ভেতরেই থাকে।
+**এখান থেকে বড় শিক্ষা:** Android জানে না যে Flutter-এর screen-এ একটা "Text" আছে। Android-এর কাছে ওটা শুধু কিছু pixel। এর দুইটা ফল:
+
+1. TalkBack নিজে থেকে লেখাটা পড়তে পারে না। তাই Flutter আলাদা একটা semantics tree বানিয়ে Android-কে দেয়।
+2. Google Map বা WebView-এর মতো native View বসাতে হলে Platform View লাগে।
+
+Compose-এর এই সমস্যা নেই। কারণ Compose Android-এর নিজের UI system-এর ভেতরেই চলে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch13-5"></a>১৩.৫ দুই renderer: HWUI বনাম Impeller, আর SurfaceFlinger
 
-**এক লাইনে:** Native Android আঁকে **HWUI** দিয়ে (ভেতরে Skia), Flutter আঁকে নিজের **Impeller** দিয়ে। দুইজনের আঁকা ছবি শেষে **SurfaceFlinger** মিলিয়ে screen-এ পাঠায়।
+**এক লাইনে:** Native Android আঁকে **HWUI** দিয়ে (যার ভেতরে Skia)। Flutter আঁকে নিজের **Impeller** দিয়ে। দুইজনের আঁকা ছবি শেষে **SurfaceFlinger** একসাথে মিলিয়ে screen-এ পাঠায়।
 
-**নামগুলো:**
+**নামগুলো এক এক করে:**
 
-- **HWUI (Hardware UI)।** Android framework-এর C++ renderer। এটা RenderThread-এ চলে, আর Android 9 থেকে ভেতরে Skia দিয়ে OpenGL ES বা Vulkan-এ আঁকে। পুরনো View আর Compose দুইটাই এটা ব্যবহার করে।
-- **Impeller।** Flutter engine-এর নিজের renderer। এটা raster thread-এ চলে। Android 10+ (API 29) device-এ Vulkan থাকলে Vulkan ব্যবহার করে, না থাকলে OpenGL ES-এ fallback করে। আগে Flutter-ও Skia দিয়ে আঁকত।
-- **SurfaceFlinger।** System-এর compositor process। প্রতিটা window নিজের buffer-এ আঁকে: আপনার app, status bar, navigation bar, keyboard। SurfaceFlinger সব buffer মিলিয়ে একটা ছবি বানায়, আর Hardware Composer (HWC) দিয়ে display-তে পাঠায়।
-- **Vsync।** Display প্রতি ১৬.৭ ms (60Hz) বা ৮.৩ ms (120Hz) পর পর একটা সংকেত দেয়, "নতুন frame দাও"। Android-এ `Choreographer` এই সংকেত app-কে দেয়। Flutter engine-ও এই `Choreographer` থেকেই vsync নেয়।
+- **HWUI (Hardware UI)।** Android framework-এর renderer, C++-এ লেখা। এটা RenderThread-এ চলে। Android 9 থেকে এটা ভেতরে Skia ব্যবহার করে, আর OpenGL ES বা Vulkan দিয়ে GPU-তে আঁকে। পুরনো View আর Compose — দুইটাই এই HWUI দিয়ে আঁকে।
+- **Impeller।** Flutter engine-এর নিজের renderer। এটা raster thread-এ চলে। Android 10+ (API 29) device-এ Vulkan থাকলে Impeller Vulkan ব্যবহার করে। Vulkan না থাকলে OpenGL ES দিয়ে আঁকে (fallback)। আগে Flutter-ও Skia দিয়ে আঁকত।
+- **SurfaceFlinger।** এটা system-এর একটা আলাদা process। এর কাজ হলো সব ছবি জোড়া লাগানো (compositor)। Screen-এ যা দেখেন, তার প্রতিটা অংশ নিজের আলাদা buffer-এ আঁকা হয়: আপনার app, status bar, navigation bar, keyboard। SurfaceFlinger এই সব buffer মিলিয়ে একটা ছবি বানায়। তারপর Hardware Composer (HWC) দিয়ে display-তে পাঠায়।
+- **Vsync।** Display একটা নির্দিষ্ট সময় পর পর সংকেত দেয়: "নতুন frame দাও"। 60Hz screen-এ প্রতি ১৬.৭ ms পর পর, 120Hz screen-এ প্রতি ৮.৩ ms পর পর। Android-এ `Choreographer` এই সংকেত app-কে পৌঁছে দেয়। Flutter engine-ও এই `Choreographer` থেকেই vsync নেয়।
 
 ```
           Native app                              Flutter app
@@ -3747,52 +3960,61 @@ Text("আজকের নোট")
                          display
 ```
 
-**Impeller কেন এল:** Skia shader তৈরি করত চলার সময়ে। কোনো animation প্রথমবার চললে shader বানাতে সময় লাগত, আর frame miss হতো — একে বলে shader compilation jank। Impeller-এর সব shader engine build-এর সময়েই compile করা থাকে। তাই প্রথম frame থেকেই মসৃণ।
+**Impeller কেন এল:** Shader হলো GPU-তে চলা ছোট program। Skia এই shader তৈরি করত app চলার সময়ে। তাই কোনো animation প্রথমবার চললে shader বানাতে সময় লাগত, আর frame সময়মতো তৈরি হতো না (frame miss)। একে বলে shader compilation jank। Impeller-এর সব shader engine build করার সময়েই compile করা থাকে। তাই প্রথম frame থেকেই animation মসৃণ চলে।
 
-**Jank কোথায় খুঁজবেন:** একটা frame-এর সময়ের মধ্যে দুইটা thread-কেই কাজ শেষ করতে হয় — UI-র thread আর GPU-র thread। Flutter DevTools-এ এরা দুইটা bar: UI আর Raster। Android-এ Perfetto system trace-এ main thread আর RenderThread।
+**Jank কোথায় খুঁজবেন:** প্রতিটা frame-এর জন্য বাঁধা সময় আছে (যেমন ১৬.৭ ms)। এই সময়ের মধ্যে দুইটা thread-কেই কাজ শেষ করতে হয়: UI-র thread আর GPU-র thread। যেকোনো একটা দেরি করলেই jank।
 
-**ফাঁদ:** "Compose-ও Flutter-এর মতো নিজে আঁকে" বলা। না — Compose Android-এর View system-এর ভেতরে থাকে (একটা `AndroidComposeView`) আর HWUI দিয়েই আঁকে। তাই Compose আর পুরনো View এক screen-এ সহজে মেশে, আর Flutter-কে native View বসাতে বাড়তি কাজ করতে হয়।
+- Flutter DevTools-এ এরা দুইটা bar: UI আর Raster।
+- Android-এ Perfetto system trace-এ এরা main thread আর RenderThread।
+
+**ফাঁদ:** অনেকে বলে "Compose-ও Flutter-এর মতো নিজে আঁকে"। না। Compose Android-এর View system-এর ভেতরেই থাকে (একটা `AndroidComposeView` হিসেবে), আর HWUI দিয়েই আঁকে। এজন্য Compose আর পুরনো View এক screen-এ সহজে একসাথে চলে। কিন্তু Flutter-কে native View বসাতে বাড়তি কাজ করতে হয়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ch13-6"></a>১৩.৬ Gradle কী করে, আর release APK বানালে কী হয়
 
-**এক লাইনে:** Gradle একটা build automation tool। সে task-এর তালিকা বানায়, কোনটা কার আগে লাগবে ঠিক করে, আর যেটা বদলায়নি সেটা বাদ দেয়। Android Gradle Plugin (AGP) এতে Android-এর task যোগ করে। Flutter-ও Android build-এর জন্য এই Gradle-ই চালায়।
+**এক লাইনে:** Gradle একটা build tool। এটা তিনটা কাজ করে:
 
-**Flutter-এ কি Gradle লাগে?** হ্যাঁ, Android-এর জন্য সবসময়। `flutter run` আর `flutter build apk` দুইটাই ভেতরে `android/` folder-এ Gradle চালায়। প্রথম `flutter run` ধীর হয় এজন্যই: Gradle download হয়, dependency download হয়, daemon চালু হয়। iOS-এ Gradle নেই। সেখানে Xcode (`xcodebuild`), আর CocoaPods বা Swift Package Manager।
+1. Build-এর জন্য কোন কোন কাজ (task) লাগবে, তার তালিকা বানায়।
+2. কোন task কোনটার আগে চলবে, সেটা ঠিক করে।
+3. যে task-এর input বদলায়নি, সেটা আবার চালায় না।
 
-**Gradle-এর তিন ধাপ:**
-1. **Initialization।** `settings.gradle.kts` পড়ে দেখে কোন কোন module আছে। Flutter project-এ প্রতিটা plugin-ও একটা আলাদা module।
-2. **Configuration।** প্রতিটা `build.gradle.kts` চালিয়ে task-এর graph বানায়।
-3. **Execution।** যে task চাওয়া হয়েছে (যেমন `assembleRelease`), শুধু সেটা আর তার আগে যা লাগে সেগুলো চালায়। যার input বদলায়নি, সেটা "UP-TO-DATE" হিসেবে বাদ যায়।
+Android Gradle Plugin (AGP) এই Gradle-এ Android build-এর task-গুলো যোগ করে। Flutter-ও Android build করতে এই Gradle-ই চালায়।
 
-**Gradle-এর আরও কিছু টুকরো:**
-- **Wrapper:** `gradlew` আর `gradle-wrapper.properties`। Project নিজের Gradle version ঠিক করে রাখে, তাই সবাই একই version পায়।
-- **Daemon:** পেছনে চলতে থাকা একটা JVM process, যাতে পরের build দ্রুত হয়।
+**Flutter-এ কি Gradle লাগে?** হ্যাঁ। Android-এর জন্য সবসময় লাগে। `flutter run` আর `flutter build apk` — দুইটাই ভেতরে `android/` folder-এ Gradle চালায়। এজন্যই প্রথম `flutter run` এত ধীর হয়: Gradle download হয়, dependency download হয়, daemon চালু হয়। iOS-এ Gradle নেই। সেখানে আছে Xcode (`xcodebuild`), আর CocoaPods বা Swift Package Manager।
+
+**Gradle তিন ধাপে চলে:**
+1. **Initialization।** `settings.gradle.kts` পড়ে দেখে project-এ কোন কোন module আছে। Flutter project-এ প্রতিটা plugin-ও একটা আলাদা module।
+2. **Configuration।** প্রতিটা `build.gradle.kts` চালায়, আর সব task কে কার ওপর নির্ভর করে তার একটা graph বানায়।
+3. **Execution।** আপনি যে task চেয়েছেন (যেমন `assembleRelease`), শুধু সেটা চালায়। সাথে চালায় তার আগে যেগুলো লাগে। কোনো task-এর input না বদলালে সেটা "UP-TO-DATE" লিখে বাদ যায়।
+
+**Gradle-এর আরও কিছু অংশ:**
+- **Wrapper:** `gradlew` আর `gradle-wrapper.properties`। এখানে project নিজের Gradle version লিখে রাখে। তাই team-এর সবাই একই version পায়।
+- **Daemon:** একটা JVM process, যেটা build শেষেও পেছনে চলতে থাকে। ফলে পরের build-এ JVM নতুন করে চালু করতে হয় না, build দ্রুত হয়।
 - **Cache:** `~/.gradle/caches`-এ dependency আর build output।
 - **Maven repository:** `google()` আর `mavenCentral()` থেকে library আসে — pub.dev-এর জায়গায়।
 
 **Native: `./gradlew assembleRelease`**
 
 1. **Manifest merge।** App আর সব library-র manifest মিলিয়ে একটা।
-2. **Resource।** AAPT2 সব `res/` compile করে, আর `R` class ও `resources.arsc` বানায়।
-3. **Code generation।** KSP চলে, Room আর Hilt-এর code বানায়।
-4. **Compile।** `kotlinc` আর `javac` → `.class`।
-5. **R8** (`isMinifyEnabled = true` দিলে)। Shrink (অব্যবহৃত code বাদ), optimize, obfuscate (নাম ছোট), আর dex — সব একসাথে → `classes.dex`। না দিলে শুধু D8 dex বানায়।
-6. **Native library।** সব `.so` file জমা হয় (`lib/arm64-v8a/...`)।
-7. **Package।** সব zip করে APK বানানো হয় আর align করা হয়।
-8. **Sign।** Release keystore দিয়ে sign। Sign ছাড়া APK install হয় না।
+2. **Resource।** AAPT2 সব `res/` compile করে। তারপর `R` class আর `resources.arsc` বানায়।
+3. **Code generation।** KSP চলে। এটা Room আর Hilt-এর জন্য দরকারি code নিজে লিখে দেয়।
+4. **Compile।** `kotlinc` আর `javac` আপনার code-কে `.class` বানায়।
+5. **R8** (যদি `isMinifyEnabled = true` দেন)। R8 একবারে চারটা কাজ করে: shrink (অব্যবহৃত code বাদ), optimize (code দ্রুত করা), obfuscate (নাম ছোট করা), আর dex বানানো। ফল: `classes.dex`। R8 চালু না থাকলে শুধু D8 চলে, আর সেটা শুধু dex বানায়।
+6. **Native library।** সব `.so` file এক জায়গায় জমা হয় (`lib/arm64-v8a/...`)। .so হলো C/C++ থেকে বানানো machine code-এর file।
+7. **Package।** সব কিছু zip করে APK বানানো হয়। তারপর file-গুলো memory-তে পড়ার সুবিধার জন্য সাজানো হয় (align)।
+8. **Sign।** Release keystore দিয়ে APK sign করা হয়। Sign না করা APK phone-এ install হয় না।
 
 ফল: `app/build/outputs/apk/release/app-release.apk`।
 
 **Flutter: `flutter build apk --release`**
 
-1. **Flutter tool** (Dart-এ লেখা) `pubspec.yaml` দেখে, `pub get` চালায়, আর plugin-এর তালিকা থেকে `GeneratedPluginRegistrant` আর Gradle-এর জন্য plugin list বানায়।
+1. **Flutter tool** (এটা Dart-এ লেখা) প্রথমে `pubspec.yaml` পড়ে, আর `pub get` চালায়। তারপর plugin-এর তালিকা দেখে দুইটা জিনিস বানায়: `GeneratedPluginRegistrant`, আর Gradle-এর জন্য plugin-এর list।
 2. তারপর Gradle চালায়: `gradlew assembleRelease`।
-3. Flutter Gradle Plugin একটা task যোগ করে (`compileFlutterBuildRelease`)। এই task আবার Flutter tool-কে ডাকে Dart অংশ build করতে:
-   - **`frontend_server`:** Dart → kernel (`.dill`)। অব্যবহৃত code বাদ যায় (tree shaking)।
-   - **`gen_snapshot`:** kernel → প্রতিটা ABI-র (arm64, arm, x86_64) machine code → `libapp.so`।
-   - **Asset:** image, font আর `pubspec`-এর asset যায় `flutter_assets/`-এ। Material Icons font থেকে শুধু ব্যবহৃত icon রাখা হয় (icon tree shaking)।
+3. Flutter Gradle Plugin এই build-এ নিজের একটা task যোগ করে (`compileFlutterBuildRelease`)। এই task আবার Flutter tool-কে ডাকে, Dart অংশ build করার জন্য। সেখানে তিনটা কাজ হয়:
+   - **`frontend_server`:** Dart code-কে kernel (`.dill`) বানায়। এই সময় যে code কোথাও ব্যবহার হয় না, সেটা বাদ যায় — একে বলে tree shaking।
+   - **`gen_snapshot`:** kernel-কে machine code বানায়, প্রতিটা ABI-র জন্য আলাদা করে। ABI মানে phone-এর CPU-র ধরন (arm64, arm, x86_64)। ফল: `libapp.so`।
+   - **Asset:** image, font আর `pubspec`-এ লেখা asset যায় `flutter_assets/` folder-এ। Material Icons font থেকে শুধু ব্যবহার হওয়া icon-গুলো রাখা হয় (icon tree shaking)।
 4. বাকিটা native-এর মতোই: plugin-এর Kotlin/Java compile, R8, resource, release version-এর `libflutter.so` যোগ, package, sign।
 
 ফল: `build/app/outputs/flutter-apk/app-release.apk`।
@@ -3811,12 +4033,12 @@ app-release.apk
 └── META-INF/                    signature-এর কিছু তথ্য
 ```
 
-Flutter APK native-এর চেয়ে বড় হয় মূলত `libflutter.so`-র জন্য, আর প্রতিটা ABI-র জন্য আলাদা `.so` থাকার জন্য। AAB দিলে Play প্রতিটা phone-কে শুধু তার ABI-র অংশ দেয়।
+Flutter APK native APK-এর চেয়ে বড় হয়। এর দুইটা কারণ: `libflutter.so` (পুরো engine), আর প্রতিটা ABI-র জন্য আলাদা `.so` file। AAB দিয়ে upload করলে Play প্রতিটা phone-কে শুধু তার নিজের ABI-র অংশটা পাঠায়।
 
 **ফাঁদ:**
-- **Flutter template-এ release build default-এ debug key দিয়ে sign হয়।** নিজের keystore না বসালে "release" APK আসলে debug key-তে sign হয়। Play সেটা নেয় না।
-- **R8 শুধু Kotlin আর Java ছোট করে।** Dart obfuscate করতে আলাদা `--obfuscate --split-debug-info` লাগে।
-- **`flutter clean` error-এর কারণ দেখায় না।** এটা `build/`, `.dart_tool/` আর কিছু generated file মোছে, কিন্তু Gradle-এর cache (`~/.gradle`) থেকে যায়। Gradle-এর error-এর আসল কারণ দেখতে `cd android && ./gradlew assembleRelease --stacktrace` চালান।
+- **Flutter template-এ release build নিজে থেকে debug key দিয়ে sign হয়।** আপনি নিজের keystore না বসালে আপনার "release" APK আসলে debug key-তে sign হওয়া। Play এমন APK নেয় না।
+- **R8 শুধু Kotlin আর Java code ছোট করে।** Dart code-এর নাম লুকাতে (obfuscate) আলাদা করে `--obfuscate --split-debug-info` দিতে হয়।
+- **`flutter clean` error-এর কারণ দেখায় না।** এটা শুধু `build/`, `.dart_tool/` আর কিছু generated file মোছে। Gradle-এর cache (`~/.gradle`) থেকেই যায়। Gradle error-এর আসল কারণ দেখতে চালান: `cd android && ./gradlew assembleRelease --stacktrace`।
 
 [উপরে ফিরুন](#toc)
 
@@ -3855,7 +4077,7 @@ Phone
 |---|---|---|
 | Gradle | build চালায় | `flutter build` — যেটা ভেতরে Gradle-কেই ডাকে |
 | AGP | Android build-এর নিয়ম | Flutter Gradle Plugin (AGP-এর ওপরে বসে) |
-| Maven repository | library-র দোকান | pub.dev |
+| Maven repository | যেখান থেকে library download হয় | pub.dev |
 | `gradlew` (wrapper) | Gradle version ঠিক রাখে | FVM দিয়ে Flutter version ঠিক রাখা |
 | D8 / R8 | dex বানায়, ছোট করে | `gen_snapshot`, tree shaking, `--obfuscate` |
 | ART | app-এর code চালায় | Dart VM / Dart runtime |
@@ -3866,9 +4088,9 @@ Phone
 > **মনে রাখুন**
 > - Flutter = UI toolkit (framework + engine + embedder)। Process, lifecycle, permission — Android-এর।
 > - Computer-এ JVM চালায় build। Phone-এ ART চালায় Kotlin, আর Dart runtime চালায় Dart। Android-এ JVM নেই।
-> - App খোলা: Launcher → system_server → Zygote fork → Application → Activity → প্রথম frame। Flutter-এ মাঝে engine load আর Dart `main()`।
-> - Native আঁকে HWUI (ভেতরে Skia), Flutter আঁকে Impeller। দুইটাই শেষে SurfaceFlinger।
-> - Flutter-এর Android build মানে Gradle। Dart অংশ `gen_snapshot` দিয়ে `libapp.so` হয়।
+> - App খোলার পথ: Launcher → system_server → Zygote fork → Application → Activity → প্রথম frame। Flutter-এ এর মাঝে engine load হয়, আর Dart-এর `main()` চলে।
+> - Native আঁকে HWUI দিয়ে (ভেতরে Skia)। Flutter আঁকে Impeller দিয়ে। দুইজনের ছবিই শেষে SurfaceFlinger screen-এ বসায়।
+> - Flutter-এর Android build মানে Gradle build। Dart অংশটা `gen_snapshot` দিয়ে `libapp.so` হয়।
 
 > **Interview-এ এক কথায়**
 > - *বাংলায়:* "Flutter একটা UI toolkit — framework, engine আর embedder। App খুললে Zygote থেকে process fork হয়, তারপর Application আর FlutterActivity তৈরি হয়। FlutterActivity engine load করে, Dart-এর main চালায়, আর Impeller দিয়ে একটা SurfaceView-তে নিজে আঁকে। Native app সেখানে Android-এর HWUI দিয়ে আঁকে। দুই ক্ষেত্রেই শেষে SurfaceFlinger ছবিটা screen-এ বসায়। Build-এ Flutter Gradle চালায়: Kotlin dex হয়ে ART-এ চলে, আর Dart AOT compile হয়ে libapp.so-তে machine code হয়।"
@@ -3880,7 +4102,7 @@ Phone
 
 ## <a id="ch14"></a>১৪. শেখার পরিকল্পনা — ৪ সপ্তাহ
 
-পড়ে শেখার চেয়ে বানিয়ে শেখা অনেক দ্রুত। আর আপনার জন্য সবচেয়ে দ্রুত পথ হলো: **যে Notes app এই বই জুড়ে দেখলেন, সেটা native-এ বানানো।** প্রতিটা অংশ Flutter-এ কীভাবে লিখতেন, তা আপনি আগেই জানেন — শুধু অনুবাদ করবেন।
+শুধু পড়ার চেয়ে নিজে বানিয়ে শিখলে অনেক দ্রুত শেখা হয়। আপনার জন্য সবচেয়ে দ্রুত পথ: **এই বই জুড়ে যে Notes app দেখলেন, সেটা native-এ বানান।** প্রতিটা অংশ Flutter-এ কীভাবে লিখতেন, তা আপনি আগেই জানেন। শুধু সেটা Kotlin আর Compose-এ লিখবেন।
 
 | সপ্তাহ | পড়ুন | বানান |
 |---|---|---|
@@ -3894,7 +4116,7 @@ Phone
 2. Phone ঘোরালে বা process মরলে এটা টিকবে?
 3. এটা কোন thread-এ চলছে?
 
-এই তিন প্রশ্নের উত্তর মুখে বলতে পারলে আপনি interview-এর জন্য তৈরি। শেষে [Android Interview Prep](../../interviews/software-engineer-flutter-android-ios-bn/flutter-android-ios-interview-prep-bn.md) খুলে প্রশ্নগুলো জোরে জোরে বলে অনুশীলন করুন — ওখানে প্রতিটা উত্তর বাংলা আর English-এ আছে।
+এই তিন প্রশ্নের উত্তর মুখে বলতে পারলে আপনি interview-এর জন্য তৈরি। শেষে [Android Interview Prep](../../interviews/software-engineer-flutter-android-ios-bn/flutter-android-ios-interview-prep-bn.md) খুলুন। প্রশ্নগুলোর উত্তর জোরে জোরে বলে practice করুন। ওখানে প্রতিটা উত্তর বাংলা আর English দুই ভাষায় আছে।
 
 [উপরে ফিরুন](#toc)
 
@@ -3976,7 +4198,7 @@ Interview-এর আগের রাতে শুধু এই পাতাট�
 |---|---|
 | `main()` + `runApp` | `Application` + `MainActivity.setContent` |
 | `FlutterActivity` | `ComponentActivity` |
-| `BuildContext` | (মিল নেই) — `Context` হলো system-এর দরজা |
+| `BuildContext` | (মিল নেই) — `Context` দিয়ে system-এর service আর resource পাওয়া যায় |
 | `WidgetsBindingObserver` | `Lifecycle`, `LifecycleResumeEffect`, `ProcessLifecycleOwner` |
 | `go_router` / `Navigator` | Navigation Compose / Navigation 3 |
 | Cubit / Bloc / Notifier | `ViewModel` |
@@ -4034,7 +4256,7 @@ Interview-এর আগের রাতে শুধু এই পাতাট�
 
 ## <a id="part-ios"></a>খণ্ড ২ — iOS
 
-এবার পাশের আরেকটা শহর। এখানেও আপনি আগে এসেছেন — প্রতিটা Flutter app-এর `ios/` folder-এ একটা পুরো iOS project আছে। খণ্ড ১-এর মতোই প্রতিটা জিনিস আগে Flutter-এ, তারপর iOS-এ (Swift, SwiftUI), আর যেখানে কাজে লাগে, Android-এর সাথে এক লাইনের তুলনা।
+এবার iOS। এটাও আপনি আগে দেখেছেন — প্রতিটা Flutter app-এর `ios/` folder-এ একটা পুরো iOS project আছে। খণ্ড ১-এর মতোই এখানেও প্রতিটা জিনিস আগে Flutter-এ দেখাব, তারপর iOS-এ (Swift, SwiftUI)। যেখানে কাজে লাগে, সেখানে Android-এর সাথে এক লাইনের তুলনাও দেব।
 
 [উপরে ফিরুন](#toc)
 
@@ -4042,11 +4264,11 @@ Interview-এর আগের রাতে শুধু এই পাতাট�
 
 ## <a id="ios0"></a>iOS ০. বড় ছবি — আপনার Flutter app আসলে একটা iOS app
 
-**এক লাইনে:** iOS-এও Flutter শুধু UI আঁকে আর Dart চালায়। App চালু হওয়া, lifecycle, permission, notification, background কাজ, signing — সব iOS-এর। Flutter-এ এগুলো plugin-এর আড়ালে ছিল। এখন আড়ালটা সরাব।
+**এক লাইনে:** iOS-এও Flutter শুধু UI আঁকে আর Dart code চালায়। বাকি সব iOS করে: app চালু হওয়া, lifecycle, permission, notification, background কাজ, signing। Flutter-এ এগুলো plugin-এর পেছনে লুকানো ছিল। এই খণ্ডে সেগুলো সরাসরি দেখব।
 
-Android অংশে আপনি এই গল্পটা একবার পড়েছেন ([অধ্যায় ০](#ch0))। ছাঁচ একই। শুধু নামগুলো বদলাবে, আর কিছু নিয়ম আরও কড়া হবে। এই অধ্যায় বুঝলে iOS-এর বাকি সব জায়গামতো বসবে।
+Android অংশে আপনি একই জিনিস একবার পড়েছেন ([অধ্যায় ০](#ch0))। গঠন একই। শুধু নামগুলো আলাদা, আর কিছু নিয়ম আরও কড়া। এই অধ্যায় বুঝলে iOS-এর বাকি অধ্যায়গুলো সহজ হয়ে যাবে।
 
-> **Version নিয়ে:** লেখা নভেম্বর ২০২৬-এ। তখন সর্বশেষ Xcode 27, iOS 27, Swift 6.4, আর Flutter stable 3.47। Apple প্রতি বছর জুনে (WWDC) নতুন version ঘোষণা করে, আর সেপ্টেম্বরে ছাড়ে। তাই কোনো API কোন iOS থেকে আছে, সেটা লেখার পাশে দেওয়া থাকবে।
+> **Version নিয়ে:** এই লেখা নভেম্বর ২০২৬-এর। তখন সর্বশেষ version: Xcode 27, iOS 27, Swift 6.4, আর Flutter stable 3.47। Apple প্রতি বছর জুনে (WWDC-তে) নতুন version ঘোষণা করে, আর সেপ্টেম্বরে বের করে। তাই কোনো API কোন iOS version থেকে আছে, সেটা প্রতিটা জায়গায় পাশে লেখা থাকবে।
 
 ### <a id="ios0-1"></a>iOS ০.১ আপনার Flutter app আসলে একটা iOS app
 
@@ -4083,13 +4305,13 @@ import UIKit
 class SceneDelegate: FlutterSceneDelegate {}
 ```
 
-আর `Runner/Base.lproj/Main.storyboard`-এর প্রথম screen-টা একটা `FlutterViewController`। ব্যস, এটুকুই। User যখন app-এর icon-এ tap করে:
+আর `Runner/Base.lproj/Main.storyboard`-এ প্রথম screen হিসেবে আছে একটা `FlutterViewController`। ব্যস, এটুকুই। User app-এর icon-এ tap করলে এই ধাপগুলো হয়:
 
-1. iOS একটা process চালু করে। `@main` দেখে বোঝে, শুরু `AppDelegate` থেকে।
-2. iOS একটা **scene** (একটা window) বানায়। `SceneDelegate` সেই window-এর দেখাশোনা করে। Window-এ বসে `Main.storyboard`-এর `FlutterViewController`।
-3. `FlutterViewController` একটা **`FlutterEngine`** চালায়। Engine-এর ভেতরে Dart runtime চলে, আর আপনার `main()` call হয়। Engine তৈরি হলে `didInitializeImplicitFlutterEngine` আসে, আর সব plugin register হয়।
-4. `FlutterViewController`-এর view পুরো screen জুড়ে একটা Metal surface। Flutter সেখানে নিজের widget নিজে আঁকে, **Impeller** দিয়ে। iOS-এ Flutter 3.29 থেকে Impeller-ই একমাত্র renderer। Skia আর বেছে নেওয়া যায় না।
-5. Camera, Keychain, notification লাগলে Dart code **platform channel** দিয়ে Swift বা Objective-C code-কে বলে। Plugin মানে এটাই।
+1. iOS app-এর জন্য একটা process চালু করে। `@main` দেখে iOS বোঝে, শুরু করতে হবে `AppDelegate` থেকে।
+2. iOS একটা **scene** বানায়। Scene মানে app-এর একটা window। `SceneDelegate` সেই window-এর ঘটনাগুলো সামলায়। Window-এ বসানো হয় `Main.storyboard`-এর `FlutterViewController`।
+3. `FlutterViewController` একটা **`FlutterEngine`** চালায়। Engine-এর ভেতরে Dart runtime চলে, আর আপনার `main()` call হয়। Engine তৈরি হলে `didInitializeImplicitFlutterEngine` call হয়, আর সেখানে সব plugin register হয়।
+4. `FlutterViewController`-এর view পুরো screen জুড়ে একটা Metal surface। (Metal হলো Apple-এর GPU API।) Flutter এই surface-এ নিজের widget নিজেই আঁকে, **Impeller** দিয়ে। iOS-এ Flutter 3.29 থেকে Impeller-ই একমাত্র renderer। Skia আর বেছে নেওয়া যায় না।
+5. Camera, Keychain বা notification লাগলে Dart code **platform channel** দিয়ে Swift বা Objective-C code-কে কাজটা করতে বলে। Plugin বলতে এটাই বোঝায়।
 
 ```
 ┌──────────────────────────────── iOS process (sandbox-এর ভেতরে) ──────────────────────────────┐
@@ -4117,9 +4339,13 @@ class SceneDelegate: FlutterSceneDelegate {}
 | `App.framework` | আপনার Dart code, release-এ আগে থেকেই machine code-এ compile করা (AOT) | `libapp.so` |
 | `Flutter.framework` | Flutter engine — Dart runtime, Impeller, text layout, channel | `libflutter.so` |
 
-**কেন release-এ AOT বাধ্যতামূলক:** iOS কোনো সাধারণ app-কে চলার সময় নতুন machine code বানিয়ে চালাতে দেয় না। তাই Dart-এর JIT শুধু debug-এ চলে, আর debug app শুধু Xcode বা `flutter run` থেকে খোলা যায়। Release build-এ সব Dart code আগেই machine code হয়ে যায়। Hot reload তাই শুধু debug-এ।
+**কেন release-এ AOT ছাড়া উপায় নেই:** iOS কোনো সাধারণ app-কে চলার সময় নতুন machine code বানিয়ে চালাতে দেয় না। অথচ JIT ঠিক এই কাজটাই করে। তাই:
 
-আরও কিছু জিনিস, যা Flutter-এ থেকেও আসলে iOS-এরটাই ব্যবহার করতেন:
+- Dart-এর JIT শুধু debug-এ চলে। আর debug app শুধু Xcode বা `flutter run` থেকেই খোলা যায়।
+- Release build-এ সব Dart code আগেই machine code হয়ে যায় (AOT)।
+- এজন্যই hot reload শুধু debug-এ কাজ করে।
+
+Flutter-এ থাকার সময়ও আপনি আসলে iOS-এর এই জিনিসগুলো ব্যবহার করতেন:
 
 | Flutter-এ আপনি যা করতেন | আসলে কী ছিল |
 |---|---|
@@ -4134,15 +4360,15 @@ class SceneDelegate: FlutterSceneDelegate {}
 | `path_provider` | App-এর sandbox-এর `Documents/`, `Library/` folder |
 | `url_launcher` | `UIApplication.open(_:)` |
 
-**তাই এখানেও শূন্য থেকে শুরু না।** পার্থক্য দুই জায়গায়:
-- **UI:** Flutter নিজে আঁকে। Native iOS-এ UI-ও iOS-এর — SwiftUI (আগে UIKit)।
-- **ভাষা আর runtime:** Dart-এর জায়গায় Swift। Swift সরাসরি machine code-এ compile হয়। কোনো VM নেই, garbage collector-ও নেই — memory চলে reference count দিয়ে ([iOS ১.৫](#ios1-5))।
+**তাই iOS-এও আপনি শূন্য থেকে শুরু করছেন না।** নতুন শুধু দুইটা জিনিস:
+- **UI:** Flutter-এ UI Flutter নিজে আঁকে। Native iOS-এ UI-ও iOS-এর নিজের — SwiftUI (আগে ছিল UIKit)।
+- **ভাষা আর runtime:** Dart-এর বদলে Swift। Swift সরাসরি machine code-এ compile হয়। এখানে কোনো VM নেই, garbage collector-ও নেই। Memory সামলানো হয় reference count দিয়ে — কতজন একটা object ব্যবহার করছে, সেটা গুনে রাখা হয়, আর গোনা শূন্য হলে object মুছে যায় ([iOS ১.৫](#ios1-5))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios0-2"></a>iOS ০.২ iOS-এর স্তরগুলো
 
-iOS হলো Apple-এর operating system, আর তার ওপরে app বানানোর framework-এর স্তূপ। নিচ থেকে ওপরে:
+iOS হলো Apple-এর operating system। তার ওপরে স্তরে স্তরে app বানানোর framework সাজানো। ছবিতে ওপরে আপনার app, আর সবচেয়ে নিচে kernel:
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -4162,12 +4388,12 @@ iOS হলো Apple-এর operating system, আর তার ওপরে app �
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-Android-এর স্তরের সাথে মিলিয়ে দেখুন ([০.২](#ch0-2))। একটা বড় পার্থক্য আছে, আর সেটাই আপনার রোজকার কাজে লাগবে:
+Android-এর স্তরগুলোর সাথে মিলিয়ে দেখুন ([০.২](#ch0-2))। একটা বড় পার্থক্য আছে। এটা আপনার রোজকার কাজে লাগবে:
 
-- **Android-এ Jetpack আছে।** Compose, Room, ViewModel — এগুলো app-এর সাথে bundle হয়। তাই phone-এর Android version যা-ই হোক, একই code চলে।
-- **iOS-এ Jetpack-এর মতো কিছু নেই।** SwiftUI, SwiftData, Observation — সব **OS-এর সাথে আসে।** iOS 17-এর phone-এ iOS 17-এর SwiftUI, iOS 18-এর phone-এ iOS 18-এর SwiftUI।
+- **Android-এ Jetpack আছে।** Compose, Room, ViewModel — এগুলো আপনার app-এর ভেতরেই ঢুকে যায় (bundle হয়)। তাই phone-এ Android-এর যে version-ই থাকুক, একই code চলে।
+- **iOS-এ Jetpack-এর মতো কিছু নেই।** SwiftUI, SwiftData, Observation — সব **OS-এর সাথে আসে।** iOS 17-এর phone-এ চলে iOS 17-এর SwiftUI। iOS 18-এর phone-এ চলে iOS 18-এর SwiftUI।
 
-তাই iOS-এ প্রতিটা নতুন API-র পাশে লেখা থাকে, কোন iOS থেকে আছে। `@Observable` চাইলে iOS 17 লাগবে। `NavigationStack` চাইলে iOS 16। পুরনো phone সমর্থন করলে এভাবে লিখবেন:
+তাই iOS-এ প্রতিটা নতুন API-র পাশে লেখা থাকে, সেটা কোন iOS থেকে আছে। যেমন `@Observable` চাইলে iOS 17 লাগবে। `NavigationStack` চাইলে iOS 16 লাগবে। পুরনো phone-ও চালাতে চাইলে এভাবে লিখবেন:
 
 ```swift
 if #available(iOS 17, *) {
@@ -4177,23 +4403,32 @@ if #available(iOS 17, *) {
 }
 ```
 
-Android-এর `Build.VERSION.SDK_INT >= 34`-এর মতো। সুখবর হলো, iPhone user-রা খুব তাড়াতাড়ি নতুন iOS-এ যায়। তাই বেশিরভাগ app শুধু শেষ দুই-তিনটা iOS সমর্থন করে। Minimum version-কে বলে **deployment target** ([iOS ৩.৮](#ios3-8))।
+এটা Android-এর `Build.VERSION.SDK_INT >= 34`-এর মতোই। ভালো খবর হলো, iPhone user-রা খুব তাড়াতাড়ি নতুন iOS-এ update করে। তাই বেশিরভাগ app শুধু শেষ দুই-তিনটা iOS version-এ চলে। আপনার app সবচেয়ে পুরনো যে iOS-এ চলবে, তাকে বলে **deployment target** ([iOS ৩.৮](#ios3-8))।
 
-**Swift runtime-ও OS-এর অংশ।** iOS 12.2 থেকে Swift-এর standard library phone-এই থাকে। তাই app-এর ভেতরে Swift runtime ভরতে হয় না।
+**Swift runtime-ও OS-এর অংশ।** iOS 12.2 থেকে Swift-এর standard library phone-এই থাকে। তাই app-এর ভেতরে Swift runtime আলাদা করে রাখতে হয় না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios0-3"></a>iOS ০.৩ iOS আর Android-এর বড় পার্থক্য
 
-Android থেকে আসলে চারটা জিনিস প্রথম দিনেই ধাক্কা দেবে।
+Android থেকে এলে চারটা জিনিস প্রথম দিনেই অবাক করবে।
 
-**১. Sandbox — প্রতিটা app নিজের বাক্সে।** iOS-এ প্রতিটা app-এর নিজের একটা folder আছে (`Documents/`, `Library/`, `tmp/`)। অন্য app-এর file দেখা যায় না, shared storage-এ ইচ্ছামতো লেখা যায় না। দুই app-এর মধ্যে data ভাগ করতে App Group লাগে, আর সেটা entitlement দিয়ে আগে ঘোষণা করতে হয় ([iOS ৩.৭](#ios3-7))। Android-এও sandbox আছে, কিন্তু iOS-এরটা অনেক কড়া।
+**১. Sandbox — প্রতিটা app আলাদা, বন্ধ জায়গায়।** iOS-এ প্রতিটা app-এর নিজের একটা folder আছে (`Documents/`, `Library/`, `tmp/`)।
+- অন্য app-এর file দেখা যায় না।
+- Shared storage-এ ইচ্ছামতো লেখা যায় না।
+- দুই app-এর মধ্যে data ভাগ করতে App Group লাগে। সেটা আগে থেকেই entitlement-এ লিখে রাখতে হয় ([iOS ৩.৭](#ios3-7))। Entitlement হলো app-এর বিশেষ অনুমতির তালিকা।
 
-**২. Background-এ app ঘুমিয়ে পড়ে (suspension)।** Android-এ background-এ কিছু কাজ চলতে পারে, আর foreground service দিয়ে অনেকক্ষণ চালানো যায়। iOS-এ user home-এ গেলে app অল্প সময় পায়। তারপর **suspend** হয় — memory-তে থাকে, কিন্তু একটা লাইন code-ও চলে না। Background-এ কাজ করতে হলে iOS-এর দেওয়া নির্দিষ্ট পথ নিতে হয় (background task, push, background mode)। আর suspend থাকা app-কে system কোনো খবর না দিয়ে মেরে দিতে পারে ([iOS ৪.৪](#ios4-4))।
+Android-এও sandbox আছে, কিন্তু iOS-এরটা অনেক বেশি কড়া।
 
-**৩. একটাই store, আর প্রতিটা release-এ review।** Android-এ Play Store ছাড়াও APK দিয়ে app দেওয়া যায়। iOS-এ App Store-ই প্রায় একমাত্র পথ। কিছু অঞ্চলে (যেমন EU) আইনের কারণে বিকল্প marketplace আছে, কিন্তু বেশিরভাগ দেশে নেই। প্রতিটা নতুন version Apple-এর review পার হতে হয়। আর upload-এর জন্য নির্দিষ্ট Xcode লাগে — ২৮ এপ্রিল ২০২৬ থেকে Xcode 26 বা নতুন, iOS 26 SDK দিয়ে build।
+**২. Background-এ app থেমে যায় (suspension)।** Android-এ background-এ কিছু কাজ চলতে পারে। Foreground service দিয়ে অনেকক্ষণ কাজ চালানোও যায়। iOS-এ এমন না:
+- User home-এ গেলে app অল্প কিছু সময় পায়।
+- তারপর app **suspend** হয়। মানে app memory-তে থাকে, কিন্তু একটা লাইন code-ও চলে না।
+- Background-এ কাজ করতে হলে iOS-এর দেওয়া নির্দিষ্ট পথ নিতে হয় (background task, push, background mode)।
+- Suspend থাকা app-কে system কোনো খবর না দিয়েই বন্ধ করে দিতে পারে ([iOS ৪.৪](#ios4-4))।
 
-**৪. Signing সব জায়গায়।** Android-এ debug build একটা debug key দিয়ে নিজে থেকেই sign হয়। iOS-এ নিজের phone-এ চালাতেও signing লাগে: Apple Developer account, certificate, App ID, provisioning profile। Push বা App Group চাইলে সেটা entitlement-এ লিখতে হয়, আর profile-এও থাকতে হয়। Flutter-এ Xcode-এ "Team" বেছে দিয়ে আপনি এর একটা অংশ দেখেছেন।
+**৩. একটাই store, আর প্রতিটা release-এ review।** Android-এ Play Store ছাড়াও APK দিয়ে app দেওয়া যায়। iOS-এ App Store-ই প্রায় একমাত্র পথ। কিছু অঞ্চলে (যেমন EU) আইনের কারণে অন্য marketplace আছে, কিন্তু বেশিরভাগ দেশে নেই। প্রতিটা নতুন version Apple-কে review করে পাশ করাতে হয়। আর upload করতে নির্দিষ্ট Xcode লাগে: ২৮ এপ্রিল ২০২৬ থেকে Xcode 26 বা নতুন, আর build হতে হবে iOS 26 SDK দিয়ে।
+
+**৪. সব জায়গায় signing।** Android-এ debug build নিজে থেকেই একটা debug key দিয়ে sign হয়। iOS-এ নিজের phone-এ চালাতেও signing লাগে। তার জন্য লাগে: Apple Developer account, certificate, App ID, আর provisioning profile। Push বা App Group চাইলে সেটা entitlement-এ লিখতে হয়, আর provisioning profile-এও সেটা থাকতে হয়। Flutter-এ Xcode-এ "Team" বেছে দেওয়ার সময় আপনি এর একটা অংশ দেখেছেন।
 
 আরও কিছু ছোট পার্থক্য:
 
@@ -4209,7 +4444,7 @@ Android থেকে আসলে চারটা জিনিস প্রথ�
 
 ### <a id="ios0-4"></a>iOS ০.৪ পুরো framework-এর মানচিত্র
 
-এটা iOS অংশের সবচেয়ে কাজের table। বাম দিকে কাজটা। তারপর আজকের দিনে iOS-এ যেটা নেবেন, পুরনো যেটা চিনে রাখবেন, Android-এ কী, আর Flutter-এ কী।
+এটা iOS অংশের সবচেয়ে কাজের table। প্রথম কলামে কাজটা। তারপর পরপর: আজ iOS-এ কোনটা ব্যবহার করবেন, পুরনো কোনটা চিনে রাখবেন, Android-এ কী, আর Flutter-এ কী।
 
 | কাজ | iOS — আজকের best | পুরনো iOS (চিনে রাখুন) | Android | Flutter |
 |---|---|---|---|---|
@@ -4238,14 +4473,14 @@ Android থেকে আসলে চারটা জিনিস প্রথ�
 | Unit test | Swift Testing (`@Test`, `#expect`) | XCTest | JUnit + `runTest` | `test`, `bloc_test` |
 | UI test | XCUITest | | Compose UI test | `testWidgets`, `integration_test` |
 
-**পুরনো কলামটা কেন:** Interview-এ, পুরনো project-এ, আর প্রায় সব Flutter plugin-এর iOS code-এ এগুলো দেখবেন। Plugin-এর iOS অংশ এখনো বেশিরভাগ UIKit, GCD আর completion handler-এ লেখা। নতুন code-এ মাঝের কলাম।
+**পুরনো কলামটা কেন রাখলাম:** এগুলো আপনি interview-এ, পুরনো project-এ, আর প্রায় সব Flutter plugin-এর iOS code-এ দেখবেন। Plugin-এর iOS অংশ এখনো বেশিরভাগ UIKit, GCD আর completion handler দিয়ে লেখা। তবে নতুন code লিখবেন "আজকের best" কলাম দেখে।
 
-**একটা সতর্কতা:** iOS-এ "আজকের best" অনেক সময় deployment target-এর ওপর নির্ভর করে। SwiftData আর `@Observable` চাইলে iOS 17 লাগবে। iOS 16 সমর্থন করতে হলে পুরনো কলামের কিছু জিনিস এখনো লাগবে।
+**একটা সতর্কতা:** iOS-এ "আজকের best" কোনটা, সেটা অনেক সময় আপনার deployment target ঠিক করে দেয়। SwiftData আর `@Observable` চাইলে iOS 17 লাগবে। App যদি iOS 16-এও চালাতে হয়, তাহলে পুরনো কলামের কিছু জিনিস এখনো লাগবে।
 
 > **মনে রাখুন**
 > - আপনার প্রতিটা Flutter app-এর `ios/` একটা পুরো Xcode project। `FlutterViewController` একটা সাধারণ `UIViewController`।
 > - Dart code release-এ AOT হয়ে `App.framework`-এ যায়, engine থাকে `Flutter.framework`-এ।
-> - iOS-এ Jetpack-এর মতো কিছু নেই। Framework OS-এর সাথে আসে, তাই প্রতিটা API-র একটা minimum iOS আছে।
+> - iOS-এ Jetpack-এর মতো কিছু নেই। Framework OS-এর সাথে আসে। তাই প্রতিটা API-র জন্য একটা সবচেয়ে কম iOS version লাগে।
 > - চার বড় পার্থক্য: কড়া sandbox, background-এ suspension, একটাই store আর review, সব জায়গায় signing।
 
 > **Interview-এ এক কথায়**
@@ -4255,21 +4490,20 @@ Android থেকে আসলে চারটা জিনিস প্রথ�
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ios1"></a>iOS ১. Swift — Dart-এর পাশে
 
-Swift পড়তে গিয়ে আপনার বারবার মনে হবে, "এটা তো চিনি।" `?`, `??`, `async`/`await`, extension, generics — সব আছে। Kotlin-এর সাথে আরও বেশি মিল। কিন্তু দুইটা জিনিস একদম নতুন, আর সেগুলোই Swift-এর প্রাণ:
+Swift পড়তে গিয়ে বারবার মনে হবে, "এটা তো চিনি।" `?`, `??`, `async`/`await`, extension, generics — সবই আছে। Kotlin-এর সাথে মিল আরও বেশি। তবে দুইটা জিনিস একদম নতুন। Swift বুঝতে হলে এই দুইটাই আসল:
 
-- **`struct` হলো value type।** Assign করলে copy হয়। Swift-এর প্রায় সব model struct।
-- **Garbage collector নেই।** Memory চলে **ARC** (reference count) দিয়ে। তাই retain cycle নিজে খেয়াল রাখতে হয়।
+- **`struct` হলো value type।** মানে, এক variable থেকে আরেকটায় দিলে (assign করলে) পুরো জিনিসটা copy হয়। Swift-এর প্রায় সব model struct দিয়ে লেখা।
+- **Garbage collector নেই।** Memory সামলায় **ARC**। ARC গুনে রাখে, একটা object-কে কয়জন ধরে আছে (reference count)। তাই দুই object একে অপরকে ধরে রাখছে কি না (retain cycle), সেটা আপনাকেই খেয়াল রাখতে হয়।
 
-এই দুইটা ভালো করে বুঝলে বাকি Swift একদিনের কাজ। Android অংশে Kotlin-এর অধ্যায়টা ([অধ্যায় ১](#ch1)) পড়ে থাকলে আরও সহজ — জায়গায় জায়গায় Kotlin-ও পাশে রাখছি।
+এই দুইটা ভালো করে বুঝলে বাকি Swift শিখতে একদিনই যথেষ্ট। Android অংশে Kotlin-এর অধ্যায়টা ([অধ্যায় ১](#ch1)) পড়া থাকলে আরও সহজ লাগবে। মাঝে মাঝে Kotlin-ও পাশে রেখেছি।
 
-Code চালিয়ে দেখতে Xcode-এ **File → New → Playground** খুলুন। DartPad-এর মতো, লিখলেই চলে।
+Code চালিয়ে দেখতে চাইলে Xcode-এ **File → New → Playground** খুলুন। এটা DartPad-এর মতো — লিখলেই চলে।
 
 ### <a id="ios1-1"></a>iOS ১.১ Variable আর type
 
-**এক লাইনে:** `final` → `let`, `var` → `var`। Type পরে বসে, Kotlin-এর মতো।
+**এক লাইনে:** `final` → `let`, `var` → `var`। Type লেখা হয় নামের পরে, Kotlin-এর মতো।
 
 ```dart
 // Dart
@@ -4297,7 +4531,7 @@ var count = 0
 |---|---|---|
 | `final` | `let` | `val` |
 | `var` | `var` | `var` |
-| `const` | `let` (compile-time const আলাদা নেই) | `const val` |
+| `const` | `let` (compile-time const বলে আলাদা কিছু নেই) | `const val` |
 | `'...'` বা `"..."` | শুধু `"..."` | শুধু `"..."` |
 | `'$count টা'`, `'${note.title}'` | `"\(count) টা"`, `"\(note.title)"` | `"$count টা"` |
 | `int`, `double` | `Int`, `Double` | `Int`, `Double` |
@@ -4305,22 +4539,22 @@ var count = 0
 | record `(1, 'a')` | tuple `(1, "a")` | `Pair` |
 | `;` লাগে | লাগে না | লাগে না |
 
-**Type বদলায় না নিজে থেকে।** Swift-এ `Int` আর `Double` যোগ করা যায় না। নিজে বদলাতে হয়:
+**Type নিজে থেকে বদলায় না।** Swift-এ `Int` আর `Double` সরাসরি যোগ করা যায় না। একটাকে নিজে হাতে অন্যটায় বদলাতে হয়:
 
 ```swift
 let words = 120
 let minutes = Double(words) / 200.0      // Int → Double, হাতে
 ```
 
-Dart-এ `int` আর `double` দুটোই `num`, তাই যোগ চলে। Swift-এ compiler থামাবে।
+Dart-এ `int` আর `double` দুটোই `num`। তাই সেখানে যোগ করা যায়। Swift-এ compiler এখানে আটকে দেবে।
 
-**ফাঁদ — `let` মানে struct-এর জন্য পুরো জিনিস বদলানো যাবে না।** `let note = Note(...)` লিখলে `note.title = "নতুন"` লেখাও যাবে না, যদি `Note` একটা struct হয়। Dart-এ `final note` হলে শুধু variable-টা আটকায়, ভেতরের field বদলানো যায়। কারণটা [iOS ১.৪](#ios1-4)-এ।
+**ফাঁদ — struct `let` হলে পুরো জিনিসটাই আর বদলানো যায় না।** ধরুন `Note` একটা struct। `let note = Note(...)` লিখলে পরে `note.title = "নতুন"` লেখাও যাবে না। Dart-এ `final note` লিখলে শুধু variable-টা আটকে যায়। ভেতরের field তখনো বদলানো যায়। কেন এমন হয়, তা [iOS ১.৪](#ios1-4)-এ দেখবেন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-2"></a>iOS ১.২ Optional
 
-**এক লাইনে:** Dart-এর null safety-র মতোই — `String?`, `!`, `??`, `?.`। শুধু null check করার পথটা আলাদা: `if let` আর `guard let`।
+**এক লাইনে:** Dart-এর null safety-র মতোই — `String?`, `!`, `??`, `?.`। শুধু null check করার উপায়টা আলাদা: `if let` আর `guard let`।
 
 **Flutter-এ আপনি যেভাবে করেন:**
 
@@ -4350,7 +4584,7 @@ func save() {
 }
 ```
 
-**`guard let` — আগে বের হয়ে যাও:**
+**`guard let` — শুরুতেই বের হয়ে যান:**
 
 ```swift
 func open(noteID: UUID?) {
@@ -4363,7 +4597,7 @@ func open(noteID: UUID?) {
 }
 ```
 
-`guard`-এর `else`-এ ফিরে যেতেই হবে (`return`, `throw`, `break`)। Compiler নিশ্চিত করে। Dart-এ `if (x == null) return;` লিখে early return করতেন — এটা তার কড়া রূপ।
+`guard`-এর `else`-এর ভেতরে function থেকে বের হতেই হবে (`return`, `throw`, `break`)। না লিখলে compiler build হতে দেয় না। Dart-এ আপনি `if (x == null) return;` লিখে আগেভাগে বের হতেন (early return)। এটা তারই কড়া নিয়মের রূপ।
 
 | Dart | Swift | Kotlin |
 |---|---|---|
@@ -4383,19 +4617,19 @@ enum Optional<Wrapped> {
 }
 ```
 
-`String?` আসলে `Optional<String>`। তাই optional-এর ওপর `switch`-ও করা যায়, আর `map` চলে: `draftTitle.map { $0.uppercased() }`।
+`String?` আসলে `Optional<String>`। তাই optional-এর ওপর `switch` চালানো যায়। `map`-ও চলে: `draftTitle.map { $0.uppercased() }`।
 
-**কী আলাদা:** Dart আর Kotlin `!= null` check-এর পরে নিজে type বদলে দেয় (smart cast)। Swift দেয় না। `if draftTitle != nil { draftTitle.count }` — compile হবে না। Unwrap করতে `if let` বা `guard let` লাগবেই।
+**কী আলাদা:** Dart আর Kotlin-এ `!= null` check করার পরে compiler নিজেই type-টাকে non-null ধরে নেয় (একে smart cast বলে)। Swift এটা করে না। তাই `if draftTitle != nil { draftTitle.count }` compile হবে না। ভেতরের value বের করতে (unwrap করতে) `if let` বা `guard let` লাগবেই।
 
-**Best approach:** `guard let` দিয়ে function-এর শুরুতে সব nil বাদ দিন। বাকি code সোজা থাকে, nesting কমে।
+**Best approach:** Function-এর শুরুতেই `guard let` দিয়ে সব nil-এর ক্ষেত্র বাদ দিন। তাহলে বাকি code সোজা থাকে, একটার ভেতর আরেকটা block (nesting) কম হয়।
 
-**ফাঁদ:** `!` (force unwrap) nil পেলে app সাথে সাথে crash করে। Dart-এর `!`-এর মতোই। Production code-এ `!` দেখলে review-এ প্রশ্ন আসবে। `IBOutlet`-এর মতো কিছু পুরনো জায়গায় ছাড়া এড়িয়ে চলুন।
+**ফাঁদ:** `!` দিয়ে জোর করে value বের করলে (force unwrap) আর nil পেলে app সাথে সাথে crash করে। Dart-এর `!`-এর মতোই। Production code-এ `!` দেখলে review-এ প্রশ্ন উঠবে। `IBOutlet`-এর মতো কিছু পুরনো জায়গা ছাড়া এটা এড়িয়ে চলুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-3"></a>iOS ১.৩ Function আর closure
 
-**এক লাইনে:** Function-এ **argument label** আছে, যেটা call করার সময় লিখতে হয়। Lambda-র নাম closure, আর শেষের closure বন্ধনীর বাইরে বসে।
+**এক লাইনে:** Swift-এর function-এ **argument label** থাকে। Call করার সময় এই label লিখতে হয়। Lambda-কে এখানে closure বলে। শেষ argument closure হলে সেটা বন্ধনীর বাইরে বসে।
 
 **Flutter-এ:**
 
@@ -4415,7 +4649,7 @@ let note = createNote(title: "বাজার", body: "ডিম, দুধ")
 let pinned = notes.filter { $0.isPinned }
 ```
 
-**Argument label — Swift-এর নিজস্ব জিনিস।** প্রতিটা parameter-এর দুইটা নাম থাকতে পারে: বাইরের label আর ভেতরের নাম।
+**Argument label — এটা শুধু Swift-এই আছে।** একটা parameter-এর দুইটা নাম থাকতে পারে। একটা বাইরের নাম (label), যেটা call করার সময় লেখেন। আরেকটা ভেতরের নাম, যেটা function-এর ভেতরে ব্যবহার করেন।
 
 ```swift
 func move(_ note: Note, to folder: Folder) { ... }
@@ -4424,9 +4658,9 @@ func move(_ note: Note, to folder: Folder) { ... }
 move(note, to: archive)          // পড়তে ইংরেজি বাক্যের মতো
 ```
 
-- `_` মানে call-এ label লাগবে না।
-- Label না দিলে parameter-এর নামই label। তাই Swift-এ প্রায় সব argument named — Dart-এর `{required ...}`-এর মতো, কিন্তু default হিসেবে।
-- Dart-এর `[ ]`-এর মতো আলাদা ঐচ্ছিক positional syntax নেই। Default value দিলেই ঐচ্ছিক — label-ওয়ালা হোক বা `_`-ওয়ালা (`func f(_ x: Int = 0)`)।
+- `_` দিলে call করার সময় label লিখতে হয় না।
+- আলাদা label না দিলে parameter-এর নামটাই label হয়। তাই Swift-এ প্রায় সব argument named। Dart-এর `{required ...}`-এর মতো, কিন্তু এটাই default।
+- Dart-এর `[ ]`-এর মতো optional positional parameter-এর আলাদা syntax নেই। Default value দিলেই parameter-টা optional হয়ে যায় — label থাকুক বা `_` থাকুক (`func f(_ x: Int = 0)`)।
 
 **Closure:**
 
@@ -4452,7 +4686,7 @@ Button("সেভ") {
 | `{required String title}` | `title: String` (label দিয়ে) | `title: String` + named call |
 | positional `[int? x]` | নেই — default value দিন | default value |
 
-**`@escaping` — closure পরে চলবে কি না।** কোনো function closure নিয়ে পরে চালালে (রেখে দেয়, অন্য thread-এ পাঠায়), parameter-এ `@escaping` লিখতে হয়:
+**`@escaping` — closure-টা কি পরে চলবে?** কোনো function closure নিয়ে সেটা পরে চালাতে পারে। যেমন রেখে দেয়, বা অন্য thread-এ পাঠায়। তখন parameter-এ `@escaping` লিখতে হয়:
 
 ```swift
 func fetchNotes(completion: @escaping ([Note]) -> Void) {
@@ -4460,15 +4694,15 @@ func fetchNotes(completion: @escaping ([Note]) -> Void) {
 }
 ```
 
-Dart-এ এরকম কিছু নেই। Swift-এ লাগে, কারণ পরে চলা closure যা ধরে রাখে, তা memory-তে বেঁচে থাকে। এখানেই retain cycle-এর শুরু ([iOS ১.৫](#ios1-5))। নতুন code-এ completion handler কম লিখবেন — `async` দিয়ে লিখবেন ([iOS ২](#ios2))। কিন্তু plugin code-এ প্রচুর দেখবেন।
+Dart-এ এরকম কিছু নেই। Swift-এ লাগে, কারণ পরে চলবে এমন closure যা কিছু ধরে রাখে, সেগুলোও ততক্ষণ memory-তে থেকে যায়। Retain cycle এখান থেকেই শুরু হয় ([iOS ১.৫](#ios1-5))। নতুন code-এ completion handler কম লিখবেন। তার বদলে `async` দিয়ে লিখবেন ([iOS ২](#ios2))। তবে plugin code-এ completion handler প্রচুর দেখবেন।
 
-**ফাঁদ:** label ভুলে যাওয়া। `move(note, archive)` compile হবে না — `to:` লাগবে। প্রথম কয়েকদিন Xcode-এর autocomplete-এর ওপর ভরসা করুন।
+**ফাঁদ:** label লিখতে ভুলে যাওয়া। `move(note, archive)` compile হবে না — `to:` লিখতে হবে। প্রথম কয়েকদিন Xcode-এর autocomplete দেখে লিখুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-4"></a>iOS ১.৪ `struct` বনাম `class` — value বনাম reference
 
-**এক লাইনে:** `struct` assign করলে **copy** হয়। `class` assign করলে **একই object-এর আরেকটা reference** হয় (Dart-এর সব class-এর মতো)। Swift-এ model-এর জন্য struct-ই default।
+**এক লাইনে:** `struct` assign করলে পুরোটা **copy** হয়। `class` assign করলে নতুন copy হয় না। শুধু **একই object-এর আরেকটা reference** তৈরি হয় — Dart-এর সব class-এর মতো। Swift-এ model লেখার স্বাভাবিক পছন্দ struct।
 
 **Flutter-এ — সব class reference:**
 
@@ -4484,7 +4718,7 @@ b.title = 'অফিস';
 print(a.title);    // অফিস — a আর b একই object
 ```
 
-এজন্যই Dart-এ `freezed` আর `copyWith` লাগে — যাতে কেউ ভুল করে ভাগ করা object বদলে না দেয়।
+এজন্যই Dart-এ `freezed` আর `copyWith` লাগে। যাতে কেউ ভুল করে এমন object বদলে না ফেলে, যেটা আরও কেউ ব্যবহার করছে।
 
 **Swift-এ struct:**
 
@@ -4503,15 +4737,15 @@ b.title = "অফিস"
 print(a.title)            // বাজার — a বদলায়নি
 ```
 
-একটা লাইন `struct Note` লিখেই আপনি পেলেন:
-- **Memberwise initializer** — `Note(id:title:body:isPinned:updatedAt:)` নিজে থেকে তৈরি।
+শুধু `struct Note` লিখেই আপনি এগুলো পেয়ে গেলেন:
+- **Memberwise initializer** — সব property নিয়ে একটা init, `Note(id:title:body:isPinned:updatedAt:)`, নিজে থেকেই তৈরি হয়।
 - **`Equatable` আর `Hashable`** — protocol-এর নাম লিখলেই compiler `==` আর hash বানিয়ে দেয়।
-- **`Codable`** — JSON-এ যাওয়া-আসা, code generation ছাড়া।
-- **copyWith লাগে না** — `var copy = note; copy.title = "নতুন"`। Copy-টাই নতুন value।
+- **`Codable`** — JSON-এ বদলানো আর JSON থেকে ফেরানো, কোনো code generation ছাড়াই।
+- **copyWith লাগে না** — `var copy = note; copy.title = "নতুন"`। Copy-টা নিজেই একটা নতুন value।
 
-Kotlin-এর `data class`, Dart-এর `freezed` — দুটোর কাজ Swift-এ struct একাই করে।
+Kotlin-এর `data class` আর Dart-এর `freezed` যে কাজ করে, Swift-এ struct একাই সেটা করে।
 
-**Struct-এর method যদি নিজেকে বদলায়, `mutating` লিখতে হয়:**
+**Struct-এর কোনো method যদি struct-টাকেই বদলায়, তাহলে `mutating` লিখতে হয়:**
 
 ```swift
 extension Note {
@@ -4527,7 +4761,7 @@ let fixed = note
 fixed.togglePin()         // compile error — let struct বদলানো যায় না
 ```
 
-**Class কখন:**
+**Class কখন নেবেন:**
 
 ```swift
 final class NotesStore {           // final: কেউ subclass করতে পারবে না
@@ -4540,23 +4774,30 @@ final class NotesStore {           // final: কেউ subclass করতে প
 |---|---|---|
 | Assign করলে | copy | একই object, নতুন reference |
 | Inheritance | নেই | আছে |
-| Init | নিজে থেকে memberwise | নিজে লিখতে হয় |
-| `let` হলে | কিছুই বদলানো যায় না | property বদলানো যায় (শুধু reference আটকে) |
-| Memory | সাধারণত সস্তা, ARC-এর ঝামেলা কম | ARC দিয়ে, retain cycle সম্ভব |
+| Init | memberwise init নিজে থেকে পাওয়া যায় | নিজে লিখতে হয় |
+| `let` হলে | কিছুই বদলানো যায় না | property বদলানো যায় (শুধু reference-টা আটকে থাকে) |
+| Memory | সাধারণত সস্তা, ARC-এর ঝামেলা কম | ARC দিয়ে চলে, retain cycle হতে পারে |
 | Identity (`===`) | নেই | আছে |
 | Dart-এ কাছাকাছি | `freezed` model | সাধারণ class |
 
-**ভেতরে কীভাবে কাজ করে — copy কি দামি না?** না। `Array`, `Dictionary`, `String` struct হলেও ভেতরে **copy-on-write** করে। Assign করলে ভেতরের buffer ভাগ হয়। কেউ বদলাতে গেলে তখনই আসল copy হয়। তাই ১০,০০০ note-এর array পাঠানো সস্তা।
+**ভেতরে কীভাবে কাজ করে — copy কি দামি না?** না। `Array`, `Dictionary`, `String` struct হলেও ভেতরে **copy-on-write** কৌশল ব্যবহার করে। মানে:
+1. Assign করলে ভেতরের data (buffer) আসলে copy হয় না, দুইজনে ভাগ করে নেয়।
+2. কেউ যখন বদলাতে যায়, ঠিক তখনই আসল copy হয়।
 
-**Best approach:** Data (Note, Folder, API response) — `struct`। যার identity আছে আর যাকে অনেকে ভাগ করে (store, repository, `@Observable` screen model) — `final class`। ভাগ করা mutable state অনেক thread থেকে ছুঁতে হলে `actor` ([iOS ২.৫](#ios2-5))।
+তাই ১০,০০০ note-এর array এক জায়গা থেকে আরেক জায়গায় পাঠানোও সস্তা।
 
-**ফাঁদ:** struct-কে ফাংশনে পাঠিয়ে ভেতরে বদলালে বাইরে বদলায় না — copy গেছে। বাইরেরটা বদলাতে চাইলে `inout` দিন আর call-এ `&` লিখুন: `func rename(_ note: inout Note)`, `rename(&note)`। তবে বেশিরভাগ সময় নতুন value ফেরত দেওয়াই পরিষ্কার।
+**Best approach:**
+- Data (Note, Folder, API response) — `struct`।
+- যার নিজের পরিচয় (identity) আছে আর যাকে অনেকে মিলে ব্যবহার করে (store, repository, `@Observable` screen model) — `final class`।
+- এমন mutable state, যেটা অনেক thread থেকে ছুঁতে হয় — `actor` ([iOS ২.৫](#ios2-5))।
+
+**ফাঁদ:** struct কোনো function-এ পাঠিয়ে ভেতরে বদলালে বাইরেরটা বদলায় না, কারণ function পেয়েছে একটা copy। বাইরেরটাই বদলাতে চাইলে parameter-এ `inout` দিন, আর call-এ `&` লিখুন: `func rename(_ note: inout Note)`, `rename(&note)`। তবে বেশিরভাগ সময় নতুন value return করাই বেশি পরিষ্কার।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-5"></a>iOS ১.৫ Memory: ARC, `weak` আর retain cycle
 
-**এক লাইনে:** Dart আর Kotlin-এ garbage collector মাঝে মাঝে এসে অদরকারি object মুছে দেয়। Swift-এ প্রতিটা class object গোনে, কয়জন তাকে ধরে আছে। গোনা শূন্য হলেই সাথে সাথে মুছে যায়। এর নাম **ARC** (Automatic Reference Counting)।
+**এক লাইনে:** Dart আর Kotlin-এ garbage collector মাঝে মাঝে এসে যে object আর লাগে না, সেগুলো মুছে দেয়। Swift-এ ব্যাপারটা আলাদা। প্রতিটা class object-এর জন্য গোনা হয়, কয়জন তাকে ধরে আছে। গোনা শূন্য হলেই object সাথে সাথে মুছে যায়। এর নাম **ARC** (Automatic Reference Counting)।
 
 **ভেতরে কীভাবে কাজ করে:**
 
@@ -4567,7 +4808,9 @@ another = nil (ধরুন)          // count = 1
 store শেষ হলো                 // count = 0 → deinit চলে, memory ফেরত
 ```
 
-Compiler নিজেই `retain` আর `release` বসায়। আপনি কিছু লেখেন না। সুবিধা: কখন মুছবে আগে থেকে জানা যায়, GC-র মতো হঠাৎ থামা নেই। অসুবিধা: **cycle** হলে গোনা কখনো শূন্য হয় না।
+`retain` (গোনা বাড়ানো) আর `release` (গোনা কমানো) compiler নিজেই বসিয়ে দেয়। আপনাকে কিছু লিখতে হয় না।
+- সুবিধা: object কখন মুছবে, তা আগে থেকে জানা যায়। GC-র মতো হঠাৎ app থেমে যাওয়া নেই।
+- অসুবিধা: দুই object একে অপরকে ধরে রাখলে (**cycle**) গোনা কখনো শূন্য হয় না। তখন কেউই মোছে না।
 
 **Retain cycle — দুইজন একে অপরকে ধরে আছে:**
 
@@ -4586,7 +4829,7 @@ final class NoteEditor {
 }
 ```
 
-**সমাধান — capture list-এ `[weak self]`:**
+**সমাধান — capture list-এ `[weak self]`:** Closure কোন জিনিস কীভাবে ধরবে, সেটা শুরুতে square bracket-এর ভেতরে বলে দেওয়া যায়। একে capture list বলে।
 
 ```swift
 onSave = { [weak self] in
@@ -4598,28 +4841,30 @@ onSave = { [weak self] in
 | শব্দ | মানে | কখন |
 |---|---|---|
 | strong (default) | গোনায় যোগ হয় | সাধারণ সব reference |
-| `weak` | গোনায় যোগ হয় না, object মুছলে নিজে `nil` হয় (তাই সবসময় optional) | delegate, পরে চলা closure-এ `self` |
-| `unowned` | গোনায় যোগ হয় না, কিন্তু nil হয় না — মুছে গেলে ছুঁলে crash | শুধু যখন নিশ্চিত, object আগে মরবে না |
+| `weak` | গোনায় যোগ হয় না। Object মুছে গেলে নিজে থেকে `nil` হয়ে যায় (তাই সবসময় optional) | delegate, পরে চলবে এমন closure-এ `self` |
+| `unowned` | গোনায় যোগ হয় না, কিন্তু nil-ও হয় না। Object মুছে যাওয়ার পরে ছুঁলে crash | শুধু যখন আপনি নিশ্চিত, object আগে মুছবে না |
 
-**কোথায় cycle সবচেয়ে বেশি হয়:**
-- Class-এর property-তে রাখা closure, যেটা `self` ধরে।
-- Delegate pattern — delegate property সবসময় `weak var delegate: NoteEditorDelegate?`।
-- Timer, `NotificationCenter`-এর block observer।
-- পুরনো Combine-এর `sink { self... }`।
+**Cycle সবচেয়ে বেশি হয় এই জায়গাগুলোতে:**
+- Class-এর property-তে রাখা closure, যেটা `self` ধরে রাখে।
+- Delegate pattern। তাই delegate property সবসময় `weak var delegate: NoteEditorDelegate?`।
+- Timer, আর `NotificationCenter`-এর block দিয়ে লেখা observer।
+- পুরনো Combine code-এর `sink { self... }`।
 
-**Dart-এর সাথে পার্থক্য:** Dart-এ GC cycle-ও খুঁজে মুছে দেয়। তাই Flutter-এ আপনি `StreamSubscription` cancel না করলে leak হতো, কিন্তু দুই object-এর cycle নিয়ে কখনো ভাবেননি। Swift-এ ভাবতে হবে।
+**Dart-এর সাথে পার্থক্য:** Dart-এর GC cycle-ও খুঁজে বের করে মুছে দেয়। Flutter-এ `StreamSubscription` cancel না করলে leak হতো ঠিকই। কিন্তু দুই object-এর cycle নিয়ে আপনাকে কখনো ভাবতে হয়নি। Swift-এ ভাবতে হবে।
 
-**ভালো খবর:** struct আর enum ARC-এর cycle-এ পড়ে না। SwiftUI-র View struct, তাই SwiftUI code-এ `[weak self]` প্রায় লাগেই না। আর `Task { }`-এর ভেতরে `self` ধরলে task শেষ হলেই ছেড়ে দেয় — তবে অনেক লম্বা চলা task-এ (যেমন অসীম `for await` loop) এটাও leak হতে পারে।
+**ভালো খবর:**
+- struct আর enum ARC-এর cycle-এ পড়ে না। SwiftUI-র View হলো struct। তাই SwiftUI code-এ `[weak self]` প্রায় লাগেই না।
+- `Task { }`-এর ভেতরে `self` ধরলে task শেষ হওয়ামাত্র ছেড়ে দেয়। তবে যে task অনেকক্ষণ চলে (যেমন কখনো শেষ না হওয়া `for await` loop), সেখানে এটাও leak করতে পারে।
 
-**ফাঁদ:** `[weak self]` সব জায়গায় অন্ধভাবে বসানো। `notes.map { self.format($0) }`-এর মতো সাথে সাথে চলা (non-escaping) closure-এ cycle হয় না, `weak` লাগে না। শুধু `@escaping` closure, যেটা কোথাও রাখা হয়, সেখানে ভাবুন।
+**ফাঁদ:** না ভেবে সব জায়গায় `[weak self]` বসানো। `notes.map { self.format($0) }`-এর মতো closure সাথে সাথে চলে শেষ হয়ে যায় (non-escaping)। সেখানে cycle হয় না, `weak` লাগে না। শুধু `@escaping` closure, যেটা কোথাও রেখে দেওয়া হয়, সেখানে ভাবুন।
 
-**নিজে দেখুন:** class-এ `deinit { print("...") }` লিখুন। Screen বন্ধ করার পরে print না হলে leak। Xcode-এর **Debug Memory Graph** বোতাম cycle-টা ছবিতে দেখায়।
+**নিজে দেখুন:** class-এ `deinit { print("...") }` লিখুন। Screen বন্ধ করার পরে print না হলে বুঝবেন leak হচ্ছে। Xcode-এর **Debug Memory Graph** বোতাম চাপলে cycle-টা ছবি দিয়ে দেখায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-6"></a>iOS ১.৬ `enum` আর `switch`
 
-**এক লাইনে:** Swift-এর `enum` প্রতিটা case-এর সাথে আলাদা data রাখতে পারে (associated value)। Dart-এর `sealed class` বা Kotlin-এর `sealed interface`-এর কাজ এক লাইনে।
+**এক লাইনে:** Swift-এর `enum`-এর প্রতিটা case নিজের আলাদা data রাখতে পারে। এই data-কে associated value বলে। Dart-এর `sealed class` বা Kotlin-এর `sealed interface` দিয়ে যে কাজ করেন, Swift-এ সেটা এক লাইনে হয়।
 
 **Flutter-এ (Dart 3):**
 
@@ -4657,10 +4902,10 @@ func label(for state: SyncState) -> String {
 }
 ```
 
-- `switch` সব case না ধরলে compile হবে না — Dart-এর exhaustive switch-এর মতো। নতুন case যোগ করলে compiler সব জায়গা দেখিয়ে দেবে।
-- `break` লাগে না, এক case থেকে পরেরটায় পড়ে যায় না।
-- Swift 5.9 থেকে `if` আর `switch` expression হিসেবে value ফেরত দিতে পারে — ওপরের function-এ `return` লাগেনি।
-- Type জানা থাকলে `.idle` লিখলেই হয়, `SyncState.idle` লাগে না।
+- `switch` সব case না ধরলে compile হবে না — Dart-এর exhaustive switch-এর মতো। নতুন case যোগ করলে compiler সব জায়গা দেখিয়ে দেবে, যেখানে ঠিক করতে হবে।
+- `break` লিখতে হয় না। এক case শেষ হলে নিজে থেকে পরের case-এ চলে যায় না।
+- Swift 5.9 থেকে `if` আর `switch` expression হিসেবে value return করতে পারে। তাই ওপরের function-এ `return` লাগেনি।
+- Type জানা থাকলে শুধু `.idle` লিখলেই হয়। `SyncState.idle` লিখতে হয় না।
 
 **Raw value-ওয়ালা সাধারণ enum:**
 
@@ -4687,19 +4932,19 @@ case .idle, .failed: ""
 |---|---|---|
 | `enum Sort { newest, oldest }` | `enum SortOrder { case newest, oldest }` | `enum class SortOrder` |
 | `sealed class` + subclass | `enum` + associated value | `sealed interface` + `data class` |
-| `switch` expression | `switch` (Swift 5.9+ expression-ও) | `when` |
+| `switch` expression | `switch` (Swift 5.9+ থেকে expression-ও) | `when` |
 | `Sort.values` | `CaseIterable` → `.allCases` | `entries` |
 | `Sort.newest.name` | raw value: `.rawValue` | `.name` |
 
-**Best approach:** Screen-এর অবস্থা (loading / loaded / error), sync-এর অবস্থা, navigation route — সব enum। Bool flag-এর জোড়া (`isLoading`, `hasError`) দিয়ে অসম্ভব অবস্থা তৈরি হয়। Enum দিলে হয় না।
+**Best approach:** Screen-এর অবস্থা (loading / loaded / error), sync-এর অবস্থা, navigation route — সবকিছুর জন্য enum নিন। কয়েকটা Bool flag দিয়ে (`isLoading`, `hasError`) অবস্থা রাখলে এমন অবস্থাও তৈরি হতে পারে, যা আসলে হওয়ার কথা না। যেমন একসাথে loading আর error দুটোই true। Enum দিলে এটা হয় না।
 
-**ফাঁদ:** `default:` দিয়ে সব বাকি case ধরে ফেলা। তাহলে নতুন case যোগ করলে compiler আর সতর্ক করবে না। নিজের enum-এ `default` এড়িয়ে চলুন।
+**ফাঁদ:** `default:` দিয়ে বাকি সব case একসাথে ধরে ফেলা। তাহলে নতুন case যোগ করলে compiler আর সতর্ক করবে না। নিজের লেখা enum-এ `default` এড়িয়ে চলুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-7"></a>iOS ১.৭ Protocol আর extension
 
-**এক লাইনে:** `protocol` = Dart-এর `abstract interface class`, Kotlin-এর `interface`। `extension` = Dart-এর `extension`, কিন্তু অনেক বেশি ক্ষমতা — নতুন protocol মানানোও যায়।
+**এক লাইনে:** `protocol` হলো Dart-এর `abstract interface class` আর Kotlin-এর `interface`। `extension` হলো Dart-এর `extension`, কিন্তু অনেক বেশি ক্ষমতা আছে। Extension দিয়ে একটা type-কে নতুন protocol-ও মানানো যায়।
 
 **Flutter-এ:**
 
@@ -4745,7 +4990,9 @@ extension WordCountable {
 extension Note: WordCountable {}       // পরে, আলাদা জায়গায় protocol মানানো
 ```
 
-শেষ লাইনটা Dart-এ সম্ভব না। Dart-এ class লেখার সময়েই `implements` লিখতে হয়। Swift-এ যেকোনো type-কে — এমনকি `String` বা Apple-এর type-কেও — পরে নতুন protocol মানানো যায়। একে **retroactive conformance** বলে। (অন্য module-এর type-কে অন্য module-এর protocol মানালে — যেমন Apple-এর type-কে Apple-এর protocol — Swift 6 সতর্ক করে, আর `@retroactive` লিখতে বলে — কারণ Apple পরে নিজে সেটা যোগ করলে দুইটা implementation হবে।)
+শেষ লাইনটা Dart-এ সম্ভব না। Dart-এ class লেখার সময়েই `implements` লিখে দিতে হয়। Swift-এ যেকোনো type-কে পরে নতুন protocol মানানো যায় — এমনকি `String` বা Apple-এর কোনো type-কেও। একে **retroactive conformance** বলে।
+
+একটা সাবধানতা আছে। অন্য module-এর type-কে অন্য module-এর protocol মানালে Swift 6 সতর্ক করে। যেমন Apple-এর type-কে Apple-এর protocol মানানো। তখন `@retroactive` লিখতে বলে। কারণ পরে Apple নিজেই সেটা যোগ করলে একই জিনিসের দুইটা implementation হয়ে যাবে।
 
 **`some` আর `any` — দুইটা আলাদা জিনিস:**
 
@@ -4759,22 +5006,22 @@ let repository: any NotesRepository = RemoteNotesRepository()
 
 | | `some Protocol` | `any Protocol` |
 |---|---|---|
-| মানে | "একটা নির্দিষ্ট type, নাম বলছি না" | "যেকোনো type, এই protocol মানলেই হলো" |
+| মানে | "একটা নির্দিষ্ট type আছে, শুধু নামটা বলছি না" | "যেকোনো type, এই protocol মানলেই চলবে" |
 | Type কখন ঠিক হয় | compile-time | runtime |
-| খরচ | কম | একটু বেশি (box, dynamic dispatch) |
-| কোথায় দেখবেন | SwiftUI-র `some View` | dependency রাখার জায়গা: `let repo: any NotesRepository` |
+| খরচ | কম | একটু বেশি (box লাগে, method খোঁজা হয় runtime-এ) |
+| কোথায় দেখবেন | SwiftUI-র `some View` | dependency রাখার জায়গায়: `let repo: any NotesRepository` |
 
-Dart-এ সব interface type আসলে `any`-এর মতো। Swift আপনাকে বেছে নিতে দেয়।
+Dart-এ সব interface type আসলে `any`-এর মতো কাজ করে। Swift আপনাকে দুইটার মধ্যে বেছে নিতে দেয়।
 
-**Best approach:** Repository, API client-এর মতো যেখানে test-এ fake লাগবে, সেখানে protocol। কিন্তু এক implementation-এর জন্য "শুধু যদি লাগে" protocol বানাবেন না। Helper (`preview`, `wordCount`) — extension-এ।
+**Best approach:** Repository বা API client-এর মতো জায়গায়, যেখানে test-এ fake লাগবে, সেখানে protocol নিন। কিন্তু যার একটাই implementation, তার জন্য "পরে যদি লাগে" ভেবে protocol বানাবেন না। ছোট helper (`preview`, `wordCount`) extension-এ রাখুন।
 
-**ফাঁদ:** একটা protocol-এ `associatedtype` থাকলে (যেমন `Identifiable`-এর `ID`), আগে সেটা সাধারণ variable type হিসেবে ব্যবহার করা যেত না। Swift 5.7 থেকে `any Identifiable` লেখা যায়, কিন্তু ভেতরের associated type ব্যবহার করা ঝামেলার। এ রকম জায়গায় generics নিন।
+**ফাঁদ:** কিছু protocol-এর ভেতরে নিজের generic type থাকে, একে `associatedtype` বলে। যেমন `Identifiable`-এর `ID`। এমন protocol আগে সাধারণ variable-এর type হিসেবে ব্যবহার করা যেত না। Swift 5.7 থেকে `any Identifiable` লেখা যায়। কিন্তু ভেতরের associated type নিয়ে কাজ করা তখনো ঝামেলার। এমন জায়গায় generics ব্যবহার করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-8"></a>iOS ১.৮ Generics
 
-**এক লাইনে:** Dart-এর `<T>` আর `T extends X`-এর মতোই। Constraint লেখা হয় `T: Protocol` দিয়ে, বা `where` দিয়ে।
+**এক লাইনে:** Dart-এর `<T>` আর `T extends X`-এর মতোই। শর্ত (constraint) লেখা হয় `T: Protocol` দিয়ে, অথবা `where` দিয়ে।
 
 ```dart
 T? findById<T extends HasId>(List<T> items, String id) =>
@@ -4801,7 +5048,7 @@ enum LoadState<Value> {
 var notesState: LoadState<[Note]> = .loading
 ```
 
-**`where` দিয়ে বেশি শর্ত:**
+**`where` দিয়ে আরও শর্ত:**
 
 ```swift
 extension Array where Element == Note {
@@ -4809,22 +5056,22 @@ extension Array where Element == Note {
 }
 ```
 
-`\.isPinned` হলো **key path** — "Note-এর isPinned property"-র একটা reference। `{ $0.isPinned }`-এর ছোট রূপ।
+`\.isPinned`-কে বলে **key path**। এটা "Note-এর isPinned property"-কে নির্দেশ করে। `{ $0.isPinned }` লেখার ছোট রূপ।
 
 | Dart | Swift | Kotlin |
 |---|---|---|
 | `<T extends Comparable>` | `<T: Comparable>` | `<T : Comparable<T>>` |
-| একাধিক শর্ত | `<T: A & B>` বা `where T: A, T: B` | `where T : A, T : B` |
+| একের বেশি শর্ত | `<T: A & B>` বা `where T: A, T: B` | `where T : A, T : B` |
 | `extension on List<Note>` | `extension Array where Element == Note` | `fun List<Note>.pinned()` |
 | (নেই) | `associatedtype` — protocol-এর ভেতরের generic | (নেই, generic interface) |
 
-**ফাঁদ:** একটা জায়গায় এক type-এর জন্য generic বানানো। আগে সাধারণ code লিখুন। দ্বিতীয়-তৃতীয় type এলে তবেই generic।
+**ফাঁদ:** একটা জায়গায়, একটাই type-এর জন্য generic বানানো। আগে সাধারণ code লিখুন। দ্বিতীয় বা তৃতীয় type এলে তখন generic বানান।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-9"></a>iOS ১.৯ Error handling — `throws`, `try`, `Result`
 
-**এক লাইনে:** কোন function error ছুঁড়তে পারে, সেটা Swift-এ signature-এ লেখা থাকে (`throws`)। আর call করার সময় `try` লিখতে হয়। Dart-এ যেকোনো function যেকোনো সময় throw করতে পারে, কেউ বলে দেয় না।
+**এক লাইনে:** Swift-এ কোন function error ছুঁড়তে পারে, সেটা signature-এই লেখা থাকে (`throws`)। আর সেই function call করার সময় `try` লিখতে হয়। Dart-এ যেকোনো function যেকোনো সময় throw করতে পারে, আগে থেকে কেউ বলে দেয় না।
 
 **Flutter-এ:**
 
@@ -4865,15 +5112,15 @@ func save(_ note: Note) async {
 }
 ```
 
-**`try`-এর তিন রূপ:**
+**`try` তিনভাবে লেখা যায়:**
 
 | লেখা | মানে | কখন |
 |---|---|---|
-| `try f()` | error হলে ওপরে পাঠাও | `do/catch`-এর ভেতরে, বা নিজের function `throws` হলে |
-| `try? f()` | error হলে `nil` দাও | ব্যর্থ হলে কিছু যায় আসে না (cache পড়া) |
-| `try! f()` | error হলে crash | প্রায় কখনো না |
+| `try f()` | error হলে ওপরের caller-এর কাছে পাঠাও | `do/catch`-এর ভেতরে, বা নিজের function `throws` হলে |
+| `try? f()` | error হলে `nil` দাও | ব্যর্থ হলেও সমস্যা নেই এমন জায়গায় (যেমন cache পড়া) |
+| `try! f()` | error হলে crash | প্রায় কখনোই না |
 
-**`Result` — error-কে value হিসেবে রাখা:**
+**`Result` — error-কে একটা value হিসেবে রাখা:**
 
 ```swift
 let result: Result<[Note], NoteError> = .success(notes)
@@ -4884,9 +5131,9 @@ case .failure(let error): showError(error)
 }
 ```
 
-`async`/`await` আসার পরে `Result` কম লাগে। এখন দেখবেন মূলত পুরনো completion handler-এ: `completion: @escaping (Result<[Note], Error>) -> Void` — প্রায় সব পুরনো plugin code-এ।
+`async`/`await` আসার পরে `Result` কম লাগে। এখন এটা মূলত পুরনো completion handler-এ দেখবেন: `completion: @escaping (Result<[Note], Error>) -> Void`। প্রায় সব পুরনো plugin code-এ এটা আছে।
 
-**Typed throws (Swift 6.0, ২০২৪):** `throws(NoteError)` লিখলে compiler জানে, শুধু `NoteError`-ই আসবে। সাধারণ `throws` মানে যেকোনো `Error`। App code-এ সাধারণ `throws`-ই বেশিরভাগ সময় ঠিক। Typed throws কাজে লাগে ছোট, বন্ধ জায়গায় — যেমন validation।
+**Typed throws (Swift 6.0, ২০২৪):** `throws(NoteError)` লিখলে compiler জানে, শুধু `NoteError`-ই আসতে পারে। সাধারণ `throws` মানে যেকোনো `Error` আসতে পারে। App code-এ বেশিরভাগ সময় সাধারণ `throws`-ই ঠিক। Typed throws কাজে লাগে ছোট আর বন্ধ জায়গায়, যেখানে error-এর তালিকা আগে থেকে জানা — যেমন validation।
 
 | Dart | Swift | Kotlin |
 |---|---|---|
@@ -4896,15 +5143,15 @@ case .failure(let error): showError(error)
 | `rethrow` | `catch`-এর ভেতরে `throw error` | `throw e` |
 | (নেই) | `try?` → optional | `runCatching { }.getOrNull()` |
 
-**ভেতরে কীভাবে কাজ করে:** Swift-এর error stack unwinding না। `throws` function আসলে একটা লুকানো return path দিয়ে error ফেরত দেয়। তাই throw করা সস্তা, আর `try` ছাড়া call করা compiler আটকায়।
+**ভেতরে কীভাবে কাজ করে:** অনেক ভাষায় throw করলে call stack উল্টো দিকে খুলে খুলে catch খোঁজা হয় (stack unwinding)। Swift এভাবে কাজ করে না। `throws` function আসলে একটা লুকানো return-এর পথ দিয়ে error ফেরত দেয়। তাই throw করা সস্তা। আর `try` না লিখে call করলে compiler আটকে দেয়।
 
-**ফাঁদ:** `try?` দিয়ে সব error চুপ করিয়ে দেওয়া। Save ব্যর্থ হলো, user জানল না, note হারাল। Data বাঁচানোর জায়গায় `do/catch` দিন আর user-কে জানান।
+**ফাঁদ:** `try?` দিয়ে সব error চুপ করিয়ে দেওয়া। ধরুন save ব্যর্থ হলো, কিন্তু user জানল না। Note-টা হারিয়ে গেল। যেখানে data save হচ্ছে, সেখানে `do/catch` দিন আর user-কে জানান।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-10"></a>iOS ১.১০ Collection
 
-**এক লাইনে:** `List` → `Array`, `Map` → `Dictionary`, `Set` → `Set`। তিনটাই struct, তাই value type — assign করলে copy (copy-on-write)।
+**এক লাইনে:** `List` → `Array`, `Map` → `Dictionary`, `Set` → `Set`। তিনটাই struct, মানে value type। Assign করলে copy হয় (copy-on-write দিয়ে, তাই সস্তা)।
 
 ```dart
 final notes = <Note>[];
@@ -4936,30 +5183,30 @@ let first = notes.first { $0.id == id }
 | `.fold()` | `.reduce(_:_:)` | `.fold()` |
 | `.firstWhere()` | `.first(where:)` | `.first {}` / `.firstOrNull {}` |
 | `.any()` / `.every()` | `.contains(where:)` / `.allSatisfy {}` | `.any {}` / `.all {}` |
-| `..sort((a,b) => ...)` | `.sort(by:)` (নিজেকে বদলায়) / `.sorted(by:)` (নতুন দেয়) | `.sortBy` / `.sortedBy` |
+| `..sort((a,b) => ...)` | `.sort(by:)` (নিজেকেই বদলায়) / `.sorted(by:)` (নতুন array দেয়) | `.sortBy` / `.sortedBy` |
 | `groupBy` (collection pkg) | `Dictionary(grouping: notes, by: \.isPinned)` | `.groupBy {}` |
 | `map[key]` → nullable | `dict[key]` → optional | `map[key]` → nullable |
 
-**Mutable বনাম immutable — কোনো আলাদা type নেই।** Kotlin-এ `List` আর `MutableList` আলাদা। Swift-এ `let notes` হলে বদলানো যায় না, `var notes` হলে যায়। ব্যস।
+**Mutable আর immutable-এর জন্য আলাদা type নেই।** Kotlin-এ `List` আর `MutableList` আলাদা type। Swift-এ `let notes` হলে বদলানো যায় না, `var notes` হলে যায়। এটুকুই।
 
-**ফাঁদ — index দিয়ে ঢুকলে crash:** `notes[5]` — array-এ ৫টার কম থাকলে সাথে সাথে crash, exception না। Dart-এ `RangeError` ধরা যেত। Swift-এ ধরা যায় না। `notes.first`, `notes.last` (optional দেয়) বা `indices.contains(i)` check করুন।
+**ফাঁদ — index দিয়ে পড়তে গেলে crash:** ধরুন array-এ ৫টার কম item আছে, আর আপনি `notes[5]` পড়লেন। App সাথে সাথে crash করবে — exception আসবে না। Dart-এ `RangeError` ধরা যেত। Swift-এ এটা ধরার কোনো উপায় নেই। তাই `notes.first`, `notes.last` ব্যবহার করুন (এরা optional দেয়)। অথবা আগে `indices.contains(i)` দিয়ে check করুন।
 
-**ফাঁদ — Dictionary-র ক্রম নেই।** `[UUID: Note]`-এর ক্রম আগে থেকে বলা যায় না — insert-এর ক্রম থাকে না, আর বদলানোর (insert/remove) পরে বা app আবার চালালে ক্রম বদলে যেতে পারে। Dart-এর `Map` (LinkedHashMap) insertion order রাখে, Swift-এর রাখে না। ক্রম লাগলে আলাদা array রাখুন, বা sort করুন।
+**ফাঁদ — Dictionary-র কোনো ক্রম নেই।** `[UUID: Note]`-এ item-গুলো কোন ক্রমে আসবে, আগে থেকে বলা যায় না। যে ক্রমে insert করেছেন, সেই ক্রম থাকে না। Insert বা remove করার পরে, বা app আবার চালালে, ক্রম বদলে যেতে পারে। Dart-এর `Map` (LinkedHashMap) insert-এর ক্রম মনে রাখে। Swift-এর Dictionary রাখে না। ক্রম লাগলে আলাদা একটা array রাখুন, অথবা sort করে নিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-11"></a>iOS ১.১১ Access control
 
-**এক লাইনে:** Dart-এ শুধু দুইটা স্তর — public, আর `_` দিয়ে library-private। Swift-এ ছয়টা keyword, আর default হলো `internal` (পুরো module দেখে, বাইরে কেউ না)।
+**এক লাইনে:** Dart-এ মাত্র দুই রকম আছে — public, আর `_` দিয়ে library-private। Swift-এ ছয়টা keyword আছে। Default হলো `internal`: পুরো module দেখতে পায়, module-এর বাইরে কেউ না।
 
 | Swift | কে দেখতে পায় | Dart-এ কাছাকাছি | Kotlin |
 |---|---|---|---|
-| `private` | শুধু এই `{ }`-এর ভেতর (আর একই file-এ এই type-এর extension) | `_name` | `private` |
-| `fileprivate` | এই file | `_name` (Dart-এ file = library) | (নেই) |
-| `internal` (default) | এই module (app target বা একটা package) | (নেই — package-এর `src/`) | `internal` |
+| `private` | শুধু এই `{ }`-এর ভেতরে (আর একই file-এ এই type-এর extension-এ) | `_name` | `private` |
+| `fileprivate` | এই file | `_name` (Dart-এ একটা file-ই একটা library) | (নেই) |
+| `internal` (default) | এই module (app target, বা একটা package) | (নেই — package-এর `src/`) | `internal` |
 | `package` (Swift 5.9+) | একই Swift package-এর সব module | (নেই) | (নেই) |
 | `public` | সবাই দেখে, কিন্তু module-এর বাইরে subclass বা override করা যায় না | public | `public` (final class) |
-| `open` | সবাই দেখে আর subclass/override করতে পারে | public | `open` |
+| `open` | সবাই দেখে, আর subclass/override-ও করতে পারে | public | `open` |
 
 ```swift
 @Observable
@@ -4974,15 +5221,15 @@ final class NoteEditorModel {
 }
 ```
 
-`private(set)` খুব কাজের: Cubit-এর `state` বাইরে শুধু পড়া যায়, ভেতরে `emit` — ঠিক সেই নিয়ম এক শব্দে।
+`private(set)` খুব কাজের জিনিস। Cubit-এ `state` বাইরে থেকে শুধু পড়া যায়, আর ভেতর থেকে `emit` করে বদলানো হয়। এই keyword এক শব্দে ঠিক এই নিয়মটাই দেয়।
 
-**কখন মাথা ঘামাবেন:** App-এর এক target-এ সব কিছু `internal` থাকলেই চলে। Flutter plugin বা Swift package লিখলে বাইরের API-তে `public` লাগবে। না দিলে "cannot find in scope" error আসবে, অথচ code ঠিক আছে।
+**কখন এটা নিয়ে ভাববেন:** App-এর একটা target-এ সবকিছু `internal` থাকলেই চলে। কিন্তু Flutter plugin বা Swift package লিখলে বাইরে থেকে যা ব্যবহার হবে, সেখানে `public` লাগবে। না দিলে "cannot find in scope" error আসবে, যদিও code ঠিকই আছে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios1-12"></a>iOS ১.১২ Objective-C-র সাথে (চিনে রাখুন)
 
-Swift আসার আগে (২০১৪) iOS-এর ভাষা ছিল Objective-C। UIKit-এর ভেতরটা এখনো অনেকটা Objective-C। আর অনেক পুরনো Flutter plugin এখনো Objective-C-তে লেখা — `.h` আর `.m` file দেখবেন।
+Swift এসেছে ২০১৪ সালে। তার আগে iOS-এর ভাষা ছিল Objective-C। UIKit-এর ভেতরের অনেকটা এখনো Objective-C-তে লেখা। অনেক পুরনো Flutter plugin-ও এখনো Objective-C-তে। সেখানে `.h` আর `.m` file দেখবেন।
 
 ```objc
 // Objective-C — চেনার জন্য
@@ -4992,19 +5239,19 @@ Swift আসার আগে (২০১৪) iOS-এর ভাষা ছিল Ob
 [channel invokeMethod:@"noteSaved" arguments:@{@"id": noteId}];
 ```
 
-- **Swift থেকে Objective-C ডাকা:** একই target-এ হলে **bridging header**-এ `#import` লিখুন। Flutter-এর `ios/Runner/Runner-Bridging-Header.h` ঠিক এই file। ভেতরে `#import "GeneratedPluginRegistrant.h"` — তাই Swift-এর `AppDelegate` Objective-C-র plugin registrant দেখতে পায়।
-- **Objective-C থেকে Swift দেখা:** class-এ `@objc` বা `NSObject` থেকে inherit লাগে। Flutter template-এর `@objc class AppDelegate` এজন্যই।
-- **Swift-এ নতুন code লিখুন।** Objective-C পড়তে পারলেই যথেষ্ট।
+- **Swift থেকে Objective-C ব্যবহার করা:** দুটো একই target-এ থাকলে **bridging header** file-এ `#import` লিখুন। Flutter-এর `ios/Runner/Runner-Bridging-Header.h` ঠিক এই file। এর ভেতরে আছে `#import "GeneratedPluginRegistrant.h"`। তাই Swift-এ লেখা `AppDelegate` Objective-C-র plugin registrant দেখতে পায়।
+- **Objective-C থেকে Swift দেখা:** Swift class-এ `@objc` লিখতে হয়, অথবা class-টাকে `NSObject` থেকে inherit করতে হয়। Flutter template-এ `@objc class AppDelegate` লেখা থাকে এজন্যই।
+- **নতুন code Swift-এ লিখুন।** Objective-C পড়ে বুঝতে পারলেই যথেষ্ট।
 
 > **মনে রাখুন**
-> - `let`/`var`, optional-এ `if let` আর `guard let`। `!` মানে nil হলে crash।
-> - Model হলো `struct` — value type, assign করলে copy। Memberwise init, `Equatable`, `Codable` বিনা খরচে।
-> - GC নেই, ARC আছে। Class-এ রাখা closure-এ `self` ধরলে `[weak self]`।
-> - Associated value-ওয়ালা `enum` + exhaustive `switch` = Dart-এর sealed class।
-> - Error signature-এ লেখা থাকে (`throws`), call-এ `try` লাগে।
+> - `let`/`var`। Optional খুলতে `if let` আর `guard let`। `!` দিলে nil পেলে crash।
+> - Model হলো `struct` — value type, assign করলে copy হয়। Memberwise init, `Equatable`, `Codable` বাড়তি কিছু না লিখেই পাওয়া যায়।
+> - GC নেই, ARC আছে। Class-এ রাখা closure `self` ধরলে `[weak self]` দিন।
+> - Associated value-ওয়ালা `enum` আর exhaustive `switch` মিলে Dart-এর sealed class-এর কাজ করে।
+> - কোন function error ছোঁড়ে, তা signature-এ লেখা থাকে (`throws`)। Call করতে `try` লাগে।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Swift-এ model আমি struct দিয়ে লিখি, কারণ value type — copy হয়, ভাগ করা অবস্থা নেই, আর `Codable`, `Hashable` compiler নিজে বানায়। Identity লাগলে, যেমন store বা screen model, তখন final class। Swift-এ GC নেই, ARC আছে, তাই escaping closure-এ `self` ধরলে `[weak self]` দিই। আর state বোঝাতে associated value-ওয়ালা enum নিই, যাতে exhaustive switch অসম্ভব অবস্থা আটকায়।"
+> - *বাংলায়:* "Swift-এ আমি model struct দিয়ে লিখি। কারণ struct value type — copy হয়, তাই কেউ ভাগ করে বদলাতে পারে না। আর `Codable`, `Hashable` compiler নিজেই বানিয়ে দেয়। Identity লাগলে, যেমন store বা screen model, তখন final class নিই। Swift-এ GC নেই, ARC আছে। তাই escaping closure `self` ধরলে `[weak self]` দিই। আর state বোঝাতে associated value-ওয়ালা enum নিই। তাহলে exhaustive switch অসম্ভব অবস্থা আটকে দেয়।"
 > - *English:* "In Swift I write models as structs, because they're value types — they copy, there's no shared mutable state, and the compiler gives me `Codable` and `Hashable` for free. When I need identity, like a store or a screen model, I use a final class. Swift has ARC, not a garbage collector, so I use `[weak self]` when an escaping closure captures self. And I model state with enums with associated values, so exhaustive switches rule out impossible states."
 
 [উপরে ফিরুন](#toc)
@@ -5013,25 +5260,29 @@ Swift আসার আগে (২০১৪) iOS-এর ভাষা ছিল Ob
 
 ## <a id="ios2"></a>iOS ২. Async — Future, Stream, Isolate থেকে async/await, actor আর AsyncSequence
 
-সুখবর দিয়ে শুরু করি: Swift-এর `async`/`await` দেখতে প্রায় Dart-এর মতো। `Future<List<Note>>`-এর জায়গায় `async throws -> [Note]`, আর `await` একই জায়গায় বসে।
+শুরু করি একটা সুখবর দিয়ে। Swift-এর `async`/`await` দেখতে প্রায় Dart-এর মতোই। `Future<List<Note>>`-এর জায়গায় লিখবেন `async throws -> [Note]`। আর `await` বসে একই জায়গায়।
 
-কিন্তু ভেতরের জগৎ আলাদা। Dart-এ আপনার সব code এক thread-এ চলত। Swift-এ অনেক thread, আর তারা memory ভাগ করে। তাই Swift-এ দুইটা নতুন প্রশ্ন আসে: **কোন code কোন thread-এ চলছে?** আর **একই data দুই thread একসাথে ছুঁচ্ছে কি না?** Swift 6-এর পুরো concurrency system এই দুই প্রশ্নের উত্তর compile-time-এ দেয়।
+কিন্তু ভেতরে ব্যাপারটা আলাদা। Dart-এ আপনার সব code এক thread-এ চলত। Swift-এ অনেকগুলো thread চলে, আর তারা একই memory ভাগ করে ব্যবহার করে। তাই Swift-এ দুইটা নতুন প্রশ্ন আসে:
+- **কোন code কোন thread-এ চলছে?**
+- **একই data কি দুইটা thread একসাথে ছুঁচ্ছে?**
 
-Android অংশে coroutine পড়ে থাকলে ([অধ্যায় ২](#ch2)) অনেক কিছু চেনা লাগবে। অধ্যায়ের শেষে এক table-এ তুলনা আছে।
+Swift 6-এর পুরো concurrency system এই দুই প্রশ্নের উত্তর দেয় compile-time-এই, মানে app চালানোর আগেই।
+
+Android অংশে coroutine পড়া থাকলে ([অধ্যায় ২](#ch2)) অনেক কিছুই চেনা লাগবে। অধ্যায়ের শেষে একটা table-এ সব তুলনা আছে।
 
 ### <a id="ios2-1"></a>iOS ২.১ সবচেয়ে বড় পার্থক্য: thread আর data race
 
-**এক লাইনে:** Dart-এ memory ভাগ হয় না, তাই data race অসম্ভব। Swift-এ memory ভাগ হয়, তাই data race সম্ভব — আর Swift 6 compiler সেটা build-এর সময়েই ধরে।
+**এক লাইনে:** Dart-এ isolate-রা memory ভাগ করে না, তাই data race হতেই পারে না। Swift-এ thread-রা memory ভাগ করে, তাই data race হতে পারে। তবে Swift 6 compiler build-এর সময়েই সেটা ধরে ফেলে।
 
 **Flutter-এ আপনি যেভাবে ভাবেন:**
 - একটা isolate, একটা thread, একটা event loop।
-- `await` মানে "এই কাজ পরে চালাও", কিন্তু একই thread-এ।
-- ভারী কাজ অন্য isolate-এ (`Isolate.run`)। Isolate-এর memory আলাদা, শুধু message যায়। তাই দুইজন একই variable একসাথে বদলাতে পারে না।
+- `await` মানে "এই কাজটা পরে চালাও"। কিন্তু চলবে একই thread-এ।
+- ভারী কাজ পাঠান অন্য isolate-এ (`Isolate.run`)। প্রতিটা isolate-এর memory আলাদা, তাদের মধ্যে শুধু message যায়। তাই দুইজন একই variable একসাথে বদলাতে পারে না।
 
 **iOS-এ:**
-- **Main thread** — UI শুধু এখানে। Flutter-এর UI isolate-এর মতো।
-- **Cooperative thread pool** — CPU core-এর সমান সংখ্যক thread। `async` কাজ এখানে চলে।
-- সব thread একই memory দেখে। দুই thread একসাথে একটা `[Note]` বদলালে data নষ্ট বা crash — এর নাম **data race**।
+- **Main thread** — UI-র সব কাজ শুধু এখানে। Flutter-এর UI isolate-এর মতো।
+- **Cooperative thread pool** — কয়েকটা thread-এর একটা দল। CPU-তে যত core, thread-ও প্রায় তত। `async` কাজগুলো এখানে চলে।
+- সব thread একই memory দেখে। দুইটা thread একসাথে একটা `[Note]` বদলালে data নষ্ট হতে পারে, বা app crash করতে পারে। একেই বলে **data race**।
 
 ```
 Dart:                               Swift:
@@ -5043,21 +5294,21 @@ Dart:                               Swift:
 └────────────────────────────────┘  └───────────────────────────────────────────────────────┘
 ```
 
-**Swift-এর সমাধান — তিনটা হাতিয়ার:**
+**Swift-এর সমাধান — তিনটা জিনিস:**
 
 | হাতিয়ার | কাজ | পরে বিস্তারিত |
 |---|---|---|
 | `@MainActor` | "এই code শুধু main thread-এ চলবে" | [iOS ২.৬](#ios2-6) |
-| `actor` | "এই data এক সময়ে একজনই ছুঁতে পারবে" | [iOS ২.৫](#ios2-5) |
-| `Sendable` | "এই value নিরাপদে অন্য thread-এ পাঠানো যায়" | [iOS ২.৭](#ios2-7) |
+| `actor` | "এই data এক সময়ে মাত্র একজন ছুঁতে পারবে" | [iOS ২.৫](#ios2-5) |
+| `Sendable` | "এই value অন্য thread-এ পাঠালে কোনো সমস্যা হবে না" | [iOS ২.৭](#ios2-7) |
 
-Swift 6 language mode-এ compiler এই তিন নিয়ম মিলিয়ে দেখে। নিয়ম ভাঙলে build-ই হবে না। Kotlin-এ coroutine-এ data race-এর দায় আপনার, compiler সাহায্য করে না। Swift-এ compiler পাহারা দেয়।
+Swift 6 language mode-এ compiler এই তিনটা নিয়ম মিলিয়ে দেখে। কোনো নিয়ম ভাঙলে build-ই হবে না। Kotlin-এ coroutine-এর data race ঠেকানো পুরোটাই আপনার কাজ, compiler সাহায্য করে না। Swift-এ compiler নিজেই এটা check করে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-2"></a>iOS ২.২ `Future` → `async`/`await`
 
-**এক লাইনে:** `Future<T>` ফেরত দেওয়া function → `async -> T`। Error ছুঁড়লে `async throws -> T`। Call-এ `try await`।
+**এক লাইনে:** যে function `Future<T>` return করত, Swift-এ সেটা হয় `async -> T`। Error ছুঁড়তে পারলে `async throws -> T`। Call করার সময় লিখবেন `try await`।
 
 **Flutter-এ:**
 
@@ -5097,30 +5348,30 @@ let (allNotes, allFolders) = try await (notes, folders)   // দুইটাই 
 | `Future.value(x)` | সাধারণ return | সাধারণ return |
 | `Completer` | `withCheckedContinuation` ([iOS ২.৯](#ios2-9)) | `suspendCancellableCoroutine` |
 
-**ভেতরে কীভাবে কাজ করে:** `await` হলো একটা **suspension point**। এখানে function থেমে যায়, আর thread-টা ছেড়ে দেয় অন্য কাজের জন্য। Thread আটকে থাকে না — ঠিক Dart-এর মতো। Kotlin-এর `suspend`-এর মতোই compiler function-কে টুকরো টুকরো করে।
+**ভেতরে কীভাবে কাজ করে:** `await` হলো একটা **suspension point**, মানে থামার জায়গা। এখানে function থেমে যায়, আর thread-টা ছেড়ে দেয় যাতে অন্য কাজ চলতে পারে। Thread বসে বসে অপেক্ষা করে না — ঠিক Dart-এর মতো। Kotlin-এর `suspend`-এর মতোই compiler function-টাকে কয়েকটা টুকরোয় ভাগ করে নেয়।
 
-**কী আলাদা — `await`-এর পরে কোন thread?** Dart-এ `await`-এর পরেও একই isolate। Swift-এ:
+**কী আলাদা — `await`-এর পরে কোন thread-এ ফিরবে?** Dart-এ `await`-এর পরেও আপনি একই isolate-এ থাকেন। Swift-এ নির্ভর করে function-টা কার:
 - Function `@MainActor`-এর হলে `await`-এর পরে আবার main thread-এ ফেরে।
-- Function `actor`-এর ভেতরে হলে আবার সেই actor-এ ফেরে।
-- কোনো actor-এর না হলে, যেকোনো thread-এ ফিরতে পারে।
+- Function কোনো `actor`-এর ভেতরে হলে আবার সেই actor-এ ফেরে।
+- কোনো actor-এর না হলে যেকোনো thread-এ ফিরতে পারে।
 
-তাই "আমি এখন কোন thread-এ" প্রশ্নের উত্তর দেয় **isolation** — function কোন actor-এর। Thread-এর নাম না।
+তাই "আমি এখন কোন thread-এ?" — এই প্রশ্নের উত্তর thread-এর নাম দেখে পাওয়া যায় না। উত্তর পাওয়া যায় function-টা কোন actor-এর, সেটা দেখে। একে বলে **isolation**।
 
-**ফাঁদ:** `await`-এর আগে আর পরে অবস্থা এক থাকবে, এটা ধরে নেওয়া। মাঝের সময়ে অন্য কাজ চলতে পারে, আর ভাগ করা state বদলে যেতে পারে ([iOS ২.৫](#ios2-5)-এর reentrancy)।
+**ফাঁদ:** ধরে নেওয়া যে `await`-এর আগে আর পরে অবস্থা একই থাকবে। মাঝের সময়টায় অন্য কাজ চলতে পারে, আর ভাগ করা state বদলে যেতে পারে। এর নাম reentrancy ([iOS ২.৫](#ios2-5))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-3"></a>iOS ২.৩ কাজ চালু করা: `Task` আর task group
 
-**এক লাইনে:** সাধারণ (non-async) জায়গা থেকে async কাজ শুরু করতে `Task { }`। অনেকগুলো কাজ একসাথে চালাতে **task group**।
+**এক লাইনে:** সাধারণ (async না এমন) জায়গা থেকে async কাজ শুরু করতে লাগে `Task { }`। অনেকগুলো কাজ একসাথে চালাতে লাগে **task group**।
 
-**Flutter-এ:** Button-এর `onPressed` থেকে সরাসরি async function call করতেন। Future-টা ফেলে দিলেও চলত:
+**Flutter-এ:** Button-এর `onPressed` থেকে সরাসরি async function call করতেন। Future-টা ধরে না রাখলেও কোনো সমস্যা হতো না:
 
 ```dart
 onPressed: () => cubit.sync(),     // Future ফেরত দেয়, কেউ await করে না
 ```
 
-**Swift-এ:** non-async জায়গা থেকে `await` লেখা যায় না। `Task` দিয়ে একটা নতুন async জগৎ খুলতে হয়:
+**Swift-এ:** যে জায়গা async না, সেখানে `await` লেখা যায় না। তাই `Task` দিয়ে একটা নতুন async কাজ খুলতে হয়, যার ভেতরে await লেখা চলে:
 
 ```swift
 Button("Sync") {
@@ -5130,15 +5381,15 @@ Button("Sync") {
 }
 ```
 
-SwiftUI-তে screen খোলার সময় কাজ শুরু করার আরও ভালো পথ `.task` modifier — screen চলে গেলে নিজেই cancel করে ([iOS ৫.৯](#ios5-9))।
+SwiftUI-তে screen খোলার সময় কাজ শুরু করার আরও ভালো উপায় হলো `.task` modifier। Screen চলে গেলে এটা নিজেই কাজটা cancel করে দেয় ([iOS ৫.৯](#ios5-9))।
 
-**Task-এর তিন রকম:**
+**Task তিন রকম:**
 
-| | কী | Parent-এর cancel পায়? | Actor (thread) পায়? | কখন |
+| | কী | Parent cancel হলে এটাও cancel হয়? | যেখানে বানানো, সেই actor (thread) পায়? | কখন |
 |---|---|---|---|---|
-| `async let`, task group-এর child | **structured** — parent-এর ভেতরে বাঁধা | হ্যাঁ | না, আলাদা চলে | একসাথে কয়েকটা কাজ |
-| `Task { }` | **unstructured** — নিজে স্বাধীন | না | হ্যাঁ, যেখানে বানানো সেখানকার | sync জায়গা থেকে async শুরু |
-| `Task.detached { }` | পুরো স্বাধীন | না | না | প্রায় কখনো না |
+| `async let`, task group-এর child | **structured** — parent-এর সাথে বাঁধা | হ্যাঁ | না, আলাদা চলে | কয়েকটা কাজ একসাথে |
+| `Task { }` | **unstructured** — নিজে স্বাধীন | না | হ্যাঁ, যেখানে বানানো সেখানকার | sync জায়গা থেকে async শুরু করতে |
+| `Task.detached { }` | পুরোপুরি স্বাধীন | না | না | প্রায় কখনোই না |
 
 **Task group — Notes app-এর সব note একসাথে upload:**
 
@@ -5155,9 +5406,9 @@ func uploadAll(_ notes: [Note]) async throws {
 }
 ```
 
-- Group থেকে error বের হয়ে গেলে বাকি child task-গুলো **নিজে cancel** হয়।
-- Group-এর `{ }` শেষ হওয়ার আগে সব child শেষ হবেই। কোনো কাজ "হারিয়ে" যায় না — এটাই **structured concurrency**।
-- ফল একটা একটা করে নিতে: `for try await result in group { ... }`।
+- Group থেকে কোনো error বের হয়ে গেলে বাকি child task-গুলো **নিজে থেকেই cancel** হয়।
+- Group-এর `{ }` শেষ হওয়ার আগে সব child অবশ্যই শেষ হয়। কোনো কাজ পেছনে "হারিয়ে" যায় না। এই নিয়মকেই বলে **structured concurrency**।
+- ফলগুলো একটা একটা করে নিতে চাইলে: `for try await result in group { ... }`।
 
 **Task-এর handle রেখে দেওয়া — search-এর উদাহরণ:**
 
@@ -5183,17 +5434,17 @@ final class SearchModel {
 }
 ```
 
-Flutter-এ এটা আপনি `Timer` আর `CancelableOperation` দিয়ে, বা RxDart-এর `debounceTime` + `switchMap` দিয়ে করতেন।
+Flutter-এ এই কাজ আপনি `Timer` আর `CancelableOperation` দিয়ে করতেন। অথবা RxDart-এর `debounceTime` + `switchMap` দিয়ে।
 
-**ফাঁদ:** `Task { }` কোনো scope-এ বাঁধা না। Screen বন্ধ হলেও চলতে থাকবে, যতক্ষণ না নিজে শেষ হয়। লম্বা কাজ হলে handle রাখুন আর `cancel()` করুন, অথবা `.task` modifier নিন।
+**ফাঁদ:** `Task { }` কোনো scope-এর সাথে বাঁধা না। Screen বন্ধ হয়ে গেলেও এটা চলতে থাকে, যতক্ষণ না নিজে শেষ হয়। লম্বা কাজ হলে handle রেখে দিন আর দরকারে `cancel()` করুন। অথবা `.task` modifier ব্যবহার করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-4"></a>iOS ২.৪ Cancellation
 
-**এক লাইনে:** Swift-এ cancel মানে task-এর গায়ে একটা flag লাগানো। Task নিজে check করে থামে — জোর করে মারা হয় না। Kotlin coroutine-এর মতোই cooperative।
+**এক লাইনে:** Swift-এ cancel করা মানে task-এর গায়ে একটা flag লাগিয়ে দেওয়া। Task নিজে সেই flag দেখে থামে। কেউ জোর করে task-কে মেরে ফেলে না। Kotlin coroutine-এর মতোই এটা cooperative — task-কে নিজে সহযোগিতা করতে হয়।
 
-**Flutter-এ:** Dart-এর `Future` cancel করা যায় না। আপনি `StreamSubscription.cancel()`, `CancelToken` (dio), বা একটা `bool _disposed` দিয়ে কাজ চালাতেন।
+**Flutter-এ:** Dart-এর `Future` cancel করা যায় না। তাই আপনি `StreamSubscription.cancel()`, dio-র `CancelToken`, বা একটা `bool _disposed` দিয়ে কাজ চালাতেন।
 
 **Swift-এ:**
 
@@ -5212,13 +5463,13 @@ let task = Task { try await importNotes(from: files) }
 task.cancel()                                       // flag লাগল
 ```
 
-**কে নিজে থেকে থামে:**
-- `Task.sleep` cancel হলে সাথে সাথে `CancellationError` ছোঁড়ে।
-- `URLSession`-এর async API cancel হলে request বন্ধ করে error ছোঁড়ে।
-- Parent cancel হলে সব structured child-ও cancel হয় (`async let`, task group)।
-- SwiftUI-র `.task` modifier screen চলে গেলে cancel করে।
+**যারা নিজে থেকেই থামে:**
+- `Task.sleep` — cancel হলে সাথে সাথে `CancellationError` ছোঁড়ে।
+- `URLSession`-এর async API — cancel হলে request বন্ধ করে error ছোঁড়ে।
+- Parent cancel হলে তার সব structured child-ও cancel হয় (`async let`, task group)।
+- SwiftUI-র `.task` modifier — screen চলে গেলে cancel করে।
 
-**কে থামে না:** আপনার নিজের লম্বা loop বা হিসাব। সেখানে নিজে `Task.isCancelled` বা `try Task.checkCancellation()` দিন।
+**যারা নিজে থামে না:** আপনার নিজের লেখা লম্বা loop বা হিসাব। সেখানে মাঝে মাঝে নিজেই `Task.isCancelled` বা `try Task.checkCancellation()` দিয়ে check করুন।
 
 | Dart | Swift | Kotlin |
 |---|---|---|
@@ -5226,17 +5477,17 @@ task.cancel()                                       // flag লাগল
 | `_disposed` flag | `Task.isCancelled` | `isActive` |
 | (নেই) | `try Task.checkCancellation()` | `ensureActive()` |
 | (নেই) | `CancellationError` | `CancellationException` |
-| `subscription.cancel()` | `for await` loop-এর task cancel | `collect`-এর job cancel |
+| `subscription.cancel()` | `for await` loop যে task-এ চলছে, তাকে cancel | `collect`-এর job cancel |
 
-**ফাঁদ:** `catch`-এ সব error ধরে "কিছু ভুল হয়েছে" দেখানো। Cancel-ও তখন error হিসেবে ধরা পড়ে, আর user অকারণে error message দেখে। `catch is CancellationError { return }` আগে দিন।
+**ফাঁদ:** `catch`-এ সব error একসাথে ধরে "কিছু ভুল হয়েছে" দেখানো। তখন cancel-ও error হিসেবে ধরা পড়ে, আর user অকারণে error message দেখে। তাই সবার আগে `catch is CancellationError { return }` দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-5"></a>iOS ২.৫ `actor` — এক সময়ে একজন
 
-**এক লাইনে:** `actor` একটা class-এর মতো, কিন্তু তার ভেতরের data এক সময়ে শুধু একটা কাজ ছুঁতে পারে। বাইরে থেকে ডাকতে `await` লাগে, কারণ লাইনে দাঁড়াতে হতে পারে।
+**এক লাইনে:** `actor` দেখতে class-এর মতো। পার্থক্য হলো, তার ভেতরের data এক সময়ে মাত্র একটা কাজ ছুঁতে পারে। বাইরে থেকে actor-এর কিছু ডাকতে `await` লাগে, কারণ actor তখন অন্য কাজে ব্যস্ত থাকলে অপেক্ষা করতে হতে পারে।
 
-**Flutter-এ:** এরকম কিছু লাগেনি, কারণ এক isolate-এ সব code একে একে চলে। দুই isolate-এর memory আলাদা।
+**Flutter-এ:** এরকম কিছু লাগেনি। এক isolate-এ সব code একটার পর একটা চলে। আর দুই isolate-এর memory আলাদা।
 
 **Swift-এ — Notes app-এর memory cache:**
 
@@ -5258,20 +5509,24 @@ await cache.store(note)                    // বাইরে থেকে: awai
 let cached = await cache.note(for: id)
 ```
 
-Actor-এর ভেতরে `notes` ছুঁতে `await` লাগে না — ভেতরের code নিজেই লাইনের মাথায়। বাইরে থেকে লাগে।
+Actor-এর ভেতরের code `notes` ছুঁতে `await` লেখে না, কারণ সে তো ইতিমধ্যে actor-এর ভেতরেই চলছে, অন্য কেউ তখন data ছুঁতে পারে না। বাইরে থেকে ছুঁতে লাগে।
 
-**ভেতরে কীভাবে কাজ করে:** প্রতিটা actor-এর একটা নিজের লাইন (serial executor)। বাইরের call সেই লাইনে দাঁড়ায়, একে একে চলে। Thread আটকায় না — অপেক্ষা `await`-এ হয়। পুরনো iOS-এ এই কাজ হতো serial `DispatchQueue` দিয়ে, হাতে হাতে।
+**ভেতরে কীভাবে কাজ করে:**
+- প্রতিটা actor-এর নিজের একটা queue আছে, যেটা একবারে একটাই কাজ চালায়। একে serial executor বলে।
+- বাইরের সব call সেই queue-তে জমা হয়, আর একটার পর একটা চলে।
+- অপেক্ষার সময় thread আটকে থাকে না। অপেক্ষা হয় `await`-এ।
+- পুরনো iOS code-এ এই কাজটা হাতে করা হতো, serial `DispatchQueue` দিয়ে।
 
 **Dart-এর isolate-এর সাথে তুলনা:**
 
 | | Dart isolate | Swift actor |
 |---|---|---|
-| Memory | আলাদা heap | একই heap, কিন্তু data actor-এর ভেতরে বন্ধ |
-| কথা বলা | message পাঠিয়ে (copy) | `await` দিয়ে method call |
-| খরচ | ভারী — নতুন isolate বানাতে সময় লাগে | হালকা — একটা object |
-| কাজ | ভারী হিসাব অন্য core-এ | ভাগ করা mutable state রক্ষা |
+| Memory | আলাদা heap | একই heap, কিন্তু data actor-এর ভেতরে বন্ধ থাকে |
+| কথা বলা | message পাঠিয়ে (copy হয়) | `await` দিয়ে method call |
+| খরচ | ভারী — নতুন isolate বানাতে সময় লাগে | হালকা — একটা সাধারণ object |
+| কাজ | ভারী হিসাব অন্য core-এ চালানো | ভাগ করা mutable state রক্ষা করা |
 
-**ফাঁদ — reentrancy।** Actor-এর ভেতরে `await` এলে actor অন্য call নিতে পারে। তাই `await`-এর পরে actor-এর state বদলে যেতে পারে:
+**ফাঁদ — reentrancy।** Actor-এর ভেতরে কোনো method `await`-এ থামলে, সেই ফাঁকে actor অন্য call নিতে পারে। একে reentrancy বলে। তাই `await`-এর পরে actor-এর state আগের মতো না-ও থাকতে পারে:
 
 ```swift
 actor TokenStore {
@@ -5286,7 +5541,7 @@ actor TokenStore {
 }
 ```
 
-সমাধান: চলমান কাজটাকেই রেখে দিন, যাতে দ্বিতীয় call একই কাজের জন্য অপেক্ষা করে:
+সমাধান: যে কাজটা এখন চলছে, সেটাকেই রেখে দিন। তাহলে দ্বিতীয় call নতুন কাজ শুরু না করে, আগের কাজটার জন্যই অপেক্ষা করবে:
 
 ```swift
 actor TokenStore {
@@ -5307,17 +5562,17 @@ actor TokenStore {
 }
 ```
 
-Interview-এ actor নিয়ে প্রশ্ন এলে reentrancy-র কথা বললে senior শোনায়।
+Interview-এ actor নিয়ে প্রশ্ন এলে reentrancy-র কথা বলুন। এতে senior-এর মতো শোনায়।
 
-**Best approach:** Repository-র cache, token store, download manager — যেখানে অনেক জায়গা থেকে একই mutable data ছোঁয়া হয়, সেখানে actor। UI-র state actor-এ না — সেটা `@MainActor`-এ।
+**Best approach:** Repository-র cache, token store, download manager — যেখানে অনেক জায়গা থেকে একই mutable data ছোঁয়া হয়, সেখানে actor নিন। UI-র state actor-এ রাখবেন না। সেটা রাখুন `@MainActor`-এ।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-6"></a>iOS ২.৬ `@MainActor` — UI-র thread
 
-**এক লাইনে:** `@MainActor` হলো একটা বিশেষ, global actor — যার লাইন হলো main thread। কোনো class বা function-এ লিখলে সেটা শুধু main thread-এ চলবে, আর compiler সেটা নিশ্চিত করবে।
+**এক লাইনে:** `@MainActor` একটা বিশেষ actor, যেটা পুরো app-এ একটাই (global actor)। এর সব কাজ চলে main thread-এ। কোনো class বা function-এ এটা লিখলে সেটা শুধু main thread-এ চলবে। আর compiler সেটা নিশ্চিত করবে।
 
-**Flutter-এ:** সব Dart code UI isolate-এ চলে, তাই "UI কোন thread থেকে update হচ্ছে" কখনো ভাবেননি।
+**Flutter-এ:** সব Dart code UI isolate-এ চলে। তাই "UI কোন thread থেকে update হচ্ছে" — এটা নিয়ে কখনো ভাবতে হয়নি।
 
 **Swift-এ — Notes list-এর screen model:**
 
@@ -5347,9 +5602,9 @@ final class NotesListModel {
 }
 ```
 
-- SwiftUI-র `View` protocol নিজেই `@MainActor` (Xcode 16 / iOS 18 SDK থেকে)। তাই view-এর body আর তার ভেতরের `Task { }` main-এ চলে।
-- Screen model-কে `@MainActor` দিলে UI-র সব state main thread-এ থাকে। Cubit যেমন UI isolate-এ থাকত।
-- `repository.allNotes()` যদি অন্য actor-এর বা `@concurrent` হয়, তাহলে network আর decoding main-এর বাইরে চলে। `await`-এর পরে আবার main-এ ফেরে।
+- SwiftUI-র `View` protocol নিজেই `@MainActor` (Xcode 16 / iOS 18 SDK থেকে)। তাই view-এর body, আর তার ভেতরের `Task { }`, main thread-এ চলে।
+- Screen model-কে `@MainActor` দিলে UI-র সব state main thread-এ থাকে। ঠিক যেমন Cubit UI isolate-এ থাকত।
+- `repository.allNotes()` যদি অন্য কোনো actor-এর হয়, বা `@concurrent` হয়, তাহলে network আর decoding main thread-এর বাইরে চলে। `await`-এর পরে আবার main-এ ফেরে।
 
 **পুরনো code-এ যা দেখবেন:**
 
@@ -5358,7 +5613,7 @@ await MainActor.run { self.notes = notes }        // actor-যুগের শ�
 DispatchQueue.main.async { self.notes = notes }   // GCD যুগ — প্রায় সব পুরনো plugin-এ
 ```
 
-**ফাঁদ:** main thread-এ ভারী কাজ — বড় JSON decode, ছবি resize, হাজার note sort। UI আটকে যায়, Flutter-এ UI isolate-এ ভারী কাজ করার মতোই। এগুলো `@concurrent` function-এ পাঠান ([iOS ২.৭](#ios2-7))।
+**ফাঁদ:** main thread-এ ভারী কাজ করা — বড় JSON decode, ছবি resize, হাজার note sort। এতে UI আটকে যায়। Flutter-এ UI isolate-এ ভারী কাজ করলে যা হয়, ঠিক তাই। এগুলো `@concurrent` function-এ পাঠান ([iOS ২.৭](#ios2-7))।
 
 [উপরে ফিরুন](#toc)
 
@@ -5371,28 +5626,28 @@ DispatchQueue.main.async { self.notes = notes }   // GCD যুগ — প্র
 | Type | Sendable? |
 |---|---|
 | `Int`, `String`, `Date`, `UUID` | হ্যাঁ |
-| struct/enum, যার সব property Sendable | হ্যাঁ (module-এর ভেতরে নিজে থেকে বোঝে; `public` type-এ লিখে দিতে হয়) |
-| `actor` | হ্যাঁ — ভেতরের data নিজেই রক্ষা করে |
-| `@MainActor` class | হ্যাঁ — সব কাজ main-এ |
-| `final class`, শুধু `let` Sendable property | হ্যাঁ, `: Sendable` লিখলে |
-| সাধারণ class, `var` property-সহ | না |
+| struct/enum, যার সব property Sendable | হ্যাঁ (module-এর ভেতরে compiler নিজেই বুঝে নেয়; `public` type-এ নিজে লিখে দিতে হয়) |
+| `actor` | হ্যাঁ — ভেতরের data সে নিজেই রক্ষা করে |
+| `@MainActor` class | হ্যাঁ — তার সব কাজ main thread-এ হয় |
+| `final class`, যার সব property `let` আর Sendable | হ্যাঁ, যদি `: Sendable` লিখে দেন |
+| সাধারণ class, যার `var` property আছে | না |
 
-Dart-এর সাথে তুলনা: isolate-এর মধ্যে message পাঠাতে Dart value copy করে, তাই সব নিরাপদ। Swift copy করে না — তাই জানতে চায়, ভাগ করা নিরাপদ কি না।
+Dart-এর সাথে তুলনা: এক isolate থেকে আরেক isolate-এ message পাঠালে Dart value copy করে দেয়। তাই সব নিরাপদ। Swift copy করে না। তাই সে জানতে চায়, এই value ভাগ করা নিরাপদ কি না।
 
 **Swift 6 language mode — কী বদলায়:**
-- Swift 5 mode-এ এই check গুলো warning (বা বন্ধ)।
-- Swift 6 mode-এ (Swift 6.0, সেপ্টেম্বর ২০২৪) data race-এর সম্ভাবনা **compile error**।
-- একটা project একবারে না, target ধরে ধরে Swift 6-এ নেওয়া যায়। আগে Swift 5 mode-এ "Strict Concurrency Checking = Complete" দিয়ে warning দেখে ঠিক করুন, তারপর mode বদলান।
+- Swift 5 mode-এ এই check-গুলো শুধু warning দেয় (বা বন্ধ থাকে)।
+- Swift 6 mode-এ (Swift 6.0, সেপ্টেম্বর ২০২৪) data race হওয়ার সম্ভাবনা থাকলেই **compile error**।
+- পুরো project একবারে Swift 6-এ নিতে হয় না। একটা একটা target করে নেওয়া যায়। আগে Swift 5 mode-এই "Strict Concurrency Checking = Complete" চালু করুন। Warning-গুলো দেখে ঠিক করুন। তারপর mode বদলান।
 
-Flutter-এর `ios/Runner` এখনো Swift 5 language mode-এ (template-এ `SWIFT_VERSION = 5.0`)। তাই Runner-এ আপনি এই error দেখবেন না, কিন্তু native project বা plugin-এ দেখবেন।
+Flutter-এর `ios/Runner` এখনো Swift 5 language mode-এ চলে (template-এ `SWIFT_VERSION = 5.0`)। তাই Runner-এ এই error দেখবেন না। কিন্তু native project বা plugin-এ দেখবেন।
 
-**Swift 6.2 — "approachable concurrency" (Xcode 26, সেপ্টেম্বর ২০২৫):** Swift 6 প্রথমে অনেক error দিত, আর মানুষ বিরক্ত হতো। Swift 6.2 তিনটা বদল আনল, যাতে সাধারণ app code সহজ হয়:
+**Swift 6.2 — "approachable concurrency" (Xcode 26, সেপ্টেম্বর ২০২৫):** Swift 6 শুরুতে অনেক error দিত, আর মানুষ বিরক্ত হতো। তাই Swift 6.2 তিনটা বদল আনল, যাতে সাধারণ app code লেখা সহজ হয়:
 
-1. **Default actor isolation = `MainActor`।** Target-এর build setting-এ এটা দিলে, যেখানে কিছু লেখা নেই, সব code `@MainActor` ধরা হয়। মানে app ডিফল্টে single-threaded, Dart-এর মতো। Xcode 26-এ নতুন app project এভাবেই তৈরি হয়।
-2. **`nonisolated async` function caller-এর জায়গায় চলে।** আগে এমন function সবসময় background-এ লাফ দিত। এখন (upcoming feature `NonisolatedNonsendingByDefault` চালু থাকলে) যে ডাকে, তার actor-এই চলে। অকারণে thread বদল আর Sendable error কমে।
-3. **`@concurrent`** — "এই কাজ সত্যিই background-এ চালাও", স্পষ্ট করে বলার পথ।
+1. **Default actor isolation = `MainActor`।** Target-এর build setting-এ এটা চালু করলে, যে code-এ কোনো actor লেখা নেই, সেটাকে `@MainActor` ধরা হয়। মানে app নিজে থেকে single-threaded থাকে, Dart-এর মতো। Xcode 26-এ নতুন app project এভাবেই তৈরি হয়।
+2. **`nonisolated async` function যে ডাকে, তার জায়গাতেই চলে।** আগে এমন function সবসময় background thread-এ চলে যেত। এখন upcoming feature `NonisolatedNonsendingByDefault` চালু থাকলে, caller যে actor-এ আছে, function-ও সেখানেই চলে। এতে অকারণে thread বদল কমে, Sendable error-ও কমে।
+3. **`@concurrent`** — "এই কাজটা সত্যিই background-এ চালাও", এটা পরিষ্কার করে বলার উপায়।
 
-এই setting-গুলো Build Settings → **Swift Compiler – Concurrency**-তে থাকে (Default Actor Isolation, Approachable Concurrency)। পুরনো project-এ নিজে থেকে বদলায় না। নতুন project খুললে একবার দেখে নিন কী চালু আছে।
+এই setting-গুলো পাবেন Build Settings → **Swift Compiler – Concurrency**-তে (Default Actor Isolation, Approachable Concurrency)। পুরনো project-এ এগুলো নিজে থেকে বদলায় না। নতুন project খুললে একবার দেখে নিন, কোনটা চালু আছে।
 
 **`Isolate.run` → `@concurrent`:**
 
@@ -5411,17 +5666,20 @@ func parseNotes(_ data: Data) async throws -> [Note] {
 let notes = try await parseNotes(data)      // MainActor model থেকে ডাকলে, ফল নিয়ে main-এ ফেরে
 ```
 
-`@concurrent` শুধু `async` function-এ বসে, আর function-কে `nonisolated` করে দেয়। `Data` আর `[Note]` Sendable, তাই compiler খুশি। Dart-এর `Isolate.run`-এর চেয়ে অনেক সস্তা — নতুন isolate বা copy নেই।
+`@concurrent` শুধু `async` function-এ বসে। এটা function-টাকে `nonisolated` করে দেয়, মানে কোনো actor-এর না। `Data` আর `[Note]` দুটোই Sendable, তাই compiler কোনো আপত্তি করে না। Dart-এর `Isolate.run`-এর চেয়ে এটা অনেক সস্তা — নতুন isolate বানাতে হয় না, data copy-ও হয় না।
 
-**ফাঁদ — default `MainActor` হলে model-ও main-এর হয়ে যায়।** Default isolation `MainActor` দিলে `struct Note`-ও `@MainActor` ধরা হয়, আর তার `Codable` conformance-ও main-এর হয়ে যেতে পারে। তখন `@concurrent` function-এ `Note` decode করতে গেলে compiler আপত্তি করে। সমাধান: শুধু data রাখা type-কে `nonisolated struct Note: Codable, Sendable { ... }` লিখুন। Model-এর কোনো thread নেই — সে শুধু data।
+**ফাঁদ — default `MainActor` দিলে model-ও main-এর হয়ে যায়।** Default isolation `MainActor` দিলে `struct Note`-কেও `@MainActor` ধরা হয়। তার `Codable` conformance-ও main-এর হয়ে যেতে পারে। তখন `@concurrent` function-এ `Note` decode করতে গেলে compiler error দেয়। সমাধান: যে type শুধু data রাখে, তাকে লিখুন `nonisolated struct Note: Codable, Sendable { ... }`। Model কোনো thread-এর না — সে শুধু data।
 
-**ফাঁদ — error চুপ করাতে `@unchecked Sendable` বা `nonisolated(unsafe)`।** এরা compiler-কে বলে "আমি দায় নিচ্ছি"। কিন্তু ভেতরে lock না থাকলে data race থেকেই যায়। Error এলে আগে ভাবুন: এই data কার? Main-এর হলে `@MainActor`, ভাগ করা হলে `actor`, শুধু পড়ার হলে `struct`।
+**ফাঁদ — error চুপ করাতে `@unchecked Sendable` বা `nonisolated(unsafe)` লেখা।** এরা compiler-কে বলে, "দায়িত্ব আমার, তুমি check কোরো না।" কিন্তু ভেতরে lock না থাকলে data race থেকেই যায়। Error এলে আগে ভাবুন, এই data কার?
+- Main thread-এর হলে → `@MainActor`।
+- অনেকে মিলে ব্যবহার করলে → `actor`।
+- শুধু পড়ার জন্য হলে → `struct`।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-8"></a>iOS ২.৮ `Stream` → `AsyncSequence` আর `AsyncStream`
 
-**এক লাইনে:** Dart-এর `Stream` → Swift-এর `AsyncSequence`। `await for` → `for await`। নিজে value পাঠানোর `StreamController` → `AsyncStream`।
+**এক লাইনে:** Dart-এর `Stream` হলো Swift-এর `AsyncSequence`। `await for` হয় `for await`। আর নিজে value পাঠানোর জন্য `StreamController`-এর বদলে আছে `AsyncStream`।
 
 **Flutter-এ:**
 
@@ -5459,9 +5717,9 @@ for await progress in syncProgress() {
 }
 ```
 
-Error ছুঁড়তে পারে এমন stream লাগলে `AsyncThrowingStream`, আর loop হবে `for try await`।
+যে stream error ছুঁড়তে পারে, তার জন্য `AsyncThrowingStream` নিন। তখন loop লিখবেন `for try await`।
 
-**Apple-এর API-তে আগে থেকেই AsyncSequence:**
+**Apple-এর অনেক API আগে থেকেই AsyncSequence দেয়:**
 
 ```swift
 // file-এর লাইন একটা একটা করে
@@ -5473,7 +5731,7 @@ for await _ in NotificationCenter.default.notifications(named: UIApplication.did
 }
 ```
 
-**Operator:** `map`, `filter`, `compactMap`, `prefix` standard library-তেই আছে। `debounce`, `throttle`, `merge`, `combineLatest` আছে Apple-এর open-source package **swift-async-algorithms**-এ — RxDart-এর মতো, আলাদা dependency।
+**Operator:** `map`, `filter`, `compactMap`, `prefix` standard library-তেই আছে। কিন্তু `debounce`, `throttle`, `merge`, `combineLatest` আছে Apple-এর open-source package **swift-async-algorithms**-এ। এটা RxDart-এর মতো একটা আলাদা dependency।
 
 | Dart | Swift | Kotlin |
 |---|---|---|
@@ -5485,22 +5743,22 @@ for await _ in NotificationCenter.default.notifications(named: UIApplication.did
 | `onCancel` | `continuation.onTermination` | `awaitClose { }` |
 | `.map`, `.where` | `.map`, `.filter` | `.map`, `.filter` |
 | RxDart `debounceTime` | swift-async-algorithms `.debounce(for:)` | `.debounce()` |
-| `StreamSubscription.cancel()` | loop চালানো task cancel | collect-এর job cancel |
+| `StreamSubscription.cancel()` | loop যে task-এ চলছে, তাকে cancel | collect-এর job cancel |
 | broadcast stream | (built-in নেই — নিজে বানাতে হয়) | `SharedFlow` |
 
 **কী আলাদা:**
-- **Cancel করার পথ।** Dart-এ subscription cancel করেন। Swift-এ `for await` loop যে task-এ চলছে, সেই task cancel করেন। SwiftUI-র `.task`-এ loop চালালে screen চলে গেলে নিজেই থামে।
-- **`AsyncStream` একজনের জন্য।** একই stream দুই জায়গা থেকে পড়বেন না — সব value দুইজনই পায় না (broadcast না) — Dart-এর single-subscription stream-এর কাছাকাছি, broadcast না।
+- **Cancel করার উপায়।** Dart-এ subscription cancel করেন। Swift-এ `for await` loop যে task-এর ভেতরে চলছে, সেই task cancel করেন। SwiftUI-র `.task`-এর ভেতরে loop চালালে screen চলে গেলে loop নিজেই থেমে যায়।
+- **`AsyncStream` একজনের জন্য।** একই stream দুই জায়গা থেকে পড়বেন না। তাহলে দুইজনই সব value পাবে না, কারণ এটা broadcast না। এটা Dart-এর single-subscription stream-এর কাছাকাছি।
 
-**UI state-এর জন্য stream না।** Flutter-এ `StreamBuilder` দিয়ে UI বানাতেন। SwiftUI-তে screen-এর state রাখার পথ `@Observable` ([iOS ৫.৭](#ios5-7))। Stream কাজে লাগে ঘটনার ধারার জন্য: sync progress, database-এর বদল, socket-এর message।
+**UI state-এর জন্য stream ব্যবহার করবেন না।** Flutter-এ `StreamBuilder` দিয়ে UI বানাতেন। SwiftUI-তে screen-এর state রাখার উপায় হলো `@Observable` ([iOS ৫.৭](#ios5-7))। Stream কাজে লাগে একটার পর একটা ঘটনা আসার ক্ষেত্রে: sync-এর progress, database-এর বদল, socket-এর message।
 
-**ফাঁদ:** `onTermination` না দেওয়া। Consumer চলে গেলেও পুরনো callback-এর observer চলতে থাকে — Flutter-এ `StreamController`-এর `onCancel`-এ cleanup না করার মতো leak।
+**ফাঁদ:** `onTermination` না দেওয়া। তখন consumer চলে গেলেও পুরনো callback-এর observer চলতেই থাকে। এটা leak — Flutter-এ `StreamController`-এর `onCancel`-এ cleanup না করলে যেমন হয়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios2-9"></a>iOS ২.৯ চিনে রাখুন: GCD, completion handler আর Combine
 
-নতুন code-এ এগুলো লিখবেন না। কিন্তু প্রায় প্রতিটা Flutter plugin-এর iOS অংশে, আর পুরনো project-এ, এগুলোই পাবেন।
+নতুন code-এ এগুলো লিখবেন না। কিন্তু প্রায় প্রতিটা Flutter plugin-এর iOS অংশে, আর পুরনো project-এ, এগুলোই দেখবেন।
 
 **GCD (Grand Central Dispatch) — `DispatchQueue`:**
 
@@ -5513,11 +5771,11 @@ DispatchQueue.global(qos: .userInitiated).async {
 }
 ```
 
-`async`/`await`-এর আগে iOS-এ thread বদলানোর একমাত্র সহজ পথ ছিল এটা। Compiler কিছুই check করত না — ভুল thread থেকে UI ছুঁলে কখনো crash, কখনো অদ্ভুত bug।
+`async`/`await` আসার আগে iOS-এ thread বদলানোর একমাত্র সহজ উপায় ছিল এটা। Compiler কিছুই check করত না। ভুল thread থেকে UI ছুঁলে কখনো crash হতো, কখনো অদ্ভুত bug।
 
 **Completion handler → async — নিজের wrapper:**
 
-Plugin লেখার সময় প্রায়ই পুরনো callback API-কে async বানাতে হবে। Dart-এর `Completer`-এর কাজ:
+Plugin লেখার সময় প্রায়ই পুরনো callback API-কে async বানাতে হবে। এখানে continuation সেই কাজ করে, যা Dart-এ `Completer` করে:
 
 ```swift
 func fetchNotes() async throws -> [Note] {
@@ -5529,7 +5787,11 @@ func fetchNotes() async throws -> [Note] {
 }
 ```
 
-**ফাঁদ:** continuation **ঠিক একবার** resume করতে হবে। দুইবার করলে crash। একবারও না করলে task চিরকাল ঝুলে থাকে (Checked continuation তখন console-এ সতর্ক করে)। Dart-এ `Completer` দুইবার complete করলে error-এর মতো।
+**ফাঁদ:** continuation **ঠিক একবার** resume করতে হবে।
+- দুইবার করলে crash।
+- একবারও না করলে task চিরকাল ঝুলে থাকে। (Checked continuation তখন console-এ সতর্ক করে।)
+
+Dart-এ `Completer` দুইবার complete করলে যেমন error হয়, এটাও তেমন।
 
 **Combine (২০১৯) — Apple-এর RxDart:**
 
@@ -5553,7 +5815,7 @@ final class LegacySearchViewModel: ObservableObject {
 }
 ```
 
-`@Published` + `ObservableObject` ছিল iOS 13–16-এর SwiftUI state। আজ তার জায়গায় `@Observable` আর async/await। Combine বাদ হয়নি, কিন্তু নতুন code-এ কম লাগে।
+iOS 13–16-এ SwiftUI-র state রাখা হতো `@Published` + `ObservableObject` দিয়ে। আজ তার জায়গায় এসেছে `@Observable` আর async/await। Combine বাদ হয়ে যায়নি, কিন্তু নতুন code-এ এটা কম লাগে।
 
 | পুরনো | আজ |
 |---|---|
@@ -5569,56 +5831,55 @@ final class LegacySearchViewModel: ObservableObject {
 
 ### <a id="ios2-10"></a>iOS ২.১০ Kotlin coroutine-এর সাথে এক table, আর best approach
 
-Android অংশ পড়ে থাকলে এই table একবারে সব মিলিয়ে দেবে:
+Android অংশ পড়া থাকলে এই একটা table-এ সব মিলিয়ে নিতে পারবেন:
 
 | কাজ | Dart | Swift | Kotlin |
 |---|---|---|---|
 | Async function | `Future<T> f() async` | `func f() async -> T` | `suspend fun f(): T` |
 | Sync জায়গা থেকে শুরু | সরাসরি call | `Task { }` | `scope.launch { }` |
-| Screen-এর আয়ুতে বাঁধা কাজ | `dispose`-এ cancel | `.task { }` modifier | `viewModelScope`, `LaunchedEffect` |
+| Screen যতক্ষণ আছে, ততক্ষণ চলা কাজ | `dispose`-এ cancel | `.task { }` modifier | `viewModelScope`, `LaunchedEffect` |
 | কয়েকটা একসাথে | `Future.wait` | `async let`, task group | `async { }` + `awaitAll`, `coroutineScope` |
 | UI thread | UI isolate | `@MainActor` | `Dispatchers.Main` |
 | Background-এ ভারী কাজ | `Isolate.run` | `@concurrent` function | `withContext(Dispatchers.Default)` |
-| Mutable state রক্ষা | (দরকার নেই) | `actor` | `Mutex`, single-thread confinement |
-| Thread-এ পাঠানো নিরাপদ? | সব copy হয় | `Sendable`, compile-time check | compiler check নেই |
+| Mutable state রক্ষা | (দরকার নেই) | `actor` | `Mutex`, এক thread-এই রাখা (single-thread confinement) |
+| Thread-এ পাঠানো নিরাপদ? | সব copy হয় | `Sendable`, compile-time check | compiler check করে না |
 | Cancel | (Future-এ নেই) | `task.cancel()`, `Task.isCancelled` | `job.cancel()`, `isActive` |
 | Stream | `Stream` | `AsyncSequence` | `Flow` |
 | Callback → stream | `StreamController` | `AsyncStream` | `callbackFlow` |
 | Callback → একটা value | `Completer` | `withCheckedThrowingContinuation` | `suspendCancellableCoroutine` |
 | UI-র observable state | `ValueNotifier`, Cubit | `@Observable` | `StateFlow` |
 
-**সবচেয়ে বড় দুই পার্থক্য Kotlin-এর সাথে:**
-- **Scope object নেই।** Kotlin-এ প্রতিটা `launch` একটা `CoroutineScope`-এ বাঁধা। Swift-এ structured কাজ (`async let`, group) function-এর ভেতরে বাঁধা, আর screen-এর আয়ু SwiftUI-র `.task` দেয়। `Task { }` কোনো scope-এ বাঁধা না।
-- **Data race compiler ধরে।** Kotlin-এ ভুল dispatcher বা ভাগ করা `MutableList` নিয়ে compiler চুপ থাকে। Swift 6-এ build হবে না।
+**Kotlin-এর সাথে সবচেয়ে বড় দুই পার্থক্য:**
+- **Scope object নেই।** Kotlin-এ প্রতিটা `launch` একটা `CoroutineScope`-এর সাথে বাঁধা। Swift-এ structured কাজ (`async let`, group) function-এর ভেতরে বাঁধা থাকে। আর screen যতক্ষণ আছে ততক্ষণ কাজ চালানোর ব্যবস্থা দেয় SwiftUI-র `.task`। `Task { }` কোনো scope-এর সাথে বাঁধা না।
+- **Data race compiler ধরে।** Kotlin-এ ভুল dispatcher বা ভাগ করা `MutableList` থাকলেও compiler কিছু বলে না। Swift 6-এ build-ই হবে না।
 
 **Best approach (নভেম্বর ২০২৬):**
-- নতুন app-এ default actor isolation `MainActor`, Swift 6 language mode। App ডিফল্টে single-threaded, Dart-এর মতো সরল।
+- নতুন app-এ default actor isolation `MainActor` দিন, আর Swift 6 language mode নিন। তাহলে app নিজে থেকে single-threaded থাকে, Dart-এর মতো সহজ।
 - Screen model: `@MainActor @Observable final class`।
 - ভারী কাজ (decode, ছবি, বড় sort): `@concurrent` function।
-- অনেক জায়গা থেকে ছোঁয়া mutable data: `actor`।
-- Screen খোলার কাজ: `.task { }` modifier, `Task { }` না।
-- পুরনো callback API: একবার `withCheckedThrowingContinuation` বা `AsyncStream`-এ মুড়িয়ে নিন, তারপর সব জায়গায় async।
+- যে mutable data অনেক জায়গা থেকে ছোঁয়া হয়: `actor`।
+- Screen খোলার সময়ের কাজ: `.task { }` modifier, `Task { }` না।
+- পুরনো callback API: একবার `withCheckedThrowingContinuation` বা `AsyncStream` দিয়ে মুড়ে নিন। তারপর বাকি সব জায়গায় async ব্যবহার করুন।
 
 > **মনে রাখুন**
 > - `Future` → `async`, `Future.wait` → `async let` বা task group, `Stream` → `AsyncSequence`।
-> - Swift-এ thread আসল আর memory ভাগ হয়। `@MainActor`, `actor`, `Sendable` দিয়ে compiler data race আটকায়।
-> - Cancel cooperative: `Task.isCancelled` / `checkCancellation()`। `Task { }` নিজে cancel হয় না।
+> - Swift-এ সত্যিকারের অনেক thread থাকে, আর তারা memory ভাগ করে। `@MainActor`, `actor`, `Sendable` দিয়ে compiler data race আটকায়।
+> - Cancel হলো cooperative — task নিজে check করে: `Task.isCancelled` / `checkCancellation()`। `Task { }` নিজে থেকে cancel হয় না।
 > - Actor-এ `await`-এর পরে state বদলে যেতে পারে (reentrancy)।
-> - Swift 6.2: default `MainActor` isolation, আর background-এর জন্য স্পষ্ট `@concurrent`।
+> - Swift 6.2: default `MainActor` isolation, আর background কাজের জন্য পরিষ্কার করে `@concurrent`।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Swift-এ async/await দেখতে Dart-এর মতো, কিন্তু Dart-এ isolate-এর memory আলাদা, আর Swift-এ thread memory ভাগ করে। তাই Swift 6 compiler `Sendable` আর actor isolation দিয়ে data race build-এর সময়েই ধরে। আমি screen model `@MainActor`-এ রাখি, ভাগ করা cache actor-এ, আর ভারী কাজ `@concurrent` function-এ। Screen-এর কাজ `.task` modifier-এ চালাই, যাতে screen চলে গেলে নিজেই cancel হয়।"
+> - *বাংলায়:* "Swift-এর async/await দেখতে Dart-এর মতো। কিন্তু Dart-এ isolate-দের memory আলাদা, আর Swift-এ thread-রা memory ভাগ করে। তাই Swift 6 compiler `Sendable` আর actor isolation দিয়ে build-এর সময়েই data race ধরে। আমি screen model রাখি `@MainActor`-এ, ভাগ করা cache রাখি actor-এ, আর ভারী কাজ দিই `@concurrent` function-এ। Screen-এর কাজ চালাই `.task` modifier দিয়ে, যাতে screen চলে গেলে কাজটা নিজেই cancel হয়।"
 > - *English:* "Swift's async/await looks like Dart's, but Dart isolates don't share memory while Swift threads do. So the Swift 6 compiler uses `Sendable` and actor isolation to catch data races at build time. I keep screen models on the `@MainActor`, shared caches in actors, and heavy work in `@concurrent` functions. I start screen work with the `.task` modifier so it cancels itself when the screen goes away."
 
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ios3"></a>iOS ৩. Xcode project — `pubspec.yaml`-এর জায়গায়
 
-Flutter-এ `ios/` folder-এ ঢুকতেন শুধু ভয়ে ভয়ে — signing ঠিক করতে, Info.plist-এ একটা লাইন যোগ করতে, বা `pod install` ব্যর্থ হলে। এবার সেই folder-টাই আপনার বাড়ি। Android-এ এই ভূমিকা ছিল Gradle-এর ([অধ্যায় ৩](#ch3))। iOS-এ পুরোটা চলে Xcode project দিয়ে।
+Flutter-এ `ios/` folder-এ আপনি খুব কম ঢুকতেন, আর ঢুকতেন একটু ভয়ে ভয়ে। হয়তো signing ঠিক করতে, Info.plist-এ একটা লাইন যোগ করতে, বা `pod install` fail করলে। এখন থেকে এই folder-টাই আপনার আসল কাজের জায়গা। Android-এ এই কাজটা করত Gradle ([অধ্যায় ৩](#ch3))। iOS-এ পুরো কাজটা চলে Xcode project দিয়ে।
 
-একটা জিনিস প্রথমেই জেনে রাখুন: Xcode project-এর মূল file `project.pbxproj` হাতে পড়ার মতো না। Gradle file আপনি হাতে লেখেন। Xcode project আপনি Xcode-এর UI দিয়ে বদলান, আর file-টা Xcode লেখে। তাই এই অধ্যায়ের বেশিরভাগ জিনিস "Xcode-এর কোন জায়গায় কী" — code কম।
+শুরুতেই একটা কথা জেনে রাখুন। Xcode project-এর মূল file হলো `project.pbxproj`, আর এটা মানুষের পড়ার মতো করে লেখা না। Gradle file আপনি নিজের হাতে লেখেন। কিন্তু Xcode project আপনি বদলান Xcode-এর UI দিয়ে, আর file-টা Xcode নিজে লেখে। তাই এই অধ্যায়ে code কম। বেশিরভাগ কথা হলো "Xcode-এর কোন জায়গায় কী আছে"।
 
 ### <a id="ios3-1"></a>iOS ৩.১ Folder-এর চেহারা — Flutter-এর `ios/` বনাম native project
 
@@ -5658,11 +5919,11 @@ NotesApp/
     └── Assets.xcassets
 ```
 
-এত ছোট কেন? দুইটা কারণ:
-- **Info.plist file নেই।** Xcode 13 থেকে নতুন project-এ Info.plist-এর বেশিরভাগ key build setting-এ থাকে (`INFOPLIST_KEY_...`)। Xcode build-এর সময় file বানায়। Target → Info tab-এ দেখা আর বদলানো যায়। নিজের key (যেমন API URL) যোগ করলে Xcode তখন একটা file বানিয়ে দেয়।
-- **Storyboard নেই।** SwiftUI-র `App` নিজেই window বানায়।
+এটা এত ছোট কেন? কারণ দুইটা:
+- **Info.plist file নেই।** Xcode 13 থেকে নতুন project-এ Info.plist-এর বেশিরভাগ key রাখা হয় build setting-এ (`INFOPLIST_KEY_...`)। Build-এর সময় Xcode নিজেই file-টা বানিয়ে নেয়। এগুলো দেখতে আর বদলাতে যাবেন Target → Info tab-এ। আপনি নিজের কোনো key (যেমন API URL) যোগ করলে, তখন Xcode একটা আসল file বানিয়ে দেয়।
+- **Storyboard নেই।** SwiftUI-র `App` নিজেই window বানায়, তাই storyboard লাগে না।
 
-**Xcode 16 থেকে "folder" বনাম "group":** নতুন project-এ folder disk-এর সাথে নিজে মেলে (synchronized folder)। Finder-এ file রাখলেই project-এ চলে আসে, `project.pbxproj`-এ লাইন যোগ হয় না। ফলে git merge conflict অনেক কমে। পুরনো project-এ (Flutter-এর Runner-সহ) "group" থাকে — file যোগ করতে Xcode-এ টেনে আনতে হয়।
+**Xcode 16 থেকে "folder" বনাম "group":** নতুন project-এ project-এর folder আর disk-এর folder নিজে থেকেই মিলে থাকে। একে synchronized folder বলে। Finder-এ একটা file রাখলেই সেটা project-এ চলে আসে, `project.pbxproj`-এ কোনো লাইন যোগ হয় না। এতে git merge conflict অনেক কমে যায়। পুরনো project-এ (Flutter-এর Runner-ও এর মধ্যে) থাকে "group"। সেখানে নতুন file যোগ করতে হলে Xcode-এ টেনে এনে ছাড়তে হয়।
 
 | Flutter / Android | iOS |
 |---|---|
@@ -5672,68 +5933,73 @@ NotesApp/
 | `MainActivity.kt` | `AppDelegate.swift` / `@main App` |
 | `pubspec.lock` | `Package.resolved` (SPM) / `Podfile.lock` |
 
-**ফাঁদ:** CocoaPods ব্যবহার হলে `.xcodeproj` খুলে build করলে "module not found"। সবসময় `.xcworkspace` খুলুন — ওটায় আপনার project আর Pods project একসাথে থাকে।
+**ফাঁদ:** CocoaPods থাকলে `.xcodeproj` খুলে build দিলে "module not found" error আসে। তাই সবসময় `.xcworkspace` খুলুন। ওটার ভেতরে আপনার project আর Pods project দুটোই একসাথে থাকে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-2"></a>iOS ৩.২ Project, target, scheme, build configuration
 
-**এক লাইনে:** **Target** = কী বানাবেন। **Build configuration** = কোন setting দিয়ে বানাবেন। **Scheme** = কোন বোতাম চাপলে কোন target কোন configuration-এ বানাবেন।
+**এক লাইনে:** **Target** মানে কী বানাবেন। **Build configuration** মানে কোন setting দিয়ে বানাবেন। **Scheme** মানে কোন বোতাম চাপলে কোন target কোন configuration দিয়ে বানানো হবে।
 
-চারটা শব্দ, Android-এর পাশে:
+এই চারটা শব্দ, Android-এর পাশে রেখে:
 
 | Xcode | মানে | Android-এ কাছাকাছি |
 |---|---|---|
-| **Project** | পুরো জিনিস: সব target, সব setting | পুরো Gradle project |
+| **Project** | পুরো জিনিসটা: সব target, সব setting | পুরো Gradle project |
 | **Target** | একটা product: app, widget extension, share extension, test bundle | একটা module (`:app`, `:feature`) |
-| **Build configuration** | build setting-এর একটা সেট: Debug, Release (Flutter যোগ করে Profile) | build type: `debug`, `release` |
-| **Scheme** | Run / Test / Profile / Archive — প্রতিটায় কোন target আর কোন configuration | Run configuration + build variant বেছে নেওয়া |
+| **Build configuration** | build setting-এর একটা সেট: Debug, Release (Flutter এর সাথে Profile যোগ করে) | build type: `debug`, `release` |
+| **Scheme** | Run / Test / Profile / Archive — প্রতিটা কাজে কোন target আর কোন configuration চলবে | Run configuration + build variant বেছে নেওয়া |
 
-**Flutter-এর Runner scheme ভেতরে এরকম:**
+**Flutter-এর Runner scheme-এর ভেতরটা এরকম:**
 
 | Action | Configuration | কখন |
 |---|---|---|
 | Run | Debug | Xcode-এ ▶ চাপলে |
-| Test | Debug | ⌘U |
+| Test | Debug | ⌘U চাপলে |
 | Profile | Profile | Instruments চালালে |
-| Archive | Release | App Store-এর জন্য build |
+| Archive | Release | App Store-এর জন্য build করলে |
 
-**Build setting কোথা থেকে আসে — স্তর:**
+**Build setting কোথা থেকে আসে — স্তরগুলো:**
 
 ```
 iOS-এর default  →  project-level setting  →  target-এর .xcconfig file  →  target-level setting
 (সবচেয়ে দুর্বল)                                                  (সবচেয়ে জোরালো)
 ```
 
-Xcode-এ target → Build Settings → "Levels" দেখলে প্রতিটা setting কোন স্তর থেকে এল, পাশাপাশি দেখায়। Setting ঠিক জায়গা থেকে আসছে না মনে হলে এটাই প্রথম জায়গা।
+একই setting কয়েক জায়গায় থাকতে পারে। তখন ডানের স্তরটা জেতে। Xcode-এ target → Build Settings → "Levels" খুললে প্রতিটা setting কোন স্তর থেকে এল, সেটা পাশাপাশি দেখা যায়। কোনো setting ভুল জায়গা থেকে আসছে মনে হলে আগে এখানেই দেখুন।
 
-**জরুরি কয়েকটা build setting:**
+**কয়েকটা জরুরি build setting:**
 
 | Setting | মানে | Android-এ |
 |---|---|---|
 | `PRODUCT_BUNDLE_IDENTIFIER` | App-এর পরিচয়, যেমন `com.byteonyx.notes` | `applicationId` |
-| `MARKETING_VERSION` | User দেখে: `1.4.0` | `versionName` |
+| `MARKETING_VERSION` | User যে version দেখে: `1.4.0` | `versionName` |
 | `CURRENT_PROJECT_VERSION` | Build number: `42` | `versionCode` |
-| `IPHONEOS_DEPLOYMENT_TARGET` | সবচেয়ে পুরনো যে iOS-এ চলবে | `minSdk` |
+| `IPHONEOS_DEPLOYMENT_TARGET` | সবচেয়ে পুরনো যে iOS-এ app চলবে | `minSdk` |
 | `SWIFT_VERSION` | Swift language mode (5 বা 6) | Kotlin `languageVersion` |
 | `CODE_SIGN_STYLE`, `DEVELOPMENT_TEAM` | Signing | `signingConfigs` |
 
-Flutter-এ `pubspec.yaml`-এর `version: 1.4.0+42` লিখলে flutter tool `Generated.xcconfig`-এ `FLUTTER_BUILD_NAME=1.4.0` আর `FLUTTER_BUILD_NUMBER=42` লেখে। আর Runner-এর Info.plist সেগুলো পড়ে: `CFBundleShortVersionString = $(FLUTTER_BUILD_NAME)`। তাই Flutter app-এ version Xcode-এ না, pubspec-এ বদলান।
+Flutter-এ version কীভাবে Xcode-এ পৌঁছায়, দেখুন:
+1. আপনি `pubspec.yaml`-এ লেখেন `version: 1.4.0+42`।
+2. flutter tool `Generated.xcconfig`-এ লেখে `FLUTTER_BUILD_NAME=1.4.0` আর `FLUTTER_BUILD_NUMBER=42`।
+3. Runner-এর Info.plist এগুলো পড়ে নেয়: `CFBundleShortVersionString = $(FLUTTER_BUILD_NAME)`।
+
+তাই Flutter app-এর version বদলাবেন pubspec-এ, Xcode-এ না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-3"></a>iOS ৩.৩ `.xcconfig` — build setting একটা text file-এ
 
-**এক লাইনে:** Build setting Xcode-এর UI-তে না রেখে একটা সাধারণ `key = value` text file-এ রাখা। Git-এ পড়া যায়, review করা যায়, merge conflict কম।
+**এক লাইনে:** Build setting Xcode-এর UI-তে না রেখে একটা সাধারণ `key = value` text file-এ রাখা। এতে git-এ পড়া যায়, review করা যায়, আর merge conflict কম হয়।
 
-**Flutter-এ আপনি আগেই দেখেছেন:**
+**Flutter-এ এটা আপনি আগেই দেখেছেন:**
 
 ```
 // ios/Flutter/Debug.xcconfig
 #include "Generated.xcconfig"
 ```
 
-CocoaPods থাকলে flutter tool এখানে আরেকটা লাইন যোগ করে: `#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"`।
+CocoaPods থাকলে flutter tool এখানে আরও একটা লাইন যোগ করে: `#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"`।
 
 **Notes app-এর নিজের xcconfig:**
 
@@ -5756,9 +6022,9 @@ APP_DISPLAY_NAME = Notes
 API_HOST = api.byteonyx.com
 ```
 
-Project → Info → Configurations-এ প্রতিটা configuration-এর পাশে কোন xcconfig, সেটা বেছে দিন।
+এরপর Project → Info → Configurations-এ যান। সেখানে প্রতিটা configuration-এর পাশে কোন xcconfig file চলবে, সেটা বেছে দিন।
 
-**Code থেকে value পড়া — Info.plist হয়ে:**
+**Code থেকে value পড়া — Info.plist-এর মধ্য দিয়ে:**
 
 ```xml
 <!-- Info.plist -->
@@ -5771,17 +6037,17 @@ let host = Bundle.main.object(forInfoDictionaryKey: "APIHost") as? String ?? ""
 let baseURL = URL(string: "https://\(host)")!
 ```
 
-Flutter-এর `--dart-define`-এর কাজ, কিন্তু native দিকে।
+এটা Flutter-এর `--dart-define`-এর মতো কাজ। পার্থক্য শুধু, এটা native দিকে হয়।
 
-**ফাঁদ — `//` মানে comment।** xcconfig-এ `API_URL = https://api.byteonyx.com` লিখলে `//`-এর পরে সব comment হয়ে যায়, value হয় শুধু `https:`। তাই ওপরে শুধু host রেখেছি, `https://` code-এ। পুরো URL রাখতেই হলে মাঝে একটা খালি variable বসানোর পুরনো কৌশল আছে: `https:/$()/api.byteonyx.com`।
+**ফাঁদ — xcconfig-এ `//` মানে comment।** xcconfig-এ `API_URL = https://api.byteonyx.com` লিখলে `//`-এর পরের সবকিছু comment হয়ে যায়। Value থাকে শুধু `https:`। এজন্যই ওপরে file-এ শুধু host রেখেছি, আর `https://` লিখেছি code-এ। পুরো URL রাখতেই হলে একটা পুরনো কৌশল আছে। মাঝখানে একটা খালি variable বসিয়ে দিন: `https:/$()/api.byteonyx.com`।
 
-**ফাঁদ — secret xcconfig-এ না।** xcconfig-এর value Info.plist হয়ে app-এর ভেতরে খোলা text হিসেবে যায়। যে কেউ `.ipa` খুলে পড়তে পারে। API key-এর মতো secret app-এ রাখলে লুকানো যায় না — server-এ রাখুন।
+**ফাঁদ — secret xcconfig-এ রাখবেন না।** xcconfig-এর value Info.plist হয়ে app-এর ভেতরে খোলা text হিসেবে চলে যায়। যে কেউ `.ipa` খুলে সেটা পড়তে পারে। API key-এর মতো secret app-এর ভেতরে লুকানোর কোনো উপায় নেই। ওটা server-এ রাখুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-4"></a>iOS ৩.৪ Flavor = scheme + configuration
 
-**এক লাইনে:** Android-এ flavor একটা শব্দ (`productFlavors`)। iOS-এ "flavor" বলে কিছু নেই। একই কাজ হয় দুইটা জিনিস মিলিয়ে: প্রতিটা flavor-এর জন্য **একটা scheme**, আর **কয়েকটা build configuration**।
+**এক লাইনে:** Android-এ flavor একটা আলাদা জিনিস (`productFlavors`)। iOS-এ "flavor" নামে কিছু নেই। একই কাজ হয় দুইটা জিনিস মিলিয়ে: প্রতিটা flavor-এর জন্য **একটা scheme**, আর তার সাথে **কয়েকটা build configuration**।
 
 **Flutter-এ আপনি যেভাবে চালান:**
 
@@ -5790,17 +6056,17 @@ flutter run --flavor dev
 flutter build ipa --flavor prod
 ```
 
-`--flavor dev` দিলে flutter tool Xcode-এ **`dev` নামের scheme** খোঁজে। আর সেই scheme-এর configuration-এর নাম হতে হয় `Debug-dev`, `Release-dev`, `Profile-dev`। নাম না মিললে build ব্যর্থ হয়।
+`--flavor dev` দিলে flutter tool Xcode-এ **`dev` নামের scheme** খোঁজে। সেই scheme-এর configuration-গুলোর নামও ঠিক এরকম হতে হয়: `Debug-dev`, `Release-dev`, `Profile-dev`। নাম না মিললে build fail করে।
 
-**Xcode-এ ধাপগুলো (একবার করতে হয়):**
+**Xcode-এ ধাপগুলো (একবারই করতে হয়):**
 
-1. Project → Info → Configurations-এ Debug, Release, Profile duplicate করে নাম দিন: `Debug-dev`, `Release-dev`, `Profile-dev`, `Debug-prod`, `Release-prod`, `Profile-prod`।
+1. Project → Info → Configurations-এ যান। Debug, Release, Profile duplicate করে নাম দিন: `Debug-dev`, `Release-dev`, `Profile-dev`, `Debug-prod`, `Release-prod`, `Profile-prod`।
 2. প্রতিটা configuration-এ ঠিক xcconfig বসান (Dev বা Prod)।
-3. Product → Scheme → New Scheme: `dev` আর `prod`। প্রতিটা scheme-এর Run, Test, Profile, Archive-এ নিজের configuration বেছে দিন।
-4. Scheme-গুলো **Shared** করুন (Manage Schemes → Shared)। Flutter docs বলে, shared না হলে flavor ঠিকমতো কাজ করে না। আর git-এ না গেলে CI বা সহকর্মী scheme পাবে না।
-5. Flavor-এর নাম ছোট হাতের অক্ষরে রাখুন (`dev`, `prod`), নইলে Flutter CLI চিনতে পারে না।
+3. Product → Scheme → New Scheme দিয়ে দুইটা scheme বানান: `dev` আর `prod`। প্রতিটা scheme-এর Run, Test, Profile, Archive-এ তার নিজের configuration বেছে দিন।
+4. Scheme-গুলো **Shared** করুন (Manage Schemes → Shared)। Flutter docs বলে, shared না করলে flavor ঠিকমতো কাজ করে না। তাছাড়া shared না হলে scheme git-এ যায় না, ফলে CI বা আপনার সহকর্মী scheme-টা পাবে না।
+5. Flavor-এর নাম ছোট হাতের অক্ষরে রাখুন (`dev`, `prod`)। নইলে Flutter CLI চিনতে পারে না।
 
-Dart-এর দিক থেকে কোন flavor চলছে জানতে `appFlavor` (`package:flutter/services.dart`) — scheme-এর নামটা দেয়।
+Dart code থেকে কোন flavor চলছে জানতে চাইলে `appFlavor` (`package:flutter/services.dart`) ব্যবহার করুন। এটা scheme-এর নামটা দেয়।
 
 ```
                  ┌──────── scheme "dev" ─────────┐      ┌──────── scheme "prod" ────────┐
@@ -5814,17 +6080,17 @@ Profile  ───────►  Profile-dev  (Dev.xcconfig)        │  Profi
 | `productFlavors { dev { } prod { } }` | scheme `dev`, `prod` |
 | `buildTypes { debug release }` | configuration Debug, Release (Flutter: + Profile) |
 | build variant `devDebug` | configuration `Debug-dev` |
-| `applicationIdSuffix ".dev"` | `PRODUCT_BUNDLE_IDENTIFIER` xcconfig-এ |
+| `applicationIdSuffix ".dev"` | xcconfig-এ `PRODUCT_BUNDLE_IDENTIFIER` |
 | `buildConfigField` | xcconfig → Info.plist → `Bundle.main` |
-| flavor-এর আলাদা `google-services.json` | configuration ধরে আলাদা `GoogleService-Info.plist` (build phase script দিয়ে কপি) |
+| flavor-এর আলাদা `google-services.json` | প্রতিটা configuration-এর আলাদা `GoogleService-Info.plist` (build phase script দিয়ে কপি হয়) |
 
-**ফাঁদ:** নতুন configuration যোগ করলে CocoaPods-এর জন্য `ios/Podfile`-এর `project 'Runner', { ... }` block-এ সেই নাম জানাতে হয় (`'Debug-dev' => :debug`, `'Profile-dev' => :release`, `'Release-dev' => :release`), আর `pod install` আবার চালাতে হয়। নইলে "xcconfig not found" warning আর অদ্ভুত build error। Swift Package Manager-এ এই ঝামেলা নেই।
+**ফাঁদ:** CocoaPods থাকলে, নতুন configuration যোগ করার পর CocoaPods-কেও সেটা জানাতে হয়। `ios/Podfile`-এর `project 'Runner', { ... }` block-এ নামগুলো লিখুন (`'Debug-dev' => :debug`, `'Profile-dev' => :release`, `'Release-dev' => :release`)। তারপর আবার `pod install` চালান। এটা না করলে "xcconfig not found" warning আর অদ্ভুত সব build error আসে। Swift Package Manager-এ এই ঝামেলা নেই।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-5"></a>iOS ৩.৫ Swift Package Manager বনাম CocoaPods
 
-**এক লাইনে:** iOS-এর `pub` হলো **Swift Package Manager (SPM)** — Apple-এর নিজের, Xcode-এর ভেতরে। CocoaPods ছিল পুরনো, community-র tool। আজ SPM-ই পথ।
+**এক লাইনে:** iOS-এর `pub` হলো **Swift Package Manager (SPM)**। এটা Apple-এর নিজের tool, Xcode-এর ভেতরেই থাকে। CocoaPods ছিল পুরনো, community-র বানানো tool। আজকের দিনে SPM-ই ঠিক পথ।
 
 **Flutter-এ:**
 
@@ -5834,11 +6100,11 @@ dependencies:
   dio: ^5.0.0
 ```
 
-**Native app-এ SPM — Xcode দিয়ে:** File → Add Package Dependencies → GitHub URL দিন → version rule বেছে নিন → কোন target-এ যোগ হবে বেছে নিন। Xcode এটা `project.pbxproj`-এ লেখে, আর ঠিক কোন version এল, সেটা `Package.resolved`-এ (Flutter-এর `pubspec.lock`)।
+**Native app-এ SPM — Xcode দিয়ে:** File → Add Package Dependencies-এ যান। GitHub URL দিন। Version-এর নিয়ম বেছে নিন। তারপর কোন target-এ package যোগ হবে, সেটা বেছে নিন। Xcode এটা `project.pbxproj`-এ লিখে রাখে। আর ঠিক কোন version এল, সেটা লেখে `Package.resolved`-এ। এটা Flutter-এর `pubspec.lock`-এর মতো।
 
 **নিজের package — `Package.swift`:**
 
-Swift package হলো code ভাগ করার একক। Package-এর manifest Swift-এ লেখা:
+Swift package হলো code ভাগ করার একটা একক, অনেকটা একটা Dart package-এর মতো। Package-এর manifest file Swift-এই লেখা হয়:
 
 ```swift
 // swift-tools-version: 6.0
@@ -5863,7 +6129,7 @@ let package = Package(
 )
 ```
 
-`from: "1.0.0"` মানে `1.0.0` থেকে `2.0.0`-এর আগ পর্যন্ত — Dart-এর `^1.0.0`-এর মতো।
+`from: "1.0.0"` মানে `1.0.0` থেকে শুরু করে `2.0.0`-এর আগ পর্যন্ত যেকোনো version। এটা Dart-এর `^1.0.0`-এর মতোই।
 
 | | `pub` | SPM | CocoaPods |
 |---|---|---|---|
@@ -5873,25 +6139,25 @@ let package = Package(
 | Registry | pub.dev | সরাসরি git repo | CocoaPods trunk |
 | `^1.0.0` | `^1.0.0` | `from: "1.0.0"` / `.upToNextMajor(from:)` | `'~> 1.0'` |
 
-**Flutter-এ এখন কী হচ্ছে (নভেম্বর ২০২৬):**
-- **Flutter 3.44 থেকে SPM ডিফল্টে চালু।** Flutter upgrade করে app চালালে flutter tool নিজে SPM integration যোগ করে।
-- যে plugin এখনো SPM সমর্থন করে না, তার জন্য Flutter CocoaPods-এ ফিরে যায়। একটাও এমন plugin থাকলে Podfile থেকে যায়।
-- **CocoaPods-এর registry (trunk) ২ ডিসেম্বর ২০২৬ থেকে read-only** — নতুন pod বা নতুন version আর publish হবে না। Flutter docs সতর্ক করছে, ভবিষ্যতে SPM বন্ধ করার option-ও থাকবে না।
-- বন্ধ করার পথ (দরকার না হলে করবেন না): `pubspec.yaml`-এ `flutter: config: enable-swift-package-manager: false`।
+**Flutter-এ এখন কী চলছে (নভেম্বর ২০২৬):**
+- **Flutter 3.44 থেকে SPM ডিফল্টে চালু।** Flutter upgrade করে app চালালে flutter tool নিজেই SPM-এর সেটআপ যোগ করে দেয়।
+- কোনো plugin যদি এখনো SPM support না করে, তার জন্য Flutter CocoaPods ব্যবহার করে। এমন একটা plugin থাকলেও Podfile রয়ে যায়।
+- **CocoaPods-এর registry (trunk) ২ ডিসেম্বর ২০২৬ থেকে read-only হয়ে যাবে।** মানে নতুন pod বা কোনো pod-এর নতুন version আর publish হবে না। Flutter docs সাবধান করছে, সামনে SPM বন্ধ করার option-ও আর থাকবে না।
+- বন্ধ করার উপায় (দরকার না হলে করবেন না): `pubspec.yaml`-এ `flutter: config: enable-swift-package-manager: false`।
 
-**Best approach:** নতুন native code আর নতুন plugin — শুধু SPM। Flutter project-এ যে plugin এখনো CocoaPods-only, সেটার SPM-ওয়ালা version বা বিকল্প খুঁজুন। Plugin নিজে লিখলে `Package.swift` দিন।
+**Best approach:** নতুন native code আর নতুন plugin-এ শুধু SPM ব্যবহার করুন। Flutter project-এ কোনো plugin এখনো শুধু CocoaPods-এ চললে, তার SPM-সহ version বা অন্য কোনো plugin খুঁজুন। নিজে plugin লিখলে সাথে `Package.swift` দিন।
 
-**ফাঁদ:** `Package.resolved` git-এ না রাখা। তখন প্রতিটা machine আলাদা version পেতে পারে — `pubspec.lock` commit না করার মতো সমস্যা। App project-এ এটা commit করুন।
+**ফাঁদ:** `Package.resolved` git-এ না রাখা। তাহলে একেক machine একেক version পেতে পারে। এটা `pubspec.lock` commit না করার মতোই সমস্যা। App project-এ এই file commit করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-6"></a>iOS ৩.৬ Info.plist
 
-**এক লাইনে:** App-এর পরিচয়পত্র — iOS app খোলার আগেই এটা পড়ে। AndroidManifest-এর একটা বড় অংশের কাজ এখানে। তবে iOS-এ কোনো component (Activity, Service) ঘোষণা করতে হয় না।
+**এক লাইনে:** Info.plist-এ থাকে app-এর পরিচয় আর মূল তথ্য। App খোলার আগেই iOS এটা পড়ে। AndroidManifest যে কাজগুলো করে, তার একটা বড় অংশ এখানে হয়। তবে iOS-এ কোনো component (Activity, Service-এর মতো) আগে থেকে জানিয়ে রাখতে হয় না।
 
-Info.plist একটা XML file, key-value-এর dictionary। Xcode-এ table-এর মতো দেখায়; ডান-click → "Open As → Source Code" দিলে XML।
+Info.plist একটা XML file। এর ভেতরে থাকে key-value-এর একটা dictionary। Xcode-এ এটা table-এর মতো দেখায়। ডান-click করে "Open As → Source Code" দিলে আসল XML দেখা যায়।
 
-**Notes app-এ যা থাকবে:**
+**Notes app-এর Info.plist-এ যা থাকবে:**
 
 ```xml
 <!-- পরিচয় -->
@@ -5924,24 +6190,28 @@ Info.plist একটা XML file, key-value-এর dictionary। Xcode-এ table
 
 | কাজ | Android (Manifest) | iOS (Info.plist) |
 |---|---|---|
-| Permission | `<uses-permission>` — ঘোষণা | `NS...UsageDescription` — ঘোষণা নেই, শুধু user-কে দেখানোর কারণ |
+| Permission | `<uses-permission>` — আগে জানিয়ে রাখতে হয় | `NS...UsageDescription` — আগে জানানোর কিছু নেই, শুধু user-কে দেখানোর কারণটা লিখতে হয় |
 | Deep link | `<intent-filter>` | `CFBundleURLTypes` (scheme), Associated Domains entitlement (universal link) |
 | App-এর নাম, icon | `android:label`, `android:icon` | `CFBundleDisplayName`, Assets-এর AppIcon |
 | Background কাজ | `<service>`, foreground service type | `UIBackgroundModes` |
-| Screen ঘোষণা | `<activity>` | লাগে না |
+| Screen জানিয়ে রাখা | `<activity>` | লাগে না |
 | Scene / window | (নেই) | `UIApplicationSceneManifest` ([iOS ৪.১](#ios4-1)) |
 
-**Permission-এর বড় পার্থক্য:** Android-এ Manifest-এ permission না লিখলে request-ই করা যায় না। iOS-এ permission-এর আলাদা ঘোষণা নেই — শুধু কারণের string। String না থাকলে, প্রথমবার camera বা photo ছুঁলেই app crash করে। Flutter-এ `image_picker` যোগ করে Info.plist-এ লাইন লিখতে ভুলে গেলে যে crash হতো, সেটাই। কারণের লেখাটাও review-এ দেখা হয় — "camera লাগবে" যথেষ্ট না, কেন লাগবে বলুন।
+**Permission-এ বড় পার্থক্য:**
+- Android-এ Manifest-এ permission না লিখলে runtime-এ request-ই করা যায় না।
+- iOS-এ permission আগে জানিয়ে রাখার কিছু নেই। শুধু একটা string লাগে, যেখানে কারণটা লেখা থাকে।
+- এই string না থাকলে প্রথমবার camera বা photo ছোঁয়ার সাথে সাথে app crash করে। Flutter-এ `image_picker` যোগ করে Info.plist-এ লাইন লিখতে ভুলে গেলে যে crash হতো, এটা সেটাই।
+- App review-এর সময় Apple এই লেখাটাও পড়ে দেখে। শুধু "camera লাগবে" লিখলে হবে না। কেন লাগবে, সেটা বলুন।
 
-**Privacy manifest — `PrivacyInfo.xcprivacy` (চিনে রাখুন):** Info.plist-এর পাশে আরেকটা plist। App (আর প্রতিটা SDK) কোন data collect করে, আর কিছু নির্দিষ্ট API (যেমন `UserDefaults`, file-এর timestamp) কেন ব্যবহার করে, সেটা এখানে লিখতে হয়। ১ মে ২০২৪ থেকে নতুন app আর update-এ এই API-গুলোর কারণ না থাকলে App Store Connect upload আটকে দেয়। Flutter template-এ এই file নেই — নিজের code বা plugin এসব API ব্যবহার করলে নিজে যোগ করতে হয়। Release-এর বিস্তারিত পরের অধ্যায়গুলোতে।
+**Privacy manifest — `PrivacyInfo.xcprivacy` (নামটা চিনে রাখুন):** এটা Info.plist-এর পাশে থাকা আরেকটা plist file। এখানে দুইটা জিনিস লিখতে হয়। এক, app (আর প্রতিটা SDK) কী কী data collect করে। দুই, কিছু নির্দিষ্ট API (যেমন `UserDefaults`, file-এর timestamp) কেন ব্যবহার করে। ১ মে ২০২৪ থেকে নতুন app বা update-এ এই API-গুলোর কারণ লেখা না থাকলে App Store Connect upload আটকে দেয়। Flutter template-এ এই file থাকে না। আপনার নিজের code বা কোনো plugin এই API-গুলো ব্যবহার করলে file-টা নিজেকে যোগ করতে হয়। Release-এর বিস্তারিত পরের অধ্যায়গুলোতে আছে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-7"></a>iOS ৩.৭ Entitlements
 
-**এক লাইনে:** Entitlement হলো app-এর বিশেষ ক্ষমতার তালিকা — push, App Group, Keychain ভাগ করা, universal link, iCloud। এগুলো একটা `.entitlements` file-এ থাকে, আর signing-এর সময় app-এর signature-এর ভেতরে ঢুকে যায়।
+**এক লাইনে:** Entitlement হলো app-এর বিশেষ ক্ষমতাগুলোর তালিকা। যেমন push, App Group, Keychain ভাগ করা, universal link, iCloud। এগুলো একটা `.entitlements` file-এ থাকে। Signing-এর সময় এগুলো app-এর signature-এর ভেতরে ঢুকে যায়।
 
-Xcode-এ target → **Signing & Capabilities** → "+ Capability" চাপলে Xcode নিজে `Runner.entitlements` বানায় বা বদলায়:
+Xcode-এ target → **Signing & Capabilities** → "+ Capability" চাপলে Xcode নিজেই `Runner.entitlements` বানায় বা বদলায়:
 
 ```xml
 <!-- Notes.entitlements -->
@@ -5960,36 +6230,36 @@ Xcode-এ target → **Signing & Capabilities** → "+ Capability" চাপল�
 | | Info.plist | Entitlements |
 |---|---|---|
 | কী | app-এর তথ্য আর অনুরোধ | app-এর ক্ষমতা |
-| কে check করে | iOS, চলার সময় | iOS, signature থেকে — আর provisioning profile-এ থাকতেই হবে |
-| ভুল হলে | crash বা feature কাজ করে না | install বা upload ব্যর্থ, বা feature নিঃশব্দে কাজ করে না |
-| Android-এ কাছাকাছি | Manifest | (সরাসরি নেই — signature permission-এর কাছাকাছি) |
+| কে check করে | iOS, app চলার সময় | iOS, signature দেখে — আর provisioning profile-এও এটা থাকতেই হবে |
+| ভুল হলে | crash হয়, বা feature কাজ করে না | install বা upload fail করে, বা feature কোনো error ছাড়াই চুপচাপ কাজ করে না |
+| Android-এ কাছাকাছি | Manifest | (সরাসরি কিছু নেই — signature permission-এর কাছাকাছি) |
 
-**কেন profile-এ থাকতে হয়:** Apple Developer portal-এ App ID-তে capability চালু থাকতে হয়, আর provisioning profile-এ সেটা থাকতে হয়। Xcode-এর "Automatically manage signing" এটা নিজে মেলায়। হাতে signing করলে (CI) profile নতুন করে বানাতে হয়। Signing আর release-এর পুরো গল্প পরের অধ্যায়গুলোতে।
+**Profile-এ কেন থাকতে হয়:** Apple Developer portal-এ আপনার App ID-তে capability-টা চালু থাকতে হয়। আর provisioning profile-এও সেটা থাকতে হয়। Xcode-এর "Automatically manage signing" চালু থাকলে Xcode নিজেই এগুলো মিলিয়ে নেয়। হাতে signing করলে (যেমন CI-তে) profile নতুন করে বানাতে হয়। Signing আর release-এর পুরো গল্প পরের অধ্যায়গুলোতে।
 
-**ফাঁদ:** Flutter-এ `firebase_messaging` যোগ করে push কাজ করছে না — প্রায়ই কারণ Push Notifications capability যোগ করা হয়নি, তাই `aps-environment` entitlement নেই। Dart-এ স্পষ্ট কারণ আসে না, শুধু token আসে না। Xcode console-এ "no valid 'aps-environment' entitlement string found" দেখলে বুঝবেন এটাই।
+**ফাঁদ:** Flutter-এ `firebase_messaging` যোগ করলেন, কিন্তু push আসছে না। প্রায়ই এর কারণ হলো Push Notifications capability যোগ করা হয়নি, তাই `aps-environment` entitlement-ও নেই। Dart দিকে কোনো পরিষ্কার error আসে না, শুধু token আসে না। Xcode console-এ "no valid 'aps-environment' entitlement string found" দেখলে বুঝবেন, কারণ এটাই।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios3-8"></a>iOS ৩.৮ Deployment target আর SDK
 
-**এক লাইনে:** **Deployment target** = সবচেয়ে পুরনো যে iOS-এ app চলবে (Android-এর `minSdk`)। **SDK** = যে iOS version-এর SDK দিয়ে build করছেন — Xcode-এর সাথে আসে।
+**এক লাইনে:** **Deployment target** মানে সবচেয়ে পুরনো যে iOS-এ app চলবে (Android-এর `minSdk`)। **SDK** মানে যে iOS version-এর SDK দিয়ে আপনি build করছেন। SDK আসে Xcode-এর সাথে।
 
-Android-এ তিনটা সংখ্যা ছিল ([অধ্যায় ৩](#ch3)): `minSdk`, `compileSdk`, `targetSdk`। iOS-এ মূলত দুইটা:
+Android-এ সংখ্যা ছিল তিনটা ([অধ্যায় ৩](#ch3)): `minSdk`, `compileSdk`, `targetSdk`। iOS-এ মূলত দুইটা:
 
 | Android | iOS | মানে |
 |---|---|---|
-| `minSdk` | Deployment target (`IPHONEOS_DEPLOYMENT_TARGET`) | এর চেয়ে পুরনো iOS-এ install-ই হবে না |
-| `compileSdk` | SDK — Xcode-এর version ঠিক করে | কোন API দেখা যাবে |
-| `targetSdk` | আলাদা setting নেই — SDK-ই এই কাজ করে | নতুন আচরণ চালু হবে কি না |
+| `minSdk` | Deployment target (`IPHONEOS_DEPLOYMENT_TARGET`) | এর চেয়ে পুরনো iOS-এ app install-ই হবে না |
+| `compileSdk` | SDK — কোন Xcode, সেটাই ঠিক করে দেয় | কোন কোন API ব্যবহার করা যাবে |
+| `targetSdk` | আলাদা কোনো setting নেই — SDK-ই এই কাজ করে | নতুন আচরণ চালু হবে কি না |
 
-**শেষ লাইনটা জরুরি।** iOS-এ অনেক নতুন নিয়ম "linked-on-or-after" — মানে যে SDK দিয়ে build করছেন, তার ওপর নির্ভর করে। যেমন UIScene: iOS 26-এর পরের major release-এর SDK দিয়ে build করলে UIScene না থাকলে app launch-ই হবে না ([iOS ৪.১](#ios4-1))। তাই Xcode বদলানো মানে Android-এ `targetSdk` বাড়ানোর মতো — আচরণ বদলাতে পারে। নতুন Xcode-এ যাওয়ার পরে পুরো app একবার test করুন।
+**শেষ লাইনটা জরুরি।** iOS-এর অনেক নতুন নিয়ম "linked-on-or-after"। মানে নিয়মটা চালু হবে কি না, সেটা ঠিক হয় আপনি কোন SDK দিয়ে build করছেন তার ওপর। যেমন UIScene: iOS 26-এর পরের major release-এর SDK দিয়ে build করলে, app-এ UIScene না থাকলে app launch-ই হবে না ([iOS ৪.১](#ios4-1))। তাই Xcode বদলানো মানে Android-এ `targetSdk` বাড়ানোর মতো। App-এর আচরণ বদলে যেতে পারে। নতুন Xcode-এ যাওয়ার পর পুরো app একবার test করে নিন।
 
-**সংখ্যাগুলো আজ (নভেম্বর ২০২৬):**
-- **Flutter:** iOS 15 থেকে সমর্থন। নতুন Flutter project-এর template-এ deployment target `15.0`।
-- **App Store upload:** ২৮ এপ্রিল ২০২৬ থেকে Xcode 26 বা নতুন, iOS 26 SDK দিয়ে build বাধ্যতামূলক। Apple সাধারণত প্রতি বছর বসন্তে এই নিয়ম এক ধাপ বাড়ায় — [developer.apple.com/news/upcoming-requirements](https://developer.apple.com/news/upcoming-requirements/) দেখুন।
-- **নতুন native app:** `@Observable` আর SwiftData চাইলে iOS 17। বেশিরভাগ নতুন app এখন iOS 17 বা 18 থেকে শুরু করে।
+**আজকের সংখ্যাগুলো (নভেম্বর ২০২৬):**
+- **Flutter:** iOS 15 থেকে support করে। নতুন Flutter project-এর template-এ deployment target `15.0`।
+- **App Store upload:** ২৮ এপ্রিল ২০২৬ থেকে Xcode 26 বা তার নতুন version আর iOS 26 SDK দিয়ে build করা বাধ্যতামূলক। Apple সাধারণত প্রতি বছর বসন্তকালে এই নিয়ম এক ধাপ বাড়ায়। নিয়মিত [developer.apple.com/news/upcoming-requirements](https://developer.apple.com/news/upcoming-requirements/) দেখুন।
+- **নতুন native app:** `@Observable` আর SwiftData চাইলে iOS 17 লাগবে। এখন বেশিরভাগ নতুন app iOS 17 বা 18 থেকে শুরু করে।
 
-**কোড-এ পুরনো iOS সামলানো:**
+**Code-এ পুরনো iOS সামলানো:**
 
 ```swift
 @available(iOS 18, *)
@@ -6002,17 +6272,17 @@ if #available(iOS 18, *) {
 }
 ```
 
-**Plugin-এর deployment target:** প্রতিটা plugin-এর নিজের minimum iOS আছে। App-এর deployment target তার চেয়ে কম হলে build ব্যর্থ। Flutter-এ `pod install` বা build-এর সময় deployment target নিয়ে যে error বা warning আসে, সেগুলো প্রায় সবসময় এই কারণেই।
+**Plugin-এর deployment target:** প্রতিটা plugin-এর নিজের একটা minimum iOS আছে। App-এর deployment target তার চেয়ে কম হলে build fail করে। Flutter-এ `pod install` বা build-এর সময় deployment target নিয়ে যে error বা warning আসে, সেগুলোর কারণ প্রায় সবসময় এটাই।
 
 > **মনে রাখুন**
-> - Target = কী বানাবেন, configuration = কোন setting-এ, scheme = কোন বোতামে কোনটা।
-> - Flutter-এর `--flavor dev` = scheme `dev` + configuration `Debug-dev` / `Release-dev` / `Profile-dev`।
-> - Setting xcconfig-এ রাখুন। `//` comment, আর app-এ কোনো secret না।
-> - SPM-ই পথ। Flutter 3.44 থেকে ডিফল্ট, CocoaPods trunk ২ ডিসেম্বর ২০২৬ থেকে read-only।
-> - Info.plist-এ permission-এর কারণ না থাকলে crash। ক্ষমতা (push, App Group) entitlement-এ, আর profile-এ।
+> - Target মানে কী বানাবেন। Configuration মানে কোন setting-এ। Scheme মানে কোন বোতামে কোনটা।
+> - Flutter-এর `--flavor dev` মানে scheme `dev`, সাথে configuration `Debug-dev` / `Release-dev` / `Profile-dev`।
+> - Setting রাখুন xcconfig-এ। সেখানে `//` মানে comment। আর app-এ কোনো secret রাখবেন না।
+> - SPM-ই ঠিক পথ। Flutter 3.44 থেকে এটা ডিফল্ট, আর CocoaPods trunk ২ ডিসেম্বর ২০২৬ থেকে read-only।
+> - Info.plist-এ permission-এর কারণ না থাকলে app crash করে। বিশেষ ক্ষমতা (push, App Group) থাকে entitlement-এ, আর profile-এও থাকতে হয়।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "iOS-এ flavor বলে কিছু নেই। আমি প্রতিটা environment-এর জন্য একটা shared scheme আর আলাদা build configuration বানাই, আর setting রাখি xcconfig-এ — bundle id, display name, API host। Flutter-এর `--flavor dev` ঠিক এই নামের scheme আর `Debug-dev`-এর মতো configuration খোঁজে। Dependency-র জন্য Swift Package Manager নিই, কারণ Flutter 3.44 থেকে এটাই ডিফল্ট আর CocoaPods বন্ধের পথে।"
+> - *বাংলায়:* "iOS-এ flavor বলে কিছু নেই। আমি প্রতিটা environment-এর জন্য একটা shared scheme আর আলাদা build configuration বানাই। Setting রাখি xcconfig-এ — bundle id, display name, API host। Flutter-এর `--flavor dev` ঠিক এই নামের scheme খোঁজে, আর `Debug-dev`-এর মতো নামের configuration খোঁজে। Dependency-র জন্য Swift Package Manager নিই। কারণ Flutter 3.44 থেকে এটাই ডিফল্ট, আর CocoaPods বন্ধ হওয়ার পথে।"
 > - *English:* "iOS has no flavors as such. I create a shared scheme per environment with its own build configurations, and keep the settings in xcconfig files — bundle id, display name, API host. Flutter's `--flavor dev` looks for exactly that scheme and configurations named like `Debug-dev`. For dependencies I use Swift Package Manager, since it's the default from Flutter 3.44 and CocoaPods is being wound down."
 
 [উপরে ফিরুন](#toc)
@@ -6021,13 +6291,13 @@ if #available(iOS 18, *) {
 
 ## <a id="ios4"></a>iOS ৪. App lifecycle — `@main`, AppDelegate, SceneDelegate আর suspension
 
-Android-এর lifecycle অধ্যায়ে ([অধ্যায় ৫](#ch5)) সবচেয়ে বড় ধাক্কা ছিল rotation-এ Activity মরে যাওয়া। iOS-এ সেই ধাক্কা নেই — rotation, dark mode, ভাষা বদলালে screen বেঁচে থাকে, শুধু layout বদলায়। ঠিক Flutter-এর মতো। স্বস্তি!
+Android-এর lifecycle অধ্যায়ে ([অধ্যায় ৫](#ch5)) সবচেয়ে বড় সমস্যা ছিল একটা: phone ঘোরালেই (rotation) Activity মরে যায়। iOS-এ এই সমস্যা নেই। Rotation হোক, dark mode হোক, বা ভাষা বদলাক — screen বেঁচে থাকে, শুধু layout বদলায়। ঠিক Flutter-এর মতো।
 
-কিন্তু iOS-এর নিজের একটা ধাক্কা আছে: **background-এ গেলে app ঘুমিয়ে পড়ে।** কোনো code চলে না। আর ঘুমন্ত app-কে system কোনো খবর না দিয়ে মেরে দিতে পারে। এই অধ্যায় সেই নিয়মগুলো নিয়ে।
+কিন্তু iOS-এর নিজের একটা সমস্যা আছে: **app background-এ গেলে অল্প পরেই suspend হয়ে যায়।** তখন কোনো code চলে না। আর suspended app-কে system কোনো খবর না দিয়েই মেরে ফেলতে পারে। এই অধ্যায়ে এই নিয়মগুলো দেখব।
 
 ### <a id="ios4-1"></a>iOS ৪.১ চালু হওয়া: `@main` থেকে প্রথম screen
 
-**এক লাইনে:** Flutter-এর `void main() => runApp(NotesApp())`-এর জায়গায় SwiftUI-তে একটা struct, যার মাথায় `@main`, আর যে `App` protocol মানে।
+**এক লাইনে:** Flutter-এ শুরু হয় `void main() => runApp(NotesApp())` দিয়ে। SwiftUI-তে তার জায়গায় থাকে একটা struct। এর মাথায় লেখা থাকে `@main`, আর এটা `App` protocol মেনে চলে।
 
 **Flutter-এ:**
 
@@ -6061,11 +6331,13 @@ struct NotesApp: App {
 }
 ```
 
-- `@main` বলে দেয়, app এখান থেকে শুরু। আলাদা `main()` লেখা লাগে না।
-- `App`-এর `body` widget না, **Scene** ফেরত দেয়। `WindowGroup` মানে "app-এর window" — iPhone-এ একটা, iPad-এ user একাধিক খুলতে পারে।
-- `MaterialApp`-এর মতো কোনো root wrapper লাগে না। Theme, navigation সব view-এর modifier।
+- `@main` বলে দেয়, app এখান থেকে শুরু হবে। আলাদা করে `main()` লিখতে হয় না।
+- `App`-এর `body` কোনো widget ফেরত দেয় না, দেয় একটা **Scene**। Scene মানে মোটামুটি একটা window। `WindowGroup` মানে "app-এর window"। iPhone-এ window একটাই থাকে। iPad-এ user একাধিক window খুলতে পারে।
+- `MaterialApp`-এর মতো কোনো root wrapper লাগে না। Theme, navigation — সব হয় view-এর modifier দিয়ে।
 
-**Push token-এর মতো process-এর কাজ লাগলে — AppDelegate জুড়ে দেওয়া:**
+**Push token-এর মতো process-এর কাজ লাগলে — AppDelegate জুড়ে দিন:**
+
+কিছু ঘটনা পুরো process-এর, কোনো window-এর না। যেমন push token পাওয়া। এগুলো আসে AppDelegate-এ। SwiftUI app-এ AppDelegate এভাবে জুড়ে দেওয়া যায়:
 
 ```swift
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -6084,7 +6356,7 @@ struct NotesApp: App {
 }
 ```
 
-**UIKit-এর পুরনো পথ (চিনে রাখুন) — দুই delegate:**
+**UIKit-এর পুরনো পথ (চিনে রাখুন) — দুইটা delegate:**
 
 ```
 @main AppDelegate (UIApplicationDelegate)   ← process-এর ঘটনা: launch, push token, terminate
@@ -6096,28 +6368,33 @@ struct NotesApp: App {
                scene(_:openURLContexts:)            deep link
 ```
 
-iOS 13-এর আগে সব কিছু AppDelegate-এ ছিল। iOS 13 iPad-এ একাধিক window আনল, তাই window-এর কাজ SceneDelegate-এ সরল। SwiftUI-র `App` ভেতরে নিজেই scene-ভিত্তিক।
+iOS 13-এর আগে সবকিছু AppDelegate-এ থাকত। iOS 13 iPad-এ একাধিক window আনল। তাই window-এর কাজগুলো সরে গেল SceneDelegate-এ। SwiftUI-র `App` ভেতরে ভেতরে নিজেই scene দিয়ে চলে।
 
-**UIScene এখন বাধ্যতামূলক — এবং এটা Flutter-কেও ছোঁয়:** Apple-এর TN3187 বলে, iOS 26-এর পরের major release-এর SDK দিয়ে build করলে UIScene lifecycle ছাড়া app **launch-ই হবে না।** iOS 27 SDK (Xcode 27) এখন বের হয়ে গেছে, তাই পুরনো "শুধু AppDelegate" app-এর আর সময় নেই।
-- SwiftUI `App` দিয়ে বানানো app আগে থেকেই scene-ভিত্তিক — কিছু করতে হয় না।
-- Flutter 3.38-এ UIScene সমর্থন এসেছে, আর **3.41 থেকে এটা ডিফল্ট।** AppDelegate-এ হাত না দিয়ে থাকলে `flutter run` বা `flutter build ios` নিজে migrate করে দেয়। এজন্যই নতুন template-এ `SceneDelegate.swift` আর `FlutterImplicitEngineDelegate` ([iOS ০.১](#ios0-1))।
-- AppDelegate নিজে বদলে থাকলে হাতে migrate করতে হয়: plugin registration `didInitializeImplicitFlutterEngine`-এ সরান, Info.plist-এ `UIApplicationSceneManifest` যোগ করুন। আর `didFinishLaunchingWithOptions`-এ `FlutterViewController` ছোঁবেন না — তখনো window তৈরি হয়নি, crash হতে পারে।
-- Deep link আর অন্য scene-এর ঘটনা এখন SceneDelegate-এ আসে। পুরনো plugin AppDelegate-এর `application(_:open:options:)`-এ বসে থাকলে আর ঘটনা পাবে না। `FlutterSceneDelegate` এই ঘটনাগুলো plugin-এ পৌঁছে দেয় — এজন্যই Flutter এটা subclass করতে বলে।
+**UIScene এখন বাধ্যতামূলক — আর এটা Flutter-কেও ছোঁয়:** Apple-এর TN3187 বলে, iOS 26-এর পরের major release-এর SDK দিয়ে build করলে UIScene lifecycle ছাড়া app **launch-ই হবে না।** iOS 27 SDK (Xcode 27) এখন বের হয়ে গেছে। তাই যে পুরনো app শুধু AppDelegate দিয়ে চলে, তার হাতে আর সময় নেই।
+- SwiftUI `App` দিয়ে বানানো app আগে থেকেই scene দিয়ে চলে। আপনাকে কিছু করতে হবে না।
+- Flutter 3.38-এ UIScene support এসেছে, আর **3.41 থেকে এটা ডিফল্ট।** আপনি AppDelegate-এ হাত না দিয়ে থাকলে `flutter run` বা `flutter build ios` নিজেই migrate করে দেয়। এজন্যই নতুন template-এ `SceneDelegate.swift` আর `FlutterImplicitEngineDelegate` দেখবেন ([iOS ০.১](#ios0-1))।
+- AppDelegate নিজে বদলে থাকলে হাতে migrate করতে হবে। তিনটা কাজ:
+  - plugin registration সরিয়ে নিন `didInitializeImplicitFlutterEngine`-এ।
+  - Info.plist-এ `UIApplicationSceneManifest` যোগ করুন।
+  - `didFinishLaunchingWithOptions`-এর ভেতরে `FlutterViewController` ছোঁবেন না। তখনো window তৈরি হয়নি, তাই crash হতে পারে।
+- Deep link আর scene-এর অন্য ঘটনাগুলো এখন আসে SceneDelegate-এ। কোনো পুরনো plugin যদি AppDelegate-এর `application(_:open:options:)`-এ অপেক্ষা করে, সে আর ঘটনা পাবে না। `FlutterSceneDelegate` এই ঘটনাগুলো plugin-এর কাছে পৌঁছে দেয়। এজন্যই Flutter বলে এটাকে subclass করতে।
 
-**ভেতরে কীভাবে কাজ করে — launch-এর ক্রম (UIKit):**
-1. System process বানায়, `main()` চলে (`@main` দিয়ে Swift নিজে বানায়)।
-2. `UIApplicationMain` → `UIApplication` আর আপনার AppDelegate তৈরি।
-3. `application(_:willFinishLaunchingWithOptions:)` → `application(_:didFinishLaunchingWithOptions:)`।
-4. Scene তৈরি → `scene(_:willConnectTo:options:)` → window আর প্রথম screen।
-5. Scene সামনে আসে → `sceneDidBecomeActive`।
+**ভেতরে কীভাবে কাজ করে — launch-এর ধাপগুলো (UIKit):**
+1. System process বানায়, আর `main()` চলে (`@main` থাকলে Swift এটা নিজেই বানিয়ে দেয়)।
+2. `UIApplicationMain` চলে। এটা `UIApplication` আর আপনার AppDelegate তৈরি করে।
+3. `application(_:willFinishLaunchingWithOptions:)` চলে, তারপর `application(_:didFinishLaunchingWithOptions:)`।
+4. Scene তৈরি হয়, `scene(_:willConnectTo:options:)` চলে। এখানে window আর প্রথম screen বসে।
+5. Scene সামনে আসে, `sceneDidBecomeActive` চলে।
 
-**Senior-এর সূক্ষ্ম কথা — prewarming:** iOS কখনো কখনো user tap করার আগেই আপনার process বানিয়ে library load করে রাখে, তারপর suspend করে দেয়। তাই "process শুরু থেকে প্রথম frame" মাপা launch time অনেক বেশি দেখাতে পারে। আর `main()`-এর আগে চলা code-এ (static initializer) এমন কিছু করবেন না, যা ধরে নেয় user এখনই app খুলছে।
+**Senior-দের জন্য একটা সূক্ষ্ম কথা — prewarming:** iOS মাঝে মাঝে user tap করার আগেই আপনার process বানিয়ে রাখে। Library-গুলো load করে, তারপর process-টা suspend করে রাখে। এর দুইটা ফল:
+- "Process শুরু থেকে প্রথম frame পর্যন্ত" হিসেবে launch time মাপলে সংখ্যাটা অনেক বড় দেখাতে পারে।
+- `main()`-এর আগে চলা code-এ (static initializer) এমন কিছু করবেন না, যা ধরে নেয় user এই মুহূর্তে app খুলছে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios4-2"></a>iOS ৪.২ App-এর অবস্থাগুলো
 
-**এক লাইনে:** iOS-এ app পাঁচ অবস্থায় থাকতে পারে। সবচেয়ে জরুরি হলো শেষেরটা — **Suspended**, যেখানে app memory-তে আছে কিন্তু কিছুই চলে না।
+**এক লাইনে:** iOS-এ একটা app পাঁচটা অবস্থার যেকোনো একটায় থাকতে পারে। সবচেয়ে জরুরি শেষেরটা — **Suspended**। তখন app memory-তে থাকে, কিন্তু কিছুই চলে না।
 
 ```
                     user app খুলল
@@ -6133,21 +6410,21 @@ iOS 13-এর আগে সব কিছু AppDelegate-এ ছিল। iOS 13 
 
 | অবস্থা | কী হচ্ছে | Code চলে? |
 |---|---|---|
-| Not running | চালু হয়নি, বা মেরে ফেলা হয়েছে | না |
-| Inactive | সামনে আছে, কিন্তু touch পাচ্ছে না (call এল, Control Center টানল, app switcher) | হ্যাঁ |
-| Active | সামনে, touch পাচ্ছে | হ্যাঁ |
-| Background | দেখা যাচ্ছে না, শেষ কাজ গোছাচ্ছে | হ্যাঁ, অল্প সময় |
-| Suspended | Memory-তে ঘুমিয়ে | **না** |
+| Not running | চালুই হয়নি, বা মেরে ফেলা হয়েছে | না |
+| Inactive | সামনে আছে, কিন্তু touch পাচ্ছে না (call এল, Control Center টানা হলো, app switcher খোলা) | হ্যাঁ |
+| Active | সামনে আছে, touch পাচ্ছে | হ্যাঁ |
+| Background | দেখা যাচ্ছে না, শেষ কাজগুলো গুছিয়ে নিচ্ছে | হ্যাঁ, অল্প সময় |
+| Suspended | Memory-তে আছে, কিন্তু থেমে আছে | **না** |
 
-**Scene-এর অবস্থা:** UIScene-এ প্রতিটা window-এর নিজের অবস্থা: Unattached → Foreground Inactive → Foreground Active → Background। iPhone-এ একটাই scene, তাই app আর scene প্রায় একসাথে চলে।
+**Scene-এর অবস্থা:** UIScene-এ প্রতিটা window-এর নিজের আলাদা অবস্থা থাকে: Unattached → Foreground Inactive → Foreground Active → Background। iPhone-এ scene একটাই, তাই app আর scene-এর অবস্থা প্রায় একসাথেই বদলায়।
 
-**Flutter-এর কাছে এটা কেমন দেখায়:** Flutter engine এই ঘটনাগুলো শুনে `AppLifecycleState` বানায় ([iOS ৪.৩](#ios4-3)-এর table)। Suspended-এ Flutter-এর কোনো callback আসে না — কারণ তখন Dart code-ও চলে না।
+**Flutter এটা কীভাবে দেখে:** Flutter engine এই ঘটনাগুলো শোনে, আর সেখান থেকে `AppLifecycleState` বানায় ([iOS ৪.৩](#ios4-3)-এর table দেখুন)। Suspended অবস্থায় Flutter-এ কোনো callback আসে না। কারণ তখন Dart code-ও চলে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios4-3"></a>iOS ৪.৩ `scenePhase` — `didChangeAppLifecycleState`-এর জায়গায়
 
-**এক লাইনে:** SwiftUI-তে `@Environment(\.scenePhase)` পড়ুন, আর `.onChange` দিয়ে বদল শুনুন। তিনটা মান: `.active`, `.inactive`, `.background`।
+**এক লাইনে:** SwiftUI-তে `@Environment(\.scenePhase)` পড়ুন, আর `.onChange` দিয়ে এর বদল শুনুন। মান তিনটা: `.active`, `.inactive`, `.background`।
 
 **Flutter-এ:**
 
@@ -6198,11 +6475,11 @@ struct NoteEditorView: View {
 }
 ```
 
-Observer যোগ বা বাদ দেওয়ার ঝামেলা নেই। View চলে গেলে শোনাও বন্ধ।
+এখানে observer যোগ করা বা সরানোর ঝামেলা নেই। View চলে গেলে শোনাও নিজে থেকে বন্ধ হয়ে যায়।
 
 - কোনো view-এর ভেতরে পড়লে `scenePhase` সেই view-এর scene-এর অবস্থা দেয়।
-- `App`-এর `body`-তে পড়লে সব scene মিলিয়ে একটা অবস্থা দেয় — কোনো একটা active থাকলেই `.active`।
-- `@unknown default` — Apple পরে নতুন case যোগ করতে পারে, তাই compiler এটা চায়।
+- `App`-এর `body`-তে পড়লে সব scene মিলিয়ে একটা অবস্থা দেয়। কোনো একটা scene active থাকলেই মান হয় `.active`।
+- `@unknown default` কেন? Apple পরে নতুন case যোগ করতে পারে, তাই compiler এটা চায়।
 
 **তিন জগতের mapping:**
 
@@ -6216,25 +6493,25 @@ Observer যোগ বা বাদ দেওয়ার ঝামেলা ন
 | Suspended | (কিছু আসে না) | (কিছু আসে না) | (process cached) |
 | Engine-এর সব view চলে গেছে | — | `detached` | `onDestroy` |
 
-`hidden` অবস্থাটা iOS-এর নিজের না। Flutter 3.13 থেকে সব platform-এর state machine এক রাখতে, iOS-এ `inactive` আর `paused`-এর মাঝে Flutter নিজে `hidden` বসায়।
+`hidden` অবস্থাটা iOS-এর নিজের না। Flutter 3.13 থেকে চায় সব platform-এ state machine একই রকম থাকুক। তাই iOS-এ `inactive` আর `paused`-এর মাঝখানে Flutter নিজে একটা `hidden` বসিয়ে দেয়।
 
-**Best approach:** Draft save করার জায়গা `.background`। কিন্তু শুধু এর ওপর ভরসা করবেন না — user টাইপ করার সময়েই অল্প পরপর (debounce করে) save করুন। কারণ পরের অংশে।
+**Best approach:** Draft save করার ঠিক জায়গা `.background`। কিন্তু শুধু এর ওপর ভরসা করবেন না। User টাইপ করার সময়েই একটু পরপর (debounce করে) save করুন। কেন, সেটা পরের অংশে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios4-4"></a>iOS ৪.৪ Background suspension আর termination
 
-**এক লাইনে:** Background-এ গেলে app অল্প সময় পায়, তারপর suspend। Suspended app-কে memory লাগলে system মেরে দেয় — **কোনো callback ছাড়া।** User ফিরে এলে app শূন্য থেকে চালু হয়।
+**এক লাইনে:** Background-এ গেলে app অল্প কিছু সময় পায়, তারপর suspend হয়। এরপর system-এর memory লাগলে সে suspended app-কে মেরে ফেলে — **কোনো callback ছাড়াই।** User ফিরে এলে app একদম শূন্য থেকে চালু হয়।
 
-**গল্পটা Notes app-এ:**
+**Notes app দিয়ে গল্পটা:**
 1. User একটা note লিখছে। অর্ধেক লিখে Camera app খুলল।
-2. আপনার app `.background` পেল। অল্প পরেই suspend — সব Dart বা Swift code থেমে গেল।
-3. Camera অনেক memory চাইল। System আপনার suspended app মেরে দিল। কোনো `applicationWillTerminate` আসেনি।
-4. User ফিরে এল। App **নতুন করে launch** হলো। Memory-র সব কিছু শূন্য।
+2. আপনার app `.background` পেল। একটু পরেই suspend হলো। সব Dart বা Swift code থেমে গেল।
+3. Camera অনেক memory চাইল। System আপনার suspended app মেরে ফেলল। কোনো `applicationWillTerminate` আসেনি।
+4. User ফিরে এল। App **নতুন করে launch** হলো। Memory-তে যা ছিল, সব শেষ।
 
-**`applicationWillTerminate`-এর ওপর ভরসা করবেন না।** Apple-এর docs স্পষ্ট বলে: background সমর্থন করা app-এ user app বন্ধ করলে এটা সাধারণত call হয় না। শুধু তখন হয়, যখন app background-এ সক্রিয়ভাবে কিছু চালাচ্ছে (suspended না) আর system মেরে দেয়। App switcher থেকে swipe করে বন্ধ করলে suspended app কোনো খবর পায় না।
+**`applicationWillTerminate`-এর ওপর ভরসা করবেন না।** Apple-এর docs পরিষ্কার বলে: যে app background support করে, user সেটা বন্ধ করলে এটা সাধারণত call হয় না। এটা call হয় শুধু একটা ক্ষেত্রে — app background-এ সত্যিই কিছু চালাচ্ছে (suspended না), আর তখন system তাকে মেরে ফেলে। User app switcher থেকে swipe করে বন্ধ করলে suspended app কোনো খবরই পায় না।
 
-**জরুরি কাজ শেষ করতে একটু সময় চাওয়া:**
+**জরুরি কাজ শেষ করতে একটু বেশি সময় চাওয়া:**
 
 ```swift
 @MainActor
@@ -6264,26 +6541,26 @@ final class DraftSaver {
 }
 ```
 
-এটা "একটু বেশি সময়" — অনির্দিষ্ট না। System নিজে ঠিক করে কতক্ষণ, আর `backgroundTimeRemaining` দেখা যায়। `endBackgroundTask` না ডাকলে system app মেরে দিতে পারে।
+এটা শুধু "একটু বেশি সময়", যতক্ষণ খুশি না। কতক্ষণ পাবেন, সেটা system নিজে ঠিক করে। বাকি সময়টা `backgroundTimeRemaining` দিয়ে দেখা যায়। কাজ শেষে `endBackgroundTask` না ডাকলে system app মেরে ফেলতে পারে।
 
-**Background-এ নিয়মিত কাজ (sync, upload) চাইলে:** iOS-এর নির্দিষ্ট পথ — `BGTaskScheduler`, background `URLSession`, silent push, background mode। এগুলো পরের অধ্যায়গুলোতে। মূল কথা: iOS ঠিক করে কখন চালাবে, আপনি না। Android-এর WorkManager-এর চেয়েও কম নিশ্চয়তা।
+**Background-এ নিয়মিত কাজ (sync, upload) চাইলে:** iOS-এ এর জন্য নির্দিষ্ট কিছু পথ আছে — `BGTaskScheduler`, background `URLSession`, silent push, background mode। এগুলো পরের অধ্যায়গুলোতে দেখব। মূল কথা হলো, কাজটা কখন চলবে সেটা iOS ঠিক করে, আপনি না। Android-এর WorkManager-এর চেয়েও এখানে নিশ্চয়তা কম।
 
 | | iOS | Android | Flutter-এ যা দেখতেন |
 |---|---|---|---|
-| Background-এ গেলে | অল্প সময়, তারপর suspend | Process চলতে থাকে (cached), কিছু কাজ চলে | `paused` |
+| Background-এ গেলে | অল্প সময়, তারপর suspend | Process চলতে থাকে (cached), কিছু কাজও চলে | `paused` |
 | মেরে ফেলা | Suspended app, কোনো callback নেই | Process death, কোনো callback নেই | কিছুই আসে না |
 | লম্বা কাজ | `BGTaskScheduler`, background `URLSession` | WorkManager, foreground service | `workmanager` |
-| User swipe করে বন্ধ করলে | Suspended হলে কোনো খবর নেই | একই | কিছু আসে না |
+| User swipe করে বন্ধ করলে | Suspended থাকলে কোনো খবর নেই | একই | কিছু আসে না |
 
-**ফাঁদ:** `.background`-এ লম্বা network call শুরু করা, শেষ হবে ভেবে। App suspend হলে call মাঝপথে থামে। Upload শেষ হওয়া জরুরি হলে background `URLSession` লাগবে।
+**ফাঁদ:** `.background`-এ একটা লম্বা network call শুরু করা, এই ভেবে যে ওটা শেষ হবে। App suspend হলে call মাঝপথেই থেমে যায়। Upload শেষ হওয়া জরুরি হলে background `URLSession` ব্যবহার করতে হবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios4-5"></a>iOS ৪.৫ State restoration — `@SceneStorage`
 
-**এক লাইনে:** System app মেরে দেওয়ার পরে user ফিরলে, iOS চায় app আগের জায়গায় ফিরুক — খোলা note, লেখা text। SwiftUI-তে ছোট UI state-এর জন্য `@SceneStorage`।
+**এক লাইনে:** System app মেরে ফেলার পর user ফিরে এলে iOS চায় app আগের জায়গাতেই খুলুক — যে note খোলা ছিল, যে text লেখা ছিল। SwiftUI-তে ছোট UI state ফেরানোর জন্য আছে `@SceneStorage`।
 
-**Flutter-এ:** `RestorationMixin`, `RestorableTextEditingController`, আর `MaterialApp`-এ `restorationScopeId`। বেশিরভাগ Flutter app এটা করে না, শুরু থেকে খোলে।
+**Flutter-এ:** এর জন্য আছে `RestorationMixin`, `RestorableTextEditingController`, আর `MaterialApp`-এ `restorationScopeId`। তবে বেশিরভাগ Flutter app এটা করে না। তারা শুরু থেকে খোলে।
 
 **SwiftUI-তে:**
 
@@ -6300,39 +6577,39 @@ struct NotesRootView: View {
 }
 ```
 
-- `@State`-এর মতোই কাজ করে, কিন্তু system মান save করে, আর app নতুন করে চালু হলে ফেরত দেয়।
-- **প্রতিটা scene-এর নিজের।** iPad-এ দুই window-এ দুইটা আলাদা draft।
-- শুধু ছোট আর সাধারণ type: `String`, `Int`, `Bool`, `Double`, `URL`, `Data`, আর এদের `RawRepresentable` enum। Note-এর list না — শুধু id।
-- কখন save হবে, তার কোনো নিশ্চয়তা নেই (Apple-এর docs নিজেই বলে)। আর scene ধ্বংস হলে data-ও মুছে যায় — যেমন user app switcher থেকে window সরিয়ে দিলে। তাই এটা "সুবিধা", data বাঁচানোর জায়গা না।
-- Secret বা ব্যক্তিগত data এখানে না — Apple মানা করে।
+- এটা `@State`-এর মতোই কাজ করে। পার্থক্য হলো, system মানটা save করে রাখে, আর app নতুন করে চালু হলে ফেরত দেয়।
+- **প্রতিটা scene-এর নিজের আলাদা storage।** iPad-এ দুইটা window খোলা থাকলে দুইটা আলাদা draft থাকবে।
+- শুধু ছোট আর সাধারণ type রাখা যায়: `String`, `Int`, `Bool`, `Double`, `URL`, `Data`, আর এদের দিয়ে বানানো `RawRepresentable` enum। পুরো note-এর list রাখবেন না, শুধু id রাখুন।
+- কখন save হবে, তার কোনো নিশ্চয়তা নেই (Apple-এর docs নিজেই এটা বলে)। আর scene মুছে গেলে data-ও মুছে যায়, যেমন user app switcher থেকে window সরিয়ে দিলে। তাই এটা শুধু একটা "সুবিধা"। Data বাঁচানোর জায়গা এটা না।
+- Secret বা ব্যক্তিগত data এখানে রাখবেন না। Apple এটা মানা করে।
 
 **State কোথায় রাখবেন — এক table-এ:**
 
 | State | কোথায় | Rotation-এ | System মারলে | User swipe করে বন্ধ করলে | Android-এ |
 |---|---|---|---|---|---|
 | ছোট UI state (menu খোলা কি না) | `@State` | থাকে | হারায় | হারায় | `remember` |
-| ফিরে আসা উচিত এমন UI state (খোলা note-এর id, লেখা text) | `@SceneStorage` | থাকে | থাকে | হারায় | `rememberSaveable` |
+| যে UI state ফিরে আসা উচিত (খোলা note-এর id, লেখা text) | `@SceneStorage` | থাকে | থাকে | হারায় | `rememberSaveable` |
 | Screen-এর state আর logic | `@Observable` model | থাকে | হারায় | হারায় | `ViewModel` |
 | User-এর setting | `@AppStorage` (`UserDefaults`) | থাকে | থাকে | থাকে | DataStore |
 | আসল data, draft | SwiftData, file, server | থাকে | থাকে | থাকে | Room |
 
-**Best approach:** আসল data আর অর্ধেক লেখা draft — database-এ, টাইপ করার সময়েই। কোন screen খোলা ছিল, কোন note — `@SceneStorage`-এ id। তাহলে app কীভাবে মরল, তাতে কিছু যায় আসে না।
+**Best approach:** আসল data আর অর্ধেক লেখা draft রাখুন database-এ, আর save করুন টাইপ করার সময়েই। কোন screen বা কোন note খোলা ছিল, সেটার id রাখুন `@SceneStorage`-এ। তাহলে app যেভাবেই মরুক, কিছু হারাবে না।
 
 **নিজে test করুন:**
 1. Xcode থেকে app চালান। একটা note খুলে কিছু লিখুন।
-2. Home-এ যান (app background-এ)।
-3. Xcode-এর ■ Stop বোতাম চাপুন — এটা system-এর মেরে ফেলার মতো।
+2. Home screen-এ যান (app এখন background-এ)।
+3. Xcode-এর ■ Stop বোতাম চাপুন। এটা system-এর app মেরে ফেলার মতোই।
 4. Home screen থেকে app আবার খুলুন।
 
-যা হারাল, সেগুলোই bug। Android-এ `adb shell am kill`-এর কাজ এটা। (App switcher থেকে swipe করে বন্ধ করে test করবেন না — তখন iOS ইচ্ছা করেই restoration data মুছে দেয়।)
+যা যা হারিয়ে গেল, সেগুলোই bug। Android-এ এই কাজটা করত `adb shell am kill`। (App switcher থেকে swipe করে বন্ধ করে test করবেন না। তখন iOS ইচ্ছা করেই restoration data মুছে দেয়।)
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios4-6"></a>iOS ৪.৬ Memory warning
 
-**এক লাইনে:** Memory কম পড়লে iOS আগে সতর্ক করে। তখন cache ছেড়ে দিন। না ছাড়লে, বা অনেক বেশি memory নিলে, system app মেরে দেয় — foreground-এ থাকলেও।
+**এক লাইনে:** Memory কমে গেলে iOS আগে সতর্ক করে। তখন cache খালি করে দিন। না দিলে, বা app অনেক বেশি memory নিলে, system app মেরে ফেলে — app সামনে (foreground-এ) থাকলেও।
 
-**Flutter-এ:** `WidgetsBindingObserver.didHaveMemoryPressure()`। Flutter engine নিজেও তখন image cache কমায়।
+**Flutter-এ:** `WidgetsBindingObserver.didHaveMemoryPressure()`। এই সময় Flutter engine নিজেও image cache ছোট করে।
 
 **iOS-এ:**
 
@@ -6348,9 +6625,13 @@ struct NotesRootView: View {
 }
 ```
 
-UIKit-এ: `UIApplicationDelegate.applicationDidReceiveMemoryWarning(_:)`, আর প্রতিটা `UIViewController`-এর `didReceiveMemoryWarning()`।
+UIKit-এ আছে `UIApplicationDelegate.applicationDidReceiveMemoryWarning(_:)`, আর প্রতিটা `UIViewController`-এর `didReceiveMemoryWarning()`।
 
-**ভেতরে কীভাবে কাজ করে — jetsam:** iPhone-এ swap নেই — memory disk-এ সরানো যায় না, শুধু compress হয়। Memory ফুরালে kernel-এর **jetsam** ব্যবস্থা অগ্রাধিকার দেখে process মারে — আগে suspended app, তারপর background, শেষে দরকার হলে foreground-ও। Foreground app memory-র সীমা পার হলে মারা যায়, crash log ছাড়াই। Xcode Organizer-এ এগুলো "Terminations" হিসেবে দেখা যায়।
+**ভেতরে কীভাবে কাজ করে — jetsam:**
+- iPhone-এ swap নেই। মানে memory-র data disk-এ সরিয়ে রাখা যায় না, শুধু compress করা যায়।
+- Memory ফুরিয়ে গেলে kernel-এর **jetsam** নামের ব্যবস্থা process মারা শুরু করে। কে আগে মরবে, সেটা সে priority দেখে ঠিক করে। আগে suspended app, তারপর background app, আর শেষে দরকার হলে foreground app-ও।
+- Foreground app তার memory-র সীমা পার হলে মারা যায়, কোনো crash log ছাড়াই।
+- এগুলো Xcode Organizer-এ "Terminations" নামে দেখা যায়।
 
 | | iOS | Android | Flutter |
 |---|---|---|---|
@@ -6358,7 +6639,7 @@ UIKit-এ: `UIApplicationDelegate.applicationDidReceiveMemoryWarning(_:)`, আ�
 | শেষ ব্যবস্থা | jetsam process মারে | Low Memory Killer | — |
 | Swap | iPhone-এ নেই (compressed memory) | zRAM (compressed) | — |
 
-**ফাঁদ:** বড় ছবি পুরো resolution-এ decode করে রাখা। একটা 12MP ছবি decode হলে প্রায় ৪৮ MB (৪ byte প্রতি pixel)। Note-এ দশটা ছবি মানে app মারা যাওয়া। Thumbnail বানিয়ে রাখুন — Flutter-এ `cacheWidth` দেওয়ার মতো।
+**ফাঁদ:** বড় ছবি পুরো resolution-এ decode করে memory-তে রেখে দেওয়া। একটা 12MP ছবি decode করলে প্রায় ৪৮ MB লাগে (প্রতি pixel-এ ৪ byte)। একটা note-এ দশটা ছবি মানেই app মারা যাবে। তাই thumbnail বানিয়ে রাখুন — Flutter-এ `cacheWidth` দেওয়ার মতো।
 
 [উপরে ফিরুন](#toc)
 
@@ -6366,25 +6647,25 @@ UIKit-এ: `UIApplicationDelegate.applicationDidReceiveMemoryWarning(_:)`, আ�
 
 | বিষয় | Android | iOS |
 |---|---|---|
-| Rotation, dark mode, ভাষা বদল | Activity destroy আর নতুন তৈরি ([৫.২](#ch5-2)) | কিছু মরে না, শুধু layout/trait বদলায় |
-| তাই `ViewModel`-এর মতো "rotation-এ বাঁচা" জিনিস লাগে? | হ্যাঁ | না — `@Observable` model সাধারণ object |
-| Background-এ code | চলতে পারে, সীমা আছে | অল্প সময়, তারপর suspend |
-| Process death | Background-এ থাকলে, callback নেই | Suspended থাকলে, callback নেই |
-| ফিরে এলে system কোথায় খোলে | ঠিক আগের Activity, back stack-সহ | যা আপনি `@SceneStorage` দিয়ে ফেরান — নইলে শুরু থেকে |
-| Restoration-এর বাক্স | Bundle (~১ MB) | `@SceneStorage` (ছোট রাখুন) |
+| Rotation, dark mode, ভাষা বদল | Activity মুছে গিয়ে নতুন করে তৈরি হয় ([৫.২](#ch5-2)) | কিছু মরে না, শুধু layout/trait বদলায় |
+| তাই `ViewModel`-এর মতো "rotation-এ বেঁচে থাকা" জিনিস লাগে? | হ্যাঁ | না — `@Observable` model একটা সাধারণ object |
+| Background-এ code | চলতে পারে, তবে সীমা আছে | অল্প সময়, তারপর suspend |
+| Process death | Background-এ থাকলে হয়, callback নেই | Suspended থাকলে হয়, callback নেই |
+| ফিরে এলে system কোথায় খোলে | ঠিক আগের Activity-তে, back stack-সহ | আপনি `@SceneStorage` দিয়ে যা ফেরান সেখানে — নইলে শুরু থেকে |
+| Restoration data রাখার জায়গা | Bundle (~১ MB) | `@SceneStorage` (ছোট রাখুন) |
 | Test | `adb shell am kill` | Background + Xcode Stop |
 
-সবচেয়ে বড় পার্থক্য পঞ্চম লাইনে। Android system নিজে back stack ফেরত দেয় আর আশা করে app ঠিক জায়গায় চলবে। iOS শুধু বাক্সটা দেয় — কী ফেরাবেন, সেটা আপনার সিদ্ধান্ত।
+সবচেয়ে বড় পার্থক্য পঞ্চম লাইনে। Android-এ system নিজেই back stack ফিরিয়ে দেয়, আর আশা করে app ঠিক জায়গা থেকে চলবে। iOS শুধু data রাখার একটা জায়গা দেয়। কী ফেরাবেন, সেটা আপনি ঠিক করবেন।
 
 > **মনে রাখুন**
-> - SwiftUI-তে `@main struct ...: App` + `WindowGroup`। UIKit-এ AppDelegate (process) + SceneDelegate (window)।
-> - UIScene এখন বাধ্যতামূলক (TN3187)। Flutter 3.41 থেকে ডিফল্ট — পুরনো custom AppDelegate হাতে migrate করুন।
-> - `scenePhase`: `.active` / `.inactive` / `.background`। Suspended-এ কিছু আসে না।
-> - Suspended app-কে system নিঃশব্দে মারে। `applicationWillTerminate`-এ ভরসা না — টাইপ করার সময়েই save।
-> - Rotation-এ কিছু মরে না — Android-এর বড় সমস্যাটা iOS-এ নেই।
+> - SwiftUI-তে থাকে `@main struct ...: App` আর `WindowGroup`। UIKit-এ থাকে AppDelegate (process-এর জন্য) আর SceneDelegate (window-এর জন্য)।
+> - UIScene এখন বাধ্যতামূলক (TN3187)। Flutter 3.41 থেকে এটা ডিফল্ট। পুরনো custom AppDelegate থাকলে হাতে migrate করুন।
+> - `scenePhase`-এর মান: `.active` / `.inactive` / `.background`। Suspended অবস্থায় কিছুই আসে না।
+> - Suspended app-কে system চুপচাপ মেরে ফেলে। `applicationWillTerminate`-এর ওপর ভরসা করবেন না। টাইপ করার সময়েই save করুন।
+> - Rotation-এ কিছু মরে না। Android-এর বড় সমস্যাটা iOS-এ নেই।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "iOS-এ background-এ গেলে app অল্প সময় পায়, তারপর suspend হয়। Suspended app-কে memory লাগলে system কোনো callback ছাড়াই মেরে দেয়। তাই আমি draft টাইপ করার সময়েই database-এ save করি, আর `scenePhase` `.background` হলে শেষ flush করি — দরকার হলে `beginBackgroundTask` দিয়ে একটু সময় নিয়ে। কোন screen খোলা ছিল, সেই ছোট state `@SceneStorage`-এ রাখি। আর Flutter 3.41 থেকে iOS app-এ UIScene ডিফল্ট — নতুন SDK-তে এটা ছাড়া app launch-ই হবে না।"
+> - *বাংলায়:* "iOS-এ background-এ গেলে app অল্প সময় পায়, তারপর suspend হয়। System-এর memory লাগলে সে suspended app-কে কোনো callback ছাড়াই মেরে ফেলে। তাই আমি draft টাইপ করার সময়েই database-এ save করি। `scenePhase` `.background` হলে শেষবারের মতো flush করি, দরকার হলে `beginBackgroundTask` দিয়ে একটু সময় নিই। কোন screen খোলা ছিল, এমন ছোট state রাখি `@SceneStorage`-এ। আর Flutter 3.41 থেকে iOS app-এ UIScene ডিফল্ট। নতুন SDK-তে এটা ছাড়া app launch-ই হবে না।"
 > - *English:* "On iOS, an app gets a short time in the background and is then suspended. If the system needs memory, it kills a suspended app with no callback. So I save drafts to the database while the user types, and do a final flush when `scenePhase` becomes `.background`, using `beginBackgroundTask` if I need a bit more time. I keep small UI state like the open screen in `@SceneStorage`. And since Flutter 3.41, iOS apps use the UIScene lifecycle by default — with the newest SDK, an app without it won't launch."
 
 [উপরে ফিরুন](#toc)
@@ -6393,15 +6674,15 @@ UIKit-এ: `UIApplicationDelegate.applicationDidReceiveMemoryWarning(_:)`, আ�
 
 ## <a id="ios5"></a>iOS ৫. SwiftUI — Widget-এর জায়গায় View
 
-এই অধ্যায়ে আপনার Flutter-এর অভিজ্ঞতা সবচেয়ে বেশি কাজে লাগবে। SwiftUI ২০১৯-এ এসেছিল, Flutter-এর প্রায় একই সময়ে, একই ধারণা নিয়ে: **UI = f(state)।** State বদলান, framework নিজে দরকারি অংশ আবার আঁকবে।
+এই অধ্যায়ে আপনার Flutter-এর অভিজ্ঞতা সবচেয়ে বেশি কাজে আসবে। SwiftUI এসেছিল ২০১৯-এ, Flutter-এর প্রায় একই সময়ে। ধারণাও একই: **UI = f(state)।** মানে আপনি শুধু state বদলান, আর যে অংশ আবার আঁকা দরকার, framework নিজেই সেটা আঁকে।
 
-Compose-এর অধ্যায় ([অধ্যায় ৬](#ch6)) পড়ে থাকলে দেখবেন, তিনটা framework প্রায় এক ভাষায় কথা বলে। পার্থক্য ছোট ছোট জায়গায় — আর সেগুলোতেই মানুষ আটকায়।
+Compose-এর অধ্যায় ([অধ্যায় ৬](#ch6)) পড়ে থাকলে দেখবেন, তিনটা framework প্রায় একই ভাষায় কথা বলে। পার্থক্য শুধু ছোট ছোট জায়গায়। আর মানুষ আটকায় ঠিক ওই জায়গাগুলোতেই।
 
-একটা কথা আগে: SwiftUI OS-এর সাথে আসে। তাই প্রতিটা API-র একটা minimum iOS আছে। এই অধ্যায়ের code iOS 17+ ধরে লেখা (`@Observable`-এর জন্য)। যেখানে iOS 18 লাগে, বলে দেওয়া আছে।
+শুরুর আগে একটা কথা। SwiftUI আসে OS-এর সাথে। তাই প্রতিটা API-র একটা minimum iOS আছে। এই অধ্যায়ের code লেখা হয়েছে iOS 17+ ধরে (`@Observable`-এর জন্য)। যেখানে iOS 18 লাগবে, সেখানে বলে দেওয়া আছে।
 
 ### <a id="ios5-1"></a>iOS ৫.১ Widget → View
 
-**এক লাইনে:** `StatelessWidget` আর তার `build()`-এর জায়গায় একটা `struct`, যে `View` protocol মানে, আর যার একটা `body` property আছে।
+**এক লাইনে:** `StatelessWidget` আর তার `build()`-এর জায়গায় থাকে একটা `struct`। এটা `View` protocol মেনে চলে, আর এর একটা `body` property থাকে।
 
 **Flutter-এ:**
 
@@ -6450,34 +6731,39 @@ struct NoteRow: View {
 |---|---|---|
 | `StatelessWidget` class | `struct ...: View` | `@Composable fun` |
 | `build(BuildContext)` | `var body: some View` | function body |
-| constructor field | `let` property (memberwise init নিজে আসে) | parameter |
-| `child:` / `children: [...]` | `{ }`-এর ভেতরে পরপর লেখা (result builder) | trailing lambda |
-| `BuildContext` | নেই — দরকারি জিনিস `@Environment` দিয়ে | `CompositionLocal` |
-| `const` widget | struct নিজেই সস্তা, আর SwiftUI নিজে তুলনা করে | compiler skip |
+| constructor field | `let` property (memberwise init নিজে থেকেই আসে) | parameter |
+| `child:` / `children: [...]` | `{ }`-এর ভেতরে একটার পর একটা লেখা (result builder) | trailing lambda |
+| `BuildContext` | নেই — যা দরকার তা আসে `@Environment` দিয়ে | `CompositionLocal` |
+| `const` widget | struct নিজেই সস্তা, আর SwiftUI নিজে তুলনা করে নেয় | compiler skip |
 | `Icon(Icons.push_pin)` | `Image(systemName: "pin.fill")` — SF Symbols | `Icon(Icons.Default...)` |
-| `if (x) widget` children-এ | `if x { View }` | `if (x) { }` |
+| children-এর ভেতরে `if (x) widget` | `if x { View }` | `if (x) { }` |
 
-**`some View` কেন:** `body`-এর আসল type হয় খুব লম্বা — `HStack<TupleView<(VStack<...>, Spacer, Optional<Image>)>>`। `some View` মানে "একটা নির্দিষ্ট View type, compiler জানে, আমি নাম লিখছি না" ([iOS ১.৭](#ios1-7))।
+**`some View` কেন:** `body`-এর আসল type খুব লম্বা হয়, যেমন `HStack<TupleView<(VStack<...>, Spacer, Optional<Image>)>>`। `some View` মানে: "এটা একটা নির্দিষ্ট View type। Compiler type-টা জানে, আমি শুধু নামটা লিখছি না" ([iOS ১.৭](#ios1-7))।
 
-**`{ }`-এর ভেতরে পরপর View লেখা কীভাবে চলে:** `@ViewBuilder` নামের **result builder**। আপনি পরপর লিখে যান, compiler সেগুলো একটা tuple-এ জুড়ে দেয়। `if`, `if let`, `switch`, `ForEach` চলে, ছোট `let x = ...`-ও চলে। কিন্তু সাধারণ `for` loop, বা মান বদলানোর মতো অন্য statement চলে না — loop-এর জায়গায় `ForEach`, আর বাকি কাজ `body`-এর বাইরে বা আলাদা computed property-তে রাখুন।
+**`{ }`-এর ভেতরে একটার পর একটা View লিখলে কীভাবে চলে:** এটা করে `@ViewBuilder` নামের একটা **result builder**। আপনি View-গুলো পরপর লিখে যান, আর compiler সেগুলো জুড়ে একটা tuple বানায়। এর ভেতরে কী চলে আর কী চলে না:
+- চলে: `if`, `if let`, `switch`, `ForEach`, আর ছোট `let x = ...`।
+- চলে না: সাধারণ `for` loop, বা কোনো মান বদলানোর মতো অন্য statement।
+- loop লাগলে `ForEach` লিখুন। বাকি কাজ রাখুন `body`-এর বাইরে, বা একটা আলাদা computed property-তে।
 
-**ভেতরে কীভাবে কাজ করে — তিন tree, Flutter-এর পাশে:**
+**ভেতরে কীভাবে কাজ করে — তিনটা tree, Flutter-এর পাশে রেখে:**
 
 | Flutter | SwiftUI |
 |---|---|
-| Widget — হালকা, অপরিবর্তনীয় বর্ণনা | View struct — হালকা value, বর্ণনা |
+| Widget — হালকা বর্ণনা, বদলায় না | View struct — হালকা একটা value, শুধু বর্ণনা |
 | Element — বেঁচে থাকে, state ধরে রাখে | SwiftUI-র ভেতরের graph (attribute graph) — view-এর identity আর state রাখে |
 | RenderObject — layout আর paint | ভেতরে UIKit view আর Core Animation layer |
 
-View struct প্রতিবার নতুন তৈরি হয়, ফেলে দেওয়া হয় — Widget-এর মতোই সস্তা। যা টিকে থাকে, সেটা SwiftUI-র ভেতরের graph। **বড় পার্থক্য:** Flutter প্রতিটা pixel নিজে আঁকে। SwiftUI শেষ পর্যন্ত Apple-এর নিজের UI system-এ আঁকে — তাই `Text` আসলে system-এর text, `List` ভেতরে UIKit-এর collection view। Accessibility, Dynamic Type, dark mode বিনা খরচে আসে।
+View struct প্রতিবার নতুন করে তৈরি হয়, আবার ফেলেও দেওয়া হয়। Widget-এর মতোই এটা সস্তা। যেটা টিকে থাকে, সেটা SwiftUI-র ভেতরের graph।
+
+**বড় পার্থক্য:** Flutter প্রতিটা pixel নিজে আঁকে। SwiftUI শেষ পর্যন্ত আঁকে Apple-এর নিজের UI system দিয়ে। তাই `Text` আসলে system-এর নিজের text, আর `List`-এর ভেতরে আছে UIKit-এর collection view। এর ফলে accessibility, Dynamic Type, dark mode — এগুলো আপনি কোনো বাড়তি কাজ ছাড়াই পেয়ে যান।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-2"></a>iOS ৫.২ Layout
 
-**এক লাইনে:** `Column` → `VStack`, `Row` → `HStack`, `Stack` → `ZStack`। `Expanded` আর `SizedBox`-এর জায়গায় `Spacer()` আর `.frame()`।
+**এক লাইনে:** `Column` হয়ে যায় `VStack`, `Row` হয় `HStack`, `Stack` হয় `ZStack`। আর `Expanded` ও `SizedBox`-এর জায়গায় আসে `Spacer()` আর `.frame()`।
 
-**Notes app-এর header, দুই পাশে:**
+**Notes app-এর header, দুই framework-এ:**
 
 ```dart
 Padding(
@@ -6520,25 +6806,30 @@ HStack(spacing: 12) {
 | `Expanded` | `Spacer()` বা `.frame(maxWidth: .infinity)` | `Modifier.weight(1f)` |
 | `SizedBox(height: 16)` | `Spacer().frame(height: 16)` বা stack-এর `spacing:` | `Spacer(Modifier.height())` |
 | `crossAxisAlignment` | `VStack(alignment: .leading)` | `horizontalAlignment` |
-| `mainAxisAlignment: spaceBetween` | মাঝে `Spacer()` | `Arrangement.SpaceBetween` |
-| `Center` | default — stack নিজেই মাঝে রাখে | `Box(contentAlignment = Center)` |
-| `Wrap` | নিজে `Layout` protocol দিয়ে বানাতে হয় | `FlowRow` |
+| `mainAxisAlignment: spaceBetween` | মাঝখানে `Spacer()` | `Arrangement.SpaceBetween` |
+| `Center` | default — stack নিজেই মাঝখানে রাখে | `Box(contentAlignment = Center)` |
+| `Wrap` | `Layout` protocol দিয়ে নিজে বানাতে হয় | `FlowRow` |
 | `LayoutBuilder` | `GeometryReader` | `BoxWithConstraints` |
 | `Scaffold` + `AppBar` | `NavigationStack` + `.navigationTitle`, `.toolbar` | `Scaffold` + `TopAppBar` |
 | `SafeArea` | **default-এ চালু** — বাইরে যেতে `.ignoresSafeArea()` | `innerPadding` |
 | logical pixel | point (pt) | `dp` |
 
-**Layout কীভাবে হয় — Flutter-এর উল্টো দিক থেকে না, প্রায় একই:** Flutter-এ "constraints go down, sizes go up, parent sets position"। SwiftUI-তে: parent child-কে একটা **প্রস্তাবিত size** দেয় → child নিজের size বেছে নেয় → parent তাকে বসায়। পার্থক্য হলো, SwiftUI-তে child প্রস্তাব অগ্রাহ্য করতে পারে। `Text` সবসময় শুধু নিজের লেখার মাপ নেয়, যত জায়গাই দিন। তাই "পুরো চওড়া নাও" বলতে `.frame(maxWidth: .infinity)` লাগে।
+**Layout কীভাবে হয় — Flutter-এর প্রায় একই রকম:** Flutter-এর নিয়ম আপনি জানেন: "constraints go down, sizes go up, parent sets position"। SwiftUI-তে ধাপগুলো এরকম:
+1. Parent child-কে একটা size বলে দেয়। এটা একটা প্রস্তাব, হুকুম না।
+2. Child নিজের size নিজে বেছে নেয়।
+3. Parent তাকে জায়গামতো বসায়।
 
-**ফাঁদ — `VStack`-এর default spacing শূন্য না।** Flutter-এর `Column`-এ children গায়ে গায়ে থাকে। SwiftUI-র `VStack`/`HStack`-এ `spacing` না দিলে system নিজের একটা ফাঁক দেয়। Design-এর সাথে pixel মেলাতে চাইলে সবসময় `spacing:` লিখে দিন — `VStack(spacing: 0)`।
+পার্থক্য হলো, SwiftUI-তে child চাইলে parent-এর বলা মাপ না মেনে নিজের মাপ নিতে পারে। যেমন `Text` সবসময় শুধু তার লেখার সমান জায়গা নেয়, আপনি যত জায়গাই দিন। তাই "পুরো চওড়া জায়গা নাও" বলতে হলে `.frame(maxWidth: .infinity)` লিখতে হয়।
 
-**ফাঁদ — safe area উল্টো।** Android-এ নতুন app default-এ edge-to-edge, `innerPadding` না দিলে content bar-এর নিচে চলে যায়। SwiftUI-তে উল্টো: content default-এ safe area-র ভেতরে থাকে। পুরো screen জুড়ে রং চাইলে background-এ `.ignoresSafeArea()` দিন।
+**ফাঁদ — `VStack`-এর default spacing শূন্য না।** Flutter-এর `Column`-এ children একদম গায়ে গায়ে থাকে। কিন্তু SwiftUI-র `VStack`/`HStack`-এ `spacing` না দিলে system নিজে থেকে একটা ফাঁক দেয়। Design-এর সাথে pixel মিলাতে চাইলে সবসময় `spacing:` লিখে দিন, যেমন `VStack(spacing: 0)`।
+
+**ফাঁদ — safe area উল্টো।** Android-এ নতুন app default-এ edge-to-edge হয়। `innerPadding` না দিলে content system bar-এর নিচে চলে যায়। SwiftUI-তে উল্টো: content default-এ safe area-র ভেতরেই থাকে। পুরো screen জুড়ে রং চাইলে background-এ `.ignoresSafeArea()` দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-3"></a>iOS ৫.৩ Wrapper widget → modifier, আর ক্রমের নিয়ম
 
-**এক লাইনে:** Flutter-এ padding, রং, tap — প্রতিটা আলাদা wrapper widget। SwiftUI-তে এগুলো view-এর পেছনে `.` দিয়ে লাগানো **modifier**। প্রতিটা modifier আগের view-টাকে মুড়ে একটা নতুন view বানায়।
+**এক লাইনে:** Flutter-এ padding, রং, tap — প্রতিটার জন্য আলাদা একটা wrapper widget লাগে। SwiftUI-তে এগুলো হলো **modifier**, যা view-এর পেছনে `.` দিয়ে লাগানো হয়। প্রতিটা modifier আগের view-টাকে মুড়ে একটা নতুন view বানায়।
 
 **Flutter-এ:**
 
@@ -6562,14 +6853,14 @@ Text(note.title)
     .onTapGesture(perform: onTap) // ৩. পুরো হলুদ অংশে tap
 ```
 
-**ক্রম — ভেতর থেকে বাইরে পড়ুন।** প্রথম modifier সবচেয়ে ভেতরে, শেষেরটা সবচেয়ে বাইরে:
+**ক্রম — ভেতর থেকে বাইরের দিকে পড়ুন।** প্রথম modifier থাকে সবচেয়ে ভেতরে, শেষেরটা সবচেয়ে বাইরে:
 
 ```swift
 Text("বাজার").padding().background(.yellow)   // হলুদের ভেতরে ফাঁক — Container(color, padding)
 Text("বাজার").background(.yellow).padding()   // হলুদ শুধু লেখার গায়ে, বাইরে স্বচ্ছ ফাঁক
 ```
 
-ওপরের প্রথম লাইনটা Flutter-এ এরকম হতো: `ColoredBox(color: yellow, child: Padding(child: Text))` — আপনি nesting ভেতর থেকে বাইরে পড়ছেন।
+ওপরের প্রথম লাইনটা Flutter-এ লিখলে হতো `ColoredBox(color: yellow, child: Padding(child: Text))`। মানে আপনি nesting-টা ভেতর থেকে বাইরের দিকে পড়ছেন।
 
 | Flutter wrapper | SwiftUI modifier |
 |---|---|
@@ -6581,17 +6872,19 @@ Text("বাজার").background(.yellow).padding()   // হলুদ শু�
 | `GestureDetector(onTap:)` | `.onTapGesture { }` বা `Button` |
 | `DecoratedBox` + border | `.overlay { RoundedRectangle(...).stroke() }` |
 | `Theme.of(context).textTheme.titleLarge` | `.font(.title)` |
-| `DefaultTextStyle` | parent-এ `.font()` দিলে ভেতরের সব `Text` পায় |
+| `DefaultTextStyle` | parent-এ `.font()` দিলে ভেতরের সব `Text` সেটা পায় |
 
-**Compose-এর সাথে একটা ছোট মজা:** Compose-এ modifier chain বাইরে থেকে ভেতরে পড়তে হয় ([৬.৩](#ch6-3)) — `Modifier.padding(16.dp).background(Yellow)`-এ padding বাইরে। SwiftUI-তে উল্টো দিক থেকে পড়ুন — `.padding().background(.yellow)`-এ background বাইরে। দুই framework-এ একই লেখা, উল্টো ছবি। নিয়মটা মনে না থাকলে Preview-তে দেখে নিন।
+**Compose-এর সাথে একটা মজার ব্যাপার:** Compose-এ modifier chain পড়তে হয় বাইরে থেকে ভেতরে ([৬.৩](#ch6-3))। তাই `Modifier.padding(16.dp).background(Yellow)`-এ padding থাকে বাইরে। SwiftUI-তে পড়তে হয় উল্টো দিক থেকে। তাই `.padding().background(.yellow)`-এ background থাকে বাইরে। দুই framework-এ লেখা প্রায় একই, কিন্তু ছবি উল্টো। নিয়মটা মনে না থাকলে Preview-তে দেখে নিন।
 
-**Best approach:** Tap-যোগ্য জিনিসে `.onTapGesture` না দিয়ে `Button` ব্যবহার করুন। `Button` নিজে accessibility (VoiceOver-এ "button"), pressed অবস্থা, keyboard সব সামলায়। Flutter-এ `GestureDetector`-এর বদলে `InkWell` বা `TextButton` নেওয়ার মতো।
+**Best approach:** যে জিনিসে tap করা যায়, সেখানে `.onTapGesture` না দিয়ে `Button` ব্যবহার করুন। `Button` নিজেই অনেক কিছু সামলায়: accessibility (VoiceOver বলে "button"), চাপা অবস্থার চেহারা, keyboard। Flutter-এ `GestureDetector`-এর বদলে `InkWell` বা `TextButton` নেওয়ার মতোই।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-4"></a>iOS ৫.৪ `ListView.builder` → `List` আর `LazyVStack`
 
-**এক লাইনে:** দুইটা পথ। `List` — iOS-এর চেনা চেহারার list, swipe-to-delete, pull-to-refresh সব তৈরি। `ScrollView` + `LazyVStack` — নিজের ডিজাইনের list, শুধু দেখা অংশ বানায়।
+**এক লাইনে:** পথ দুইটা।
+- `List` — iOS-এর চেনা চেহারার list। swipe-to-delete, pull-to-refresh সব তৈরি করা থাকে।
+- `ScrollView` + `LazyVStack` — নিজের ডিজাইনের list। শুধু যে অংশ screen-এ দেখা যাচ্ছে, সেটুকুই বানায়।
 
 **Flutter-এ:**
 
@@ -6648,24 +6941,24 @@ ScrollView {
 | `ListView.builder` | `List` / `ScrollView` + `LazyVStack` | `LazyColumn` |
 | horizontal `ListView` | `ScrollView(.horizontal)` + `LazyHStack` | `LazyRow` |
 | `GridView.builder` | `LazyVGrid(columns:)` | `LazyVerticalGrid` |
-| `ListView(children:)` (সব একসাথে) | `ScrollView` + `VStack` | `Column` + `verticalScroll` |
+| `ListView(children:)` (সব একসাথে বানায়) | `ScrollView` + `VStack` | `Column` + `verticalScroll` |
 | `Key` / `ValueKey(id)` | `Identifiable` বা `ForEach(..., id: \.id)` | `items(key = { it.id })` |
 | `RefreshIndicator` | `.refreshable { }` | `PullToRefreshBox` |
 | `Dismissible` | `.swipeActions { }`, `.onDelete` | `SwipeToDismissBox` |
 | `ScrollController.animateTo` | `ScrollViewReader` / `.scrollPosition(id:)` | `rememberLazyListState()` |
 | `SliverAppBar` + search | `.navigationTitle` + `.searchable(text:)` | `TopAppBar` + `SearchBar` |
 
-**কখন কোনটা:** Settings-ধরনের, iOS-এর চেনা list — `List`। Card-এর feed, নিজের ডিজাইন — `LazyVStack`। `List` নিজে অনেক কিছু দেয় (separator, selection, edit mode, swipe), কিন্তু চেহারা বদলানো কঠিন।
+**কখন কোনটা নেবেন:** Settings-এর মতো, iOS-এর চেনা চেহারার list হলে নিন `List`। Card-এর feed বা নিজের ডিজাইন হলে নিন `LazyVStack`। `List` নিজে অনেক কিছু দেয় (separator, selection, edit mode, swipe)। কিন্তু এর চেহারা বদলানো কঠিন।
 
-**ফাঁদ — `ScrollView` + `VStack`।** `VStack` lazy না। ১০০০ note থাকলে ১০০০টাই একসাথে বানায় — Flutter-এ `ListView(children: [...])`-এ বিশাল list দেওয়ার মতো। বড় list-এ সবসময় `List` বা `LazyVStack`।
+**ফাঁদ — `ScrollView` + `VStack`।** `VStack` lazy না। ১০০০টা note থাকলে ১০০০টাই একসাথে বানায়। এটা Flutter-এ `ListView(children: [...])`-এ বিশাল একটা list দেওয়ার মতো। বড় list-এ সবসময় `List` বা `LazyVStack` নিন।
 
-**ফাঁদ — id স্থির রাখুন।** `ForEach(notes, id: \.self)` বা index দিয়ে id দিলে note বদলালে SwiftUI ভাবে এটা নতুন item — state হারায়, animation ভুল হয়। Database-এর স্থির id দিন ([iOS ৫.১০](#ios5-10))।
+**ফাঁদ — id যেন না বদলায়।** `ForEach(notes, id: \.self)` লিখলে, বা index দিয়ে id দিলে, note-এর লেখা বদলালেই SwiftUI ভাবে এটা নতুন item। ফলে state হারিয়ে যায়, animation ভুল হয়। তাই database-এর id দিন, যেটা কখনো বদলায় না ([iOS ৫.১০](#ios5-10))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-5"></a>iOS ৫.৫ `setState` → `@State`
 
-**এক লাইনে:** `StatefulWidget`-এর field + `setState`-এর জায়গায় `@State private var`। মান বদলালেই `body` আবার চলে, আলাদা call লাগে না।
+**এক লাইনে:** `StatefulWidget`-এর field আর `setState`-এর জায়গায় লিখুন `@State private var`। মান বদলালেই `body` আবার চলে। আলাদা কোনো call লাগে না।
 
 **Flutter-এ:**
 
@@ -6703,24 +6996,29 @@ struct PinButton: View {
 }
 ```
 
-**View তো struct — প্রতিবার নতুন হয়। তাহলে `isPinned` টিকে থাকে কীভাবে?** `@State`-এর মান struct-এর ভেতরে থাকে না। SwiftUI নিজের graph-এ, এই view-এর identity-র সাথে বেঁধে রাখে। Struct শুধু একটা "হাতল" রাখে। Flutter-এ ঠিক এটাই হয়: Widget নতুন হয়, কিন্তু `State` object Element-এর সাথে বাঁধা থাকে, তাই টিকে থাকে। Compose-এ এই কাজটা `remember` করে।
+**View তো struct, প্রতিবার নতুন করে তৈরি হয়। তাহলে `isPinned` টিকে থাকে কীভাবে?**
+- `@State`-এর মান struct-এর ভেতরে থাকে না।
+- SwiftUI মানটা রাখে তার নিজের graph-এ, এই view-এর identity-র সাথে বেঁধে।
+- Struct-এর ভেতরে থাকে শুধু ওই মানের একটা reference।
+
+Flutter-এও ঠিক এটাই হয়। Widget নতুন হয়, কিন্তু `State` object Element-এর সাথে বাঁধা থাকে, তাই টিকে যায়। Compose-এ এই কাজটা করে `remember`।
 
 | | Flutter | SwiftUI | Compose |
 |---|---|---|---|
 | Local state | `State`-এর field | `@State private var` | `remember { mutableStateOf() }` |
 | বদলানো | `setState(() => x = y)` | `x = y` | `x = y` |
-| কোথায় বাঁচে | Element-এর সাথে বাঁধা `State` object | SwiftUI-র graph, view identity-র সাথে | composition-এ `remember` slot |
-| কে আবার চলে | `setState` যার, তার `build()` | যে `body` মানটা পড়েছে | যে composable পড়েছে |
+| কোথায় বেঁচে থাকে | Element-এর সাথে বাঁধা `State` object | SwiftUI-র graph-এ, view identity-র সাথে | composition-এ `remember` slot |
+| কে আবার চলে | যার `setState`, তার `build()` | যে `body` মানটা পড়েছে | যে composable মানটা পড়েছে |
 
-**Best approach:** `@State` সবসময় `private`। এটা এই view-এর নিজের state — বাইরে থেকে দেওয়ার জিনিস না। বাইরের মান লাগলে `let` property, আর বদলাতে হলে `@Binding` ([iOS ৫.৬](#ios5-6))।
+**Best approach:** `@State` সবসময় `private` রাখুন। এটা এই view-এর নিজের state, বাইরে থেকে দেওয়ার জিনিস না। বাইরে থেকে মান লাগলে `let` property নিন। আর সেই মান বদলাতেও হলে নিন `@Binding` ([iOS ৫.৬](#ios5-6))।
 
-**ফাঁদ — `body`-তে side effect।** `body` যেকোনো সময়, যতবার খুশি চলতে পারে। Network call, analytics, বা `@State` বদলানো সরাসরি `body`-তে লিখবেন না। Flutter-এ `build()`-এ API call না করার নিয়মটাই। কাজ শুরু করার জায়গা `.task` আর `.onAppear` ([iOS ৫.৯](#ios5-9))।
+**ফাঁদ — `body`-তে side effect।** `body` যেকোনো সময়, যতবার খুশি চলতে পারে। তাই network call, analytics, বা `@State` বদলানো — এগুলো সরাসরি `body`-তে লিখবেন না। এটা Flutter-এর সেই নিয়মটাই: `build()`-এ API call করবেন না। কাজ শুরু করার ঠিক জায়গা `.task` আর `.onAppear` ([iOS ৫.৯](#ios5-9))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-6"></a>iOS ৫.৬ `@Binding` — lifting state up
 
-**এক লাইনে:** Flutter-এ child-কে value আর `onChanged` callback দিতেন। SwiftUI-তে দুটো মিলিয়ে একটা জিনিস: **`Binding`** — "এই মান পড়ো, আর বদলাতে চাইলে এখানে লেখো"। `$` চিহ্ন দিয়ে বানানো হয়।
+**এক লাইনে:** Flutter-এ child-কে দুইটা জিনিস দিতেন: একটা value, আর একটা `onChanged` callback। SwiftUI-তে দুটো মিলে একটাই জিনিস: **`Binding`**। এর মানে "এই মানটা পড়ো, আর বদলাতে চাইলে এখানে লেখো"। এটা বানানো হয় `$` চিহ্ন দিয়ে।
 
 **Flutter-এ:**
 
@@ -6760,9 +7058,9 @@ struct NewNoteView: View {
 }
 ```
 
-- `title` লিখলে মান, `$title` লিখলে binding।
-- `TextField`-এর জন্য `TextEditingController` লাগে না। Binding দিলেই দুই দিকে চলে — user লিখলে মান বদলায়, কোড মান বদলালে field বদলায়।
-- Preview বা test-এ binding বানাতে: `.constant("বাজার")`।
+- `title` লিখলে পান মানটা। `$title` লিখলে পান binding।
+- `TextField`-এর জন্য `TextEditingController` লাগে না। Binding দিলেই দুই দিকে কাজ করে। User লিখলে মান বদলায়, আর code মান বদলালে field-এর লেখা বদলায়।
+- Preview বা test-এ একটা binding বানাতে লিখুন `.constant("বাজার")`।
 
 | Flutter | SwiftUI | Compose |
 |---|---|---|
@@ -6770,13 +7068,13 @@ struct NewNoteView: View {
 | `TextEditingController` | `TextField(text: $title)` | `TextField(value, onValueChange)` |
 | parent-এ state | parent-এ `@State` | parent-এ `remember` |
 
-**ফাঁদ:** `@Binding` আর `@State` গুলিয়ে ফেলা। Child-এ `@State var title` লিখে parent থেকে মান দিলে, প্রথম মানটাই থাকবে — parent পরে বদলালেও child-এ আসবে না। কারণ `@State` একবারই initial value নেয়, Flutter-এ `initState`-এ `widget.value` কপি করে রাখার মতো। মালিক না হলে `@Binding` বা `let`।
+**ফাঁদ:** `@Binding` আর `@State` গুলিয়ে ফেলা। Child-এ `@State var title` লিখে parent থেকে মান দিলে, শুধু প্রথম মানটাই থাকবে। Parent পরে মান বদলালেও child সেটা পাবে না। কারণ `@State` initial value নেয় মাত্র একবার। এটা Flutter-এ `initState`-এ `widget.value` কপি করে রেখে দেওয়ার মতো। তাই child যদি মানের মালিক না হয়, তাহলে নিন `@Binding` বা `let`।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-7"></a>iOS ৫.৭ `ChangeNotifier` / Cubit → `@Observable`
 
-**এক লাইনে:** Screen-এর state আর logic রাখার class-এ `@Observable` লিখুন (iOS 17+)। View যে property পড়ে, শুধু সেটা বদলালে view আবার আঁকা হয় — `notifyListeners()` বা `emit` লাগে না।
+**এক লাইনে:** Screen-এর state আর logic যে class-এ রাখেন, তার মাথায় `@Observable` লিখুন (iOS 17+)। View যে property পড়ে, শুধু সেটা বদলালেই view আবার আঁকা হয়। `notifyListeners()` বা `emit` লাগে না।
 
 **Flutter-এ (Cubit):**
 
@@ -6854,18 +7152,23 @@ struct NotesListView: View {
 }
 ```
 
-**Model কাকে কীভাবে দেবেন — তিনটা নিয়ম:**
+**Model কাকে কীভাবে দেবেন — নিয়মগুলো:**
 
 | অবস্থা | লিখবেন | Flutter-এ |
 |---|---|---|
-| এই view model-এর মালিক (বানায়, বাঁচিয়ে রাখে) | `@State private var model = ...` | `BlocProvider(create:)` |
+| এই view-ই model-এর মালিক (বানায়, বাঁচিয়ে রাখে) | `@State private var model = ...` | `BlocProvider(create:)` |
 | শুধু পড়বে | `let model: NotesListModel` বা `var model` | `context.watch` / `BlocBuilder` |
-| পড়বে আর property-তে binding লাগবে (`TextField`) | `@Bindable var model: NoteEditorModel` | — |
+| পড়বে, আর property-তে binding-ও লাগবে (`TextField`) | `@Bindable var model: NoteEditorModel` | — |
 | দূরের অনেক view-কে দেবেন | `.environment(model)` + `@Environment(NotesListModel.self)` ([iOS ৫.৮](#ios5-8)) | `BlocProvider` + `context.read` |
 
-**ভেতরে কীভাবে কাজ করে:** `@Observable` একটা macro। এটা প্রতিটা property-র getter আর setter-এ পাহারা বসায়। `body` চলার সময় SwiftUI দেখে নেয়, ঠিক কোন কোন property পড়া হলো। পরে শুধু সেগুলো বদলালেই এই view-এর `body` আবার চলে। `searchText` বদলালে যে view শুধু `phase` পড়ে, সে আবার চলে না।
+**ভেতরে কীভাবে কাজ করে:**
+1. `@Observable` একটা macro। এটা প্রতিটা property-র getter আর setter-এ নিজের code যোগ করে, যাতে কে পড়ল আর কে বদলাল তা track করা যায়।
+2. `body` চলার সময় SwiftUI মনে রাখে, ঠিক কোন কোন property পড়া হলো।
+3. পরে শুধু সেই property-গুলো বদলালেই এই view-এর `body` আবার চলে।
 
-এটা `ChangeNotifier`-এর চেয়ে সূক্ষ্ম। `notifyListeners()` সব listener-কে জাগায়। BLoC-এ `buildWhen` বা `select` দিয়ে হাতে বাছতে হয়। `@Observable` এটা নিজে করে, property ধরে।
+যেমন `searchText` বদলালে, যে view শুধু `phase` পড়ে, সে আবার চলে না।
+
+এটা `ChangeNotifier`-এর চেয়ে বেশি নিখুঁত। `notifyListeners()` সব listener-কে খবর দেয়। BLoC-এ `buildWhen` বা `select` দিয়ে হাতে বেছে দিতে হয়। `@Observable` এই কাজটা নিজেই করে, প্রতিটা property আলাদা করে ধরে।
 
 **পুরনো পথ (চিনে রাখুন, iOS 13–16):**
 
@@ -6879,19 +7182,26 @@ final class OldNotesViewModel: ObservableObject {
 @EnvironmentObject var vm: OldNotesViewModel          // environment থেকে
 ```
 
-`ObservableObject`-এ যেকোনো `@Published` বদলালে object-টা দেখা সব view আবার চলত — `ChangeNotifier`-এর মতো মোটা দাগে। Interview-এ "`@StateObject` আর `@ObservedObject`-এর পার্থক্য" প্রায়ই আসে: প্রথমটা মালিক (একবার বানায়, বাঁচিয়ে রাখে), দ্বিতীয়টা শুধু দেখে (parent rebuild করলে নতুন object পেতে পারে)।
+`ObservableObject`-এ যেকোনো একটা `@Published` বদলালেই ওই object দেখা সব view আবার চলত। কোন property বদলাল, সেটা দেখা হতো না — `ChangeNotifier`-এর মতো। Interview-এ প্রায়ই আসে "`@StateObject` আর `@ObservedObject`-এর পার্থক্য কী"। উত্তর:
+- প্রথমটা মালিক। Object একবার বানায় আর বাঁচিয়ে রাখে।
+- দ্বিতীয়টা শুধু দেখে। Parent rebuild করলে নতুন object পেয়ে যেতে পারে।
 
-**Best approach (iOS 17+):** Screen-প্রতি একটা `@MainActor @Observable final class`। View-এর `@State`-এ মালিকানা। Repository init-এ দেওয়া, যাতে test-এ fake দেওয়া যায়। Architecture-এর পুরো গল্প পরের অধ্যায়গুলোতে।
+**Best approach (iOS 17+):**
+- প্রতিটা screen-এর জন্য একটা `@MainActor @Observable final class`।
+- View-এর `@State`-এ সেটার মালিকানা।
+- Repository দিন init-এ, যাতে test-এ fake দেওয়া যায়।
 
-**ফাঁদ — `@State`-এর initial value বারবার তৈরি হয়।** `@State private var model = NotesListModel(...)` লিখলে, parent যতবার এই view-এর struct বানায়, ততবার `NotesListModel(...)` call হয়। SwiftUI প্রথমটা রাখে, বাকিগুলো ফেলে দেয় — কিন্তু init-এর খরচ আর side effect প্রতিবার হয়। তাই model-এর `init`-এ network call বা ভারী কাজ রাখবেন না। Load করুন `.task`-এ, ওপরের মতো।
+Architecture-এর পুরো গল্প পরের অধ্যায়গুলোতে।
+
+**ফাঁদ — `@State`-এর initial value বারবার তৈরি হয়।** ধরুন লিখলেন `@State private var model = NotesListModel(...)`। Parent যতবার এই view-এর struct বানায়, ততবার `NotesListModel(...)` call হয়। SwiftUI প্রথম object-টা রাখে, বাকিগুলো ফেলে দেয়। কিন্তু init-এর খরচ আর side effect প্রতিবারই হয়। তাই model-এর `init`-এ network call বা ভারী কাজ রাখবেন না। Load করুন `.task`-এ, ওপরের উদাহরণের মতো।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-8"></a>iOS ৫.৮ `InheritedWidget` / Provider → `@Environment`
 
-**এক লাইনে:** Tree-র ওপর থেকে নিচের সব view-এ কিছু পৌঁছাতে `.environment(...)` দিন, আর নিচে `@Environment` দিয়ে পড়ুন। `Theme.of(context)` আর `Provider.of(context)`-এর কাজ।
+**এক লাইনে:** Tree-র ওপর থেকে নিচের সব view-এ কিছু পৌঁছাতে চাইলে ওপরে `.environment(...)` দিন, আর নিচে `@Environment` দিয়ে পড়ুন। এটা `Theme.of(context)` আর `Provider.of(context)`-এর কাজ করে।
 
-**System-এর জিনিস পড়া:**
+**System-এর দেওয়া মান পড়া:**
 
 ```swift
 struct NoteDetailView: View {
@@ -6948,15 +7258,18 @@ struct NoteBody: View {
 | `Navigator.of(context).pop()` | `@Environment(\.dismiss)` | `navController.popBackStack()` |
 | `MediaQuery.of(context)` | `@Environment(\.horizontalSizeClass)`, `GeometryReader` | `LocalConfiguration` |
 
-**ফাঁদ — object না দিলে crash।** `@Environment(NotesStore.self)` পড়লেন, কিন্তু ওপরে কেউ `.environment(store)` দেয়নি — app crash করে। Flutter-এ `ProviderNotFoundException`-এর মতো, কিন্তু runtime-এ সোজা crash। Preview-তেও object দিতে ভুলবেন না।
+**ফাঁদ — object না দিলে crash।** আপনি `@Environment(NotesStore.self)` পড়লেন, কিন্তু ওপরে কেউ `.environment(store)` দেয়নি। তখন app crash করে। এটা Flutter-এর `ProviderNotFoundException`-এর মতো, তবে এখানে runtime-এ সোজা crash। Preview-তেও object দিতে ভুলবেন না।
 
-**Best approach:** App-জোড়া জিনিস (store, setting) environment-এ। Screen-এর নিজের model init-এ সরাসরি দিন — কোন view কী চায়, পরিষ্কার থাকে।
+**Best approach:** পুরো app যা ব্যবহার করে (store, setting), সেগুলো environment-এ রাখুন। Screen-এর নিজের model সরাসরি init-এ দিন। তাহলে কোন view কী চায়, সেটা পরিষ্কার থাকে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-9"></a>iOS ৫.৯ `initState`, `dispose`, `StreamBuilder` → `.task`, `.onAppear`, `.onChange`
 
-**এক লাইনে:** Screen খুললে async কাজ শুরু — `.task { }`। Screen চলে গেলে সেটা **নিজেই cancel** হয়। কোনো মান বদলালে কাজ — `.onChange(of:)`। Id বদলালে কাজ আবার শুরু — `.task(id:)`।
+**এক লাইনে:**
+- Screen খুললে async কাজ শুরু করতে: `.task { }`। Screen চলে গেলে কাজটা **নিজেই cancel** হয়।
+- কোনো মান বদলালে কিছু করতে: `.onChange(of:)`।
+- Id বদলালে কাজ আবার শুরু করতে: `.task(id:)`।
 
 **Flutter-এ:**
 
@@ -6987,7 +7300,7 @@ class _NoteDetailState extends State<NoteDetail> {
 }
 ```
 
-**SwiftUI-তে — একই কাজ, একটা modifier:**
+**SwiftUI-তে — একই কাজ, একটাই modifier দিয়ে:**
 
 ```swift
 struct NoteDetailView: View {
@@ -7012,22 +7325,22 @@ struct NoteDetailView: View {
 }
 ```
 
-- View দেখা দেওয়ার আগে `.task` শুরু হয়।
-- View চলে গেলে task cancel — `for await` loop থামে। `dispose`-এ `cancel()` লিখতে হয় না।
-- `noteID` বদলালে পুরনো task cancel হয়ে নতুনটা শুরু — `didUpdateWidget`-এর কাজ।
+- View screen-এ দেখা যাওয়ার আগেই `.task` শুরু হয়।
+- View চলে গেলে task cancel হয়, আর `for await` loop থেমে যায়। `dispose`-এ `cancel()` লিখতে হয় না।
+- `noteID` বদলালে পুরনো task cancel হয়, আর নতুনটা শুরু হয়। এটাই `didUpdateWidget`-এর কাজ।
 
-(`watchNote(id:)` ধরে নিচ্ছি repository-র একটা function, যেটা `AsyncStream<Note>` দেয় — [iOS ২.৮](#ios2-8)।)
+(এখানে ধরে নিচ্ছি `watchNote(id:)` repository-র একটা function, যেটা `AsyncStream<Note>` দেয় — [iOS ২.৮](#ios2-8)।)
 
 | Flutter | SwiftUI | Compose |
 |---|---|---|
 | `initState` (async কাজ) | `.task { }` | `LaunchedEffect(Unit)` |
 | `initState` (sync কাজ) | `.onAppear { }` | `LaunchedEffect` / `SideEffect` |
-| `dispose` | `.task` নিজে cancel; `.onDisappear { }` | `DisposableEffect { onDispose { } }` |
+| `dispose` | `.task` নিজেই cancel হয়; `.onDisappear { }` | `DisposableEffect { onDispose { } }` |
 | `didUpdateWidget` | `.task(id:)`, `.onChange(of:)` | `LaunchedEffect(key)` |
 | `StreamBuilder` | `.task { for await ... }` + `@State` | `collectAsStateWithLifecycle()` |
 | `FutureBuilder` | `.task { value = await ... }` + `@State` | `LaunchedEffect` + state |
 
-**`.onChange` (iOS 17 রূপ):**
+**`.onChange` (iOS 17-এর রূপ):**
 
 ```swift
 .onChange(of: model.searchText) { oldValue, newValue in
@@ -7035,23 +7348,25 @@ struct NoteDetailView: View {
 }
 ```
 
-**`.onAppear` বনাম `.task`:** `.onAppear` sync, আর cancel হয় না। সেখান থেকে `Task { }` চালালে screen চলে গেলেও চলতে থাকবে। Async কাজ সবসময় `.task`-এ।
+**`.onAppear` বনাম `.task`:** `.onAppear` sync, আর এটা cancel হয় না। এর ভেতর থেকে `Task { }` চালালে screen চলে যাওয়ার পরেও সেটা চলতে থাকবে। তাই async কাজ সবসময় `.task`-এ দিন।
 
-**ফাঁদ — `.onAppear` একাধিকবার চলে।** Navigation-এ পেছনে গিয়ে ফিরলে, tab বদলালে, আবার চলে। Flutter-এর `initState` একবারই চলত। "প্রথমবার শুধু" কাজ হলে model-এ একটা flag রাখুন, বা `.task`-এর ভেতরে check করুন।
+**ফাঁদ — `.onAppear` একাধিকবার চলে।** Navigation-এ পেছনে গিয়ে আবার ফিরলে, বা tab বদলালে, এটা আবার চলে। অথচ Flutter-এর `initState` চলত একবারই। কোনো কাজ "শুধু প্রথমবার" করতে চাইলে model-এ একটা flag রাখুন, বা `.task`-এর ভেতরে check করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-10"></a>iOS ৫.১০ View identity — Flutter-এর `Key`
 
-**এক লাইনে:** SwiftUI কোন view "একই" ধরে, সেটার নাম **identity**। Identity একই থাকলে `@State` টিকে থাকে আর বদল animate হয়। Identity বদলালে পুরনো view মরে, নতুন জন্মায় — state শূন্য থেকে।
+**এক লাইনে:** SwiftUI কোন view-কে "আগের সেই একই view" ধরবে, সেটাকে বলে **identity**।
+- Identity একই থাকলে `@State` টিকে থাকে, আর বদলগুলো animate হয়।
+- Identity বদলালে পুরনো view মুছে যায়, নতুন একটা view তৈরি হয়। State আবার শূন্য থেকে শুরু হয়।
 
-দুই রকম identity:
-- **Structural** — tree-তে view-এর জায়গা দিয়ে। `if`-এর এক শাখা আর `else`-এর শাখা দুইটা আলাদা জায়গা।
-- **Explicit** — আপনি দেন: `ForEach`-এর id, আর `.id(...)` modifier।
+Identity দুই রকম:
+- **Structural** — tree-তে view কোন জায়গায় আছে, তা দিয়ে ঠিক হয়। `if`-এর শাখা আর `else`-এর শাখা দুইটা আলাদা জায়গা।
+- **Explicit** — আপনি নিজে দেন: `ForEach`-এর id, আর `.id(...)` modifier।
 
-**Flutter-এ মিল:** Element reuse হয় যদি একই জায়গায় একই `runtimeType` আর একই `Key` থাকে। Key বদলালে State নতুন। SwiftUI-র ধারণা হুবহু এটাই।
+**Flutter-এর সাথে মিল:** Flutter-এ Element আবার ব্যবহার হয়, যদি একই জায়গায় একই `runtimeType` আর একই `Key` থাকে। Key বদলালে State নতুন হয়। SwiftUI-র ধারণা হুবহু এটাই।
 
-**ফাঁদ ১ — `if/else` দিয়ে শুধু চেহারা বদলানো:**
+**ফাঁদ ১ — শুধু চেহারা বদলাতে `if/else` লেখা:**
 
 ```swift
 // খারাপ: দুইটা আলাদা view — state হারায়, animation হয় fade, move না
@@ -7066,22 +7381,25 @@ NoteRow(note: note)
     .background(note.isPinned ? Color.yellow : Color.clear)
 ```
 
-**ফাঁদ ২ — অন্য note খুললে পুরনো state থেকে যায়:**
+**ফাঁদ ২ — অন্য note খুললেও পুরনো state থেকে যায়:**
 
 ```swift
 NoteEditorView(note: selectedNote)
     .id(selectedNote.id)          // note বদলালে editor নতুন করে জন্মায়, পুরনো draft থাকে না
 ```
 
-Flutter-এ `NoteEditor(key: ValueKey(note.id))` দিয়ে ঠিক এই কাজ করতেন।
+Flutter-এ ঠিক এই কাজটা করতেন `NoteEditor(key: ValueKey(note.id))` দিয়ে।
 
-**ফাঁদ ৩ — ForEach-এ অস্থির id।** `id: \.self` (পুরো value দিয়ে) — note-এর title বদলালেই id বদলায়, row নতুন জন্মায়। Array index — মাঝে একটা মুছলে সবার id সরে যায়। সবসময় database-এর স্থির id।
+**ফাঁদ ৩ — ForEach-এ এমন id, যা বদলে যায়।**
+- `id: \.self` দিলে পুরো value-টাই id হয়। Note-এর title বদলালেই id বদলায়, আর row নতুন করে তৈরি হয়।
+- Array index দিলে, মাঝখান থেকে একটা মুছলেই পরের সবার id সরে যায়।
+- তাই সবসময় database-এর id দিন, যেটা কখনো বদলায় না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-11"></a>iOS ৫.১১ Animation
 
-**এক লাইনে:** State বদলের সাথে `withAnimation { }` লিখলে, সেই বদলের ফলে যা যা বদলায়, সব animate হয়। Controller, ticker, `vsync` — কিছু লাগে না।
+**এক লাইনে:** State বদলানোর code-টা `withAnimation { }`-এর ভেতরে লিখুন। তাহলে সেই বদলের ফলে যা যা বদলায়, সব animate হয়। Controller, ticker, `vsync` — কিছুই লাগে না।
 
 **Flutter-এ:**
 
@@ -7093,7 +7411,7 @@ AnimatedContainer(
 )
 ```
 
-**SwiftUI-তে — তিন পথ:**
+**SwiftUI-তে — তিনটা পথ:**
 
 ```swift
 // ১. Explicit: এই বদলের সব প্রভাব animate করো
@@ -7120,19 +7438,19 @@ if showUndoBanner {
 | `AnimatedContainer`, `AnimatedOpacity` | `.animation(_:value:)` | `animate*AsState` |
 | `AnimationController` + `setState` | `withAnimation { state = ... }` | `Animatable` |
 | `AnimatedSwitcher` | `if` + `.transition()` | `AnimatedContent` |
-| `AnimatedList` | `List`/`ForEach`-এ `withAnimation`-এ insert/delete | `Modifier.animateItem()` |
+| `AnimatedList` | `List`/`ForEach`-এ `withAnimation`-এর ভেতরে insert/delete | `Modifier.animateItem()` |
 | `Hero` | `matchedGeometryEffect`, `.navigationTransition(.zoom)` (iOS 18) | `SharedTransitionLayout` |
 | `Curves.easeInOut` | `.easeInOut`, `.spring`, `.bouncy` | `tween`, `spring` |
 
-**ভেতরে কীভাবে কাজ করে:** `withAnimation`-এর ভেতরে state বদলালে SwiftUI পুরনো আর নতুন UI-র পার্থক্য বের করে। Position, রং, opacity — যা animate করা যায়, সেগুলো মাঝের মান দিয়ে ধাপে ধাপে আঁকে। এজন্যই identity জরুরি ([iOS ৫.১০](#ios5-10)): identity একই থাকলে "move", বদলালে "এক জন গেল, আরেকজন এল" — fade।
+**ভেতরে কীভাবে কাজ করে:** `withAnimation`-এর ভেতরে state বদলালে SwiftUI পুরনো UI আর নতুন UI-র মধ্যে পার্থক্য বের করে। Position, রং, opacity — যেগুলো animate করা যায়, সেগুলো মাঝের মানগুলো দিয়ে ধাপে ধাপে আঁকে। এজন্যই identity জরুরি ([iOS ৫.১০](#ios5-10))। Identity একই থাকলে animation হয় "move"। Identity বদলালে SwiftUI ধরে নেয় একটা view গেল আর আরেকটা এল, তাই animation হয় fade।
 
-**ফাঁদ:** `.animation(.default)` value ছাড়া লেখা — পুরনো API, deprecated। Parent-এর যেকোনো বদলে animate হয়ে অদ্ভুত লাফালাফি। সবসময় `value:` দিন।
+**ফাঁদ:** value না দিয়ে `.animation(.default)` লেখা। এটা পুরনো API, deprecated। এতে parent-এর যেকোনো বদলেই animation হয়, আর UI অদ্ভুতভাবে লাফায়। সবসময় `value:` দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-12"></a>iOS ৫.১২ Hot reload নেই: Preview
 
-**এক লাইনে:** SwiftUI-তে Flutter-এর hot reload নেই। তার জায়গায় Xcode-এর **Preview** — code-এর পাশে view চলমান দেখায়, প্রতিটা বদলের সাথে নতুন।
+**এক লাইনে:** SwiftUI-তে Flutter-এর মতো hot reload নেই। তার জায়গায় আছে Xcode-এর **Preview**। এটা code-এর পাশেই view-টা চালিয়ে দেখায়, আর প্রতিটা বদলের সাথে নতুন করে দেখায়।
 
 ```swift
 #Preview("Pinned note") {
@@ -7152,22 +7470,22 @@ if showUndoBanner {
 }
 ```
 
-- এক file-এ যতগুলো `#Preview` খুশি — light/dark, ছোট/বড় font, empty/error অবস্থা।
-- Preview-তে tap, scroll চলে।
-- Fake repository দিন। Preview-তে আসল network নয়।
+- এক file-এ যতগুলো খুশি `#Preview` রাখা যায় — light/dark, ছোট/বড় font, empty/error অবস্থা।
+- Preview-তে tap আর scroll করা যায়।
+- Preview-তে fake repository দিন। আসল network ব্যবহার করবেন না।
 
 | Flutter | SwiftUI | Compose |
 |---|---|---|
-| Hot reload (চলমান app-এ) | Preview (আলাদা জায়গায়) | `@Preview` (+ Live Edit) |
+| Hot reload (চলমান app-এর ভেতরে) | Preview (app-এর বাইরে, আলাদা জায়গায়) | `@Preview` (+ Live Edit) |
 | Widgetbook / golden test | একাধিক `#Preview` | একাধিক `@Preview` |
 
-**বাস্তব কথা:** Preview খুব কাজের, কিন্তু বড় project-এ মাঝে মাঝে ধীর হয় বা ভেঙে যায়। কারণ প্রায়ই environment-এ object না দেওয়া, বা আসল database ছোঁয়া। View-কে ছোট রাখুন আর dependency init-এ নিন — তাহলে Preview স্থির থাকে।
+**বাস্তব কথা:** Preview খুব কাজের। কিন্তু বড় project-এ মাঝে মাঝে এটা ধীর হয়ে যায় বা ভেঙে যায়। কারণ প্রায়ই দুইটার একটা: environment-এ object দেওয়া হয়নি, বা view আসল database ছুঁয়েছে। View ছোট রাখুন, আর dependency init-এ নিন। তাহলে Preview ঠিকঠাক চলে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios5-13"></a>iOS ৫.১৩ UIKit চিনে রাখুন — `UIViewController` আর Auto Layout
 
-SwiftUI-র আগে iOS-এর UI ছিল **UIKit** — Android-এর পুরনো View system-এর মতো, imperative। আজও অনেক app-এর বড় অংশ UIKit-এ, প্রায় সব Flutter plugin-এর UI অংশও। আর সবচেয়ে জরুরি কথা: **`FlutterViewController` নিজেই একটা `UIViewController`।** তাই UIKit না চিনলে Flutter-এর iOS দিক পুরো বোঝা যায় না।
+SwiftUI-র আগে iOS-এর UI framework ছিল **UIKit**। এটা imperative, Android-এর পুরনো View system-এর মতো। আজও অনেক app-এর বড় অংশ UIKit-এ লেখা। প্রায় সব Flutter plugin-এর UI অংশও UIKit-এ। আর সবচেয়ে জরুরি কথা: **`FlutterViewController` নিজেই একটা `UIViewController`।** তাই UIKit না চিনলে Flutter-এর iOS দিকটা পুরো বোঝা যায় না।
 
 **`UIViewController` — একটা screen, Android-এর Activity/Fragment-এর মতো:**
 
@@ -7204,14 +7522,20 @@ init → loadView → viewDidLoad (একবার)
       → deinit
 ```
 
-- `viewDidLoad` — একবার। Flutter-এর `initState`।
-- `viewWillAppear` / `viewDidAppear` — প্রতিবার দেখা দিলে (পেছন থেকে ফিরলেও)। Navigation-এ ফিরে এলে আবার চলে।
-- `viewIsAppearing` (iOS 17-এ এসেছে, Xcode 15 দিয়ে iOS 13 পর্যন্ত চলে) — size আর trait জানা, কিন্তু এখনো screen-এ দেখা যায়নি। Layout-নির্ভর কাজের সঠিক জায়গা।
-- Rotation-এ কিছু মরে না — শুধু `viewWillTransition(to:with:)` আর আবার layout।
+- `viewDidLoad` — একবারই চলে। এটা Flutter-এর `initState`।
+- `viewWillAppear` / `viewDidAppear` — screen যতবার দেখা যায়, ততবার চলে। Navigation-এ পেছন থেকে ফিরে এলেও আবার চলে।
+- `viewIsAppearing` (iOS 17-এ এসেছে, Xcode 15 দিয়ে build করলে iOS 13 পর্যন্ত চলে) — এই সময় size আর trait জানা থাকে, কিন্তু view এখনো screen-এ দেখা যায়নি। যে কাজ layout-এর ওপর চলে, সেটার ঠিক জায়গা এটা।
+- Rotation-এ কিছু মরে না। শুধু `viewWillTransition(to:with:)` call হয়, আর layout আবার হয়।
 
-**Auto Layout এক নজরে:** View-এর জায়গা সরাসরি না দিয়ে **constraint** দেন — "এর top ওর bottom থেকে ৮ point নিচে"। System সব constraint মিলিয়ে সমীকরণ সমাধান করে frame বের করে। Constraint কম হলে view কোথায় বসবে বোঝা যায় না, বেশি বা পরস্পরবিরোধী হলে console-এ "Unable to simultaneously satisfy constraints"। Flutter-এর constraint-based layout-এর থেকে আলাদা — ওখানে parent একমুখী constraint দেয়, এখানে সবাই মিলে সমীকরণ।
+**Auto Layout এক নজরে:**
+- View-এর জায়গা সরাসরি না দিয়ে আপনি **constraint** দেন। যেমন: "এর top, ওর bottom থেকে ৮ point নিচে"।
+- System সব constraint একসাথে নিয়ে একটা সমীকরণ সমাধান করে, আর প্রতিটা view-এর frame বের করে।
+- Constraint কম হলে view কোথায় বসবে, system বুঝতে পারে না।
+- Constraint বেশি হলে বা একটা আরেকটার বিরুদ্ধে গেলে console-এ আসে "Unable to simultaneously satisfy constraints"।
 
-**দুই জগৎ জোড়া দেওয়া — plugin লেখকের জন্য জরুরি:**
+এটা Flutter-এর constraint-based layout থেকে আলাদা। Flutter-এ parent শুধু এক দিকে, নিচের দিকে constraint পাঠায়। এখানে সব constraint মিলে একটা সমীকরণ তৈরি হয়।
+
+**দুই framework জোড়া দেওয়া — plugin লেখকদের জন্য জরুরি:**
 
 | কাজ | পথ |
 |---|---|
@@ -7231,29 +7555,28 @@ init → loadView → viewDidLoad (একবার)
 | Auto Layout constraint | Stack + frame + `Spacer` | `Row`, `Column`, `Expanded` |
 
 > **মনে রাখুন**
-> - Widget → `struct ...: View` + `body`। Wrapper widget → modifier, আর modifier ভেতর থেকে বাইরে পড়ুন।
-> - `@State` (নিজের, `private`) → `@Binding` (`$` দিয়ে, অন্যের) → `@Observable` (screen model, iOS 17+) → `@Environment` (দূরের সবাই)।
-> - Async কাজ `.task`-এ — screen চলে গেলে নিজে cancel। `.task(id:)` = `didUpdateWidget`।
-> - Identity = Flutter-এর `Key`। `if/else`-এ চেহারা না, মান বদলান; `.id()` দিয়ে state reset।
-> - `FlutterViewController` একটা `UIViewController` — UIKit-এর lifecycle আর Auto Layout চিনে রাখুন।
+> - Widget হয়ে যায় `struct ...: View` + `body`। Wrapper widget হয়ে যায় modifier। Modifier পড়ুন ভেতর থেকে বাইরের দিকে।
+> - `@State` (view-এর নিজের, `private`) → `@Binding` (`$` দিয়ে, অন্যের মান) → `@Observable` (screen-এর model, iOS 17+) → `@Environment` (দূরের সব view-এর জন্য)।
+> - Async কাজ `.task`-এ দিন। Screen চলে গেলে এটা নিজেই cancel হয়। `.task(id:)` হলো `didUpdateWidget`-এর কাজ।
+> - Identity হলো Flutter-এর `Key`। `if/else` দিয়ে চেহারা বদলাবেন না, মান বদলান। State reset করতে `.id()` দিন।
+> - `FlutterViewController` একটা `UIViewController`। তাই UIKit-এর lifecycle আর Auto Layout চিনে রাখুন।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "SwiftUI-তে view একটা হালকা struct, Flutter-এর widget-এর মতো। State থাকে SwiftUI-র নিজের graph-এ, view-এর identity-র সাথে বাঁধা — Flutter-এ Element-এর সাথে State যেভাবে বাঁধা। আমি local state-এ `@State`, child-কে `@Binding`, আর screen-এর logic `@Observable` model-এ রাখি। `@Observable` property ধরে track করে, তাই শুধু যে view যে property পড়েছে, সেটাই আবার আঁকা হয়। Async কাজ `.task`-এ চালাই, যাতে view চলে গেলে নিজে cancel হয়।"
+> - *বাংলায়:* "SwiftUI-তে view একটা হালকা struct, Flutter-এর widget-এর মতো। State থাকে SwiftUI-র নিজের graph-এ, view-এর identity-র সাথে বাঁধা — যেভাবে Flutter-এ State বাঁধা থাকে Element-এর সাথে। আমি local state-এ `@State` দিই, child-কে দিই `@Binding`, আর screen-এর logic রাখি `@Observable` model-এ। `@Observable` প্রতিটা property আলাদা করে track করে। তাই কোনো property বদলালে শুধু সেই view-গুলোই আবার আঁকা হয়, যারা ওটা পড়েছে। Async কাজ চালাই `.task`-এ, যাতে view চলে গেলে কাজটা নিজেই cancel হয়।"
 > - *English:* "In SwiftUI a view is a lightweight struct, like a Flutter widget. State lives in SwiftUI's own graph, tied to the view's identity — the way Flutter ties State to the Element. I use `@State` for local state, `@Binding` for children, and keep screen logic in an `@Observable` model. Observation tracks per property, so only views that read a changed property redraw. I start async work in `.task`, so it cancels itself when the view goes away."
 
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ios6"></a>iOS ৬. Navigation — `go_router`-এর জায়গায় `NavigationStack`
 
-পুরনো iOS-এ নতুন screen মানে `navigationController?.pushViewController(...)`। Data পাঠাতে property set করা, ফল আনতে delegate। SwiftUI-র প্রথম দিকের `NavigationView` আর `NavigationLink(destination:)` code থেকে navigation বের করে আনা কঠিন করত।
+পুরনো iOS-এ নতুন screen খুলতে লিখতেন `navigationController?.pushViewController(...)`। নতুন screen-এ data পাঠাতে তার property set করতেন। আর ফল ফেরত আনতে delegate লাগত। SwiftUI প্রথম দিকে দিয়েছিল `NavigationView` আর `NavigationLink(destination:)`। এতে navigation-এর code view-এর ভেতরে ছড়িয়ে থাকত, আলাদা করে এক জায়গায় আনা কঠিন ছিল।
 
-iOS 16 থেকে **`NavigationStack`** এসে ছবিটা বদলে দিয়েছে। Back stack এখন একটা সাধারণ array, যেটা আপনি নিজে রাখেন। Flutter-এর Navigator 2.0-এর `pages` list, বা Android-এর Navigation 3-এর back stack-এর ([অধ্যায় ৭](#ch7)) ধারণা।
+iOS 16-এ এল **`NavigationStack`**, আর ছবিটা পুরো বদলে গেল। এখন back stack একটা সাধারণ array। এই array আপনি নিজে রাখেন। ধারণাটা Flutter-এর Navigator 2.0-এর `pages` list-এর মতো। Android-এর Navigation 3-এর back stack-ও একই রকম ([অধ্যায় ৭](#ch7))।
 
 ### <a id="ios6-1"></a>iOS ৬.১ `NavigationStack` আর path
 
-**এক লাইনে:** Route-গুলো একটা `enum`। Back stack হলো `[Route]` array। Push মানে `append`, pop মানে `removeLast`। কোন route-এ কোন screen, সেটা `.navigationDestination(for:)`-এ।
+**এক লাইনে:** সব route থাকে একটা `enum`-এ। Back stack হলো একটা `[Route]` array। Push মানে array-তে `append`, pop মানে `removeLast`। কোন route-এ কোন screen খুলবে, সেটা বলে দেন `.navigationDestination(for:)`-এ।
 
 **Flutter-এ (go_router):**
 
@@ -7345,22 +7668,22 @@ router.push(.note(id: savedNote.id))
 | AppBar actions | `.toolbar { ToolbarItem { ... } }` | `TopAppBar(actions = ...)` |
 
 **কী আলাদা:**
-- **Back stack আপনার হাতে, একটা array।** `path`-এ যা আছে, screen-এ ঠিক তাই। Test-এ শুধু `router.path` check করলেই হয়।
-- **System back button নেই।** Navigation bar-এর বাম দিকে "‹ Notes" back button, আর বাম কিনারা থেকে swipe — দুটোই `NavigationStack` নিজে দেয়, আর pop হলে `path` নিজে ছোট হয়।
-- **একাধিক type-এর route চাইলে `NavigationPath`।** এটা type-erased path — ভেতরে `Route`, `Folder`, যা খুশি রাখা যায়। এক enum-এ সব route রাখলে সাধারণ array-ই সহজ।
+- **Back stack আপনার হাতে, একটা array।** `path`-এ যা আছে, screen-এ ঠিক তাই দেখায়। তাই test-এ শুধু `router.path` check করলেই চলে।
+- **System back button নেই।** Android-এর মতো আলাদা system back button iOS-এ নেই। তার বদলে `NavigationStack` নিজেই দুটো জিনিস দেয়: navigation bar-এর বাম দিকে "‹ Notes" back button, আর screen-এর বাম কিনারা থেকে swipe। User এভাবে pop করলে `path` নিজে থেকেই ছোট হয়ে যায়।
+- **একাধিক type-এর route চাইলে `NavigationPath`।** এটা type-erased path, মানে এর ভেতরে আলাদা আলাদা type রাখা যায় — `Route`, `Folder`, যা খুশি। তবে সব route এক enum-এ রাখলে সাধারণ array-ই সহজ।
 
 **Best approach:**
-- এক enum-এ সব route, `Hashable` আর `Codable`। Route-এ শুধু id, পুরো `Note` না — go_router আর Android-এর একই নিয়ম। Screen id নিয়ে repository থেকে load করে।
-- Screen-কে `Router` না দিয়ে callback দিন (`onOpenNote: (UUID) -> Void`)। Navigation এক জায়গায় থাকে, screen Preview আর test করা সহজ হয়। ছোট app-এ environment থেকে `Router` পড়াও চলে।
-- **Restoration বিনা খরচে:** `Route` `Codable` হলে পুরো `path` encode করে `@SceneStorage`-এ রাখা যায়। System app মেরে ফেললেও user ঠিক একই screen-এ ফেরে ([iOS ৪.৫](#ios4-5))।
+- সব route এক enum-এ রাখুন, আর enum-টাকে `Hashable` আর `Codable` করুন। Route-এ শুধু id পাঠান, পুরো `Note` না। go_router আর Android-এও এই একই নিয়ম। Screen id পেয়ে নিজেই repository থেকে data load করে।
+- Screen-কে `Router` না দিয়ে একটা callback দিন (`onOpenNote: (UUID) -> Void`)। তাতে navigation-এর সব code এক জায়গায় থাকে। Screen-এর Preview আর test-ও সহজ হয়। ছোট app-এ screen নিজে environment থেকে `Router` পড়লেও চলে।
+- **Restoration ফ্রি পাবেন:** `Route` যদি `Codable` হয়, তাহলে পুরো `path` encode করে `@SceneStorage`-এ রাখা যায়। এতে system app মেরে ফেললেও user আবার ঠিক একই screen-এ ফেরে ([iOS ৪.৫](#ios4-5))।
 
-**ফাঁদ:** `.navigationDestination(for:)` lazy container-এর (`List`, `LazyVStack`) ভেতরের row-এ লাগানো। Row তৈরি না হলে destination-ও নিবন্ধিত হয় না, আর push কাজ করে না (Xcode console-এ সতর্কবার্তা আসে)। Stack-এর root view-এ লাগান, ওপরের মতো।
+**ফাঁদ:** `.navigationDestination(for:)`-কে lazy container-এর (`List`, `LazyVStack`) ভেতরের কোনো row-এ লাগানো। Lazy container একটা row তখনই বানায়, যখন সেটা screen-এ আসে। Row তৈরি না হলে destination-ও register হয় না। তখন push কাজ করে না (Xcode console-এ একটা warning আসে)। তাই এটা stack-এর root view-এ লাগান, ওপরের code-এর মতো।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios6-2"></a>iOS ৬.২ Sheet, full-screen cover আর alert
 
-**এক লাইনে:** নিচ থেকে ওঠা screen — `.sheet`। পুরো screen ঢেকে — `.fullScreenCover`। ছোট প্রশ্ন — `.alert`, `.confirmationDialog`। সবই একটা state দিয়ে চলে: state থাকলে দেখায়, `nil` বা `false` হলে বন্ধ।
+**এক লাইনে:** নিচ থেকে উঠে আসা screen-এর জন্য `.sheet`। পুরো screen ঢাকতে `.fullScreenCover`। ছোট কোনো প্রশ্ন করতে `.alert` বা `.confirmationDialog`। সবগুলোই একটা state দিয়ে চলে। State-এ value থাকলে দেখায়, `nil` বা `false` হলে বন্ধ হয়।
 
 **Flutter-এ:**
 
@@ -7437,15 +7760,15 @@ struct NewNoteView: View {
 | `await showDialog<T>()` থেকে ফল | নেই — callback বা state দিয়ে | callback |
 | `PopScope(canPop: false)` | `.interactiveDismissDisabled()` | `BackHandler` |
 
-**কী আলাদা:** Flutter-এ `showDialog` একটা function — call করে `await` করেন, ফল ফেরত আসে। SwiftUI-তে sheet একটা state-এর প্রতিফলন। ফল আসে callback বা binding দিয়ে। শুরুতে অস্বস্তি লাগে, কিন্তু সুবিধা হলো: "sheet খোলা কি না" এখন সাধারণ state, test আর restore করা যায়।
+**কী আলাদা:** Flutter-এ `showDialog` একটা function। Call করে `await` করেন, আর ফল ফেরত আসে। SwiftUI-তে sheet হলো state-এর চেহারা — state যা বলে, screen-এ তাই দেখায়। ফল আসে callback বা binding দিয়ে। শুরুতে একটু অদ্ভুত লাগবে। কিন্তু লাভও আছে: "sheet খোলা কি না" এখন একটা সাধারণ state। এটা test করা যায়, আবার restore-ও করা যায়।
 
-**ফাঁদ:** একই view-এ একাধিক `.sheet(isPresented:)` আর দুইটা bool একসাথে `true` — একটা দেখাবে, আরেকটা নিঃশব্দে হারাবে। এক জায়গায় অনেক রকম sheet থাকলে একটা enum দিন: `@State private var sheet: SheetKind?` আর একটাই `.sheet(item: $sheet)`।
+**ফাঁদ:** একই view-এ কয়েকটা `.sheet(isPresented:)` রাখলেন, আর দুইটা bool একসাথে `true` হলো। তখন একটা sheet দেখাবে, অন্যটা কোনো error ছাড়াই চুপচাপ হারিয়ে যাবে। এক জায়গায় অনেক রকম sheet লাগলে একটা enum বানান: `@State private var sheet: SheetKind?`। তারপর একটাই `.sheet(item: $sheet)` রাখুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios6-3"></a>iOS ৬.৩ Tab
 
-**এক লাইনে:** নিচের tab bar — `TabView`। iOS 18 থেকে প্রতিটা tab একটা `Tab`। প্রতিটা tab-এর ভেতরে নিজের `NavigationStack`, তাই tab বদলালে প্রতিটার back stack আলাদা থাকে।
+**এক লাইনে:** নিচের tab bar-এর জন্য `TabView`। iOS 18 থেকে প্রতিটা tab একটা `Tab`। প্রতিটা tab-এর ভেতরে তার নিজের `NavigationStack` থাকে। তাই tab বদলালেও প্রতিটা tab-এর back stack আলাদা থাকে।
 
 **Flutter-এ (go_router):**
 
@@ -7502,29 +7825,29 @@ TabView(selection: $selection) {
 | `shell.goBranch(i)` | `selection = .folders` | `navigate(..) { launchSingleTop }` |
 | `BottomNavigationBar` | tab bar নিজে আসে | `NavigationBar` |
 
-- Tab বদলালে অন্য tab-এর view আর তার `@State` বেঁচে থাকে — Flutter-এর `IndexedStack`-এর মতো।
-- একই tab-এ আবার tap করলে iOS-এর চেনা আচরণ: root-এ ফিরে যাওয়া। আচরণটা নিশ্চিত করতে নিজের `path` রাখুন — `notesPath.removeAll()`।
+- Tab বদলালে অন্য tab-এর view আর তার `@State` মুছে যায় না, বেঁচে থাকে। ঠিক Flutter-এর `IndexedStack`-এর মতো।
+- একই tab-এ আবার tap করলে iOS user আশা করে, সে root-এ ফিরে যাবে। এটা ঠিকমতো পেতে প্রতিটা tab-এর নিজের `path` রাখুন, আর তখন `notesPath.removeAll()` করুন।
 
-**ফাঁদ:** পুরো `TabView`-কে একটা `NavigationStack`-এর ভেতরে রাখা। তখন push করলে tab bar-সহ পুরো screen সরে যায়, আর সব tab একটা stack ভাগ করে। উল্টোটা ঠিক — `TabView` বাইরে, প্রতিটা tab-এর ভেতরে `NavigationStack`।
+**ফাঁদ:** পুরো `TabView`-কে একটা `NavigationStack`-এর ভেতরে রাখা। তখন push করলে tab bar-সহ পুরো screen সরে যায়। আর সব tab মিলে একটাই stack ব্যবহার করে। ঠিক নিয়মটা উল্টো: `TabView` থাকবে বাইরে, আর প্রতিটা tab-এর ভেতরে থাকবে `NavigationStack`।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios6-4"></a>iOS ৬.৪ Deep link — `onOpenURL`
 
-**এক লাইনে:** বাইরে থেকে আসা URL (`notesapp://note/42` বা `https://notes.byteonyx.com/note/42`) ধরতে `.onOpenURL { url in }`। URL পড়ে `Route` বানান, আর `path`-এ বসান। Navigation যেহেতু শুধু একটা array, deep link মানে শুধু array বদলানো।
+**এক লাইনে:** বাইরে থেকে URL আসতে পারে (`notesapp://note/42` বা `https://notes.byteonyx.com/note/42`)। সেটা ধরতে `.onOpenURL { url in }` লাগান। URL পড়ে একটা `Route` বানান, আর সেটা `path`-এ বসান। Navigation তো শুধু একটা array। তাই deep link মানেও শুধু array বদলানো।
 
 **দুই রকম link:**
 
 | | Custom URL scheme | Universal link |
 |---|---|---|
 | দেখতে | `notesapp://note/42` | `https://notes.byteonyx.com/note/42` |
-| ঘোষণা | Info.plist-এ `CFBundleURLTypes` ([iOS ৩.৬](#ios3-6)) | Associated Domains entitlement: `applinks:notes.byteonyx.com` ([iOS ৩.৭](#ios3-7)) |
+| কোথায় লিখবেন | Info.plist-এ `CFBundleURLTypes` ([iOS ৩.৬](#ios3-6)) | Associated Domains entitlement: `applinks:notes.byteonyx.com` ([iOS ৩.৭](#ios3-7)) |
 | Server-এ | কিছু না | `https://notes.byteonyx.com/.well-known/apple-app-site-association` file |
 | App না থাকলে | কিছু হয় না / error | Website খোলে |
-| নিরাপত্তা | যেকোনো app একই scheme দাবি করতে পারে | Domain-এর মালিক প্রমাণ করে |
+| নিরাপত্তা | অন্য যেকোনো app-ও একই scheme নিজের বলে নিতে পারে | Domain-টা যে আপনার, সেটা প্রমাণ করতে হয় |
 | Android-এ | custom scheme intent filter | App Links (`assetlinks.json`) |
 
-**Best:** user-এর হাতে যাওয়া link (email, share) — universal link। App-এর নিজের ভেতরের কাজ (OAuth callback, widget থেকে খোলা) — custom scheme চলে।
+**Best:** user-এর হাতে যে link যায় (email, share), সেখানে universal link দিন। App-এর নিজের ভেতরের কাজে (OAuth callback, widget থেকে app খোলা) custom scheme দিলেও চলে।
 
 **SwiftUI-তে:**
 
@@ -7561,19 +7884,19 @@ struct RootView: View {
 }
 ```
 
-`onOpenURL` custom scheme আর universal link — দুটোই ধরে। App বন্ধ থাকলে URL দিয়ে app চালু হলেও এটা call হয়।
+`onOpenURL` দুই রকম link-ই ধরে — custom scheme আর universal link। App বন্ধ থাকলে URL দিয়েই app চালু হয়। তখনও এটা call হয়।
 
 **Flutter-এ এর পেছনে কী ঘটে:**
-- Flutter-এর নিজের deep link handler ডিফল্টে চালু। iOS URL দিলে engine সেটা Flutter-এর router-এ (`go_router`) পাঠিয়ে দেয়। নিজের plugin দিয়ে deep link সামলালে Info.plist-এ `FlutterDeepLinkingEnabled` = `false` দিয়ে এটা বন্ধ করতে হয়।
-- UIScene-এ যাওয়ার পরে (Flutter 3.41+ ডিফল্ট) URL আসে SceneDelegate-এ। `FlutterSceneDelegate` সেটা engine আর plugin-এ পৌঁছে দেয় ([iOS ৪.১](#ios4-1))। নিজের SceneDelegate-এ `scene(_:openURLContexts:)` override করলে `super` call করতে ভুলবেন না — নইলে Flutter link পাবে না।
+- Flutter-এর নিজের একটা deep link handler আছে, যেটা default-এ চালু থাকে। iOS কোনো URL দিলে engine সেটা Flutter-এর router-এ (`go_router`) পাঠিয়ে দেয়। আপনি নিজের plugin দিয়ে deep link সামলালে এটা বন্ধ করতে হয়। তার জন্য Info.plist-এ `FlutterDeepLinkingEnabled` = `false` দিন।
+- Flutter 3.41+ থেকে app default-এ UIScene দিয়ে চলে। তখন URL আসে SceneDelegate-এ। `FlutterSceneDelegate` সেটা engine আর plugin-এর কাছে পৌঁছে দেয় ([iOS ৪.১](#ios4-1))। নিজের SceneDelegate-এ `scene(_:openURLContexts:)` override করলে ভেতরে `super` call করতে ভুলবেন না। নইলে Flutter link-টা পাবে না।
 
 | go_router | SwiftUI | Navigation Compose |
 |---|---|---|
-| Path থেকে নিজে route মেলায় | `onOpenURL` + নিজে URL → `Route` | `navDeepLink { uriPattern = ... }` |
+| Path দেখে নিজেই route খুঁজে নেয় | `onOpenURL` + URL থেকে নিজে `Route` বানানো | `navDeepLink { uriPattern = ... }` |
 | `context.go(link)` | `router.path = [route]` | `navController.handleDeepLink(intent)` |
 | Info.plist / Manifest config | Info.plist + entitlement | Manifest intent filter |
 
-**ফাঁদ:** URL-কে বিশ্বাস করা। যেকোনো app বা website `notesapp://note/...` খুলতে পারে। URL-এর id দিয়ে সরাসরি মুছে ফেলা বা কিছু পাঠানোর মতো কাজ করবেন না। শুধু screen খুলুন, আর কাজের আগে user-কে নিশ্চিত করতে দিন।
+**ফাঁদ:** URL-কে বিশ্বাস করা। যেকোনো app বা website `notesapp://note/...` খুলতে পারে। তাই URL-এর id পেয়েই সরাসরি কোনো কাজ করবেন না — যেমন কিছু মুছে ফেলা, বা কিছু পাঠানো। শুধু screen-টা খুলুন। আসল কাজের আগে user-কে নিজে confirm করতে দিন।
 
 **নিজে test করুন:** Simulator-এ terminal থেকে:
 
@@ -7581,7 +7904,7 @@ struct RootView: View {
 xcrun simctl openurl booted "notesapp://note/6F9619FF-8B86-D011-B42D-00C04FC964FF"
 ```
 
-Android-এর `adb shell am start -d "..."`-এর কাজ।
+এটা Android-এর `adb shell am start -d "..."`-এর মতোই কাজ করে।
 
 [উপরে ফিরুন](#toc)
 
@@ -7589,7 +7912,7 @@ Android-এর `adb shell am start -d "..."`-এর কাজ।
 
 | কাজ | Flutter (go_router) | iOS (SwiftUI) | Android (Compose) |
 |---|---|---|---|
-| Route-এর সংজ্ঞা | path string | `enum Route: Hashable` | `@Serializable` class |
+| Route কীভাবে লেখা হয় | path string | `enum Route: Hashable` | `@Serializable` class |
 | Back stack কার হাতে | router-এর | আপনার `[Route]` array | `NavController` (Nav3-এ আপনার list) |
 | Push | `push` | `path.append` | `navigate` |
 | Pop | `pop` | `removeLast` / `dismiss()` | `popBackStack` |
@@ -7601,18 +7924,18 @@ Android-এর `adb shell am start -d "..."`-এর কাজ।
 | Process মরার পরে stack | সাধারণত হারায় | `Codable` path + `@SceneStorage` | system নিজে ফেরায় |
 
 **Best approach (নভেম্বর ২০২৬):**
-- Tab থাকলে `TabView` বাইরে, প্রতিটা tab-এ নিজের `NavigationStack(path:)`।
-- সব route এক `Codable` enum-এ, argument-এ শুধু id।
-- `Router` একটা `@MainActor @Observable` class। Deep link আর code — দুই দিক থেকে শুধু `path` বদলায়।
-- Screen-কে callback দিন। `.navigationDestination` root-এ।
-- Sheet-এর জন্য enum-ভিত্তিক `.sheet(item:)`।
+- Tab থাকলে `TabView` বাইরে রাখুন। প্রতিটা tab-এ থাকবে তার নিজের `NavigationStack(path:)`।
+- সব route একটা `Codable` enum-এ। Argument-এ শুধু id।
+- `Router` হবে একটা `@MainActor @Observable` class। Deep link আর code — দুই দিক থেকেই শুধু `path` বদলানো হয়।
+- Screen-কে callback দিন। `.navigationDestination` লাগান root-এ।
+- Sheet-এর জন্য একটা enum বানিয়ে `.sheet(item:)` ব্যবহার করুন।
 
 > **মনে রাখুন**
 > - `NavigationStack(path:)` + `.navigationDestination(for:)`। Back stack একটা সাধারণ `[Route]`।
 > - Push = `append`, pop = `removeLast`, root = `removeAll`। Route-এ শুধু id।
-> - Sheet আর alert state দিয়ে চলে — `await` করে ফল আসে না, callback দিয়ে আসে।
+> - Sheet আর alert চলে state দিয়ে। `await` করে ফল পাওয়া যায় না, ফল আসে callback দিয়ে।
 > - `TabView` বাইরে, প্রতিটা tab-এ নিজের stack।
-> - Deep link: `onOpenURL` → `Route` → `path`। User-এর link-এ universal link।
+> - Deep link: `onOpenURL` → `Route` → `path`। User-কে যে link দেবেন, সেটা universal link হোক।
 
 > **Interview-এ এক কথায়**
 > - *বাংলায়:* "আমি SwiftUI-তে `NavigationStack`-এ path binding দিয়ে navigation করি। সব route একটা `Hashable`, `Codable` enum, আর back stack একটা array — একটা `@Observable` router-এ রাখা। তাই push, pop, deep link সব শুধু array বদলানো, আর test-এ শুধু array check করি। Route-এ শুধু id পাঠাই, আর path `@SceneStorage`-এ রাখলে system app মারার পরেও user একই screen-এ ফেরে।"
@@ -7624,9 +7947,9 @@ Android-এর `adb shell am start -d "..."`-এর কাজ।
 
 ## <a id="ios7"></a>iOS ৭. Architecture — Cubit থেকে `@Observable` view model
 
-Android-এর [অধ্যায় ৮](#ch8)-এ দেখেছেন, layer বদলায় না, শুধু ইট বদলায়। iOS-এও একই কথা। Presentation, domain, data — তিনটা layer থাকে। Cubit-এর জায়গায় একটা `@Observable` class। `get_it`-এর জায়গায় সাধারণ `init`। আর repository ঠিক আগের মতোই।
+Android-এর [অধ্যায় ৮](#ch8)-এ দেখেছেন: layer বদলায় না, শুধু প্রতিটা layer-এর ভেতরের tool বদলায়। iOS-এও একই কথা। তিনটা layer থাকে — presentation, domain, data। Cubit-এর জায়গায় আসে একটা `@Observable` class। `get_it`-এর জায়গায় সাধারণ `init`। আর repository থাকে ঠিক আগের মতোই।
 
-একটা বড় পার্থক্য আগে বলে রাখি। Android-এ ViewModel একটা বিশেষ class, কারণ rotation-এ Activity মরে যায়। iOS-এ rotation-এ কিছু মরে না। তাই iOS-এ "ViewModel" কোনো framework class না। এটা আপনার নিজের একটা সাধারণ class, যার গায়ে শুধু `@Observable` লেখা।
+একটা বড় পার্থক্য আগেই বলে রাখি। Android-এ ViewModel একটা বিশেষ class। কারণ phone ঘোরালে (rotation) Activity মরে যায়, আর ViewModel সেটা পার হয়ে বেঁচে থাকে। iOS-এ rotation-এ কিছুই মরে না। তাই iOS-এ "ViewModel" নামে কোনো framework class নেই। এটা আপনার নিজের একটা সাধারণ class, যার গায়ে শুধু `@Observable` লেখা থাকে।
 
 ### <a id="ios7-1"></a>iOS ৭.১ Layer একই থাকে
 
@@ -7647,15 +7970,15 @@ data/                                  Data/
 di/injection.dart    (get_it)          NotesApp.swift       (@main — এখানেই সব জোড়া লাগে)
 ```
 
-**`freezed` state কোথায় গেল?** Flutter-এ Cubit একটা immutable state object `emit` করে। iOS-এ view model-এর property-গুলোই state। `notes`, `isLoading`, `errorMessage` — প্রতিটা আলাদা `var`। SwiftUI জানে কোন view কোন property পড়ে। সেই property বদলালে শুধু সেই view আবার আঁকা হয়। তাই সব state একটা struct-এ ভরে `copyWith` করার দরকার পড়ে না।
+**`freezed` state কোথায় গেল?** Flutter-এ Cubit একটা immutable state object `emit` করে। iOS-এ view model-এর property-গুলোই state। `notes`, `isLoading`, `errorMessage` — প্রতিটা আলাদা একটা `var`। SwiftUI জানে, কোন view কোন property পড়ে। কোনো property বদলালে শুধু যে view সেটা পড়ে, সেটাই আবার আঁকা হয়। তাই সব state একটা struct-এ ভরে `copyWith` করার দরকার পড়ে না।
 
-**UseCase নিয়ে:** Android অধ্যায়ের কথাই এখানে খাটে। যে UseCase শুধু repository-র একটা method ডাকে, সেটা বাড়তি layer। Business rule থাকলে, বা দুইটা repository মেলাতে হলে, তখন বানান।
+**UseCase নিয়ে:** Android অধ্যায়ের কথা এখানেও খাটে। যে UseCase শুধু repository-র একটা method ডাকে, সেটা বাড়তি layer, লাগে না। UseCase বানান তখনই, যখন তাতে business rule আছে, বা দুইটা repository-র data মেলাতে হয়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios7-2"></a>iOS ৭.২ Cubit → `@Observable` view model
 
-**এক লাইনে:** `@Observable` লেখা একটা class-এর প্রতিটা `var` নিজেই "observable"। SwiftUI view সেটা পড়লেই subscribe হয়ে যায়। `emit` লাগে না, `notifyListeners` লাগে না।
+**এক লাইনে:** কোনো class-এর গায়ে `@Observable` লিখলে তার প্রতিটা `var` নিজে থেকেই "observable" হয়ে যায়। SwiftUI view সেই property পড়লেই subscribe হয়ে যায়। `emit` লাগে না, `notifyListeners`-ও লাগে না।
 
 **Flutter-এ আপনি যেভাবে করেন:**
 
@@ -7774,27 +8097,27 @@ struct NotesScreen: View {
 | Widget গেলে Cubit যায় | Rotation-এ বাঁচে | Rotation-এ কিছু মরে না; view hierarchy থেকে সরলে যায় |
 
 **ভেতরে কীভাবে কাজ করে:**
-1. `@Observable` একটা Swift **macro** ([iOS ১](#ios1))। Compile-এর সময় এটা প্রতিটা `var`-এর getter আর setter-এ লুকানো code বসায়।
-2. SwiftUI `body` চালানোর সময় দেখে রাখে, কোন কোন property পড়া হলো। এটা Observation framework-এর tracking।
-3. পরে সেই property-র setter চললে, SwiftUI শুধু ওই view-এর `body` আবার চালায়।
-4. যে property `body`-তে পড়া হয়নি, সেটা বদলালে কিছুই আবার আঁকা হয় না। `BlocBuilder`-এর `buildWhen` হাতে লিখতে হয় না — এটা নিজে থেকেই হয়।
+1. `@Observable` একটা Swift **macro** ([iOS ১](#ios1))। Macro compile-এর সময় আপনার হয়ে code লেখে। এটা প্রতিটা `var`-এর getter আর setter-এ কিছু লুকানো code বসিয়ে দেয়।
+2. SwiftUI যখন `body` চালায়, তখন খেয়াল রাখে কোন কোন property পড়া হলো। এই খেয়াল রাখার কাজটা করে Observation framework (একে tracking বলে)।
+3. পরে কোনো property-র setter চললে SwiftUI শুধু সেই view-এর `body` আবার চালায়, যে view ওই property পড়েছিল।
+4. যে property `body`-তে পড়া হয়নি, সেটা বদলালে কিছুই আবার আঁকা হয় না। Flutter-এ এর জন্য `BlocBuilder`-এর `buildWhen` হাতে লিখতে হতো। এখানে এটা নিজে থেকেই হয়।
 
-**Version:** `@Observable` আর Observation framework iOS 17 থেকে। তার আগের code-এ দেখবেন `ObservableObject` + `@Published` + `@StateObject`। ওটা চিনে রাখুন, নতুন code-এ না। Apple-এর [migration guide](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro) আছে।
+**Version:** `@Observable` আর Observation framework এসেছে iOS 17-এ। তার আগের code-এ দেখবেন `ObservableObject` + `@Published` + `@StateObject`। ওটা চিনে রাখুন, কিন্তু নতুন code-এ লিখবেন না। পুরনো থেকে নতুনে যেতে Apple-এর একটা [migration guide](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro) আছে।
 
-**`@MainActor` কেন:** View model-এর state UI পড়ে, তাই state সবসময় main thread-এ বদলানো উচিত। `@MainActor` লিখলে compiler নিজেই এটা নিশ্চিত করে ([iOS ২](#ios2))। Xcode 26 থেকে নতুন project-এ default actor isolation `MainActor` চালু থাকে। তবু view model-এ `@MainActor` স্পষ্ট লিখুন। পড়তে সহজ, আর পুরনো project-এও ঠিক থাকে।
+**`@MainActor` কেন:** View model-এর state UI পড়ে। তাই state সবসময় main thread-এ বদলানো উচিত। `@MainActor` লিখলে compiler নিজেই এটা check করে ([iOS ২](#ios2))। Xcode 26 থেকে নতুন project-এ default actor isolation `MainActor` চালু থাকে — মানে আলাদা করে কিছু না বললে code main actor-এ চলে। তবু view model-এ `@MainActor` নিজে লিখে দিন। পড়তে সহজ হয়, আর পুরনো project-এও ঠিকমতো কাজ করে।
 
-**Best approach:** প্রতিটা screen-এর জন্য একটা `@MainActor @Observable final class`। State property `private(set)`। কাজের method `async`। View model-এর মালিক screen-এর view, `@State` দিয়ে। কাজ শুরু হয় `.task`-এ, `init`-এ না।
+**Best approach:** প্রতিটা screen-এর জন্য একটা `@MainActor @Observable final class` বানান। State property-গুলো `private(set)` রাখুন। কাজের method-গুলো `async` করুন। View model-এর মালিক হবে screen-এর view, `@State` দিয়ে। কাজ শুরু করুন `.task`-এ, `init`-এ না।
 
 **ফাঁদ:**
-- **`@State`-এর initial value বারবার তৈরি হয়।** Parent view আবার আঁকা হলে `NotesScreen.init` আবার চলে, তাই `NotesViewModel(...)` আবার তৈরি হয়। SwiftUI প্রথমটাই রাখে, নতুনটা ফেলে দেয়। তাই view model-এর `init`-এ network call বা timer চালু করবেন না। কাজ `.task`-এ।
-- **`@Observable` class-এর জন্য `@StateObject` না।** `@StateObject` পুরনো `ObservableObject`-এর জন্য। `@Observable`-এর মালিকানা `@State` দিয়ে।
-- **State public `var` রাখবেন না।** তখন view নিজেই `viewModel.notes = []` লিখে দিতে পারে। Cubit-এর বাইরে থেকে `emit` করা যেমন ভুল, এটাও তেমন। `private(set)` দিন।
+- **`@State`-এর initial value বারবার তৈরি হয়।** Parent view আবার আঁকা হলে `NotesScreen.init` আবার চলে। তাই `NotesViewModel(...)`-ও আবার তৈরি হয়। SwiftUI প্রথমটাই রেখে দেয়, নতুনটা ফেলে দেয়। এজন্য view model-এর `init`-এ network call বা timer চালু করবেন না। সব কাজ `.task`-এ।
+- **`@Observable` class-এর জন্য `@StateObject` লিখবেন না।** `@StateObject` পুরনো `ObservableObject`-এর জন্য। `@Observable` class-এর মালিক হতে `@State` দিন।
+- **State-কে public `var` রাখবেন না।** তাহলে view নিজেই `viewModel.notes = []` লিখে দিতে পারবে। এটা Cubit-এর বাইরে থেকে `emit` করার মতোই ভুল। তাই `private(set)` দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios7-3"></a>iOS ৭.৩ Unidirectional data flow — state নিচে, event ওপরে
 
-**এক লাইনে:** View শুধু state দেখায় আর event পাঠায়। State বদলায় শুধু view model। Flutter-এর BLoC আর Android-এর UDF-এর মতোই।
+**এক লাইনে:** View শুধু দুটো কাজ করে: state দেখায়, আর event পাঠায়। State বদলায় শুধু view model। Flutter-এর BLoC আর Android-এর UDF-ও ঠিক এমন।
 
 ```
         ┌──────────── state (notes, isLoading) ────────────┐
@@ -7804,7 +8127,7 @@ struct NotesScreen: View {
         └──────── event: await viewModel.delete(note) ─────┘
 ```
 
-**Route আর Screen ভাগ করুন।** Android-এ `NotesRoute` (ViewModel নেয়) আর `NotesScreen` (stateless) আলাদা ছিল। SwiftUI-তেও একই কাজের:
+**Route আর Screen আলাদা করুন।** Android-এ দুইটা আলাদা ছিল: `NotesRoute` ViewModel নিত, আর `NotesScreen` ছিল stateless। SwiftUI-তেও একই কাজ করা যায়:
 
 ```swift
 // শুধু দেখায় — preview আর test সহজ
@@ -7827,9 +8150,9 @@ struct NotesListView: View {
 }
 ```
 
-`NotesScreen` view model রাখে, আর `NotesListView`-কে data আর closure দেয়। Flutter-এর `NotesPage` আর `NotesView`-এর মতো।
+`NotesScreen` view model রাখে। সে `NotesListView`-কে শুধু data আর closure দেয়। Flutter-এ `NotesPage` আর `NotesView`-কে যেভাবে ভাগ করতেন, ঠিক তেমন।
 
-**One-off event: `BlocListener` কোথায়?** Snackbar বা alert-এর মতো "একবার" জিনিস Android-এ state হিসেবে রাখতে বলা হয়েছিল ([৮.৪](#ch8-4))। SwiftUI-তে এটা আরও স্বাভাবিক, কারণ alert নিজেই একটা `Binding<Bool>` চায়:
+**One-off event: `BlocListener` কোথায়?** Snackbar বা alert-এর মতো জিনিস একবারই দেখাতে হয়। Android-এ এদেরও state হিসেবে রাখতে বলা হয়েছিল ([৮.৪](#ch8-4))। SwiftUI-তে এটা আরও সহজে আসে, কারণ alert নিজেই একটা `Binding<Bool>` চায়:
 
 ```swift
 .alert(
@@ -7845,9 +8168,9 @@ struct NotesListView: View {
 }
 ```
 
-Error state-এ থাকে। Alert বন্ধ হলে SwiftUI নিজে `false` লেখে, আর আমরা error মুছে দিই। Event হারানোর ভয় নেই।
+Error থাকে state-এ। User alert বন্ধ করলে SwiftUI নিজে binding-এ `false` লেখে। তখন আমরা error মুছে দিই। তাই event হারিয়ে যাওয়ার ভয় নেই।
 
-**State বদল দেখে কিছু করতে হলে** `.onChange(of:)` ব্যবহার করুন। যেমন নতুন note লেখার screen-এ, `EditNoteViewModel`-এর `didSave` সত্যি হলে screen বন্ধ করা:
+**State বদল দেখে কিছু করতে হলে** `.onChange(of:)` ব্যবহার করুন। ধরুন নতুন note লেখার screen। `EditNoteViewModel`-এর `didSave` সত্যি হলে আপনি screen বন্ধ করতে চান:
 
 ```swift
 .onChange(of: viewModel.didSave) { _, didSave in
@@ -7855,13 +8178,13 @@ Error state-এ থাকে। Alert বন্ধ হলে SwiftUI নিজ�
 }
 ```
 
-**চিনে রাখুন — TCA:** The Composable Architecture (Point-Free) একটা জনপ্রিয় library। এটা Redux বা BLoC-এর মতো: `State`, `Action`, `Reducer`। বড় team-এর project-এ দেখবেন। শুরুতে লাগবে না।
+**চিনে রাখুন — TCA:** The Composable Architecture (Point-Free) একটা জনপ্রিয় library। এটা Redux বা BLoC-এর মতো — `State`, `Action`, `Reducer` দিয়ে চলে। বড় team-এর project-এ দেখবেন। শুরুতে এটা লাগবে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios7-4"></a>iOS ৭.৪ `get_it` → init injection আর `@Environment`
 
-**এক লাইনে:** iOS-এ DI-এর জন্য framework লাগে না। Dependency `init`-এ দিন। App-জুড়ে লাগে এমন কিছু থাকলে `@Environment`-এ রাখুন।
+**এক লাইনে:** iOS-এ DI-এর জন্য কোনো framework লাগে না। Dependency সরাসরি `init`-এ পাঠান। যা পুরো app-জুড়ে লাগে, সেটা `@Environment`-এ রাখুন।
 
 **Flutter-এ:**
 
@@ -7877,7 +8200,7 @@ void configureDependencies() {
 }
 ```
 
-**iOS-এ — composition root:**
+**iOS-এ — composition root (যে এক জায়গায় সব object তৈরি করে জোড়া লাগানো হয়):**
 
 ```swift
 import SwiftUI
@@ -7910,7 +8233,7 @@ struct NotesApp: App {
 }
 ```
 
-`SessionStore` হলো একটা ছোট `@MainActor @Observable` class — কে login করেছে, তার নাম। যে view-এর দরকার, সে নিজে তুলে নেয়:
+`SessionStore` হলো একটা ছোট `@MainActor @Observable` class। এতে থাকে কে login করেছে, আর তার নাম। যে view-এর এটা দরকার, সে environment থেকে নিজেই তুলে নেয়:
 
 ```swift
 struct ProfileView: View {
@@ -7926,7 +8249,7 @@ struct ProfileView: View {
 
 | `get_it` / `injectable` | Hilt (Android) | iOS |
 |---|---|---|
-| Runtime-এ খোঁজে (service locator) | Compile time-এ graph বানায় | সাধারণ `init` — compiler নিজেই type check করে |
+| Runtime-এ খুঁজে বের করে (service locator) | Compile time-এ dependency graph বানায় | সাধারণ `init` — compiler নিজেই type check করে |
 | `registerLazySingleton` | `@Singleton` | `App`-এ একবার তৈরি করে সবাইকে একই object দেওয়া |
 | `registerFactory` | unscoped | প্রতিবার `NotesViewModel(...)` |
 | `@LazySingleton(as: Interface)` | `@Binds` | `protocol` + তার একটা implementation |
@@ -7935,22 +8258,22 @@ struct ProfileView: View {
 | `@Environment('test')` | `@TestInstallIn` | test-এ fake object দিয়ে `init` ডাকা |
 
 **কোনটা কখন:**
-- **Init injection** — repository, API client, view model। ৯০% ক্ষেত্রে এটাই। কোন class কী চায়, signature দেখলেই বোঝা যায়।
-- **`@Environment`** — অনেক দূরের অনেক view-এর যা লাগে: login session, theme-এর মতো setting, navigation router। প্রতিটা স্তরে হাতে হাতে দিতে হলে বিরক্তিকর হতো, সেগুলো।
+- **Init injection** — repository, API client, view model-এর জন্য। ৯০% ক্ষেত্রে এটাই। কোন class কী চায়, তার signature দেখলেই বোঝা যায়।
+- **`@Environment`** — যা অনেক নিচের অনেক view-এর লাগে: login session, theme-এর মতো setting, navigation router। এগুলো প্রতিটা স্তরে হাতে হাতে পাঠাতে হলে বিরক্তিকর হতো। তাই এদের জন্য environment।
 
-**চিনে রাখুন:** বড় project-এ Factory বা Point-Free-এর swift-dependencies-এর মতো DI library দেখবেন। এরা `get_it`-এর কাছাকাছি। ছোট আর মাঝারি app-এ লাগে না।
+**চিনে রাখুন:** বড় project-এ Factory বা Point-Free-এর swift-dependencies-এর মতো DI library দেখবেন। এগুলো `get_it`-এর কাছাকাছি। ছোট আর মাঝারি app-এ এদের দরকার নেই।
 
-**Best approach:** `App` struct-এ একটা composition root। সেখানে একবার করে database, API, repository তৈরি করুন, আর `init` দিয়ে নিচে দিন। শুধু সত্যিকারের app-wide `@Observable` object `@Environment`-এ।
+**Best approach:** `App` struct-এ একটা composition root রাখুন। সেখানে database, API, repository — প্রতিটা একবার করে তৈরি করুন। তারপর `init` দিয়ে নিচে পাঠান। `@Environment`-এ রাখুন শুধু সেই `@Observable` object, যা সত্যিই পুরো app-এ লাগে।
 
 **ফাঁদ:**
-- **`.environment(session)` বসাতে ভুলে গেলে crash।** `@Environment(SessionStore.self)` object না পেলে app runtime-এ crash করে। Flutter-এর "ProviderNotFoundException"-এর মতো, শুধু আরও কঠোর। Preview-তেও `.environment(...)` দিতে হয়।
-- **সব কিছু `@Environment`-এ ঢোকাবেন না।** তখন কোন view কী চায়, বোঝা যায় না। এটা লুকানো global হয়ে যায় — `get_it`-কে সব জায়গা থেকে ডাকার মতো।
+- **`.environment(session)` বসাতে ভুলে গেলে crash।** `@Environment(SessionStore.self)` যদি object না পায়, app runtime-এ crash করে। Flutter-এর "ProviderNotFoundException"-এর মতো, তবে আরও কড়া। Preview-তেও `.environment(...)` দিতে হয়।
+- **সব কিছু `@Environment`-এ ঢোকাবেন না।** তাহলে কোন view কী চায়, আর বোঝা যায় না। এটা একটা লুকানো global হয়ে যায় — যেমন সব জায়গা থেকে `get_it` ডাকা।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios7-5"></a>iOS ৭.৫ Repository layer
 
-**এক লাইনে:** Repository একটা `protocol`। View model শুধু protocol চেনে। আসল implementation database আর network জোড়া দেয়। Test-এ একটা fake দিন।
+**এক লাইনে:** Repository একটা `protocol`। View model শুধু এই protocol চেনে। আসল implementation database আর network-কে জোড়া দেয়। Test-এ তার বদলে একটা fake দিন।
 
 **Flutter-এ:**
 
@@ -7986,15 +8309,15 @@ protocol NotesRepository {
 }
 ```
 
-**কেন `protocol`, যখন একটাই implementation?** কারণ test-এ একটা fake লাগবে ([iOS ১০.৩](#ios10-3))। এটা "দ্বিতীয় implementation"-এর আসল প্রয়োজন। Fake ছাড়া view model test করতে হলে আসল database আর network লাগত।
+**একটাই implementation, তবু `protocol` কেন?** কারণ test-এ একটা fake লাগবে ([iOS ১০.৩](#ios10-3))। সেই fake-ই হলো সত্যিকারের "দ্বিতীয় implementation"। Fake না থাকলে view model test করতে আসল database আর network লাগত।
 
-**কেন `struct Note`, SwiftData-র `@Model` class না?** SwiftData-র model একটা class, database context-এর সাথে বাঁধা, আর thread-এর মধ্যে পাঠানো যায় না। View model আর UI-তে একটা সাধারণ `struct` সহজ আর নিরাপদ। Database-এর class (`NoteEntity`) data layer-এর ভেতরেই থাকে। Android-এ Room-এর `NoteEntity` আর domain-এর `Note` আলাদা ছিল — একই নকশা। আসল implementation দেখবেন [iOS ৮.৮](#ios8-8)-এ।
+**SwiftData-র `@Model` class না নিয়ে `struct Note` কেন?** SwiftData-র model একটা class। এটা database context-এর সাথে বাঁধা, আর এক thread থেকে আরেক thread-এ পাঠানো যায় না। View model আর UI-তে একটা সাধারণ `struct` সহজ, আর নিরাপদ। Database-এর class (`NoteEntity`) data layer-এর ভেতরেই থাকে। Android-এও Room-এর `NoteEntity` আর domain-এর `Note` আলাদা ছিল — নকশা একই। আসল implementation দেখবেন [iOS ৮.৮](#ios8-8)-এ।
 
-**`@MainActor` কেন protocol-এ?** View model `@MainActor`। Repository-ও main actor-এ থাকলে তাদের মধ্যে data পাঠাতে `Sendable`-এর ঝামেলা থাকে না। চিন্তা নেই, network call main thread আটকায় না। `await` চলার সময় main thread ছেড়ে দেওয়া হয়, আর `URLSession` নিজের thread-এ কাজ করে।
+**Protocol-এ `@MainActor` কেন?** View model `@MainActor`-এ চলে। Repository-ও main actor-এ থাকলে দুজনের মধ্যে data পাঠাতে `Sendable` নিয়ে ঝামেলা হয় না। ভয় নেই, এতে network call main thread আটকায় না। `await`-এ অপেক্ষার সময় main thread ছাড়া থাকে। আর `URLSession` নিজের thread-এ কাজ করে।
 
-**Best approach:** Repository protocol domain-এ, implementation data-তে। Protocol-এ শুধু domain type (`Note`), কখনো `NoteEntity` বা `NoteDTO` না।
+**Best approach:** Repository-র protocol থাকবে domain-এ, implementation থাকবে data-তে। Protocol-এ শুধু domain type (`Note`) ব্যবহার করুন। কখনো `NoteEntity` বা `NoteDTO` না।
 
-**ফাঁদ:** Repository থেকে SwiftData-র `@Model` object সরাসরি view-এ পাঠানো। কাজ চলবে, কিন্তু view তখন database-এর live object বদলাতে পারে, আর test-এ database লাগবে।
+**ফাঁদ:** Repository থেকে SwiftData-র `@Model` object সোজা view-এ পাঠানো। কাজ চলবে ঠিকই। কিন্তু তখন view database-এর live object নিজেই বদলে দিতে পারে। আর test করতেও database লাগবে।
 
 > **মনে রাখুন**
 > - Layer একই। Cubit → `@MainActor @Observable final class`, freezed state → property, `get_it` → `init`।
@@ -8013,11 +8336,11 @@ protocol NotesRepository {
 
 ## <a id="ios8"></a>iOS ৮. Data — network, JSON, database, storage
 
-Android-এর data অধ্যায়ে ([৯](#ch9)) প্রায় প্রতিটা কাজের জন্য একটা Jetpack বা Square-এর library ছিল। iOS-এ মজার ব্যাপার হলো, বেশিরভাগ কাজ Apple-এর নিজের SDK-তেই আছে। Network-এর জন্য `URLSession`, JSON-এর জন্য `Codable`, database-এর জন্য SwiftData, secret-এর জন্য Keychain। কোনো dependency যোগ না করেই পুরো Notes app-এর data layer বানানো যায়।
+Android-এর data অধ্যায়ে ([৯](#ch9)) প্রায় প্রতিটা কাজে Jetpack বা Square-এর একটা library লাগত। iOS-এ মজার ব্যাপার হলো, বেশিরভাগ জিনিস Apple-এর নিজের SDK-তেই আছে। Network-এ `URLSession`, JSON-এ `Codable`, database-এ SwiftData, আর secret রাখতে Keychain। কোনো বাইরের dependency ছাড়াই Notes app-এর পুরো data layer বানানো যায়।
 
 ### <a id="ios8-1"></a>iOS ৮.১ `dio` → `URLSession` + `async`/`await`
 
-**এক লাইনে:** `URLSession` হলো Apple-এর built-in HTTP client। `async`/`await` দিয়ে এক লাইনে request পাঠানো যায়। Interceptor নেই, তাই একটা ছোট wrapper নিজে লিখুন।
+**এক লাইনে:** `URLSession` হলো Apple-এর নিজের HTTP client, SDK-তেই থাকে। `async`/`await` দিয়ে এক লাইনেই request পাঠানো যায়। এতে dio-র মতো interceptor নেই। তাই একটা ছোট wrapper নিজে লিখে নিন।
 
 **Flutter-এ:**
 
@@ -8111,22 +8434,22 @@ struct NotesAPI: Sendable {
 | `CancelToken` | coroutine cancel | `Task` cancel হলে request-ও cancel |
 | `LogInterceptor` | `HttpLoggingInterceptor` | Xcode-এর Network instrument, বা `send()`-এ নিজের log |
 
-**ভেতরে কীভাবে কাজ করে:** `session.data(for:)` একটা `async` function। Request চলার সময় আপনার task থেমে থাকে, কিন্তু main thread আটকায় না। আসল network-এর কাজ `URLSession` নিজের background queue-তে করে। Task cancel হলে (যেমন `.task`-এর view চলে গেলে) request-ও cancel হয়, আর `CancellationError` বা `URLError(.cancelled)` আসে। Flutter-এ `mounted` check করতেন। এখানে লাগে না।
+**ভেতরে কীভাবে কাজ করে:** `session.data(for:)` একটা `async` function। Request চলার সময় আপনার task অপেক্ষা করে, কিন্তু main thread আটকায় না। আসল network-এর কাজ `URLSession` নিজের background queue-তে করে। Task cancel হলে request-ও cancel হয় — যেমন `.task`-এর view screen থেকে চলে গেলে। তখন `CancellationError` বা `URLError(.cancelled)` আসে। Flutter-এ এর জন্য `mounted` check করতেন। এখানে সেটা লাগে না।
 
-**চিনে রাখুন — Alamofire:** iOS-এর "dio" বলা যায়। Interceptor, retry, upload progress সব আছে। পুরনো project-এ খুব দেখবেন। নতুন project-এ `async`/`await`-এর পরে `URLSession` প্রায় সব কাজের জন্য যথেষ্ট।
+**চিনে রাখুন — Alamofire:** একে iOS-এর "dio" বলা যায়। Interceptor, retry, upload progress — সব আছে। পুরনো project-এ খুব দেখবেন। তবে `async`/`await` আসার পরে নতুন project-এ প্রায় সব কাজ `URLSession` দিয়েই হয়ে যায়।
 
-**Best approach:** `URLSession` + একটা ছোট `send()` wrapper, যেখানে token বসে আর status check হয়। Library শুধু তখন, যখন সত্যিই জটিল কিছু লাগে।
+**Best approach:** `URLSession` আর একটা ছোট `send()` wrapper। এই wrapper-এ token বসে, আর status check হয়। Library নিন শুধু তখন, যখন সত্যিই জটিল কিছু লাগে।
 
 **ফাঁদ:**
-- **404 বা 500-এ কোনো error আসে না।** `URLSession` শুধু network-এর ভুলে throw করে — internet নেই, timeout, DNS। Server 500 ফেরত দিলেও আপনি `data` পাবেন। Dio-র অভ্যাসে এটা সবচেয়ে বড় bug-এর উৎস। Status নিজে check করুন।
-- **`http://` চলে না।** App Transport Security (ATS) default-এ শুধু HTTPS দেয়। Local test server-এর জন্য `Info.plist`-এ exception লাগে। Android-এর cleartext traffic নিষেধের মতো।
-- **`URLSession.shared` সব কাজে না।** বড় file upload বা download, যেটা app বন্ধ হলেও চলবে, তার জন্য background session লাগে ([iOS ৯.১](#ios9-1))।
+- **404 বা 500-এ কোনো error আসে না।** `URLSession` throw করে শুধু network-এর সমস্যায় — internet নেই, timeout, DNS-এর ভুল। Server 500 ফেরত দিলেও আপনি `data` পেয়ে যাবেন। Dio-র অভ্যাস থেকে এখানেই সবচেয়ে বেশি bug আসে। Status নিজে check করুন।
+- **`http://` চলে না।** App Transport Security (ATS) default-এ শুধু HTTPS চলতে দেয়। Local test server-এ যেতে হলে `Info.plist`-এ একটা exception দিতে হয়। Android-এ cleartext traffic বন্ধ থাকার মতোই।
+- **সব কাজে `URLSession.shared` না।** বড় file upload বা download, যেটা app বন্ধ হলেও চলতে থাকবে, তার জন্য background session লাগে ([iOS ৯.১](#ios9-1))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-2"></a>iOS ৮.২ `json_serializable` → `Codable`
 
-**এক লাইনে:** Type-এর গায়ে `Codable` লিখলেই compiler নিজে JSON-এ যাওয়া-আসার code বানিয়ে দেয়। `build_runner` লাগে না, `.g.dart` file নেই।
+**এক লাইনে:** Type-এর গায়ে `Codable` লিখলেই হয়। JSON-এ লেখা আর JSON থেকে পড়ার code compiler নিজে বানিয়ে দেয়। `build_runner` লাগে না, `.g.dart` file-ও নেই।
 
 **Flutter-এ:**
 
@@ -8184,24 +8507,24 @@ extension NoteDTO {
 | `build_runner` চালাতে হয় | compiler plugin | compiler নিজে, কিছু চালাতে হয় না |
 | `@JsonKey(name: 'updated_at')` | `@SerialName("updated_at")` | `CodingKeys` enum |
 | `fieldRename: snake` | `JsonNamingStrategy.SnakeCase` | `decoder.keyDecodingStrategy = .convertFromSnakeCase` |
-| অজানা key — উপেক্ষা | `ignoreUnknownKeys = true` লাগে | default-এ উপেক্ষা |
+| অজানা key — বাদ দেয় | `ignoreUnknownKeys = true` লাগে | default-এ বাদ দেয় |
 | key নেই, field non-null → error | error | `DecodingError.keyNotFound` |
-| `DateTime.parse` নিজে করে | serializer লাগে | `dateDecodingStrategy` ঠিক করতে হয় |
+| `DateTime.parse` নিজে করে | serializer লাগে | `dateDecodingStrategy` নিজে set করতে হয় |
 
-**ভেতরে কীভাবে কাজ করে:** `Codable` আসলে দুইটা protocol — `Decodable` আর `Encodable`। আপনি conformance লিখলে, compiler compile-এর সময় `init(from:)` আর `encode(to:)` বানিয়ে দেয়। কোনো reflection নেই, runtime-এ খোঁজাখুঁজি নেই। তাই দ্রুত। কোনো field-এর জন্য বিশেষ নিয়ম লাগলে `init(from:)` নিজে লিখতে পারেন। তখন বাকি সব field-ও হাতে লিখতে হয়।
+**ভেতরে কীভাবে কাজ করে:** `Codable` আসলে দুইটা protocol — `Decodable` আর `Encodable`। আপনি conformance লিখলে compiler, compile-এর সময়েই, `init(from:)` আর `encode(to:)` বানিয়ে দেয়। Runtime-এ কোনো reflection বা খোঁজাখুঁজি হয় না। তাই এটা দ্রুত। কোনো field-এর জন্য বিশেষ নিয়ম লাগলে `init(from:)` নিজে লিখতে পারেন। তবে তখন বাকি সব field-ও হাতে লিখতে হয়।
 
-**Best approach:** Network-এর জন্য আলাদা `NoteDTO`, app-এর ভেতরে `Note`। `CodingKeys` বা `.convertFromSnakeCase` — একটা বেছে নিয়ে পুরো project-এ সেটাই।
+**Best approach:** Network-এর জন্য আলাদা `NoteDTO` রাখুন, app-এর ভেতরে `Note`। Key-এর নামের জন্য `CodingKeys` আর `.convertFromSnakeCase` — দুটোর একটা বেছে নিন। তারপর পুরো project-এ সেটাই চালান।
 
 **ফাঁদ:**
-- **Date-এর default ভুল।** `JSONDecoder`-এর default date strategy `.deferredToDate` — এটা ২০০১ সাল থেকে সেকেন্ড গোনে। Server ISO 8601 string পাঠালে decode fail করে। `.iso8601` দিন।
-- **`.iso8601` পুরনো iOS-এ millisecond চেনে না।** Server `"2026-11-10T09:30:00.123Z"` পাঠালে iOS 26-এর আগের OS-এ `.iso8601` fail করে (Swift 6.2-এর Foundation থেকে fractional seconds পড়া যায়)। App পুরনো iOS-এ চললে `.custom` strategy দিয়ে fractional seconds চালু করা formatter লাগে।
-- **একটা field-এর ভুলে পুরো list fail।** ১০০টা note-এর একটায় `title` null এলে পুরো `[NoteDTO]` decode-ই throw করে। যে field server কখনো বাদ দিতে পারে, সেটা Optional রাখুন।
+- **Date-এর default ঠিক না।** `JSONDecoder`-এর default date strategy হলো `.deferredToDate`। এটা date-কে একটা সংখ্যা হিসেবে পড়ে — ২০০১ সাল থেকে কত সেকেন্ড গেছে। তাই server ISO 8601 string পাঠালে decode fail করে। `.iso8601` দিন।
+- **পুরনো iOS-এ `.iso8601` millisecond চেনে না।** ধরুন server পাঠাল `"2026-11-10T09:30:00.123Z"`। iOS 26-এর আগের OS-এ `.iso8601` এটা পড়তে পারে না, fail করে। (Swift 6.2-এর Foundation থেকে fractional seconds পড়া যায়।) App পুরনো iOS-এ চললে একটা `.custom` strategy লাগে। তাতে এমন একটা formatter দিন, যার fractional seconds চালু।
+- **একটা field-এর ভুলে পুরো list fail।** ধরুন ১০০টা note-এর একটায় `title` null এল। তখন পুরো `[NoteDTO]` decode-ই throw করে। যে field server কখনো বাদ দিতে পারে, সেটা Optional রাখুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-3"></a>iOS ৮.৩ `drift` → SwiftData (আর Core Data চিনে রাখুন)
 
-**এক লাইনে:** SwiftData হলো Apple-এর database framework (iOS 17 থেকে)। Class-এর গায়ে `@Model` লিখলেই সেটা database-এর table। SQL লিখতে হয় না।
+**এক লাইনে:** SwiftData হলো Apple-এর database framework, iOS 17 থেকে আছে। Class-এর গায়ে `@Model` লিখলেই সেটা database-এর একটা table হয়ে যায়। SQL লিখতে হয় না।
 
 **Flutter-এ (drift):**
 
@@ -8280,7 +8603,7 @@ context.delete(all.last!)
 try context.save()
 ```
 
-**`.watch()`-এর মতো জিনিস — `@Query`:** View-এর ভেতরে `@Query` লিখলে database বদলালেই list নিজে থেকে নতুন হয়ে যায়:
+**`.watch()`-এর মতো জিনিস — `@Query`:** View-এর ভেতরে `@Query` লিখুন। তাহলে database বদলালেই list নিজে থেকে নতুন হয়ে যায়:
 
 ```swift
 struct QuickNotesList: View {
@@ -8292,7 +8615,7 @@ struct QuickNotesList: View {
 }
 ```
 
-এটা ছোট app-এর জন্য দারুণ। কিন্তু তখন view সরাসরি database চেনে, আর view model বা repository থাকে না। Notes app-এ sync আর test আছে, তাই আমরা repository দিয়ে পড়ব ([iOS ৮.৮](#ios8-8))। `@Query` চিনে রাখুন, Apple-এর sample-এ সব জায়গায় পাবেন।
+ছোট app-এর জন্য এটা দারুণ। কিন্তু তখন view সরাসরি database চেনে। মাঝে view model বা repository থাকে না। Notes app-এ sync আর test আছে, তাই আমরা repository দিয়ে পড়ব ([iOS ৮.৮](#ios8-8))। তবে `@Query` চিনে রাখুন। Apple-এর sample-এ সব জায়গায় এটা পাবেন।
 
 **কী মিলল, কী আলাদা:**
 
@@ -8307,9 +8630,13 @@ struct QuickNotesList: View {
 | `MigrationStrategy` | `Migration` | `VersionedSchema` + `SchemaMigrationPlan` |
 | background isolate | `Dispatchers.IO` | `@ModelActor` |
 
-**ভেতরে কীভাবে কাজ করে:** `@Model` একটা macro। এটা আপনার class-কে `PersistentModel` বানায়, আর প্রতিটা property-কে database-এর সাথে জুড়ে দেয়। নিচে data থাকে একটা SQLite file-এ, app-এর Application Support folder-এ। `ModelContext` হলো একটা খাতা — কী insert হলো, কী বদলাল, তার হিসাব রাখে। `save()` করলে সব একসাথে disk-এ যায়। Main context নিজেও মাঝে মাঝে auto-save করে, কিন্তু সেটার ওপর ভরসা করবেন না।
+**ভেতরে কীভাবে কাজ করে:**
+- `@Model` একটা macro। এটা আপনার class-কে `PersistentModel` বানায়, আর প্রতিটা property-কে database-এর সাথে জুড়ে দেয়।
+- নিচে data থাকে একটা SQLite file-এ, app-এর Application Support folder-এ।
+- `ModelContext` সব বদলের হিসাব রাখে — কী insert হলো, কী বদলাল।
+- `save()` করলে সব বদল একসাথে disk-এ যায়। Main context নিজেও মাঝে মাঝে auto-save করে। কিন্তু সেটার ওপর ভরসা করবেন না।
 
-**Core Data — চিনে রাখুন:** SwiftData-র আগে ২০০৫ সাল থেকে Apple-এর database ছিল Core Data। SwiftData আসলে Core Data-র প্রমাণিত storage-এর ওপরেই বানানো। পুরনো project-এ দেখবেন:
+**Core Data — চিনে রাখুন:** SwiftData-র আগে, ২০০৫ সাল থেকে, Apple-এর database ছিল Core Data। SwiftData আসলে Core Data-র পুরনো, পরীক্ষিত storage-এর ওপরেই বানানো। পুরনো project-এ এগুলো দেখবেন:
 
 | Core Data | SwiftData |
 |---|---|
@@ -8320,22 +8647,22 @@ struct QuickNotesList: View {
 | `NSFetchRequest` + `NSPredicate` (string) | `FetchDescriptor` + `#Predicate` (type-safe) |
 | `@FetchRequest` (SwiftUI) | `@Query` |
 
-SQL নিজে লিখতে চাইলে, drift-এর মতো অনুভূতির জন্য third-party GRDB আছে।
+SQL নিজে লিখতে চাইলে third-party GRDB আছে। এটা ব্যবহার করতে অনেকটা drift-এর মতো লাগে।
 
-**Best approach:** নতুন app, minimum iOS 17 বা তার বেশি → SwiftData। Database-এর `@Model` class data layer-এ রাখুন, বাইরে domain `struct`।
+**Best approach:** নতুন app, আর minimum iOS 17 বা তার বেশি হলে SwiftData নিন। Database-এর `@Model` class data layer-এ রাখুন। বাইরে যাবে domain `struct`।
 
 **ফাঁদ:**
-- **Migration ছাড়া model বদলানো।** নতুন optional property, বা default value-সহ property যোগ করলে SwiftData নিজে lightweight migration করে। কিন্তু default ছাড়া নতুন non-optional property, বা নাম বদল — তখন `ModelContainer` তৈরি হতেই error দেয়। App চালু হওয়ার পথে `try!` থাকলে সরাসরি crash। Release-এর আগে `VersionedSchema` বানিয়ে রাখুন।
-- **`ModelContext` thread পার হয় না।** এটা `Sendable` না। Main context শুধু main actor-এ। Background-এ বড় import করতে `@ModelActor` দিয়ে আলাদা actor বানান — drift-এ background isolate-এ আলাদা connection-এর মতো।
-- **Minimum iOS 17।** Flutter app iOS 15 থেকে চলে। কিন্তু native code-এ SwiftData বা `@Observable` নিলে আপনার minimum-ও উঠবে iOS 17-এ।
+- **Migration ছাড়া model বদলানো।** নতুন optional property, বা default value-সহ property যোগ করলে SwiftData নিজেই ছোট একটা migration (lightweight migration) করে নেয়। কিন্তু default ছাড়া নতুন non-optional property যোগ করলে, বা নাম বদলালে, `ModelContainer` তৈরির সময়েই error দেয়। App চালুর পথে `try!` থাকলে app সরাসরি crash করে। তাই release-এর আগে `VersionedSchema` বানিয়ে রাখুন।
+- **`ModelContext` এক thread থেকে আরেক thread-এ যায় না।** এটা `Sendable` না। Main context শুধু main actor-এ চলে। Background-এ বড় import করতে চাইলে `@ModelActor` দিয়ে আলাদা একটা actor বানান। drift-এ যেমন background isolate-এ আলাদা connection খুলতেন, এটাও তেমন।
+- **Minimum iOS 17।** Flutter app iOS 15 থেকেও চলে। কিন্তু native code-এ SwiftData বা `@Observable` নিলে আপনার app-এর minimum-ও iOS 17 হয়ে যাবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-4"></a>iOS ৮.৪ `shared_preferences` → `UserDefaults` / `@AppStorage`
 
-**এক লাইনে:** ছোট setting রাখার জায়গা `UserDefaults`। SwiftUI-তে `@AppStorage` দিয়ে এটা সরাসরি view-এর state হয়ে যায়।
+**এক লাইনে:** ছোট setting রাখার জায়গা হলো `UserDefaults`। SwiftUI-তে `@AppStorage` দিলে এটা সরাসরি view-এর state-এর মতো কাজ করে।
 
-মজার কথা: Flutter-এর `shared_preferences` iOS-এ ভেতরে `UserDefaults`-ই ব্যবহার করে। আপনি এতদিন এটাই চালিয়েছেন।
+মজার কথা: Flutter-এর `shared_preferences` iOS-এ ভেতরে ভেতরে `UserDefaults`-ই ব্যবহার করে। মানে এতদিন আপনি না জেনেই এটা চালিয়েছেন।
 
 **Flutter-এ:**
 
@@ -8370,23 +8697,23 @@ struct SettingsView: View {
 | বদলালে কাউকে জানায় না | `data` Flow নতুন value দেয় | `@AppStorage` আছে এমন সব view নিজে আবার আঁকা হয় |
 | ভেতরে iOS-এ `UserDefaults` | Protobuf/Preferences file | একটা plist file, `Library/Preferences/`-এ |
 
-**ভেতরে কীভাবে কাজ করে:** `UserDefaults` app চালুর পরে পুরো plist memory-তে রাখে। পড়া তাই খুব দ্রুত আর synchronous। লেখা system সময়মতো disk-এ পাঠায়। এজন্যই এটা ছোট জিনিসের জন্য — setting, flag, শেষ বার কোন tab খোলা ছিল।
+**ভেতরে কীভাবে কাজ করে:** App চালু হলে `UserDefaults` পুরো plist file memory-তে তুলে রাখে। তাই পড়া খুব দ্রুত, আর synchronous। লিখলে system নিজের সুবিধামতো সময়ে disk-এ লেখে। এজন্যই এটা শুধু ছোট জিনিসের জন্য — setting, flag, শেষবার কোন tab খোলা ছিল।
 
-**Privacy manifest:** `UserDefaults` Apple-এর "required reason API"-এর তালিকায় আছে। ব্যবহার করলে privacy manifest-এ কারণ লিখতে হয় — নিজের app-এর data পড়া-লেখার জন্য কারণের code `CA92.1` ([iOS ১১.৫](#ios11-5))।
+**Privacy manifest:** Apple কিছু API-কে "required reason API" বলে। এগুলো ব্যবহার করলে কেন করছেন, সেটা privacy manifest-এ লিখতে হয়। `UserDefaults` এই তালিকায় আছে। নিজের app-এর data পড়া-লেখার জন্য কারণের code হলো `CA92.1` ([iOS ১১.৫](#ios11-5))।
 
-**Best approach:** ছোট setting → `@AppStorage` (view-এ) বা `UserDefaults` (বাইরে)। Structured data → SwiftData। Secret → Keychain।
+**Best approach:** ছোট setting হলে view-এ `@AppStorage`, view-এর বাইরে `UserDefaults`। গোছানো (structured) data হলে SwiftData। Secret হলে Keychain।
 
 **ফাঁদ:**
-- **Token বা password `UserDefaults`-এ না।** এটা একটা সাধারণ plist file — Keychain-এর মতো আলাদা সুরক্ষা নেই, আর device backup-এ যায়। Jailbreak করা phone-এ বা backup থেকে সহজে পড়া যায়।
-- **বড় data না।** পুরো file memory-তে থাকে, তাই এখানে note-এর list রাখলে app-এর memory আর চালুর সময় দুটোই বাড়ে।
+- **Token বা password `UserDefaults`-এ রাখবেন না।** এটা একটা সাধারণ plist file। Keychain-এর মতো আলাদা সুরক্ষা নেই। আর এটা device backup-এও যায়। Jailbreak করা phone-এ, বা backup থেকে, এটা সহজেই পড়া যায়।
+- **বড় data রাখবেন না।** পুরো file memory-তে থাকে। এখানে note-এর list রাখলে app-এর memory বাড়ে, আর app চালু হতেও বেশি সময় লাগে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-5"></a>iOS ৮.৫ `flutter_secure_storage` → Keychain
 
-**এক লাইনে:** Keychain হলো OS-এর encrypted vault। Token, password এখানে রাখুন। আর মনে রাখুন: **app uninstall করলেও Keychain-এর data সাধারণত থেকে যায়।**
+**এক লাইনে:** Keychain হলো OS-এর নিজের encrypted storage। Token আর password এখানে রাখুন। আর একটা কথা মনে রাখুন: **app uninstall করলেও Keychain-এর data সাধারণত থেকে যায়।**
 
-`flutter_secure_storage` iOS-এ ভেতরে ঠিক এই Keychain-ই ব্যবহার করে। Android-এ ছিল Keystore + encryption ([৯.৫](#ch9-5))। iOS-এ পুরো data-টাই OS-এর vault-এ যায়, শুধু key না।
+`flutter_secure_storage` iOS-এ ভেতরে ঠিক এই Keychain-ই ব্যবহার করে। Android-এ এটা Keystore-এর key দিয়ে data encrypt করত ([৯.৫](#ch9-5))। সেখানে OS-এর কাছে থাকত শুধু key। iOS-এ শুধু key না, পুরো data-টাই OS-এর Keychain-এ যায়।
 
 **Flutter-এ:**
 
@@ -8396,7 +8723,7 @@ await storage.write(key: 'auth_token', value: token);
 final token = await storage.read(key: 'auth_token');
 ```
 
-**iOS-এ:** Keychain-এর API পুরনো C-ধাঁচের — dictionary দিয়ে query। তাই একটা ছোট wrapper লিখে রাখুন:
+**iOS-এ:** Keychain-এর API পুরনো, C-এর ধাঁচে লেখা। সব query করতে হয় dictionary দিয়ে। তাই একটা ছোট wrapper লিখে রাখুন:
 
 ```swift
 import Foundation
@@ -8448,15 +8775,21 @@ enum Keychain {
 }
 ```
 
-**`kSecAttrAccessible...` কী:** কখন item পড়া যাবে, তা বলে দেয়। `AfterFirstUnlock` মানে phone চালু হওয়ার পরে একবার unlock হলেই পড়া যাবে — background sync-এর জন্য এটাই দরকার। `ThisDeviceOnly` মানে backup থেকে নতুন phone-এ যাবে না। Token-এর জন্য এটাই ঠিক।
+**`kSecAttrAccessible...` কী:** এটা বলে দেয়, item কখন পড়া যাবে।
+- `AfterFirstUnlock` মানে: phone চালু হওয়ার পরে user একবার unlock করলেই পড়া যাবে। Background sync-এর জন্য এটাই দরকার, কারণ তখন phone lock অবস্থায় থাকতে পারে।
+- `ThisDeviceOnly` মানে: backup থেকে নতুন phone-এ এই item যাবে না।
+
+Token-এর জন্য এটাই ঠিক।
 
 **ফাঁদ — uninstall-এর পরেও থাকে:**
 
-এটা iOS-এর সবচেয়ে বিখ্যাত ফাঁদগুলোর একটা। User app মুছে আবার install করল। App-এর database, `UserDefaults`, file — সব নতুন, খালি। কিন্তু Keychain-এ পুরনো token এখনো বসে আছে। ফল: user ভাবছে নতুন শুরু করছে, অথচ app আগের account-এ login হয়ে খোলে। অথবা পুরনো, বাতিল token দিয়ে প্রথম request-ই 401 খায়।
+এটা iOS-এর সবচেয়ে বিখ্যাত ফাঁদগুলোর একটা। ধরুন user app মুছে আবার install করল। App-এর database, `UserDefaults`, file — সব নতুন, খালি। কিন্তু Keychain-এ পুরনো token এখনো রয়ে গেছে। ফল দুই রকম হতে পারে:
+- User ভাবছে নতুন করে শুরু করছে, অথচ app আগের account-এ login করা অবস্থায় খোলে।
+- অথবা পুরনো, বাতিল token দিয়ে পাঠানো প্রথম request-ই 401 পায়।
 
-Android-এ এটা হয় না — uninstall করলে Keystore-এর key-ও যায়। আর মনে রাখুন, Apple কখনো লিখিতভাবে বলেনি যে Keychain item থেকে যাবে। এটা দীর্ঘদিনের আচরণ, নিশ্চয়তা না। তাই দুই দিকেই ভরসা করবেন না।
+Android-এ এটা হয় না। Uninstall করলে Keystore-এর key-ও মুছে যায়। আর একটা কথা: Apple কখনো লিখে বলেনি যে Keychain item থেকে যাবে। এটা অনেক দিনের আচরণ, কিন্তু guarantee না। তাই কোনো দিকেই ভরসা করবেন না — "থেকে যাবে", এটাও ধরে নেবেন না; "মুছে যাবে", এটাও না।
 
-সমাধান — প্রথম launch চিনে পুরনো Keychain মুছে দিন:
+সমাধান: প্রথম launch চিনে নিয়ে পুরনো Keychain মুছে দিন:
 
 ```swift
 // App চালুর একদম শুরুতে, যেমন NotesApp.init()-এ
@@ -8468,7 +8801,7 @@ private func clearKeychainAfterReinstall() {
 }
 ```
 
-`UserDefaults` uninstall-এ মুছে যায়, Keychain যায় না — এই পার্থক্যটাই এখানে কাজে লাগছে। Flutter-এ `flutter_secure_storage`-এর সাথে ঠিক একই কাজ `shared_preferences` দিয়ে করতে হয়।
+এখানে একটা পার্থক্য কাজে লাগছে: uninstall-এ `UserDefaults` মুছে যায়, কিন্তু Keychain যায় না। Flutter-এও `flutter_secure_storage`-এর সাথে ঠিক এই কাজ `shared_preferences` দিয়ে করতে হয়।
 
 **কী মিলল, কী আলাদা:**
 
@@ -8479,13 +8812,13 @@ private func clearKeychainAfterReinstall() {
 | নতুন phone-এ? | key backup-এ যায় না | `ThisDeviceOnly` হলে যায় না, নইলে encrypted backup-এ যায় |
 | দুই app-এ share | না | Keychain access group দিয়ে সম্ভব |
 
-**Best approach:** Token আর secret → Keychain, `AfterFirstUnlockThisDeviceOnly`। প্রথম launch-এ পুরনো item মুছে দিন। Logout-এ `deleteAll()`।
+**Best approach:** Token আর secret রাখুন Keychain-এ, `AfterFirstUnlockThisDeviceOnly` দিয়ে। প্রথম launch-এ পুরনো item মুছে দিন। Logout-এ `deleteAll()` ডাকুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-6"></a>iOS ৮.৬ Image: `cached_network_image` → `AsyncImage`
 
-**এক লাইনে:** `AsyncImage` হলো SwiftUI-র built-in network image (iOS 15 থেকে)। সহজ, কিন্তু নিজের image cache নেই।
+**এক লাইনে:** `AsyncImage` হলো SwiftUI-র নিজের network image (iOS 15 থেকে)। ব্যবহার সহজ, কিন্তু এর নিজের কোনো image cache নেই।
 
 **Flutter-এ:**
 
@@ -8516,20 +8849,20 @@ AsyncImage(url: note.imageURL) { phase in
 ```
 
 **কী আলাদা:**
-- `cached_network_image` memory আর disk দুই জায়গায় cache করে। Android-এর Coil-ও তাই ([৯.৬](#ch9-6))। `AsyncImage`-এর নিজের কোনো image cache নেই। List-এ scroll করে ফিরে এলে আবার load হতে পারে।
-- Coil view-এর মাপ দেখে ছবি ছোট করে decode করে। `AsyncImage` পুরো ছবি decode করে। 4000px ছবি 64pt thumbnail-এ দিলে পুরো memory খায়।
+- `cached_network_image` ছবি cache করে দুই জায়গায় — memory আর disk। Android-এর Coil-ও তাই করে ([৯.৬](#ch9-6))। `AsyncImage`-এর নিজের কোনো image cache নেই। তাই list-এ scroll করে ফিরে এলে ছবি আবার load হতে পারে।
+- Coil view-এর মাপ দেখে ছবিটা ছোট করে decode করে (একে downsampling বলে)। `AsyncImage` পুরো ছবিটাই decode করে। তাই 64pt-এর ছোট thumbnail-এ 4000px ছবি দিলেও পুরো ছবির সমান memory খরচ হয়।
 
-**চিনে রাখুন:** Nuke আর Kingfisher — iOS-এর দুই জনপ্রিয় image library। এরা cache, downsampling, prefetch সব করে। iOS-এর "cached_network_image" বলা যায়।
+**চিনে রাখুন:** Nuke আর Kingfisher হলো iOS-এর দুই জনপ্রিয় image library। এরা cache, downsampling, prefetch — সব করে। এদের iOS-এর "cached_network_image" বলা যায়।
 
-**Best approach:** কয়েকটা ছবি, profile picture → `AsyncImage`। ছবিতে ভরা list বা feed → Nuke বা Kingfisher।
+**Best approach:** অল্প কয়েকটা ছবি বা profile picture হলে `AsyncImage`। ছবিতে ভরা list বা feed হলে Nuke বা Kingfisher।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-7"></a>iOS ৮.৭ File system আর sandbox
 
-**এক লাইনে:** প্রতিটা iOS app নিজের একটা বন্ধ folder-এ (sandbox) থাকে। বাইরের কিছু দেখতে পায় না, অন্য কেউও তার ভেতরে ঢুকতে পারে না। ভেতরে কয়েকটা নির্দিষ্ট folder আছে, প্রতিটার নিয়ম আলাদা।
+**এক লাইনে:** প্রতিটা iOS app নিজের একটা বন্ধ folder-এ থাকে। একে sandbox বলে। App বাইরের কিছু দেখতে পায় না, অন্য কেউও তার ভেতরে ঢুকতে পারে না। Sandbox-এর ভেতরে কয়েকটা ঠিক করা folder আছে। প্রতিটার নিয়ম আলাদা।
 
-Flutter-এ `path_provider` দিয়ে এই folder-গুলোই পেতেন। নিচের table-এ `path_provider`-এর iOS mapping তার source code দেখে মেলানো:
+Flutter-এ `path_provider` দিয়ে এই folder-গুলোই পেতেন। কোন `path_provider` function iOS-এ কোন folder দেয়, নিচের table-এ সেটা তার source code দেখে মেলানো হয়েছে:
 
 | Folder | কী রাখবেন | Backup-এ যায়? | System মুছতে পারে? | `path_provider` | Android-এ কাছাকাছি |
 |---|---|---|---|---|---|
@@ -8553,16 +8886,16 @@ try imageData.write(to: folder.appending(path: fileName), options: .atomic)
 ```
 
 **ফাঁদ:**
-- **পুরো path database-এ রাখবেন না।** App-এর container-এর path-এ একটা random অংশ থাকে, যেটা app update বা reinstall-এর পরে বদলাতে পারে। পুরো path রাখলে update-এর পরে সব ছবি "হারিয়ে" যায়। শুধু file-এর নাম রাখুন, আর প্রতিবার folder-এর সাথে জুড়ে নিন। Flutter-এও একই নিয়ম।
-- **Application Support নিজে থেকে থাকে না।** প্রথমবার `createDirectory` করতে হয়। (`path_provider` এটা আপনার হয়ে করে দিত।)
-- **বড় download করা জিনিস backup-এ পাঠাবেন না।** আবার download করা যায় এমন বড় file `Caches`-এ রাখুন, বা `isExcludedFromBackup` চালু করুন। iCloud backup ফুলিয়ে দিলে review-তে আটকাতে পারে।
-- **Widget বা extension-এর সাথে data share** করতে sandbox-এর বাইরে একটা App Group container লাগে।
+- **পুরো path database-এ রাখবেন না।** App-এর container-এর path-এ একটা random অংশ থাকে। App update বা reinstall-এর পরে সেটা বদলে যেতে পারে। পুরো path রাখলে update-এর পরে সব ছবি "হারিয়ে" যায়। তাই শুধু file-এর নাম রাখুন, আর প্রতিবার folder-এর path-এর সাথে নামটা জুড়ে নিন। Flutter-এও একই নিয়ম।
+- **Application Support folder শুরুতে থাকে না।** প্রথমবার `createDirectory` দিয়ে বানিয়ে নিতে হয়। (`path_provider` এটা আপনার হয়ে করে দিত।)
+- **বড় download করা file backup-এ পাঠাবেন না।** যে বড় file আবার download করা যায়, সেটা `Caches`-এ রাখুন। নয়তো সেই file-এ `isExcludedFromBackup` চালু করুন। এসব file দিয়ে iCloud backup ভরে ফেললে App Review-তে app আটকে যেতে পারে।
+- **Widget বা extension-এর সাথে data share** করতে sandbox-এর বাইরে একটা App Group container লাগে। এটা একটা shared folder, যেটা আপনার app আর তার extension দুজনেই পড়তে পারে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios8-8"></a>iOS ৮.৮ সব একসাথে: offline-first repository
 
-এবার পুরো অধ্যায় জোড়া লাগাই। Android-এর [৯.৮](#ch9-8)-এর মতোই নকশা: database হলো সত্যের উৎস, network শুধু database-কে update করে।
+এবার পুরো অধ্যায় জোড়া লাগাই। নকশা Android-এর [৯.৮](#ch9-8)-এর মতোই: database হলো সত্যের উৎস (source of truth)। UI সবসময় database থেকে পড়ে। Network শুধু database-কে update করে।
 
 ```swift
 import Foundation
@@ -8648,7 +8981,7 @@ final class OfflineFirstNotesRepository: NotesRepository {
 }
 ```
 
-View model-এ শুধু একটা `refresh()` যোগ হয়, আর view-এ pull-to-refresh:
+View model-এ শুধু একটা `refresh()` যোগ হয়। আর view-এ যোগ হয় pull-to-refresh:
 
 ```swift
 // NotesViewModel-এ
@@ -8669,11 +9002,11 @@ UI ◄── loadNotes() ── SwiftData (সত্যের উৎস) ◄─�
                                refresh, pull-to-refresh, বা BGTask (iOS ৯.১)
 ```
 
-**Android-এর সাথে একটা পার্থক্য:** Room-এর `Flow` query database বদলালে নিজে UI-তে নতুন data পাঠাত। এখানে view model প্রতিটা কাজের পরে নিজে `load()` করে। চাইলে `@Query` দিয়ে auto-update পাওয়া যায়, কিন্তু তখন view database-এর সাথে বাঁধা পড়ে। Test-যোগ্যতার জন্য আমরা এই সহজ পথ নিলাম।
+**Android-এর সাথে একটা পার্থক্য:** Room-এর `Flow` query database বদলালে নিজে থেকেই UI-তে নতুন data পাঠাত। এখানে view model প্রতিটা কাজের পরে নিজে `load()` ডাকে। চাইলে `@Query` দিয়ে auto-update পাওয়া যায়। কিন্তু তখন view database-এর সাথে বাঁধা পড়ে যায়। Test সহজ রাখতে আমরা এই সহজ পথটা নিলাম।
 
 **ফাঁদ:**
-- **Server-এ মোছা note।** এই code server-এ মোছা note local থেকে সরায় না। আসল app-এ server থেকে "মোছা হয়েছে" তালিকা, বা `updatedSince` দিয়ে পরিবর্তনের তালিকা আনতে হয়।
-- **Conflict।** দুই device-এ একই note বদলালে কে জিতবে? এখানে নিয়ম সহজ: local বদল আগে server-এ যায়, তারপর server-এর data আসে। দরকার হলে `updatedAt` মিলিয়ে সিদ্ধান্ত নিন। নিয়মটা যাই হোক, লিখে রাখুন।
+- **Server-এ মোছা note।** এই code server-এ মোছা note local database থেকে সরায় না। আসল app-এ server থেকে মোছা note-এর একটা তালিকা আনতে হয়। অথবা `updatedSince` দিয়ে, কী কী বদলেছে, তার তালিকা আনতে হয়।
+- **Conflict।** দুই device-এ একই note বদলালে কার বদল থাকবে? এখানে নিয়ম সহজ: local বদল আগে server-এ যায়, তারপর server-এর data আসে। দরকার হলে `updatedAt` মিলিয়ে ঠিক করুন কোনটা থাকবে। নিয়ম যাই হোক, সেটা লিখে রাখুন।
 
 > **মনে রাখুন**
 > - `dio` → `URLSession`। 4xx/5xx-এ error আসে না — status নিজে দেখুন। Interceptor-এর জায়গায় নিজের `send()`।
@@ -8689,16 +9022,15 @@ UI ◄── loadNotes() ── SwiftData (সত্যের উৎস) ◄─�
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ios9"></a>iOS ৯. Plugin-এর পেছনের iOS — background, notification, permission, link
 
-Flutter-এ কোনো plugin "Android-এ চলে, iOS-এ চলে না" — এই অভিযোগ আপনি নিশ্চয়ই শুনেছেন। Background task চলে না, push আসে না, permission চাওয়ার আগেই app crash। প্রায় সবসময় কারণ plugin না, কারণ iOS-এর নিয়ম। Android-এর [অধ্যায় ১০](#ch10)-এ নিয়মগুলো ছিল নমনীয়। iOS-এর নিয়ম কড়া, আর অনেক জায়গায় সিদ্ধান্ত পুরোপুরি OS-এর হাতে। এই অধ্যায়ে সেই নিয়মগুলো সামনাসামনি দেখব।
+"এই plugin Android-এ চলে, iOS-এ চলে না" — Flutter-এ এই কথা আপনি নিশ্চয়ই শুনেছেন। Background task চলে না। Push আসে না। Permission চাওয়ার আগেই app crash করে। প্রায় সবসময় দোষ plugin-এর না, দোষটা iOS-এর নিয়ম না জানার। Android-এর [অধ্যায় ১০](#ch10)-এ নিয়মগুলো ছিল ঢিলেঢালা। iOS-এর নিয়ম কড়া। অনেক জায়গায় কী হবে, সেটা পুরোপুরি OS ঠিক করে, আপনি না। এই অধ্যায়ে সেই নিয়মগুলো একটা একটা করে দেখব।
 
 ### <a id="ios9-1"></a>iOS ৯.১ `workmanager` → `BGTaskScheduler` (আর কেন iOS-এ এটা অন্যরকম)
 
-**এক লাইনে:** iOS-এ আপনি background কাজ "চাইতে" পারেন, "চালাতে" পারেন না। `BGTaskScheduler`-কে বলেন "সুযোগ হলে আমাকে একটু সময় দিও"। কখন দেবে, আদৌ দেবে কি না — iOS ঠিক করে।
+**এক লাইনে:** iOS-এ background কাজ আপনি শুধু "চাইতে" পারেন, নিজে "চালাতে" পারেন না। আপনি `BGTaskScheduler`-কে বলেন, "সুযোগ পেলে আমাকে একটু সময় দিও।" কখন সময় দেবে, বা আদৌ দেবে কি না — সেটা iOS ঠিক করে।
 
-**আগে মূল কথাটা:** Android-এ app background-এ গেলেও কিছুক্ষণ চলতে পারে, আর WorkManager কথা দেয় যে কাজটা একসময় হবেই। iOS-এ app background-এ যাওয়ার কয়েক সেকেন্ডের মধ্যে **suspend** হয়ে যায় — memory-তে থাকে, কিন্তু একটা লাইনও চলে না ([iOS ৪](#ios4))। Background-এ code চালানোর একমাত্র পথ হলো iOS-এর দেওয়া নির্দিষ্ট কিছু দরজা।
+**আগে মূল কথাটা:** Android-এ app background-এ গেলেও কিছুক্ষণ চলতে পারে। আর WorkManager কথা দেয়, কাজটা একসময় না একসময় হবেই। iOS-এ এমন না। App background-এ যাওয়ার কয়েক সেকেন্ডের মধ্যেই **suspend** হয়ে যায়। মানে app memory-তে থাকে, কিন্তু code-এর একটা লাইনও চলে না ([iOS ৪](#ios4))। Background-এ code চালানোর পথ একটাই: iOS-এর দেওয়া নির্দিষ্ট কয়েকটা background API। নিচের table-এ সেগুলো আছে।
 
 **Flutter-এ:**
 
@@ -8764,42 +9096,42 @@ struct NotesApp: App {
 </array>
 ```
 
-**iOS-এর দরজাগুলো — কোন কাজে কী:**
+**iOS-এর background API — কোন কাজে কোনটা:**
 
 | কাজ | iOS-এ কী নেবেন | কত সময় পায় | Android-এ কাছাকাছি |
 |---|---|---|---|
 | মাঝে মাঝে ছোট sync | `BGAppRefreshTask` | অল্প, প্রায় ৩০ সেকেন্ড | periodic WorkManager |
-| লম্বা কাজ (database পরিষ্কার, বড় index) | `BGProcessingTask` | কয়েক মিনিট, সাধারণত phone idle আর charge-এ থাকলে | WorkManager + charging constraint |
-| বড় file upload/download | background `URLSession` | app suspend হলেও OS নিজে transfer চালায় | WorkManager / DownloadManager |
-| User নিজে শুরু করা লম্বা কাজ, progress দেখিয়ে | `BGContinuedProcessingTask` (iOS 26 থেকে) | কাজ শেষ বা user বাতিল না করা পর্যন্ত | Foreground service |
-| App background-এ যাওয়ার মুহূর্তে কাজ শেষ করা | `beginBackgroundTask` | কয়েক সেকেন্ড বাড়তি | — |
-| Server থেকে "data নতুন আছে" জানানো | silent push ([iOS ৯.৩](#ios9-3)) | অল্প, আর throttled | FCM data message |
+| লম্বা কাজ (database পরিষ্কার, বড় index) | `BGProcessingTask` | কয়েক মিনিট, সাধারণত phone অলস পড়ে থাকলে আর charge-এ থাকলে | WorkManager + charging constraint |
+| বড় file upload/download | background `URLSession` | app suspend হলেও OS নিজেই transfer চালিয়ে যায় | WorkManager / DownloadManager |
+| User নিজে শুরু করা লম্বা কাজ, progress দেখিয়ে | `BGContinuedProcessingTask` (iOS 26 থেকে) | কাজ শেষ হওয়া বা user বাতিল করা পর্যন্ত | Foreground service |
+| App background-এ যাওয়ার মুহূর্তে হাতের কাজ শেষ করা | `beginBackgroundTask` | কয়েক সেকেন্ড বাড়তি | — |
+| Server থেকে "নতুন data আছে" জানানো | silent push ([iOS ৯.৩](#ios9-3)) | অল্প, আর iOS সংখ্যা কমিয়ে দেয় (throttle) | FCM data message |
 
-**কেন Flutter-এর `workmanager` iOS-এ "অন্যরকম" আচরণ করে:**
-1. **সময় iOS ঠিক করে।** User কখন app খোলে, battery, network — এসব দেখে iOS ঠিক করে কখন চালাবে। Plugin-এর docs নিজেই বলে, Background Fetch সাধারণত দিনে একবারের মতো চলে। `frequency: 1 hour` একটা ইচ্ছা মাত্র, কথা না।
-2. **User swipe করে app বন্ধ করলে কিছুই চলে না।** App switcher থেকে সরালে, user আবার না খোলা পর্যন্ত কোনো background task আসে না। Android-এ শুধু Settings-এর "Force stop" এমন করত, iOS-এ সাধারণ swipe-ই যথেষ্ট।
-3. **Native setup লাগে।** Info.plist-এ identifier, `UIBackgroundModes`, আর `AppDelegate`-এ register — এগুলো ছাড়া iOS task-ই দেয় না। Dart-এর task name আর Info.plist-এর identifier হুবহু না মিললে error।
-4. **Background-এ আলাদা Flutter engine।** Task চলে একটা নতুন engine আর isolate-এ। অন্য plugin (Firebase, `shared_preferences`) ব্যবহার করতে `AppDelegate`-এ plugin registrant callback দিতে হয়।
-5. **চলমান task থামানো যায় না,** আর সময় শেষ হলে iOS নিজে কাজ কেটে দেয়।
+**Flutter-এর `workmanager` iOS-এ কেন "অন্যরকম" চলে:**
+1. **কখন চলবে, iOS ঠিক করে।** User কখন app খোলে, battery কেমন, network আছে কি না — এসব দেখে iOS সময় বাছে। Plugin-এর docs নিজেই বলে, Background Fetch সাধারণত দিনে মোটামুটি একবার চলে। তাই `frequency: 1 hour` শুধু আপনার ইচ্ছা, iOS-এর কথা না।
+2. **User swipe করে app বন্ধ করলে কিছুই চলে না।** App switcher থেকে app সরিয়ে দিলে আর কোনো background task আসে না। User আবার app খুললে তবেই আসে। Android-এ এমন হতো শুধু Settings-এর "Force stop" চাপলে। iOS-এ সাধারণ একটা swipe-ই যথেষ্ট।
+3. **Native setup লাগে।** Info.plist-এ identifier লিখতে হয়, `UIBackgroundModes` দিতে হয়, আর `AppDelegate`-এ register করতে হয়। এগুলো না থাকলে iOS task চালাতেই দেয় না। Dart-এর task name আর Info.plist-এর identifier অক্ষরে অক্ষরে না মিললে error আসে।
+4. **Background-এ আলাদা Flutter engine চলে।** Task চলে একটা নতুন engine আর নতুন isolate-এ। তাই সেখানে অন্য plugin (Firebase, `shared_preferences`) ব্যবহার করতে চাইলে `AppDelegate`-এ একটা plugin registrant callback দিতে হয়।
+5. **চলতে থাকা task আপনি থামাতে পারেন না।** আর সময় ফুরিয়ে গেলে iOS নিজেই কাজটা মাঝপথে কেটে দেয়।
 
-**Debug করার কৌশল:** Simulator বা device-এ iOS নিজের ইচ্ছায় চালাবে, তাই অপেক্ষা না করে Xcode-এ app pause করে debugger console-এ লিখুন:
+**Debug করার কৌশল:** Simulator বা device-এ iOS নিজের মর্জিমতো task চালাবে। তাই বসে অপেক্ষা না করে Xcode-এ app pause করুন, তারপর debugger console-এ এটা লিখুন:
 
 ```
 e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"com.byteonyx.notes.refresh"]
 ```
 
-**Best approach:** Notes app-এর sync-এর মূল ভরসা রাখুন foreground-এ: app খুললে, pull-to-refresh-এ, আর save-এর সাথে সাথে ([iOS ৮.৮](#ios8-8))। `BGAppRefreshTask` শুধু বাড়তি সুবিধা — হলে ভালো, না হলেও app ঠিক থাকে। বড় attachment upload → background `URLSession`।
+**Best approach:** Notes app-এর sync মূলত foreground-এ করুন। মানে: app খুললে, pull-to-refresh করলে, আর save করার সাথে সাথে ([iOS ৮.৮](#ios8-8))। `BGAppRefreshTask` শুধু বাড়তি সুবিধা। চললে ভালো, না চললেও app ঠিকঠাক চলে। বড় attachment upload করতে হলে background `URLSession` নিন।
 
 **ফাঁদ:**
-- **Task register দেরিতে করা।** Handler app launch শেষ হওয়ার আগেই register হতে হয়। SwiftUI-র `.backgroundTask` modifier এটা নিজে সামলায়। UIKit-এ `didFinishLaunchingWithOptions`-এ `BGTaskScheduler.shared.register(...)` ডাকতে হয়।
-- **"আমার phone-এ চলে, user-এর phone-এ না"।** iOS শেখে user app কতটা ব্যবহার করে। কম ব্যবহার করা app কম সুযোগ পায়। এটা bug না, নকশা।
-- **Exact সময়ে কাজ (reminder) background task দিয়ে না।** তার জন্য scheduled local notification ([iOS ৯.২](#ios9-2))।
+- **Task দেরিতে register করা।** App launch শেষ হওয়ার আগেই handler register করতে হয়। SwiftUI-র `.backgroundTask` modifier এটা নিজেই করে দেয়। UIKit-এ `didFinishLaunchingWithOptions`-এর ভেতরে `BGTaskScheduler.shared.register(...)` ডাকতে হয়।
+- **"আমার phone-এ চলে, user-এর phone-এ চলে না।"** User app কতটা ব্যবহার করে, iOS সেটা দেখে শেখে। যে app কম খোলা হয়, সে কম সুযোগ পায়। এটা bug না, iOS ইচ্ছা করেই এমন বানিয়েছে।
+- **ঠিক নির্দিষ্ট সময়ের কাজ (যেমন reminder) background task দিয়ে করবেন না।** সেটার জন্য scheduled local notification নিন ([iOS ৯.২](#ios9-2))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios9-2"></a>iOS ৯.২ Local notification — `UNUserNotificationCenter`
 
-**এক লাইনে:** Notification-এর সব কাজ এক জায়গায় — `UNUserNotificationCenter`। Permission চাওয়া, schedule করা, বাতিল করা। Android-এর মতো channel বানাতে হয় না।
+**এক লাইনে:** Notification-এর সব কাজ হয় এক জায়গা থেকে — `UNUserNotificationCenter`। Permission চাওয়া, schedule করা, বাতিল করা, সব এখানে। Android-এর মতো channel বানাতে হয় না।
 
 **Flutter-এ (`flutter_local_notifications`):**
 
@@ -8852,12 +9184,12 @@ UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentif
 
 | Android | iOS |
 |---|---|
-| Notification channel বানাতে হয় (Android 8+) | channel নেই; বিভাগ লাগলে `UNNotificationCategory` (action button-এর জন্য) |
-| Android 13+ `POST_NOTIFICATIONS` runtime permission | `requestAuthorization` — শুরু থেকেই সবসময় |
-| Exact alarm-এর আলাদা permission | calendar বা time-interval trigger, আলাদা permission নেই |
-| App খোলা থাকলেও notification দেখায় | app সামনে থাকলে **default-এ দেখায় না** — delegate লাগে |
+| Notification channel বানাতে হয় (Android 8+) | channel নেই; ভাগ করতে চাইলে `UNNotificationCategory` (action button-এর জন্য) |
+| Android 13+ `POST_NOTIFICATIONS` runtime permission | `requestAuthorization` — iOS-এ শুরু থেকেই সবসময় চাইতে হয় |
+| Exact alarm-এর জন্য আলাদা permission | calendar বা time-interval trigger দিন, আলাদা permission লাগে না |
+| App খোলা থাকলেও notification দেখায় | app সামনে খোলা থাকলে **নিজে থেকে দেখায় না** — delegate লাগে |
 
-**App সামনে থাকলেও banner দেখাতে:**
+**App সামনে খোলা থাকলেও banner দেখাতে চাইলে:**
 
 ```swift
 final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
@@ -8869,18 +9201,18 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
 // app চালুর সময়: UNUserNotificationCenter.current().delegate = notificationDelegate (strong reference রাখুন)
 ```
 
-**Best approach:** Reminder → `UNCalendarNotificationTrigger`, identifier = note-এর id। Permission চান user যখন প্রথম reminder দেয়, app খোলার সাথে সাথে না।
+**Best approach:** Reminder-এর জন্য `UNCalendarNotificationTrigger` নিন, আর identifier হিসেবে note-এর id দিন। Permission চাইবেন যখন user প্রথম reminder সেট করে। App খোলার সাথে সাথেই চাইবেন না।
 
 **ফাঁদ:**
-- **Pending notification-এর সীমা আছে।** Apple-এর engineer-রা forum-এ বলেছেন, একটা app একসাথে ৬৪টা pending request রাখতে পারে। প্রতিটা note-এ reminder দিলে সবচেয়ে কাছের কয়েকটাই schedule করুন, বাকিগুলো পরে।
-- **Permission একবারই চাওয়া যায়।** User "Don't Allow" দিলে আর dialog আসবে না ([iOS ৯.৪](#ios9-4))।
-- **Delegate weak।** `UNUserNotificationCenter`-এর `delegate` property weak। Delegate object কোথাও ধরে না রাখলে সাথে সাথে হারিয়ে যায়, আর foreground banner আসে না।
+- **Pending notification-এর একটা সীমা আছে।** Apple-এর engineer-রা forum-এ বলেছেন, একটা app একসাথে ৬৪টা pending request রাখতে পারে। তাই অনেক note-এ reminder থাকলে, সবচেয়ে কাছের সময়ের কয়েকটাই এখন schedule করুন। বাকিগুলো পরে করুন।
+- **Permission একবারই চাওয়া যায়।** User একবার "Don't Allow" চাপলে dialog আর কখনো আসবে না ([iOS ৯.৪](#ios9-4))।
+- **Delegate weak।** `UNUserNotificationCenter`-এর `delegate` property weak reference রাখে। মানে delegate object-টা আপনি নিজে কোথাও ধরে না রাখলে সাথে সাথে মুছে যায়। তখন app সামনে থাকা অবস্থায় banner আর আসে না।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios9-3"></a>iOS ৯.৩ Push notification — APNs, আর FCM-এর সাথে APNs key
 
-**এক লাইনে:** iOS-এ সব push আসে Apple-এর server **APNs** দিয়ে। FCM ব্যবহার করলেও শেষ পথটা APNs। তাই Firebase-কে APNs-এর চাবি (APNs key) দিতে হয়।
+**এক লাইনে:** iOS-এ সব push আসে Apple-এর নিজের server **APNs** (Apple Push Notification service) দিয়ে। FCM ব্যবহার করলেও phone পর্যন্ত শেষ পথটা APNs-ই। তাই Firebase-কে APNs-এর একটা চাবি (APNs key) দিতে হয়।
 
 **পথটা:**
 
@@ -8891,7 +9223,7 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                   └── FCM token → APNs device token (Firebase SDK APNs token FCM-কে দেয়, FCM server জোড়াটা রাখে)
 ```
 
-Android-এ FCM message আসে Google Play Services দিয়ে। iOS-এ Google-এর কোনো পথ নেই। FCM শুধু একটা মধ্যস্থতাকারী, আসল পৌঁছানো APNs-এর কাজ।
+Android-এ FCM message phone-এ পৌঁছায় Google Play Services দিয়ে। iOS-এ Google-এর নিজের কোনো পথ নেই। FCM এখানে message শুধু APNs-এর কাছে পাঠিয়ে দেয়। Message phone-এ পৌঁছে দেওয়ার আসল কাজটা করে APNs।
 
 **Flutter-এ (`firebase_messaging`):**
 
@@ -8933,32 +9265,32 @@ struct NotesApp: App {
 }
 ```
 
-**Setup — এগুলোর একটাও বাদ গেলে push আসে না:**
-1. Xcode-এ target-এর **Signing & Capabilities** → **Push Notifications** যোগ করুন। এটা `aps-environment` entitlement বসায়।
-2. Silent push লাগলে **Background Modes** → **Remote notifications**।
-3. Apple Developer account-এ **Keys** → নতুন key, APNs চালু করে। একটা `.p8` file পাবেন। এটা **একবারই download করা যায়** — নিরাপদে রাখুন।
-4. Firebase Console → Project settings → Cloud Messaging → Apple app-এ `.p8` file, Key ID আর Team ID দিন।
+**Setup — এর একটা ধাপও বাদ পড়লে push আসবে না:**
+1. Xcode-এ target-এর **Signing & Capabilities**-এ গিয়ে **Push Notifications** যোগ করুন। এটা app-এ `aps-environment` entitlement বসিয়ে দেয়।
+2. Silent push লাগলে **Background Modes**-এ **Remote notifications** চালু করুন।
+3. Apple Developer account-এ **Keys**-এ গিয়ে APNs চালু করে একটা নতুন key বানান। একটা `.p8` file পাবেন। এই file **মাত্র একবার download করা যায়** — তাই নিরাপদ জায়গায় রেখে দিন।
+4. Firebase Console → Project settings → Cloud Messaging-এ যান। সেখানে Apple app-এর ঘরে `.p8` file, Key ID আর Team ID দিন।
 
 **APNs key (`.p8`) বনাম পুরনো certificate (`.p12`):**
 
 | APNs auth key (`.p8`) | APNs certificate (`.p12`) |
 |---|---|
-| এক key দিয়ে team-এর সব app | প্রতিটা app-এর আলাদা |
-| development আর production দুটোতেই | environment অনুযায়ী আলাদা হতে পারে |
-| মেয়াদ শেষ হয় না (revoke না করলে) | প্রতি বছর নতুন করতে হয় |
+| এক key দিয়েই team-এর সব app চলে | প্রতিটা app-এর জন্য আলাদা |
+| development আর production দুটোতেই চলে | environment অনুযায়ী আলাদা হতে পারে |
+| মেয়াদ ফুরায় না (revoke না করলে) | প্রতি বছর নতুন করতে হয় |
 
-**Best approach:** `.p8` APNs key, Firebase বা নিজের server — যেটাই হোক। Push-এর data-র ওপর ভরসা না করে, push এলে app খুলে server থেকে sync করুন।
+**Best approach:** Firebase হোক বা নিজের server — `.p8` APNs key নিন। আর push-এর ভেতরের data-র ওপর ভরসা করবেন না। Push এলে app server থেকে নিজে sync করে নিক।
 
 **ফাঁদ:**
-- **Silent push-এর ওপর ভরসা।** `content-available: 1` দেওয়া push (FCM-এর data-only message) iOS throttle করে, আর user swipe করে app বন্ধ করলে আসেই না। Android-এর FCM data message-এর মতো নির্ভরযোগ্য না।
-- **Sandbox বনাম production।** Xcode থেকে চালানো debug build sandbox APNs-এর token পায়। TestFlight আর App Store build production-এর। ভুল environment-এ পাঠালে push হারিয়ে যায়।
-- **Simulator-এ test:** আসল server ছাড়াই `xcrun simctl push booted com.byteonyx.notes payload.apns` দিয়ে একটা JSON payload পাঠানো যায়।
+- **Silent push-এর ওপর ভরসা করা।** `content-available: 1` দেওয়া push (FCM-এর data-only message) iOS ইচ্ছামতো কমিয়ে দেয় (throttle করে)। আর user swipe করে app বন্ধ করলে এটা আসেই না। তাই Android-এর FCM data message-এর মতো এর ওপর ভরসা করা যায় না।
+- **Sandbox বনাম production।** Xcode থেকে চালানো debug build পায় sandbox APNs-এর token। TestFlight আর App Store build পায় production-এর token। ভুল environment-এ push পাঠালে সেটা হারিয়ে যায়।
+- **Simulator-এ test:** আসল server ছাড়াই `xcrun simctl push booted com.byteonyx.notes payload.apns` দিয়ে একটা JSON payload পাঠিয়ে দেখা যায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios9-4"></a>iOS ৯.৪ `permission_handler` → Info.plist + request API
 
-**এক লাইনে:** iOS-এ প্রতিটা permission-এর দুই অংশ: `Info.plist`-এ একটা "কেন লাগবে" লেখা (usage description), আর সেই framework-এর নিজের request function। লেখাটা না থাকলে API ছোঁয়ার সাথে সাথে **app crash করে।**
+**এক লাইনে:** iOS-এ প্রতিটা permission-এর দুইটা অংশ। এক, `Info.plist`-এ একটা লেখা, যেটা user-কে বলে "এটা কেন লাগবে" (একে usage description বলে)। দুই, সেই framework-এর নিজের request function। লেখাটা না থাকলে API-তে হাত দেওয়ার সাথে সাথে **app crash করে।**
 
 **Flutter-এ:**
 
@@ -9010,48 +9342,48 @@ Button("Settings খুলুন") {
 | Notification | (key লাগে না) | `UNUserNotificationCenter.requestAuthorization` |
 | Tracking (IDFA) | `NSUserTrackingUsageDescription` | `ATTrackingManager.requestTrackingAuthorization` |
 
-**Photo বাছাইয়ে permission লাগে না।** SwiftUI-র `PhotosPicker` আলাদা system process-এ চলে, আর app শুধু user-এর বাছাই করা ছবি পায়। Notes app-এ ছবি যোগ করতে এটাই নিন। Flutter-এর `image_picker`-ও iOS-এ এই system picker ব্যবহার করে।
+**ছবি বাছাই করতে permission লাগে না।** SwiftUI-র `PhotosPicker` একটা আলাদা system process-এ চলে। App পুরো library দেখতে পায় না, শুধু user যে ছবি বাছে সেটাই পায়। Notes app-এ ছবি যোগ করতে এটাই নিন। Flutter-এর `image_picker`-ও iOS-এ এই system picker-ই ব্যবহার করে।
 
 **Android-এর সাথে পার্থক্য:**
 
 | Android ([১০.৪](#ch10-4)) | iOS |
 |---|---|
 | Manifest-এ `<uses-permission>` | `Info.plist`-এ usage description (user-কে দেখানো লেখা) |
-| Manifest-এ না থাকলে request চুপচাপ fail | key না থাকলে **crash** |
-| দুইবার deny-এর পরে আর dialog আসে না | **একবার** deny-এর পরেই আর আসে না |
-| "Don't ask again" বোঝার জন্য rationale API | `authorizationStatus` দেখলেই বোঝা যায় |
+| Manifest-এ না থাকলে request চুপচাপ fail করে | key না থাকলে **crash** |
+| দুইবার deny করার পরে আর dialog আসে না | **একবার** deny করলেই আর আসে না |
+| "Don't ask again" বুঝতে rationale API লাগে | `authorizationStatus` দেখলেই বোঝা যায় |
 
-**`permission_handler`-এর iOS setup কেন আলাদা:** Apple upload-এর সময় binary scan করে। App-এর code-এ camera API থাকলে, কিন্তু `Info.plist`-এ key না থাকলে, upload reject হয়। তাই plugin শুধু আপনার দরকারি permission-এর code compile করে। CocoaPods-এ এজন্য `Podfile`-এ macro লিখতে হতো। Swift Package Manager-এ plugin এখন নিজেই `Info.plist` পড়ে ঠিক করে।
+**`permission_handler`-এর iOS setup কেন আলাদা:** Upload করার সময় Apple আপনার binary scan করে দেখে। Code-এ camera API আছে, কিন্তু `Info.plist`-এ key নেই — এমন হলে upload reject হয়। তাই plugin শুধু সেই permission-গুলোর code compile করে, যেগুলো আপনার দরকার। CocoaPods-এর সময় এজন্য `Podfile`-এ macro লিখতে হতো। এখন Swift Package Manager-এ plugin নিজেই `Info.plist` পড়ে ঠিক করে নেয়।
 
-**Best approach:** Permission চান ঠিক সেই মুহূর্তে, যখন user কাজটা করছে — "ছবি তুলুন" বোতাম চাপলে। Usage description-এ সত্যিকারের কারণ লিখুন, বাংলায় বা user-এর ভাষায়। "Camera access needed"-এর মতো অস্পষ্ট লেখা review-তে reject হতে পারে।
+**Best approach:** Permission চান ঠিক যখন user কাজটা করছে। যেমন, user "ছবি তুলুন" বোতাম চাপলে তখন। Usage description-এ আসল কারণটা লিখুন, বাংলায় বা user-এর ভাষায়। "Camera access needed"-এর মতো ঝাপসা লেখা দিলে review-তে reject হতে পারে।
 
 **ফাঁদ:**
-- **Key ছাড়া API = crash, শুধু release-এ না, debug-এও।** Console-এ লেখা আসে: app privacy-sensitive data ছুঁতে চেয়েছে কিন্তু usage description নেই। Flutter-এ নতুন plugin যোগ করার পরে `ios/Runner/Info.plist` আপডেট করতে ভুলে গেলে ঠিক এটাই হয়।
-- **User Settings থেকে permission কেড়ে নিলে iOS app-টা মেরে ফেলে।** পরের বার নতুন করে চালু হয়। তাই permission-এর অবস্থা memory-তে cache করে রাখবেন না, প্রতিবার দেখুন।
+- **Key ছাড়া API = crash, শুধু release-এ না, debug-এও।** Console-এ লেখা আসে: app privacy-sensitive data ছুঁতে চেয়েছে, কিন্তু usage description নেই। Flutter-এ নতুন plugin যোগ করে `ios/Runner/Info.plist` আপডেট করতে ভুলে গেলে ঠিক এটাই হয়।
+- **User Settings থেকে permission তুলে নিলে iOS app-টা বন্ধ করে দেয় (kill করে)।** পরের বার app নতুন করে চালু হয়। তাই permission-এর অবস্থা memory-তে জমিয়ে (cache করে) রাখবেন না। প্রতিবার নতুন করে check করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios9-5"></a>iOS ৯.৫ Deep link — Universal Links বনাম custom URL scheme
 
-**এক লাইনে:** দুই রকম link। Universal Link হলো আপনার website-এর সাধারণ `https://` link, যা app থাকলে app-এ খোলে। Custom scheme হলো `notes://` ধরনের নিজের বানানো link।
+**এক লাইনে:** Link দুই রকম। Universal Link হলো আপনার website-এর সাধারণ `https://` link। Phone-এ app থাকলে এটা app-এ খোলে। Custom scheme হলো `notes://`-এর মতো নিজের বানানো link।
 
-**Notes app-এ:** কেউ একটা note share করল: `https://notes.byteonyx.com/notes/42`। App install থাকলে সরাসরি note খুলবে, না থাকলে website।
+**Notes app-এ:** ধরুন কেউ একটা note share করল: `https://notes.byteonyx.com/notes/42`। App install করা থাকলে note-টা সরাসরি app-এ খুলবে। না থাকলে website খুলবে।
 
 **কী মিলল, কী আলাদা:**
 
 | | Universal Link | Custom URL scheme |
 |---|---|---|
 | দেখতে | `https://notes.byteonyx.com/notes/42` | `notes://notes/42` |
-| মালিকানা প্রমাণ | হ্যাঁ — domain-এ রাখা file দিয়ে | না — যেকোনো app একই scheme দাবি করতে পারে |
+| link-টা যে আপনার, তার প্রমাণ | আছে — domain-এ রাখা একটা file দিয়ে | নেই — যেকোনো app একই scheme নিজের বলে দাবি করতে পারে |
 | App না থাকলে | browser-এ website খোলে | কিছুই হয় না, বা error |
 | Setup | Associated Domains entitlement + website-এ file | `Info.plist`-এ `CFBundleURLTypes` |
-| Android-এ যমজ | App Links (`autoVerify`) | intent-filter-এ নিজের scheme |
+| Android-এ এর জোড়া | App Links (`autoVerify`) | intent-filter-এ নিজের scheme |
 
 **Universal Link setup:**
 
 ১. Xcode → Signing & Capabilities → **Associated Domains** → `applinks:notes.byteonyx.com`।
 
-২. Website-এ `https://notes.byteonyx.com/.well-known/apple-app-site-association` file রাখুন (`.json` extension ছাড়া, HTTPS-এ):
+২. Website-এ এই ঠিকানায় একটা file রাখুন: `https://notes.byteonyx.com/.well-known/apple-app-site-association`। নামের শেষে `.json` দেবেন না, আর file-টা HTTPS দিয়ে পাওয়া যেতে হবে:
 
 ```json
 {
@@ -9081,20 +9413,20 @@ WindowGroup {
 }
 ```
 
-**Flutter-এ:** Flutter 3.27 থেকে Flutter-এর নিজের deep link handling default-এ চালু (`FlutterDeepLinkingEnabled`)। তাই `go_router` link-টা সরাসরি route হিসেবে পায়। `app_links`-এর মতো plugin ব্যবহার করলে এই flag `NO` করতে হয়। Associated Domains আর website-এর file — এই দুই কাজ Flutter-এও হাতে করতে হয়।
+**Flutter-এ:** Flutter 3.27 থেকে Flutter-এর নিজের deep link handling নিজে থেকেই চালু থাকে (`FlutterDeepLinkingEnabled`)। তাই `go_router` link-টা সরাসরি একটা route হিসেবে পেয়ে যায়। `app_links`-এর মতো plugin ব্যবহার করলে এই flag `NO` করে দিতে হয়। তবে দুইটা কাজ Flutter-এও আপনাকে নিজে করতে হয়: Associated Domains যোগ করা, আর website-এ file রাখা।
 
-**Best approach:** Share করা link আর email-এর link → Universal Link। Custom scheme শুধু OAuth login-এর redirect-এর মতো জায়গায়, যেখানে অন্য app-এর হাতে পড়ার ঝুঁকি কম।
+**Best approach:** Share করা link আর email-এর link-এর জন্য Universal Link নিন। Custom scheme রাখুন শুধু OAuth login-এর redirect-এর মতো জায়গায়, যেখানে link অন্য app-এর হাতে পড়ার ভয় কম।
 
 **ফাঁদ:**
-- **Apple-এর CDN file cache করে।** নতুন install-এ iOS file সরাসরি আপনার server থেকে না, Apple-এর CDN থেকে নেয়। Flutter docs বলে, CDN file আনতে ২৪ ঘণ্টা পর্যন্ত লাগতে পারে। তাই file বদলানোর পরেই কাজ না করলে আতঙ্কিত হবেন না।
-- **Safari-র address bar-এ link লিখলে app খোলে না।** Universal Link কাজ করে link-এ tap করলে। Test করতে Notes বা Messages-এ link লিখে tap করুন, বা Simulator-এ `xcrun simctl openurl booted <url>`।
-- **Personal (free) team-এ Associated Domains চলে না।** Paid developer account লাগে।
+- **Apple-এর CDN file জমিয়ে রাখে (cache করে)।** App নতুন install হলে iOS file-টা সরাসরি আপনার server থেকে নেয় না। নেয় Apple-এর CDN থেকে। Flutter docs বলে, CDN-এ নতুন file পৌঁছাতে ২৪ ঘণ্টা পর্যন্ত লাগতে পারে। তাই file বদলানোর সাথে সাথে কাজ না করলে ঘাবড়াবেন না।
+- **Safari-র address bar-এ link লিখলে app খোলে না।** Universal Link কাজ করে শুধু link-এ tap করলে। Test করতে Notes বা Messages-এ link লিখে তাতে tap করুন। অথবা Simulator-এ `xcrun simctl openurl booted <url>` চালান।
+- **Personal (free) team-এ Associated Domains চলে না।** এর জন্য paid developer account লাগে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios9-6"></a>iOS ৯.৬ `url_launcher` আর `share_plus`-এর পেছনে
 
-**এক লাইনে:** `url_launcher` iOS-এ ভেতরে `UIApplication.open(_:)` (বা in-app browser-এর জন্য `SFSafariViewController`) ডাকে। `share_plus` ডাকে system share sheet — `UIActivityViewController`। SwiftUI-তে দুটোরই সহজ রূপ আছে।
+**এক লাইনে:** `url_launcher` iOS-এ ভেতরে ভেতরে `UIApplication.open(_:)` ডাকে। App-এর ভেতরেই browser খুলতে চাইলে ডাকে `SFSafariViewController`। `share_plus` খোলে system-এর share sheet — `UIActivityViewController`। SwiftUI-তে দুটোরই সহজ রূপ আছে।
 
 **Flutter-এ:**
 
@@ -9129,23 +9461,23 @@ struct NoteToolbar: View {
 |---|---|---|
 | `launchUrl(https)` | `ACTION_VIEW` Intent | `openURL` / `UIApplication.open` |
 | `LaunchMode.inAppBrowserView` | Custom Tabs | `SFSafariViewController` |
-| `launchUrl(tel:)`, `mailto:` | `ACTION_DIAL`, `ACTION_SENDTO` | একই `openURL`, scheme অনুযায়ী Phone বা Mail খোলে |
+| `launchUrl(tel:)`, `mailto:` | `ACTION_DIAL`, `ACTION_SENDTO` | একই `openURL`; scheme দেখে Phone বা Mail খোলে |
 | `canLaunchUrl` | `queries` element (Android 11+) | `LSApplicationQueriesSchemes` (Info.plist) |
 | `share_plus` | `ACTION_SEND` + chooser | `ShareLink` / `UIActivityViewController` |
 
 **ফাঁদ:**
-- **`canLaunchUrl` iOS-এ `false` দেয়।** `https` ছাড়া অন্য scheme check করতে হলে `Info.plist`-এর `LSApplicationQueriesSchemes`-এ scheme-টা লিখতে হয়, নইলে উত্তর সবসময় `false`। `url_launcher`-এর README-তেও এটা লেখা। Android-এর `<queries>`-এর মতো।
-- **iPad-এ share sheet popover।** iPad-এ share sheet একটা popover, যেটা কোনো একটা জায়গায় নোঙর করতে হয়। `share_plus`-এ এজন্য `sharePositionOrigin`। পুরনো version-এ এটা না দিলে iPad-এ crash হতো, এখন screen-এর মাঝখানে দেখায়। তবু ঠিক জায়গা দিন। SwiftUI-র `ShareLink` এটা নিজে সামলায়।
+- **`canLaunchUrl` iOS-এ `false` দেয়।** `https` ছাড়া অন্য কোনো scheme check করতে চাইলে সেই scheme-টা `Info.plist`-এর `LSApplicationQueriesSchemes`-এ লিখতে হয়। না লিখলে উত্তর সবসময় `false` আসে। `url_launcher`-এর README-তেও এটা লেখা আছে। এটা Android-এর `<queries>`-এর মতোই।
+- **iPad-এ share sheet একটা popover।** iPad-এ share sheet ছোট একটা popover হয়ে খোলে। এটাকে screen-এর কোনো একটা জায়গার সাথে আটকে দিতে হয়। `share_plus`-এ এজন্য আছে `sharePositionOrigin`। পুরনো version-এ এটা না দিলে iPad-এ crash হতো। এখন না দিলে screen-এর মাঝখানে দেখায়। তবু ঠিক জায়গাটা দিয়ে দিন। SwiftUI-র `ShareLink` এটা নিজেই সামলায়।
 
 > **মনে রাখুন**
-> - Background-এ iOS সিদ্ধান্ত নেয়। `BGTaskScheduler` অনুরোধ, কথা না। User swipe করে বন্ধ করলে কিছুই চলে না।
-> - Notification: `UNUserNotificationCenter`, channel নেই, app সামনে থাকলে delegate ছাড়া banner নেই।
-> - সব push APNs দিয়ে। FCM-এর জন্য `.p8` APNs key Firebase-এ দিন। Silent push-এ ভরসা না।
-> - Permission = `Info.plist` usage description + framework-এর request API। Key না থাকলে crash। Dialog জীবনে একবার।
-> - Share-যোগ্য link → Universal Link। `canLaunchUrl`-এর জন্য `LSApplicationQueriesSchemes`।
+> - Background-এ কী চলবে, iOS ঠিক করে। `BGTaskScheduler` একটা অনুরোধ, কোনো কথা দেওয়া না। User swipe করে app বন্ধ করলে কিছুই চলে না।
+> - Notification-এর সব কাজ `UNUserNotificationCenter`-এ। Channel নেই। App সামনে খোলা থাকলে delegate ছাড়া banner আসে না।
+> - সব push আসে APNs দিয়ে। FCM ব্যবহার করলে Firebase-এ `.p8` APNs key দিন। Silent push-এর ওপর ভরসা করবেন না।
+> - Permission = `Info.plist`-এ usage description + framework-এর request API। Key না থাকলে crash। Dialog জীবনে একবারই আসে।
+> - Share করার link-এর জন্য Universal Link। `canLaunchUrl` ঠিক উত্তর দিক, চাইলে scheme-টা `LSApplicationQueriesSchemes`-এ লিখুন।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "iOS-এ app background-এ গেলে কয়েক সেকেন্ডে suspend হয়, তাই background কাজ হলো BGTaskScheduler-এর কাছে অনুরোধ — কখন চলবে iOS ঠিক করে, আর user app swipe করে বন্ধ করলে কিছুই চলে না। এজন্য Flutter-এর workmanager iOS-এ Android-এর মতো নির্ভরযোগ্য না, আর আমি sync-এর মূল ভরসা foreground-এ রাখি। Push সবসময় APNs দিয়ে আসে, FCM শুধু relay, তাই Firebase-এ APNs key দিতে হয়। Permission-এর জন্য Info.plist-এ usage description বাধ্যতামূলক, না থাকলে app crash করে।"
+> - *বাংলায়:* "iOS-এ app background-এ গেলে কয়েক সেকেন্ডের মধ্যে suspend হয়ে যায়। তাই background কাজ মানে BGTaskScheduler-এর কাছে একটা অনুরোধ। কখন চলবে, iOS ঠিক করে। আর user app swipe করে বন্ধ করলে কিছুই চলে না। এজন্য Flutter-এর workmanager iOS-এ Android-এর মতো ভরসার না, তাই আমি sync মূলত foreground-এ করি। Push সবসময় আসে APNs দিয়ে। FCM শুধু মাঝখান দিয়ে পাঠায় (relay), তাই Firebase-এ APNs key দিতে হয়। Permission-এর জন্য Info.plist-এ usage description দিতেই হবে, না দিলে app crash করে।"
 > - *English:* "On iOS an app gets suspended a few seconds after it goes to the background, so background work is a request to BGTaskScheduler — iOS decides when it runs, and nothing runs if the user swipes the app away. That's why Flutter's workmanager isn't as reliable on iOS as on Android, and I keep the main sync in the foreground. Push always goes through APNs; FCM is only a relay, so Firebase needs the APNs key. For permissions, the usage description in Info.plist is mandatory — without it the app crashes."
 
 [উপরে ফিরুন](#toc)
@@ -9154,7 +9486,7 @@ struct NoteToolbar: View {
 
 ## <a id="ios10"></a>iOS ১০. Testing
 
-Test-এর দর্শন বদলায় না: fake ভালো, mock কম, behaviour test করুন। iOS-এ নতুন যা, তা হলো দুইটা test framework পাশাপাশি। পুরনো **XCTest**, আর নতুন **Swift Testing** (Xcode 16, ২০২৪ থেকে)। নতুন unit test Swift Testing-এ লিখুন। XCTest চিনে রাখুন — UI test আর পুরনো code-এ এখনো ওটাই।
+Test লেখার মূল নিয়ম এখানেও একই: fake ব্যবহার করুন, mock কম করুন, আর behaviour test করুন। iOS-এ নতুন জিনিস হলো, দুইটা test framework পাশাপাশি চলে। একটা পুরনো **XCTest**। আরেকটা নতুন **Swift Testing** (Xcode 16, ২০২৪ থেকে)। নতুন unit test Swift Testing-এ লিখুন। তবে XCTest-ও চিনে রাখুন। UI test আর পুরনো code-এ এখনো সেটাই চলে।
 
 ### <a id="ios10-1"></a>iOS ১০.১ হাতিয়ারের নাম বদল
 
@@ -9164,21 +9496,21 @@ Test-এর দর্শন বদলায় না: fake ভালো, mock �
 | `group()` | test class / `@Nested` | `@Suite` struct |
 | `expect(a, equals(b))` | `assertEquals(b, a)` | `#expect(a == b)` |
 | `setUp()` | `@Before` | suite-এর `init()` |
-| `bloc_test` | `runTest` + Turbine | `async` test — `await` করে তারপর property দেখা |
-| `fake_async` | `runTest` virtual time | built-in নেই; সময় inject করুন ([নিয়ম](#ios10-3)) |
+| `bloc_test` | `runTest` + Turbine | `async` test — `await` করুন, তারপর property দেখুন |
+| `fake_async` | `runTest` virtual time | built-in কিছু নেই; সময় বাইরে থেকে দিন (inject) ([নিয়ম](#ios10-3)) |
 | `mocktail` | Fake, দরকারে MockK | Fake class (protocol দিয়ে) — mock library কম চলে |
-| `testWidgets` | Compose UI test | সরাসরি মিল নেই — view model test + XCUITest |
+| `testWidgets` | Compose UI test | সরাসরি জোড়া নেই — view model test + XCUITest |
 | golden test | Roborazzi / Paparazzi | swift-snapshot-testing (third-party) |
 | `integration_test` | instrumented test | XCUITest |
 | `flutter test` | `./gradlew test` | Xcode-এ ⌘U, বা `xcodebuild test` |
 
-**কোথায় থাকে:** Xcode project-এ test আলাদা **target**। Unit test-এর target (যেমন `NotesTests`) আর UI test-এর target (`NotesUITests`)। Flutter project-এর `ios/RunnerTests/` folder-টাও এরকম একটা native test target — platform channel বা plugin-এর Swift code test করার জন্য। Flutter-এর template এই target এখনো XCTest দিয়ে শুরু করে (`RunnerTests: XCTestCase`); চাইলে পাশে Swift Testing-এর test যোগ করা যায়।
+**Test কোথায় থাকে:** Xcode project-এ test থাকে আলাদা **target**-এ। (Target মানে project-এর ভেতরের একটা আলাদা build-এর জিনিস।) Unit test-এর জন্য একটা target, যেমন `NotesTests`। UI test-এর জন্য আরেকটা, যেমন `NotesUITests`। Flutter project-এর `ios/RunnerTests/` folder-টাও এমন একটা native test target। এটা দিয়ে platform channel বা plugin-এর Swift code test করা হয়। Flutter-এর template এই target এখনো XCTest দিয়ে শুরু করে (`RunnerTests: XCTestCase`)। চাইলে এর পাশে Swift Testing-এর test-ও যোগ করা যায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios10-2"></a>iOS ১০.২ Swift Testing: `@Test` আর `#expect`
 
-**এক লাইনে:** যেকোনো function-এর গায়ে `@Test` দিলেই সেটা test। Check করতে একটাই macro — `#expect`। Fail হলে macro নিজেই দেখায় কোন দিকে কোন value ছিল।
+**এক লাইনে:** যেকোনো function-এর ওপরে `@Test` লিখে দিলেই সেটা একটা test। Check করার জন্য macro একটাই — `#expect`। Test fail করলে macro নিজেই দেখিয়ে দেয়, দুই পাশে কোন কোন value ছিল।
 
 **Flutter-এ:**
 
@@ -9223,7 +9555,7 @@ struct NoteDTOTests {
 }
 ```
 
-এখানে `isBlank` ধরে নিচ্ছি `Note`-এর একটা ছোট computed property:
+এখানে ধরে নিচ্ছি, `isBlank` হলো `Note`-এর একটা ছোট computed property:
 
 ```swift
 extension Note {
@@ -9235,18 +9567,18 @@ extension Note {
 ```
 
 **কয়েকটা দরকারি জিনিস:**
-- **`#require`** — না মিললে test সেখানেই থামায়। Optional খুলতেও কাজের: `let first = try #require(notes.first)`। XCTest-এর `XCTUnwrap`-এর মতো।
-- **`arguments:`** — parameterized test। প্রতিটা input আলাদা test হিসেবে report হয়।
-- **`@Suite`** আর struct-এর `init()` — প্রতিটা test নতুন একটা instance পায়। তাই `init`-ই আপনার `setUp`, আর test-দের মধ্যে state ভাগ হয় না।
-- **Parallel default-এ।** Apple-এর docs বলে, Swift Testing suite-এর সব test default-এ parallel চালায়, XCTest একটার পর একটা চালাত। Global state ভাগ করলে test এলোমেলো fail করবে।
+- **`#require`** — শর্ত না মিললে test সেখানেই থেমে যায়। Optional খুলতেও এটা কাজে লাগে: `let first = try #require(notes.first)`। এটা XCTest-এর `XCTUnwrap`-এর মতো।
+- **`arguments:`** — এক test-এ অনেক input (parameterized test)। প্রতিটা input আলাদা test হিসেবে report-এ আসে।
+- **`@Suite`** আর struct-এর `init()` — প্রতিটা test নিজের জন্য নতুন একটা instance পায়। তাই `init`-ই আপনার `setUp`-এর কাজ করে। আর এক test-এর state অন্য test-এ যায় না।
+- **Default-এ parallel চলে।** Apple-এর docs বলে, Swift Testing একটা suite-এর সব test default-এ একসাথে (parallel) চালায়। XCTest চালাত একটার পর একটা। তাই test-গুলো যদি কোনো global state ভাগ করে, তাহলে এলোমেলোভাবে fail করবে।
 
-**Best approach:** নতুন unit test Swift Testing-এ। একটা test, একটা behaviour। নাম বাক্যে, বাংলায় লেখা যায়।
+**Best approach:** নতুন unit test Swift Testing-এ লিখুন। এক test-এ একটাই behaviour check করুন। Test-এর নাম পুরো বাক্যে লিখুন, চাইলে বাংলায়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios10-3"></a>iOS ১০.৩ `bloc_test` → `@Observable` view model test
 
-**এক লাইনে:** View model-এর method `async`, তাই test-এ শুধু `await` করুন, তারপর property দেখুন। State-এর stream নেই, তাই Turbine বা `bloc_test`-এর `expect` list লাগে না।
+**এক লাইনে:** View model-এর method `async`। তাই test-এ method-টা `await` করুন, তারপর property check করুন। এখানে state-এর কোনো stream নেই। তাই Turbine বা `bloc_test`-এর `expect` list লাগে না।
 
 **Flutter-এ:**
 
@@ -9350,19 +9682,19 @@ struct NotesViewModelTests {
 | `fake_async` | `runTest` | নেই — সময় `init`-এ inject করুন |
 | `MainDispatcherRule` লাগে না | লাগে | লাগে না — test নিজেই `@MainActor` |
 
-**মাঝের state দেখতে চাইলে?** `bloc_test` সব state-এর ক্রম দেখাত, যেমন loading `true` তারপর `false`। এখানে `await`-এর পরে শুধু শেষ অবস্থা থাকে। মাঝের অবস্থা দেখতে fake-এ একটা "দরজা" লাগে — fake `loadNotes()`-এ থেমে থাকবে যতক্ষণ test না ছাড়ে। বেশিরভাগ ক্ষেত্রে শেষ অবস্থা দেখাই যথেষ্ট, আর সেটাই behaviour।
+**মাঝের state দেখতে চাইলে?** `bloc_test` সব state ক্রম অনুযায়ী দেখাত, যেমন loading আগে `true`, তারপর `false`। এখানে `await` শেষ হলে শুধু শেষ অবস্থাটা পাওয়া যায়। মাঝের অবস্থা দেখতে হলে fake-কে থামিয়ে রাখার ব্যবস্থা লাগে। মানে fake `loadNotes()`-এর ভেতরে অপেক্ষা করবে, যতক্ষণ না test তাকে এগোতে বলে। তবে বেশিরভাগ সময় শেষ অবস্থা দেখাই যথেষ্ট। আর সেটাই আসল behaviour।
 
-**সময় (`fake_async`-এর জায়গায়):** View model-এ `Date.now` বা `Task.sleep` সরাসরি না লিখে, `init`-এ একটা `now: () -> Date` বা `Clock` নিন। Test-এ নির্দিষ্ট সময় দিন। এতে test-এ সত্যিকারের অপেক্ষা থাকে না।
+**সময় (`fake_async`-এর বদলে):** View model-এ সরাসরি `Date.now` বা `Task.sleep` লিখবেন না। তার বদলে `init`-এ একটা `now: () -> Date` বা `Clock` নিন। Test-এ একটা নির্দিষ্ট সময় দিন। এতে test-কে সত্যি সত্যি অপেক্ষা করতে হয় না।
 
 **ফাঁদ:**
-- **`.task`-এর ভেতরের কাজ test করা।** `.task` view-এর অংশ, view model-এর না। Logic view model-এর method-এ রাখুন, view শুধু ডাকবে। তখন test সরাসরি method ডাকতে পারে।
-- **`Task { }` দিয়ে method-এর ভেতরে কাজ পাঠিয়ে দেওয়া।** `func delete()` যদি ভেতরে `Task { ... }` চালায় আর নিজে সাথে সাথে ফেরে, test-এর `await` কিছুর জন্য অপেক্ষা করে না। Method `async` রাখুন, `Task` বানাক view।
+- **`.task`-এর ভেতরের কাজ test করতে চাওয়া।** `.task` view-এর অংশ, view model-এর না। তাই logic রাখুন view model-এর method-এ। View শুধু সেই method ডাকবে। তখন test-ও সরাসরি method-টা ডাকতে পারবে।
+- **Method-এর ভেতরে `Task { }` দিয়ে কাজ আলাদা করে চালানো।** ধরুন `func delete()` ভেতরে একটা `Task { ... }` চালু করে, আর নিজে সাথে সাথে ফিরে আসে। তখন test-এর `await` আসল কাজের জন্য অপেক্ষা করে না। তাই method-টা `async` রাখুন। `Task` বানানোর কাজ view-এর।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios10-4"></a>iOS ১০.৪ XCTest — চিনে রাখুন
 
-**এক লাইনে:** পুরনো framework। Class-ভিত্তিক, `test` দিয়ে শুরু হওয়া method, আর অনেক রকম `XCTAssert...`।
+**এক লাইনে:** এটা পুরনো framework। Test লিখতে হয় class-এর ভেতরে। Method-এর নাম `test` দিয়ে শুরু হতে হয়। আর check করার জন্য অনেক রকম `XCTAssert...` আছে।
 
 ```swift
 import XCTest
@@ -9393,13 +9725,13 @@ final class NotesViewModelXCTests: XCTestCase {
 | default-এ একটার পর একটা | default-এ parallel |
 | UI test, performance test (`measure`) | — (এগুলো XCTest-এই থাকে) |
 
-দুইটা একই target-এ, এমনকি একই file-এ পাশাপাশি থাকতে পারে। তাই পুরনো test একবারে বদলানোর দরকার নেই।
+দুইটা framework একই target-এ, এমনকি একই file-এও পাশাপাশি থাকতে পারে। তাই পুরনো সব test একবারে বদলানোর দরকার নেই।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios10-5"></a>iOS ১০.৫ `integration_test` → XCUITest
 
-**এক লাইনে:** XCUITest আপনার app-কে একটা আলাদা process থেকে চালায়, আর user-এর মতো tap ও type করে। App-এর ভেতরের কিছু দেখতে পায় না, শুধু accessibility-র মাধ্যমে screen-এর জিনিস।
+**এক লাইনে:** XCUITest আপনার app-কে একটা আলাদা process থেকে চালায়। তারপর user-এর মতো tap করে, type করে। App-এর ভেতরের code বা data এটা দেখতে পায় না। শুধু screen-এ যা আছে, সেটা accessibility-র মাধ্যমে খুঁজে পায়।
 
 **Flutter-এ:**
 
@@ -9450,7 +9782,7 @@ final class NotesUITests: XCTestCase {
 }
 ```
 
-App-এর দিকে launch argument দেখে test-এর জন্য খালি database:
+App-এর দিকে: launch argument দেখে app test-এর জন্য একটা খালি database নেয়:
 
 ```swift
 let isUITesting = ProcessInfo.processInfo.arguments.contains("-ui-testing")
@@ -9467,20 +9799,20 @@ container = try ModelContainer(for: NoteEntity.self, configurations: config)
 | `pumpAndSettle()` | `waitForExistence(timeout:)` |
 | fake inject করা সহজ | launch argument বা environment দিয়ে app-কে বলতে হয় |
 
-**Best approach:** অনেক view model test, অল্প কয়েকটা XCUITest — শুধু সবচেয়ে জরুরি পথে (নতুন note লেখা, খোলা, মোছা)। XCUITest ধীর আর ভঙ্গুর।
+**Best approach:** View model test লিখুন অনেক। XCUITest লিখুন অল্প কয়েকটা, শুধু সবচেয়ে জরুরি কাজগুলোর জন্য (নতুন note লেখা, খোলা, মোছা)। কারণ XCUITest ধীর, আর ছোট পরিবর্তনেই ভেঙে যায়।
 
 **ফাঁদ:**
-- **Text দিয়ে খোঁজা।** Bangla text বদলালে বা ভাষা বদলালে test ভাঙে। `accessibilityIdentifier` দিন — user দেখে না, VoiceOver-ও পড়ে না।
-- **আসল network-এ UI test।** Server ধীর হলে test flaky। Launch argument দিয়ে fake API বা in-memory data দিন।
+- **Text দিয়ে element খোঁজা।** Bangla লেখা বা app-এর ভাষা বদলালেই test ভেঙে যায়। তার বদলে `accessibilityIdentifier` দিন। এটা user দেখে না, VoiceOver-ও পড়ে না।
+- **আসল network দিয়ে UI test চালানো।** Server ধীর হলে test কখনো pass, কখনো fail করে (flaky)। Launch argument দিয়ে app-কে fake API বা in-memory data দিন।
 
 > **মনে রাখুন**
 > - নতুন unit test Swift Testing-এ: `@Test`, `#expect`, `#require`। Default-এ parallel।
-> - View model test = fake repository দিয়ে বানান, `await` method, তারপর `#expect`। Turbine লাগে না।
-> - XCTest চিনে রাখুন। UI test আর performance test এখনো XCTest-এ।
-> - XCUITest আলাদা process থেকে চালায়। `accessibilityIdentifier` = Flutter-এর `Key`।
+> - View model test: fake repository দিয়ে view model বানান, method `await` করুন, তারপর `#expect`। Turbine লাগে না।
+> - XCTest চিনে রাখুন। UI test আর performance test এখনো XCTest-এই হয়।
+> - XCUITest app-কে আলাদা process থেকে চালায়। `accessibilityIdentifier` হলো Flutter-এর `Key`-এর মতো।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "নতুন unit test আমি Swift Testing-এ লিখি — @Test আর #expect, আর এটা default-এ parallel চলে। View model-এর method async, তাই test-এ fake repository দিয়ে view model বানাই, method await করি, তারপর property check করি; bloc_test-এর মতো state-এর stream লাগে না। UI test-এর জন্য XCUITest, যেটা app-কে আলাদা process থেকে accessibility identifier দিয়ে চালায়। Flutter-এর integration_test-এর মতো, কিন্তু black-box।"
+> - *বাংলায়:* "নতুন unit test আমি Swift Testing-এ লিখি — @Test আর #expect দিয়ে। এটা default-এ parallel চলে। View model-এর method async, তাই test-এ fake repository দিয়ে view model বানাই, method await করি, তারপর property check করি। bloc_test-এর মতো state-এর stream লাগে না। UI test-এর জন্য XCUITest নিই। এটা app-কে আলাদা process থেকে চালায়, আর accessibility identifier দিয়ে element খোঁজে। Flutter-এর integration_test-এর মতোই, তবে black-box — মানে app-এর ভেতরটা দেখতে পায় না।"
 > - *English:* "I write new unit tests with Swift Testing — @Test and #expect — and they run in parallel by default. View model methods are async, so in a test I build the view model with a fake repository, await the method, and then check its properties; I don't need a state stream like in bloc_test. For UI tests I use XCUITest, which drives the app from a separate process through accessibility identifiers. It's like Flutter's integration_test, but black-box."
 
 [উপরে ফিরুন](#toc)
@@ -9489,19 +9821,19 @@ container = try ModelContainer(for: NoteEntity.self, configurations: config)
 
 ## <a id="ios11"></a>iOS ১১. Signing আর release — certificate থেকে App Store
 
-Android-এ release মানে ছিল একটা keystore, একটা AAB, আর Play Console ([অধ্যায় ১২](#ch12))। iOS-এ টুকরো বেশি: bundle id, team, certificate, provisioning profile, entitlement। প্রথমবার এগুলো গোলমেলে লাগে। কিন্তু একবার বুঝলে দেখবেন, প্রতিটার কাজ একটাই, আর সবাই মিলে একটা প্রশ্নের উত্তর দেয়: "কে, কোন app, কোন device-এ, কী কী ক্ষমতা নিয়ে চালাতে পারবে?"
+Android-এ release মানে ছিল একটা keystore, একটা AAB, আর Play Console ([অধ্যায় ১২](#ch12))। iOS-এ জিনিস বেশি: bundle id, team, certificate, provisioning profile, entitlement। প্রথমবার এগুলো গুলিয়ে যায়। কিন্তু একবার বুঝলে দেখবেন, প্রতিটার কাজ মাত্র একটা। আর সবগুলো মিলে একটা প্রশ্নের উত্তর দেয়: "কে, কোন app, কোন device-এ, কী কী বিশেষ সুবিধা নিয়ে চালাতে পারবে?"
 
 ### <a id="ios11-1"></a>iOS ১১.১ পাঁচ টুকরো: bundle id, team, certificate, provisioning profile, entitlement
 
-**এক লাইনে:** Certificate বলে **কে** sign করছে। Provisioning profile বলে **কোন app, কোন device-এ, কোন ক্ষমতা নিয়ে** চলবে। iOS দুটোই মিলিয়ে দেখে, তবেই app চালায়।
+**এক লাইনে:** Certificate বলে **কে** sign করছে। Provisioning profile বলে **কোন app, কোন device-এ, কোন বিশেষ সুবিধা নিয়ে** চলবে। iOS দুটো মিলিয়ে দেখে। দুটো মিললে তবেই app চালায়।
 
 | টুকরো | কী | Android-এ কাছাকাছি |
 |---|---|---|
 | **Bundle ID** | app-এর স্থায়ী নাম, যেমন `com.byteonyx.notes` | `applicationId` |
-| **Team** | আপনার Apple Developer account (একজন বা একটা company)। একটা ১০ অক্ষরের **Team ID** থাকে | Play Console developer account |
-| **Certificate** | Apple-এর দেওয়া পরিচয়পত্র। Private key থাকে আপনার Mac-এর Keychain-এ | upload keystore |
-| **Provisioning profile** | Apple-এর sign করা একটা file: এই App ID + এই certificate + (development-এ) এই device-গুলো + এই entitlement | মিল নেই |
-| **Entitlement** | app-এর বিশেষ ক্ষমতা: push, Associated Domains, iCloud, App Groups | Manifest-এর কিছু permission আর feature |
+| **Team** | আপনার Apple Developer account (একজন মানুষ বা একটা company)। এর একটা ১০ অক্ষরের **Team ID** থাকে | Play Console developer account |
+| **Certificate** | Apple-এর দেওয়া একটা file, যেটা প্রমাণ করে sign করছেন আপনি। এর private key থাকে আপনার Mac-এর Keychain-এ | upload keystore |
+| **Provisioning profile** | Apple-এর sign করা একটা file। এতে লেখা থাকে: এই App ID + এই certificate + (development-এ) এই device-গুলো + এই entitlement | মিল নেই |
+| **Entitlement** | app-এর বিশেষ সুবিধা: push, Associated Domains, iCloud, App Groups | Manifest-এর কিছু permission আর feature |
 
 **Certificate দুই রকম:**
 - **Apple Development** — নিজের phone-এ Xcode থেকে চালানোর জন্য।
@@ -9509,25 +9841,29 @@ Android-এ release মানে ছিল একটা keystore, একটা A
 
 **Provisioning profile কয়েক রকম:**
 - **Development** — নির্দিষ্ট কিছু registered device-এ, debug-এর জন্য।
-- **Ad Hoc** — নির্দিষ্ট device-এ (সর্বোচ্চ ১০০টা প্রতি ধরনের device) release build দেওয়া।
-- **App Store Connect** — TestFlight আর App Store। Device-এর তালিকা নেই, Apple নিজে বিতরণ করে।
-- **Enterprise** — শুধু Enterprise Program-এর company, নিজেদের কর্মীদের জন্য।
+- **Ad Hoc** — নির্দিষ্ট কিছু device-এ release build দেওয়ার জন্য (প্রতি ধরনের device সর্বোচ্চ ১০০টা)।
+- **App Store Connect** — TestFlight আর App Store-এর জন্য। এতে device-এর কোনো তালিকা থাকে না। Apple নিজেই app সবার কাছে পৌঁছে দেয়।
+- **Enterprise** — শুধু Enterprise Program-এর company-র জন্য, নিজেদের কর্মীদের app দিতে।
 
-**ভেতরে কীভাবে কাজ করে:** Build-এর সময় Xcode আপনার certificate-এর private key দিয়ে app-এর প্রতিটা binary sign করে, আর profile-টা app-এর ভেতরে `embedded.mobileprovision` নামে রেখে দেয়। Install-এর সময় iOS দেখে: signature কি profile-এর কোনো certificate-এর সাথে মেলে? Bundle ID কি মেলে? Device কি তালিকায় আছে? চাওয়া entitlement কি profile-এ অনুমোদিত? একটাও না মিললে app install বা launch হয় না।
+**ভেতরে কীভাবে কাজ করে:**
+1. Build-এর সময় Xcode আপনার certificate-এর private key দিয়ে app-এর প্রতিটা binary sign করে।
+2. Profile-টা app-এর ভেতরে `embedded.mobileprovision` নামে রেখে দেয়।
+3. Install-এর সময় iOS চারটা জিনিস check করে: signature কি profile-এর কোনো certificate-এর সাথে মেলে? Bundle ID কি মেলে? এই device কি তালিকায় আছে? App যে entitlement চায়, profile কি সেটার অনুমতি দেয়?
+4. একটাও না মিললে app install হয় না, বা চালু হয় না।
 
-**Android-এর সাথে সবচেয়ে বড় পার্থক্য:** Android-এ signing key-ই app-এর পরিচয়। Key হারালে (Play App Signing না থাকলে) আর update দেওয়া যায় না। iOS-এ app-এর পরিচয় হলো **Bundle ID + Team**। Distribution certificate হারালে বা মেয়াদ শেষ হলে নতুন একটা বানান — App Store-এর app-এর কিছুই হয় না। Certificate প্রতি বছর বদলায়, এটা স্বাভাবিক।
+**Android-এর সাথে সবচেয়ে বড় পার্থক্য:** Android-এ signing key-ই app-কে চেনায়। Key হারালে (Play App Signing না থাকলে) আর update দেওয়া যায় না। iOS-এ app-কে চেনায় **Bundle ID + Team**। Distribution certificate হারালে বা মেয়াদ ফুরালে নতুন একটা বানিয়ে নিন। App Store-এ থাকা app-এর কিছুই হয় না। Certificate প্রতি বছর বদলায়, এটা স্বাভাবিক।
 
 **ফাঁদ:**
-- **Free Apple ID দিয়ে চালানো।** Paid account (বছরে $99) ছাড়াও নিজের phone-এ চালানো যায়, কিন্তু profile ৭ দিনে শেষ হয়, আর push, Associated Domains-এর মতো capability পাওয়া যায় না।
-- **Capability Xcode-এ যোগ করে ভুলে যাওয়া যে profile-ও বদলাতে হয়।** Automatic signing এটা নিজে করে। Manual-এ নতুন profile বানাতে হয়, নইলে "entitlement profile-এ নেই" error।
+- **Free Apple ID দিয়ে চালানো।** Paid account (বছরে $99) ছাড়াও নিজের phone-এ app চালানো যায়। কিন্তু তখন profile ৭ দিনে শেষ হয়ে যায়। আর push, Associated Domains-এর মতো capability পাওয়া যায় না।
+- **Xcode-এ capability যোগ করে profile বদলাতে ভুলে যাওয়া।** Automatic signing-এ Xcode এটা নিজেই করে। Manual signing-এ নতুন profile বানাতে হয়। না বানালে "entitlement profile-এ নেই" ধরনের error আসে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios11-2"></a>iOS ১১.২ Automatic বনাম manual signing
 
-**এক লাইনে:** Automatic signing-এ Xcode নিজে certificate আর profile বানায় ও নবায়ন করে। Manual-এ আপনি নিজে বেছে দেন। নিজের Mac-এ automatic, CI-তে সাধারণত manual।
+**এক লাইনে:** Automatic signing-এ Xcode নিজেই certificate আর profile বানায়, আর মেয়াদ ফুরালে নতুন করে নেয়। Manual-এ আপনি নিজে বেছে দেন কোনটা লাগবে। নিজের Mac-এ automatic চলে। CI-তে সাধারণত manual।
 
-**Flutter-এ:** `ios/Runner.xcworkspace` Xcode-এ খুলে Runner target → **Signing & Capabilities**-এ "Automatically manage signing" টিক দিয়ে Team বেছে নেওয়া — এটাই আপনি সম্ভবত করেছেন। Flutter-এর docs বলে, এটা default-এ চালু, আর বেশিরভাগ app-এর জন্য যথেষ্ট।
+**Flutter-এ:** আপনি সম্ভবত এটাই করেছেন: Xcode-এ `ios/Runner.xcworkspace` খুলেছেন। তারপর Runner target → **Signing & Capabilities**-এ "Automatically manage signing" টিক দিয়ে Team বেছে নিয়েছেন। Flutter-এর docs বলে, এটা default-এ চালু থাকে, আর বেশিরভাগ app-এর জন্য এটাই যথেষ্ট।
 
 | | Automatic | Manual |
 |---|---|---|
@@ -9535,31 +9871,31 @@ Android-এ release মানে ছিল একটা keystore, একটা A
 | নতুন capability যোগ | Xcode নিজে profile আপডেট করে | নতুন profile বানাতে হয় |
 | কোথায় ভালো | নিজের Mac, ছোট team | CI server, বড় team, একাধিক flavor |
 
-**CI-তে কী হয়:** CI machine-এ কেউ Xcode-এ login করে না। তাই দুই পথ:
-- **App Store Connect API key** দিয়ে `xcodebuild`-কে automatic signing করতে দেওয়া।
-- **fastlane match** — certificate আর profile একটা encrypted git repo-তে রেখে সব machine-এ একই জিনিস বসানো। Codemagic-এর মতো CI নিজেও এই কাজের tool দেয়।
+**CI-তে কী হয়:** CI machine-এ কেউ Xcode-এ login করে না। তাই দুইটা পথ আছে:
+- **App Store Connect API key** দিন, যাতে `xcodebuild` নিজেই automatic signing করতে পারে।
+- **fastlane match** — certificate আর profile একটা encrypted git repo-তে রাখে। তারপর সব machine-এ সেই একই জিনিস বসিয়ে দেয়। Codemagic-এর মতো CI-ও নিজে এই কাজের tool দেয়।
 
-**Best approach:** নিজের কাজে automatic signing। CI-তে App Store Connect API key, অথবা team বড় হলে fastlane match।
+**Best approach:** নিজের কাজে automatic signing নিন। CI-তে App Store Connect API key নিন। Team বড় হলে fastlane match।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios11-3"></a>iOS ১১.৩ Archive → TestFlight → App Store
 
-**এক লাইনে:** Release build-কে iOS-এ বলে **archive**। Archive থেকে একটা `.ipa` বানিয়ে App Store Connect-এ upload করেন। তারপর TestFlight-এ test, শেষে review-তে পাঠানো।
+**এক লাইনে:** iOS-এ release build-কে বলে **archive**। Archive থেকে একটা `.ipa` বানিয়ে App Store Connect-এ upload করেন। তারপর TestFlight-এ test করেন। শেষে review-তে পাঠান।
 
 **ধাপগুলো:**
 
 1. **App Store Connect-এ app তৈরি।** Bundle ID বেছে নিন, নাম, ভাষা, SKU দিন। (Play Console-এ নতুন app বানানোর মতো।)
-2. **Version আর build number।** `CFBundleShortVersionString` = দেখানো version (`1.2.0`)। `CFBundleVersion` = build number, প্রতিটা upload-এ বাড়াতে হয়। Flutter-এ `pubspec.yaml`-এর `version: 1.2.0+5` → `1.2.0` আর `5`।
-3. **Archive।** Xcode → Product → Archive (device বা "Any iOS Device" বেছে নিয়ে)। ফল একটা `.xcarchive` — ভেতরে app আর debug symbol (dSYM)।
-4. **Distribute।** Xcode Organizer → Distribute App → App Store Connect। Xcode distribution certificate দিয়ে আবার sign করে upload করে।
-5. **Processing।** Upload-এর পরে Apple কিছুক্ষণ build "process" করে। তারপর TestFlight-এ দেখা যায়।
+2. **Version আর build number।** `CFBundleShortVersionString` হলো user যে version দেখে (`1.2.0`)। `CFBundleVersion` হলো build number। প্রতিটা upload-এ এটা বাড়াতে হয়। Flutter-এ `pubspec.yaml`-এর `version: 1.2.0+5` থেকে এই দুটো আসে: `1.2.0` আর `5`।
+3. **Archive।** Xcode → Product → Archive চাপুন (আগে একটা device বা "Any iOS Device" বেছে নিন)। ফল হিসেবে পাবেন একটা `.xcarchive`। এর ভেতরে থাকে app আর debug symbol (dSYM)।
+4. **Distribute।** Xcode Organizer → Distribute App → App Store Connect। Xcode distribution certificate দিয়ে আবার sign করে, তারপর upload করে।
+5. **Processing।** Upload-এর পরে Apple কিছুক্ষণ build-টা "process" করে। তারপর সেটা TestFlight-এ দেখা যায়।
 6. **TestFlight।**
    - **Internal tester:** আপনার App Store Connect team-এর সর্বোচ্চ ১০০ জন। Review লাগে না।
    - **External tester:** সর্বোচ্চ ১০,০০০ জন, email বা public link দিয়ে। প্রথম build-এ Beta App Review লাগতে পারে।
    - প্রতিটা build upload-এর পর ৯০ দিন test করা যায়।
-7. **Submit for Review।** Screenshot, বিবরণ, privacy তথ্য, আর review-এর জন্য একটা demo account দিন। তারপর review।
-8. **Release।** Approve হলে নিজে release করুন, নির্দিষ্ট দিনে, বা ধীরে ধীরে (phased release, ৭ দিনে সবাই)।
+7. **Submit for Review।** Screenshot, বিবরণ, privacy তথ্য দিন। Reviewer-এর জন্য একটা demo account-ও দিন। তারপর review শুরু হয়।
+8. **Release।** Approve হলে তিনভাবে release করা যায়: নিজে হাতে, একটা নির্দিষ্ট দিনে, বা ধীরে ধীরে (phased release — ৭ দিনে সবার কাছে পৌঁছায়)।
 
 **কী মিলল:**
 
@@ -9571,46 +9907,48 @@ Android-এ release মানে ছিল একটা keystore, একটা A
 | Internal testing track | TestFlight internal |
 | Closed / open testing | TestFlight external |
 | Staged rollout (%) | Phased release (৭ দিন) |
-| review (সাধারণত দ্রুত, স্বয়ংক্রিয় বেশি) | মানুষের review, প্রতিটা version-এ |
+| review (সাধারণত দ্রুত, বেশিরভাগটা automatic) | প্রতিটা version-এ মানুষ review করে |
 
-**Xcode version-এর নিয়ম (নভেম্বর ২০২৬):** Apple-এর "Upcoming Requirements" পাতা অনুযায়ী, ২৮ এপ্রিল ২০২৬ থেকে App Store Connect-এ upload করতে Xcode 26 বা নতুন, আর iOS 26 SDK লাগে। Xcode 27 বের হয়েছে ১৪ সেপ্টেম্বর ২০২৬-এ। Apple প্রতি বছর বসন্তে নিয়মটা এক ধাপ তোলে, তাই upload-এর আগে [এই পাতাটা](https://developer.apple.com/news/upcoming-requirements/) দেখে নিন। একই পাতা বলে, ৯ সেপ্টেম্বর ২০২৬ থেকে upload করা app-এর minimum iOS 13 বা তার বেশি হতে হবে।
+**Xcode version-এর নিয়ম (নভেম্বর ২০২৬):** Apple-এর "Upcoming Requirements" পাতা বলে, ২৮ এপ্রিল ২০২৬ থেকে App Store Connect-এ upload করতে Xcode 26 বা তার নতুন version লাগে, সাথে iOS 26 SDK। Xcode 27 বের হয়েছে ১৪ সেপ্টেম্বর ২০২৬-এ। Apple প্রতি বছর বসন্তে এই নিয়ম এক ধাপ ওপরে তোলে। তাই upload-এর আগে [এই পাতাটা](https://developer.apple.com/news/upcoming-requirements/) একবার দেখে নিন। একই পাতা আরও বলে, ৯ সেপ্টেম্বর ২০২৬ থেকে upload করা app-এর minimum iOS হতে হবে 13 বা তার বেশি।
 
 **ফাঁদ:**
-- **একই build number দুইবার।** একই version-এ একই build number আবার upload করা যায় না। Flutter-এ `+5`-কে `+6` করুন, বা `--build-number` দিন।
-- **Export compliance-এর প্রশ্ন প্রতিবার।** App শুধু HTTPS-এর মতো সাধারণ encryption ব্যবহার করলে `Info.plist`-এ `ITSAppUsesNonExemptEncryption` = `NO` দিন। তাহলে প্রতি build-এ প্রশ্নটা আসে না।
-- **dSYM হারানো।** Crash report পড়তে archive-এর dSYM লাগে। Crashlytics ব্যবহার করলে সেটা upload হচ্ছে কি না দেখুন। Flutter-এ Dart-এর জন্য আলাদা `--split-debug-info`-এর symbol রাখুন।
+- **একই build number দুইবার দেওয়া।** একই version-এ একই build number দিয়ে আবার upload করা যায় না। Flutter-এ `+5`-কে `+6` করুন, বা `--build-number` দিন।
+- **প্রতিবার export compliance-এর প্রশ্ন আসা।** App যদি শুধু HTTPS-এর মতো সাধারণ encryption ব্যবহার করে, তাহলে `Info.plist`-এ `ITSAppUsesNonExemptEncryption` = `NO` দিন। তখন প্রতি build-এ প্রশ্নটা আর আসে না।
+- **dSYM হারিয়ে ফেলা।** Crash report পড়তে archive-এর dSYM লাগে। Crashlytics ব্যবহার করলে দেখুন dSYM upload হচ্ছে কি না। Flutter-এ Dart code-এর symbol আলাদা — `--split-debug-info` দিয়ে যে symbol বের হয়, সেটাও রেখে দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios11-4"></a>iOS ১১.৪ Review guideline-এর যে নিয়মে সবাই আটকায়
 
-**এক লাইনে:** App Store-এ প্রতিটা version একজন মানুষ review করে, Apple-এর [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) ধরে। Flutter developer-রা সাধারণত এই কয়েকটা নিয়মে আটকায়।
+**এক লাইনে:** App Store-এ প্রতিটা version একজন মানুষ review করে। সে Apple-এর [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) মিলিয়ে দেখে। Flutter developer-রা সাধারণত নিচের কয়েকটা নিয়মে আটকে যায়।
 
-**১. Digital জিনিস বিক্রি = In-App Purchase (guideline 3.1.1)।** App-এর ভেতরে feature বা content খোলার জন্য — subscription, premium note theme, "Pro" version — In-App Purchase (StoreKit) ব্যবহার করতেই হবে। নিজের payment, license key, QR code দিয়ে খোলা নিষেধ। Flutter-এর `in_app_purchase` plugin iOS-এ ভেতরে StoreKit-ই চালায়।
-- Physical জিনিস বা app-এর বাইরে ব্যবহার করা service (খাবার, taxi) — IAP লাগে না।
-- **দেশভেদে বদলাচ্ছে।** এখনকার guideline বলে, **United States storefront**-এ বাইরের payment-এর link বা button দেওয়া যায়। অন্য দেশে নিয়ম আলাদা, আর EU-তে আলাদা ব্যবস্থা আছে। এই অংশ ঘন ঘন বদলায়, submit-এর আগে guideline-টা আবার পড়ুন।
+**১. Digital জিনিস বিক্রি করলে In-App Purchase লাগবে (guideline 3.1.1)।** App-এর ভেতরে কোনো feature বা content খুলতে টাকা নিলে In-App Purchase (StoreKit) ব্যবহার করতেই হবে। যেমন subscription, premium note theme, বা "Pro" version। নিজের payment system, license key বা QR code দিয়ে এগুলো খোলানো নিষেধ। Flutter-এর `in_app_purchase` plugin iOS-এ ভেতরে StoreKit-ই চালায়।
+- Physical জিনিস বা app-এর বাইরে ব্যবহার করা service বিক্রি করলে (খাবার, taxi) IAP লাগে না।
+- **দেশ অনুযায়ী নিয়ম বদলাচ্ছে।** এখনকার guideline বলে, **United States storefront**-এ বাইরের payment-এর link বা button দেওয়া যায়। অন্য দেশে নিয়ম আলাদা। EU-র জন্য আরেক রকম ব্যবস্থা আছে। এই অংশ ঘন ঘন বদলায়। তাই submit-এর আগে guideline-টা আবার পড়ে নিন।
 
-**২. Login service (guideline 4.8) — Sign in with Apple-এর নিয়ম।** আগে নিয়ম ছিল: Google বা Facebook login দিলে Sign in with Apple-ও দিতেই হবে। **জানুয়ারি ২০২৪-এ নিয়মটা বদলেছে।** এখন guideline বলে: third-party বা social login দিয়ে user-এর মূল account বানালে, পাশাপাশি **আরেকটা সমান login option** দিতে হবে, যেটা:
+**২. Login service-এর নিয়ম (guideline 4.8) — Sign in with Apple।** আগের নিয়ম ছিল: Google বা Facebook login দিলে Sign in with Apple-ও দিতেই হবে। **জানুয়ারি ২০২৪-এ নিয়মটা বদলেছে।** এখন guideline বলে: user-এর মূল account যদি third-party বা social login দিয়ে বানানো হয়, তাহলে পাশে **আরেকটা সমান login option** রাখতে হবে। সেই option-কে এই তিনটা শর্ত মানতে হবে:
 - শুধু নাম আর email নেয়,
-- user-কে email লুকিয়ে রাখতে দেয়,
-- অনুমতি ছাড়া advertising-এর জন্য user-এর কাজকর্ম সংগ্রহ করে না।
+- user চাইলে নিজের email লুকিয়ে রাখতে পারে,
+- user-এর অনুমতি ছাড়া advertising-এর জন্য তার কাজকর্মের data জমায় না।
 
-Sign in with Apple এই তিন শর্ত পূরণ করে, তাই এটাই সবচেয়ে সহজ উত্তর। শুধু নিজের email-password login থাকলে, বা enterprise/education account-এর app হলে, এটা লাগে না।
+Sign in with Apple এই তিনটা শর্তই মানে। তাই এটাই সবচেয়ে সহজ সমাধান। App-এ শুধু নিজের email-password login থাকলে, বা app-টা enterprise/education account-এর হলে, এটা লাগে না।
 
-**৩. Account বানানো গেলে মোছাও যেতে হবে (guideline 5.1.1(v))।** App-এ account খোলা গেলে, app-এর ভেতর থেকেই account delete করার পথ দিতে হবে। শুধু "email করুন" যথেষ্ট না।
+**৩. Account খোলা গেলে মোছাও যেতে হবে (guideline 5.1.1(v))।** App-এ account খোলা গেলে, app-এর ভেতর থেকেই account delete করার পথ দিতে হবে। শুধু "আমাদের email করুন" লিখে দিলে হবে না।
 
 **৪. আরও কয়েকটা সাধারণ কারণ:**
-- **Crash বা অসম্পূর্ণ app (2.1)।** Review-এর device-এ crash করলে reject। Demo account কাজ না করলেও।
-- **শুধু একটা website-এর মোড়ক (4.2)।** WebView-এ website দেখানো ছাড়া কিছু না করলে "minimum functionality"-তে reject।
-- **Permission-এর লেখা অস্পষ্ট।** Usage description-এ কেন লাগবে, স্পষ্ট লিখুন ([iOS ৯.৪](#ios9-4))।
+- **Crash করে বা app অসম্পূর্ণ (2.1)।** Reviewer-এর device-এ crash করলে reject হয়। Demo account কাজ না করলেও reject হয়।
+- **App শুধু একটা website দেখায় (4.2)।** WebView-এ website দেখানো ছাড়া app আর কিছু না করলে "minimum functionality" কারণে reject হয়।
+- **Permission-এর লেখা ঝাপসা।** Usage description-এ পরিষ্কার লিখুন permission-টা কেন লাগবে ([iOS ৯.৪](#ios9-4))।
 
-**Best approach:** প্রথম submit-এর আগে guideline-এর 2, 3.1, 4.8, 5.1 অংশ নিজে একবার পড়ুন। Review notes-এ demo account আর কোন feature কোথায়, লিখে দিন।
+**Best approach:** প্রথমবার submit করার আগে guideline-এর 2, 3.1, 4.8 আর 5.1 অংশ নিজে একবার পড়ুন। Review notes-এ demo account দিন, আর কোন feature কোথায় আছে লিখে দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios11-5"></a>iOS ১১.৫ Privacy manifest আর nutrition label
 
-**এক লাইনে:** দুইটা আলাদা জিনিস। **Privacy manifest** (`PrivacyInfo.xcprivacy`) হলো app-এর ভেতরের একটা file, যেটা বলে code কী data নেয় আর কোন "সংবেদনশীল" API কেন ব্যবহার করে। **Nutrition label** হলো App Store-এর পাতায় user-কে দেখানো privacy-র সারাংশ, যেটা আপনি App Store Connect-এর "App Privacy" অংশে পূরণ করেন।
+**এক লাইনে:** এরা দুইটা আলাদা জিনিস।
+- **Privacy manifest** (`PrivacyInfo.xcprivacy`) হলো app-এর ভেতরের একটা file। এটা বলে, code কী কী data নেয়, আর কোন "sensitive" API কেন ব্যবহার করে।
+- **Nutrition label** হলো App Store-এর পাতায় user-কে দেখানো privacy-র ছোট সারাংশ। এটা আপনি App Store Connect-এর "App Privacy" অংশে পূরণ করেন।
 
 **Privacy manifest-এ কী থাকে:**
 
@@ -9618,10 +9956,10 @@ Sign in with Apple এই তিন শর্ত পূরণ করে, তা�
 |---|---|
 | `NSPrivacyTracking` | app কি user-কে track করে (অন্য company-র data-র সাথে মিলিয়ে) |
 | `NSPrivacyTrackingDomains` | tracking-এর জন্য কোন কোন domain-এ যায় |
-| `NSPrivacyCollectedDataTypes` | কী কী data সংগ্রহ করে, আর কেন |
-| `NSPrivacyAccessedAPITypes` | কোন "required reason API" ব্যবহার করে, আর কারণের code |
+| `NSPrivacyCollectedDataTypes` | কী কী data নেয়, আর কেন |
+| `NSPrivacyAccessedAPITypes` | কোন "required reason API" ব্যবহার করে, আর তার কারণের code |
 
-**Required reason API:** কিছু API দিয়ে device চেনা (fingerprinting) সম্ভব, তাই Apple কারণ জানতে চায়। যেমন `UserDefaults`, file-এর timestamp, system boot time, disk-এর খালি জায়গা। Notes app `UserDefaults` ব্যবহার করে নিজের setting রাখতে — কারণের code `CA92.1` ("শুধু app নিজের জন্য পড়া-লেখা")।
+**Required reason API:** কিছু API-র value মিলিয়ে একটা device-কে আলাদা করে চেনা যায় (একে fingerprinting বলে)। তাই এসব API কেন ব্যবহার করছেন, Apple সেটা জানতে চায়। যেমন `UserDefaults`, file-এর timestamp, system boot time, disk-এর খালি জায়গা। Notes app নিজের setting রাখতে `UserDefaults` ব্যবহার করে। তার কারণের code হলো `CA92.1` ("শুধু app নিজের জন্য পড়া-লেখা")।
 
 ```xml
 <key>NSPrivacyAccessedAPITypes</key>
@@ -9637,34 +9975,34 @@ Sign in with Apple এই তিন শর্ত পূরণ করে, তা�
 </array>
 ```
 
-**কবে থেকে বাধ্যতামূলক:** Apple-এর পাতা অনুযায়ী ১ মে ২০২৪ থেকে, নতুন app বা update upload করতে required reason API-র কারণ ঘোষণা করতে হয় — third-party SDK-র ব্যবহারও এর মধ্যে। Apple-এর তালিকায় থাকা জনপ্রিয় SDK-কে নিজের privacy manifest আর signature নিয়ে আসতে হয়।
+**কবে থেকে বাধ্যতামূলক:** Apple-এর পাতা বলে, ১ মে ২০২৪ থেকে নতুন app বা update upload করতে হলে required reason API-র কারণ লিখে দিতে হয়। App-এর ভেতরের third-party SDK যে API ব্যবহার করে, সেগুলোও এর মধ্যে পড়ে। Apple-এর তালিকায় থাকা জনপ্রিয় SDK-গুলোকে নিজেদের privacy manifest আর signature সাথে নিয়ে আসতে হয়।
 
-**Flutter-এ:** Flutter engine আর বেশিরভাগ বড় plugin (যেমন `shared_preferences`, Firebase) নিজের manifest নিয়ে আসে। আপনার Runner-এর নিজের code কোনো required reason API ছুঁলে, Xcode-এ File → New → File → **App Privacy** দিয়ে `PrivacyInfo.xcprivacy` যোগ করুন। Archive-এর পরে Xcode Organizer-এ **Generate Privacy Report** দিলে সব manifest মিলিয়ে একটা report পাবেন — nutrition label পূরণের সময় কাজে লাগে।
+**Flutter-এ:** Flutter engine আর বেশিরভাগ বড় plugin (যেমন `shared_preferences`, Firebase) নিজেদের manifest সাথে নিয়ে আসে। আপনার Runner-এর নিজের code যদি কোনো required reason API ব্যবহার করে, তাহলে Xcode-এ File → New → File → **App Privacy** দিয়ে `PrivacyInfo.xcprivacy` যোগ করুন। Archive করার পরে Xcode Organizer-এ **Generate Privacy Report** চাপুন। সব manifest মিলিয়ে একটা report পাবেন। Nutrition label পূরণ করার সময় এটা কাজে লাগে।
 
-**Nutrition label:** App Store Connect → আপনার app → App Privacy। কোন data নেন (email, crash data, usage data), সেটা user-এর সাথে জোড়া কি না, tracking-এ ব্যবহার হয় কি না। এখানে **আপনার SDK-র সংগ্রহও** লিখতে হয় — Firebase Analytics, Crashlytics। Android-এ ঠিক এই কাজ Play Console-এর **Data safety** form।
+**Nutrition label:** App Store Connect → আপনার app → App Privacy-তে গিয়ে পূরণ করুন। সেখানে বলতে হয়: কোন data নেন (email, crash data, usage data), সেই data user-এর পরিচয়ের সাথে জোড়া কি না, আর tracking-এ ব্যবহার হয় কি না। আপনার **SDK-গুলো যে data নেয়, সেটাও** এখানে লিখতে হয় — যেমন Firebase Analytics, Crashlytics। Android-এ ঠিক এই কাজটা হয় Play Console-এর **Data safety** form-এ।
 
-**Tracking করলে আরেকটা নিয়ম:** অন্য company-র data-র সাথে মিলিয়ে user-কে track করলে (যেমন advertising ID দিয়ে), আগে App Tracking Transparency (ATT) dialog দিয়ে অনুমতি নিতে হয় ([iOS ৯.৪](#ios9-4)-এর `NSUserTrackingUsageDescription`)।
+**Tracking করলে আরেকটা নিয়ম:** অন্য company-র data-র সাথে মিলিয়ে user-কে track করলে (যেমন advertising ID দিয়ে), আগে user-এর অনুমতি নিতে হয়। অনুমতি নিতে হয় App Tracking Transparency (ATT) dialog দিয়ে ([iOS ৯.৪](#ios9-4)-এর `NSUserTrackingUsageDescription`)।
 
-**ফাঁদ:** Manifest, nutrition label আর app-এর আসল আচরণ — তিনটা না মিললে review-তে প্রশ্ন ওঠে। নতুন SDK যোগ করলে তিনটাই আবার দেখুন।
+**ফাঁদ:** তিনটা জিনিস মিলতে হবে: manifest, nutrition label, আর app আসলে যা করে। না মিললে review-তে প্রশ্ন ওঠে। নতুন SDK যোগ করলে তিনটাই আবার check করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios11-6"></a>iOS ১১.৬ `flutter build ipa` ভেতরে কী করে
 
-**এক লাইনে:** `flutter build ipa` আসলে Xcode-এর দুইটা command চালায়: `xcodebuild archive` আর `xcodebuild -exportArchive`। মাঝখানে Xcode-এর একটা build phase Flutter tool-কে ডেকে Dart code compile করায়।
+**এক লাইনে:** `flutter build ipa` আসলে Xcode-এর দুইটা command চালায়: `xcodebuild archive` আর `xcodebuild -exportArchive`। এর মাঝখানে Xcode-এর একটা build phase (build-এর একটা ধাপ) Flutter tool-কে ডাকে। সেই ধাপে Dart code compile হয়।
 
 **ধাপে ধাপে:**
 
-1. **Flutter tool প্রস্তুতি নেয়।** `pub get` চালায়। `ios/Flutter/Generated.xcconfig` লেখে — এতে Flutter SDK-র path, `FLUTTER_BUILD_NAME`, `FLUTTER_BUILD_NUMBER` থাকে। Plugin-এর তালিকা থেকে `GeneratedPluginRegistrant` বানায়। Swift Package Manager চালু থাকলে (Flutter 3.44 থেকে default) plugin-গুলো `FlutterGeneratedPluginSwiftPackage` নামে একটা package-এ জোড়া হয়। যে plugin SPM সমর্থন করে না, তার জন্য CocoaPods-এ fallback, `pod install`।
+1. **Flutter tool আগে সব তৈরি করে নেয়।** `pub get` চালায়। `ios/Flutter/Generated.xcconfig` file লেখে — এতে থাকে Flutter SDK-র path, `FLUTTER_BUILD_NAME` আর `FLUTTER_BUILD_NUMBER`। Plugin-এর তালিকা থেকে `GeneratedPluginRegistrant` বানায়। Swift Package Manager চালু থাকলে (Flutter 3.44 থেকে এটা default) সব plugin `FlutterGeneratedPluginSwiftPackage` নামে একটা package-এ একসাথে যোগ হয়। যে plugin SPM সমর্থন করে না, সেটার জন্য CocoaPods ব্যবহার হয় (`pod install`)।
 2. **`xcodebuild archive`** — `Runner.xcworkspace`, Release configuration:
-   - Runner target-এর একটা **Run Script** phase `xcode_backend.sh build` চালায়। এটা `flutter assemble`-কে ডাকে: Dart → kernel (`app.dill`) → `gen_snapshot` → ARM64 machine code → `App.framework/App`। Image আর font যায় `App.framework/flutter_assets/`-এ।
-   - `swiftc` আপনার `AppDelegate`, `SceneDelegate` আর plugin-এর Swift code compile করে। Objective-C থাকলে `clang`।
-   - Linker সব জোড়া লাগায়। `actool` asset catalog (app icon) compile করে।
-   - "Thin Binary" phase (`xcode_backend.sh embed_and_thin`) `App.framework` আর release-এর `Flutter.framework` (engine) app-এর `Frameworks/` folder-এ বসায়।
+   - Runner target-এর একটা **Run Script** phase `xcode_backend.sh build` চালায়। এটা `flutter assemble`-কে ডাকে। তারপর Dart code এই পথে যায়: Dart → kernel (`app.dill`) → `gen_snapshot` → ARM64 machine code → `App.framework/App`। Image আর font রাখা হয় `App.framework/flutter_assets/`-এ।
+   - `swiftc` আপনার `AppDelegate`, `SceneDelegate` আর plugin-এর Swift code compile করে। Objective-C code থাকলে সেটা compile করে `clang`।
+   - Linker সব অংশ জুড়ে একটা app বানায়। `actool` asset catalog (app icon) compile করে।
+   - "Thin Binary" phase (`xcode_backend.sh embed_and_thin`) দুইটা জিনিস app-এর `Frameworks/` folder-এ রাখে: `App.framework` আর release-এর `Flutter.framework` (engine)।
    - প্রতিটা framework আর app sign হয়।
    - ফল: `build/ios/archive/Runner.xcarchive`।
-3. **`xcodebuild -exportArchive`** — একটা `ExportOptions.plist` দিয়ে (default method `app-store`)। Distribution certificate আর profile দিয়ে আবার sign করে, আর zip করে `.ipa` বানায়। ফল: `build/ios/ipa/*.ipa`।
-4. **Upload** Flutter নিজে করে না। Apple-এর **Transporter** app-এ `.ipa` টেনে দিন, অথবা Xcode Organizer-এ archive খুলে Distribute করুন। CI-তে সাধারণত App Store Connect API key দিয়ে fastlane বা CI-র নিজের tool।
+3. **`xcodebuild -exportArchive`** — এটা একটা `ExportOptions.plist` file ব্যবহার করে (default method `app-store`)। Distribution certificate আর profile দিয়ে আবার sign করে। তারপর zip করে `.ipa` বানায়। ফল: `build/ios/ipa/*.ipa`।
+4. **Upload Flutter নিজে করে না।** Apple-এর **Transporter** app-এ `.ipa` টেনে এনে ছেড়ে দিন। অথবা Xcode Organizer-এ archive খুলে Distribute করুন। CI-তে সাধারণত App Store Connect API key দিয়ে fastlane বা CI-র নিজের tool upload করে।
 
 **দরকারি flag:**
 
@@ -9680,7 +10018,7 @@ flutter build ipa --export-method ad-hoc
 flutter build ipa --export-options-plist=ios/ExportOptions.plist
 ```
 
-**ভেতরে দেখুন।** `.ipa` একটা zip। খুললে:
+**ভেতরে দেখুন।** `.ipa` আসলে একটা zip file। খুললে এমন দেখবেন:
 
 ```
 Notes.ipa
@@ -9699,37 +10037,46 @@ Notes.ipa
                 └── flutter_assets/   image, font, AssetManifest        ← শুধু Flutter app-এ
 ```
 
-Android-এর APK-র সাথে মেলান ([১৩.৬](#ch13-6)): `libflutter.so` ↔ `Flutter.framework`, `libapp.so` ↔ `App.framework/App`, `classes.dex` ↔ `Runner` executable।
+Android-এর APK-র সাথে মিলিয়ে দেখুন ([১৩.৬](#ch13-6)): `libflutter.so` ↔ `Flutter.framework`, `libapp.so` ↔ `App.framework/App`, `classes.dex` ↔ `Runner` executable।
 
 **ফাঁদ:**
-- **iOS-এর release Simulator-এ চলে না।** Release আর profile build শুধু আসল device-এর জন্য। Flutter tool নিজেই error দেয়।
-- **CocoaPods-এর ভবিষ্যৎ।** Flutter-এর docs বলে, CocoaPods registry ২ ডিসেম্বর ২০২৬-এ স্থায়ীভাবে read-only হয়ে যাবে। যে plugin এখনো শুধু CocoaPods-এ, সেটা বদলানোর পরিকল্পনা রাখুন।
-- **`flutter clean`-এর পরেও signing error।** Signing-এর আসল কারণ দেখতে `ios/Runner.xcworkspace` Xcode-এ খুলে একবার Archive চালান — Xcode অনেক স্পষ্ট error দেখায়।
+- **iOS-এর release build Simulator-এ চলে না।** Release আর profile build শুধু আসল device-এর জন্য। চেষ্টা করলে Flutter tool নিজেই error দেয়।
+- **CocoaPods-এর ভবিষ্যৎ।** Flutter-এর docs বলে, ২ ডিসেম্বর ২০২৬-এ CocoaPods registry চিরদিনের জন্য read-only হয়ে যাবে। মানে সেখানে আর নতুন কিছু আসবে না। যে plugin এখনো শুধু CocoaPods-এ আছে, সেটা বদলানোর পরিকল্পনা রাখুন।
+- **`flutter clean`-এর পরেও signing error থেকে যাওয়া।** Xcode-এ `ios/Runner.xcworkspace` খুলে একবার Archive চালান। Xcode signing-এর আসল কারণটা অনেক পরিষ্কার করে দেখায়।
 
 > **মনে রাখুন**
-> - Certificate = কে sign করছে। Provisioning profile = কোন app, কোন device, কোন entitlement। দুটো মিললে তবেই app চলে।
-> - App-এর পরিচয় Bundle ID + Team, certificate না। Certificate বদলালে App Store-এর app-এর কিছু হয় না।
+> - Certificate বলে কে sign করছে। Provisioning profile বলে কোন app, কোন device, কোন entitlement। দুটো মিললে তবেই app চলে।
+> - App-কে চেনায় Bundle ID + Team, certificate না। Certificate বদলালে App Store-এর app-এর কিছু হয় না।
 > - Archive → `.ipa` → App Store Connect → TestFlight (internal ১০০, external ১০,০০০, build ৯০ দিন) → review।
-> - IAP digital জিনিসে বাধ্যতামূলক। Social login থাকলে privacy-বান্ধব আরেকটা login (Sign in with Apple সবচেয়ে সহজ)। Account মোছার পথ app-এর ভেতরে।
+> - Digital জিনিস বিক্রিতে IAP লাগবেই। Social login থাকলে privacy রক্ষা করে এমন আরেকটা login দিন (Sign in with Apple সবচেয়ে সহজ)। Account মোছার পথ app-এর ভেতরেই রাখুন।
 > - `flutter build ipa` = `xcodebuild archive` + `-exportArchive`। Dart যায় `App.framework`-এ, engine `Flutter.framework`-এ।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "iOS-এ signing-এর দুই মূল টুকরো: certificate, যেটা বলে কে sign করছে, আর provisioning profile, যেটা বলে কোন bundle id কোন device-এ কোন entitlement নিয়ে চলবে। নিজের Mac-এ automatic signing রাখি, CI-তে App Store Connect API key বা fastlane match। Release মানে archive থেকে ipa বানিয়ে App Store Connect-এ upload, TestFlight-এ test, তারপর review। flutter build ipa ভেতরে xcodebuild archive আর exportArchive চালায়, আর একটা build phase Dart code AOT compile করে App.framework বানায়।"
+> - *বাংলায়:* "iOS signing-এর মূল জিনিস দুইটা। Certificate বলে কে sign করছে। Provisioning profile বলে কোন bundle id কোন device-এ কোন entitlement নিয়ে চলবে। নিজের Mac-এ আমি automatic signing রাখি। CI-তে App Store Connect API key বা fastlane match ব্যবহার করি। Release মানে: archive থেকে ipa বানাই, App Store Connect-এ upload করি, TestFlight-এ test করি, তারপর review-তে পাঠাই। flutter build ipa ভেতরে xcodebuild archive আর exportArchive চালায়। আর একটা build phase Dart code AOT compile করে App.framework বানায়।"
 > - *English:* "iOS signing has two key pieces: the certificate, which says who signs, and the provisioning profile, which says which bundle ID can run on which devices with which entitlements. I use automatic signing on my Mac, and an App Store Connect API key or fastlane match on CI. A release means archiving, exporting an ipa, uploading it to App Store Connect, testing on TestFlight, and then review. flutter build ipa runs xcodebuild archive and exportArchive under the hood, and a build phase AOT-compiles the Dart code into App.framework."
 
 [উপরে ফিরুন](#toc)
 
 ---
-
 ## <a id="ios12"></a>iOS ১২. ইঞ্জিনের ভেতরে — tap থেকে pixel, code থেকে `.ipa`
 
-Android-এর [অধ্যায় ১৩](#ch13)-এ bonnet খুলেছিলাম: ART, Zygote, HWUI, SurfaceFlinger, Gradle। এবার iOS-এর bonnet। প্রশ্নগুলো একই — code চলে কীসের ওপর? Memory কে পরিষ্কার করে? App খুললে কী হয়? একটা pixel screen-এ আসে কীভাবে? Build চাপলে কী হয়? প্রতিটা উত্তরের পাশে থাকবে Flutter আর Android।
+Android-এর [অধ্যায় ১৩](#ch13)-এ আমরা Android-এর ভেতরের অংশগুলো দেখেছিলাম: ART, Zygote, HWUI, SurfaceFlinger, Gradle। এবার iOS-এর ভেতরের অংশগুলো দেখব। প্রশ্নগুলো একই থাকবে:
+
+- আপনার code কীসের ওপর চলে?
+- Memory কে পরিষ্কার করে?
+- App খুললে ভেতরে কী কী হয়?
+- একটা pixel কীভাবে screen-এ আসে?
+- Build চাপলে কী হয়?
+
+প্রতিটা উত্তরের পাশে Flutter আর Android-এ ব্যাপারটা কেমন, সেটাও থাকবে।
+
+এই অধ্যায়ে নতুন নাম অনেক। প্রতিটা নাম প্রথমবার আসার সময় সহজ কথায় বলে দেব সেটা কী করে।
 
 ### <a id="ios12-1"></a>iOS ১২.১ Swift সরাসরি machine code — কোনো VM নেই
 
-**এক লাইনে:** Swift code compile-এর সময়েই LLVM দিয়ে ARM64 machine code হয়ে যায়। Phone-এ কোনো virtual machine নেই, interpreter নেই, JIT নেই। CPU সরাসরি আপনার code চালায়।
+**এক লাইনে:** আপনি build চাপলে, তখনই LLVM নামের compiler Swift code-কে ARM64 machine code বানিয়ে ফেলে। ARM64 হলো iPhone-এর CPU যে ভাষা বোঝে। তাই phone-এ কোনো virtual machine লাগে না, interpreter লাগে না, JIT-ও লাগে না। CPU সরাসরি আপনার code চালায়।
 
-**Swift code-এর যাত্রা:**
+**Swift code কোন কোন ধাপ পার হয়:**
 
 ```
 .swift ──swiftc──► AST ──► SIL (Swift Intermediate Language) ──► LLVM IR ──LLVM──► ARM64 (.o)
@@ -9738,48 +10085,77 @@ Android-এর [অধ্যায় ১৩](#ch13)-এ bonnet খুলেছ�
                                                                          ld (linker) ──► Mach-O executable
 ```
 
-- **SIL** হলো Swift-এর নিজের মাঝের ভাষা। Swift-এর বিশেষ optimization (generic specialization, ARC কমানো) এখানে হয়।
-- **LLVM** হলো সেই একই compiler backend, যেটা C, C++, Objective-C, Rust-ও ব্যবহার করে। সে machine code বানায়।
-- **Mach-O** হলো Apple-এর executable format — Linux-এর ELF বা Android-এর `.so`-র মতো।
+ছবিটা বাঁ থেকে ডানে পড়ুন। নামগুলোর মানে:
 
-**তাহলে "Swift runtime" কী?** একটা ছোট library: type-এর তথ্য (metadata), retain/release-এর function, dynamic cast, protocol খোঁজা। এটা VM না, শুধু সাহায্যকারী code। Swift 5-এ ABI স্থির হওয়ার পর থেকে (iOS 12.2) এই runtime OS-এর ভেতরেই থাকে, তাই আপনার app-এ আলাদা করে যায় না। পাশে Objective-C runtime-ও আছে — UIKit-এর class আর `@objc` method-এর message পাঠানো এর মাধ্যমে চলে।
+- **SIL** হলো Swift-এর নিজের একটা মাঝের ভাষা। Code পুরো machine code হওয়ার আগে একবার এই রূপে আসে। Swift-এর নিজের কিছু optimization এখানেই হয় — যেমন generic code-কে নির্দিষ্ট type-এর জন্য আলাদা করে বানানো (generic specialization), আর অদরকারি retain/release বাদ দেওয়া।
+- **LLVM** হলো compiler-এর শেষের অংশ (backend)। এই একই LLVM দিয়ে C, C++, Objective-C আর Rust-ও compile হয়। এটাই আসল machine code বানায়।
+- **Mach-O** হলো Apple-এর executable file-এর format। Linux-এ যেমন ELF, Android-এ যেমন `.so` — তেমন।
 
-**JIT কেন নেই:** iOS-এ App Store app-এর memory-তে নতুন executable code বানানো নিষেধ — প্রতিটা executable page sign করা থাকতে হয়। এজন্যই:
-- **Flutter release build iOS-এ সবসময় AOT।** Android-এর মতোই, কিন্তু এখানে অন্য কোনো পথই নেই।
-- **Device-এ Flutter debug (hot reload)** চলে Dart VM-এর JIT দিয়ে, Xcode-এর debugger-এর সাহায্য নিয়ে। iOS 26-এ এই নিয়ম আরও কড়া হওয়ায় Flutter-কে নিজের পদ্ধতি বদলাতে হয়েছিল। Physical device-এ debug করতে সর্বশেষ stable Flutter রাখুন।
+**তাহলে "Swift runtime" জিনিসটা কী?** এটা একটা ছোট library, আর কিছু না। এর ভেতরে থাকে:
+
+- type-এর তথ্য (metadata),
+- retain/release করার function,
+- dynamic cast,
+- কোন type কোন protocol মানে, সেটা খুঁজে বের করার code।
+
+এটা VM না। এটা শুধু আপনার code-কে সাহায্য করে। Swift 5 থেকে Apple-এর platform-এ ABI স্থির — মানে compile করা Swift code-এর binary-র নিয়ম আর বদলায় না, তাই নতুন Swift version এলেও পুরনো compile করা code চলতে পারে। তাই iOS 12.2 থেকে এই runtime iOS-এর ভেতরেই দেওয়া থাকে। আপনার app-এর সাথে এটা আলাদা করে পাঠাতে হয় না।
+
+এর পাশে Objective-C runtime-ও আছে। UIKit-এর class আর `@objc` method-কে যখন ডাকা হয় (message পাঠানো হয়), সেটা এই runtime দিয়ে চলে।
+
+**JIT কেন নেই:** JIT মানে app চলার সময় memory-তে নতুন machine code বানিয়ে চালানো। iOS-এ App Store-এর app এটা করতে পারে না। কারণ iOS-এ যে code চলবে, তার প্রতিটা page আগে থেকে sign করা থাকতে হয়। নতুন বানানো code-এর sign নেই, তাই সেটা চলতে দেয় না। এর দুইটা ফল:
+
+- **Flutter-এর release build iOS-এ সবসময় AOT।** মানে Dart code আগেই machine code হয়ে যায়। Android-এও release AOT, কিন্তু iOS-এ এ ছাড়া অন্য কোনো পথই নেই।
+- **Device-এ Flutter debug (hot reload)** চলে Dart VM-এর JIT দিয়ে। এটা সম্ভব হয় কারণ Xcode-এর debugger পাশে থেকে সাহায্য করে। iOS 26-এ এই নিয়ম আরও কড়া হয়েছে, তাই Flutter-কে নিজের পদ্ধতি বদলাতে হয়েছিল। তাই physical device-এ debug করলে সবসময় সর্বশেষ stable Flutter রাখুন।
 
 **তিনটা runtime পাশাপাশি:**
 
 | | Swift (iOS) | Kotlin (Android, ART) | Dart (Flutter) |
 |---|---|---|---|
-| Compile হয় | machine code, build-এর সময় | `.dex` bytecode | debug: kernel; release: machine code |
-| Phone-এ চালায় | সরাসরি CPU + ছোট Swift runtime | ART: interpreter + JIT + AOT | debug: Dart VM (JIT); release: Dart runtime (AOT) |
+| কীসে compile হয় | machine code, build-এর সময়েই | `.dex` bytecode | debug: kernel; release: machine code |
+| Phone-এ কে চালায় | CPU সরাসরি + ছোট Swift runtime | ART: interpreter + JIT + AOT | debug: Dart VM (JIT); release: Dart runtime (AOT) |
 | Memory | ARC ([iOS ১২.২](#ios12-2)) | garbage collector | garbage collector |
 | VM আছে? | না | হ্যাঁ, ART | debug-এ হ্যাঁ, release-এ শুধু runtime |
 
-**মজার কথা:** একটা Flutter iOS app-এ Swift/Objective-C-এর জগৎ আর Dart-এর জগৎ একই process-এ থাকে, কিন্তু heap আলাদা। Swift-এর object ARC দেখে, Dart-এর object Dart-এর GC দেখে। কথা হয় platform channel বা FFI দিয়ে। Android-এ ART আর Dart যেমন আলাদা ছিল ([১৩.২](#ch13-2)), ঠিক তেমন।
+**মজার কথা:** একটা Flutter iOS app-এ দুইটা জগৎ একসাথে থাকে। একদিকে Swift/Objective-C, অন্যদিকে Dart। দুটো একই process-এ চলে, কিন্তু memory-র heap আলাদা।
 
-**ফাঁদ:** "Swift-ও Java-র মতো VM-এ চলে" — না। আর "Flutter iOS-এ Dart-কে Swift-এ translate করে" — তাও না। Dart নিজেই ARM64 machine code হয়, `App.framework`-এ ([iOS ১২.৫](#ios12-5))।
+- Swift-এর object দেখাশোনা করে ARC।
+- Dart-এর object দেখাশোনা করে Dart-এর GC।
+- দুই জগৎ কথা বলে platform channel বা FFI দিয়ে।
+
+Android-এ ART আর Dart ঠিক এভাবেই আলাদা ছিল ([১৩.২](#ch13-2))।
+
+**ফাঁদ:** দুইটা ভুল ধারণা খুব চলে।
+
+- "Swift-ও Java-র মতো VM-এ চলে" — না, চলে না।
+- "Flutter iOS-এ Dart-কে Swift-এ বদলে নেয়" — এটাও না। Dart নিজেই সরাসরি ARM64 machine code হয়, আর থাকে `App.framework`-এর ভেতরে ([iOS ১২.৫](#ios12-5))।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios12-2"></a>iOS ১২.২ ARC বনাম garbage collection
 
-**এক লাইনে:** Swift-এ কোনো garbage collector নেই। প্রতিটা class object-এর একটা গণনা থাকে — কতজন তাকে ধরে আছে। গণনা শূন্য হলে সাথে সাথে object মুক্ত। এই গণনা compiler নিজে বসায় — Automatic Reference Counting (ARC)।
+**এক লাইনে:** Swift-এ কোনো garbage collector নেই। এর বদলে প্রতিটা class object একটা হিসাব রাখে — এই মুহূর্তে কতজন তাকে ধরে রেখেছে (reference count)। হিসাব শূন্য হলেই object-টা সাথে সাথে memory থেকে মুছে যায়। এই হিসাব বাড়ানো-কমানোর code আপনি লেখেন না, compiler নিজে বসায়। এজন্য নাম Automatic Reference Counting (ARC)।
 
-**তিনজনের পদ্ধতি:**
+একটু খুলে বলি:
+
+- কেউ object-টাকে ধরলে হিসাব ১ বাড়ে — একে বলে **retain**।
+- কেউ ছেড়ে দিলে হিসাব ১ কমে — একে বলে **release**।
+- হিসাব ০ হলে object মুছে যায়।
+
+**তিনজন কীভাবে memory পরিষ্কার করে:**
 
 | | Swift (ARC) | Dart | ART (Android) |
 |---|---|---|---|
-| কে মুক্ত করে | compiler-এর বসানো retain/release | GC | GC |
-| কখন | শেষ reference যাওয়ার সাথে সাথে | GC যখন চালায় | GC যখন চালায় |
+| কে মুছে দেয় | compiler-এর বসানো retain/release | GC | GC |
+| কখন | শেষ reference চলে যাওয়ার সাথে সাথে | GC যখন চলে | GC যখন চলে |
 | GC pause | নেই | ছোট (নতুন object-এর জন্য দ্রুত scavenge) | ছোট (concurrent GC) |
-| Cycle (A ধরে B, B ধরে A) | **leak** — নিজে ভাঙতে হয় | GC নিজে ধরে | GC নিজে ধরে |
-| খরচ | প্রতিটা reference বদলে একটু কাজ | মাঝে মাঝে GC-র কাজ | মাঝে মাঝে GC-র কাজ |
+| Cycle (A ধরে B-কে, B ধরে A-কে) | **leak** — নিজে ভাঙতে হয় | GC নিজে ধরে ফেলে | GC নিজে ধরে ফেলে |
+| খরচ | প্রতিবার reference বদলালে একটু কাজ | মাঝে মাঝে GC-র কাজ | মাঝে মাঝে GC-র কাজ |
 
-**Value type-এ গণনা নেই।** `struct` আর `enum` copy হয়, তাই বেশিরভাগ ক্ষেত্রে reference count লাগে না। এজন্যই Swift-এ model `struct` রাখা জনপ্রিয় — দ্রুত আর নিরাপদ। (Struct-এর ভেতরে class বা `Array`-এর মতো জিনিস থাকলে, তাদের ভেতরের storage-এর গণনা থাকে।)
+**Value type-এ হিসাব নেই।** `struct` আর `enum` অন্যকে দিলে তার একটা copy যায়। কেউ কাউকে "ধরে" রাখে না। তাই বেশিরভাগ সময় reference count লাগেই না। এজন্য Swift-এ model-কে `struct` বানানো খুব চলে — এটা দ্রুত, আর ভুল কম হয়। (একটা কথা: struct-এর ভেতরে যদি class বা `Array`-এর মতো জিনিস থাকে, তাহলে তাদের ভেতরের storage-এর হিসাব ঠিকই থাকে।)
 
-**Flutter থেকে আসা মানুষের সবচেয়ে বড় ফাঁদ — retain cycle:**
+**Flutter থেকে এলে সবচেয়ে বড় ফাঁদ — retain cycle:**
+
+Retain cycle মানে দুইটা object একে অপরকে ধরে আছে। তাই কারো হিসাবই কখনো শূন্য হয় না। ফলে দুটোই memory-তে থেকে যায় — এটাই leak।
 
 ```swift
 final class NoteEditor {
@@ -9800,45 +10176,73 @@ final class NoteEditor {
 }
 ```
 
-Dart-এ এই code নিয়ে কখনো ভাবতে হয়নি — GC cycle নিজে খুঁজে বের করে। Swift-এ closure-এ `self` ধরার আগে সবসময় ভাবুন: কে কাকে ধরে আছে?
+Dart-এ এমন code নিয়ে কখনো ভাবতে হয়নি। কারণ Dart-এর GC এমন cycle নিজেই খুঁজে বের করে মুছে দেয়। Swift-এ সেটা হয় না। তাই closure-এর ভেতরে `self` লেখার আগে সবসময় একবার ভাবুন: কে কাকে ধরে আছে?
 
-**কোথায় বেশি দেখবেন:**
-- Plugin-এর `FlutterMethodChannel` handler closure-এ plugin class-কে ধরা।
-- Delegate property — এজন্যই delegate প্রায় সবসময় `weak var delegate` ([iOS ৯.২](#ios9-2)-এর ফাঁদ দেখুন)।
-- `weak` বনাম `unowned`: `weak` Optional, object চলে গেলে `nil` হয়। `unowned` ধরে নেয় object থাকবেই — না থাকলে crash। সন্দেহ থাকলে `weak`।
+**এই ফাঁদ কোথায় বেশি দেখবেন:**
 
-**Memory কম হলে iOS কী করে:** iOS-এ disk-এ swap নেই, memory compress করা হয়। তবু কম পড়লে **jetsam** নামের ব্যবস্থা background-এর app, এমনকি বেশি memory খাওয়া foreground app-কেও মেরে ফেলে। Android-এর low memory killer-এর মতো। তাই iOS-এ বড় ছবি বা leak সরাসরি crash হয়ে দেখা দেয়।
+- Plugin-এর `FlutterMethodChannel` handler-এর closure যখন plugin class-কে ধরে রাখে।
+- Delegate property-তে। এজন্যই delegate প্রায় সবসময় `weak var delegate` হয় ([iOS ৯.২](#ios9-2)-এর ফাঁদ দেখুন)।
+- `weak` আর `unowned`-এর পার্থক্য:
+  - `weak` হলো Optional। Object চলে গেলে এটা নিজে থেকে `nil` হয়ে যায়।
+  - `unowned` ধরে নেয় object সবসময় থাকবে। না থাকলে app crash করে।
+  - নিশ্চিত না হলে `weak` নিন।
 
-**Debug:** Xcode-এর **Memory Graph Debugger** (debug bar-এর একটা button) cycle-গুলো দেখায়। Instruments-এর **Leaks** আর **Allocations** — Android Studio-র Memory Profiler-এর মতো। Dart-এর heap দেখতে এখনো DevTools।
+**Memory কম পড়লে iOS কী করে:** iOS-এ memory ভরে গেলে disk-এ সরিয়ে রাখার (swap) ব্যবস্থা নেই। iOS শুধু memory-কে চেপে ছোট করে (compress)। তাতেও না হলে **jetsam** নামের একটা ব্যবস্থা app মেরে ফেলে। আগে background-এর app মারে। দরকার হলে বেশি memory খাওয়া foreground app-কেও মারে। Android-এর low memory killer-এর মতোই। তাই iOS-এ বড় ছবি বা leak থাকলে সেটা সোজা crash হয়ে দেখা দেয়।
+
+**Debug করবেন কীভাবে:**
+
+- Xcode-এর **Memory Graph Debugger** — debug bar-এর একটা button। এটা cycle-গুলো ছবিতে দেখায়।
+- Instruments-এর **Leaks** আর **Allocations** — Android Studio-র Memory Profiler-এর মতো।
+- Dart-এর heap দেখতে আগের মতো DevTools-ই লাগবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios12-3"></a>iOS ১২.৩ App খুললে কী হয় — tap থেকে প্রথম frame
 
-**এক লাইনে:** Home screen (SpringBoard) system-কে বলে, launchd একটা নতুন process চালু করে, dyld সব library জোড়ে, `main()` থেকে `UIApplicationMain` চলে, AppDelegate আর Scene তৈরি হয়, আর প্রথম frame আঁকা হলে launch screen সরে যায়। Flutter-এ মাঝে engine চালু করে Dart-এর `main()` চালানোর ধাপ।
+**এক লাইনে:** আপনি icon-এ tap করলেন। তারপর পরপর এগুলো হয়:
 
-**সব app-এর জন্য একই পথ:**
+1. Home screen (SpringBoard) system-কে বলে app খুলতে।
+2. launchd একটা নতুন process চালু করে।
+3. dyld দরকারি সব library জোড়া দেয়।
+4. `main()` থেকে `UIApplicationMain` চলে।
+5. AppDelegate আর Scene তৈরি হয়।
+6. প্রথম frame আঁকা হলে launch screen সরে যায়।
 
-1. **Tap।** Home screen নিজেও একটা system app — **SpringBoard**। সে system-কে app খোলার অনুরোধ পাঠায়।
-2. **আগে launch screen।** Process তৈরি হওয়ার আগেই iOS app-এর launch screen দেখায় — `Info.plist`-এর `UILaunchScreen`, বা `LaunchScreen.storyboard` থেকে। এটা একটা স্থির ছবির মতো, এখানে আপনার কোনো code চলে না। Android-এর starting window আর Flutter-এর `LaunchTheme`-এর মতো ([১৩.৩](#ch13-3))।
-3. **Process।** **launchd** (iOS-এর সব process-এর জনক) একটা নতুন process চালু করে। Android-এর মতো Zygote-এর copy না — প্রতিবার নতুন process, নিজের sandbox-এ ([iOS ৮.৭](#ios8-7))।
-4. **dyld।** Kernel আপনার Mach-O executable load করে, তারপর **dyld** (dynamic linker) কাজ শুরু করে। UIKit, SwiftUI, Foundation-এর মতো system framework আগে থেকে একটা বড় **shared cache**-এ তৈরি থাকে, তাই দ্রুত জোড়ে। আপনার নিজের framework (যেমন `Flutter.framework`) আলাদা করে load হয়। তারপর static initializer চলে।
-5. **`main()` → `UIApplicationMain`।** SwiftUI-তে `@main struct NotesApp: App` লিখলে compiler একটা `main()` বানায়, যেটা ভেতরে এই কাজই করে। `UIApplicationMain` `UIApplication` object আর আপনার AppDelegate তৈরি করে, আর main thread-এ **run loop** চালু করে — Android-এর Looper বা Dart-এর event loop-এর মতো।
-6. **AppDelegate।** `application(_:didFinishLaunchingWithOptions:)` চলে। SDK init, BGTask register — এগুলো এখানে।
-7. **Scene।** `Info.plist`-এর scene configuration দেখে একটা `UIWindowScene` তৈরি হয়, আর SceneDelegate-এর `scene(_:willConnectTo:options:)` চলে। এখানে window আর প্রথম view controller (বা SwiftUI-র `WindowGroup`-এর content) তৈরি হয়। Apple বলেছে, iOS 26-এর পরের major release-এর SDK দিয়ে build করা app scene lifecycle না নিলে launch-ই হবে না ([iOS ৪](#ios4))।
-8. **প্রথম frame।** View-এর layout আর আঁকা হয়। Run loop-এর এই ঘুরের শেষে Core Animation পরিবর্তনগুলো render server-এ পাঠায় ([iOS ১২.৪](#ios12-4))। প্রথম frame screen-এ এলে launch screen সরে যায়।
+Flutter-এ এর মাঝখানে একটা বাড়তি ধাপ আছে: engine চালু হয়, তারপর Dart-এর `main()` চলে।
 
-**ধাপ ৬–৭-এ এসে দুই পথ আলাদা হয়:**
+**সব app-এর জন্য পথটা একই। ধাপে ধাপে:**
 
-- **Native (SwiftUI):** `WindowGroup { NotesScreen(...) }`-এর `body` চলে। View tree তৈরি হয়, তারপর প্রথম frame।
-- **Flutter:** নতুন Flutter template-এর `AppDelegate` হলো `FlutterAppDelegate`, আর `SceneDelegate` হলো `FlutterSceneDelegate`। তারপর:
-  1. Scene configuration-এর `Main` storyboard একটা **`FlutterViewController`** তৈরি করে।
-  2. এটা একটা `FlutterEngine` চালু করে (template-এ "implicit engine")। `Flutter.framework` — C++-এ লেখা engine — dyld আগেই load করেছে।
-  3. Engine নিজের thread বানায়: **platform thread** (এটাই iOS-এর main thread; Flutter 3.29 থেকে Dart code-ও এখানে চলে), **raster thread** (GPU-র কাজ), **I/O thread**।
-  4. Engine তৈরি হলে `AppDelegate`-এর `didInitializeImplicitFlutterEngine` চলে, আর `GeneratedPluginRegistrant` সব plugin register করে। Plugin-এর Swift অংশ এখানে তৈরি হয়।
+1. **Tap।** Home screen নিজেও একটা system app। এর নাম **SpringBoard**। আপনি tap করলে SpringBoard system-কে app খোলার অনুরোধ পাঠায়।
+2. **আগে launch screen।** Process তৈরি হওয়ার আগেই iOS app-এর launch screen দেখিয়ে দেয়। এটা আসে `Info.plist`-এর `UILaunchScreen` থেকে, বা `LaunchScreen.storyboard` থেকে। এটা একটা স্থির ছবির মতো। এখানে আপনার কোনো code চলে না। Android-এর starting window আর Flutter-এর `LaunchTheme`-এর মতো ([১৩.৩](#ch13-3))।
+3. **Process।** **launchd** হলো iOS-এর প্রথম process। iOS চালু হলে সবার আগে এটা চলে, আর বাকি process-গুলো এটাই চালু করে। launchd আপনার app-এর জন্য একটা নতুন process চালু করে। Android-এর মতো Zygote-এর copy থেকে আসে না। প্রতিবার একদম নতুন process, নিজের sandbox-এর ভেতরে ([iOS ৮.৭](#ios8-7))।
+4. **dyld।** প্রথমে kernel আপনার Mach-O executable memory-তে আনে। তারপর **dyld** কাজ শুরু করে। dyld হলো dynamic linker — app-এর দরকারি library-গুলো খুঁজে এনে app-এর সাথে জোড়া দেয়।
+   - UIKit, SwiftUI, Foundation-এর মতো system framework আগে থেকেই একটা বড় **shared cache**-এ তৈরি হয়ে থাকে। তাই এগুলো খুব দ্রুত জোড়া যায়।
+   - আপনার নিজের framework (যেমন `Flutter.framework`) আলাদা করে load হয়।
+   - সবশেষে static initializer চলে।
+5. **`main()` → `UIApplicationMain`।** SwiftUI-তে আপনি `@main struct NotesApp: App` লেখেন। তখন compiler নিজেই একটা `main()` বানিয়ে দেয়, যেটা ভেতরে এই একই কাজ করে। `UIApplicationMain` তিনটা কাজ করে:
+   - `UIApplication` object বানায়,
+   - আপনার AppDelegate বানায়,
+   - main thread-এ **run loop** চালু করে। Run loop হলো একটা চক্র, যেটা ঘুরে ঘুরে event নেয় আর কাজ করে — Android-এর Looper বা Dart-এর event loop-এর মতো।
+6. **AppDelegate।** এবার `application(_:didFinishLaunchingWithOptions:)` চলে। SDK init করা, BGTask register করা — এসব কাজ এখানে হয়।
+7. **Scene।** iOS `Info.plist`-এর scene configuration দেখে একটা `UIWindowScene` বানায়। তারপর SceneDelegate-এর `scene(_:willConnectTo:options:)` চলে। এখানে window তৈরি হয়, আর প্রথম view controller (বা SwiftUI-র `WindowGroup`-এর content) তৈরি হয়। একটা জরুরি কথা: Apple বলেছে, iOS 26-এর পরের major release-এর SDK দিয়ে build করা app যদি scene lifecycle না নেয়, তাহলে সেটা launch-ই হবে না ([iOS ৪](#ios4))।
+8. **প্রথম frame।** View-এর layout হয়, আঁকা হয়। Run loop-এর এই চক্রের শেষে Core Animation সব পরিবর্তন render server-এ পাঠায় ([iOS ১২.৪](#ios12-4))। প্রথম frame screen-এ এলেই launch screen সরে যায়।
+
+**ধাপ ৬–৭-এ এসে Native আর Flutter-এর পথ আলাদা হয়ে যায়:**
+
+- **Native (SwiftUI):** `WindowGroup { NotesScreen(...) }`-এর `body` চলে। View tree তৈরি হয়। তারপর প্রথম frame।
+- **Flutter:** নতুন Flutter template-এ `AppDelegate` হলো `FlutterAppDelegate`, আর `SceneDelegate` হলো `FlutterSceneDelegate`। তারপর এই ধাপগুলো:
+  1. Scene configuration-এ বলা `Main` storyboard একটা **`FlutterViewController`** বানায়।
+  2. এটা একটা `FlutterEngine` চালু করে। Template-এ একে "implicit engine" বলে, কারণ আপনি নিজে হাতে engine বানান না। Engine-এর code থাকে `Flutter.framework`-এ, যেটা C++-এ লেখা। dyld এটা আগেই (ধাপ ৪-এ) load করে রেখেছে।
+  3. Engine নিজের thread-গুলো বানায়:
+     - **platform thread** — এটাই iOS-এর main thread। Flutter 3.29 থেকে Dart code-ও এখানেই চলে।
+     - **raster thread** — GPU-তে আঁকার কাজ করে।
+     - **I/O thread**।
+  4. Engine তৈরি হলে `AppDelegate`-এর `didInitializeImplicitFlutterEngine` চলে। তখন `GeneratedPluginRegistrant` সব plugin register করে। Plugin-এর Swift অংশ এখানেই তৈরি হয়।
   5. Engine `App.framework` থেকে আপনার compile করা Dart code খুঁজে নেয়।
-  6. Dart entrypoint চলে: `main()` → `runApp()` → widget tree।
-  7. Engine প্রথম frame আঁকে। ততক্ষণ `FlutterViewController` launch screen-এর একটা copy দেখিয়ে রাখে। Frame আঁকা হলেই সেটা সরে।
+  6. Dart-এর entrypoint চলে: `main()` → `runApp()` → widget tree।
+  7. Engine প্রথম frame আঁকে। যতক্ষণ আঁকা শেষ হয় না, ততক্ষণ `FlutterViewController` launch screen-এর একটা copy দেখিয়ে রাখে। Frame আঁকা হলেই সেটা সরে যায়।
+
+পুরো পথটা এক ছবিতে:
 
 ```
  tap
@@ -9872,37 +10276,49 @@ SpringBoard ──► system: app খোলো
 ```
 
 **Cold, warm, আর pre-warming:**
-- **Cold:** process নেই। উপরের পুরো পথ।
-- **Warm/resume:** process memory-তে suspend হয়ে ছিল। শুধু আবার জাগানো, প্রায় সাথে সাথে।
-- **Pre-warming:** iOS ব্যবহারের ধরন দেখে কখনো user tap করার আগেই app-এর process আগেভাগে চালু করে রাখে (iOS 15-এ এটা আরও বাড়ানো হয়েছে)। Apple-এর docs বলে, pre-warming `main()`-এর `UIApplicationMain` ডাকার আগ পর্যন্ত যায়। তবে developer-রা forum-এ জানিয়েছেন, বাস্তবে কখনো আরও কিছু চলে। তাই "process চালু হলো মানে user app খুলেছে" ধরে নেবেন না — analytics-এ "app open" গুনুন scene সামনে আসার পরে।
+
+- **Cold launch:** App-এর process একদম নেই। তখন উপরের পুরো পথ চলে।
+- **Warm launch (resume):** Process memory-তে থেমে (suspend) ছিল। iOS শুধু সেটা আবার চালু করে। প্রায় সাথে সাথে খুলে যায়।
+- **Pre-warming:** iOS দেখে আপনি সাধারণত কখন কোন app খোলেন। সেই হিসাবে কখনো আপনি tap করার আগেই app-এর process চালু করে রাখে। (iOS 15-এ এটা আরও বেড়েছে।)
+  - Apple-এর docs বলে, pre-warming `main()`-এর ভেতরে `UIApplicationMain` ডাকার আগ পর্যন্ত চলে, তারপর থামে।
+  - কিন্তু developer-রা forum-এ জানিয়েছেন, বাস্তবে কখনো এর চেয়ে বেশি code-ও চলে।
+  - তাই "process চালু হয়েছে মানে user app খুলেছে" — এমন ধরে নেবেন না। Analytics-এ "app open" গুনুন scene সামনে আসার পরে।
 
 **ফাঁদ:**
-- **Launch-এ বেশি কাজ।** `didFinishLaunching`-এ বা Flutter-এর `main()`-এ `runApp`-এর আগে সব `await` করলে launch screen আটকে থাকে। অনেক বেশি দেরি হলে iOS-এর **watchdog** app মেরে ফেলে — crash report-এ `0x8badf00d` code। Android-এর `Application.onCreate`-এর নিয়মই এখানে: প্রথম frame-এর আগে শুধু যা না হলেই নয়।
-- **Launch screen-এ animation বা code চালানোর চেষ্টা।** Launch screen স্থির। Animated splash লাগলে সেটা আপনার প্রথম আসল screen-এ বানাতে হয়।
+
+- **Launch-এর সময় বেশি কাজ করা।** `didFinishLaunching`-এ, বা Flutter-এর `main()`-এ `runApp`-এর আগে, সব কিছু `await` করলে launch screen আটকে থাকে। দেরি খুব বেশি হলে iOS-এর **watchdog** (system-এর একটা অংশ, যেটা দেখে app সময়মতো চালু হলো কি না) app-টা মেরে ফেলে। Crash report-এ তখন `0x8badf00d` code দেখবেন। Android-এর `Application.onCreate`-এর নিয়মই এখানেও খাটে: প্রথম frame-এর আগে শুধু সেই কাজ করুন, যেটা না করলেই নয়।
+- **Launch screen-এ animation বা code চালাতে চাওয়া।** Launch screen স্থির, এখানে কিছু চলে না। Animated splash চাইলে সেটা আপনার প্রথম আসল screen-এ বানাতে হবে।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios12-4"></a>iOS ১২.৪ Rendering — Core Animation, render server, Metal
 
-**এক লাইনে:** Native iOS-এ প্রতিটা view-এর পেছনে একটা Core Animation **layer** থাকে। App layer-এর গাছ বানিয়ে আলাদা একটা system process — **render server** — কে পাঠায়। Render server Metal দিয়ে GPU-তে আঁকে, আর display-তে পাঠায়। Flutter এই গাছে শুধু একটা layer রাখে, আর তার ভেতরে Impeller নিজে সব আঁকে।
+**এক লাইনে:** Native iOS-এ প্রতিটা view-এর পেছনে একটা Core Animation **layer** থাকে। App এই layer-গুলো দিয়ে একটা গাছ (tree) বানায়। তারপর গাছটা আলাদা একটা system process-কে পাঠায় — তার নাম **render server**। Render server Metal দিয়ে GPU-তে ছবি আঁকে, আর display-তে পাঠায়। Flutter এই গাছে মাত্র একটা layer রাখে। সেই একটা layer-এর ভেতরে Impeller নিজে সব কিছু আঁকে।
 
-**নামগুলো:**
+**নামগুলো, একটা একটা করে:**
 
-- **Core Animation (CA)।** UIKit-এর প্রতিটা `UIView`-এর পেছনে একটা `CALayer`। SwiftUI-ও শেষ পর্যন্ত এই layer-এর জগতেই আঁকে। Layer-এর গাছ (layer tree) হলো screen-এর বর্ণনা।
-- **Transaction।** Main thread-এ আপনি state বদলালেন, layout হলো। Run loop-এর ঘুরের শেষে Core Animation সব পরিবর্তন একসাথে "commit" করে render server-এ পাঠায়।
-- **Render server।** আলাদা একটা system process (backboardd-এর ভেতরে)। সব app-এর layer tree, status bar, keyboard — সব এখানে মেশে। Android-এর SurfaceFlinger-এর মতো কাজ, তবে এটা নিজেও layer আঁকে।
-- **Metal।** Apple-এর GPU API — Android-এর Vulkan-এর জায়গায়। Render server Metal দিয়ে আঁকে।
-- **Vsync।** Display প্রতি ১৬.৭ ms (60Hz) বা ৮.৩ ms (ProMotion, 120Hz) পর পর নতুন frame চায়। App এই সংকেত পায় `CADisplayLink` দিয়ে — Android-এর `Choreographer`-এর মতো।
+- **Core Animation (CA)।** UIKit-এর প্রতিটা `UIView`-এর পেছনে একটা `CALayer` থাকে। SwiftUI-ও শেষ পর্যন্ত এই layer দিয়েই আঁকে। সব layer মিলে একটা গাছ হয় (layer tree)। এই গাছটাই বলে দেয় screen-এ কী আছে, কোথায় আছে।
+- **Transaction।** Main thread-এ আপনি state বদলালেন, তারপর layout হলো। এসব পরিবর্তন সাথে সাথে পাঠানো হয় না, জমা থাকে। Run loop-এর চক্রের শেষে Core Animation জমা থাকা সব পরিবর্তন একসাথে render server-এ পাঠায়। এই পাঠানোকে বলে "commit"।
+- **Render server।** এটা আলাদা একটা system process (backboardd-এর ভেতরে চলে)। সব app-এর layer tree, status bar, keyboard — সব এখানে এসে একসাথে মেশে। কাজটা Android-এর SurfaceFlinger-এর মতো। পার্থক্য হলো, render server শুধু মেশায় না, নিজেও layer আঁকে।
+- **Metal।** Apple-এর GPU API। Android-এ যেখানে Vulkan, iOS-এ সেখানে Metal। Render server Metal দিয়ে আঁকে।
+- **Vsync।** Display একটা নির্দিষ্ট সময় পর পর নতুন frame চায় — প্রতি ১৬.৭ ms-এ (60Hz), বা ProMotion screen-এ প্রতি ৮.৩ ms-এ (120Hz)। এই সংকেতকে vsync বলে। App এই সংকেত পায় `CADisplayLink` দিয়ে — Android-এর `Choreographer`-এর মতো।
 
-**একটা সুন্দর ফল:** Core Animation-এর animation render server-এ চলে। তাই main thread কিছুক্ষণ ব্যস্ত থাকলেও এমন animation অনেক সময় মসৃণ থাকে। Flutter-এর animation Dart-এ চলে — UI thread আটকালে animation-ও আটকায়।
+**এর একটা সুন্দর ফল:** Core Animation-এর animation app-এ না, render server-এ চলে। তাই app-এর main thread কিছুক্ষণ ব্যস্ত থাকলেও এমন animation অনেক সময় মসৃণ থাকে। Flutter-এর animation কিন্তু Dart-এ চলে। তাই UI thread আটকে গেলে Flutter-এর animation-ও আটকে যায়।
 
-**Flutter-এ:** `FlutterViewController`-এর view হলো একটা `FlutterView`। এর layer Metal-এ আঁকার একটা layer — আজকাল default-এ Flutter-এর নিজের `FlutterMetalLayer` (`CALayer`-এর subclass; `FLTUseFlutterMetalLayer` = `NO` দিলে সাধারণ `CAMetalLayer`), যেটা `CAMetalLayer`-এর মতোই আচরণ করে কিন্তু frame-এর সময় নিয়ে আরও নিয়ন্ত্রণ দেয়। তারপর:
-1. Platform thread-এ Dart: build → layout → paint → layer tree।
-2. Raster thread-এ **Impeller** layer tree-কে Metal command-এ বদলায়, আর layer-এর কাছ থেকে নেওয়া একটা drawable-এ আঁকে।
-3. সেই layer Core Animation-এর গাছের একটা সাধারণ layer — render server বাকিদের সাথে মিলিয়ে display-তে পাঠায়।
-4. Vsync Flutter engine-ও নেয় `CADisplayLink` থেকে।
+**Flutter-এ ব্যাপারটা কেমন:** `FlutterViewController`-এর view হলো একটা `FlutterView`। এর পেছনের layer-টা Metal দিয়ে আঁকার জন্য বানানো।
 
-**Impeller iOS-এ:** iOS-এ Impeller default হয়েছিল Flutter 3.10-এ। Flutter 3.29 থেকে iOS backend-এ Skia পুরোপুরি সরানো, আর `FLTEnableImpeller` দিয়ে বন্ধ করার পথও নেই। তাই iOS-এ Impeller-ই একমাত্র renderer। এর সব shader আগে থেকে compile করা, তাই প্রথম animation-এ "shader compilation jank" নেই।
+- আজকাল default-এ এটা Flutter-এর নিজের `FlutterMetalLayer`। এটা `CALayer`-এর একটা subclass।
+- `FLTUseFlutterMetalLayer` = `NO` দিলে এর বদলে সাধারণ `CAMetalLayer` ব্যবহার হয়।
+- Flutter-এর নিজের layer-টা আচরণে `CAMetalLayer`-এর মতোই। তবে frame কখন দেখানো হবে, সেটা Flutter আরও ভালোভাবে নিয়ন্ত্রণ করতে পারে।
+
+তারপর একটা frame এভাবে আঁকা হয়:
+
+1. Platform thread-এ Dart চলে: build → layout → paint → layer tree।
+2. Raster thread-এ **Impeller** সেই layer tree-কে Metal-এর command-এ বদলায়। তারপর layer-এর কাছ থেকে একটা drawable (GPU যে texture-এ আঁকবে, সেটা) নিয়ে তাতে আঁকে।
+3. সেই layer Core Animation-এর গাছে আর দশটা layer-এর মতোই একটা সাধারণ layer। Render server বাকি সবার সাথে এটাকে মিলিয়ে display-তে পাঠায়।
+4. Flutter engine-ও vsync সংকেত নেয় `CADisplayLink` থেকে।
+
+**iOS-এ Impeller:** iOS-এ Impeller default হয়েছিল Flutter 3.10-এ। Flutter 3.29 থেকে iOS-এ Skia পুরো বাদ দেওয়া হয়েছে। এখন `FLTEnableImpeller` দিয়ে Impeller বন্ধ করার পথও নেই। তাই iOS-এ Impeller-ই একমাত্র renderer। Impeller-এর সব shader আগে থেকেই compile করা থাকে। তাই প্রথমবার animation চালালে আর "shader compilation jank" (shader বানাতে গিয়ে আটকে যাওয়া) হয় না।
 
 ```
             Native (SwiftUI / UIKit)                       Flutter
@@ -9919,55 +10335,59 @@ SpringBoard ──► system: app খোলো
                               display
 ```
 
-**কী মিলল, কী আলাদা:**
+**কোথায় মিল, কোথায় পার্থক্য:**
 
 | | Native iOS | Flutter on iOS | Android ([১৩.৫](#ch13-5)) |
 |---|---|---|---|
-| UI-র বর্ণনা | View → `CALayer` গাছ | widget → layer tree (Dart) | View/Compose → display list |
+| UI-টা কী দিয়ে বলা হয় | View → `CALayer` গাছ | widget → layer tree (Dart) | View/Compose → display list |
 | কে GPU-তে আঁকে | render server (Core Animation) | app-এর raster thread-এ Impeller | RenderThread-এ HWUI (Skia) |
 | GPU API | Metal | Metal | OpenGL ES / Vulkan |
-| শেষে মেশায় | render server | render server | SurfaceFlinger |
+| শেষে কে সব মেশায় | render server | render server | SurfaceFlinger |
 | Vsync | `CADisplayLink` | `CADisplayLink` | `Choreographer` |
 
 **ফাঁদ:**
-- **ProMotion-এ 120Hz না পাওয়া।** iPhone-এ 60Hz-এর বেশি পেতে `Info.plist`-এ `CADisableMinimumFrameDurationOnPhone` = `true` লাগে। Flutter-এর template-এ এটা আগে থেকেই আছে। নিজে native project বানালে নিজে দিতে হয়।
-- **"SwiftUI-ও Flutter-এর মতো নিজে আঁকে" ভাবা।** না — SwiftUI Apple-এর নিজের Core Animation-এর জগতের ভেতরে থাকে। তাই SwiftUI আর UIKit এক screen-এ সহজে মেশে। Flutter-কে UIKit view বসাতে Platform View (`UiKitView`) লাগে, যেটা বাড়তি composition-এর খরচ আনে।
-- **iOS জানে না Flutter-এর screen-এ কী আছে।** ওর কাছে শুধু একটা layer-এর pixel। তাই VoiceOver-এর জন্য Flutter semantics tree থেকে iOS-এর accessibility element বানিয়ে দেয়।
+
+- **ProMotion screen-এ 120Hz না পাওয়া।** iPhone-এ 60Hz-এর বেশি পেতে `Info.plist`-এ `CADisableMinimumFrameDurationOnPhone` = `true` দিতে হয়। Flutter-এর template-এ এটা আগে থেকেই দেওয়া আছে। কিন্তু নিজে native project বানালে নিজেকে যোগ করতে হবে।
+- **"SwiftUI-ও Flutter-এর মতো নিজে আঁকে" — এমন ভাবা।** না। SwiftUI Apple-এর Core Animation-এর জগতের ভেতরেই থাকে। এজন্য SwiftUI আর UIKit এক screen-এ সহজে মিশে যায়। Flutter-এ কোনো UIKit view বসাতে হলে Platform View (`UiKitView`) লাগে। এতে আলাদা করে মেশানোর (composition) বাড়তি খরচ আসে।
+- **iOS জানে না Flutter-এর screen-এ কী আছে।** iOS-এর চোখে এটা শুধু একটা layer-এর pixel। Button কোথায়, text কোথায় — জানে না। তাই VoiceOver-এর জন্য Flutter নিজের semantics tree থেকে iOS-এর accessibility element বানিয়ে দেয়।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios12-5"></a>iOS ১২.৫ Build pipeline — Xcode থেকে `.app` আর `.ipa`
 
-**এক লাইনে:** Xcode-এর build system target-এর build phase একটার পর একটা চালায়: package resolve, compile, link, resource, embed, sign। ফল একটা `.app` folder। Archive আর export করলে সেটা `.ipa`।
+**এক লাইনে:** প্রতিটা target-এর কিছু build phase (ধাপ) থাকে। Xcode-এর build system এগুলো একটার পর একটা চালায়: package resolve, compile, link, resource, embed, sign। শেষে পাওয়া যায় একটা `.app` folder। এটাকে archive আর export করলে হয় `.ipa`।
 
-**Native: ⌘B বা Archive চাপলে**
+**Native: ⌘B বা Archive চাপলে কী হয়**
 
-1. **Package resolve।** Swift Package Manager-এর dependency download আর build ([iOS ৩](#ios3))। Android-এ Gradle-এর dependency resolve-এর মতো।
-2. **Compile।** প্রতিটা module-এর Swift file `swiftc` দিয়ে, Objective-C থাকলে `clang` দিয়ে। Incremental — যা বদলায়নি, আবার compile হয় না।
-3. **Link।** Apple-এর linker (`ld`) সব `.o` জোড়া লাগিয়ে একটা Mach-O executable বানায়।
-4. **Resource।** `actool` asset catalog (`Assets.xcassets`) compile করে `Assets.car` বানায় — app icon, রং, ছবি। Storyboard থাকলে `ibtool`। `Info.plist`-এর `$(...)` build setting দিয়ে পূরণ হয়।
-5. **Embed।** Dynamic framework (`Flutter.framework`-এর মতো) app-এর `Frameworks/` folder-এ copy হয়।
-6. **Code sign।** `codesign` প্রতিটা framework আর শেষে app sign করে, entitlement বসায় ([iOS ১১.১](#ios11-1))।
-7. **ফল:** `Notes.app` — আসলে একটা folder।
-8. **Archive** করলে `.xcarchive` (app + dSYM), আর **export** করলে `.ipa` — `Payload/Notes.app`-এর একটা zip।
+1. **Package resolve।** Swift Package Manager-এর dependency download হয়, build হয় ([iOS ৩](#ios3))। Android-এ Gradle যেভাবে dependency resolve করে, তেমন।
+2. **Compile।** প্রতিটা module-এর Swift file compile হয় `swiftc` দিয়ে। Objective-C থাকলে সেটা হয় `clang` দিয়ে। এটা incremental — যে file বদলায়নি, সেটা আবার compile হয় না।
+3. **Link।** Apple-এর linker (`ld`) সব `.o` file জোড়া লাগিয়ে একটা Mach-O executable বানায়।
+4. **Resource।**
+   - `actool` asset catalog (`Assets.xcassets`) compile করে `Assets.car` বানায়। এর ভেতরে থাকে app icon, রং, ছবি।
+   - Storyboard থাকলে সেটা compile করে `ibtool`।
+   - `Info.plist`-এ যেখানে `$(...)` লেখা, সেখানে build setting-এর আসল মান বসে যায়।
+5. **Embed।** Dynamic framework (যেমন `Flutter.framework`) app-এর `Frameworks/` folder-এ copy হয়।
+6. **Code sign।** `codesign` প্রথমে প্রতিটা framework sign করে, শেষে পুরো app sign করে। Entitlement-ও (app কোন বিশেষ ক্ষমতা পাবে, তার তালিকা) এখানে বসে ([iOS ১১.১](#ios11-1))।
+7. **ফল:** `Notes.app`। নামে file মনে হলেও এটা আসলে একটা folder।
+8. **Archive** করলে পাবেন `.xcarchive` (এতে থাকে app + dSYM)। তারপর **export** করলে পাবেন `.ipa` — এটা আসলে `Payload/Notes.app`-কে zip করা একটা file।
 
-**কোথায় জমে:** সব মাঝের file থাকে `~/Library/Developer/Xcode/DerivedData/`-এ। Gradle-এর `build/` আর cache-এর মতো। অদ্ভুত build error হলে Product → **Clean Build Folder** (⇧⌘K), দরকারে DerivedData মুছে দিন।
+**মাঝের file কোথায় জমে:** Build-এর সময় তৈরি হওয়া সব মাঝের file থাকে `~/Library/Developer/Xcode/DerivedData/`-এ। Gradle-এর `build/` folder আর cache-এর মতো। অদ্ভুত কোনো build error এলে Product → **Clean Build Folder** (⇧⌘K) দিন। তাতেও না হলে DerivedData মুছে দিন।
 
-**Xcode-এর build system নিজে:** Apple এটা ২০২৫-এ **Swift Build** নামে open source করেছে। Gradle-এর মতো task graph বানায়, কিন্তু আলাদা কোনো DSL নেই — নিয়ম আসে Xcode project-এর build settings আর build phase থেকে।
+**Xcode-এর build system নিজে:** Apple ২০২৫-এ এটা **Swift Build** নামে open source করেছে। Gradle-এর মতো এটাও কাজগুলোর একটা গ্রাফ (task graph) বানায়। তবে Gradle-এর মতো আলাদা কোনো DSL নেই। নিয়মগুলো আসে Xcode project-এর build settings আর build phase থেকে।
 
-**App Store-এর দিকে:** Upload করা build থেকে App Store প্রতিটা device-এর জন্য ছোট রূপ বানায় (**App Thinning**) — যেমন শুধু সেই screen-এর মাপের ছবি। পুরনো Bitcode এখন আর নেই (Xcode 14-এ বাদ)।
+**App Store-এর দিকে:** আপনি একটা build upload করেন। App Store সেখান থেকে প্রতিটা device-এর জন্য একটা ছোট রূপ বানায় — একে বলে **App Thinning**। যেমন, প্রতিটা device শুধু তার নিজের screen-এর মাপের ছবি পায়। আগে Bitcode বলে একটা জিনিস ছিল, এখন আর নেই (Xcode 14-এ বাদ গেছে)।
 
 **Flutter: Runner target-এ বাড়তি কী চলে**
 
 `ios/Runner.xcodeproj`-এর Runner target-এ Flutter দুইটা **Run Script** phase যোগ করে:
 
-1. **"Run Script"** — `xcode_backend.sh build` → `flutter assemble`:
-   - **Release/profile:** Dart → kernel (`app.dill`, tree shaking সহ) → **`gen_snapshot`** → ARM64 machine code → `App.framework/App`, একটা Mach-O dynamic library। একাধিক architecture হলে `lipo` দিয়ে জোড়া।
-   - **Debug:** `App.framework/App` শুধু একটা খালি stub। আপনার Dart code kernel আকারে `flutter_assets`-এ যায়, আর device-এ Dart VM সেটা JIT দিয়ে চালায় — hot reload এজন্যই সম্ভব।
-   - Asset (image, font, `pubspec`-এর asset) → `App.framework/flutter_assets/`। Material Icons font থেকে শুধু ব্যবহৃত icon রাখা হয়।
-2. **"Thin Binary"** — `xcode_backend.sh embed_and_thin` → `App.framework` আর build mode অনুযায়ী `Flutter.framework` app-এর `Frameworks/`-এ বসায়, আর sign করে।
+1. **"Run Script"** — এটা `xcode_backend.sh build` চালায়, যেটা ভেতরে `flutter assemble` চালায়। এখানে যা হয়:
+   - **Release/profile build-এ:** Dart code প্রথমে kernel হয় (`app.dill`, অদরকারি code বাদ দিয়ে — tree shaking)। তারপর **`gen_snapshot`** সেটাকে ARM64 machine code বানায়। ফল হলো `App.framework/App`, যেটা একটা Mach-O dynamic library। একাধিক architecture থাকলে `lipo` দিয়ে সেগুলো এক file-এ জোড়া হয়।
+   - **Debug build-এ:** `App.framework/App` শুধু একটা খালি stub। আপনার Dart code kernel আকারে `flutter_assets`-এ যায়। Device-এ Dart VM সেটা JIT দিয়ে চালায়। এজন্যই hot reload সম্ভব হয়।
+   - Asset (image, font, `pubspec`-এ দেওয়া asset) যায় `App.framework/flutter_assets/`-এ। Material Icons font থেকে শুধু যে icon-গুলো আপনি ব্যবহার করেছেন, সেগুলোই রাখা হয়।
+2. **"Thin Binary"** — এটা `xcode_backend.sh embed_and_thin` চালায়। এটা `App.framework` আর build mode অনুযায়ী ঠিক `Flutter.framework` app-এর `Frameworks/`-এ বসায়, আর sign করে।
 
-বাকিটা native-এর মতোই: `AppDelegate`/`SceneDelegate` আর plugin-এর Swift code `swiftc`, link, asset catalog, sign।
+বাকি সব native-এর মতোই হয়: `AppDelegate`/`SceneDelegate` আর plugin-এর Swift code `swiftc` দিয়ে compile হয়, তারপর link, asset catalog, sign।
 
 ```
 .dart ──frontend_server──► app.dill ──gen_snapshot──► App.framework/App (ARM64)   ┐
@@ -9979,28 +10399,29 @@ Assets.xcassets ──actool─────────────────�
 ```
 
 **ফাঁদ:**
-- **"Flutter iOS build মানে CocoaPods"** — আর না। Flutter 3.44 থেকে Swift Package Manager default, CocoaPods শুধু fallback ([iOS ১১.৬](#ios11-6))।
-- **`flutter clean` সব মোছে না।** Xcode-এর DerivedData আলাদা। Native দিকের অদ্ভুত error-এ Xcode-এ Clean Build Folder দিন।
+
+- **"Flutter iOS build মানেই CocoaPods"** — এখন আর না। Flutter 3.44 থেকে Swift Package Manager default। CocoaPods শুধু বিকল্প (fallback) হিসেবে আছে ([iOS ১১.৬](#ios11-6))।
+- **`flutter clean` সব কিছু মোছে না।** Xcode-এর DerivedData আলাদা জায়গায় থাকে। Native দিকে অদ্ভুত error এলে Xcode-এ Clean Build Folder-ও দিন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios12-6"></a>iOS ১২.৬ Android-এর পাশে, এক টেবিলে
 
-পুরো অধ্যায় আর Android-এর [অধ্যায় ১৩](#ch13) এক জায়গায়:
+পুরো অধ্যায়টা আর Android-এর [অধ্যায় ১৩](#ch13) এক জায়গায়:
 
 | বিষয় | iOS | Android | Flutter app-এ (দুই platform-এ) |
 |---|---|---|---|
-| Native ভাষা চলে | machine code (LLVM), VM নেই | `.dex`, ART-এ | Dart: release-এ AOT machine code |
-| Memory | ARC — cycle নিজে ভাঙতে হয় | GC | Dart GC, native অংশ platform-এর নিয়মে |
+| Native code কীসে চলে | machine code (LLVM), VM নেই | `.dex`, ART-এ | Dart: release-এ AOT machine code |
+| Memory | ARC — cycle নিজে ভাঙতে হয় | GC | Dart GC; native অংশ platform-এর নিয়মে |
 | JIT | App Store app-এ নিষেধ | ART-এ আছে | শুধু debug-এ (hot reload) |
-| App process আসে | launchd, প্রতিবার নতুন | Zygote থেকে fork | একই — platform-এর নিয়ম |
-| Library জোড়ে | dyld (+ shared cache) | ART class loading, `.so` load | engine: `Flutter.framework` / `libflutter.so` |
-| Entry | `main()` → `UIApplicationMain` → AppDelegate → Scene | `ActivityThread.main()` → Application → Activity | `FlutterAppDelegate` + `FlutterSceneDelegate` / `FlutterActivity` |
+| App-এর process কোথা থেকে আসে | launchd, প্রতিবার নতুন | Zygote থেকে fork | একই — platform-এর নিয়মে |
+| Library কে জোড়ে | dyld (+ shared cache) | ART class loading, `.so` load | engine: `Flutter.framework` / `libflutter.so` |
+| শুরু কোথা থেকে | `main()` → `UIApplicationMain` → AppDelegate → Scene | `ActivityThread.main()` → Application → Activity | `FlutterAppDelegate` + `FlutterSceneDelegate` / `FlutterActivity` |
 | Main loop | run loop | Looper | platform thread = main thread (3.29 থেকে Dart-ও সেখানে) |
 | Launch screen | `UILaunchScreen` / storyboard | starting window (`LaunchTheme`) | একই, platform-এর |
-| Launch-এ বেশি দেরি | watchdog মারে (`0x8badf00d`) | ANR dialog | একই |
-| Native UI আঁকে | Core Animation → render server (Metal) | HWUI → Skia (GL/Vulkan) | Impeller (Metal / Vulkan, না থাকলে GL) |
-| শেষে মেশায় | render server | SurfaceFlinger | একই, platform-এর |
+| Launch-এ বেশি দেরি হলে | watchdog মেরে ফেলে (`0x8badf00d`) | ANR dialog | একই |
+| Native UI কে আঁকে | Core Animation → render server (Metal) | HWUI → Skia (GL/Vulkan) | Impeller (Metal / Vulkan, না থাকলে GL) |
+| শেষে কে মেশায় | render server | SurfaceFlinger | একই, platform-এর |
 | Vsync | `CADisplayLink` | `Choreographer` | engine সেখান থেকেই নেয় |
 | Build tool | Xcode build system (`xcodebuild`) | Gradle + AGP | `flutter` tool → এই দুইটাকেই ডাকে |
 | Dependency | Swift Package Manager (CocoaPods পুরনো) | Maven (Gradle) | pub.dev + এই দুই |
@@ -10008,17 +10429,17 @@ Assets.xcassets ──actool─────────────────�
 | Engine-এর file | `Flutter.framework` | `libflutter.so` | — |
 | Package | `.ipa` (`Payload/X.app`) | APK / AAB | — |
 | Sign | certificate + provisioning profile | keystore | platform-এর নিয়মে |
-| Memory দেখা | Instruments, Memory Graph | Memory Profiler, Perfetto | Dart heap: DevTools |
+| Memory দেখার tool | Instruments, Memory Graph | Memory Profiler, Perfetto | Dart heap: DevTools |
 
 > **মনে রাখুন**
-> - Swift build-এর সময়েই LLVM দিয়ে machine code। VM নেই, JIT নিষেধ — তাই Flutter iOS release সবসময় AOT।
-> - ARC: গণনা শূন্য হলেই মুক্ত, GC pause নেই, কিন্তু cycle নিজে ভাঙতে হয় — closure-এ `[weak self]`।
-> - App খোলা: SpringBoard → launchd → dyld → `UIApplicationMain` → AppDelegate → Scene → প্রথম frame। Flutter-এ মাঝে `FlutterViewController`, engine আর Dart `main()`।
-> - Native আঁকে Core Animation + render server + Metal। Flutter একটা `CAMetalLayer`-এ Impeller দিয়ে নিজে আঁকে — iOS-এ Impeller-ই একমাত্র renderer।
-> - Build: swiftc → ld → actool → embed → codesign → `.app` → `.ipa`। Flutter-এর Dart যায় `App.framework`-এ, engine `Flutter.framework`-এ।
+> - Swift build-এর সময়েই LLVM দিয়ে machine code হয়ে যায়। VM নেই। JIT নিষেধ। তাই Flutter-এর iOS release সবসময় AOT।
+> - ARC: হিসাব শূন্য হলেই object মুছে যায়, GC pause নেই। কিন্তু cycle নিজেকে ভাঙতে হয় — closure-এ `[weak self]` দিন।
+> - App খোলার পথ: SpringBoard → launchd → dyld → `UIApplicationMain` → AppDelegate → Scene → প্রথম frame। Flutter-এ মাঝখানে আসে `FlutterViewController`, engine আর Dart-এর `main()`।
+> - Native UI আঁকে Core Animation + render server + Metal। Flutter একটা `CAMetalLayer`-এর ভেতরে Impeller দিয়ে নিজে আঁকে। iOS-এ Impeller-ই একমাত্র renderer।
+> - Build: swiftc → ld → actool → embed → codesign → `.app` → `.ipa`। Flutter-এর Dart code যায় `App.framework`-এ, আর engine থাকে `Flutter.framework`-এ।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "Swift সরাসরি LLVM দিয়ে machine code হয়, iOS-এ কোনো VM নেই, আর App Store app-এ JIT নিষেধ — এজন্যই Flutter-এর iOS release সবসময় AOT, Dart কোড App.framework-এ machine code হয়ে থাকে। Memory ARC দিয়ে চলে, তাই GC pause নেই, কিন্তু retain cycle নিজে weak দিয়ে ভাঙতে হয়। App খুললে launchd process চালু করে, dyld library জোড়ে, UIApplicationMain AppDelegate আর Scene বানায়; Flutter-এ FlutterViewController engine চালু করে Dart-এর main চালায়। Native UI Core Animation-এর layer tree render server-এ পাঠায়, আর Flutter একটা CAMetalLayer-এ Impeller দিয়ে Metal-এ নিজে আঁকে।"
+> - *বাংলায়:* "Swift সরাসরি LLVM দিয়ে machine code হয়। iOS-এ কোনো VM নেই, আর App Store app-এ JIT নিষেধ। এজন্যই Flutter-এর iOS release সবসময় AOT — Dart code machine code হয়ে App.framework-এ থাকে। Memory চলে ARC দিয়ে, তাই GC pause নেই। কিন্তু retain cycle আমাকে নিজে weak দিয়ে ভাঙতে হয়। App খুললে launchd process চালু করে, dyld library জোড়া দেয়, আর UIApplicationMain AppDelegate আর Scene বানায়। Flutter-এ এরপর FlutterViewController engine চালু করে Dart-এর main চালায়। Native UI তার Core Animation layer tree render server-এ পাঠায়। আর Flutter একটা CAMetalLayer-এর ভেতরে Impeller দিয়ে Metal-এ নিজে সব আঁকে।"
 > - *English:* "Swift is compiled straight to machine code by LLVM; there's no VM on iOS, and JIT isn't allowed for App Store apps — that's why Flutter's iOS release is always AOT, with the Dart code as machine code in App.framework. Memory is managed by ARC, so there are no GC pauses, but I have to break retain cycles myself with weak. On launch, launchd starts the process, dyld links the libraries, and UIApplicationMain creates the AppDelegate and the scene; in Flutter, the FlutterViewController starts the engine and runs Dart's main. Native UI sends a Core Animation layer tree to the render server, while Flutter draws everything itself with Impeller on Metal into a CAMetalLayer."
 
 [উপরে ফিরুন](#toc)
@@ -10027,31 +10448,38 @@ Assets.xcassets ──actool─────────────────�
 
 ## <a id="ios13"></a>iOS ১৩. iOS শেখার পরিকল্পনা — ৪ সপ্তাহ
 
-Android-এর মতোই, পড়ে শেখার চেয়ে বানিয়ে শেখা অনেক দ্রুত। আর সবচেয়ে দ্রুত পথ একটাই: **এই বই জুড়ে যে Notes app দেখলেন, সেটা native iOS-এ বানানো।** প্রতিটা অংশ Flutter-এ কীভাবে লিখতেন, তা আপনি জানেন। শুধু অনুবাদ করবেন।
+Android-এর মতোই, শুধু পড়ে শেখার চেয়ে বানিয়ে শেখা অনেক দ্রুত। আর সবচেয়ে দ্রুত পথ একটাই: **এই বই জুড়ে যে Notes app দেখলেন, সেটা native iOS-এ বানানো।** প্রতিটা অংশ Flutter-এ কীভাবে লিখতেন, সেটা আপনি জানেন। এখন শুধু সেটা iOS-এ অনুবাদ করবেন।
 
-**আগে যা লাগবে:** একটা Mac, App Store থেকে সর্বশেষ Xcode, আর সম্ভব হলে একটা iPhone। নিজের phone-এ চালাতে free Apple ID-ই যথেষ্ট। Push, Associated Domains আর TestFlight-এর জন্য paid Apple Developer Program লাগবে ([iOS ১১.১](#ios11-1))। Project-এর minimum iOS 17 রাখুন, তাহলে `@Observable` আর SwiftData দুটোই পাবেন।
+**শুরুর আগে যা লাগবে:**
+
+- একটা Mac।
+- App Store থেকে নামানো সর্বশেষ Xcode।
+- সম্ভব হলে একটা iPhone।
+
+নিজের phone-এ app চালাতে free Apple ID-ই যথেষ্ট। কিন্তু Push, Associated Domains আর TestFlight-এর জন্য paid Apple Developer Program লাগবে ([iOS ১১.১](#ios11-1))। Project-এর minimum iOS 17 রাখুন। তাহলে `@Observable` আর SwiftData দুটোই পাবেন।
 
 ### <a id="ios13-1"></a>iOS ১৩.১ চার সপ্তাহের পরিকল্পনা
 
 | সপ্তাহ | পড়ুন | বানান |
 |---|---|---|
-| ১ | [iOS ০](#ios0), [১](#ios1), [২](#ios2) | Xcode-এর Playground-এ Notes-এর model: `struct Note`, `enum` দিয়ে sort-এর ধরন, `protocol NotesRepository`। একটা `actor` দিয়ে in-memory store, আর `async`/`await` দিয়ে নকল network delay। |
-| ২ | [iOS ৩](#ios3)–[৬](#ios6) | নতুন SwiftUI project। Note-এর list, note খোলা, নতুন note-এর form — শুধু memory-র data দিয়ে। `NavigationStack` দিয়ে navigation। App background-এ পাঠিয়ে আবার খুলে দেখুন কী থাকে, কী যায়। |
-| ৩ | [iOS ৭](#ios7), [৮](#ios8) | `@Observable` view model, composition root-এ DI। SwiftData-তে note রাখুন। একটা free mock server থেকে `URLSession` দিয়ে sync, `Codable` দিয়ে JSON। Token Keychain-এ — তারপর app মুছে আবার install করে দেখুন token থেকে গেছে কি না। |
-| ৪ | [iOS ৯](#ios9)–[১২](#ios12) | Reminder-এর local notification, `BGAppRefreshTask` দিয়ে sync (debugger command দিয়ে চালিয়ে দেখুন)। Swift Testing-এ view model test, একটা XCUITest। Archive করে TestFlight-এ পাঠান। শেষে একটা Flutter project-এ `flutter build ipa` চালিয়ে `.ipa` unzip করুন — `App.framework` আর `Flutter.framework` নিজের চোখে দেখুন। |
+| ১ | [iOS ০](#ios0), [১](#ios1), [২](#ios2) | Xcode-এর Playground-এ Notes-এর model বানান: `struct Note`, sort-এর ধরনের জন্য একটা `enum`, আর `protocol NotesRepository`। একটা `actor` দিয়ে memory-তে রাখার store বানান। `async`/`await` দিয়ে নকল network delay দিন। |
+| ২ | [iOS ৩](#ios3)–[৬](#ios6) | নতুন একটা SwiftUI project খুলুন। Note-এর list, একটা note খোলা, আর নতুন note-এর form বানান — data শুধু memory-তে থাকবে। Navigation করুন `NavigationStack` দিয়ে। তারপর app background-এ পাঠিয়ে আবার খুলুন। দেখুন কী থাকে, কী হারায়। |
+| ৩ | [iOS ৭](#ios7), [৮](#ios8) | `@Observable` view model বানান, আর composition root-এ DI করুন। Note রাখুন SwiftData-তে। একটা free mock server থেকে `URLSession` দিয়ে sync করুন, JSON পড়ুন `Codable` দিয়ে। Token রাখুন Keychain-এ। তারপর app মুছে আবার install করুন, দেখুন token থেকে গেছে কি না। |
+| ৪ | [iOS ৯](#ios9)–[১২](#ios12) | Reminder-এর জন্য local notification দিন। `BGAppRefreshTask` দিয়ে sync করুন (debugger command দিয়ে চালিয়ে দেখুন)। Swift Testing-এ view model-এর test লিখুন, আর একটা XCUITest। Archive করে TestFlight-এ পাঠান। শেষে একটা Flutter project-এ `flutter build ipa` চালান, তারপর `.ipa` unzip করুন। `App.framework` আর `Flutter.framework` নিজের চোখে দেখুন। |
 
-**প্রতিদিনের শেষে তিনটা প্রশ্ন:**
+**প্রতিদিনের শেষে নিজেকে তিনটা প্রশ্ন করুন:**
+
 1. আজ যেটা লিখলাম, Flutter-এ সেটা কী দিয়ে করতাম? Android-এ কী দিয়ে? পার্থক্যটা কোথায়, আর কেন?
-2. এটা কোন actor-এ চলছে — main actor, না অন্য কোথাও?
-3. App suspend হলে, বা user swipe করে বন্ধ করলে, এটা কী হবে?
+2. এই code কোন actor-এ চলছে — main actor-এ, নাকি অন্য কোথাও?
+3. App suspend হলে, বা user swipe করে app বন্ধ করলে, এর কী হবে?
 
-এই তিন প্রশ্নের উত্তর মুখে বলতে পারলে আপনি interview-এর জন্য তৈরি। প্রতিটা অধ্যায়ের শেষের **Interview-এ এক কথায়** box জোরে জোরে বলে অনুশীলন করুন।
+এই তিন প্রশ্নের উত্তর মুখে বলতে পারলে আপনি interview-এর জন্য তৈরি। প্রতিটা অধ্যায়ের শেষে যে **Interview-এ এক কথায়** box আছে, সেটা জোরে জোরে বলে অনুশীলন করুন।
 
 [উপরে ফিরুন](#toc)
 
 ### <a id="ios-dictionary"></a>Flutter → iOS অভিধান
 
-Interview-এর আগের রাতে শুধু এই পাতাটা। পাশে Android-ও রাখলাম, যাতে তিনটা একসাথে মনে থাকে।
+Interview-এর আগের রাতে শুধু এই পাতাটা পড়ুন। পাশে Android-ও রেখেছি, যাতে তিনটা একসাথে মনে থাকে।
 
 **ভাষা**
 
@@ -10178,29 +10606,29 @@ Interview-এর আগের রাতে শুধু এই পাতাট�
 
 ### <a id="ios13-2"></a>iOS ১৩.২ ভালো resource
 
-সবগুলো official, আর প্রতিটা link নভেম্বর ২০২৬-এ খুলে দেখা।
+সবগুলো official। প্রতিটা link নভেম্বর ২০২৬-এ খুলে দেখা হয়েছে।
 
-- [Develop in Swift tutorials](https://developer.apple.com/tutorials/develop-in-swift) — Apple-এর নতুনদের পথ, SwiftUI আর SwiftData দিয়ে। প্রথম সপ্তাহের জন্য।
+- [Develop in Swift tutorials](https://developer.apple.com/tutorials/develop-in-swift) — নতুনদের জন্য Apple-এর নিজের পথ, SwiftUI আর SwiftData দিয়ে। প্রথম সপ্তাহের জন্য।
 - [SwiftUI tutorials](https://developer.apple.com/tutorials/swiftui) — হাতে-কলমে, ধাপে ধাপে screen বানানো।
-- [The Swift Programming Language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/) — Swift-এর official বই। Optional, enum, protocol, concurrency-র অধ্যায় আগে।
-- [Swift 6 migration guide](https://www.swift.org/migration/documentation/migrationguide/) — strict concurrency-র error কেন আসে, কীভাবে ঠিক করবেন।
-- [Migrating to the Observable macro](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro) — পুরনো `ObservableObject` code পড়তে আর বদলাতে।
-- [SwiftData](https://developer.apple.com/documentation/swiftdata) আর [Swift Testing](https://developer.apple.com/documentation/testing) — দুইটা framework-এর official docs।
-- [TN3187: UIScene lifecycle-এ যাওয়া](https://developer.apple.com/documentation/technotes/tn3187-migrating-to-the-uikit-scene-based-life-cycle) — scene lifecycle কেন বাধ্যতামূলক হচ্ছে, কীভাবে বদলাবেন।
-- [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) আর [Upcoming requirements](https://developer.apple.com/news/upcoming-requirements/) — submit-এর আগে প্রতিবার।
-- [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/) — iOS app "iOS-এর মতো" দেখাতে।
-- [Flutter for SwiftUI developers](https://docs.flutter.dev/flutter-for/swiftui-devs) — Flutter-এর official তুলনা, SwiftUI developer-দের জন্য লেখা। উল্টো দিক থেকে পড়লে আপনার জন্য একদম কাজের।
-- [Flutter-এর iOS platform integration](https://docs.flutter.dev/platform-integration/ios/) আর [Platform channels](https://docs.flutter.dev/platform-integration/platform-channels) — Flutter app-এ Swift code লেখার পথ।
+- [The Swift Programming Language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/) — Swift-এর official বই। Optional, enum, protocol আর concurrency-র অধ্যায়গুলো আগে পড়ুন।
+- [Swift 6 migration guide](https://www.swift.org/migration/documentation/migrationguide/) — strict concurrency-র error কেন আসে, আর কীভাবে ঠিক করবেন।
+- [Migrating to the Observable macro](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro) — পুরনো `ObservableObject` code পড়তে আর নতুন রূপে বদলাতে।
+- [SwiftData](https://developer.apple.com/documentation/swiftdata) আর [Swift Testing](https://developer.apple.com/documentation/testing) — এই দুই framework-এর official docs।
+- [TN3187: UIScene lifecycle-এ যাওয়া](https://developer.apple.com/documentation/technotes/tn3187-migrating-to-the-uikit-scene-based-life-cycle) — scene lifecycle কেন বাধ্যতামূলক হচ্ছে, আর কীভাবে বদলাবেন।
+- [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) আর [Upcoming requirements](https://developer.apple.com/news/upcoming-requirements/) — প্রতিবার submit করার আগে দেখে নিন।
+- [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/) — আপনার app যেন "iOS-এর মতো" দেখায়।
+- [Flutter for SwiftUI developers](https://docs.flutter.dev/flutter-for/swiftui-devs) — Flutter-এর official তুলনা, SwiftUI developer-দের জন্য লেখা। আপনি এটা উল্টো দিক থেকে পড়বেন — তাতে আপনার জন্য এটা একদম কাজের।
+- [Flutter-এর iOS platform integration](https://docs.flutter.dev/platform-integration/ios/) আর [Platform channels](https://docs.flutter.dev/platform-integration/platform-channels) — Flutter app-এর ভেতরে Swift code কীভাবে লিখবেন।
 - [Build and release an iOS app (Flutter)](https://docs.flutter.dev/deployment/ios) — `flutter build ipa`, signing, TestFlight।
 
 > **মনে রাখুন**
-> - Notes app native-এ বানানোই সবচেয়ে দ্রুত শেখা। Minimum iOS 17 রাখুন।
+> - Notes app-টা native-এ বানানোই সবচেয়ে দ্রুত শেখার পথ। Minimum iOS 17 রাখুন।
 > - চার সপ্তাহ: ভাষা আর async → SwiftUI আর navigation → architecture আর data → platform, test, release, internals।
-> - প্রতিদিন তিন প্রশ্ন: Flutter আর Android-এ কী দিয়ে করতাম? কোন actor-এ চলছে? Suspend বা swipe হলে কী হবে?
-> - Interview-এর আগের রাতে শুধু [অভিধান](#ios-dictionary)।
+> - প্রতিদিন তিনটা প্রশ্ন: Flutter আর Android-এ এটা কী দিয়ে করতাম? কোন actor-এ চলছে? Suspend বা swipe হলে কী হবে?
+> - Interview-এর আগের রাতে শুধু [অভিধান](#ios-dictionary) পড়ুন।
 
 > **Interview-এ এক কথায়**
-> - *বাংলায়:* "আমি Flutter-এর চোখ দিয়ে iOS শিখেছি: প্রতিটা Flutter ধারণার জন্য iOS-এ তার যমজ খুঁজেছি — Cubit থেকে @Observable view model, dio থেকে URLSession, drift থেকে SwiftData, workmanager থেকে BGTaskScheduler। তারপর একই Notes app native SwiftUI-তে বানিয়েছি, TestFlight পর্যন্ত। তাই plugin-এর ভেতরে কী হয়, আর কোন সমস্যা আসলে iOS-এর নিয়ম থেকে আসে, সেটা আমি ব্যাখ্যা করতে পারি।"
+> - *বাংলায়:* "আমি Flutter-এর চোখ দিয়ে iOS শিখেছি। প্রতিটা Flutter ধারণার জন্য iOS-এ তার জোড়া খুঁজেছি — Cubit-এর জায়গায় @Observable view model, dio-র জায়গায় URLSession, drift-এর জায়গায় SwiftData, workmanager-এর জায়গায় BGTaskScheduler। তারপর একই Notes app native SwiftUI-তে বানিয়েছি, TestFlight পর্যন্ত। তাই plugin-এর ভেতরে কী হয়, আর কোন সমস্যা আসলে iOS-এর নিয়ম থেকে আসে — সেটা আমি বুঝিয়ে বলতে পারি।"
 > - *English:* "I learned iOS through Flutter eyes: for every Flutter concept I found its iOS twin — Cubit to an @Observable view model, dio to URLSession, drift to SwiftData, workmanager to BGTaskScheduler. Then I built the same Notes app in native SwiftUI, all the way to TestFlight. So I can explain what happens inside a plugin, and which problems really come from iOS rules."
 
 [উপরে ফিরুন](#toc)
