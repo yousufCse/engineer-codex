@@ -19,7 +19,7 @@ Whether you are preparing for interviews, mastering backend development, diving 
 | **Mobile** | Flutter guides (theming, forms, flavors, lint rules, push notifications, deep links, responsive UI & more), a Bangla book on native Android (Kotlin, coroutines, Compose) and iOS (Swift, SwiftUI) for Flutter developers, and app release: store developer accounts, Play Store upload, iOS distribution, CI/CD course |
 | **Backend** | MERN/Node.js full course (Express, PostgreSQL, Prisma, MongoDB, NestJS, Auth, Testing, Deployment) and a full-stack web deployment guide |
 | **CS Fundamentals** | Data structures & algorithms, networking and operating system notes |
-| **Interviews** | Flutter software engineer interview prep (22 sections, English & Bangla), a senior Flutter + Android + iOS interview guide in Bangla (180 questions with spoken answers in Bangla and English), and a Cracking the Coding Interview guide in Bangla |
+| **Interviews** | Flutter software engineer interview prep (22 sections, English & Bangla), a senior Flutter + Android + iOS interview guide in Bangla (180 questions with spoken answers in Bangla and English), a 7/10/15-day native Android interview prep in Bangla (230 questions with easy English answers, incl. Jetpack, security cameras, AOSP, sensors and security), and a Cracking the Coding Interview guide in Bangla |
 | **Books** | Full book explanations, chapter by chapter: The Software Engineer's Guidebook, Refactoring, Building Mobile Apps at Scale |
 | **My Notes** | My own short notes: Clean Code, Design Patterns, OOAD, Refactoring |
 | **Tech Lead** | Flutter mobile tech lead guide, Scrum to tech lead guide, and the 7-phase Software Engineering Mastery series |
@@ -69,7 +69,8 @@ engineer-codex/
 │   ├── cracking-the-coding-interview/    # CTCI guide in Bangla
 │   ├── software-engineer-flutter/        # 22 sections + cheat sheet (English)
 │   ├── software-engineer-flutter-bn/     # Same 22 sections in Bangla
-│   └── software-engineer-flutter-android-ios-bn/  # Senior Flutter + Android + iOS interview guide (Bangla)
+│   ├── software-engineer-flutter-android-ios-bn/  # Senior Flutter + Android + iOS interview guide (Bangla)
+│   └── software-engineer-android-bn/     # 7/10/15-day native Android interview prep (Bangla + easy English)
 │
 ├── books/                                # Full book explanations, chapter by chapter
 │   ├── building-mobile-apps-at-scale/
