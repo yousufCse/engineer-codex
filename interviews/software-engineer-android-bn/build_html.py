@@ -423,6 +423,7 @@ p.see-also a:hover{border-color:var(--accent-line);color:var(--accent);text-deco
 .pager a{padding:6px 12px;border-radius:9px;color:var(--muted)}
 .pager a:hover{background:var(--surface2);color:var(--text);text-decoration:none}
 .hidden{display:none!important}
+select.day-sel{appearance:auto;font:600 13px Inter,"Noto Sans Bengali",sans-serif}
 details.fu li{margin:10px 0 14px}
 details.fu li > p{margin:3px 0}
 .fl{display:inline-block;font:700 12px Inter,"Noto Sans Bengali",sans-serif;padding:1px 8px;border-radius:6px;margin-right:4px}
@@ -526,6 +527,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     <button class="chip" data-f="star" aria-pressed="false">★ <span class="chip-label">৭ দিন</span></button>
     <button class="chip" data-f="dia" aria-pressed="false">★◆ <span class="chip-label">১০ দিন</span></button>
     <button class="chip" data-f="todo" aria-pressed="false">বাকি</button>
+    <select class="chip day-sel" id="daySel" aria-label="আজকের পড়া"><option value="">📅 আজকের পড়া</option></select>
   </div>
   <button class="btn" id="reviseBtn" aria-pressed="false" title="লম্বা ব্যাখ্যা লুকিয়ে দ্রুত revision">⚡ <span class="lbl">Revision</span></button>
   <button class="btn" id="practiceBtn" aria-pressed="false" title="উত্তর লুকিয়ে রাখুন">🎯 <span class="lbl">Practice</span></button>
@@ -837,11 +839,13 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     });
     groups.forEach(g => { if (g.qs.length) g.navCount.textContent = g.qs.filter(c => done.has(c.dataset.id)).length + '/' + g.qs.length; });
     allQs.forEach(c => c.navLink && c.navLink.classList.toggle('done', done.has(c.dataset.id)));
+    if (typeof DAYS !== 'undefined' && DAYS) updateDayLabels();
   }
   refreshProgress();
 
   // 5. Filters and search.
   let filter = 'all';
+  let day = -1, dayIds = new Set();
   const search = document.getElementById('search');
   function applyFilter(){
     const q = search.value.trim().toLowerCase();
@@ -849,12 +853,13 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     allQs.forEach(c => {
       const p = c.dataset.pri;
       let ok = filter === 'all' || (filter === 'star' && p === 'star') || (filter === 'dia' && (p === 'star' || p === 'dia')) || (filter === 'todo' && !done.has(c.dataset.id));
+      if (ok && day >= 0) ok = dayIds.has(c.dataset.id);
       if (ok && q) ok = c.dataset.id === q || c.textContent.toLowerCase().includes(q);
       c.classList.toggle('hidden', !ok);
       if (c.navLi) c.navLi.classList.toggle('hidden', !ok);
       if (ok) shown++;
     });
-    const filtering = filter !== 'all' || q;
+    const filtering = filter !== 'all' || q || day >= 0;
     // While filtering, hide lessons and non-question blocks, and open the sidebar groups.
     document.querySelectorAll('section.q.lesson').forEach(l => l.classList.toggle('hidden', !!filtering));
     groups.forEach(g => {
@@ -878,9 +883,42 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   });
   search.addEventListener('input', applyFilter);
 
+  // "আজকের পড়া": the 7-day plan as one click per day (★ questions of that day's parts).
+  var DAYS = [
+    { parts: ['part-0', 'part-1', 'part-1b'] },
+    { parts: ['part-2', 'part-2b', 'part-2c'] },
+    { parts: ['part-3', 'part-5'] },
+    { parts: ['part-7', 'part-6'] },
+    { parts: ['part-8', 'part-10'] },
+    { parts: ['part-9', 'part-4'] },
+    { parts: ['part-12', 'part-12b', 'part-13'], extra: ['d1', 'd2'] },
+  ];
+  function idsForDay(n){
+    const set = new Set();
+    groups.filter(g => DAYS[n].parts.includes(g.id)).forEach(g => g.qs.forEach(c => { if (c.dataset.pri === 'star') set.add(c.dataset.id); }));
+    (DAYS[n].extra || []).forEach(x => set.add(x));
+    return set;
+  }
+  const daySel = document.getElementById('daySel');
+  function updateDayLabels(){
+    DAYS.forEach((d, i) => {
+      const ids = idsForDay(i);
+      const k = Array.from(ids).filter(x => done.has(x)).length;
+      const label = 'Day ' + (i + 1) + ' — ' + k + '/' + ids.size + (k === ids.size ? ' ✓' : '');
+      if (daySel.options[i + 1]) daySel.options[i + 1].text = label; else daySel.add(new Option(label, String(i)));
+    });
+  }
+  updateDayLabels();
+  daySel.onchange = () => {
+    day = daySel.value === '' ? -1 : Number(daySel.value);
+    dayIds = day >= 0 ? idsForDay(day) : new Set();
+    applyFilter();
+    if (day >= 0) { const first = allQs.find(c => dayIds.has(c.dataset.id)); if (first) first.scrollIntoView({ behavior: 'smooth' }); }
+  };
+
   function clearFilters(){
-    if (filter === 'all' && !search.value) return;
-    filter = 'all'; search.value = '';
+    if (filter === 'all' && !search.value && day < 0) return;
+    filter = 'all'; search.value = ''; day = -1; dayIds = new Set(); daySel.value = '';
     document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x.dataset.f === 'all'));
     applyFilter();
   }
@@ -1004,8 +1042,9 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   const AGAIN_KEY = 'aip-again-v1';
   const again = new Set(store.get(AGAIN_KEY, []));
   const saveAgain = () => store.set(AGAIN_KEY, Array.from(again));
-  const scopes = [['star', '★ ৭ দিনের প্রশ্ন'], ['dia', '★◆ ১০ দিনের প্রশ্ন'], ['all', 'সব প্রশ্ন'], ['again', '↻ "আবার পড়ব" তালিকা'], ['todo', 'যেগুলো এখনো "পারি" হয়নি']];
+  const scopes = [['mock', '🎤 Mock interview (১০টা প্রশ্ন, আসল ক্রমে)'], ['star', '★ ৭ দিনের প্রশ্ন'], ['dia', '★◆ ১০ দিনের প্রশ্ন'], ['all', 'সব প্রশ্ন'], ['again', '↻ "আবার পড়ব" তালিকা'], ['todo', 'যেগুলো এখনো "পারি" হয়নি']];
   scopes.forEach(([v, t]) => scopeSel.add(new Option(t, v)));
+  DAYS.forEach((d, i) => scopeSel.add(new Option('📅 Day ' + (i + 1) + '-এর প্রশ্ন', 'day:' + i)));
   groups.filter(g => g.qs.length && g.isPart).forEach(g => scopeSel.add(new Option(g.title, 'part:' + g.id)));
   scopeSel.value = store.get('aip-drill-scope', 'star');
   if (!scopeSel.value) scopeSel.value = 'star';
@@ -1018,8 +1057,17 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     else if (s === 'todo') list = allQs.filter(c => !done.has(c.dataset.id));
     else if (s === 'again') list = allQs.filter(c => again.has(c.dataset.id));
     else if (s.startsWith('part:')) list = (groups.find(g => g.id === s.slice(5)) || { qs: [] }).qs;
-    deck = list.map(c => c.dataset.id);
-    for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+    else if (s.startsWith('day:')) { const ids = idsForDay(Number(s.slice(4))); list = allQs.filter(c => ids.has(c.dataset.id)); }
+    const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    if (s === 'mock') {
+      // A real interview's order: intro → 5 technical → 1 domain → 1 design → 1 behavioral → "questions for us?"
+      const star = allQs.filter(c => c.dataset.pri === 'star');
+      const pick = (re, n, from) => shuffle((from || star).filter(c => re.test(c.dataset.id))).slice(0, n).map(c => c.dataset.id);
+      deck = ['h0-1', ...pick(/^[kcfjupr]\d/, 5), ...pick(/^[svon]\d/, 1), ...pick(/^d\d/, 1, allQs), ...pick(/^h(?!12$)\d+$/, 1), 'h12']
+        .filter(id => document.getElementById('card-' + id));
+    } else {
+      deck = shuffle(list.map(c => c.dataset.id));
+    }
     pos = 0;
     store.set('aip-drill-scope', s);
     showCard();
