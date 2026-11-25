@@ -430,7 +430,7 @@ Kotlin আর Android framework সবচেয়ে বেশি আসে। 
 |---|---|---|
 | ১. সরাসরি উত্তর | এক বাক্যে মূল কথা | "In short, ..." (ছোট করে বললে ...) / "The main idea is ..." (মূল কথা হলো ...) |
 | ২. কীভাবে / কেন | ১–২ বাক্যে কারণ | "It works like this: ..." (এটা এভাবে কাজ করে ...) / "The reason is ..." (কারণটা হলো ...) |
-| ৩. Trade-off বা ফাঁদ | একটা "কিন্তু" | "One thing to watch is ..." (একটা জিনিস খেয়াল রাখতে হয় ...) / "The trade-off is ..." (এখানে trade-off হলো ...) |
+| ৩. Trade-off বা সতর্কতা | একটা "কিন্তু" | "One thing to watch is ..." (একটা জিনিস খেয়াল রাখতে হয় ...) / "The trade-off is ..." (এখানে trade-off হলো ...) |
 | ৪. বাস্তব কাজ | আপনি কীভাবে করেন | "In my code, I usually ..." (আমার code-এ সাধারণত ...) / "My default is ..." (আমার default হলো ...) |
 
 তারপর **থামুন**। Interviewer আরও চাইলে জিজ্ঞেস করবে। লম্বা উত্তর মানে বেশি জানা না। পরিষ্কার উত্তরই senior-এর চিহ্ন।
@@ -787,7 +787,7 @@ Coroutines আর Flow আজকের Android-এর async মডেল। View
 - **Sealed hierarchy:** `sealed interface UiState` দিয়ে সব রকম state লিখি। `when` সব case cover না করলে compiler ধরে।
 - **suspend মানে "থামতে পারে", background thread না।** কোন thread-এ চলবে সেটা ঠিক করে **Dispatcher**।
 - **Structured concurrency:** প্রতিটা coroutine একটা **scope**-এর ভিতরে চলে। scope cancel হলে সব child cancel হয়। leak হয় না।
-- **Cancellation cooperative:** coroutine নিজে suspend point-এ cancel check করে। `CancellationException` গিলে ফেললে cancel ভেঙে যায়।
+- **Cancellation cooperative:** coroutine নিজে suspend point-এ cancel check করে। `CancellationException` catch করে আবার throw না করলে cancellation কাজ করে না।
 - **Cold vs hot:** সাধারণ `Flow` cold — collect করলে তবেই চালু হয়। `StateFlow` / `SharedFlow` hot — collector না থাকলেও থাকে।
 - **UI state = StateFlow।** ViewModel একটা `StateFlow<UiState>` দেয়। UI lifecycle মেনে collect করে।
 - **Lifecycle-aware collect:** Compose-এ `collectAsStateWithLifecycle()`, View-এ `repeatOnLifecycle(STARTED)`।
@@ -1018,7 +1018,7 @@ fun render(s: CameraUiState) = when (s) {   // else লাগে না
 
   **উত্তর (English):** "Creating it is thread-safe, because the JVM does it only once. But its mutable fields aren't. I still need to protect any shared state inside."
 
-**ভুল করবেন না:** `when`-এ `else` দিলে sealed-এর exhaustive check-এর সুবিধা হারায় — নতুন case চুপচাপ `else`-এ চলে যায়।
+**ভুল করবেন না:** `when`-এ `else` দিলে sealed-এর exhaustive check-এর সুবিধা হারায় — নতুন case কোনো warning ছাড়াই `else`-এ চলে যায়।
 
 **আরও দেখুন:** [K24 · State and errors with sealed types](#k24) · [K22 · Equality and data classes](#k22) · [K28 · object vs companion](#k28)
 
@@ -1606,7 +1606,7 @@ suspend fun loadDashboard(): Dashboard = coroutineScope {
 
 **প্রশ্ন (বাংলায়):** Structured concurrency বুঝিয়ে বলুন: scope, cancellation, SupervisorJob আর exception handling।
 
-**প্রশ্নটা মানে:** coroutine কখন মরে, error কোথায় যায়, আর cancel ভাঙে এমন common bug জানেন কিনা।
+**প্রশ্নটা মানে:** coroutine কখন শেষ বা cancel হয়, error কোথায় যায়, আর cancellation নষ্ট করে এমন common bug জানেন কিনা।
 
 **অন্যভাবেও জিজ্ঞেস করে:**
 
@@ -1621,7 +1621,7 @@ suspend fun loadDashboard(): Dashboard = coroutineScope {
   - নিজের scope (যেমন Service বা app-wide কাজ): `CoroutineScope(SupervisorJob() + Dispatchers.Default)` — আর নিজেকেই `cancel()` করতে হবে।
   - `GlobalScope` এড়ান।
 - **Cancellation cooperative:** cancel মানে একটা flag। coroutine suspend point-এ (`delay`, `withContext`, `yield`) check করে `CancellationException` throw করে। লম্বা CPU loop-এ নিজে `ensureActive()` ডাকুন।
-- **CancellationException আবার throw করুন।** `catch (e: Exception)` এটাও ধরে ফেলে। গিলে ফেললে coroutine cancel হওয়ার পরও চলতে থাকে। `runCatching` একই সমস্যা করে।
+- **CancellationException আবার throw করুন।** `catch (e: Exception)` এটাও ধরে ফেলে। আবার throw না করলে coroutine cancel হওয়ার পরও চলতে থাকে। `runCatching` একই সমস্যা করে।
 - **SupervisorJob** — একটা child fail করলে বাকি child আর parent cancel হয় না। ViewModel-এ একটা request fail করলে পুরো screen-এর কাজ মরবে না।
 - **Exception handling:**
   - Suspend call-এর চারপাশে `try/catch` — সবচেয়ে পরিষ্কার।
@@ -1634,7 +1634,7 @@ viewModelScope.launch {
     try {
         _state.value = UiState.Ready(repo.load())
     } catch (e: CancellationException) {
-        throw e                          // cancel ভাঙবেন না
+        throw e                          // cancellation যেন কাজ করে
     } catch (e: IOException) {
         _state.value = UiState.Error("Network problem")
     }
@@ -1646,7 +1646,7 @@ viewModelScope.launch {
 **Answer (বাংলা + English):**
 > **বাংলায়:** "Structured concurrency মানে প্রতিটা coroutine একটা scope-এর ভেতরে থাকে। Scope cancel হলে, এর সব child থেমে যায়, আর একটা child-এর error parent-এর কাছে ওপরে যায়। তাই কিছুই leak হয় না। Android-এ আমি `viewModelScope` ব্যবহার করি, যেটা onCleared-এ cancel হয়, আর `lifecycleScope`। Cancellation হলো cooperative: coroutine পরের suspension point-এ CancellationException throw করে থামে। তাই এটা catch করে কখনো চেপে রাখি না। General Exception catch করলে CancellationException আবার throw করে দিই। ViewModel scope একটা SupervisorJob ব্যবহার করে, তাই একটা child fail করলে অন্যগুলো cancel হয় না। Error-এর জন্য আমি call-এর চারপাশে try/catch পছন্দ করি। CoroutineExceptionHandler শুধু root coroutine-এ কাজ করে, আর এটা শুধু শেষ ভরসা হিসেবে log করতে ব্যবহার করি।"
 
-> "Structured concurrency means every coroutine lives in a scope. When the scope is cancelled, all its children stop, and a child's error goes up to the parent. So nothing leaks. On Android I use `viewModelScope`, cancelled in onCleared, and `lifecycleScope`. Cancellation is cooperative: the coroutine stops at the next suspension point by throwing CancellationException. So I never swallow it. If I catch a general Exception, I rethrow CancellationException. ViewModel scope uses a SupervisorJob, so one failed child doesn't cancel the others. For errors I prefer try/catch around the call. CoroutineExceptionHandler only works on root coroutines, and I use it only as a last place to log."
+> "Structured concurrency means every coroutine lives in a scope. When the scope is cancelled, all its children stop, and a child's error goes up to the parent. So nothing leaks. On Android I use `viewModelScope`, cancelled in onCleared, and `lifecycleScope`. Cancellation is cooperative: the coroutine stops at the next suspension point by throwing CancellationException. So I always rethrow it. If I catch a general Exception, I rethrow CancellationException. ViewModel scope uses a SupervisorJob, so one failed child doesn't cancel the others. For errors I prefer try/catch around the call. CoroutineExceptionHandler only works on root coroutines, and I use it only as a last place to log."
 
 **Key words:** `structured concurrency` · `viewModelScope` · `SupervisorJob` · `cooperative cancellation` · `CancellationException` · `CoroutineExceptionHandler` · `ensureActive`
 
@@ -2274,7 +2274,7 @@ suspend fun CameraManager.openCameraAwait(id: String): CameraDevice =
 - **Backpressure:** default buffer 64। Collector ধীর হলে buffer ভরে যায়, তখন `trySend` fail করে (value হারায়, crash না)।
   - Sensor-এ সাধারণত শুধু শেষ value দরকার → `.conflate()` বা `buffer(1, BufferOverflow.DROP_OLDEST)`।
   - সব value দরকার (যেমন log) → বড় buffer, আর collector দ্রুত রাখুন।
-- **Sensor-এর বিশেষ ফাঁদ:** framework `SensorEvent` object **আবার ব্যবহার করে** (pool)। Object টা ধরে রাখা যাবে না। তাই `values.copyOf()` করে পাঠান।
+- **Sensor-এ বিশেষ সতর্কতা:** framework `SensorEvent` object **আবার ব্যবহার করে** (pool)। Object টা ধরে রাখা যাবে না। তাই `values.copyOf()` করে পাঠান।
 
 ```kotlin
 data class Reading(val values: FloatArray, val timestampNs: Long)
@@ -2297,7 +2297,7 @@ fun SensorManager.readings(sensor: Sensor, delay: Int = SensorManager.SENSOR_DEL
 **সহজ উদাহরণ:** Flutter-এ `StreamController` বানিয়ে `onCancel`-এ sensor listener বন্ধ করতেন। Kotlin-এ `callbackFlow`-এ listener থেকে `trySend`, আর `awaitClose`-এ unregister। যেমন একটা compass screen বন্ধ হলে collect থামে, আর sensor listener নিজেই সরে যায়।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "আমি callbackFlow ব্যবহার করি। ভেতরে listener বানাই, আর callback-এ trySend call করি। তারপর listener register করে awaitClose call করি, আর সেখানে এটা unregister করি। awaitClose লাগবেই। এটা flow খোলা রাখে, আর collector থামলে cleanup চালায়, তাই কোনো leak হয় না। Backpressure-এর ক্ষেত্রে ভাবি consumer-এর আসলে কী দরকার। Sensor-এ সাধারণত শুধু latest value দরকার, তাই conflate যোগ করি। Sensor-এর একটা ফাঁদ হলো, SensorEvent object আবার ব্যবহার হয়, তাই value-গুলো copy করে নিই। UI-তে lifecycle awareness সহ collect করি, তাই background-এ sensor থেমে যায়।"
+> **বাংলায়:** "আমি callbackFlow ব্যবহার করি। ভেতরে listener বানাই, আর callback-এ trySend call করি। তারপর listener register করে awaitClose call করি, আর সেখানে এটা unregister করি। awaitClose লাগবেই। এটা flow খোলা রাখে, আর collector থামলে cleanup চালায়, তাই কোনো leak হয় না। Backpressure-এর ক্ষেত্রে ভাবি consumer-এর আসলে কী দরকার। Sensor-এ সাধারণত শুধু latest value দরকার, তাই conflate যোগ করি। Sensor-এ একটা বিষয়ে সতর্ক থাকতে হয়: SensorEvent object আবার ব্যবহার হয়, তাই value-গুলো copy করে নিই। UI-তে lifecycle awareness সহ collect করি, তাই background-এ sensor থেমে যায়।"
 
 > "I use callbackFlow. Inside, I create the listener, and in the callback I call trySend. Then I register the listener and call awaitClose, where I unregister it. awaitClose is required. It keeps the flow open and runs the cleanup when the collector stops, so there's no leak. For backpressure, I think about what the consumer needs. For sensors I usually want only the latest value, so I add conflate. One trap with sensors is that SensorEvent objects are reused, so I copy the values. In the UI I collect with lifecycle awareness, so the sensor stops in the background."
 
@@ -2354,7 +2354,7 @@ class LoggingRepo(private val inner: UserRepo) : UserRepo by inner {
     }
 }
 ```
-- ফাঁদ: `inner` নিজের ভেতরে অন্য method call করলে আপনার override **চলে না**। এটা inheritance না।
+- সতর্কতা: `inner` নিজের ভেতরে অন্য method call করলে আপনার override **চলে না**। এটা inheritance না।
 
 **২. Property delegate:** `val x by d` মানে get করলে `d.getValue(...)` call হয়, set করলে `d.setValue(...)`। যে object-এ এই operator আছে, সেটাই delegate।
 
@@ -2370,7 +2370,7 @@ class LoggingRepo(private val inner: UserRepo) : UserRepo by inner {
 **সহজ উদাহরণ:** একটা app-এ `UserRepo` আছে, আপনি শুধু `load()` call log করতে চান। `class LoggingRepo(private val inner: UserRepo) : UserRepo by inner` লিখে শুধু `load()` override করুন — বাকি সব method compiler নিজে forward করে। আর Activity-তে `val vm: LoginViewModel by viewModels()` — Flutter-এ `BlocProvider` যেমন Cubit lazily বানায়, এটাও প্রথম ব্যবহারের সময় ViewModel আনে।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Kotlin-এ দুই ধরনের delegation আছে। Interface delegation-এ compiler নিজেই সব forwarding method লিখে দেয়, তাই একটা object wrap করে শুধু একটা method override করা যায়। Inheritance ছাড়া logging বা caching যোগ করার এটা একটা পরিষ্কার উপায়। Property delegate-এ property পড়লে delegate object-এর getValue call হয়, আর লিখলে setValue। lazy প্রথমবার access-এর সময় block-টা একবার চালায়, আর default-ভাবে এটা synchronized। by viewModels() একটা Lazy return করে, যেটা provider থেকে ViewModel নিয়ে আসে। by mutableStateOf Compose state ব্যবহার করে, তাই recomposition-এর জন্য read-গুলো track হয়। একটা ফাঁদ আছে: wrap করা object নিজের ভেতর থেকে কোনো method call করলে আমার override চলে না, ওর নিজের version চলে।"
+> **বাংলায়:** "Kotlin-এ দুই ধরনের delegation আছে। Interface delegation-এ compiler নিজেই সব forwarding method লিখে দেয়, তাই একটা object wrap করে শুধু একটা method override করা যায়। Inheritance ছাড়া logging বা caching যোগ করার এটা একটা পরিষ্কার উপায়। Property delegate-এ property পড়লে delegate object-এর getValue call হয়, আর লিখলে setValue। lazy প্রথমবার access-এর সময় block-টা একবার চালায়, আর default-ভাবে এটা synchronized। by viewModels() একটা Lazy return করে, যেটা provider থেকে ViewModel নিয়ে আসে। by mutableStateOf Compose state ব্যবহার করে, তাই recomposition-এর জন্য read-গুলো track হয়। একটা বিষয়ে সতর্ক থাকতে হয়: wrap করা object নিজের ভেতর থেকে কোনো method call করলে আমার override চলে না, ওর নিজের version চলে।"
 
 > "Kotlin has two kinds of delegation. With interface delegation, the compiler writes all the forwarding methods for me, so I can wrap an object and override only one method. This is a clean way to add logging or caching without inheritance. With property delegates, reading the property calls getValue and writing calls setValue on the delegate object. lazy runs the block once on first access, and it's synchronized by default. by viewModels() returns a Lazy that gets the ViewModel from the provider. by mutableStateOf uses Compose state, so reads are tracked for recomposition. One trap: when the wrapped object calls its own methods internally, it runs its own version, not my override."
 
@@ -2478,7 +2478,7 @@ cache[key]                  // null! entry পুরনো bucket-এ আটক�
 ```
   তাই key-তে শুধু `val` আর immutable type রাখুন।
 - **`copy()` shallow।** ভেতরে `MutableList` থাকলে copy আর original একই list share করে।
-- **Array ফাঁদ:** data class-এ `Array`/`FloatArray` থাকলে `equals` reference দেখে, content না। Override করুন বা `List` ব্যবহার করুন। (K19-এর `Reading`-এ এটা মনে রাখুন।)
+- **Array নিয়ে সতর্কতা:** data class-এ `Array`/`FloatArray` থাকলে `equals` reference দেখে, content না। Override করুন বা `List` ব্যবহার করুন। (K19-এর `Reading`-এ এটা মনে রাখুন।)
 - **Compose-এর সাথে যোগ:** state object immutable হলে আর `equals` ঠিক হলে Compose ঠিকমতো recomposition skip করে।
 
 **সহজ উদাহরণ:** Flutter-এ `==`, `hashCode` আর `copyWith` পেতে `freezed` বা `equatable` লাগত। Kotlin-এ data class এগুলো নিজেই দেয় (`copyWith`-এর জায়গায় `copy`)। একটা search screen-এ `Filter` data class দিয়ে result cache করলে key-তে `var query` রাখবেন না — map-এ রাখার পর query বদলালে cache আর entry খুঁজে পায় না।
@@ -2605,14 +2605,14 @@ fun label(s: StreamState) = when (s) {          // else নেই — ইচ্�
   - **Bug** (impossible state, programmer error) → exception, fail fast।
 - **কেন জানা error-এ exception না:** Kotlin-এ checked exception নেই। Signature দেখে বোঝা যায় না কী throw হবে। ধরতে ভুলে গেলে crash।
 - **`kotlin.Result`:** ছোট কাজে ভালো। কিন্তু error type শুধু `Throwable` — domain error বোঝায় না। Domain-এ নিজের sealed type (`Outcome<T, E>`) বেশি পরিষ্কার।
-- **বড় ফাঁদ — `runCatching` আর coroutine:** `runCatching` `CancellationException`-ও ধরে ফেলে। তখন cancel থামে না। Suspend code-এ cancel আবার throw করুন, বা নিজের helper লিখুন।
+- **বড় সতর্কতা — `runCatching` আর coroutine:** `runCatching` `CancellationException`-ও ধরে ফেলে। তখন cancel থামে না। Suspend code-এ cancel আবার throw করুন, বা নিজের helper লিখুন।
 - Kotlin team "rich errors" (error union type, KEEP-0462) নিয়ে কাজ করছে। Kotlin 2.4-এ এটা আসেনি, stable তো না-ই। পরের কোনো version-এ experimental হিসেবে আসার কথা — kotlinlang.org দেখে নিন।
 - Flutter mapping: Dart 3-এর `sealed class` + `switch` একই exhaustive check দেয়।
 
 **সহজ উদাহরণ:** Flutter Clean Architecture-এ repository থেকে আপনি `Either<Failure, User>` (fpdart / dartz) বা একটা `freezed` result return করতেন। Kotlin-এ সেটা একটা sealed type: login API-র success, ভুল password, network নেই — প্রতিটার জন্য login screen আলাদা message দেখায়। `when`-এ `else` না দিলে, পরে নতুন একটা error (যেমন account locked) যোগ করলে compiler সব জায়গা দেখিয়ে দেয়।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "UI state আমি একটা sealed interface হিসেবে model করি, আর else branch ছাড়া when দিয়ে handle করি। তাহলে কেউ নতুন একটা state যোগ করলে compiler সব জায়গা দেখিয়ে দেয়, যেখানে এটা handle করতে হবে। Error-কে আমি দুই ভাগে ভাগ করি। Expected error, যেমন network নেই বা ভুল password, result type-এর অংশ। Bug আর impossible state হলো exception, এগুলোকে fail fast করতে দিই। Kotlin-এ checked exception নেই, তাই কোনো expected error exception হলে caller সহজেই এটা handle করতে ভুলে যেতে পারে, আর app crash করে। একটা ফাঁদ হলো coroutine-এ runCatching। এটা CancellationException-ও catch করে ফেলে, তাই ওটা আবার throw করি।"
+> **বাংলায়:** "UI state আমি একটা sealed interface হিসেবে model করি, আর else branch ছাড়া when দিয়ে handle করি। তাহলে কেউ নতুন একটা state যোগ করলে compiler সব জায়গা দেখিয়ে দেয়, যেখানে এটা handle করতে হবে। Error-কে আমি দুই ভাগে ভাগ করি। Expected error, যেমন network নেই বা ভুল password, result type-এর অংশ। Bug আর impossible state হলো exception, এগুলোকে fail fast করতে দিই। Kotlin-এ checked exception নেই, তাই কোনো expected error exception হলে caller সহজেই এটা handle করতে ভুলে যেতে পারে, আর app crash করে। একটা সাধারণ ভুল হলো coroutine-এ runCatching ব্যবহার করা। এটা CancellationException-ও catch করে ফেলে, তাই ওটা আবার throw করি।"
 
 > "I model UI state as a sealed interface, and I handle it with when, without an else branch. Then if someone adds a new state, the compiler shows every place that must handle it. For errors, I split them into two groups. Expected errors, like no network or wrong password, are part of the result type. Bugs and impossible states are exceptions, and I let them fail fast. Kotlin has no checked exceptions, so if an expected error is an exception, the caller can easily forget it and the app crashes. One trap is runCatching in coroutines. It also catches CancellationException, so I rethrow it."
 
@@ -2803,7 +2803,7 @@ Flutter-এ এগুলো plugin আর engine লুকিয়ে রাখ
 3. আপনার app নিজে `main()` লেখে না। System (`system_server`-এর ভেতরে ActivityManagerService / ActivityTaskManagerService) ঠিক করে কখন কোন **component** চালু হবে।
 4. Component চার রকম: **Activity, Service, BroadcastReceiver, ContentProvider**। সবগুলো `AndroidManifest.xml`-এ declare করতে হয় (context-registered receiver ছাড়া)।
 5. Component-গুলো **Intent** দিয়ে চালু হয়। Intent মানে "এই কাজটা করো" — একটা message, যা system-এর কাছে যায়, system ঠিক component খুঁজে চালায়।
-6. System যেকোনো সময় আপনার process মেরে ফেলতে পারে (memory লাগলে)। তাই **lifecycle** আছে — system আপনাকে callback দিয়ে বলে "এখন visible", "এখন background", "এখন destroy"।
+6. System যেকোনো সময় আপনার process kill করতে পারে (memory লাগলে)। তাই **lifecycle** আছে — system আপনাকে callback দিয়ে বলে "এখন visible", "এখন background", "এখন destroy"।
 7. Battery বাঁচাতে Android প্রতি version-এ background কাজ আরও কড়া করেছে: Doze, App Standby bucket, background service limit, foreground service type।
 8. Privacy-র জন্য বিপজ্জনক জিনিস (camera, mic, location, notification, local network) **runtime permission** দিয়ে চাইতে হয়।
 
@@ -2962,7 +2962,7 @@ onStop -> onRestart -> onStart   (ফিরে এলে)
 - `onResume` — সামনে, input পাচ্ছে।
 - `onPause` — focus হারিয়েছে, কিন্তু হয়তো এখনো দেখা যাচ্ছে (dialog-style activity, multi-window)। এখানে ভারী কাজ করবেন না — পরের screen আসতে দেরি হবে।
 - `onStop` — আর দেখা যাচ্ছে না। ভারী resource ছাড়ুন, data save করুন।
-- `onDestroy` — finish হলে বা config change হলে। **সবসময় আসবে এমন guarantee নেই** — process সরাসরি মারা গেলে আসে না।
+- `onDestroy` — finish হলে বা config change হলে। **সবসময় আসবে এমন guarantee নেই** — process সরাসরি kill হলে আসে না।
 - `onSaveInstanceState` — API 28+ এ `onStop`-এর **পরে** আসে।
 
 **A থেকে B খুললে order:**
@@ -2999,7 +2999,7 @@ class SensorObserver(private val sm: SensorManager, private val l: SensorEventLi
 **সহজ উদাহরণ:** একটা video call screen ভাবুন। User একটা dialog খুললে Activity `onPause` পায়, কিন্তু screen তখনো দেখা যায়। User Home চাপলে `onStop` আসে — তখন camera ছেড়ে দিতে হবে। ফিরে এলে `onStart` আর `onResume`-এ camera আবার খোলে।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Main path হলো onCreate, onStart, onResume, তারপর onPause, onStop, onDestroy। onStart মানে দেখা যাচ্ছে, onResume মানে সামনে আছে আর input নিচ্ছে। A যখন B খোলে, A আগে onPause পায়, তারপর B create, start, resume হয়, আর তারপরই কেবল A onStop পায়। তাই আমি onPause খুব হালকা রাখি, নাহলে B দেরিতে আসবে। Battery বাঁচাতে আমি onResume-এ sensor register করি আর onPause-এ unregister করি। Camera-র জন্য CameraX-এর bindToLifecycle ব্যবহার করি, তাই camera lifecycle-এর সাথে নিজেই খোলে আর বন্ধ হয়। একটা ফাঁদ আছে: process kill হলে onDestroy আসবেই, এমন কোনো guarantee নেই, তাই সেখানে কখনো জরুরি data save করি না।"
+> **বাংলায়:** "Main path হলো onCreate, onStart, onResume, তারপর onPause, onStop, onDestroy। onStart মানে দেখা যাচ্ছে, onResume মানে সামনে আছে আর input নিচ্ছে। A যখন B খোলে, A আগে onPause পায়, তারপর B create, start, resume হয়, আর তারপরই কেবল A onStop পায়। তাই আমি onPause খুব হালকা রাখি, নাহলে B দেরিতে আসবে। Battery বাঁচাতে আমি onResume-এ sensor register করি আর onPause-এ unregister করি। Camera-র জন্য CameraX-এর bindToLifecycle ব্যবহার করি, তাই camera lifecycle-এর সাথে নিজেই খোলে আর বন্ধ হয়। একটা বিষয়ে সতর্ক থাকতে হয়: process kill হলে onDestroy আসবেই, এমন কোনো guarantee নেই, তাই সেখানে কখনো জরুরি data save করি না।"
 
 > "The main path is onCreate, onStart, onResume, then onPause, onStop, onDestroy. onStart means visible, onResume means in front and taking input. When A opens B, A gets onPause first, then B goes through create, start, resume, and only then A gets onStop. So I keep onPause very light, or B will appear late. I register sensors in onResume and unregister in onPause, to save battery. For the camera I use CameraX with bindToLifecycle, so it opens and closes with the lifecycle. One trap: onDestroy isn't guaranteed if the process is killed, so I never save important data there."
 
@@ -3205,7 +3205,7 @@ private val checkoutVm: CheckoutViewModel by navGraphViewModels(R.id.checkout_gr
 
 **বুঝে নিন:**
 - **Configuration change** — rotation, dark mode, language, font size, window resize (foldable, multi-window)। Default-এ Activity destroy হয়ে নতুন করে তৈরি হয়। **Process বেঁচে থাকে।**
-- **Process death** — app background-এ, memory দরকার, system process মেরে দিল। User Recents থেকে ফিরে এলে system **নতুন process** বানায়, task আর back stack ফিরিয়ে দেয়, saved Bundle দেয়। Memory-র সব object গেছে।
+- **Process death** — app background-এ, memory দরকার, system process kill করে দিল। User Recents থেকে ফিরে এলে system **নতুন process** বানায়, task আর back stack ফিরিয়ে দেয়, saved Bundle দেয়। Memory-র সব object গেছে।
 
 | জিনিস | Config change | Process death |
 |---|---|---|
@@ -3238,7 +3238,7 @@ class SearchViewModel(private val state: SavedStateHandle) : ViewModel() {
 - Recents থেকে swipe করে বন্ধ করলে task-ই মুছে যায় — সেটা process death test না।
 - Android Studio-র Logcat-এ "Terminate application" বাটনও কাজে লাগে (app background-এ থাকতে)।
 
-**সহজ উদাহরণ:** Flutter-এ আপনার `SearchCubit`-এর state memory-তে থাকে — OS process মেরে দিলে সব যায়, আর app খুললে Cubit আবার initial state দিয়ে শুরু হয়। Android-এও তাই: search box-এ "door" লিখে Home চাপলেন, পরে ফিরে এলেন। Text `SavedStateHandle`-এ থাকলে ফিরে আসে; শুধু ViewModel-এর field-এ থাকলে খালি box দেখাবে।
+**সহজ উদাহরণ:** Flutter-এ আপনার `SearchCubit`-এর state memory-তে থাকে — OS process kill করলে সব হারিয়ে যায়, আর app খুললে Cubit আবার initial state দিয়ে শুরু হয়। Android-এও তাই: search box-এ "door" লিখে Home চাপলেন, পরে ফিরে এলেন। Text `SavedStateHandle`-এ থাকলে ফিরে আসে; শুধু ViewModel-এর field-এ থাকলে খালি box দেখাবে।
 
 **Answer (বাংলা + English):**
 > **বাংলায়:** "Configuration change-এ, যেমন rotation বা window resize, Activity আবার তৈরি হয়, কিন্তু process বেঁচে থাকে। Process death-এ, app background-এ থাকার সময় system পুরো process kill করে দেয়, আর পরে একটা saved Bundle দিয়ে task ফিরিয়ে আনে। ViewModel configuration change পার হয়ে টিকে থাকে, কিন্তু process death-এ টিকে না। তাই ছোট UI state, যেমন একটা query বা selected id, আমি SavedStateHandle বা rememberSaveable-এ রাখি, আর আসল data রাখি Room বা DataStore-এ। TransactionTooLargeException-এর ভয়ে Bundle-এ বড় object রাখি না। Test করতে app background-এ পাঠিয়ে adb shell am kill চালাই, তারপর Recents থেকে আবার খুলি।"
@@ -3670,7 +3670,7 @@ WorkManager.getInstance(context)
 **সহজ উদাহরণ:** Flutter-এ `workmanager` plugin যা করে, native-এ সেটা সরাসরি WorkManager। একটা photo upload app-এ user ছবি বেছে app বন্ধ করে দিল — upload WorkManager-এ দিলে Wi-Fi এলে শেষ হবে, phone restart হলেও। কিন্তু live camera recording-এর জন্য foreground service লাগে, WorkManager না।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "আমি দুইটা প্রশ্ন দিয়ে বেছে নিই: app মরে গেলেও কি কাজটা শেষ হতে হবে, আর এটা কি এখনই চলতে হবে? কাজটা screen-এর সাথে বাঁধা হলে viewModelScope-এ একটা coroutine ব্যবহার করি। কাজটা শেষ হতেই হবে কিন্তু অপেক্ষা করতে পারে, যেমন একটা clip upload, তাহলে WorkManager ব্যবহার করি, কারণ এটা restart পার হয়ে টিকে থাকে আর Doze-এর নিয়ম মানে। ছোট আর জরুরি কাজের জন্য expedited WorkManager ব্যবহার করি। User যদি জানে এটা চলছে, যেমন live recording, তাহলে সঠিক type দিয়ে একটা foreground service ব্যবহার করি। AlarmManager শুধু exact সময়ের জন্য, আর exact alarm-এ এখন permission লাগে। Trade-off হলো, WorkManager-এর timing exact না, কারণ Doze আর standby bucket এটাকে দেরি করায়।"
+> **বাংলায়:** "আমি দুইটা প্রশ্ন দিয়ে বেছে নিই: app বন্ধ হয়ে গেলেও কি কাজটা শেষ হতে হবে, আর এটা কি এখনই চলতে হবে? কাজটা screen-এর সাথে বাঁধা হলে viewModelScope-এ একটা coroutine ব্যবহার করি। কাজটা শেষ হতেই হবে কিন্তু অপেক্ষা করতে পারে, যেমন একটা clip upload, তাহলে WorkManager ব্যবহার করি, কারণ এটা restart পার হয়ে টিকে থাকে আর Doze-এর নিয়ম মানে। ছোট আর জরুরি কাজের জন্য expedited WorkManager ব্যবহার করি। User যদি জানে এটা চলছে, যেমন live recording, তাহলে সঠিক type দিয়ে একটা foreground service ব্যবহার করি। AlarmManager শুধু exact সময়ের জন্য, আর exact alarm-এ এখন permission লাগে। Trade-off হলো, WorkManager-এর timing exact না, কারণ Doze আর standby bucket এটাকে দেরি করায়।"
 
 > "I decide with two questions: must the work finish if the app dies, and must it run right now? If it's tied to the screen, I use a coroutine in viewModelScope. If it must finish but can wait, like uploading a clip, I use WorkManager, because it survives restarts and follows the Doze rules. For short urgent work I use expedited WorkManager. If the user knows it's running, like live recording, I use a foreground service with the right type. AlarmManager is only for exact times, and exact alarms now need a permission. The trade-off is that WorkManager timing isn't exact, because Doze and standby buckets delay it."
 
@@ -3699,7 +3699,7 @@ WorkManager.getInstance(context)
 
   **উত্তর (English):** "Only if it's the core function, and Google Play limits that permission. Most apps should work inside the rules with WorkManager and FCM."
 
-**ভুল করবেন না:** "Background-এ thread চালিয়ে রাখি" বা "Service-এ while(true)" — modern Android-এ এটা মারা যাবে আর interview-এ বড় red flag।
+**ভুল করবেন না:** "Background-এ thread চালিয়ে রাখি" বা "Service-এ while(true)" — modern Android-এ system এটা বন্ধ করে দেবে আর interview-এ বড় red flag।
 
 **আরও দেখুন:** [C7 · Services](#c7) · [P7 · Battery](#p7) · [D5 · Big upload](#d5)
 
@@ -3719,7 +3719,7 @@ WorkManager.getInstance(context)
 **বুঝে নিন:**
 - `Context` — app-এর environment-এর handle: resource, file, system service, theme, component start করা।
 - **Application context** — process যতক্ষণ, ততক্ষণ বেঁচে থাকে। Theme/UI জানে না।
-- **Activity context** — Activity-র সাথে মরে। Theme, window, configuration (dark mode, locale) জানে।
+- **Activity context** — Activity destroy হলে এটাও আর valid থাকে না। Theme, window, configuration (dark mode, locale) জানে।
 
 | কাজ | কোন context |
 |---|---|
@@ -3745,9 +3745,9 @@ WorkManager.getInstance(context)
 **সহজ উদাহরণ:** একটা login screen-এ আপনি একটা `AnalyticsHelper` singleton বানালেন আর তাতে Activity রেখে দিলেন। User screen ঘোরালে নতুন Activity আসে, কিন্তু পুরনোটা singleton ধরে রাখে — পুরো view tree memory-তে থেকে যায়। Singleton-এ `applicationContext` দিলে এই leak হয় না।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Context দিয়ে resource, system service, আর component start করার access পাওয়া যায়। Application context process যতক্ষণ বাঁচে ততক্ষণ বাঁচে। Activity context Activity-র সাথে মরে যায়, কিন্তু এটা theme আর configuration জানে। তাই UI-র জন্য, যেমন dialog আর view inflate করা, আমি Activity context ব্যবহার করি, আর লম্বা সময় বাঁচে এমন জিনিসের জন্য, যেমন repository আর database, Application context ব্যবহার করি। Leak হয় যখন লম্বা সময় বাঁচে এমন কিছু একটা Activity ধরে রাখে, যেমন একটা singleton, একটা static field, unregister না করা listener, বা এমন ViewModel যেটা একটা View রেখে দেয়। তখন পুরো view tree memory-তে থেকে যায়। Debug build-এ আমি LeakCanary দিয়ে leak খুঁজি।"
+> **বাংলায়:** "Context দিয়ে resource, system service, আর component start করার access পাওয়া যায়। Application context process যতক্ষণ বাঁচে ততক্ষণ বাঁচে। Activity destroy হলে Activity context আর valid থাকে না, কিন্তু এটা theme আর configuration জানে। তাই UI-র জন্য, যেমন dialog আর view inflate করা, আমি Activity context ব্যবহার করি, আর লম্বা সময় বাঁচে এমন জিনিসের জন্য, যেমন repository আর database, Application context ব্যবহার করি। Leak হয় যখন লম্বা সময় বাঁচে এমন কিছু একটা Activity ধরে রাখে, যেমন একটা singleton, একটা static field, unregister না করা listener, বা এমন ViewModel যেটা একটা View রেখে দেয়। তখন পুরো view tree memory-তে থেকে যায়। Debug build-এ আমি LeakCanary দিয়ে leak খুঁজি।"
 
-> "Context gives access to resources, system services, and starting components. The Application context lives as long as the process. The Activity context dies with the Activity, but it knows the theme and configuration. So I use the Activity context for UI, like dialogs and inflating views, and the Application context for long-lived things like repositories and databases. A leak happens when something long-lived holds an Activity, like a singleton, a static field, an unregistered listener, or a ViewModel that keeps a View. Then the whole view tree stays in memory. I find leaks with LeakCanary in debug builds."
+> "Context gives access to resources, system services, and starting components. The Application context lives as long as the process. The Activity context becomes invalid when the Activity is destroyed, but it knows the theme and configuration. So I use the Activity context for UI, like dialogs and inflating views, and the Application context for long-lived things like repositories and databases. A leak happens when something long-lived holds an Activity, like a singleton, a static field, an unregistered listener, or a ViewModel that keeps a View. Then the whole view tree stays in memory. I find leaks with LeakCanary in debug builds."
 
 **Key words:** `applicationContext` · `Activity context` · `memory leak` · `LeakCanary` · `heap dump` · `@ApplicationContext`
 
@@ -3815,7 +3815,7 @@ WorkManager.getInstance(context)
 
 **খুঁজবেন কীভাবে:**
 - Play Console → Android vitals → ANR cluster আর stack trace। Bad-behaviour threshold: user-perceived ANR rate **0.47%**।
-- `ApplicationExitInfo` (Android 11+) — আগের run কেন মরেছিল, ANR trace সহ।
+- `ApplicationExitInfo` (Android 11+) — আগের run কেন বন্ধ হয়েছিল, ANR trace সহ।
 - `StrictMode` (debug) — main thread-এ disk/network ধরলে log বা crash।
 - `adb bugreport` বা `/data/anr/` trace; Perfetto trace।
 
@@ -3989,7 +3989,7 @@ private val cameraPermission =
 **সহজ উদাহরণ:** আপনার দুইটা app আছে: একটা camera app আর একটা viewer app, দুটোই আপনার key-তে sign করা। Camera app একটা `signature` permission define করে, আর viewer app সেটা `uses-permission`-এ চায়। অন্য কোনো company-র app সেই service-এ ঢুকতে পারে না।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Manifest component, permission, আর device-এর কী লাগবে সেটা declare করে। android:exported ঠিক করে অন্য app একটা component start করতে পারবে কিনা, আর public হতেই হবে এমন না হলে আমি এটা false রাখি। uses-permission মানে আমার app একটা permission চাইছে। permission tag একটা নতুন permission define করে, আর signature level হলে শুধু আমার key দিয়ে sign করা app-গুলো সেটা পায়। Android 11 থেকে অন্য app বা intent দেখতে হলে সেগুলো queries-এ list করতে হয়। uses-feature Play-কে বলে কোন hardware লাগবে। একটা ফাঁদ আছে: CAMERA চাইলে camera feature required হয়ে যায়, তাই app camera ছাড়াও চললে required-কে false করে দিই। আমি সবসময় merged manifest চেক করি, কারণ library-গুলো permission যোগ করতে পারে।"
+> **বাংলায়:** "Manifest component, permission, আর device-এর কী লাগবে সেটা declare করে। android:exported ঠিক করে অন্য app একটা component start করতে পারবে কিনা, আর public হতেই হবে এমন না হলে আমি এটা false রাখি। uses-permission মানে আমার app একটা permission চাইছে। permission tag একটা নতুন permission define করে, আর signature level হলে শুধু আমার key দিয়ে sign করা app-গুলো সেটা পায়। Android 11 থেকে অন্য app বা intent দেখতে হলে সেগুলো queries-এ list করতে হয়। uses-feature Play-কে বলে কোন hardware লাগবে। একটা বিষয়ে সতর্ক থাকতে হয়: CAMERA চাইলে camera feature required হয়ে যায়, তাই app camera ছাড়াও চললে required-কে false করে দিই। আমি সবসময় merged manifest চেক করি, কারণ library-গুলো permission যোগ করতে পারে।"
 
 > "The manifest declares components, permissions, and device needs. android:exported decides if other apps can start a component, and I keep it false unless it must be public. uses-permission means my app asks for a permission. The permission tag defines a new one, and with signature level only apps signed with my key get it. Since Android 11, I must list other apps or intents in queries to see them. uses-feature tells Play which hardware is needed. One trap: asking for CAMERA makes the camera feature required, so I set required to false if the app also works without a camera. I always check the merged manifest, because libraries can add permissions."
 
@@ -4227,7 +4227,7 @@ val uri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
 
 **প্রশ্ন (বাংলায়):** App process কীভাবে চালু হয়, আর Android কীভাবে ঠিক করে কোন process kill করবে?
 
-**প্রশ্নটা মানে:** Zygote থেকে প্রথম frame পর্যন্ত কী হয়, cold/warm/hot start কী, আর memory কম হলে কোন process আগে মরে — জানেন কিনা।
+**প্রশ্নটা মানে:** Zygote থেকে প্রথম frame পর্যন্ত কী হয়, cold/warm/hot start কী, আর memory কম হলে কোন process আগে kill হয় — জানেন কিনা।
 
 **অন্যভাবেও জিজ্ঞেস করে:**
 
@@ -4253,14 +4253,14 @@ Launcher → `system_server` → process নেই হলে **Zygote** fork →
 1. **Foreground** — user যে activity ব্যবহার করছে, বা foreground-এ চলমান receiver/service callback।
 2. **Visible** — দেখা যাচ্ছে কিন্তু focus নেই (dialog-এর পেছনে, multi-window)।
 3. **Perceptible / service** — foreground service (music, recording); তারপর সাধারণ started service।
-4. **Cached** — background-এ রাখা app; প্রথম মারা পড়ে (LRU order)।
+4. **Cached** — background-এ রাখা app; সবার আগে kill হয় (LRU order)।
 
 - **Low memory killer** — আজকের Android-এ userspace daemon **lmkd**। প্রতিটা process-এর `oom_score_adj` দেখে (system priority অনুযায়ী সেট করে) আর memory pressure (PSI) বেশি হলে কম গুরুত্বের process মারে।
-- মারার আগে কোনো callback আসবে, এমন guarantee নেই। `onTrimMemory()` আগে জানাতে পারে — তখন cache ছাড়ুন।
+- Kill করার আগে কোনো callback আসবে, এমন guarantee নেই। `onTrimMemory()` আগে জানাতে পারে — তখন cache ছাড়ুন।
 - তাই process death (C4) স্বাভাবিক ঘটনা, bug না।
 - `android:process=":remote"` দিয়ে component আলাদা process-এ চালানো যায়। প্রতিটা process-এ `Application.onCreate` আবার চলে — singleton আলাদা, memory বেশি।
 
-**সহজ উদাহরণ:** Flutter app-এর cold start-এও এই একই পথ চলে, তারপর Flutter engine শুরু হয়। একটা chat app-এ `Application.onCreate`-এ পাঁচটা SDK init করলে icon tap থেকে প্রথম screen আসতে দেরি হয়। User পরে অন্য অনেক app খুললে আপনার cached process আগে মারা যায়।
+**সহজ উদাহরণ:** Flutter app-এর cold start-এও এই একই পথ চলে, তারপর Flutter engine শুরু হয়। একটা chat app-এ `Application.onCreate`-এ পাঁচটা SDK init করলে icon tap থেকে প্রথম screen আসতে দেরি হয়। User পরে অন্য অনেক app খুললে আপনার cached process আগে kill হয়।
 
 **Answer (বাংলা + English):**
 > **বাংলায়:** "User icon-এ tap করলে launcher system_server-কে আমার Activity start করতে বলে। কোনো process না থাকলে Zygote একটা নতুন process fork করে, যেটা দ্রুত হয় কারণ framework আগে থেকেই load করা থাকে। তারপর আমার Application তৈরি হয়, content provider-গুলো তাদের onCreate চালায়, তারপর Application.onCreate, আর তারপর Activity তার প্রথম frame আঁকে। Cold start এই সবকিছু করে, warm start Activity আবার তৈরি করে, আর hot start শুধু সেটাকে সামনে নিয়ে আসে। Memory-র জন্য Android process-গুলোকে ranking দেয়: foreground, visible, service, তারপর cached। lmkd আগে cached-গুলো kill করে। Cold start দ্রুত করতে আমি Application.onCreate হালকা রাখি, Baseline Profiles যোগ করি, আর Macrobenchmark দিয়ে মাপি।"
@@ -4341,7 +4341,7 @@ Linux kernel (driver, Binder driver, SELinux, cgroups, lmkd-কে memory তথ
 5. **ART:** DEX bytecode চালায়। Interpreter + JIT + AOT মিশিয়ে। Profile দেখে কোন code আগে compile করবে ঠিক করে।
 6. **Main thread = Looper + MessageQueue।** Lifecycle callback, input, drawing — সব এখানে। এখানে দেরি = jank বা ANR।
 7. **Frame pipeline:** VSYNC → Choreographer → measure/layout/draw (main thread) → RenderThread GPU-তে পাঠায় → SurfaceFlinger সব window মিলিয়ে screen-এ দেয়।
-8. **Memory চাপ হলে** kernel আর `lmkd` কম গুরুত্বের process মেরে ফেলে। Background app যেকোনো সময় মারা যেতে পারে।
+8. **Memory চাপ হলে** kernel আর `lmkd` কম গুরুত্বের process kill করে। Background app যেকোনো সময় kill হতে পারে।
 
 **Flutter থেকে এলে কী আলাদা:**
 - Flutter app-ও এই একই Android process-এ চলে। Flutter engine নিজের thread (UI, raster) চালায় আর একটা `SurfaceView` (বা TextureView)-এ আঁকে। Android-এর View pipeline শুধু সেই surface দেখে।
@@ -4497,7 +4497,7 @@ Cold start (process নেই) ধরে:
   - **Identity:** Kernel প্রতিটা call-এ caller-এর UID/PID দেয় (`Binder.getCallingUid()`)। Caller মিথ্যা বলতে পারে না। Permission check এর উপর নির্ভর করে।
   - **One copy:** data sender থেকে receiver-এর mmap করা buffer-এ একবার copy হয়।
   - **Object reference:** Binder object (token, callback) process পার করে পাঠানো যায়। Kernel reference count রাখে।
-  - **Death notification:** অন্য process মারা গেলে `linkToDeath` দিয়ে জানা যায়।
+  - **Death notification:** অন্য process বন্ধ হয়ে গেলে `linkToDeath` দিয়ে জানা যায়।
   - **Thread pool:** receiver-এর binder thread-গুলো call চালায় (F10)।
 - **AIDL:** interface লিখলে tool proxy (client side) আর stub (server side) code বানায়। `oneway` মানে caller অপেক্ষা করে না। HAL-এর জন্যও এখন **stable AIDL**।
 - **Transaction buffer limit:** প্রতিটা process-এর binder buffer প্রায় **1 MB**, আর সেটা ওই process-এর **সব চলমান transaction মিলে** ভাগ করা। একটা বড় call বা অনেক ছোট call একসাথে → `TransactionTooLargeException`।
@@ -4509,7 +4509,7 @@ Cold start (process নেই) ধরে:
 **সহজ উদাহরণ:** Flutter-এ platform channel দিয়ে Kotlin-এ কথা বলেন — Android-এ দুই process-এর মধ্যে সেই কাজ করে Binder। একটা camera app-এ list screen থেকে detail screen-এ পুরো `List<Camera>` Intent extra-তে পাঠালেন। List বড় হলে `TransactionTooLargeException` হয়, তাই শুধু camera id পাঠান।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Binder হলো Android-এর IPC system। এটা একটা kernel driver আর একটা library, আর এটা দিয়ে একটা process অন্য process-এর একটা object-এর method call করতে পারে। Android কয়েকটা কারণে socket-এর বদলে এটা ব্যবহার করে। Kernel receiver-কে caller-এর আসল UID আর PID দেয়, তাই system service নিরাপদে permission চেক করতে পারে। এটা data মাত্র একবার copy করে, object reference পাঠাতে পারে, আর অন্য process মরে গেলে সেটা জানিয়ে দিতে পারে। AIDL proxy আর stub code generate করে। Limit হলো process প্রতি প্রায় এক megabyte-এর একটা buffer, যেটা চলমান সব call মিলে share করে। বড় Intent extra বা বড় saved state TransactionTooLargeException ঘটায়, তাই পুরো data না পাঠিয়ে শুধু ID পাঠাই।"
+> **বাংলায়:** "Binder হলো Android-এর IPC system। এটা একটা kernel driver আর একটা library, আর এটা দিয়ে একটা process অন্য process-এর একটা object-এর method call করতে পারে। Android কয়েকটা কারণে socket-এর বদলে এটা ব্যবহার করে। Kernel receiver-কে caller-এর আসল UID আর PID দেয়, তাই system service নিরাপদে permission চেক করতে পারে। এটা data মাত্র একবার copy করে, object reference পাঠাতে পারে, আর অন্য process বন্ধ হয়ে গেলে সেটা জানিয়ে দিতে পারে। AIDL proxy আর stub code generate করে। Limit হলো process প্রতি প্রায় এক megabyte-এর একটা buffer, যেটা চলমান সব call মিলে share করে। বড় Intent extra বা বড় saved state TransactionTooLargeException ঘটায়, তাই পুরো data না পাঠিয়ে শুধু ID পাঠাই।"
 
 > "Binder is Android's IPC system. It's a kernel driver plus a library, and it lets one process call methods on an object in another process. Android uses it instead of sockets for a few reasons. The kernel gives the receiver the real UID and PID of the caller, so system services can check permissions safely. It copies data only once, it can pass object references, and it can tell me when the other process dies. AIDL generates the proxy and stub code. The limit is a buffer of about one megabyte per process, shared by all calls in flight. Big Intent extras or big saved state cause TransactionTooLargeException, so I pass IDs, not data."
 
@@ -4844,7 +4844,7 @@ VSYNC ─► Choreographer (main thread)
 
 **প্রশ্ন (বাংলায়):** একটা Android app-এর memory কীভাবে কাজ করে?
 
-**প্রশ্নটা মানে:** heap limit, native memory, GC, আর system কখন app মেরে ফেলে — এগুলো বুঝে memory সমস্যা ঠিক করতে পারেন কিনা।
+**প্রশ্নটা মানে:** heap limit, native memory, GC, আর system কখন app kill করে — এগুলো বুঝে memory সমস্যা ঠিক করতে পারেন কিনা।
 
 **অন্যভাবেও জিজ্ঞেস করে:**
 
@@ -4853,7 +4853,7 @@ VSYNC ─► Choreographer (main thread)
 
 **বুঝে নিন:**
 - **Java/Kotlin heap-এর limit আছে, প্রতি app-এ।** Device অনুযায়ী (`ActivityManager.getMemoryClass()`)। Limit পার হলে `OutOfMemoryError`, phone-এ RAM খালি থাকলেও।
-  - `android:largeHeap="true"` বড় limit দেয় (`getLargeMemoryClass()`)। কিন্তু GC ধীর হয়, app background-এ আগে মারা যায়। Leak ঢাকে, ঠিক করে না। শেষ উপায়।
+  - `android:largeHeap="true"` বড় limit দেয় (`getLargeMemoryClass()`)। কিন্তু GC ধীর হয়, app background-এ আগে kill হয়। Leak ঢাকে, ঠিক করে না। শেষ উপায়।
 - **Native memory:** C/C++ (NDK, codec, Flutter engine, ML model) এর আলাদা। Java heap limit-এ গোনা হয় না, কিন্তু পুরো process memory-তে গোনা হয়।
 - **Bitmap:** Android 8 থেকে bitmap-এর pixel data **native heap-এ**। Java heap-এ শুধু ছোট object। তাই Java OOM কম, কিন্তু process memory তবু বাড়ে। Hardware bitmap (`Bitmap.Config.HARDWARE`) GPU memory-তে থাকে।
 - **ART GC:**
@@ -5527,7 +5527,7 @@ class AccelerometerListener(
   2. **নিজে check:** `if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { ... } else { ... }`।
   3. **`@RequiresApi(33)`** নতুন-API function-এর ওপর। Lint caller-কে check করতে বাধ্য করে। নিজের helper-এ `@ChecksSdkIntAtLeast` দিলে lint সেটা বোঝে।
 - **AppCompat:** `AppCompatActivity` + `Theme.AppCompat`/`Theme.Material3` (MDC) — View app-এ material widget, toolbar, per-app language backport (`AppCompatDelegate.setApplicationLocales`)। শুধু Compose app-এ `ComponentActivity` যথেষ্ট।
-- পুরনো version-এ feature নেই হলে: চুপচাপ বাদ দিন (graceful degradation), crash না।
+- পুরনো version-এ feature নেই হলে: কোনো error না দেখিয়ে বাদ দিন (graceful degradation), crash না।
 - Test: minSdk-এর emulator-এ অন্তত একবার চালান।
 
 ```kotlin
@@ -6772,7 +6772,7 @@ fun CameraListRoute(viewModel: CameraListViewModel) {
 - "How do you add Compose to an old Fragment?" — পুরনো Fragment-এ Compose কীভাবে যোগ করেন?
 
 **বুঝে নিন:**
-- **View-এর ভেতরে Compose:** `ComposeView`। Fragment-এ `ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed` সেট করুন, যাতে Fragment-এর view lifecycle-এর সাথে composition মরে।
+- **View-এর ভেতরে Compose:** `ComposeView`। Fragment-এ `ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed` সেট করুন, যাতে Fragment-এর view lifecycle-এর সাথে composition dispose হয়।
 - **Compose-এর ভেতরে View:** `AndroidView(factory, update, onRelease)`।
   - `factory` — একবার view তৈরি।
   - `update` — state বদলালে view আপডেট।
@@ -7204,7 +7204,7 @@ Text(
   - Label-এ "button" লিখবেন না — role থেকে TalkBack নিজে বলে।
 - **Compose semantics:**
   - `Modifier.semantics(mergeDescendants = true) { }` — একটা row-এর ছবি + নাম + status একসাথে একবারে পড়ায়।
-  - `Modifier.clickable(onClickLabel = "Open camera")`, `stateDescription`, `heading()` — heading দিয়ে TalkBack user section ধরে লাফাতে পারে।
+  - `Modifier.clickable(onClickLabel = "Open camera")`, `stateDescription`, `heading()` — heading দিয়ে TalkBack user section ধরে সরাসরি যেতে পারে।
   - Custom component হলে `role = Role.Switch` ইত্যাদি দিন।
 - **Touch target:** কমপক্ষে **48×48dp**। Material component নিজে এটা দেয়। ছোট icon হলেও clickable জায়গা বড় রাখুন।
 - **Font scale:** text-এ `sp`, fixed height নয়, বড় font-এ text কেটে না যায় (Android 14+ এ 200% পর্যন্ত)।
@@ -7417,7 +7417,7 @@ Security camera বা custom device-এর কাজে battery, ANR আর lon
 - **Main thread** — UI, input, lifecycle callback সব এখানে। এটা আটকালে jank (ছোট আটকানো) বা ANR (৫ সেকেন্ডের মতো বড় আটকানো)।
 - **Frame budget** — 60Hz-এ প্রতি frame ~16.6ms, 120Hz-এ ~8.3ms। এর বেশি লাগলে frame পড়ে যায়।
 - **ART: JIT vs AOT** — install-এর পর code প্রথমে interpreted/JIT হয়, তাই প্রথম run ধীর। **Baseline Profile** গুরুত্বপূর্ণ code আগেই compile করায়।
-- **Process death** — Android যেকোনো সময় background process মেরে ফেলে। State save না করলে data হারায়, আর অনেক "reproduce হয় না" বাগ এখান থেকে আসে।
+- **Process death** — Android যেকোনো সময় background process kill করে। State save না করলে data হারায়, আর অনেক "reproduce হয় না" বাগ এখান থেকে আসে।
 - **R8** — release build-এ code ছোট, rename আর optimize করে। Crash stack trace পড়তে **mapping file** লাগে।
 - **AAB + Play App Signing** — আপনি upload key দিয়ে sign করেন, Google আসল app signing key দিয়ে device-এর জন্য APK বানায়।
 - **Play vitals** — crash rate 1.09% আর ANR rate 0.47% (user-perceived, সব device মিলে) পার হলে Play-তে app কম দেখা যেতে পারে। একটা device model-এ 8%।
@@ -7468,7 +7468,7 @@ Battery   → Play vitals wake lock metric, Battery Historian / Power Profiler
 - **কীভাবে খুঁজবেন:**
   - **Play vitals → ANRs** — cluster আর main thread-এর stack দেখায়।
   - **Crashlytics** — ANR report দেয় (Android 11+ এ)।
-  - **`ApplicationExitInfo`** (API 30+) — পরের launch-এ জানা যায় process কেন মরেছিল। `REASON_ANR` হলে `traceInputStream` দিয়ে trace পাওয়া যায়।
+  - **`ApplicationExitInfo`** (API 30+) — পরের launch-এ জানা যায় process কেন বন্ধ হয়েছিল। `REASON_ANR` হলে `traceInputStream` দিয়ে trace পাওয়া যায়।
   - **ProfilingManager (Android 16)** — ANR trigger দিয়ে system নিজে trace ধরে রাখে।
   - **StrictMode** debug build-এ — main thread-এ disk/network হলে log বা crash করায়।
   - Local: `adb bugreport` বা `/data/anr/` trace।
@@ -7562,7 +7562,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
         _binding = FragmentCameraBinding.bind(view)
     }
     override fun onDestroyView() {
-        _binding = null          // Fragment বেঁচে থাকে, view মরে
+        _binding = null          // Fragment থাকে, শুধু view destroy হয়
         super.onDestroyView()
     }
 }
@@ -7642,7 +7642,7 @@ class MainActivity : ComponentActivity() {
 **সহজ উদাহরণ:** একটা shopping app খুলতে ৩ সেকেন্ড লাগে, কারণ `Application.onCreate`-এ analytics, ads, chat SDK সব একসাথে init হচ্ছে। Flutter-এ `get_it`-এ `registerLazySingleton` দিলে object প্রথম ব্যবহারের সময় তৈরি হয় — Hilt-এর `Lazy<T>` বা `Provider<T>` একই কাজ করে। তাই প্রথম screen-এ যা লাগে না, সেই SDK পরে init করুন।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "প্রথমে আমি real device-এ, release-এর মতো build দিয়ে, Macrobenchmark-এ cold start মাপি, আর Play vitals-এও startup দেখি। Time to first frame আর time to full display দুটোই track করি, `reportFullyDrawn` দিয়ে। তারপর `Application.onCreate` যতটা পারি হালকা করি: SDK-গুলো lazily init করি, Hilt `Lazy` বা `Provider` ব্যবহার করি, আর library init control করতে App Startup library ব্যবহার করি। একটা Baseline Profile যোগ করি, যাতে startup code আগে থেকেই compile হয়ে থাকে আর JIT-এর জন্য অপেক্ষা না করে। Release-এ R8 সবসময় চালু থাকে। আলাদা splash Activity না বানিয়ে SplashScreen API ব্যবহার করি। একটা ফাঁদ হলো: কাজ background thread-এ সরানো হলো, কিন্তু main thread তখনো সেটার জন্যই অপেক্ষা করছে।"
+> **বাংলায়:** "প্রথমে আমি real device-এ, release-এর মতো build দিয়ে, Macrobenchmark-এ cold start মাপি, আর Play vitals-এও startup দেখি। Time to first frame আর time to full display দুটোই track করি, `reportFullyDrawn` দিয়ে। তারপর `Application.onCreate` যতটা পারি হালকা করি: SDK-গুলো lazily init করি, Hilt `Lazy` বা `Provider` ব্যবহার করি, আর library init control করতে App Startup library ব্যবহার করি। একটা Baseline Profile যোগ করি, যাতে startup code আগে থেকেই compile হয়ে থাকে আর JIT-এর জন্য অপেক্ষা না করে। Release-এ R8 সবসময় চালু থাকে। আলাদা splash Activity না বানিয়ে SplashScreen API ব্যবহার করি। একটা সাধারণ ভুল হলো: কাজ background thread-এ সরানো হলো, কিন্তু main thread তখনো সেটার জন্যই অপেক্ষা করছে।"
 
 > "First I measure cold start with Macrobenchmark on a real device and a release-like build, and I also check startup in Play vitals. I track both time to first frame and time to full display, using `reportFullyDrawn`. Then I make `Application.onCreate` as light as possible: I init SDKs lazily, use Hilt `Lazy` or `Provider`, and use the App Startup library to control library init. I add a Baseline Profile, so startup code is compiled ahead of time and doesn't wait for JIT. R8 is always on for release. I use the SplashScreen API, not a separate splash Activity. The pitfall is moving work to a background thread while the main thread still waits for it."
 
@@ -8099,7 +8099,7 @@ manual:  promote internal → closed → production (staged rollout)
 - Crashlytics / Play vitals stack trace, cluster, কতজন user।
 - **Pattern খুঁজুন:** কোন app version, Android version, OEM, device model, RAM, locale, network। একটা Samsung model? Android 14-এর পর? শুধু process death-এর পরে?
 - Custom keys আর log থেকে crash-এর আগের ঘটনা।
-- `ApplicationExitInfo` — process কেন মরেছিল (low memory, ANR, native crash, user)।
+- `ApplicationExitInfo` — process কেন বন্ধ হয়েছিল (low memory, ANR, native crash, user)।
 
 **ধাপ ২ — পরিস্থিতি নকল করা:**
 - **Process death:** "Don't keep activities" চালু, বা app background-এ রেখে `adb shell am kill <package>`, তারপর ফিরে আসুন।
@@ -8425,7 +8425,7 @@ Camera / IoT / sensor-এর কাজে network ভাঙে, device offline �
 - **Layer:** UI layer আর data layer লাগবেই। Domain layer (use case) optional — Google-এর official guide-ও এটাই বলে।
 - **Dependency rule:** উপরের layer নিচেরটা জানে। নিচের layer UI-কে চেনে না। Domain-এ Android class থাকে না।
 - **Main-safe:** Room আর Retrofit-এর `suspend` function নিজেই background-এ চলে। ভারী CPU কাজ `Dispatchers.Default`-এ।
-- **Error একটা state:** error চুপচাপ গিলে ফেলা যাবে না। `UiState`-এ দেখাতে হবে, log করতে হবে।
+- **Error একটা state:** error ধরে লুকিয়ে রাখা যাবে না। `UiState`-এ দেখাতে হবে, log করতে হবে।
 - **DI:** class নিজে dependency বানায় না, constructor-এ পায়। এতে test-এ fake দেওয়া যায়।
 - **Test pyramid:** অনেক JVM unit test (ViewModel, repository, mapper), কম UI test, খুব কম end-to-end test।
 
@@ -8472,7 +8472,7 @@ ViewModel-এ যা থাকে না:
 - তখন `ViewModelStore`-টা non-configuration instance হিসেবে রেখে দেওয়া হয় (`onRetainNonConfigurationInstance`)। নতুন Activity একই store পায়, তাই একই ViewModel পায়।
 - Activity সত্যি শেষ হলে (back, `finish()`) store `clear()` হয় → `onCleared()` → `viewModelScope` cancel।
 
-**কোথায় বাঁচে না:** **process death**। System background-এ app মেরে ফেললে ViewModel যায়। তখন:
+**কোথায় বাঁচে না:** **process death**। System background-এ app kill করলে ViewModel যায়। তখন:
 - ছোট জিনিস (search text, selected id) → **`SavedStateHandle`** (Bundle-এ যায়, ছোট রাখুন)।
 - বড় data → Room থেকে আবার load।
 
@@ -8510,9 +8510,9 @@ class CamerasViewModel @Inject constructor(
 
   **প্রশ্ন (বাংলায়):** ViewModel-এ Context পাঠান না কেন?
 
-  **উত্তর (বাংলায়):** "Rotation-এ Activity context মরে যায়, কিন্তু ViewModel মরে না। তাই ViewModel পুরনো Activity-টা leak করত। App-level জিনিস লাগলে এমন একটা class inject করি যেটা application context ব্যবহার করে।"
+  **উত্তর (বাংলায়):** "Rotation-এ Activity destroy হয়, কিন্তু ViewModel থেকে যায়। তাই ViewModel পুরনো Activity-টা leak করত। App-level জিনিস লাগলে এমন একটা class inject করি যেটা application context ব্যবহার করে।"
 
-  **উত্তর (English):** "An Activity context dies on rotation, but the ViewModel doesn't. So the ViewModel would leak the old Activity. If I need app-level things, I inject a class that uses the application context."
+  **উত্তর (English):** "On rotation the Activity is destroyed, but the ViewModel survives. So the ViewModel would leak the old Activity. If I need app-level things, I inject a class that uses the application context."
 - **প্রশ্ন (Q):** What happens to running coroutines when the user leaves the screen?
 
   **প্রশ্ন (বাংলায়):** User screen ছেড়ে গেলে চলতে থাকা coroutine-গুলোর কী হয়?
@@ -9231,7 +9231,7 @@ Flutter-এ `dio`-র `QueuedInterceptor` দিয়ে ঠিক এই "এ�
 
 **প্রশ্ন (বাংলায়):** Network থেকে UI পর্যন্ত error কীভাবে handle করেন?
 
-**প্রশ্নটা মানে:** Error চুপ করে গিলে ফেলেন না তো? Error-কে type দিয়ে model করেন কিনা।
+**প্রশ্নটা মানে:** Error ধরে লুকিয়ে রাখেন না তো? Error-কে type দিয়ে model করেন কিনা।
 
 **অন্যভাবেও জিজ্ঞেস করে:**
 
@@ -9261,7 +9261,7 @@ sealed interface CamerasUiState {
 ```
 - পুরনো data থাকলে `Content` + error banner। পুরো screen error শুধু যখন কিছুই নেই।
 
-**৪. `CancellationException` কখনো গিলবেন না।** `runCatching {}` এটাকেও ধরে — coroutine cancel ভেঙে যায়। Catch করলে আবার `throw` করুন।
+**৪. `CancellationException` ধরলে সবসময় আবার throw করুন।** `runCatching {}` এটাকেও ধরে — তাতে coroutine-এর cancellation কাজ করে না। তাই coroutine-এর ভেতরে `runCatching` এড়িয়ে চলুন।
 
 **৫. Retry with exponential backoff:**
 - শুধু **অল্প সময়ের** error-এ (IOException, 5xx, 429)। 400/401/404-এ retry নয়।
@@ -9292,9 +9292,9 @@ suspend fun <T> retryWithBackoff(
 **সহজ উদাহরণ:** Flutter-এ আপনি হয়তো `freezed` union দিয়ে `loading / loaded / error` state বানান, আর `DioException`-কে নিজের `Failure` type-এ map করেন। Android-এ একই কাজ: sealed `UiState`, আর `IOException` / `HttpException` থেকে নিজের error type। List আগে থেকে থাকলে Wi-Fi না থাকলেও list রেখে উপরে "No internet" banner দেখানোই ঠিক।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Error data layer-এর ভেতরেই map করি, বাইরে যাওয়ার আগেই। Network exception আর HTTP code আমার নিজের ছোট error type হয়ে যায়, যেমন NoNetwork, Unauthorized, বা Server। ViewModel এগুলোকে একটা sealed UiState-এ বদলায়। পুরনো data থাকলে খালি screen না দেখিয়ে সেটাই একটা error message সহ দেখাই। CancellationException কখনো catch করে চেপে রাখি না, তাই suspend call-এর চারপাশে runCatching এড়াই, বা সেটা rethrow করি। Retry করি শুধু সাময়িক error-এ, যেমন timeout আর 5xx, আর শুধু safe request-এ, exponential backoff আর একটু random jitter সহ। প্রতিটা error হয় user-কে দেখানো হয়, না হয় non-fatal হিসেবে log হয়। আমার কাছে খালি catch block মানেই একটা bug।"
+> **বাংলায়:** "Error data layer-এর ভেতরেই map করি, বাইরে যাওয়ার আগেই। Network exception আর HTTP code আমার নিজের ছোট error type হয়ে যায়, যেমন NoNetwork, Unauthorized, বা Server। ViewModel এগুলোকে একটা sealed UiState-এ বদলায়। পুরনো data থাকলে খালি screen না দেখিয়ে সেটাই একটা error message সহ দেখাই। CancellationException ধরলে সবসময় আবার throw করি। তাই suspend call-কে runCatching দিয়ে wrap করি না। Retry করি শুধু সাময়িক error-এ, যেমন timeout আর 5xx, আর শুধু safe request-এ, exponential backoff আর একটু random jitter সহ। প্রতিটা error হয় user-কে দেখানো হয়, না হয় non-fatal হিসেবে log হয়। আমার কাছে খালি catch block মানেই একটা bug।"
 
-> "I map errors at the edge of the data layer. Network exceptions and HTTP codes become my own small error types, like NoNetwork, Unauthorized, or Server. The ViewModel turns them into a sealed UiState. If I still have old data, I show it with an error message, not an empty screen. I never swallow CancellationException, so I avoid runCatching around suspend calls or I rethrow it. I retry only short-lived errors like timeouts and 5xx, only for safe requests, with exponential backoff and a little random jitter. Every error is either shown to the user or logged as a non-fatal. For me, an empty catch block is a bug."
+> "I map errors at the edge of the data layer. Network exceptions and HTTP codes become my own small error types, like NoNetwork, Unauthorized, or Server. The ViewModel turns them into a sealed UiState. If I still have old data, I show it with an error message, not an empty screen. I always rethrow CancellationException. That's why I don't wrap suspend calls in runCatching. I retry only short-lived errors like timeouts and 5xx, only for safe requests, with exponential backoff and a little random jitter. Every error is either shown to the user or logged as a non-fatal. For me, an empty catch block is a bug."
 
 **Key words:** `sealed UiState` · `error mapping` · `CancellationException` · `exponential backoff` · `jitter` · `idempotent` · `non-fatal logging`
 
@@ -9365,7 +9365,7 @@ Flutter-এ `dio_cache_interceptor` আর `cached_network_image`-এর disk ca
 **সহজ উদাহরণ:** Flutter-এ image-এর জন্য `cached_network_image` disk cache রাখে, আর data-র জন্য আপনি হয়তো `drift`-এ শেষ result রাখেন। Android-এ Room আসল cache, সাথে OkHttp-এর HTTP cache। Camera-র online status কয়েক সেকেন্ডেই পুরনো হয়, কিন্তু profile কয়েক ঘণ্টা ঠিক থাকে — তাই TTL আলাদা। Logout-এ সব cache মুছুন, নইলে পরের user আগের জনের data দেখে।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "আমি cache তিনটা layer-এ ভাবি। Memory cache সবচেয়ে fast, কিন্তু process মরে গেলে এটা হারিয়ে যায়। Room আমার আসল cache, তাই app offline-এ আর restart-এর পরেও চলে। OkHttp-এর HTTP cache server-এর Cache-Control আর ETag header মেনে চলে, তাই না বদলানো response একটা ছোট 304 হয়ে ফিরে আসে। Data কখন পুরনো হলো বুঝতে একটা fetched-at time save করি, আর একটা time limit-এর পর refresh করি। আগে পুরনো data দেখাই, আর background-এ refresh করি। একটা push message বা pull-to-refresh-ও জোর করে refresh করায়। Logout-এ সব cache clear করি, যাতে পরের user কখনো আগের user-এর private data না দেখে।"
+> **বাংলায়:** "আমি cache তিনটা layer-এ ভাবি। Memory cache সবচেয়ে fast, কিন্তু process kill হলে এটা হারিয়ে যায়। Room আমার আসল cache, তাই app offline-এ আর restart-এর পরেও চলে। OkHttp-এর HTTP cache server-এর Cache-Control আর ETag header মেনে চলে, তাই না বদলানো response একটা ছোট 304 হয়ে ফিরে আসে। Data কখন পুরনো হলো বুঝতে একটা fetched-at time save করি, আর একটা time limit-এর পর refresh করি। আগে পুরনো data দেখাই, আর background-এ refresh করি। একটা push message বা pull-to-refresh-ও জোর করে refresh করায়। Logout-এ সব cache clear করি, যাতে পরের user কখনো আগের user-এর private data না দেখে।"
 
 > "I think about cache in three layers. The memory cache is the fastest, but it's lost when the process dies. Room is my real cache, so the app works offline and after a restart. OkHttp's HTTP cache follows the server's Cache-Control and ETag headers, so an unchanged response comes back as a small 304. To decide when data is stale, I save a fetched-at time and refresh after a time limit. I show the old data first and refresh in the background. A push message or pull-to-refresh also forces a refresh. On logout I clear every cache, because the next user must never see old private data."
 
@@ -9571,7 +9571,7 @@ val camera = json.decodeFromString<CameraDto>(body)
 
 Flutter-এ `json_serializable` + `build_runner`-এর code generation-এর মতোই compile-time, কিন্তু এখানে আলাদা build step লাগে না — compiler plugin।
 
-**সহজ উদাহরণ:** Flutter-এ আপনি `json_serializable` বা `freezed` দিয়ে `fromJson` generate করেন — compile-time, reflection নেই। Android-এ এর সবচেয়ে কাছের হলো kotlinx.serialization-এর `@Serializable`। Server `name` field না পাঠালে এটা parse-এর সময়ই error দেয়, আর Gson চুপচাপ non-null `name`-এ null বসায়, পরে crash হয়।
+**সহজ উদাহরণ:** Flutter-এ আপনি `json_serializable` বা `freezed` দিয়ে `fromJson` generate করেন — compile-time, reflection নেই। Android-এ এর সবচেয়ে কাছের হলো kotlinx.serialization-এর `@Serializable`। Server `name` field না পাঠালে এটা parse-এর সময়ই error দেয়, আর Gson কোনো error ছাড়াই non-null `name`-এ null বসায়, পরে crash হয়।
 
 **Answer (বাংলা + English):**
 > **বাংলায়:** "আমি kotlinx.serialization ব্যবহার করি। এটা একটা compiler plugin দিয়ে compile time-এ কাজ করে, তাই কোনো reflection নেই, এটা Kotlin null safety আর default value মানে, আর Kotlin Multiplatform-এ চলে। Retrofit-এর এটার জন্য একটা official converter আছে। Code generation সহ Moshi-ও একটা ভালো choice। Kotlin-এ Gson এড়িয়ে চলি, কারণ এটা constructor call না করেই object বানাতে পারে। তখন একটা non-null field-এ null থাকতে পারে, আর app পরে কোনো অদ্ভুত জায়গায় crash করে। Gson default value-ও ignore করে, আর R8-এর জন্য keep rule লাগে। আর সবসময় ignoreUnknownKeys set করি, যাতে server-এর নতুন field পুরনো app version ভেঙে না দেয়।"
@@ -9817,7 +9817,7 @@ Flutter mapping: unit test → `test`, widget test → Compose test/Robolectric,
 - Android 13+-এ notification দেখাতে `POST_NOTIFICATIONS` permission।
 
 **Lifecycle নিয়ম:**
-- WebSocket/SSE/MQTT connection রাখুন শুধু app foreground-এ থাকলে (lifecycle-aware)। Background-এ রাখা battery নষ্ট, আর system মেরে ফেলবে।
+- WebSocket/SSE/MQTT connection রাখুন শুধু app foreground-এ থাকলে (lifecycle-aware)। Background-এ রাখা battery নষ্ট, আর system এটা বন্ধ করে দেবে।
 - Background-এ alert → FCM। দরকার হলে FCM পেয়ে WorkManager দিয়ে detail sync।
 - Reconnect: exponential backoff + jitter, network callback (`ConnectivityManager.NetworkCallback`) দেখে।
 
@@ -10834,7 +10834,7 @@ KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
 **Answer (বাংলা + English):**
 > **বাংলায়:** "Keystore key গুলো secure hardware-এর ভেতরে রাখে, মানে TEE বা StrongBox-এ। App কখনো key-এর byte গুলো দেখে না। App শুধু hardware-কে encrypt বা sign করতে বলে। Key গুলো non-exportable, তাই root দিয়েও এগুলো copy করা যায় না। আমি একটা key-কে কিছু rule-এর সাথে বেঁধে দিতে পারি, যেমন প্রতিবার ব্যবহারের সময় user-কে strong biometrics পাস করতে হবে, বা নতুন fingerprint যোগ করলে key টা বাতিল হয়ে যাবে। দুর্বল জায়গা হলো, root থাকলে device-এর ভেতরে key টা ব্যবহার করা যায়, তাই sensitive key-তে আমি user authentication যোগ করি। Server যাতে key-টা trust করতে পারে, সেজন্য key attestation ব্যবহার করি: server একটা challenge পাঠায়, তারপর certificate chain, boot state, আর কোন app key টা বানিয়েছে সেটা check করে।"
 
-> "The Keystore keeps keys inside secure hardware, the TEE or StrongBox. The app never sees the key bytes. It only asks the hardware to encrypt or sign. Keys are non-exportable, so even root can't copy them. I can bind a key to rules, for example the user must pass strong biometrics for each use, or the key dies when a new fingerprint is added. The weak point is that root can still use the key on the device, so I add user authentication for sensitive keys. For trust on the server, I use key attestation: the server sends a challenge and checks the certificate chain, the boot state, and which app made the key."
+> "The Keystore keeps keys inside secure hardware, the TEE or StrongBox. The app never sees the key bytes. It only asks the hardware to encrypt or sign. Keys are non-exportable, so even root can't copy them. I can bind a key to rules, for example the user must pass strong biometrics for each use, or the key becomes invalid when a new fingerprint is added. The weak point is that root can still use the key on the device, so I add user authentication for sensitive keys. For trust on the server, I use key attestation: the server sends a challenge and checks the certificate chain, the boot state, and which app made the key."
 
 **Key words:** `TEE` · `StrongBox` · `non-exportable` · `KeyGenParameterSpec` · `key attestation`
 
@@ -11060,7 +11060,7 @@ api.verifyPasskey(passkey?.authenticationResponseJson)
 **সহজ উদাহরণ:** Flutter-এ আপনি হয়তো `dio`-র একটা `Interceptor`-এর `onError`-এ 401 পেলে token refresh করতেন, আর refresh token `flutter_secure_storage`-এ রাখতেন। Native-এ এটা OkHttp-এর `Authenticator`, আর দুইটা request একসাথে refresh না করতে `Mutex`। Login নিজে হয় Custom Tab-এ, app-এর WebView-এ না।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "আমি PKCE সহ OAuth 2.0 authorization code flow ব্যবহার করি, আর AppAuth library দিয়ে login page-টা Custom Tab-এ খুলি। Mobile app client secret গোপন রাখতে পারে না, তাই PKCE দরকার — এতে চুরি হওয়া code কোনো কাজে আসে না। WebView-এর ভেতরে কখনো login করাই না, কারণ app তখন password পড়ে ফেলতে পারে, আর user আসল URL দেখতে পায় না। Login-এর পরে একটা short-lived access token আর একটা refresh token রাখি। Server প্রতিবার ব্যবহারে refresh token বদলে দেয়, আর পুরনো কোনো refresh token আবার এলে পুরো session-টাই বন্ধ করে দেয়। নতুন app-এ Credential Manager দিয়ে passkey যোগ করি, কারণ passkey phishing দিয়ে চুরি করা যায় না। একটা ফাঁদ আছে: একসাথে দুইটা refresh call গেলে rotation ভেঙে যেতে পারে, তাই refresh-টা mutex দিয়ে একবারে একটাই চালাই।"
+> **বাংলায়:** "আমি PKCE সহ OAuth 2.0 authorization code flow ব্যবহার করি, আর AppAuth library দিয়ে login page-টা Custom Tab-এ খুলি। Mobile app client secret গোপন রাখতে পারে না, তাই PKCE দরকার — এতে চুরি হওয়া code কোনো কাজে আসে না। WebView-এর ভেতরে কখনো login করাই না, কারণ app তখন password পড়ে ফেলতে পারে, আর user আসল URL দেখতে পায় না। Login-এর পরে একটা short-lived access token আর একটা refresh token রাখি। Server প্রতিবার ব্যবহারে refresh token বদলে দেয়, আর পুরনো কোনো refresh token আবার এলে পুরো session-টাই বন্ধ করে দেয়। নতুন app-এ Credential Manager দিয়ে passkey যোগ করি, কারণ passkey phishing দিয়ে চুরি করা যায় না। একটা বিষয়ে সতর্ক থাকতে হয়: একসাথে দুইটা refresh call গেলে rotation ভেঙে যেতে পারে, তাই refresh-টা mutex দিয়ে একবারে একটাই চালাই।"
 
 > "I use OAuth 2.0 authorization code flow with PKCE, opened in a Custom Tab with the AppAuth library. A mobile app can't keep a client secret, so PKCE makes a stolen code useless. I never log in inside a WebView, because the app could read the password and the user can't see the real URL. After login, I keep a short-lived access token and a refresh token. The server rotates the refresh token on every use, and if an old one comes back, it kills the whole session. For new apps, I add passkeys with Credential Manager, because passkeys can't be phished. One pitfall: two parallel refresh calls can break rotation, so I refresh behind a mutex."
 
@@ -12497,7 +12497,7 @@ val notification = NotificationCompat.Builder(context, CHANNEL_MOTION)
 **বুঝে নিন:**
 - **Normal phone-এ:**
   - Visible অবস্থায় user শুরু করবে → FGS (`camera`, দরকারে `microphone`) + ongoing notification (V2)।
-  - **Battery optimization exemption** (`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`): Play policy-তে শুধু নির্দিষ্ট ক্ষেত্রে অনুমতি — core feature হলে যুক্তি দেখাতে হয়। অনেক OEM তবুও app মেরে ফেলে — user-কে setting দেখানো guide রাখুন।
+  - **Battery optimization exemption** (`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`): Play policy-তে শুধু নির্দিষ্ট ক্ষেত্রে অনুমতি — core feature হলে যুক্তি দেখাতে হয়। অনেক OEM তবুও app kill করে — user-কে setting দেখানো guide রাখুন।
   - **Wake lock:** FGS চললে আর camera active থাকলে CPU চলে; আলাদা partial wake lock শুধু যেখানে সত্যি দরকার। Android vitals-এ **excessive partial wake lock** এখন core metric — বেশি হলে Play-তে visibility কমতে পারে।
   - **Boot:** Android 15 থেকে `BOOT_COMPLETED` থেকে camera FGS না — reboot-এর পর user-কে notification দিয়ে আবার শুরু করতে বলুন।
   - **Storage, heat, charging:** loop recording quota (V5); thermal throttle হলে fps কমান; সবসময় charger-এ থাকলে battery ফুলে যাওয়ার ঝুঁকি — user-কে জানান।
@@ -12509,7 +12509,7 @@ val notification = NotificationCompat.Builder(context, CHANNEL_MOTION)
   - Watchdog: stream বন্ধ হলে নিজে reconnect; health heartbeat server-এ।
   - OTA, `SystemUpdatePolicy` — রাত ৩টায় update, recording-এর মাঝখানে না।
 
-**সহজ উদাহরণ:** একটা পুরনো phone-কে দোকানের security camera বানানো হলো। User "Start" চাপলে foreground service চলে, phone charger-এ থাকে। কিন্তু Xiaomi-র মতো কিছু OEM battery saver app মেরে দিতে পারে, তাই app user-কে setting বদলানোর guide দেখায়, আর server-এ heartbeat বন্ধ হলে owner alert পান।
+**সহজ উদাহরণ:** একটা পুরনো phone-কে দোকানের security camera বানানো হলো। User "Start" চাপলে foreground service চলে, phone charger-এ থাকে। কিন্তু Xiaomi-র মতো কিছু OEM battery saver app kill করতে পারে, তাই app user-কে setting বদলানোর guide দেখায়, আর server-এ heartbeat বন্ধ হলে owner alert পান।
 
 **Answer (বাংলা + English):**
 > **বাংলায়:** "সাধারণ phone-এ আমি rule মেনে চলি, rule-এর সাথে লড়াই করি না। User একটা খোলা screen থেকে monitoring শুরু করে, আর আমি পরিষ্কার notification সহ camera-type foreground service চালাই। Battery optimization exemption চাই শুধু যদি এটা core feature হয়, কারণ Play এটা সীমিত করে; আর OEM-এর battery setting-এ কী বদলাতে হবে, সেটা user-কে ধাপে ধাপে দেখিয়ে দিই। বাড়তি wake lock এড়িয়ে চলি, কারণ Android vitals এখন এগুলো flag করে। Reboot-এর পরে Android 15 boot থেকে camera service চালু করতে দেয় না, তাই user-কে resume করতে বলি। সত্যিকারের 24/7 ব্যবহারের জন্য dedicated device recommend করি: Device Owner আর kiosk mode, অথবা আমাদের নিজের Android build-এ system app — সাথে watchdog আর server heartbeat।"
@@ -12553,7 +12553,7 @@ val notification = NotificationCompat.Builder(context, CHANNEL_MOTION)
 - **WebRTC** নিজের audio pipeline (software AEC, noise suppression, jitter buffer) নিয়ে আসে — live video WebRTC-তে থাকলে audio-ও সেখানে রাখা সবচেয়ে সহজ।
 - **Half-duplex বিকল্প:** "push to talk" — চাপলে শুধু পাঠায়, তখন playback mute। Echo প্রায় শেষ, UX সহজ।
 - **Permission:** `RECORD_AUDIO`; background-এ talk চালাতে FGS type `microphone`।
-- **Android 17 background audio hardening:** Android 17-এ সব app-এর জন্য background-এ audio চালাতে visible activity বা foreground service লাগে। Target 37 হলে সেই FGS-এর while-in-use capability লাগবে — মানে user-এর কাজে বা app দেখা যাওয়ার সময় শুরু হতে হবে। `BOOT_COMPLETED` থেকে শুরু FGS-এর audio চুপচাপ বন্ধ হয়ে যায়। বিস্তারিত Android 17 docs-এ।
+- **Android 17 background audio hardening:** Android 17-এ সব app-এর জন্য background-এ audio চালাতে visible activity বা foreground service লাগে। Target 37 হলে সেই FGS-এর while-in-use capability লাগবে — মানে user-এর কাজে বা app দেখা যাওয়ার সময় শুরু হতে হবে। `BOOT_COMPLETED` থেকে শুরু FGS-এর audio কোনো error ছাড়াই বন্ধ হয়ে যায়। বিস্তারিত Android 17 docs-এ।
 - Audio routing: Bluetooth headset/speaker বদল — Android 12+ এ `setCommunicationDevice`।
 
 **সহজ উদাহরণ:** Video doorbell-এ courier এলে user app থেকে "Talk" চেপে বলেন, "Parcel দরজার পাশে রাখুন।" Phone-এর speaker-এ courier-এর আওয়াজ আসে, কিন্তু সেটা mic দিয়ে আবার doorbell-এ ফেরত গেলে echo হয়। `VOICE_COMMUNICATION` source আর echo canceler সেটা কমায়, আর push-to-talk দিলে প্রায় পুরোটা যায়।
@@ -12998,7 +12998,7 @@ Frames ফেরত আসে shared buffer (gralloc / AHardwareBuffer)-এ, cop
     </privapp-permissions>
   </permissions>
   ```
-  ফাইল যায় `/system/etc/permissions/` বা `/product/etc/permissions/`-এ। Enforce mode-এ কোনো privileged permission allowlist-এ না থাকলে device boot-ই হয় না। তাই ভুলটা প্রথম test-এই ধরা পড়ে, চুপচাপ থাকে না।
+  ফাইল যায় `/system/etc/permissions/` বা `/product/etc/permissions/`-এ। Enforce mode-এ কোনো privileged permission allowlist-এ না থাকলে device boot-ই হয় না। তাই ভুলটা প্রথম test-এই ধরা পড়ে, লুকিয়ে থাকে না।
 - **Platform signature:** AOSP build-এর `platform` key। `Android.bp`-তে `certificate: "platform"`। এই key-ই production-এ নিজের key হতে হবে (O11)।
 - **`android:sharedUserId="android.uid.system"`:** App system UID (1000)-এ চলে। ঝুঁকি:
   - App-এর যেকোনো bug (যেমন exported component, WebView, deserialization) = system-level compromise।
@@ -13034,7 +13034,7 @@ Frames ফেরত আসে shared buffer (gralloc / AHardwareBuffer)-এ, cop
 
   **প্রশ্ন (বাংলায়):** Allowlist কেন ভালো ধারণা?
 
-  **উত্তর (বাংলায়):** "এতে প্রতিটা privileged permission build-এ আলাদা একটা line হিসেবে লেখা থাকে, যেটা সবাই দেখতে পায় আর review হয়। কেউ চুপচাপ নতুন ক্ষমতা যোগ করতে পারে না।"
+  **উত্তর (বাংলায়):** "এতে প্রতিটা privileged permission build-এ আলাদা একটা line হিসেবে লেখা থাকে, যেটা সবাই দেখতে পায় আর review হয়। কেউ কাউকে না জানিয়ে নতুন ক্ষমতা যোগ করতে পারে না।"
 
   **উত্তর (English):** "It makes every privileged permission a visible, reviewed line in the build. Nobody can add power silently."
 
@@ -13069,7 +13069,7 @@ Frames ফেরত আসে shared buffer (gralloc / AHardwareBuffer)-এ, cop
   - **Native vendor service / AIDL HAL** (vendor partition-এ) — hardware-এর কাছে।
   - **Runtime Resource Overlay (RRO)** — শুধু config বা UI resource বদলাতে (`config.xml` value), code ছাড়া।
 - **কেন সাবধান:** `frameworks/base` বদলানো মানে প্রতি AOSP release (এখন বছরে দুইবার বড় drop) আর monthly security patch-এ merge conflict। আর system_server-এ crash = পুরো OS restart।
-- **Design point:** Binder call blocking — caller অপেক্ষা করে। তাই service-এ লম্বা কাজ করবেন না। App-কে ফল দিন `oneway` callback interface দিয়ে। Client মারা গেলে `linkToDeath` দিয়ে cleanup করুন।
+- **Design point:** Binder call blocking — caller অপেক্ষা করে। তাই service-এ লম্বা কাজ করবেন না। App-কে ফল দিন `oneway` callback interface দিয়ে। Client process বন্ধ হয়ে গেলে `linkToDeath` দিয়ে cleanup করুন।
 
 **সহজ উদাহরণ:** আপনার device-এর সামনে একটা status LED আছে, আর কয়েকটা app সেটা জ্বালাতে চায়। নতুন framework service বানালে app-গুলো `getSystemService(AcmeLedManager::class.java)` দিয়ে `setColor(RED)` call করতে পারবে। কিন্তু শুধু নিজেদের একটা app লাগলে privileged app-এর ভেতরে একটা bound service দিয়েই কাজ হয়, framework-এ হাত লাগে না।
 
@@ -13370,7 +13370,7 @@ Boot ROM → Bootloader (AVB verify) → Kernel
 **সহজ উদাহরণ:** একটা restaurant-এর order tablet-এ শুধু menu app চলে। Device Owner `setLockTaskPackages` দিয়ে app-টাকে allowlist করে, app `startLockTask()` call করে। Customer Home বা Recents চাপলেও বের হতে পারে না, আর status bar নামানো যায় না।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Custom ROM না থাকলে Android Enterprise-এর Device Owner ব্যবহার করি। Provision করি QR বা zero-touch দিয়ে, আর test-এর জন্য `dpm set-device-owner` দিয়ে। তারপর `setLockTaskPackages` দিয়ে আমার app-কে allowlist করি আর `startLockTask` call করি, যাতে user app থেকে বের হতে না পারে। আমার activity-কে persistent HOME app হিসেবে set করি, status bar আর keyguard বন্ধ করি, আর factory reset বন্ধের মতো user restriction যোগ করি। Device Owner চুপচাপ update-ও install করতে পারে। নিজেদের ROM থাকলে আরও বেশি কিছু করা যায়: শুধু আমাদের launcher ship করা, SystemUI বদলানো, আর user build-এ adb বন্ধ রাখা। একটা জিনিস সবসময় রাখি — বের হওয়ার একটা নিরাপদ রাস্তা, যেমন একটা remote admin command — যাতে একটা bug পুরো fleet-কে lock করে দিতে না পারে।"
+> **বাংলায়:** "Custom ROM না থাকলে Android Enterprise-এর Device Owner ব্যবহার করি। Provision করি QR বা zero-touch দিয়ে, আর test-এর জন্য `dpm set-device-owner` দিয়ে। তারপর `setLockTaskPackages` দিয়ে আমার app-কে allowlist করি আর `startLockTask` call করি, যাতে user app থেকে বের হতে না পারে। আমার activity-কে persistent HOME app হিসেবে set করি, status bar আর keyguard বন্ধ করি, আর factory reset বন্ধের মতো user restriction যোগ করি। Device Owner user-এর confirmation ছাড়াই update-ও install করতে পারে। নিজেদের ROM থাকলে আরও বেশি কিছু করা যায়: শুধু আমাদের launcher ship করা, SystemUI বদলানো, আর user build-এ adb বন্ধ রাখা। একটা জিনিস সবসময় রাখি — বের হওয়ার একটা নিরাপদ রাস্তা, যেমন একটা remote admin command — যাতে একটা bug পুরো fleet-কে lock করে দিতে না পারে।"
 
 > "Without a custom ROM, I use Device Owner from Android Enterprise. I provision it with QR or zero-touch, or with `dpm set-device-owner` for testing. Then I allowlist my app with `setLockTaskPackages` and call `startLockTask`, so the user can't leave. I set my activity as the persistent HOME app, disable the status bar and keyguard, and add user restrictions like no factory reset. Device Owner can also install updates silently. With our own ROM I can go further: ship only our launcher, change SystemUI, and turn off adb in user builds. One thing I always keep is a safe way out — a remote admin command — so a bug can't lock the whole fleet."
 
@@ -13388,7 +13388,7 @@ Boot ROM → Bootloader (AVB verify) → Kernel
 
   **প্রশ্ন (বাংলায়):** অনেক device-এ kiosk app কীভাবে update করবেন?
 
-  **উত্তর (বাংলায়):** "Device Owner হিসেবে app `PackageInstaller` দিয়ে চুপচাপ update install করতে পারে। অথবা একটা MDM / EMM এটা করে। আমাদের নিজেদের OS-এ এটা OTA-র অংশও হতে পারে।"
+  **উত্তর (বাংলায়):** "Device Owner হিসেবে app `PackageInstaller` দিয়ে user-এর confirmation ছাড়াই update install করতে পারে। অথবা একটা MDM / EMM এটা করে। আমাদের নিজেদের OS-এ এটা OTA-র অংশও হতে পারে।"
 
   **উত্তর (English):** "As Device Owner, the app can install updates silently with `PackageInstaller`. Or an MDM / EMM does it. On our own OS it can be part of OTA too."
 - **প্রশ্ন (Q):** Can you make an app Device Owner after the user set up the phone?
@@ -13843,7 +13843,7 @@ Sensor chip → Sensor hub / HAL → SensorService (system_server)
 
 </details>
 
-অনেক device-এ sensor hub (ছোট আলাদা processor) আছে। এটা CPU ঘুমিয়ে থাকলেও data জমায় (batching)। তাই batching battery বাঁচায়।
+অনেক device-এ sensor hub (ছোট আলাদা processor) আছে। এটা CPU sleep mode-এ থাকলেও data জমায় (batching)। তাই batching battery বাঁচায়।
 
 **৩. Hardware vs composite sensor।** Accelerometer, gyroscope, magnetometer আসল chip। Rotation vector, gravity, linear acceleration, step counter — এগুলো fusion করে বানানো (HAL বা hub-এ)।
 
@@ -14004,7 +14004,7 @@ val azimuthDeg = Math.toDegrees(angles[0].toDouble())
   **উত্তর (English):** "I watch the accelerometer for a spike, and compare the gravity direction to a saved baseline. If the tilt changes and stays changed, I know the camera was moved."
 - **প্রশ্ন (Q):** Why does the compass jump near a laptop?
 
-  **প্রশ্ন (বাংলায়):** laptop-এর কাছে compass লাফায় কেন?
+  **প্রশ্ন (বাংলায়):** laptop-এর কাছে compass-এর reading এলোমেলো হয় কেন?
 
   **উত্তর (বাংলায়):** "Magnetometer laptop-এর magnetic field ধরে ফেলে। আমি accuracy callback দেখি আর user-কে calibrate করতে বলি, অথবা উত্তর দিক না লাগলে game rotation vector ব্যবহার করি।"
 
@@ -14035,7 +14035,7 @@ val azimuthDeg = Math.toDegrees(angles[0].toDouble())
   ```
   Hardware FIFO না থাকলে (`sensor.fifoMaxEventCount == 0`) batching হয় না — event একটা একটা করে আসে। দরকারে `sensorManager.flush(listener)`।
 - **Wake-up vs non-wake-up:**
-  - **Non-wake-up:** CPU ঘুমালে CPU জাগায় না। FIFO ভরলে পুরোনো event হারায়।
+  - **Non-wake-up:** CPU sleep-এ থাকলে তাকে জাগায় না। FIFO ভরলে পুরোনো event হারায়।
   - **Wake-up:** দরকারে CPU জাগিয়ে event দেয়, হারায় না। কিন্তু বেশি battery।
   - `getDefaultSensor(type, true)` দিয়ে wake-up version চান (সব device-এ থাকে না)।
 - **Trigger sensor — Significant motion:** একবার fire হয়, তারপর নিজে বন্ধ। নড়াচড়া শুরু হলে জানায়, খুব কম power।
@@ -14050,10 +14050,10 @@ val azimuthDeg = Math.toDegrees(angles[0].toDouble())
 - **Main thread বা UI-তে প্রতিটা event পাঠাবেন না।** Process background thread-এ, UI-তে throttled state।
 - মাপুন: `dumpsys sensorservice`, `dumpsys batterystats`, Battery Historian / Perfetto power।
 
-**সহজ উদাহরণ:** একটা fitness app সারাদিন দেখে phone নড়ছে কিনা। প্রতি 20 ms-এ CPU জাগালে battery দ্রুত শেষ হয়। Batching দিলে sensor hub event জমায়, আর ধরুন 10 সেকেন্ড পরপর একসাথে দেয় — মাঝখানে CPU ঘুমায়।
+**সহজ উদাহরণ:** একটা fitness app সারাদিন দেখে phone নড়ছে কিনা। প্রতি 20 ms-এ CPU জাগালে battery দ্রুত শেষ হয়। Batching দিলে sensor hub event জমায়, আর ধরুন 10 সেকেন্ড পরপর একসাথে দেয় — মাঝখানে CPU sleep-এ থাকে।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "প্রথমে, যত কম rate-এ কাজ চলে, ততটুকুই নিই। তারপর batching: `maxReportLatencyUs` দিই, যাতে sensor hub event-গুলো তার FIFO-তে জমিয়ে একসাথে দেয়, আর এর মধ্যে CPU ঘুমাতে পারে। Non-wake-up sensor CPU-কে জাগায় না, তাই FIFO ভরে গেলে event হারাতে পারে; wake-up sensor event হারায় না, কিন্তু power বেশি খায়। সারাদিন detection-এর জন্য `TriggerEventListener` দিয়ে significant motion ব্যবহার করি। নড়াচড়া শুরু হলে এটা একবার fire করে, খুব কম power-এ। তখন অল্প সময়ের জন্য high-rate sensor চালু করি। Result সবসময় `dumpsys sensorservice` আর batterystats দিয়ে check করি, আন্দাজে না।"
+> **বাংলায়:** "প্রথমে, যত কম rate-এ কাজ চলে, ততটুকুই নিই। তারপর batching: `maxReportLatencyUs` দিই, যাতে sensor hub event-গুলো তার FIFO-তে জমিয়ে একসাথে দেয়, আর এর মধ্যে CPU sleep-এ থাকতে পারে। Non-wake-up sensor CPU-কে জাগায় না, তাই FIFO ভরে গেলে event হারাতে পারে; wake-up sensor event হারায় না, কিন্তু power বেশি খায়। সারাদিন detection-এর জন্য `TriggerEventListener` দিয়ে significant motion ব্যবহার করি। নড়াচড়া শুরু হলে এটা একবার fire করে, খুব কম power-এ। তখন অল্প সময়ের জন্য high-rate sensor চালু করি। Result সবসময় `dumpsys sensorservice` আর batterystats দিয়ে check করি, আন্দাজে না।"
 
 > "First, I use the lowest rate that works. Then I use batching: I pass `maxReportLatencyUs` so the sensor hub stores events in its FIFO and delivers them together, and the CPU can sleep. Non-wake-up sensors don't wake the CPU, so events can be lost when the FIFO is full; wake-up sensors don't lose them but cost more power. For all-day detection I use significant motion with a `TriggerEventListener`. It fires once when movement starts, at very low power, and then I turn on high-rate sensors for a short time. I always check the result with `dumpsys sensorservice` and batterystats, not by guessing."
 
@@ -14106,13 +14106,13 @@ val azimuthDeg = Math.toDegrees(angles[0].toDouble())
 - **Android 16 health permission:** target 36 হলে `BODY_SENSORS`-এর জায়গায় আলাদা আলাদা ছোট permission (যেমন `android.permission.health.READ_HEART_RATE`, `READ_OXYGEN_SATURATION`, `READ_SKIN_TEMPERATURE`)। `BODY_SENSORS_BACKGROUND`-এর জায়গায় `READ_HEALTH_DATA_IN_BACKGROUND`।
 - **Custom device-এ (নিজের OS):** System/persistent app-এ এই সমস্যা কম। কিন্তু তবুও ঠিক design: native daemon বা system service sensor পড়ে, app শুধু ফল দেখায়।
 - **কখন FGS লাগে না:**
-  - Step count: step counter sensor hardware-এ সারাদিন গোনে, CPU ঘুমালেও (N6)। App ফিরে এলে মোট value পায়।
+  - Step count: step counter sensor hardware-এ সারাদিন গোনে, CPU sleep-এ থাকলেও (N6)। App ফিরে এলে মোট value পায়।
   - দিনে কয়েকবার অল্প data: সাবধান। WorkManager-এর কাজ background-এ চলে, তাই সেখানে sensor event না-ও আসতে পারে। Real device-এ test করুন; না এলে ছোট সময়ের জন্য FGS লাগবে।
 
 **সহজ উদাহরণ:** একটা running tracker app-এ user screen বন্ধ করে phone পকেটে রাখে। Android 9+-এ background app sensor event পায় না, তাই foreground service আর একটা notification ("Run চলছে") না থাকলে run-এর data থেমে যায়।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Android 9 থেকে background-এ থাকা app কোনো sensor event-ই পায় না। তাই একটানা পড়তে হলে notification-সহ একটা foreground service চালাই। Android 14 থেকে এর একটা type লাগে, যেমন fitness data-র জন্য `health`, বা external device-এর জন্য `connectedDevice`, সাথে মিলিয়ে permission। আর Android 12 থেকে service-টা user-এর কোনো action থেকে start করতে হয়, background থেকে না। এছাড়া Android 12 থেকে 200 Hz-এর বেশি rate চাইলে `HIGH_SAMPLING_RATE_SENSORS` permission লাগে। Data শুধু মাঝে মাঝে লাগলে লম্বা service এড়িয়ে চলি। আর step-এর জন্য চিন্তা নেই — step counter hardware-এ গুনতেই থাকে, CPU ঘুমিয়ে থাকলেও।"
+> **বাংলায়:** "Android 9 থেকে background-এ থাকা app কোনো sensor event-ই পায় না। তাই একটানা পড়তে হলে notification-সহ একটা foreground service চালাই। Android 14 থেকে এর একটা type লাগে, যেমন fitness data-র জন্য `health`, বা external device-এর জন্য `connectedDevice`, সাথে মিলিয়ে permission। আর Android 12 থেকে service-টা user-এর কোনো action থেকে start করতে হয়, background থেকে না। এছাড়া Android 12 থেকে 200 Hz-এর বেশি rate চাইলে `HIGH_SAMPLING_RATE_SENSORS` permission লাগে। Data শুধু মাঝে মাঝে লাগলে লম্বা service এড়িয়ে চলি। আর step-এর জন্য চিন্তা নেই — step counter hardware-এ গুনতেই থাকে, CPU sleep-এ থাকলেও।"
 
 > "Since Android 9, an app in the background doesn't get sensor events at all. So for continuous reading I use a foreground service with a notification. On Android 14 and later it needs a type, for example `health` for fitness data or `connectedDevice` for an external device, with the matching permission. And since Android 12, I must start it from a user action, not from the background. Also since Android 12, rates above 200 Hz need the `HIGH_SAMPLING_RATE_SENSORS` permission. If I need data only now and then, I avoid a long service. For steps, the step counter keeps counting in hardware, even while the CPU sleeps."
 
@@ -14177,7 +14177,7 @@ fun onAccel(v: FloatArray): FloatArray {
 **সহজ উদাহরণ:** একটা tilt alarm app-এ phone টেবিলে রাখা। কেউ টেবিলে ধাক্কা দিলে accelerometer-এ একটা spike আসে, আর filter না থাকলে ভুল alarm বাজে। Low-pass filter spike-টা মসৃণ করে, আর hysteresis থাকলে অল্প সময় ধরে tilt থাকলে তবেই alarm বাজে।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "Gravity-র মতো ধীর অংশটা রাখতে low-pass filter ব্যবহার করি, আর নড়াচড়া পেতে high-pass filter — মানে value থেকে low-pass-টা বাদ দেওয়া। Device-এ `TYPE_GRAVITY` বা `TYPE_LINEAR_ACCELERATION` থাকলে সেগুলোই নিই, কারণ সেগুলো fused, আর ভালো। বেশি smooth করলে delay বাড়ে, তাই filter-এর value আসল time step থেকে হিসাব করি, আন্দাজে বসানো কোনো number দিয়ে না। সময়ের জন্য সবসময় `event.timestamp` ব্যবহার করি। এটা boot থেকে nanosecond-এ গোনা, আর বলে sample-টা ঠিক কখন নেওয়া হয়েছে। Wall clock লাফ দিতে পারে, আর batched event দেরিতে আসে। `onAccuracyChanged`-ও শুনি, আর magnetometer-এর data-য় ভরসা করা না গেলে user-কে calibrate করতে বলি।"
+> **বাংলায়:** "Gravity-র মতো ধীর অংশটা রাখতে low-pass filter ব্যবহার করি, আর নড়াচড়া পেতে high-pass filter — মানে value থেকে low-pass-টা বাদ দেওয়া। Device-এ `TYPE_GRAVITY` বা `TYPE_LINEAR_ACCELERATION` থাকলে সেগুলোই নিই, কারণ সেগুলো fused, আর ভালো। বেশি smooth করলে delay বাড়ে, তাই filter-এর value আসল time step থেকে হিসাব করি, আন্দাজে বসানো কোনো number দিয়ে না। সময়ের জন্য সবসময় `event.timestamp` ব্যবহার করি। এটা boot থেকে nanosecond-এ গোনা, আর বলে sample-টা ঠিক কখন নেওয়া হয়েছে। Wall clock হঠাৎ বদলে যেতে পারে, আর batched event দেরিতে আসে। `onAccuracyChanged`-ও শুনি, আর magnetometer-এর data-য় ভরসা করা না গেলে user-কে calibrate করতে বলি।"
 
 > "I use a low-pass filter to keep the slow part, like gravity, and a high-pass filter — the value minus the low-pass — to get movement. If the device has `TYPE_GRAVITY` or `TYPE_LINEAR_ACCELERATION`, I use those, because they're fused and better. More smoothing means more delay, so I set the filter from the real time step, not a magic number. For time I always use `event.timestamp`, which is in nanoseconds since boot and shows when the sample was taken. Wall clock can jump and batched events arrive late. I also listen to `onAccuracyChanged` and ask for calibration when the magnetometer is unreliable."
 
@@ -14217,7 +14217,7 @@ fun onAccel(v: FloatArray): FloatArray {
 | ভালো | দৈনিক মোট, কম power | Live UI, step-এর সময় |
 
 - Step counter **reboot-এ 0** হয়। তাই নিজের baseline রাখুন: শেষ value আর reboot detect (`BOOT_COMPLETED` বা value কমে গেলে)।
-- Register থাকলে CPU ঘুমালেও hardware গুনতে থাকে। App পরে value পড়লে মাঝের সব step পায়। তাই সারাদিনের জন্য ভালো।
+- Register থাকলে CPU sleep-এ থাকলেও hardware গুনতে থাকে। App পরে value পড়লে মাঝের সব step পায়। তাই সারাদিনের জন্য ভালো।
 - Android 10+: `ACTIVITY_RECOGNITION` runtime permission লাগে।
 - **Activity Recognition API** (Google Play services): walking, running, cycling, in vehicle, still। **Transition API** — শুধু বদলের সময় জানায় (enter/exit), কম battery। GMS লাগে — custom non-GMS device-এ নেই।
 - **Health Connect:** Android-এর health data store। Android 14+-এ platform-এর অংশ (তার আগে আলাদা app)। App-গুলো step, heart rate ইত্যাদি এখানে লেখে আর পড়ে, user permission দিয়ে। নিজে sensor থেকে গোনার বদলে এখান থেকে পড়লে অন্য app/wearable-এর data-ও পাবেন।
@@ -14266,14 +14266,14 @@ fun onAccel(v: FloatArray): FloatArray {
   client.requestLocationUpdates(request, callback, Looper.getMainLooper())
   // বন্ধ: client.removeLocationUpdates(callback)
   ```
-- **Priority:** `HIGH_ACCURACY` (GPS, বেশি battery) · `BALANCED_POWER_ACCURACY` (~block level) · `LOW_POWER` (~city) · `PASSIVE` (অন্য app-এর location চুপচাপ নেয়)।
+- **Priority:** `HIGH_ACCURACY` (GPS, বেশি battery) · `BALANCED_POWER_ACCURACY` (~block level) · `LOW_POWER` (~city) · `PASSIVE` (নিজে request করে না, অন্য app-এর আনা location পায়)।
 - **Permission:**
   - `ACCESS_COARSE_LOCATION` + `ACCESS_FINE_LOCATION` একসাথে চান। Android 12+-এ user শুধু approximate দিতে পারে — app-কে সেটা মেনে চলতে হবে।
   - Background: `ACCESS_BACKGROUND_LOCATION` — Android 11+-এ **আলাদা** ধাপে, user Settings-এ গিয়ে "Allow all the time" দেয়। Play policy-তে কঠিন review।
   - বিকল্প: background permission না নিয়ে **foreground service type `location`** — user জানে, notification আছে।
   - Background-এ (FGS ছাড়া) app ঘণ্টায় কয়েকবার মাত্র update পায় (Android 8+)।
 - **Geofencing:** `GeofencingClient`। Circle region, ENTER/EXIT/DWELL। App প্রতি সর্বোচ্চ 100 geofence। Background location permission লাগে। Event কয়েক মিনিট দেরিতে আসতে পারে। Reboot-এ আবার register করতে হয়।
-- **Mock location:** `location.isMock` (API 31+; আগে `isFromMockProvider`)। এটার উপর পুরো ভরসা করবেন না। Server-এও check করুন (হঠাৎ লাফ, অসম্ভব speed)।
+- **Mock location:** `location.isMock` (API 31+; আগে `isFromMockProvider`)। এটার উপর পুরো ভরসা করবেন না। Server-এও check করুন (হঠাৎ অনেক দূরে সরে যাওয়া, অসম্ভব speed)।
 - **GMS ছাড়া (custom device):** `LocationManager` — `GPS_PROVIDER`, `NETWORK_PROVIDER` (থাকলে), Android 12+ `FUSED_PROVIDER` (AOSP-এর নিজের fused)। `LocationManagerCompat` সাহায্য করে।
 - Fixed camera-র জন্য: location একবার setup-এ নিন, সবসময় track না।
 
@@ -14335,12 +14335,12 @@ fun onAccel(v: FloatArray): FloatArray {
   <!-- Android 11 এবং নিচে: BLUETOOTH, BLUETOOTH_ADMIN, ACCESS_FINE_LOCATION (maxSdkVersion দিয়ে) -->
   ```
   `neverForLocation` দিলে location permission লাগে না, কিন্তু কিছু beacon result system ফিল্টার করে দিতে পারে।
-- **এক সময়ে একটাই GATT operation:** আগের callback (`onCharacteristicWrite` ইত্যাদি) না আসা পর্যন্ত পরেরটা দিলে `false` বা চুপচাপ fail। তাই **command queue** বানান (Channel/Mutex + timeout)।
+- **এক সময়ে একটাই GATT operation:** আগের callback (`onCharacteristicWrite` ইত্যাদি) না আসা পর্যন্ত পরেরটা দিলে `false` বা কোনো error ছাড়াই fail। তাই **command queue** বানান (Channel/Mutex + timeout)।
 - **নতুন API (Android 13+):** `writeCharacteristic(characteristic, value, writeType)` — পুরোনো `characteristic.value = ...` deprecated।
 - **MTU:** Default 23 → payload 20 byte। `requestMtu(517)` বড় করে; ফল = দুই দিকের ছোটটা; payload = MTU − 3। Android 14+-এ stack প্রথম request-এ 517 চায় (আপনি যা-ই দিন) — কিছু firmware এতে সমস্যা করে; negotiated value থেকেই size নিন।
 - **Reconnect:** `connectGatt(ctx, autoConnect = false, cb, TRANSPORT_LE)` দ্রুত প্রথম connect। `autoConnect = true` ধীর কিন্তু device ফিরে এলে নিজে connect করে। Status 133 (`GATT_ERROR`) common — `close()` করে একটু পরে আবার চেষ্টা, backoff সহ। প্রতিবার disconnect-এ `gatt.close()` — না হলে client slot leak।
 - **Scan limit:**
-  - 30 সেকেন্ডে 5 বারের বেশি scan start করলে system scan চুপচাপ বন্ধ রাখে।
+  - 30 সেকেন্ডে 5 বারের বেশি scan start করলে system scan কোনো error ছাড়াই বন্ধ রাখে।
   - Screen off হলে unfiltered scan বন্ধ — `ScanFilter` দিন (service UUID / MAC)।
   - Background scan: `PendingIntent` দিয়ে `startScan` বা CDM (N9)।
 - GATT callback Binder thread-এ আসে। UI update main thread-এ নিন।
@@ -14348,7 +14348,7 @@ fun onAccel(v: FloatArray): FloatArray {
 **সহজ উদাহরণ:** একটা heart-rate band-এর app: scan করে band খোঁজে, connect করে, তারপর heart rate characteristic-এ notification চালু করে। Native-এ একটা write-এর callback আসার আগে আরেকটা write দিলে সেটা fail করে, তাই নিজের queue লাগে।
 
 **Answer (বাংলা + English):**
-> **বাংলায়:** "প্রথমে filter দিয়ে scan করি, তারপর LE transport দিয়ে `connectGatt` করে connect করি, service discover করি, এরপর characteristic-এ read, write বা notification চালু করি। Android 12 থেকে `BLUETOOTH_SCAN` আর `BLUETOOTH_CONNECT` লাগে, আর scan location-এর কাজে না লাগলে `neverForLocation` mark করি। সবচেয়ে বড় ফাঁদ হলো, GATT একবারে একটাই operation চলতে দেয়। তাই সব operation একটা queue-তে রাখি, আর timeout দিয়ে প্রতিটার callback-এর জন্য অপেক্ষা করি। বড় MTU request করি, আর যে value negotiate হলো সেটা দেখে packet-এর size ঠিক করি। Reconnect করার সময় সবসময় পুরনো GATT `close()` করি, আর backoff দিয়ে retry করি। আর ত্রিশ সেকেন্ডে পাঁচবারের বেশি scan start করি না, নাহলে Android scan block করে দেয়।"
+> **বাংলায়:** "প্রথমে filter দিয়ে scan করি, তারপর LE transport দিয়ে `connectGatt` করে connect করি, service discover করি, এরপর characteristic-এ read, write বা notification চালু করি। Android 12 থেকে `BLUETOOTH_SCAN` আর `BLUETOOTH_CONNECT` লাগে, আর scan location-এর কাজে না লাগলে `neverForLocation` mark করি। সবচেয়ে বড় সতর্কতা হলো, GATT একবারে একটাই operation চলতে দেয়। তাই সব operation একটা queue-তে রাখি, আর timeout দিয়ে প্রতিটার callback-এর জন্য অপেক্ষা করি। বড় MTU request করি, আর যে value negotiate হলো সেটা দেখে packet-এর size ঠিক করি। Reconnect করার সময় সবসময় পুরনো GATT `close()` করি, আর backoff দিয়ে retry করি। আর ত্রিশ সেকেন্ডে পাঁচবারের বেশি scan start করি না, নাহলে Android scan block করে দেয়।"
 
 > "I scan with a filter, connect with `connectGatt` using the LE transport, discover services, and then read, write or enable notifications on characteristics. On Android 12 and later I need `BLUETOOTH_SCAN` and `BLUETOOTH_CONNECT`, and I mark scan as `neverForLocation` when I don't use it for location. The biggest trap is that GATT allows one operation at a time, so I put all operations in a queue and wait for each callback, with a timeout. I request a bigger MTU and size packets from the negotiated value. For reconnects I always `close()` the old GATT and retry with backoff. And I don't start scans more than five times in thirty seconds, or Android blocks them."
 
@@ -14570,13 +14570,13 @@ fun onAccel(v: FloatArray): FloatArray {
   - **QoS 0** = একবার পাঠাও, হারাতে পারে। **QoS 1** = অন্তত একবার — duplicate আসতে পারে, তাই receiver একই message দুবার পেলেও ফল যেন একই থাকে। **QoS 2** = ঠিক একবার (চার ধাপ, ধীর)।
   - **Retained message:** Broker topic-এর শেষ message রাখে; নতুন subscriber সাথে সাথে পায় (যেমন device-এর বর্তমান state)।
   - **Last Will (LWT):** Connect-এর সময় দেওয়া message; device হঠাৎ হারালে broker publish করে (`status = offline`)।
-  - **Keep alive:** একটা ঠিক করা সময় পরপর PING যায়। না এলে broker ধরে নেয় connection মারা গেছে।
+  - **Keep alive:** একটা ঠিক করা সময় পরপর PING যায়। না এলে broker ধরে নেয় connection বিচ্ছিন্ন হয়ে গেছে।
   - **Persistent session** (MQTT 5: `cleanStart=false` + session expiry) — offline থাকার সময়ের QoS 1/2 message পরে পায়।
 - **CoAP:** UDP-র উপর ছোট REST (GET/PUT, observe)। খুব ছোট, battery-চালিত sensor-এর জন্য। NAT/firewall-এ কঠিন, mobile app-এ কম ব্যবহার।
 - **HTTP/REST:** মাঝে মাঝে data, সহজ, সব infra চলে। **WebSocket:** দুই দিকে live, browser/dashboard-এর জন্য ভালো।
 - **কীভাবে বেছে নিই:** অনেক device, event stream, দুর্বল network, offline/online state → MQTT। মাঝে মাঝে upload, config → HTTP। Constrained sensor node → CoAP। Live UI → WebSocket বা MQTT over WebSocket। বড় video → এগুলো না; RTSP/WebRTC/HLS।
 - **Android-এ MQTT চালু রাখা:**
-  - Phone app: সারাক্ষণ socket খোলা রাখা যায় না। Doze network বন্ধ করে, আর background-এ process মারা যায়। তাই app খোলা থাকলে connect করুন; background-এ push (FCM) দিয়ে জাগান। খুব দরকার হলে FGS — কিন্তু সীমা আছে (Android 15-এ `dataSync` 24 ঘণ্টায় 6 ঘণ্টা)।
+  - Phone app: সারাক্ষণ socket খোলা রাখা যায় না। Doze network বন্ধ করে, আর background-এ process kill হয়। তাই app খোলা থাকলে connect করুন; background-এ push (FCM) দিয়ে জাগান। খুব দরকার হলে FGS — কিন্তু সীমা আছে (Android 15-এ `dataSync` 24 ঘণ্টায় 6 ঘণ্টা)।
   - Network change-এ reconnect (`ConnectivityManager.NetworkCallback`), exponential backoff + jitter।
   - Library: পুরোনো Paho Android Service maintained না — HiveMQ MQTT client বা Paho Java client নিজের lifecycle দিয়ে।
   - **নিজের OS-এর device:** persistent system app বা native service; Doze allowlist (`sysconfig`); keep alive network অনুযায়ী (cellular NAT timeout-এর চেয়ে ছোট)।
@@ -15247,7 +15247,7 @@ flowchart TD
   - Room — list-এর data (কোন ছবি, কোন ক্রমে)।
 - **Smooth scroll:**
   - `LazyVerticalGrid`-এ stable `key = id`।
-  - Cell-এর size আগে থেকে ঠিক (aspect ratio দিয়ে)। তাই ছবি এলে layout লাফায় না।
+  - Cell-এর size আগে থেকে ঠিক (aspect ratio দিয়ে)। তাই ছবি এলে layout shift হয় না।
   - Placeholder আর ছোট crossfade।
   - Cell screen থেকে বের হলে Coil request cancel করে।
   - Paging-এর `prefetchDistance` দিয়ে শেষে পৌঁছানোর আগেই পরের page আনুন।
@@ -15273,7 +15273,7 @@ flowchart TD
 > ধরে নিই দশ হাজার বা তার বেশি photo, আর screen-এ একসাথে বিশ থেকে ত্রিশটা cell।
 > বড় ছবিটা এঁকে দেখাই। RemoteMediator-সহ Paging 3 ব্যবহার করব। এটা API থেকে page load করে Room-এ লিখবে। Grid পড়বে Room থেকে, তাই Room হবে source of truth।
 > API offset না, cursor ব্যবহার করবে, তাই নতুন photo এলেও duplicate হবে না।
-> API width আর height-ও দেবে, তাই image load হওয়ার আগেই প্রতিটা cell-এর size ঠিক থাকবে, আর layout লাফ দেবে না।
+> API width আর height-ও দেবে, তাই image load হওয়ার আগেই প্রতিটা cell-এর size ঠিক থাকবে, আর layout shift হবে না।
 > Image-এর জন্য Coil ব্যবহার করব। এতে memory cache আর disk cache দুটোই আছে, আর এটা প্রতিটা image cell-এর size অনুযায়ী decode করে।
 > এখানে কঠিন অংশ হলো memory। একটা full photo bitmap হিসেবে প্রায় 48 MB নিতে পারে, তাই grid শুধু ছোট thumbnail load করবে। Full size লাগবে শুধু full-screen view-এ।
 > URL signed হলে photo id-কে cache key হিসেবে ব্যবহার করব, কারণ URL প্রতিবার বদলায়।
@@ -15702,7 +15702,7 @@ flowchart TD
   - Hardware batching (`maxReportLatencyUs`) → CPU কম জাগে।
   - Disk-এ লেখা batch-এ (প্রতি sample-এ না)।
   - Upload শুধু charging + unmetered-এ (দরকার হলে urgent data আলাদা)।
-  - Wake lock কম সময়ের জন্য। Screen বন্ধে CPU ঘুমালে non-wakeup sensor-এর FIFO ভরে গেলে data হারাতে পারে — তাই wakeup sensor বা partial wake lock ব্যবহারের কথা ভাবুন। তবে এতে battery বেশি খরচ হয়।
+  - Wake lock কম সময়ের জন্য। Screen বন্ধ হয়ে CPU sleep-এ গেলে non-wakeup sensor-এর FIFO ভরে যায়, তখন data হারাতে পারে — তাই wakeup sensor বা partial wake lock ব্যবহারের কথা ভাবুন। তবে এতে battery বেশি খরচ হয়।
 - **Data হারানো vs performance:** প্রতি কয়েক সেকেন্ডে flush করুন। Crash হলে শেষ কয়েক সেকেন্ড হারাতে পারে — এটা মেনে নেওয়া trade-off। প্রতি record-এ `fsync` করলে disk আর battery খরচ অনেক।
 - **Storage full:** সর্বোচ্চ size রাখুন (যেমন ২ GB)। ভরে গেলে সবচেয়ে পুরনো uploaded/বা পুরনো segment মুছুন, আর metric পাঠান।
 - **Compression:** gzip সব জায়গায় আছে, সহজ। Sensor data-তে আগে delta encoding করলে compression অনেক ভালো হয়। CPU vs size trade-off।
@@ -15821,7 +15821,7 @@ English দুর্বল হলেও চলবে, যদি চুপ কর
 - `val` আগে, `var` শুধু দরকারে। Function ছোট, নাম পরিষ্কার (`seen`, `left`, `right`, `result`)।
 - `!!` না। `?:`, `?.let`, early return ব্যবহার করুন।
 - State-এর জন্য `sealed interface` + `when` (exhaustive)।
-- Coroutine-এ `GlobalScope` না; `viewModelScope` বা `coroutineScope`। `catch (e: Exception)` দিয়ে `CancellationException` গিলে ফেলবেন না — নির্দিষ্ট exception ধরুন।
+- Coroutine-এ `GlobalScope` না; `viewModelScope` বা `coroutineScope`। `catch (e: Exception)` দিয়ে `CancellationException`-ও ধরা পড়ে — তাই নির্দিষ্ট exception ধরুন, নইলে ওটা আবার throw করুন।
 - Standard library জানুন: `groupingBy{}.eachCount()`, `groupBy`, `associateBy`, `sortedBy`, `ArrayDeque`, `withIndex()`, `buildList`।
 - IDE থাকলে চালিয়ে দেখান। না থাকলে (shared doc) syntax নিখুঁত না হলেও logic পরিষ্কার রাখুন।
 
@@ -16190,7 +16190,7 @@ class ManualLruCache<K, V>(private val capacity: Int) {
   - `debounce(300)` → user থামার পর ৩০০ ms অপেক্ষা।
   - `distinctUntilChanged()` → একই query আবার না।
   - `flatMapLatest` → নতুন query এলে আগের search cancel (Dart rxdart-এর `switchMap`)।
-  - ভেতরের `flow { emit(Loading); emit(result) }.catch { emit(Error) }` → error ভেতরে ধরুন, যাতে বাইরের stream মরে না যায়।
+  - ভেতরের `flow { emit(Loading); emit(result) }.catch { emit(Error) }` → error ভেতরে ধরুন, যাতে বাইরের stream বন্ধ হয়ে না যায়।
   - `stateIn(viewModelScope, WhileSubscribed(5_000), Idle)` → UI-র জন্য `StateFlow`।
 - `debounce` এখনও `@FlowPreview` আর `flatMapLatest` `@ExperimentalCoroutinesApi` চিহ্নিত — তাই `@OptIn` (version-ভেদে বদলাতে পারে)।
 - Test: `runTest` + virtual time (`advanceTimeBy`) + Turbine দিয়ে real সময় অপেক্ষা ছাড়াই debounce test করা যায়।
@@ -17142,7 +17142,7 @@ Box(Modifier.graphicsLayer { this.alpha = alpha }) // read in draw phase, no rec
 
   **প্রশ্ন (বাংলায়):** default হিসেবে spring ভালো কেন?
 
-  **উত্তর (বাংলায়):** "Spring-এর কোনো নির্দিষ্ট duration নেই। মাঝপথে target বদলালে animation বর্তমান speed থেকেই smooth-ভাবে চলতে থাকে, লাফ দেয় না।"
+  **উত্তর (বাংলায়):** "Spring-এর কোনো নির্দিষ্ট duration নেই। মাঝপথে target বদলালে animation বর্তমান speed থেকেই smooth-ভাবে চলতে থাকে, হঠাৎ বদলায় না।"
 
   **উত্তর (English):** "A spring has no fixed duration. If the target changes in the middle, it continues smoothly from the current speed, with no jump."
 - **প্রশ্ন (Q):** How do you test animations?
