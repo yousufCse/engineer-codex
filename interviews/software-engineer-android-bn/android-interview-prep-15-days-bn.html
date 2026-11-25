@@ -114,6 +114,16 @@ code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.85em;b
 pre{margin:0;padding:16px 18px;overflow-x:auto;line-height:1.6;background:var(--code-bg)}
 pre code{background:none;border:0;padding:0;font-size:13px;color:var(--code-text)}
 hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+figure.diagram{scrollbar-color:var(--line2) transparent;scrollbar-width:thin;margin:16px 0;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+figure.diagram .mmd{color:var(--muted);font-size:13px}
+figure.diagram .mmd:not(.done){white-space:pre;text-align:left;max-height:0;overflow:hidden}
+figure.diagram:has(.mmd:not(.done))::before{content:"chart আসছে…";color:var(--muted);font-size:13px}
+figure.diagram svg{max-width:100%;height:auto}
+figure.diagram.scrolls{text-align:left}
+figure.diagram.scrolls::after{content:"← পাশে সরিয়ে পুরোটা দেখুন →";display:block;position:sticky;left:0;margin-top:8px;color:var(--muted);font-size:12px}
+details.diagram-text{margin:-6px 0 16px}
+details.diagram-text > summary{cursor:pointer;color:var(--muted);font-size:13px;padding:4px 2px;width:max-content;max-width:100%}
+details.diagram-text > summary:hover{color:var(--accent)}
 li > p{margin:2px 0}
 ul,ol{padding-left:22px}
 li{margin:3px 0}
@@ -534,7 +544,10 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
 <p><strong>উত্তর (English):</strong> "I think they'd say I'm reliable and I finish what I start. They might also say I should share my progress more often. I improved that with short daily updates."</p></li><li><p><strong>প্রশ্ন (Q):</strong> Why should we see that weakness as a small risk?</p>
 <p><strong>প্রশ্ন (বাংলায়):</strong> ওই weakness-টাকে আমরা ছোট risk হিসেবে কেন দেখব?</p>
 <p><strong>উত্তর (বাংলায়):</strong> "কারণ এটার জন্য আগে থেকেই আমার একটা সহজ rule আছে — time limit — আর সেটা কাজ করে। আমার কাজের quality-তে এর কোনো প্রভাব নেই। প্রভাব শুধু এটুকু: help চাইতে কতটা দেরি করি।"</p>
-<p><strong>উত্তর (English):</strong> "Because I already have a simple rule for it, the time limit, and it works. It doesn't affect the quality of my work. It only affects how soon I ask for help."</p></li></ul>
+<p><strong>উত্তর (English):</strong> "Because I already have a simple rule for it, the time limit, and it works. It doesn't affect the quality of my work. It only affects how soon I ask for help."</p></li><li><p><strong>প্রশ্ন (Q):</strong> How long is that time limit?</p>
+<p><strong>প্রশ্ন (বাংলায়):</strong> ওই time limit কতক্ষণের?</p>
+<p><strong>উত্তর (বাংলায়):</strong> "এটা কাজের ওপর নির্ভর করে। ছোট bug হলে প্রায় এক ঘণ্টা। বড় বা অজানা কিছু হলে আধা দিন। প্রশ্ন করার আগে লিখে রাখি কী কী চেষ্টা করেছি, যাতে যাকে জিজ্ঞেস করছি তার সময় নষ্ট না হয়।"</p>
+<p><strong>উত্তর (English):</strong> "It depends on the task. For a small bug, it's about an hour. For something big or unknown, about half a day. Before I ask, I write down what I've already tried, so I don't waste the other person's time."</p></li></ul>
 <p><strong>ভুল করবেন না:</strong> এমন weakness বলবেন না যেটা job-এর মূল skill-কে আঘাত করে (যেমন "I am weak in Kotlin")।</p>
 <p><strong>আরও দেখুন:</strong> <a href="#h0-3">H0-3 · What you bring</a> · <a href="#h4">H4 · A mistake you made</a> · <a href="#h0-1">H0-1 · Tell me about yourself</a></p>
 <hr>
@@ -548,6 +561,13 @@ Coroutines আর Flow আজকের Android-এর async মডেল। View
 <p><strong>মূল ধারণা (এগুলোর উপর বাকি সব দাঁড়িয়ে):</strong></p>
 <ul><li><p><strong>Null safety:</strong> <code>String</code> আর <code>String?</code> আলাদা type। null check না করে <code>String?</code> ব্যবহার করলে compile error।</p></li><li><p><strong>Immutability আগে:</strong> <code>val</code>, read-only <code>List</code>, <code>data class</code> + <code>copy()</code>। state বদলাতে নতুন object বানাই।</p></li><li><p><strong>Sealed hierarchy:</strong> <code>sealed interface UiState</code> দিয়ে সব রকম state লিখি। <code>when</code> সব case cover না করলে compiler ধরে।</p></li><li><p><strong>suspend মানে "থামতে পারে", background thread না।</strong> কোন thread-এ চলবে সেটা ঠিক করে <strong>Dispatcher</strong>।</p></li><li><p><strong>Structured concurrency:</strong> প্রতিটা coroutine একটা <strong>scope</strong>-এর ভিতরে চলে। scope cancel হলে সব child cancel হয়। leak হয় না।</p></li><li><p><strong>Cancellation cooperative:</strong> coroutine নিজে suspend point-এ cancel check করে। <code>CancellationException</code> গিলে ফেললে cancel ভেঙে যায়।</p></li><li><p><strong>Cold vs hot:</strong> সাধারণ <code>Flow</code> cold — collect করলে তবেই চালু হয়। <code>StateFlow</code> / <code>SharedFlow</code> hot — collector না থাকলেও থাকে।</p></li><li><p><strong>UI state = StateFlow।</strong> ViewModel একটা <code>StateFlow&lt;UiState&gt;</code> দেয়। UI lifecycle মেনে collect করে।</p></li><li><p><strong>Lifecycle-aware collect:</strong> Compose-এ <code>collectAsStateWithLifecycle()</code>, View-এ <code>repeatOnLifecycle(STARTED)</code>।</p></li></ul>
 <p><strong>ছোট diagram — data কোন দিকে যায়:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  src[&quot;Room / Retrofit / Sensor&quot;] --&gt;|&quot;Flow#lt;T#gt; · cold&quot;| repo[&quot;Repository&quot;]
+  repo --&gt; vm[&quot;ViewModel&lt;br/&gt;map / combine / stateIn(viewModelScope)&quot;]
+  vm --&gt;|&quot;StateFlow#lt;UiState#gt; · hot&quot;| ui[&quot;UI&lt;br/&gt;collectAsStateWithLifecycle()&quot;]
+  ui --&gt;|&quot;user event → viewModel.onX()&quot;| vm</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Room / Retrofit / Sensor
         │  Flow&lt;T&gt;  (cold)
         ▼
@@ -555,6 +575,7 @@ Repository ──► ViewModel: map / combine / stateIn(viewModelScope)
                     │  StateFlow&lt;UiState&gt;  (hot)
                     ▼
 UI: collectAsStateWithLifecycle()  ──user event──► viewModel.onX()</code></pre>
+</details>
 <p><strong>Flutter থেকে এলে কী আলাদা:</strong></p>
 <ul><li><p>Dart-এ একটা isolate-এ একটা event loop। Kotlin coroutine অনেক thread-এ চলতে পারে। তাই thread safety নিয়ে ভাবতে হয় (K16)।</p></li><li><p>Dart-এর <code>async</code>/<code>await</code> ≈ Kotlin-এর <code>suspend</code> + direct call। Kotlin-এ <code>await</code> লাগে শুধু <code>async {}</code>-এর <code>Deferred</code>-এ।</p></li><li><p>Dart <code>Stream</code> ≈ Kotlin <code>Flow</code>। Dart-এ single-subscription stream cold-এর কাছাকাছি, broadcast stream hot-এর কাছাকাছি।</p></li><li><p>Dart-এ <code>Future</code> শুরু হলে চলতেই থাকে। Kotlin-এ scope cancel করলে coroutine থামে। এটা বড় পার্থক্য।</p></li><li><p>Dart-এর null safety আর Kotlin-এর null safety প্রায় এক। তবে Kotlin-এ Java code থেকে আসা "platform type" নতুন জিনিস (K1)।</p></li></ul>
 <hr>
@@ -1169,11 +1190,23 @@ suspend function-এর ভেতর, callback কে Flow বানানো, e
 <p><strong>মূল ধারণাগুলো:</strong></p>
 <ul><li><p><strong>suspend মানে thread block না।</strong> Function মাঝপথে থেমে যায়। তার local state একটা object-এ জমা থাকে। Thread অন্য কাজে চলে যায়।</p></li><li><p><strong>Continuation</strong> = "এরপর কী করতে হবে" — একটা callback object। Compiler প্রতিটা suspend function-এ এটা লুকিয়ে পাঠায়।</p></li><li><p><strong>Callback API → coroutine:</strong> এক বার ফল দেয় এমন callback → <code>suspendCancellableCoroutine</code>। বার বার ফল দেয় এমন listener → <code>callbackFlow</code>।</p></li><li><p><strong>Delegation (<code>by</code>)</strong> = compiler forwarding code লেখে। <code>lazy</code>, <code>viewModels()</code>, <code>mutableStateOf</code> সব এই নিয়মে চলে।</p></li><li><p><strong>Equality:</strong> <code>==</code> মানে <code>equals()</code>। <code>===</code> মানে একই object। data class <code>equals</code> বানায় শুধু primary constructor-এর property থেকে।</p></li><li><p><strong>Type দিয়ে ভুল আটকানো:</strong> <code>value class</code> (ভুল ID আটকায়), <code>sealed</code> (সব state handle করতে বাধ্য করে)।</p></li><li><p><strong>Java interop:</strong> Java-র type-এ nullability জানা নেই → platform type (<code>String!</code>)। Bug-এর বড় উৎস।</p></li><li><p><strong>Kotlin-এ checked exception নেই।</strong> তাই জানা error (network নেই, 401) type দিয়ে দেখাই — <code>sealed</code> বা <code>Result</code>।</p></li></ul>
 <p><strong>ছোট diagram — একটা suspend call:</strong></p>
+<figure class="diagram"><div class="mmd">sequenceDiagram
+  participant L as loadUser()
+  participant A as api.get()
+  participant T as Thread
+  L-&gt;&gt;A: call (suspend point)
+  A--&gt;&gt;T: thread free হয়, অন্য কাজ চলে
+  Note over A: network-এর ফল আসে
+  A-&gt;&gt;L: continuation.resumeWith(result)
+  Note over L: label = 1 থেকে আবার চলে&lt;br/&gt;local value আসে continuation object থেকে</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>loadUser() ──► api.get()  ── suspend ──► thread free (অন্য কাজ চলে)
                                    │
               network ফল আসে ──► continuation.resumeWith(result)
                                    │
 loadUser() আবার চলে: label = 1 থেকে, আগের local value object থেকে নেয়</code></pre>
+</details>
 <p><strong>Flutter থেকে এলে কী আলাদা:</strong></p>
 <ul><li><p>Dart-এর <code>async/await</code>-ও compiler state machine বানায়। কিন্তু Dart-এ একটা isolate-এ একটাই thread। Kotlin-এ coroutine অনেক thread-এ চলতে পারে। তাই thread-safety আসল সমস্যা।</p></li><li><p>Dart-এ cancel নেই বললেই চলে। Kotlin-এ <strong>structured concurrency</strong> আর cancellation আছে — scope বন্ধ হলে child কাজ থামে।</p></li><li><p>Dart 3-এর <code>sealed class</code> + <code>switch</code> exhaustiveness আর Kotlin-এর <code>sealed</code> + <code>when</code> একই কাজ করে।</p></li><li><p>Dart-এর <code>extension type</code> (Dart 3.3) আর Kotlin-এর <code>value class</code> কাছাকাছি জিনিস।</p></li><li><p><code>Stream</code> থেকে এলে: Kotlin <code>Flow</code> cold। <code>StreamController</code> থেকে listener-ভিত্তিক Flow বানাতে Kotlin-এ <code>callbackFlow</code>।</p></li></ul>
 <hr>
@@ -1502,6 +1535,14 @@ Flutter-এ এগুলো plugin আর engine লুকিয়ে রাখ
 <p><strong>৮টা মূল ধারণা — বাকি সব এর ওপর দাঁড়িয়ে:</strong></p>
 <table><thead><tr><th>ধারণা</th><th>এক লাইনে</th></tr></thead><tbody><tr><td>Component</td><td>system যেটা চালু/বন্ধ করে — আপনি <code>new</code> করে বানান না</td></tr><tr><td>Lifecycle</td><td>system callback দিয়ে state বদলের খবর দেয়</td></tr><tr><td>Process death</td><td>app background-এ থাকলে system process মারতে পারে; user ফিরে এলে state restore করতে হয়</td></tr><tr><td>Main thread</td><td>UI, lifecycle callback, receiver — সব এক thread-এ। Block করলে ANR</td></tr><tr><td>Intent</td><td>component-দের মধ্যে, app-দের মধ্যে message</td></tr><tr><td>Permission</td><td>install-time (normal), runtime (dangerous), signature, privileged</td></tr><tr><td>Background limit</td><td>background-এ কাজ = WorkManager বা foreground service; নিজে thread চালিয়ে রাখা নয়</td></tr><tr><td>targetSdk</td><td>নতুন নিয়ম বেশিরভাগই তখন লাগে যখন আপনি targetSdk বাড়ান</td></tr></tbody></table>
 <p><strong>ছোট ছবি:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  z[&quot;Zygote&quot;] --&gt;|&quot;fork&quot;| p[&quot;App process&lt;br/&gt;own Linux UID (10xxx)&quot;]
+  p --&gt; cp[&quot;ContentProvider.onCreate()&lt;br/&gt;runs first&quot;]
+  cp --&gt; a[&quot;Application.onCreate()&quot;]
+  a --&gt; c[&quot;Activity / Service / Receiver&lt;br/&gt;system starts them with an Intent&quot;]
+  c --&gt; mt[&quot;Main thread&lt;br/&gt;Looper → MessageQueue → Handler&lt;br/&gt;every callback runs here&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Zygote --fork--&gt; app process (UID 10xxx)
                     |
    Application.onCreate()  (ContentProvider.onCreate আগে চলে)
@@ -1509,6 +1550,7 @@ Flutter-এ এগুলো plugin আর engine লুকিয়ে রাখ
    Activity / Service / Receiver  &lt;-- system Intent দিয়ে চালায়
                     |
    main thread: Looper -&gt; MessageQueue -&gt; Handler (সব callback এখানে)</code></pre>
+</details>
 <p><strong>Flutter থেকে এলে কী আলাদা:</strong></p>
 <ul><li><p>Flutter-এ সাধারণত একটা <code>FlutterActivity</code> আর সব screen Dart-এ। Native-এ Activity, Fragment, Service সবার আলাদা lifecycle।</p></li><li><p>Flutter-এর <code>AppLifecycleState</code> (resumed / inactive / paused / detached / hidden) আসলে Activity lifecycle থেকেই আসে।</p></li><li><p>Flutter-এ background কাজের জন্য <code>workmanager</code> plugin বা isolate ব্যবহার করেছেন — native-এ সরাসরি WorkManager, foreground service, AlarmManager।</p></li><li><p>Permission plugin (<code>permission_handler</code>) যা করে, native-এ সেটা Activity Result API দিয়ে নিজে করবেন।</p></li><li><p>Process death Flutter-এও হয়, কিন্তু অনেকে test করে না। Native interview-তে এই প্রশ্ন প্রায় সবসময় আসে।</p></li></ul>
 <hr>
@@ -1545,9 +1587,25 @@ Flutter-এ এগুলো plugin আর engine লুকিয়ে রাখ
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"What happens to the lifecycle when Activity A starts Activity B?" — Activity A থেকে Activity B চালু হলে lifecycle-এ কী হয়?</p></li><li><p>"Where would you open and release the camera?" — Camera কোথায় open করবেন আর কোথায় release করবেন?</p></li></ul>
 <p><strong>বুঝে নিন:</strong></p>
+<figure class="diagram"><div class="mmd">stateDiagram-v2
+  direction TB
+  [*] --&gt; Created: onCreate()
+  Created --&gt; Started: onStart()
+  Started --&gt; Resumed: onResume()
+  Resumed --&gt; Paused: onPause()
+  Paused --&gt; Resumed: onResume()
+  Paused --&gt; Stopped: onStop()
+  Stopped --&gt; Started: onRestart() → onStart()
+  Stopped --&gt; Destroyed: onDestroy()
+  Destroyed --&gt; [*]
+  note right of Resumed: সামনে আছে, input নিচ্ছে
+  note right of Stopped: আর দেখা যায় না</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>onCreate -&gt; onStart -&gt; onResume   (এখন user interact করতে পারে)
           onPause  -&gt; onStop -&gt; onDestroy
 onStop -&gt; onRestart -&gt; onStart   (ফিরে এলে)</code></pre>
+</details>
 <ul><li><p><code>onCreate</code> — একবার। UI set করা, ViewModel নেওয়া। <code>savedInstanceState</code> এখানে আসে।</p></li><li><p><code>onStart</code> — screen <strong>visible</strong>।</p></li><li><p><code>onResume</code> — সামনে, input পাচ্ছে।</p></li><li><p><code>onPause</code> — focus হারিয়েছে, কিন্তু হয়তো এখনো দেখা যাচ্ছে (dialog-style activity, multi-window)। এখানে ভারী কাজ করবেন না — পরের screen আসতে দেরি হবে।</p></li><li><p><code>onStop</code> — আর দেখা যাচ্ছে না। ভারী resource ছাড়ুন, data save করুন।</p></li><li><p><code>onDestroy</code> — finish হলে বা config change হলে। <strong>সবসময় আসবে এমন guarantee নেই</strong> — process সরাসরি মারা গেলে আসে না।</p></li><li><p><code>onSaveInstanceState</code> — API 28+ এ <code>onStop</code>-এর <strong>পরে</strong> আসে।</p></li></ul>
 <p><strong>A থেকে B খুললে order:</strong></p>
 <pre><code>A.onPause -&gt; B.onCreate -&gt; B.onStart -&gt; B.onResume -&gt; A.onStop (-&gt; A.onSaveInstanceState)</code></pre>
@@ -2167,6 +2225,19 @@ Camera, sensor আর custom Android OS (AOSP) নিয়ে কাজ কর�
 <h3>আগে বুঝুন — app-এর নিচে Android কীভাবে সাজানো</h3>
 <p>একটা Android app একা চলে না। প্রায় প্রতিটা কাজ (activity খোলা, camera, location, notification) আসলে <strong>অন্য process-এ চলা system service</strong>-কে অনুরোধ। এই অনুরোধ যায় <strong>Binder</strong> দিয়ে।</p>
 <p><strong>Layer-গুলো, উপর থেকে নিচে:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  app[&quot;Your app process&lt;br/&gt;ART · Kotlin/Java code · ActivityThread · main thread&quot;]
+  ss[&quot;system_server&lt;br/&gt;ActivityManager · WindowManager · PackageManager&lt;br/&gt;LocationManager · SensorService …&quot;]
+  nat[&quot;Native processes&lt;br/&gt;cameraserver · surfaceflinger · mediaserver&quot;]
+  hal[&quot;HAL · vendor-এর code&lt;br/&gt;camera · sensors · GNSS&quot;]
+  k[&quot;Linux kernel&lt;br/&gt;drivers · Binder driver · SELinux · cgroups&quot;]
+  app --&gt;|&quot;Binder IPC&quot;| ss
+  app --&gt;|&quot;Binder IPC&quot;| nat
+  ss --&gt;|&quot;AIDL HAL (পুরনো: HIDL)&quot;| hal
+  nat --&gt;|&quot;AIDL HAL (পুরনো: HIDL)&quot;| hal
+  hal --&gt; k</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Your app process (ART: Kotlin/Java code, ActivityThread, main thread)
    │  Binder IPC
 system_server (ActivityManagerService, ActivityTaskManagerService, WindowManagerService,
@@ -2176,6 +2247,7 @@ cameraserver, surfaceflinger, mediaserver ... (আলাদা native process)
 HAL (vendor-এর code: camera HAL, sensors HAL, GNSS HAL)
    │
 Linux kernel (driver, Binder driver, SELinux, cgroups, lmkd-কে memory তথ্য)</code></pre>
+</details>
 <p><strong>মূল ধারণাগুলো:</strong></p>
 <ol><li><p><strong>প্রতিটা app = একটা Linux process + নিজের UID।</strong> এটাই sandbox। এক app আরেক app-এর file পড়তে পারে না।</p></li><li><p><strong>Zygote:</strong> boot-এর সময় শুরু হয়, framework class আর resource আগে থেকে load করে রাখে। নতুন app process = Zygote-এর <code>fork()</code>। তাই app দ্রুত শুরু হয়।</p></li><li><p><strong>system_server:</strong> বেশিরভাগ Java system service এখানে চলে। আপনার <code>XxxManager</code> class শুধু একটা Binder proxy।</p></li><li><p><strong>Binder:</strong> kernel driver দিয়ে process-এর মধ্যে method call। Kernel caller-এর UID/PID বলে দেয়। Caller এটা নকল করতে পারে না, তাই permission check-এ ভরসা করা যায়।</p></li><li><p><strong>ART:</strong> DEX bytecode চালায়। Interpreter + JIT + AOT মিশিয়ে। Profile দেখে কোন code আগে compile করবে ঠিক করে।</p></li><li><p><strong>Main thread = Looper + MessageQueue।</strong> Lifecycle callback, input, drawing — সব এখানে। এখানে দেরি = jank বা ANR।</p></li><li><p><strong>Frame pipeline:</strong> VSYNC → Choreographer → measure/layout/draw (main thread) → RenderThread GPU-তে পাঠায় → SurfaceFlinger সব window মিলিয়ে screen-এ দেয়।</p></li><li><p><strong>Memory চাপ হলে</strong> kernel আর <code>lmkd</code> কম গুরুত্বের process মেরে ফেলে। Background app যেকোনো সময় মারা যেতে পারে।</p></li></ol>
 <p><strong>Flutter থেকে এলে কী আলাদা:</strong></p>
@@ -2300,10 +2372,19 @@ val args = IntentCompat.getParcelableExtra(intent, &quot;args&quot;, CameraArgs:
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"What is Choreographer?" — Choreographer কী?</p></li><li><p>"Why does the UI stutter, and how do you find the cause?" — UI কেন আটকে আটকে চলে, আর কারণটা কীভাবে খুঁজে বের করেন?</p></li></ul>
 <p><strong>বুঝে নিন:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  v[&quot;VSYNC signal&quot;] --&gt; c[&quot;Choreographer · main thread&lt;br/&gt;input → animation → measure → layout → draw&quot;]
+  c --&gt;|&quot;display list&quot;| r[&quot;RenderThread&lt;br/&gt;GPU commands (HWUI · Skia · Vulkan/GL)&quot;]
+  r --&gt;|&quot;buffer&quot;| sf[&quot;SurfaceFlinger + Hardware Composer&lt;br/&gt;সব layer মেলায়&quot;]
+  sf --&gt; d[&quot;Display&quot;]
+  c -. &quot;main thread ধীর হলে frame miss = jank&quot; .-&gt; v</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>VSYNC ─► Choreographer (main thread)
           input → animation → traversal (measure → layout → draw = display list record)
        ─► RenderThread: display list sync → GPU command (HWUI, Skia / Vulkan বা GL)
        ─► buffer queue-তে buffer দেয় ─► SurfaceFlinger + Hardware Composer সব layer মেলায় ─► display</code></pre>
+</details>
 <ul><li><p><strong>VSYNC:</strong> display-এর refresh signal। 60 Hz → প্রতি <strong>16.6 ms</strong>, 90 Hz → 11.1 ms, 120 Hz → <strong>8.3 ms</strong>।</p></li><li><p><strong>Choreographer:</strong> প্রতি VSYNC-এ main thread-এ callback চালায় — input, animation, তারপর traversal।</p></li><li><p><strong>Main thread কাজ:</strong> measure, layout, draw। Draw মানে আসল pixel না — একটা <strong>display list</strong> (RenderNode) রেকর্ড করা।</p></li><li><p><strong>RenderThread:</strong> display list নিয়ে GPU command বানায়। এতে main thread জলদি ছাড়া পায়। Hardware-accelerated animation (যেমন <code>RenderNode</code> property) RenderThread-এ চলতে পারে।</p></li><li><p><strong>SurfaceFlinger:</strong> সব app-এর window আর SurfaceView-এর buffer মিলিয়ে চূড়ান্ত ছবি বানায়। HWC (Hardware Composer) সম্ভব হলে GPU ছাড়া মেলায়।</p></li><li><p><strong>Compose:</strong> একই pipeline। শুধু main thread-এর ধাপ হলো composition → layout → drawing।</p></li><li><p><strong>Jank কোথা থেকে:</strong></p>
 <ul><li><p>Main thread-এ ভারী কাজ: disk/DB, JSON parse, বড় bitmap decode, synchronous Binder call।</p></li><li><p>বেশি measure/layout (nested weight, deep hierarchy), বা Compose-এ অপ্রয়োজনীয় recomposition (unstable parameter, state পড়া উপরের দিকে)।</p></li><li><p>GC pause বা অনেক allocation (scroll-এর সময় object বানানো)।</p></li><li><p>GPU-তে বেশি কাজ: overdraw, বড় blur/shadow।</p></li><li><p>প্রথম run-এ JIT/interpreted code (F2) — Baseline Profile সাহায্য করে।</p></li></ul></li><li><p><strong>Tool:</strong> Perfetto / System trace, Android Studio Profiler, JankStats (production), Macrobenchmark <code>FrameTimingMetric</code>, Compose Layout Inspector-এ recomposition count।</p></li></ul>
 <p><strong>সহজ উদাহরণ:</strong> Flutter DevTools-এ যেমন UI আর raster thread-এর frame time দেখেন, Android-এ main thread আর RenderThread একই রকম। একটা chat list scroll করার সময় প্রতিটা row-এ বড় image decode করলে frame 16 ms পার হয় আর scroll আটকে যায়।</p>
@@ -3855,10 +3936,19 @@ buildTypes {
 <ul><li><p>"How do you release an Android app to Play automatically?" — Android app কীভাবে automatically Play-তে release করেন?</p></li><li><p>"How do you keep the signing key safe in CI?" — CI-তে signing key কীভাবে নিরাপদে রাখেন?</p></li></ul>
 <p><strong>বুঝে নিন:</strong></p>
 <p><strong>Pipeline (GitHub Actions):</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  pr[&quot;Every PR&lt;br/&gt;lint + detekt/ktlint → unit tests → assembleDebug&quot;]
+  mn[&quot;Merge to main&lt;br/&gt;+ instrumented tests (emulator / Firebase Test Lab)&quot;]
+  tg[&quot;Release tag&lt;br/&gt;signed bundleRelease → upload mapping → Play internal track&quot;]
+  rel[&quot;Manual promote&lt;br/&gt;internal → closed → production (staged rollout)&quot;]
+  pr --&gt; mn --&gt; tg --&gt; rel</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>PR:      checkout → JDK → Gradle cache → lint + detekt/ktlint → unit tests → assembleDebug
 main:    + instrumented tests (emulator / Firebase Test Lab)
 tag:     bundleRelease (signed) → upload mapping → Play internal track
 manual:  promote internal → closed → production (staged rollout)</code></pre>
+</details>
 <ul><li><p><strong>JDK:</strong> AGP 8 আর 9-এর জন্য JDK 17 লাগে (<code>actions/setup-java</code>)।</p></li><li><p><strong>Gradle:</strong> <code>gradle/actions/setup-gradle</code> cache দেয়। Gradle wrapper commit করুন।</p></li><li><p><strong>Signing:</strong> keystore base64 করে GitHub secret-এ, CI-তে decode করে file বানান। Password environment variable থেকে। কখনো repo-তে নয়।</p></li><li><p><strong>versionCode:</strong> প্রতি upload-এ বাড়তে হবে। CI run number বা tag থেকে নিন।</p></li><li><p><strong>Upload:</strong> <strong>Fastlane <code>supply</code></strong> বা <strong>Gradle Play Publisher</strong> (<code>publishReleaseBundle</code>)। দুটোই Google Play Developer API ব্যবহার করে, একটা <strong>service account</strong> JSON key দিয়ে (secret-এ)।</p></li><li><p><strong>Play tracks:</strong></p>
 <ul><li><p><strong>Internal</strong> — বেশি হলে 100 tester, খুব দ্রুত পাওয়া যায়।</p></li><li><p><strong>Closed</strong> — নির্দিষ্ট group (email list / Google Group)।</p></li><li><p><strong>Open</strong> — যে কেউ join করতে পারে।</p></li><li><p><strong>Production</strong> — <strong>staged rollout</strong> % দিয়ে, দরকারে halt।</p></li></ul></li><li><p>নতুন personal developer account-এর জন্য production-এর আগে closed test-এ নির্দিষ্ট সংখ্যক tester নির্দিষ্ট দিন রাখার নিয়ম আছে (এখন 12 tester, 14 দিন বলে জানি — Play Console-এ দেখে নিন)।</p></li><li><p><strong>In-app updates (Play Core <code>app-update</code> library):</strong></p>
 <ul><li><p><strong>Flexible</strong> — background-এ download, user পরে restart করে।</p></li><li><p><strong>Immediate</strong> — full-screen, update না করলে app চলবে না। জরুরি security fix-এর জন্য।</p></li></ul></li></ul>
@@ -5578,10 +5668,19 @@ val pending = PendingIntent.getActivity(context, cameraId.hashCode(), intent,
 দুই ধরনের কাজ আসতে পারে: (১) phone/tablet app যা IP camera-র live stream আর recording দেখায়, (২) নিজেদের Android device যেটা নিজেই camera — ছবি তোলে, encode করে, পাঠায়।</p>
 <h3>আগে বুঝুন — camera আর video-র বড় ছবি</h3>
 <p><strong>একটা video কোথা থেকে কোথায় যায়:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  s[&quot;Camera sensor&quot;] --&gt; hal[&quot;Camera HAL&quot;] --&gt; cx[&quot;Camera2 / CameraX&quot;] --&gt; sur[&quot;Surface&quot;]
+  sur --&gt; enc[&quot;Encoder · MediaCodec&lt;br/&gt;H.264 / H.265&quot;]
+  enc --&gt; mux[&quot;Muxer (MP4)&quot;] --&gt; file[&quot;File on disk&quot;]
+  enc --&gt; pk[&quot;Packetizer&lt;br/&gt;RTP/RTSP · WebRTC · HLS&quot;] --&gt; net[&quot;Network&quot;]
+  net --&gt; pl[&quot;Player&lt;br/&gt;Media3 ExoPlayer / WebRTC&quot;] --&gt; dec[&quot;Decoder · MediaCodec&quot;] --&gt; sv[&quot;SurfaceView&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Sensor → Camera HAL → Camera2/CameraX → Surface
    → Encoder (MediaCodec, H.264/H.265) → Muxer (MP4) → file
                                        → Packetizer (RTP/RTSP, WebRTC, HLS) → network
 Network → Player (Media3 ExoPlayer / WebRTC) → Decoder (MediaCodec) → SurfaceView</code></pre>
+</details>
 <p><strong>যে ৯টা ধারণার উপর সব দাঁড়িয়ে:</strong></p>
 <ol><li><p><strong>Surface-ই মূল পথ।</strong> Camera frame, encoder input, decoder output — সবকিছু <code>Surface</code> দিয়ে GPU/hardware buffer-এ যায়। CPU-তে frame copy করলে battery আর গতি নষ্ট।</p></li><li><p><strong>CameraX</strong> = সহজ, lifecycle-aware, use case ভিত্তিক। <strong>Camera2</strong> = পুরো control। CameraX নিজেই Camera2-এর উপর বানানো।</p></li><li><p><strong>Hardware codec সীমিত।</strong> একটা phone একসাথে কয়টা video decode/encode করতে পারে, তার সীমা আছে। Grid view-এর সব সিদ্ধান্ত এই সীমা থেকে আসে।</p></li><li><p><strong>Codec:</strong> H.264 সব জায়গায় চলে। H.265 একই quality-তে কম bitrate। AV1 আরও ভালো, কিন্তু hardware encoder নতুন chip-এ। <strong>Keyframe (I-frame)</strong> ছাড়া video শুরু বা কাটা যায় না।</p></li><li><p><strong>Protocol বাছাই মানে latency-র trade-off:</strong> RTSP (LAN, ১ সেকেন্ডের কম), WebRTC (internet-এ খুব কম latency), HLS/LL-HLS (cloud, CDN, কয়েক সেকেন্ড)।</p></li><li><p><strong>Background নিয়ম কঠিন।</strong> Android 9 থেকে background-এ camera নেই। Android 14 থেকে foreground service type <code>camera</code> লাগে। Android 15 থেকে boot-এর পর camera FGS চালু করা যায় না।</p></li><li><p><strong>Local network permission।</strong> Android 17 target করলে LAN camera-র সাথে কথা বলতে <code>ACCESS_LOCAL_NETWORK</code> runtime permission লাগে।</p></li><li><p><strong>Media3</strong> (<code>androidx.media3</code>) এখন standard player — HLS, DASH, RTSP সব। পুরনো <code>com.google.android.exoplayer2</code> deprecated।</p></li><li><p><strong>Security সব স্তরে:</strong> stream encrypt (TLS/SRTP), ছোট-মেয়াদি signed URL, device pairing, default password না, recording encrypted।</p></li></ol>
 <p><strong>তিনটা সাধারণ architecture:</strong></p>
@@ -6027,6 +6126,13 @@ val notification = NotificationCompat.Builder(context, CHANNEL_MOTION)
 <p>এই part পড়ার নিয়ম: প্রথমে নিচের ৯টা point পড়ুন। তারপর প্রতিটা প্রশ্নের "এক কথায়" line পড়ুন। শেষে detail।</p>
 <p><strong>১. AOSP কী।</strong> Android-এর open source অংশ। Kernel থেকে Settings app পর্যন্ত। কিন্তু Google-এর app আর Play services (GMS) এর ভেতরে নেই। Pixel বা Samsung-এর Android = AOSP + vendor code + GMS।</p>
 <p><strong>২. Layer-গুলো (উপর থেকে নিচে):</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  a[&quot;Apps&lt;br/&gt;আপনার app · system apps&quot;] --&gt;|&quot;Java/Kotlin API (android.*)&quot;| f[&quot;Framework · system_server&lt;br/&gt;ActivityManager · PackageManager · LocationManager&quot;]
+  f --&gt;|&quot;Binder IPC&quot;| n[&quot;Native daemons + ART&lt;br/&gt;cameraserver · surfaceflinger · audioserver&quot;]
+  n --&gt;|&quot;Binder (AIDL HAL)&quot;| h[&quot;HAL · vendor-এর code&lt;br/&gt;camera · sensors · GPS&quot;]
+  h --&gt;|&quot;ioctl · sysfs · /dev&quot;| k[&quot;Linux kernel + drivers&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Apps (আপনার app, system apps)
    │  Java/Kotlin API (android.*)
 Framework  ── system_server (ActivityManager, PackageManager, LocationManager ...)
@@ -6036,6 +6142,7 @@ Native daemons + ART  (cameraserver, surfaceflinger, audioserver, ART runtime)
 HAL  (vendor-এর code: camera, sensors, GPS ...)
    │  ioctl / sysfs / /dev/*
 Linux kernel + drivers</code></pre>
+</details>
 <p><strong>৩. Binder সব জোড়া লাগায়।</strong> App সরাসরি hardware ছোঁয় না। ধাপগুলো:</p>
 <ol><li><p>App একটা manager class call করে (যেমন <code>CameraManager</code>)।</p></li><li><p>Call Binder দিয়ে অন্য process-এর service-এ যায়।</p></li><li><p>Service permission check করে, তারপর HAL call করে।</p></li><li><p>HAL kernel driver call করে।</p></li></ol>
 <p><strong>৪. Partition ভাগ (Treble)।</strong> <code>system</code> = Google/AOSP অংশ। <code>vendor</code> = chip আর board-এর অংশ। দুইটার মাঝে একটা fixed interface (AIDL HAL + VINTF)। তাই vendor না ছুঁয়ে system update করা যায়।</p>
@@ -6084,11 +6191,24 @@ Linux kernel + drivers</code></pre>
 <p><strong>বুঝে নিন:</strong></p>
 <ul><li><p><strong>এক কথায়:</strong> App কখনো hardware ছোঁয় না। App → system service → HAL → driver। প্রতিটা ধাপ Binder দিয়ে জোড়া।</p></li><li><p><strong>Apps:</strong> normal app, system app — সব আলাদা Linux user (UID) আর আলাদা process-এ।</p></li><li><p><strong>Framework:</strong> Java/Kotlin API (<code>android.*</code>)। এর পেছনে <strong>system services</strong>। বেশিরভাগ চলে এক process-এ: <strong><code>system_server</code></strong> (ActivityManagerService, PackageManagerService, WindowManagerService, LocationManagerService, SensorService ...)।</p></li><li><p><strong>Native অংশ:</strong> কিছু service আলাদা native daemon — <code>cameraserver</code>, <code>surfaceflinger</code>, <code>audioserver</code>, <code>mediaserver</code>। আর <strong>ART</strong> (app-এর DEX code চালায়), Bionic libc, native libs।</p></li><li><p><strong>HAL:</strong> vendor-এর code, একটা fixed interface-এর পেছনে। নতুন HAL = <strong>AIDL HAL</strong>, আলাদা process-এ (যেমন <code>android.hardware.camera.provider</code>)।</p></li><li><p><strong>Kernel:</strong> driver (V4L2 camera, IIO sensor, input, USB), Binder driver, SELinux।</p></li><li><p><strong>Binder:</strong> Android-এর IPC। Kernel driver (<code>/dev/binder</code>)। কেন:</p>
 <ul><li><p>Caller-এর UID/PID kernel দেয় — তাই service permission check করতে পারে (<code>Binder.getCallingUid()</code>)।</p></li><li><p>Object reference পাঠানো যায়, death notification (<code>linkToDeath</code>) আছে।</p></li><li><p>একটা copy-তে data যায়।</p></li></ul></li><li><p><strong>উদাহরণ — camera খোলা:</strong></p></li></ul>
+<figure class="diagram"><div class="mmd">sequenceDiagram
+  participant App
+  participant CS as cameraserver
+  participant HAL as Camera HAL (vendor)
+  participant K as Kernel driver
+  App-&gt;&gt;CS: CameraManager.openCamera() via Binder
+  Note over CS: CAMERA permission check
+  CS-&gt;&gt;HAL: Binder (AIDL)
+  HAL-&gt;&gt;K: ioctl (V4L2 / vendor driver)
+  K--&gt;&gt;App: frames shared buffer-এ আসে (gralloc / AHardwareBuffer), copy ছাড়া</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>App: CameraManager.openCamera()
   → Binder → cameraserver (native, permission check: CAMERA)
   → Binder (AIDL) → Camera provider HAL (vendor process)
   → ioctl → V4L2 / vendor kernel driver → sensor chip
 Frames ফেরত আসে shared buffer (gralloc / AHardwareBuffer)-এ, copy ছাড়া।</code></pre>
+</details>
 <ul><li><p>Sensor হলে: <code>SensorManager</code> → <code>SensorService</code> (system_server-এর ভেতর) → Sensors AIDL HAL → kernel (IIO/i2c) → sensor hub।</p></li><li><p>Flutter mapping: platform channel হলো Dart ↔ Kotlin একই process-এ। Binder হলো process ↔ process, kernel দিয়ে।</p></li></ul>
 <p><strong>সহজ উদাহরণ:</strong> একটা video call app-এ user "Camera on" চাপলে app <code>CameraManager.openCamera()</code> call করে। Call-টা Binder দিয়ে <code>cameraserver</code> process-এ যায়, সেখানে CAMERA permission check হয়। তারপর camera HAL driver-কে বলে sensor চালু করতে, আর frame shared buffer দিয়ে app-এর preview-তে আসে।</p>
 <p><strong>Answer (বাংলা + English):</strong></p>
@@ -6284,12 +6404,22 @@ allow acmed acme_serial_device:chr_file rw_file_perms;</code></pre></li><li><p>P
 <ul><li><p>"How do you start a native daemon at boot?" — Boot-এর সময় native daemon কীভাবে চালু করবেন?</p></li><li><p>"What is Zygote?" — Zygote কী?</p></li></ul>
 <p><strong>বুঝে নিন:</strong></p>
 <p><strong>এক কথায়:</strong> Power on → bootloader → kernel → <code>init</code> → native daemons → Zygote → <code>system_server</code> → launcher। নিজের code সবচেয়ে নিচের যে ধাপে মেলে, সেখানে চালান।</p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  a[&quot;Boot ROM&quot;] --&gt; b[&quot;Bootloader&lt;br/&gt;AVB দিয়ে verify&quot;] --&gt; c[&quot;Linux kernel&quot;]
+  c --&gt; d[&quot;init&lt;br/&gt;1st stage: partitions mount&lt;br/&gt;2nd stage: SELinux load · .rc parse&quot;]
+  d --&gt; e[&quot;Native daemons&lt;br/&gt;servicemanager · HALs · surfaceflinger · cameraserver&quot;]
+  e --&gt; z[&quot;Zygote&lt;br/&gt;ART শুরু · common class preload&quot;]
+  z --&gt;|&quot;fork&quot;| s[&quot;system_server&lt;br/&gt;সব framework service start&quot;]
+  s --&gt; l[&quot;Launcher (HOME intent)&lt;br/&gt;+ BOOT_COMPLETED broadcast&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Boot ROM → Bootloader (AVB verify) → Kernel
   → init (first stage: partitions mount; second stage: SELinux load, .rc parse)
   → native daemons (servicemanager, hwservicemanager, HALs, surfaceflinger, cameraserver...)
   → Zygote (ART শুরু, common class preload)
   → system_server (Zygote fork করে; সব framework service start)
   → Launcher (HOME intent) + BOOT_COMPLETED broadcast</code></pre>
+</details>
 <ul><li><p><strong>init আর <code>.rc</code>:</strong> <code>init</code> প্রথম user-space process (PID 1)। <code>.rc</code> file-এ <code>service</code>, <code>on &lt;trigger&gt;</code> থাকে। নিজের daemon:</p>
 <pre><code># /vendor/etc/init/acmed.rc
 service acmed /vendor/bin/acmed
@@ -6534,8 +6664,13 @@ ota_from_target_files -i old.zip ...  # incremental (ছোট)</code></pre>
 <h3>আগে বুঝুন — sensor, location, BLE আর IoT-এর বড় ছবি</h3>
 <p><strong>১. সব hardware data একই pattern-এ আসে।</strong> আপনি register করেন → system callback দেয় → আপনি unregister করেন। Register-এর সময় rate ঠিক করেন। Unregister ভুলে গেলে battery শেষ।</p>
 <p><strong>২. Sensor-এর রাস্তা:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  a[&quot;Sensor chip&quot;] --&gt; b[&quot;Sensor hub / HAL&quot;] --&gt; c[&quot;SensorService&lt;br/&gt;(system_server)&quot;] --&gt; d[&quot;SensorManager&quot;] --&gt; e[&quot;আপনার SensorEventListener&lt;br/&gt;onSensorChanged()&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>Sensor chip → Sensor hub / HAL → SensorService (system_server)
    → SensorManager → আপনার SensorEventListener (onSensorChanged)</code></pre>
+</details>
 <p>অনেক device-এ sensor hub (ছোট আলাদা processor) আছে। এটা CPU ঘুমিয়ে থাকলেও data জমায় (batching)। তাই batching battery বাঁচায়।</p>
 <p><strong>৩. Hardware vs composite sensor।</strong> Accelerometer, gyroscope, magnetometer আসল chip। Rotation vector, gravity, linear acceleration, step counter — এগুলো fusion করে বানানো (HAL বা hub-এ)।</p>
 <p><strong>৪. সময়।</strong> <code>event.timestamp</code> nanosecond, boot থেকে (elapsedRealtime base)। Wall clock না। Calculation-এ এটাই ব্যবহার করুন।</p>
@@ -6956,6 +7091,16 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"How would you build an app like Ring or Nest for our cameras?" — আমাদের camera-র জন্য Ring বা Nest-এর মতো app কীভাবে বানাবেন?</p></li><li><p>"Design the mobile side of a home camera system." — একটা home camera system-এর mobile অংশটা design করুন।</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  cam[&quot;IP camera&lt;br/&gt;substream (small) + main stream (HD)&quot;]
+  cloud[&quot;Cloud&lt;br/&gt;auth · device registry · sharing&lt;br/&gt;WebRTC signaling + TURN relay&lt;br/&gt;recordings (HLS) + timeline API&lt;br/&gt;event service → FCM push&quot;]
+  app[&quot;Android app&lt;br/&gt;Compose UI → ViewModel → Repository&lt;br/&gt;Room cache · DataStore&lt;br/&gt;Media3 / WebRTC player&lt;br/&gt;Keystore + Tink · biometric lock&quot;]
+  cam --&gt;|&quot;live, same LAN: RTSP&quot;| app
+  cam --&gt;|&quot;events · recordings · WebRTC&quot;| cloud
+  cloud --&gt;|&quot;video: WebRTC / HLS · push&quot;| app
+  app --&gt;|&quot;API: HTTPS / WSS&quot;| cloud</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code>                    ┌──────────────── Cloud ────────────────┐
  Camera ──RTSP/LAN──┐│ Auth/Users   Device registry  Sharing │
    │  (substream +  ││ Signaling (WebRTC)   TURN relay       │
@@ -6973,6 +7118,7 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
  │ FCM service → notification with snapshot + deep link    │
  │ Keystore + Tink (tokens) · BiometricPrompt app lock     │
  └─────────────────────────────────────────────────────────┘</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong> জিজ্ঞেস করুন —</p>
 <ul><li><p>Camera কি নিজেদের তৈরি? (হলে protocol আমরা ঠিক করি; না হলে ONVIF/RTSP।)</p></li><li><p>Live view-এ latency কত কম লাগবে? Two-way audio লাগবে?</p></li><li><p>Recording কোথায় — cloud, camera-র SD card, নাকি NVR/হাব?</p></li><li><p>Sharing-এ কী কী role? Viewer কি recording দেখতে পারে?</p></li><li><p>Scope ঠিক করুন: "Live, alerts, timeline, sharing করবো। Camera setup (Wi-Fi provisioning) আর billing বাদ।"</p></li></ul>
@@ -7038,6 +7184,15 @@ In production, I watch time to first frame, stall rate, alert delay, and crash a
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"How do you make the app work without internet?" — internet ছাড়া app কীভাবে চালাবেন?</p></li><li><p>"How would you design sync between Room and the backend?" — Room আর backend-এর মধ্যে sync কীভাবে design করবেন?</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  ui[&quot;Compose UI&quot;] --&gt;|&quot;user event&quot;| vm[&quot;ViewModel&quot;] --&gt; repo[&quot;Repository&quot;]
+  repo --&gt;|&quot;① note row: syncState = PENDING&lt;br/&gt;② outbox row: op · payload · idempotencyKey&quot;| db[(&quot;Room&lt;br/&gt;source of truth&quot;)]
+  repo --&gt;|&quot;③ enqueue unique work&quot;| w[&quot;SyncWorker&lt;br/&gt;WorkManager · network CONNECTED · backoff&quot;]
+  db --&gt;|&quot;Flow#lt;List#lt;Note#gt;#gt;&quot;| ui
+  w --&gt;|&quot;① PUSH outbox: POST /changes (idempotency key)&lt;br/&gt;② PULL: GET /changes?since=cursor&quot;| srv[&quot;Server&lt;br/&gt;version per record · tombstones · cursor&quot;]
+  w --&gt;|&quot;pulled changes: upsert&quot;| db</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code> Compose UI ──events──► ViewModel ──► Repository
       ▲                                │  write: 1) Room row (syncState=PENDING)
       │ Flow&lt;List&lt;Note&gt;&gt;               │         2) Outbox row (op, payload, idempotencyKey)
@@ -7051,6 +7206,7 @@ In production, I watch time to first frame, stall rate, alert delay, and crash a
                      │   2) PULL changes → GET /changes?since=cursor
                      ▼
                  Server (version per record, tombstones, cursor)</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong></p>
 <ul><li><p>কোন data offline-এ লিখতে হবে, নাকি শুধু পড়তে?</p></li><li><p>একই data কি অনেক device বা অনেক user edit করে? (conflict-এর ঝুঁকি এখান থেকেই)</p></li><li><p>কতটা fresh লাগবে — সাথে সাথে, নাকি কয়েক মিনিটে চলবে?</p></li><li><p>Delete কি আছে?</p></li></ul>
@@ -7120,6 +7276,19 @@ In production, I watch the outbox size, the age of the oldest pending change, an
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"How would you build WhatsApp-like messaging?" — WhatsApp-এর মতো messaging কীভাবে বানাবেন?</p></li><li><p>"Design in-app chat between users and support." — user আর support-এর মধ্যে in-app chat design করুন।</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  ui[&quot;Compose Chat UI&quot;] --&gt;|&quot;send&quot;| repo[&quot;ChatRepository&quot;]
+  repo --&gt;|&quot;insert: state = SENDING, clientId&quot;| db[(&quot;Room&lt;br/&gt;messages · conversations&quot;)]
+  db --&gt;|&quot;Flow#lt;PagingData#lt;Message#gt;#gt;&quot;| ui
+  repo --&gt;|&quot;app in foreground&quot;| ws[&quot;WebSocket (OkHttp)&quot;]
+  repo --&gt;|&quot;socket down&quot;| sw[&quot;SendWorker (WorkManager)&quot;]
+  ws &lt;--&gt;|&quot;send · ack(serverId, seq) · new msg · receipts&quot;| srv[&quot;Chat server&quot;]
+  sw --&gt; srv
+  srv --&gt;|&quot;app in background&quot;| fcm[&quot;FCM&lt;br/&gt;notify + fetch missed by seq&quot;]
+  ws --&gt;|&quot;upsert&quot;| db
+  fcm --&gt;|&quot;upsert&quot;| db</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code> Compose Chat UI ◄── Flow&lt;PagingData&lt;Message&gt;&gt; ── Room (messages, conversations)
       │ send                                          ▲          ▲
       ▼                                               │ upsert   │ upsert
@@ -7129,6 +7298,7 @@ In production, I watch the outbox size, the age of the oldest pending change, an
       │      send / ack(serverId, seq) / new msg / receipts      │
       ├── SendWorker (WorkManager) when socket is down ──────────┘
       └── FCM (app in background) → notify + fetch missed by seq</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong> ১-১ নাকি group? Media (ছবি) আছে? Delivered/read receipt লাগবে? End-to-end encryption? Scope: "১-১ আর ছোট group, text + ছবি, receipt আছে; voice call নেই।"</p>
 <p><strong>২. Scale:</strong> ধরি একজন user-এর একশোর বেশি conversation, conversation-এ হাজারো message। তাই history <strong>Paging 3</strong> দিয়ে, Room থেকে। নতুন message সেকেন্ডের মধ্যে আসতে হবে।</p>
@@ -7189,6 +7359,17 @@ I test with a fake socket for acks, duplicates and out-of-order events, and I wa
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"How would you build an Instagram-like photo feed?" — Instagram-এর মতো photo feed কীভাবে বানাবেন?</p></li><li><p>"Design a gallery screen that shows thousands of images smoothly." — হাজার হাজার image smooth-ভাবে দেখায় এমন gallery screen design করুন।</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  api[&quot;API&lt;br/&gt;GET /photos?cursor=…&amp;limit=30&quot;] --&gt; rm[&quot;RemoteMediator&lt;br/&gt;REFRESH: clear + insert (one transaction)&lt;br/&gt;APPEND: insert page + save nextCursor&quot;]
+  rm --&gt; db[(&quot;Room&lt;br/&gt;photo · remote_key&quot;)]
+  db --&gt;|&quot;PagingSource&quot;| pager[&quot;Pager&quot;]
+  pager --&gt; vm[&quot;ViewModel&lt;br/&gt;.cachedIn(viewModelScope)&quot;]
+  vm --&gt;|&quot;Flow#lt;PagingData#lt;Photo#gt;#gt;&quot;| grid[&quot;LazyVerticalGrid (key = id)&lt;br/&gt;thumbnail size&quot;]
+  grid --&gt;|&quot;tap&quot;| full[&quot;Full screen&lt;br/&gt;HorizontalPager + zoom · full image&quot;]
+  coil[&quot;Coil&lt;br/&gt;memory cache → disk cache → CDN&quot;] -.-&gt; grid
+  coil -.-&gt; full</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code> Compose: LazyVerticalGrid (key = id) ──► full screen: HorizontalPager + zoom
       ▲ Flow&lt;PagingData&lt;Photo&gt;&gt;
  ViewModel (.cachedIn(viewModelScope))
@@ -7200,6 +7381,7 @@ I test with a fake socket for acks, duplicates and out-of-order events, and I wa
 
  Image loading (Coil): memory cache (LRU) → disk cache (app cacheDir) → network/CDN
  Grid asks for the thumbnail size · full screen asks for the full image</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong></p>
 <ul><li><p>ছবি কোথা থেকে — server feed, নাকি phone-এর নিজের ছবি (MediaStore)?</p></li><li><p>Offline-এ কিছু দেখাতে হবে কি না?</p></li><li><p>ছবি private কি না (signed URL লাগবে কি না)?</p></li><li><p>Upload এই scope-এ আছে কি না? (না থাকলে বলুন, D5-এ আলাদা।)</p></li><li><p>Scope: "server feed, grid, infinite scroll, full-screen view, প্রথম কয়েক page offline। Upload আর edit বাদ।"</p></li></ul>
@@ -7262,6 +7444,13 @@ In production, I watch image load time, failure rate and OOM crashes."</p></bloc
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"We ship our own Android-based devices. How do you manage them remotely?" — আমরা নিজেদের Android-based device বিক্রি করি। দূর থেকে এগুলো কীভাবে manage করবেন?</p></li><li><p>"Design an MDM-like system for our kiosks or cameras." — আমাদের kiosk বা camera-র জন্য MDM-এর মতো একটা system design করুন।</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  dev[&quot;Device · custom AOSP build (user variant)&lt;br/&gt;kiosk launcher + lock task mode&lt;br/&gt;agent app: commands · signed config · health · logs&lt;br/&gt;updaters: PackageInstaller (app) · UpdateEngine A/B (OS)&lt;br/&gt;identity key: Keystore / StrongBox + attestation&quot;]
+  be[&quot;Fleet backend&lt;br/&gt;provisioning · device registry&lt;br/&gt;MQTT broker · config · command queue&lt;br/&gt;OTA server: signed packages · staged rollout&lt;br/&gt;log store · dashboard · alerts&quot;]
+  dev &lt;--&gt;|&quot;MQTT over mutual TLS&lt;br/&gt;commands · config · heartbeat&quot;| be
+  be --&gt;|&quot;OTA + app updates (signed)&quot;| dev</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code> ┌──────────────────── Device (custom AOSP build, user variant) ─────────────────┐
  │ Kiosk launcher app (HOME) + lock task mode                                    │
  │ Agent app (privileged / platform-signed, or Device Owner)                     │
@@ -7278,6 +7467,7 @@ In production, I watch image load time, failure rate and OOM crashes."</p></bloc
  │ Provisioning · Device registry · MQTT broker · Config service · Command queue │
  │ OTA server (signed packages, staged rollout) · Log store · Dashboard/alerts  │
  └────────────────────────────────────────────────────────────────────────────────┘</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong></p>
 <ul><li><p>Device-এ কি <strong>GMS (Google Play services)</strong> আছে? Custom AOSP device-এ প্রায়ই থাকে না। তাহলে FCM, Play Integrity, Android Management API — এগুলো নেই। নিজের push আর নিজের attestation লাগবে।</p></li><li><p>OS কি আমরাই build করি? করলে আমাদের app platform key দিয়ে sign করা privileged app হতে পারে। না করলে Device Owner (DPC) পথে যেতে হবে।</p></li><li><p>কত device? কোথায় থাকে (দোকান, রাস্তায়, বাড়িতে)? Network কেমন (Wi-Fi, LTE, মাঝে মাঝে বন্ধ)?</p></li><li><p>Scope: kiosk, OTA (OS + app), config, command, log, health।</p></li></ul>
@@ -7343,6 +7533,20 @@ In production, I watch online devices, OTA success and rollback rate, and crashe
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"How do you upload a 2 GB video reliably?" — 2 GB-এর video নির্ভরযোগ্যভাবে কীভাবে upload করবেন?</p></li><li><p>"The upload restarts from zero when the app is killed. How would you fix it?" — app kill হলে upload আবার শূন্য থেকে শুরু হয়। কীভাবে ঠিক করবেন?</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  pick[&quot;Photo Picker&quot;] --&gt;|&quot;uri&quot;| repo[&quot;UploadRepository&quot;]
+  repo --&gt;|&quot;① save row: offset = 0, state = QUEUED&quot;| db[(&quot;Room&quot;)]
+  repo --&gt;|&quot;② enqueueUniqueWork(KEEP)&quot;| w[&quot;UploadWorker&lt;br/&gt;network constraint · backoff&lt;br/&gt;foreground progress notification&quot;]
+  w --&gt; q{&quot;Session আছে?&quot;}
+  q --&gt;|&quot;না&quot;| s1[&quot;POST /uploads&lt;br/&gt;size · sha256 · mime → sessionUrl&quot;]
+  q --&gt;|&quot;হ্যাঁ&quot;| s2[&quot;Server-কে offset জিজ্ঞেস করুন&quot;]
+  s1 --&gt; s2
+  s2 --&gt; s3[&quot;Loop: 8 MB chunk PUT (Content-Range)&lt;br/&gt;প্রতি OK-এর পর offset Room-এ save&quot;]
+  s3 --&gt; s4[&quot;POST …/complete → mediaId&quot;]
+  s3 -.-&gt; db
+  s4 --&gt; srv[&quot;Server&lt;br/&gt;resumable session (tus / S3 multipart / GCS)&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code> Photo Picker ─► uri ─► UploadRepository
                          │ 1) Room: upload(id, uri, size, sessionUrl?, offset=0, state=QUEUED)
                          │ 2) enqueueUniqueWork(&quot;upload-&lt;id&gt;&quot;, KEEP)
@@ -7356,6 +7560,7 @@ In production, I watch online devices, OTA success and rollback rate, and crashe
                  │ d) finalize → POST /uploads/{id}/complete → mediaId
                  ▼
              Server (resumable session: tus / S3 multipart / GCS resumable)</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong> file কত বড় (MB নাকি GB)? Upload আগে compress/transcode করতে হবে? Mobile data-তে চলবে নাকি শুধু Wi-Fi? একসাথে কয়টা file? Server কোন resumable protocol সাপোর্ট করে?</p>
 <p><strong>২. Scale:</strong> ধরি ২ GB পর্যন্ত video, খারাপ network-এ ১ Mbps → কয়েক ঘণ্টা লাগতে পারে। মানে app kill, network switch, phone restart — সব মাঝপথে হবে। তাই প্রতিবার শুরু থেকে পাঠানো চলবে না।</p>
@@ -7421,6 +7626,15 @@ I test with a fake server for lost responses and errors, and on a device with ai
 <p><strong>অন্যভাবেও জিজ্ঞেস করে:</strong></p>
 <ul><li><p>"We record accelerometer and gyro data all day. How would you build it?" — আমরা সারাদিন accelerometer আর gyro data record করি। এটা কীভাবে বানাবেন?</p></li><li><p>"Design data collection from our sensors to the cloud." — আমাদের sensor থেকে cloud-এ data নেওয়ার ব্যবস্থা design করুন।</p></li></ul>
 <p><strong>Diagram:</strong></p>
+<figure class="diagram"><div class="mmd">flowchart TD
+  sm[&quot;SensorManager&lt;br/&gt;samplingPeriodUs · maxReportLatencyUs (HW batching)&quot;] --&gt; l[&quot;SensorEventListener&lt;br/&gt;on a HandlerThread&quot;]
+  l --&gt;|&quot;values + event.timestamp (ns)&quot;| buf[&quot;Ring buffer / Channel&quot;]
+  buf --&gt; wr[&quot;Writer coroutine (single thread)&quot;]
+  wr --&gt;|&quot;every 1 s: append binary records&lt;br/&gt;every 1 min or 5 MB: close → gzip → READY&quot;| files[(&quot;Segment files&lt;br/&gt;+ Room segment rows&quot;)]
+  files --&gt; up[&quot;UploadWorker&lt;br/&gt;unmetered + charging, or every 15 min&quot;]
+  up --&gt;|&quot;POST segment (idempotent by id)&lt;br/&gt;200 OK → delete file, mark DONE&quot;| srv[&quot;Ingest server → time-series store&quot;]</div></figure>
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
 <pre><code> SensorManager ──(samplingPeriodUs, maxReportLatencyUs = HW batching)──►
    SensorEventListener on a HandlerThread
       │ copy values + event.timestamp (ns) into a ring buffer / Channel
@@ -7436,6 +7650,7 @@ I test with a fake server for lost responses and errors, and on a device with ai
       ▼
    Ingest server → time-series store
  (Long-running capture runs in a foreground service, or as a system service on our own OS)</code></pre>
+</details>
 <p><strong>ধাপে ধাপে (Bangla walk-through):</strong></p>
 <p><strong>১. Clarify:</strong></p>
 <ul><li><p>কোন sensor, কত Hz? (accelerometer ১০০ Hz নাকি ১ kHz?)</p></li><li><p>কতক্ষণ — কয়েক মিনিট, নাকি সারাদিন background-এ?</p></li><li><p>Data কত দ্রুত server-এ লাগবে — real-time, নাকি কয়েক ঘণ্টা দেরিতে চলবে?</p></li><li><p>Phone নাকি আমাদের নিজের device (নিজের OS)? External sensor (BLE) নাকি built-in?</p></li><li><p>Data হারানো কতটা সহ্য হয়?</p></li></ul>
@@ -9397,10 +9612,87 @@ fun Modifier.recordingDot(color: Color) = this then RecordingDotElement(color)</
     const next = dark ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     store.set('aip-theme', next);
+    drawDiagrams();
   };
   document.getElementById('menuBtn').onclick = () => document.body.classList.toggle('nav-open');
   main.addEventListener('click', () => document.body.classList.remove('nav-open'));
   document.getElementById('toTop').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Diagrams: Mermaid from a CDN; offline, the text version under each chart opens instead.
+  const diagrams = [...document.querySelectorAll('figure.diagram .mmd')];
+  diagrams.forEach(d => {
+    d.dataset.src = d.textContent;
+    const next = d.parentElement.nextElementSibling;
+    if (next && next.tagName === 'DETAILS') next.classList.add('diagram-text');
+  });
+  function showText(d){
+    d.parentElement.hidden = true;
+    const next = d.parentElement.nextElementSibling;
+    if (next && next.tagName === 'DETAILS') next.open = true;
+  }
+  // On a phone a wide chart keeps readable text and scrolls sideways.
+  function fitDiagram(d){
+    const svg = d.querySelector('svg');
+    const natural = parseFloat(svg.style.maxWidth) || 0;
+    const room = d.parentElement.clientWidth - 32;
+    const width = Math.min(natural, Math.max(room, natural * 0.8));
+    svg.style.width = width > room ? width + 'px' : '';
+    svg.style.maxWidth = width > room ? 'none' : svg.style.maxWidth;
+    d.parentElement.classList.toggle('scrolls', width > room);
+  }
+  let drawRun = 0;
+  async function drawDiagrams(){
+    if (!window.mermaid || !diagrams.length) return;
+    const run = ++drawRun;
+    const css = getComputedStyle(document.documentElement);
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({
+      startOnLoad: false, securityLevel: 'strict', theme: 'base',
+      fontFamily: 'Inter, "Noto Sans Bengali", sans-serif',
+      flowchart: { curve: 'basis', padding: 12 },
+      themeVariables: {
+        darkMode: dark, fontSize: '14px',
+        primaryColor: css.getPropertyValue('--accent-soft').trim(),
+        primaryBorderColor: css.getPropertyValue('--accent-line').trim(),
+        primaryTextColor: css.getPropertyValue('--text').trim(),
+        lineColor: css.getPropertyValue('--muted').trim(),
+        secondaryColor: css.getPropertyValue('--dia-soft').trim(),
+        tertiaryColor: css.getPropertyValue('--surface2').trim(),
+        clusterBkg: css.getPropertyValue('--surface2').trim(),
+        clusterBorder: css.getPropertyValue('--line2').trim(),
+        edgeLabelBackground: css.getPropertyValue('--surface').trim(),
+        noteBkgColor: css.getPropertyValue('--star-soft').trim(),
+        noteTextColor: css.getPropertyValue('--text').trim(),
+        noteBorderColor: css.getPropertyValue('--line2').trim(),
+        actorBkg: css.getPropertyValue('--accent-soft').trim(),
+        actorBorder: css.getPropertyValue('--accent-line').trim(),
+        actorTextColor: css.getPropertyValue('--text').trim(),
+        signalColor: css.getPropertyValue('--text2').trim(),
+        signalTextColor: css.getPropertyValue('--text').trim(),
+        labelBoxBkgColor: css.getPropertyValue('--surface2').trim(),
+        background: css.getPropertyValue('--surface').trim()
+      }
+    });
+    for (let i = 0; i < diagrams.length; i++) {
+      if (run !== drawRun) return;
+      const d = diagrams[i];
+      try {
+        const { svg } = await mermaid.render('mmd-' + run + '-' + i, d.dataset.src);
+        d.innerHTML = svg;
+        d.classList.add('done');
+        fitDiagram(d);
+      } catch (e) { showText(d); }
+    }
+  }
+  if (diagrams.length) {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js';
+    s.onload = drawDiagrams;
+    s.onerror = () => diagrams.forEach(showText);
+    document.head.appendChild(s);
+  }
 
   // Hero buttons, plan cards, code copy.
   document.getElementById('ctaRead').onclick = () => go('how-to-use');

@@ -14,6 +14,7 @@ FENCE = re.compile(r"^(\s*)(`{3,}|~{3,})\s*([\w+-]*)")
 HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
 HR = re.compile(r"^\s{0,3}([-*_])(\s*\1){2,}\s*$")
 LIST_ITEM = re.compile(r"^(\s*)([-*+]|\d+[.)])\s+(.*)$")
+RAW_HTML = re.compile(r"^\s*(</?details>|<summary>.*</summary>)\s*$")
 TABLE_SEP = re.compile(r"^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$")
 
 
@@ -42,7 +43,7 @@ def inline(text: str) -> str:
 def starts_block(line: str) -> bool:
     if FENCE.match(line) or HEADING.match(line) or HR.match(line):
         return True
-    if re.match(r"^\s{0,3}>", line):
+    if re.match(r"^\s{0,3}>", line) or RAW_HTML.match(line):
         return True
     m = LIST_ITEM.match(line)
     return bool(m and len(m.group(1)) <= 3)
@@ -79,8 +80,15 @@ def blocks(lines: list) -> str:
                 body.append(raw[min(indent, len(raw) - len(raw.lstrip(" "))):])
                 i += 1
             i += 1
+            if lang == "mermaid":
+                out.append(f'<figure class="diagram"><div class="mmd">{html.escape(chr(10).join(body))}</div></figure>')
+                continue
             cls = f' class="language-{lang}"' if lang else ""
             out.append(f"<pre><code{cls}>{html.escape(chr(10).join(body))}</code></pre>")
+            continue
+        if RAW_HTML.match(line):
+            out.append(line.strip())
+            i += 1
             continue
         heading = HEADING.match(line)
         if heading:
@@ -309,6 +317,16 @@ code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.85em;b
 pre{margin:0;padding:16px 18px;overflow-x:auto;line-height:1.6;background:var(--code-bg)}
 pre code{background:none;border:0;padding:0;font-size:13px;color:var(--code-text)}
 hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+figure.diagram{scrollbar-color:var(--line2) transparent;scrollbar-width:thin;margin:16px 0;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow-x:auto;text-align:center}
+figure.diagram .mmd{color:var(--muted);font-size:13px}
+figure.diagram .mmd:not(.done){white-space:pre;text-align:left;max-height:0;overflow:hidden}
+figure.diagram:has(.mmd:not(.done))::before{content:"chart আসছে…";color:var(--muted);font-size:13px}
+figure.diagram svg{max-width:100%;height:auto}
+figure.diagram.scrolls{text-align:left}
+figure.diagram.scrolls::after{content:"← পাশে সরিয়ে পুরোটা দেখুন →";display:block;position:sticky;left:0;margin-top:8px;color:var(--muted);font-size:12px}
+details.diagram-text{margin:-6px 0 16px}
+details.diagram-text > summary{cursor:pointer;color:var(--muted);font-size:13px;padding:4px 2px;width:max-content;max-width:100%}
+details.diagram-text > summary:hover{color:var(--accent)}
 li > p{margin:2px 0}
 ul,ol{padding-left:22px}
 li{margin:3px 0}
@@ -986,10 +1004,87 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     const next = dark ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     store.set('aip-theme', next);
+    drawDiagrams();
   };
   document.getElementById('menuBtn').onclick = () => document.body.classList.toggle('nav-open');
   main.addEventListener('click', () => document.body.classList.remove('nav-open'));
   document.getElementById('toTop').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Diagrams: Mermaid from a CDN; offline, the text version under each chart opens instead.
+  const diagrams = [...document.querySelectorAll('figure.diagram .mmd')];
+  diagrams.forEach(d => {
+    d.dataset.src = d.textContent;
+    const next = d.parentElement.nextElementSibling;
+    if (next && next.tagName === 'DETAILS') next.classList.add('diagram-text');
+  });
+  function showText(d){
+    d.parentElement.hidden = true;
+    const next = d.parentElement.nextElementSibling;
+    if (next && next.tagName === 'DETAILS') next.open = true;
+  }
+  // On a phone a wide chart keeps readable text and scrolls sideways.
+  function fitDiagram(d){
+    const svg = d.querySelector('svg');
+    const natural = parseFloat(svg.style.maxWidth) || 0;
+    const room = d.parentElement.clientWidth - 32;
+    const width = Math.min(natural, Math.max(room, natural * 0.8));
+    svg.style.width = width > room ? width + 'px' : '';
+    svg.style.maxWidth = width > room ? 'none' : svg.style.maxWidth;
+    d.parentElement.classList.toggle('scrolls', width > room);
+  }
+  let drawRun = 0;
+  async function drawDiagrams(){
+    if (!window.mermaid || !diagrams.length) return;
+    const run = ++drawRun;
+    const css = getComputedStyle(document.documentElement);
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({
+      startOnLoad: false, securityLevel: 'strict', theme: 'base',
+      fontFamily: 'Inter, "Noto Sans Bengali", sans-serif',
+      flowchart: { curve: 'basis', padding: 12 },
+      themeVariables: {
+        darkMode: dark, fontSize: '14px',
+        primaryColor: css.getPropertyValue('--accent-soft').trim(),
+        primaryBorderColor: css.getPropertyValue('--accent-line').trim(),
+        primaryTextColor: css.getPropertyValue('--text').trim(),
+        lineColor: css.getPropertyValue('--muted').trim(),
+        secondaryColor: css.getPropertyValue('--dia-soft').trim(),
+        tertiaryColor: css.getPropertyValue('--surface2').trim(),
+        clusterBkg: css.getPropertyValue('--surface2').trim(),
+        clusterBorder: css.getPropertyValue('--line2').trim(),
+        edgeLabelBackground: css.getPropertyValue('--surface').trim(),
+        noteBkgColor: css.getPropertyValue('--star-soft').trim(),
+        noteTextColor: css.getPropertyValue('--text').trim(),
+        noteBorderColor: css.getPropertyValue('--line2').trim(),
+        actorBkg: css.getPropertyValue('--accent-soft').trim(),
+        actorBorder: css.getPropertyValue('--accent-line').trim(),
+        actorTextColor: css.getPropertyValue('--text').trim(),
+        signalColor: css.getPropertyValue('--text2').trim(),
+        signalTextColor: css.getPropertyValue('--text').trim(),
+        labelBoxBkgColor: css.getPropertyValue('--surface2').trim(),
+        background: css.getPropertyValue('--surface').trim()
+      }
+    });
+    for (let i = 0; i < diagrams.length; i++) {
+      if (run !== drawRun) return;
+      const d = diagrams[i];
+      try {
+        const { svg } = await mermaid.render('mmd-' + run + '-' + i, d.dataset.src);
+        d.innerHTML = svg;
+        d.classList.add('done');
+        fitDiagram(d);
+      } catch (e) { showText(d); }
+    }
+  }
+  if (diagrams.length) {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js';
+    s.onload = drawDiagrams;
+    s.onerror = () => diagrams.forEach(showText);
+    document.head.appendChild(s);
+  }
 
   // Hero buttons, plan cards, code copy.
   document.getElementById('ctaRead').onclick = () => go('how-to-use');

@@ -753,6 +753,13 @@ Interview-এর প্রথম ৫ মিনিটে interviewer আপনা
   **উত্তর (বাংলায়):** "কারণ এটার জন্য আগে থেকেই আমার একটা সহজ rule আছে — time limit — আর সেটা কাজ করে। আমার কাজের quality-তে এর কোনো প্রভাব নেই। প্রভাব শুধু এটুকু: help চাইতে কতটা দেরি করি।"
 
   **উত্তর (English):** "Because I already have a simple rule for it, the time limit, and it works. It doesn't affect the quality of my work. It only affects how soon I ask for help."
+- **প্রশ্ন (Q):** How long is that time limit?
+
+  **প্রশ্ন (বাংলায়):** ওই time limit কতক্ষণের?
+
+  **উত্তর (বাংলায়):** "এটা কাজের ওপর নির্ভর করে। ছোট bug হলে প্রায় এক ঘণ্টা। বড় বা অজানা কিছু হলে আধা দিন। প্রশ্ন করার আগে লিখে রাখি কী কী চেষ্টা করেছি, যাতে যাকে জিজ্ঞেস করছি তার সময় নষ্ট না হয়।"
+
+  **উত্তর (English):** "It depends on the task. For a small bug, it's about an hour. For something big or unknown, about half a day. Before I ask, I write down what I've already tried, so I don't waste the other person's time."
 
 **ভুল করবেন না:** এমন weakness বলবেন না যেটা job-এর মূল skill-কে আঘাত করে (যেমন "I am weak in Kotlin")।
 
@@ -786,6 +793,17 @@ Coroutines আর Flow আজকের Android-এর async মডেল। View
 - **Lifecycle-aware collect:** Compose-এ `collectAsStateWithLifecycle()`, View-এ `repeatOnLifecycle(STARTED)`।
 
 **ছোট diagram — data কোন দিকে যায়:**
+```mermaid
+flowchart TD
+  src["Room / Retrofit / Sensor"] -->|"Flow#lt;T#gt; · cold"| repo["Repository"]
+  repo --> vm["ViewModel<br/>map / combine / stateIn(viewModelScope)"]
+  vm -->|"StateFlow#lt;UiState#gt; · hot"| ui["UI<br/>collectAsStateWithLifecycle()"]
+  ui -->|"user event → viewModel.onX()"| vm
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Room / Retrofit / Sensor
         │  Flow<T>  (cold)
@@ -795,6 +813,8 @@ Repository ──► ViewModel: map / combine / stateIn(viewModelScope)
                     ▼
 UI: collectAsStateWithLifecycle()  ──user event──► viewModel.onX()
 ```
+
+</details>
 
 **Flutter থেকে এলে কী আলাদা:**
 - Dart-এ একটা isolate-এ একটা event loop। Kotlin coroutine অনেক thread-এ চলতে পারে। তাই thread safety নিয়ে ভাবতে হয় (K16)।
@@ -2120,6 +2140,21 @@ Kotlin-এর অনেক সুবিধা আসলে **compiler-এর ক
 - **Kotlin-এ checked exception নেই।** তাই জানা error (network নেই, 401) type দিয়ে দেখাই — `sealed` বা `Result`।
 
 **ছোট diagram — একটা suspend call:**
+```mermaid
+sequenceDiagram
+  participant L as loadUser()
+  participant A as api.get()
+  participant T as Thread
+  L->>A: call (suspend point)
+  A-->>T: thread free হয়, অন্য কাজ চলে
+  Note over A: network-এর ফল আসে
+  A->>L: continuation.resumeWith(result)
+  Note over L: label = 1 থেকে আবার চলে<br/>local value আসে continuation object থেকে
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 loadUser() ──► api.get()  ── suspend ──► thread free (অন্য কাজ চলে)
                                    │
@@ -2127,6 +2162,8 @@ loadUser() ──► api.get()  ── suspend ──► thread free (অন্�
                                    │
 loadUser() আবার চলে: label = 1 থেকে, আগের local value object থেকে নেয়
 ```
+
+</details>
 
 **Flutter থেকে এলে কী আলাদা:**
 - Dart-এর `async/await`-ও compiler state machine বানায়। কিন্তু Dart-এ একটা isolate-এ একটাই thread। Kotlin-এ coroutine অনেক thread-এ চলতে পারে। তাই thread-safety আসল সমস্যা।
@@ -2783,6 +2820,18 @@ Flutter-এ এগুলো plugin আর engine লুকিয়ে রাখ
 | targetSdk | নতুন নিয়ম বেশিরভাগই তখন লাগে যখন আপনি targetSdk বাড়ান |
 
 **ছোট ছবি:**
+```mermaid
+flowchart TD
+  z["Zygote"] -->|"fork"| p["App process<br/>own Linux UID (10xxx)"]
+  p --> cp["ContentProvider.onCreate()<br/>runs first"]
+  cp --> a["Application.onCreate()"]
+  a --> c["Activity / Service / Receiver<br/>system starts them with an Intent"]
+  c --> mt["Main thread<br/>Looper → MessageQueue → Handler<br/>every callback runs here"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Zygote --fork--> app process (UID 10xxx)
                     |
@@ -2792,6 +2841,8 @@ Zygote --fork--> app process (UID 10xxx)
                     |
    main thread: Looper -> MessageQueue -> Handler (সব callback এখানে)
 ```
+
+</details>
 
 **Flutter থেকে এলে কী আলাদা:**
 - Flutter-এ সাধারণত একটা `FlutterActivity` আর সব screen Dart-এ। Native-এ Activity, Fragment, Service সবার আলাদা lifecycle।
@@ -2879,11 +2930,33 @@ Zygote --fork--> app process (UID 10xxx)
 - "Where would you open and release the camera?" — Camera কোথায় open করবেন আর কোথায় release করবেন?
 
 **বুঝে নিন:**
+```mermaid
+stateDiagram-v2
+  direction TB
+  [*] --> Created: onCreate()
+  Created --> Started: onStart()
+  Started --> Resumed: onResume()
+  Resumed --> Paused: onPause()
+  Paused --> Resumed: onResume()
+  Paused --> Stopped: onStop()
+  Stopped --> Started: onRestart() → onStart()
+  Stopped --> Destroyed: onDestroy()
+  Destroyed --> [*]
+  note right of Resumed: সামনে আছে, input নিচ্ছে
+  note right of Stopped: আর দেখা যায় না
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 onCreate -> onStart -> onResume   (এখন user interact করতে পারে)
           onPause  -> onStop -> onDestroy
 onStop -> onRestart -> onStart   (ফিরে এলে)
 ```
+
+</details>
+
 - `onCreate` — একবার। UI set করা, ViewModel নেওয়া। `savedInstanceState` এখানে আসে।
 - `onStart` — screen **visible**।
 - `onResume` — সামনে, input পাচ্ছে।
@@ -4229,6 +4302,23 @@ Camera, sensor আর custom Android OS (AOSP) নিয়ে কাজ কর�
 একটা Android app একা চলে না। প্রায় প্রতিটা কাজ (activity খোলা, camera, location, notification) আসলে **অন্য process-এ চলা system service**-কে অনুরোধ। এই অনুরোধ যায় **Binder** দিয়ে।
 
 **Layer-গুলো, উপর থেকে নিচে:**
+```mermaid
+flowchart TD
+  app["Your app process<br/>ART · Kotlin/Java code · ActivityThread · main thread"]
+  ss["system_server<br/>ActivityManager · WindowManager · PackageManager<br/>LocationManager · SensorService …"]
+  nat["Native processes<br/>cameraserver · surfaceflinger · mediaserver"]
+  hal["HAL · vendor-এর code<br/>camera · sensors · GNSS"]
+  k["Linux kernel<br/>drivers · Binder driver · SELinux · cgroups"]
+  app -->|"Binder IPC"| ss
+  app -->|"Binder IPC"| nat
+  ss -->|"AIDL HAL (পুরনো: HIDL)"| hal
+  nat -->|"AIDL HAL (পুরনো: HIDL)"| hal
+  hal --> k
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Your app process (ART: Kotlin/Java code, ActivityThread, main thread)
    │  Binder IPC
@@ -4240,6 +4330,8 @@ HAL (vendor-এর code: camera HAL, sensors HAL, GNSS HAL)
    │
 Linux kernel (driver, Binder driver, SELinux, cgroups, lmkd-কে memory তথ্য)
 ```
+
+</details>
 
 **মূল ধারণাগুলো:**
 1. **প্রতিটা app = একটা Linux process + নিজের UID।** এটাই sandbox। এক app আরেক app-এর file পড়তে পারে না।
@@ -4526,12 +4618,27 @@ val args = IntentCompat.getParcelableExtra(intent, "args", CameraArgs::class.jav
 - "Why does the UI stutter, and how do you find the cause?" — UI কেন আটকে আটকে চলে, আর কারণটা কীভাবে খুঁজে বের করেন?
 
 **বুঝে নিন:**
+```mermaid
+flowchart TD
+  v["VSYNC signal"] --> c["Choreographer · main thread<br/>input → animation → measure → layout → draw"]
+  c -->|"display list"| r["RenderThread<br/>GPU commands (HWUI · Skia · Vulkan/GL)"]
+  r -->|"buffer"| sf["SurfaceFlinger + Hardware Composer<br/>সব layer মেলায়"]
+  sf --> d["Display"]
+  c -. "main thread ধীর হলে frame miss = jank" .-> v
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 VSYNC ─► Choreographer (main thread)
           input → animation → traversal (measure → layout → draw = display list record)
        ─► RenderThread: display list sync → GPU command (HWUI, Skia / Vulkan বা GL)
        ─► buffer queue-তে buffer দেয় ─► SurfaceFlinger + Hardware Composer সব layer মেলায় ─► display
 ```
+
+</details>
+
 - **VSYNC:** display-এর refresh signal। 60 Hz → প্রতি **16.6 ms**, 90 Hz → 11.1 ms, 120 Hz → **8.3 ms**।
 - **Choreographer:** প্রতি VSYNC-এ main thread-এ callback চালায় — input, animation, তারপর traversal।
 - **Main thread কাজ:** measure, layout, draw। Draw মানে আসল pixel না — একটা **display list** (RenderNode) রেকর্ড করা।
@@ -7908,12 +8015,27 @@ FirebaseCrashlytics.getInstance().apply {
 **বুঝে নিন:**
 
 **Pipeline (GitHub Actions):**
+```mermaid
+flowchart TD
+  pr["Every PR<br/>lint + detekt/ktlint → unit tests → assembleDebug"]
+  mn["Merge to main<br/>+ instrumented tests (emulator / Firebase Test Lab)"]
+  tg["Release tag<br/>signed bundleRelease → upload mapping → Play internal track"]
+  rel["Manual promote<br/>internal → closed → production (staged rollout)"]
+  pr --> mn --> tg --> rel
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 PR:      checkout → JDK → Gradle cache → lint + detekt/ktlint → unit tests → assembleDebug
 main:    + instrumented tests (emulator / Firebase Test Lab)
 tag:     bundleRelease (signed) → upload mapping → Play internal track
 manual:  promote internal → closed → production (staged rollout)
 ```
+
+</details>
+
 - **JDK:** AGP 8 আর 9-এর জন্য JDK 17 লাগে (`actions/setup-java`)।
 - **Gradle:** `gradle/actions/setup-gradle` cache দেয়। Gradle wrapper commit করুন।
 - **Signing:** keystore base64 করে GitHub secret-এ, CI-তে decode করে file বানান। Password environment variable থেকে। কখনো repo-তে নয়।
@@ -11560,12 +11682,26 @@ manager.prepareIntegrityToken(
 
 **একটা video কোথা থেকে কোথায় যায়:**
 
+```mermaid
+flowchart TD
+  s["Camera sensor"] --> hal["Camera HAL"] --> cx["Camera2 / CameraX"] --> sur["Surface"]
+  sur --> enc["Encoder · MediaCodec<br/>H.264 / H.265"]
+  enc --> mux["Muxer (MP4)"] --> file["File on disk"]
+  enc --> pk["Packetizer<br/>RTP/RTSP · WebRTC · HLS"] --> net["Network"]
+  net --> pl["Player<br/>Media3 ExoPlayer / WebRTC"] --> dec["Decoder · MediaCodec"] --> sv["SurfaceView"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Sensor → Camera HAL → Camera2/CameraX → Surface
    → Encoder (MediaCodec, H.264/H.265) → Muxer (MP4) → file
                                        → Packetizer (RTP/RTSP, WebRTC, HLS) → network
 Network → Player (Media3 ExoPlayer / WebRTC) → Decoder (MediaCodec) → SurfaceView
 ```
+
+</details>
 
 **যে ৯টা ধারণার উপর সব দাঁড়িয়ে:**
 
@@ -12528,6 +12664,17 @@ val notification = NotificationCompat.Builder(context, CHANNEL_MOTION)
 
 **২. Layer-গুলো (উপর থেকে নিচে):**
 
+```mermaid
+flowchart TD
+  a["Apps<br/>আপনার app · system apps"] -->|"Java/Kotlin API (android.*)"| f["Framework · system_server<br/>ActivityManager · PackageManager · LocationManager"]
+  f -->|"Binder IPC"| n["Native daemons + ART<br/>cameraserver · surfaceflinger · audioserver"]
+  n -->|"Binder (AIDL HAL)"| h["HAL · vendor-এর code<br/>camera · sensors · GPS"]
+  h -->|"ioctl · sysfs · /dev"| k["Linux kernel + drivers"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Apps (আপনার app, system apps)
    │  Java/Kotlin API (android.*)
@@ -12539,6 +12686,8 @@ HAL  (vendor-এর code: camera, sensors, GPS ...)
    │  ioctl / sysfs / /dev/*
 Linux kernel + drivers
 ```
+
+</details>
 
 **৩. Binder সব জোড়া লাগায়।** App সরাসরি hardware ছোঁয় না। ধাপগুলো:
 1. App একটা manager class call করে (যেমন `CameraManager`)।
@@ -12662,6 +12811,22 @@ Linux kernel + drivers
   - একটা copy-তে data যায়।
 - **উদাহরণ — camera খোলা:**
 
+```mermaid
+sequenceDiagram
+  participant App
+  participant CS as cameraserver
+  participant HAL as Camera HAL (vendor)
+  participant K as Kernel driver
+  App->>CS: CameraManager.openCamera() via Binder
+  Note over CS: CAMERA permission check
+  CS->>HAL: Binder (AIDL)
+  HAL->>K: ioctl (V4L2 / vendor driver)
+  K-->>App: frames shared buffer-এ আসে (gralloc / AHardwareBuffer), copy ছাড়া
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 App: CameraManager.openCamera()
   → Binder → cameraserver (native, permission check: CAMERA)
@@ -12669,6 +12834,8 @@ App: CameraManager.openCamera()
   → ioctl → V4L2 / vendor kernel driver → sensor chip
 Frames ফেরত আসে shared buffer (gralloc / AHardwareBuffer)-এ, copy ছাড়া।
 ```
+
+</details>
 
 - Sensor হলে: `SensorManager` → `SensorService` (system_server-এর ভেতর) → Sensors AIDL HAL → kernel (IIO/i2c) → sensor hub।
 - Flutter mapping: platform channel হলো Dart ↔ Kotlin একই process-এ। Binder হলো process ↔ process, kernel দিয়ে।
@@ -13083,6 +13250,19 @@ Frames ফেরত আসে shared buffer (gralloc / AHardwareBuffer)-এ, cop
 
 **এক কথায়:** Power on → bootloader → kernel → `init` → native daemons → Zygote → `system_server` → launcher। নিজের code সবচেয়ে নিচের যে ধাপে মেলে, সেখানে চালান।
 
+```mermaid
+flowchart TD
+  a["Boot ROM"] --> b["Bootloader<br/>AVB দিয়ে verify"] --> c["Linux kernel"]
+  c --> d["init<br/>1st stage: partitions mount<br/>2nd stage: SELinux load · .rc parse"]
+  d --> e["Native daemons<br/>servicemanager · HALs · surfaceflinger · cameraserver"]
+  e --> z["Zygote<br/>ART শুরু · common class preload"]
+  z -->|"fork"| s["system_server<br/>সব framework service start"]
+  s --> l["Launcher (HOME intent)<br/>+ BOOT_COMPLETED broadcast"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Boot ROM → Bootloader (AVB verify) → Kernel
   → init (first stage: partitions mount; second stage: SELinux load, .rc parse)
@@ -13091,6 +13271,8 @@ Boot ROM → Bootloader (AVB verify) → Kernel
   → system_server (Zygote fork করে; সব framework service start)
   → Launcher (HOME intent) + BOOT_COMPLETED broadcast
 ```
+
+</details>
 
 - **init আর `.rc`:** `init` প্রথম user-space process (PID 1)। `.rc` file-এ `service`, `on <trigger>` থাকে। নিজের daemon:
   ```
@@ -13646,10 +13828,21 @@ Camera আর sensor device-এর company-তে app শুধু screen না
 **১. সব hardware data একই pattern-এ আসে।** আপনি register করেন → system callback দেয় → আপনি unregister করেন। Register-এর সময় rate ঠিক করেন। Unregister ভুলে গেলে battery শেষ।
 
 **২. Sensor-এর রাস্তা:**
+```mermaid
+flowchart TD
+  a["Sensor chip"] --> b["Sensor hub / HAL"] --> c["SensorService<br/>(system_server)"] --> d["SensorManager"] --> e["আপনার SensorEventListener<br/>onSensorChanged()"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
 Sensor chip → Sensor hub / HAL → SensorService (system_server)
    → SensorManager → আপনার SensorEventListener (onSensorChanged)
 ```
+
+</details>
+
 অনেক device-এ sensor hub (ছোট আলাদা processor) আছে। এটা CPU ঘুমিয়ে থাকলেও data জমায় (batching)। তাই batching battery বাঁচায়।
 
 **৩. Hardware vs composite sensor।** Accelerometer, gyroscope, magnetometer আসল chip। Rotation vector, gravity, linear acceleration, step counter — এগুলো fusion করে বানানো (HAL বা hub-এ)।
@@ -14547,6 +14740,20 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "Design the mobile side of a home camera system." — একটা home camera system-এর mobile অংশটা design করুন।
 
 **Diagram:**
+```mermaid
+flowchart TD
+  cam["IP camera<br/>substream (small) + main stream (HD)"]
+  cloud["Cloud<br/>auth · device registry · sharing<br/>WebRTC signaling + TURN relay<br/>recordings (HLS) + timeline API<br/>event service → FCM push"]
+  app["Android app<br/>Compose UI → ViewModel → Repository<br/>Room cache · DataStore<br/>Media3 / WebRTC player<br/>Keystore + Tink · biometric lock"]
+  cam -->|"live, same LAN: RTSP"| app
+  cam -->|"events · recordings · WebRTC"| cloud
+  cloud -->|"video: WebRTC / HLS · push"| app
+  app -->|"API: HTTPS / WSS"| cloud
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
                     ┌──────────────── Cloud ────────────────┐
  Camera ──RTSP/LAN──┐│ Auth/Users   Device registry  Sharing │
@@ -14566,6 +14773,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
  │ Keystore + Tink (tokens) · BiometricPrompt app lock     │
  └─────────────────────────────────────────────────────────┘
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
@@ -14690,6 +14899,19 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "How would you design sync between Room and the backend?" — Room আর backend-এর মধ্যে sync কীভাবে design করবেন?
 
 **Diagram:**
+```mermaid
+flowchart TD
+  ui["Compose UI"] -->|"user event"| vm["ViewModel"] --> repo["Repository"]
+  repo -->|"① note row: syncState = PENDING<br/>② outbox row: op · payload · idempotencyKey"| db[("Room<br/>source of truth")]
+  repo -->|"③ enqueue unique work"| w["SyncWorker<br/>WorkManager · network CONNECTED · backoff"]
+  db -->|"Flow#lt;List#lt;Note#gt;#gt;"| ui
+  w -->|"① PUSH outbox: POST /changes (idempotency key)<br/>② PULL: GET /changes?since=cursor"| srv["Server<br/>version per record · tombstones · cursor"]
+  w -->|"pulled changes: upsert"| db
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
  Compose UI ──events──► ViewModel ──► Repository
       ▲                                │  write: 1) Room row (syncState=PENDING)
@@ -14705,6 +14927,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
                      ▼
                  Server (version per record, tombstones, cursor)
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
@@ -14830,6 +15054,23 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "Design in-app chat between users and support." — user আর support-এর মধ্যে in-app chat design করুন।
 
 **Diagram:**
+```mermaid
+flowchart TD
+  ui["Compose Chat UI"] -->|"send"| repo["ChatRepository"]
+  repo -->|"insert: state = SENDING, clientId"| db[("Room<br/>messages · conversations")]
+  db -->|"Flow#lt;PagingData#lt;Message#gt;#gt;"| ui
+  repo -->|"app in foreground"| ws["WebSocket (OkHttp)"]
+  repo -->|"socket down"| sw["SendWorker (WorkManager)"]
+  ws <-->|"send · ack(serverId, seq) · new msg · receipts"| srv["Chat server"]
+  sw --> srv
+  srv -->|"app in background"| fcm["FCM<br/>notify + fetch missed by seq"]
+  ws -->|"upsert"| db
+  fcm -->|"upsert"| db
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
  Compose Chat UI ◄── Flow<PagingData<Message>> ── Room (messages, conversations)
       │ send                                          ▲          ▲
@@ -14841,6 +15082,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
       ├── SendWorker (WorkManager) when socket is down ──────────┘
       └── FCM (app in background) → notify + fetch missed by seq
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
@@ -14943,6 +15186,21 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "Design a gallery screen that shows thousands of images smoothly." — হাজার হাজার image smooth-ভাবে দেখায় এমন gallery screen design করুন।
 
 **Diagram:**
+```mermaid
+flowchart TD
+  api["API<br/>GET /photos?cursor=…&limit=30"] --> rm["RemoteMediator<br/>REFRESH: clear + insert (one transaction)<br/>APPEND: insert page + save nextCursor"]
+  rm --> db[("Room<br/>photo · remote_key")]
+  db -->|"PagingSource"| pager["Pager"]
+  pager --> vm["ViewModel<br/>.cachedIn(viewModelScope)"]
+  vm -->|"Flow#lt;PagingData#lt;Photo#gt;#gt;"| grid["LazyVerticalGrid (key = id)<br/>thumbnail size"]
+  grid -->|"tap"| full["Full screen<br/>HorizontalPager + zoom · full image"]
+  coil["Coil<br/>memory cache → disk cache → CDN"] -.-> grid
+  coil -.-> full
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
  Compose: LazyVerticalGrid (key = id) ──► full screen: HorizontalPager + zoom
       ▲ Flow<PagingData<Photo>>
@@ -14956,6 +15214,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
  Image loading (Coil): memory cache (LRU) → disk cache (app cacheDir) → network/CDN
  Grid asks for the thumbnail size · full screen asks for the full image
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
@@ -15077,6 +15337,17 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "Design an MDM-like system for our kiosks or cameras." — আমাদের kiosk বা camera-র জন্য MDM-এর মতো একটা system design করুন।
 
 **Diagram:**
+```mermaid
+flowchart TD
+  dev["Device · custom AOSP build (user variant)<br/>kiosk launcher + lock task mode<br/>agent app: commands · signed config · health · logs<br/>updaters: PackageInstaller (app) · UpdateEngine A/B (OS)<br/>identity key: Keystore / StrongBox + attestation"]
+  be["Fleet backend<br/>provisioning · device registry<br/>MQTT broker · config · command queue<br/>OTA server: signed packages · staged rollout<br/>log store · dashboard · alerts"]
+  dev <-->|"MQTT over mutual TLS<br/>commands · config · heartbeat"| be
+  be -->|"OTA + app updates (signed)"| dev
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
  ┌──────────────────── Device (custom AOSP build, user variant) ─────────────────┐
  │ Kiosk launcher app (HOME) + lock task mode                                    │
@@ -15095,6 +15366,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
  │ OTA server (signed packages, staged rollout) · Log store · Dashboard/alerts  │
  └────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
@@ -15216,6 +15489,24 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "The upload restarts from zero when the app is killed. How would you fix it?" — app kill হলে upload আবার শূন্য থেকে শুরু হয়। কীভাবে ঠিক করবেন?
 
 **Diagram:**
+```mermaid
+flowchart TD
+  pick["Photo Picker"] -->|"uri"| repo["UploadRepository"]
+  repo -->|"① save row: offset = 0, state = QUEUED"| db[("Room")]
+  repo -->|"② enqueueUniqueWork(KEEP)"| w["UploadWorker<br/>network constraint · backoff<br/>foreground progress notification"]
+  w --> q{"Session আছে?"}
+  q -->|"না"| s1["POST /uploads<br/>size · sha256 · mime → sessionUrl"]
+  q -->|"হ্যাঁ"| s2["Server-কে offset জিজ্ঞেস করুন"]
+  s1 --> s2
+  s2 --> s3["Loop: 8 MB chunk PUT (Content-Range)<br/>প্রতি OK-এর পর offset Room-এ save"]
+  s3 --> s4["POST …/complete → mediaId"]
+  s3 -.-> db
+  s4 --> srv["Server<br/>resumable session (tus / S3 multipart / GCS)"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
  Photo Picker ─► uri ─► UploadRepository
                          │ 1) Room: upload(id, uri, size, sessionUrl?, offset=0, state=QUEUED)
@@ -15231,6 +15522,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
                  ▼
              Server (resumable session: tus / S3 multipart / GCS resumable)
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
@@ -15346,6 +15639,19 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
 - "Design data collection from our sensors to the cloud." — আমাদের sensor থেকে cloud-এ data নেওয়ার ব্যবস্থা design করুন।
 
 **Diagram:**
+```mermaid
+flowchart TD
+  sm["SensorManager<br/>samplingPeriodUs · maxReportLatencyUs (HW batching)"] --> l["SensorEventListener<br/>on a HandlerThread"]
+  l -->|"values + event.timestamp (ns)"| buf["Ring buffer / Channel"]
+  buf --> wr["Writer coroutine (single thread)"]
+  wr -->|"every 1 s: append binary records<br/>every 1 min or 5 MB: close → gzip → READY"| files[("Segment files<br/>+ Room segment rows")]
+  files --> up["UploadWorker<br/>unmetered + charging, or every 15 min"]
+  up -->|"POST segment (idempotent by id)<br/>200 OK → delete file, mark DONE"| srv["Ingest server → time-series store"]
+```
+
+<details>
+<summary>একই ছবি লেখায় (chart না এলে)</summary>
+
 ```
  SensorManager ──(samplingPeriodUs, maxReportLatencyUs = HW batching)──►
    SensorEventListener on a HandlerThread
@@ -15363,6 +15669,8 @@ Company যদি camera, custom device বা sensor নিয়ে কাজ 
    Ingest server → time-series store
  (Long-running capture runs in a foreground service, or as a system service on our own OS)
 ```
+
+</details>
 
 **ধাপে ধাপে (Bangla walk-through):**
 
