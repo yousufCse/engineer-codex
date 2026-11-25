@@ -26,6 +26,7 @@ def inline(text: str) -> str:
 
     text = re.sub(r"(`+)(.+?)\1", lambda m: stash(f"<code>{html.escape(m.group(2).strip())}</code>"), text)
     text = re.sub(r'<a id="[\w-]+"></a>', lambda m: stash(m.group(0)), text)
+    text = re.sub(r"<br\s*/?>", lambda m: stash("<br>"), text)
     text = html.escape(text, quote=False)
     text = re.sub(r"&lt;(https?://[^\s&]+)&gt;", r'<a href="\1">\1</a>', text)
     text = re.sub(
@@ -354,6 +355,7 @@ li{margin:3px 0}
 /* ---------- part banner ---------- */
 main h2.part-banner{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:center;margin:80px 0 20px;padding:22px 24px;
   background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+h2.part-banner > a{position:absolute}
 h2.part-banner .num{grid-row:1 / span 3;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;
   font:800 20px Inter,sans-serif;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));letter-spacing:-.02em}
 h2.part-banner .eyebrow{font:700 12px Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
@@ -382,6 +384,7 @@ h2.part-banner .pbar i b{display:block;height:100%;width:0;background:var(--good
 .q.is-done .done-box{background:var(--good-soft);color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,transparent)}
 .meta{background:var(--surface2);border-radius:12px;padding:10px 16px;margin:4px 0 14px;font-size:15px}
 .meta p{margin:4px 0}
+.meta p strong:first-child{color:var(--text)}
 p.label-learn{margin:14px 0 2px}
 p.label-learn > strong:first-child{display:inline-flex;align-items:center;gap:6px;font:700 13px Inter,"Noto Sans Bengali",sans-serif;color:var(--accent);margin-right:4px}
 p.label-learn > strong:first-child::before{content:"";width:16px;height:2px;background:var(--accent);border-radius:2px}
@@ -420,6 +423,21 @@ p.see-also a:hover{border-color:var(--accent-line);color:var(--accent);text-deco
 .pager a{padding:6px 12px;border-radius:9px;color:var(--muted)}
 .pager a:hover{background:var(--surface2);color:var(--text);text-decoration:none}
 .hidden{display:none!important}
+details.fu li{margin:10px 0 14px}
+details.fu li > p{margin:3px 0}
+.fl{display:inline-block;font:700 12px Inter,"Noto Sans Bengali",sans-serif;padding:1px 8px;border-radius:6px;margin-right:4px}
+.fl.fq{background:var(--surface2);color:var(--text)}
+.fl.fq-bn{background:var(--surface2);color:var(--muted)}
+.fl.fa-bn{background:var(--good-soft);color:var(--good)}
+.fl.fa-en{background:var(--accent-soft);color:var(--accent)}
+.meta ul{margin:2px 0 6px;padding-left:20px}
+.meta li{margin:2px 0}
+body.revise .learn,body.revise section.q.lesson,body.revise section.q .codebox{display:none}
+body.revise .q{padding-bottom:12px}
+body.drill-mode #reviseBtn{display:none}
+.drill-timer{font:700 14px Inter,"Noto Sans Bengali",sans-serif;padding:6px 12px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);color:var(--text)}
+.drill-timer.low{background:var(--star-soft);color:var(--star);border-color:transparent}
+.drill-timer.over{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .empty{display:none;padding:60px 20px;text-align:center;color:var(--muted)}
 .to-top{position:fixed;right:20px;bottom:20px;z-index:20;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);
   background:var(--surface);color:var(--text);font-size:17px;cursor:pointer;box-shadow:var(--shadow-lg)}
@@ -462,7 +480,10 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   .topbar{flex-wrap:wrap;gap:8px;padding:10px 14px;height:auto}
   .brand{order:0}
   .tabs{order:1;margin-left:0}
-  #practiceBtn{order:2;margin-left:auto}
+  #reviseBtn{order:2;margin-left:auto}
+  #practiceBtn{order:2}
+  .btn .lbl{display:none}
+  .brand{display:none}
   #themeBtn{order:3}
   .menu-btn{order:-1}
   .search{order:4;flex-basis:100%;max-width:none}
@@ -506,7 +527,8 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     <button class="chip" data-f="dia" aria-pressed="false">★◆ <span class="chip-label">১০ দিন</span></button>
     <button class="chip" data-f="todo" aria-pressed="false">বাকি</button>
   </div>
-  <button class="btn" id="practiceBtn" aria-pressed="false" title="উত্তর লুকিয়ে রাখুন">🎯 Practice</button>
+  <button class="btn" id="reviseBtn" aria-pressed="false" title="লম্বা ব্যাখ্যা লুকিয়ে দ্রুত revision">⚡ <span class="lbl">Revision</span></button>
+  <button class="btn" id="practiceBtn" aria-pressed="false" title="উত্তর লুকিয়ে রাখুন">🎯 <span class="lbl">Practice</span></button>
   <button class="btn" id="themeBtn" title="Light / dark">◐</button>
 </div>
 <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
@@ -533,7 +555,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
       <button class="plan p10" data-go="plan-10"><div class="days">১০ দিন</div><div class="what">★ আর ◆ প্রশ্ন।</div><span class="mark">★ ◆</span></button>
       <button class="plan p15" data-go="plan-15"><div class="days">১৫ দিন</div><div class="what">সব প্রশ্ন, ধীরে আর গভীরে।</div><span class="mark">★ ◆ ○</span></button>
     </div>
-    <div class="legend"><span><b class="s">★</b> অবশ্যই</span><span><b class="d">◆</b> জরুরি</span><span><b class="r">○</b> গভীর</span><span>🎯 Practice = উত্তর লুকানো</span><span>🔊 = English উত্তর শুনুন</span></div>
+    <div class="legend"><span><b class="s">★</b> অবশ্যই</span><span><b class="d">◆</b> জরুরি</span><span><b class="r">○</b> গভীর</span><span>⚡ Revision = শুধু প্রশ্ন, উদাহরণ আর উত্তর</span><span>🎯 Practice = উত্তর লুকানো</span><span>🔊 = English উত্তর শুনুন</span></div>
     {{BODY}}
     <div class="empty" id="empty">কিছু পাওয়া যায়নি। Filter বা search বদলে দেখুন।</div>
   </main>
@@ -542,6 +564,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   <div class="drill-top">
     <select id="drillScope" aria-label="কোন প্রশ্ন"></select>
     <span class="drill-count" id="drillCount"></span>
+    <span class="drill-timer" id="drillTimer" title="১ মিনিটে উত্তর দিন">⏱ 1:00</span>
   </div>
   <div class="drill-card" id="drillCard"></div>
   <div class="drill-actions">
@@ -617,13 +640,14 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   });
 
   // 2. Inside each card: answer box (practice mode + speech) and collapsible follow-ups.
-  const ANSWER_LABELS = ['Answer (English)', 'How to say it (English)', 'Say while coding (English)'];
+  const ANSWER_LABELS = ['Answer (English)', 'How to say it (English)', 'Say while coding (English)',
+    'Answer (বাংলা + English)', 'How to say it (বাংলা + English)', 'Say while coding (বাংলা + English)'].map(x => x.normalize('NFC'));
   document.querySelectorAll('section.q').forEach(c => {
     Array.from(c.children).forEach(p => {
       if (p.tagName !== 'P') return;
       const strong = p.querySelector('strong');
       if (!strong) return;
-      const label = strong.textContent.trim().replace(/:$/, '');
+      const label = strong.textContent.trim().replace(/:$/, '').normalize('NFC');
       if (ANSWER_LABELS.includes(label)) {
         const box = document.createElement('div');
         box.className = 'answer';
@@ -647,7 +671,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
           pair.className = 'pair';
           quotes[0].before(pair);
           quotes.forEach(q => pair.appendChild(q));
-          strong.textContent = label.replace('(English)', '').trim() + ' — আগে বাংলা, তারপর English';
+          strong.textContent = label.replace(/\(.*\)/, '').trim() + ' — আগে বাংলা, তারপর English';
         }
         const tools = document.createElement('div');
         tools.className = 'ans-tools';
@@ -714,15 +738,35 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     Array.from(c.children).forEach(p => {
       const s = p.tagName === 'P' && p.querySelector(':scope > strong:first-child');
       const label = s ? s.textContent.trim().replace(/:$/, '').normalize('NFC') : '';
-      if (label === 'প্রশ্নটা মানে' || label === 'অন্যভাবেও জিজ্ঞেস করে') {
+      if (['প্রশ্ন (বাংলায়)', 'প্রশ্নটা মানে', 'অন্যভাবেও জিজ্ঞেস করে'].some(k => k.normalize('NFC') === label)) {
         if (!meta) { meta = document.createElement('div'); meta.className = 'meta'; p.before(meta); }
         meta.appendChild(p);
         return;
       }
+      // the bullet list of alternate questions belongs in the same box
+      if (meta && p.tagName === 'UL') { meta.appendChild(p); return; }
       meta = null;
       const cls = Object.keys(LABEL_CLASS).find(k => k.normalize('NFC') === label);
       if (cls) p.classList.add(LABEL_CLASS[cls]);
     });
+  });
+
+  // Follow-ups: colour each label so the eye finds the Bangla question, Bangla answer and English answer.
+  const FU_CLASS = { 'প্রশ্ন (Q)': 'fq', 'প্রশ্ন (বাংলায়)': 'fq-bn', 'উত্তর (বাংলায়)': 'fa-bn', 'উত্তর (English)': 'fa-en' };
+  document.querySelectorAll('details.fu li strong').forEach(st => {
+    const key = st.textContent.trim().replace(/:$/, '').normalize('NFC');
+    const k = Object.keys(FU_CLASS).find(x => x.normalize('NFC') === key);
+    if (k) st.classList.add('fl', FU_CLASS[k]);
+  });
+
+  // 2c. Wrap the long "বুঝে নিন" explanation in each question, so revision mode can hide it.
+  const STOP = 'p.example, div.answer, p.keywords, details.fu, p.warn, p.see-also';
+  document.querySelectorAll('section.q[data-id] p.label-learn').forEach(label => {
+    const box = document.createElement('div');
+    box.className = 'learn';
+    label.before(box);
+    let n = label;
+    while (n && !n.matches(STOP)) { const nx = n.nextElementSibling; box.appendChild(n); n = nx; }
   });
 
   // 3. Sidebar.
@@ -883,6 +927,15 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     store.set('aip-practice', on);
   }
   practiceBtn.onclick = () => setPractice(!document.body.classList.contains('practice'));
+  const reviseBtn = document.getElementById('reviseBtn');
+  function setRevise(on){
+    document.body.classList.toggle('revise', on);
+    reviseBtn.setAttribute('aria-pressed', on);
+    store.set('aip-revise', on);
+    document.querySelectorAll('details.fu').forEach(d => d.open = !on && !document.body.classList.contains('practice'));
+  }
+  reviseBtn.onclick = () => setRevise(!document.body.classList.contains('revise'));
+  setRevise(store.get('aip-revise', false));
   setPractice(store.get('aip-practice', false));
 
   const themeBtn = document.getElementById('themeBtn');
@@ -948,7 +1001,10 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   const drill = document.getElementById('drill');
   const scopeSel = document.getElementById('drillScope');
   const drillCard = document.getElementById('drillCard');
-  const scopes = [['star', '★ ৭ দিনের প্রশ্ন'], ['dia', '★◆ ১০ দিনের প্রশ্ন'], ['all', 'সব প্রশ্ন'], ['todo', 'যেগুলো এখনো "পারি" হয়নি']];
+  const AGAIN_KEY = 'aip-again-v1';
+  const again = new Set(store.get(AGAIN_KEY, []));
+  const saveAgain = () => store.set(AGAIN_KEY, Array.from(again));
+  const scopes = [['star', '★ ৭ দিনের প্রশ্ন'], ['dia', '★◆ ১০ দিনের প্রশ্ন'], ['all', 'সব প্রশ্ন'], ['again', '↻ "আবার পড়ব" তালিকা'], ['todo', 'যেগুলো এখনো "পারি" হয়নি']];
   scopes.forEach(([v, t]) => scopeSel.add(new Option(t, v)));
   groups.filter(g => g.qs.length && g.isPart).forEach(g => scopeSel.add(new Option(g.title, 'part:' + g.id)));
   scopeSel.value = store.get('aip-drill-scope', 'star');
@@ -960,6 +1016,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     if (s === 'star') list = allQs.filter(c => c.dataset.pri === 'star');
     else if (s === 'dia') list = allQs.filter(c => c.dataset.pri === 'star' || c.dataset.pri === 'dia');
     else if (s === 'todo') list = allQs.filter(c => !done.has(c.dataset.id));
+    else if (s === 'again') list = allQs.filter(c => again.has(c.dataset.id));
     else if (s.startsWith('part:')) list = (groups.find(g => g.id === s.slice(5)) || { qs: [] }).qs;
     deck = list.map(c => c.dataset.id);
     for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
@@ -967,8 +1024,23 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     store.set('aip-drill-scope', s);
     showCard();
   }
+  let timer = null;
+  function startTimer(){
+    clearInterval(timer);
+    const el = document.getElementById('drillTimer');
+    let left = 60;
+    const draw = () => {
+      el.textContent = left > 0 ? '⏱ ' + Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0') : '⏱ সময় শেষ — এবার উত্তর দেখুন';
+      el.classList.toggle('over', left <= 0);
+      el.classList.toggle('low', left > 0 && left <= 15);
+    };
+    draw();
+    timer = setInterval(() => { left--; draw(); if (left <= 0) clearInterval(timer); }, 1000);
+  }
+  function stopTimer(){ clearInterval(timer); }
   function showCard(){
     drillCard.classList.remove('revealed');
+    startTimer();
     const count = document.getElementById('drillCount');
     if (pos >= deck.length) {
       drillCard.innerHTML = '<div class="drill-done"><h3>🎉 এই সেট শেষ!</h3><p>আবার শুরু করতে উপরের তালিকা থেকে একটা সেট বেছে নিন।</p></div>';
@@ -984,17 +1056,22 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     src.querySelectorAll('.answer').forEach(a => { const n = a.cloneNode(true); n.classList.add('shown'); drillCard.appendChild(n); });
     const after = document.createElement('div');
     after.className = 'after';
-    ['p.keywords', 'details.fu', 'p.warn'].forEach(sel => { const n = src.querySelector(sel); if (n) after.appendChild(n.cloneNode(true)); });
+    ['p.example', 'p.keywords', 'details.fu', 'p.warn'].forEach(sel => { const n = src.querySelector(sel); if (n) after.appendChild(n.cloneNode(true)); });
     after.querySelectorAll('details').forEach(d => d.open = false);
     drillCard.appendChild(after);
     drillCard.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
   }
   function next(){ pos++; showCard(); window.scrollTo({ top: 0 }); }
-  document.getElementById('dReveal').onclick = () => drillCard.classList.add('revealed');
+  document.getElementById('dReveal').onclick = () => { drillCard.classList.add('revealed'); stopTimer(); };
   document.getElementById('dSpeak').onclick = () => { drillCard.classList.add('revealed'); speak(drillCard.querySelector('.answer') || drillCard); };
-  document.getElementById('dAgain').onclick = () => { if (pos < deck.length) deck.push(deck[pos]); next(); };
+  document.getElementById('dAgain').onclick = () => {
+    const id = deck[pos];
+    if (id) { again.add(id); saveAgain(); if (scopeSel.value !== 'again') deck.push(id); }
+    next();
+  };
   document.getElementById('dKnow').onclick = () => {
     const id = deck[pos];
+    if (id && again.delete(id)) saveAgain();
     if (id && !done.has(id)) {
       const cb = document.querySelector('#card-' + id + ' .done-box input');
       cb.checked = true;
@@ -1006,7 +1083,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   scopeSel.onchange = buildDeck;
   document.addEventListener('keydown', e => {
     if (!document.body.classList.contains('drill-mode') || e.target.matches('input,select,textarea')) return;
-    if (e.key === ' ') { e.preventDefault(); drillCard.classList.add('revealed'); }
+    if (e.key === ' ') { e.preventDefault(); drillCard.classList.add('revealed'); stopTimer(); }
     if (e.key === 'ArrowRight') next();
   });
   function setMode(mode){
