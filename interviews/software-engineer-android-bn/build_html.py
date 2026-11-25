@@ -388,6 +388,12 @@ p.label-learn > strong:first-child::before{content:"";width:16px;height:2px;back
 .answer{background:var(--answer);border:1px solid var(--accent-line);border-left:4px solid var(--accent);border-radius:14px;padding:6px 18px 8px;margin:16px 0}
 .answer blockquote{border:0;background:none;padding:0;margin:6px 0;font-size:16.5px;color:var(--text)}
 .answer blockquote p{color:var(--text)}
+.answer .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0}
+.answer .pair blockquote{margin:0;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.answer .pair blockquote:not(.bn)::before{content:"English";display:block;font:700 11.5px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.answer blockquote.bn{background:var(--surface2);font-size:16px}
+.answer blockquote.bn strong:first-child{display:block;font:700 12px Inter,"Noto Sans Bengali",sans-serif;color:var(--good);margin-bottom:2px}
+@media (max-width:900px){.answer .pair{grid-template-columns:1fr}}
 .ans-label{margin:10px 0 0;font-size:13px}
 .ans-label strong{color:var(--accent);font:700 12.5px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase}
 .ans-tools{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
@@ -397,6 +403,9 @@ body.practice .answer:not(.shown) .reveal{display:inline-block;background:var(--
 body.practice .answer:not(.shown) .speak{display:none}
 p.keywords{font-size:14px}
 p.keywords code{display:inline-block;margin:3px 2px;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line);font-size:12.5px}
+p.example{background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 30%,transparent);border-radius:12px;padding:10px 16px;font-size:15.5px}
+p.example strong:first-child{color:var(--good)}
+p.example strong:first-child::before{content:"💡 "}
 p.warn{background:var(--warn-soft);border:1px solid var(--warn-line);border-radius:12px;padding:10px 16px;font-size:15px}
 p.warn strong:first-child{color:var(--warn)}
 details.fu{margin:12px 0;border:1px solid var(--line);border-radius:12px;padding:4px 16px;background:var(--surface)}
@@ -629,6 +638,17 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
           if (nx.tagName === 'BLOCKQUOTE') { if (!next || next.tagName !== 'BLOCKQUOTE') break; }
           nx = next;
         }
+        // Bangla copy first, English after: show them side by side on wide screens.
+        const quotes = Array.from(box.querySelectorAll(':scope > blockquote'));
+        const bnQuotes = quotes.filter(q => q.textContent.trim().normalize('NFC').startsWith('বাংলায়'.normalize('NFC')));
+        bnQuotes.forEach(q => q.classList.add('bn'));
+        if (bnQuotes.length && quotes.length > bnQuotes.length) {
+          const pair = document.createElement('div');
+          pair.className = 'pair';
+          quotes[0].before(pair);
+          quotes.forEach(q => pair.appendChild(q));
+          strong.textContent = label.replace('(English)', '').trim() + ' — আগে বাংলা, তারপর English';
+        }
         const tools = document.createElement('div');
         tools.className = 'ans-tools';
         tools.innerHTML = '<button class="btn reveal">👀 উত্তর দেখুন</button><button class="btn speak">🔊 শুনুন</button>';
@@ -651,7 +671,7 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
   function speak(box){
     if (!('speechSynthesis' in window)) { alert('এই browser-এ speech নেই।'); return; }
     speechSynthesis.cancel();
-    const text = Array.from(box.querySelectorAll('blockquote')).map(b => b.innerText).join(' ').replace(/[“”"]/g, '');
+    const text = Array.from(box.querySelectorAll('blockquote:not(.bn)')).map(b => b.innerText).join(' ').replace(/[“”"]/g, '');
     const u = new SpeechSynthesisUtterance(text || box.innerText);
     u.lang = 'en-US'; u.rate = 0.9;
     const v = speechSynthesis.getVoices().find(v => /en[-_](US|GB)/.test(v.lang));
@@ -688,19 +708,20 @@ body.drill-mode .layout,body.drill-mode .search,body.drill-mode .chips,body.dril
     h.querySelector('.qid').textContent = m[1];
     h.querySelector('.q-title').textContent = m[3];
   });
-  const LABEL_CLASS = { 'বুঝে নিন': 'label-learn', 'Key words': 'keywords', 'ভুল করবেন না': 'warn', 'আরও দেখুন': 'see-also' };
+  const LABEL_CLASS = { 'বুঝে নিন': 'label-learn', 'Key words': 'keywords', 'ভুল করবেন না': 'warn', 'আরও দেখুন': 'see-also', 'সহজ উদাহরণ': 'example' };
   document.querySelectorAll('section.q').forEach(c => {
     let meta = null;
     Array.from(c.children).forEach(p => {
       const s = p.tagName === 'P' && p.querySelector(':scope > strong:first-child');
-      const label = s ? s.textContent.trim().replace(/:$/, '') : '';
+      const label = s ? s.textContent.trim().replace(/:$/, '').normalize('NFC') : '';
       if (label === 'প্রশ্নটা মানে' || label === 'অন্যভাবেও জিজ্ঞেস করে') {
         if (!meta) { meta = document.createElement('div'); meta.className = 'meta'; p.before(meta); }
         meta.appendChild(p);
         return;
       }
       meta = null;
-      if (LABEL_CLASS[label]) p.classList.add(LABEL_CLASS[label]);
+      const cls = Object.keys(LABEL_CLASS).find(k => k.normalize('NFC') === label);
+      if (cls) p.classList.add(LABEL_CLASS[cls]);
     });
   });
 
